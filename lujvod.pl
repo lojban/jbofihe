@@ -6,8 +6,8 @@
 
 while (<>) {
     if (/([^#:]+)[#:]([^:]+):([^:]+)/) {
-	   print $1.":".$3."\n";
-       } else {
-	   print STDERR "Unmatched ".$_;
-       }
-      }
+        print $1.":".$3."\n";
+    } else {
+        print STDERR "Unmatched ".$_;
+    }
+}
