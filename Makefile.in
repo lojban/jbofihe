@@ -8,7 +8,7 @@
 PREFIX=@@PREFIX@@
 EXEDIR=$(PREFIX)/bin
 LIBDIR=$(PREFIX)/lib/jbofihe
-DICTNAME=jbosmujmaji
+DICTNAME=smujmaji.dat
 DICTIONARY=$(LIBDIR)/$(DICTNAME)
 MANDIR=$(PREFIX)/man/man1
 
@@ -16,7 +16,7 @@ INSTALL=@@INSTALLPROG@@
 CC=gcc
 CFLAGS= @@OPTDEBUG@@ -DDEFAULT_DICTIONARY=\"$(DICTIONARY)\"
 
-OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc.tab.o functions.o \
+OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc_tab.o functions.o \
         categ.o nonterm.o tree.o translate.o latex.o \
         properties.o conversion.o terms.o memory.o tenses.o \
 	output.o textout.o htmlout.o connect.o stag.o latexblk.o \
@@ -52,10 +52,10 @@ rpc2x_nc.y : rpc2x.y uncom
 rpc2x_act.y nonterm.h nonterm.c : rpc2x_nc.y
 	perl ./action.perl < rpc2x_nc.y > rpc2x_act.y
 
-rpc.tab.c rpc.tab.h : rpc2x_act.y
+rpc_tab.c rpc_tab.h : rpc2x_act.y
 	bison -v -d rpc2x_act.y
-	mv rpc2x_act.tab.c rpc.tab.c
-	mv rpc2x_act.tab.h rpc.tab.h
+	mv rpc2x_act.tab.c rpc_tab.c
+	mv rpc2x_act.tab.h rpc_tab.h
 
 stag.c : stag.tab.c
 	sed -e 's/YYSTYPE/STAG_YYSTYPE/g;' < stag.tab.c > stag.c
@@ -82,12 +82,6 @@ smujajgau : smujajgau.o canonluj.o
 
 smujajgau.o : smujajgau.c
 	$(CC) $(CFLAGS) -c smujajgau.c
-
-makelujvo : makelujvo.o
-	$(CC) $(CFLAGS) -o makelujvo makelujvo.o
-
-makelujvo.o : makelujvo.c
-	$(CC) $(CFLAGS) -c makelujvo.c
 
 dictionary : smujajgau
 	perl giscolon.pl < @@WORD-LISTS@@/gismu > gismu.dict
