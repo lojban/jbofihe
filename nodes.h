@@ -45,6 +45,9 @@ struct cmavo {
                  e.g. SE_BAI etc as required to work around the
                  grammar not being LR(1) */
   int code; /* Reference into cmavo table */
+
+  /* Set in categ.c if the first token of a 'free' follows */
+  unsigned char followed_by_free;
 };
 
 struct zoi {
