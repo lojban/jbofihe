@@ -7,7 +7,7 @@
 #
 
 $do_nonterm = 1;
-while (shift @ARGV) {
+while ($_ = shift @ARGV) {
     if (/-nononterm/) {
         $do_nonterm = 0;
     }
