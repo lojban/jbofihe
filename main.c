@@ -133,7 +133,7 @@ main (int argc, char **argv)
   htmlout = 0;
   block = 0;
   show_memory = 0;
-  opt_output_width = 80;
+  opt_output_width = 79;
   insert_elidables = 0;
   require_elidables = 0;
 
@@ -199,14 +199,17 @@ main (int argc, char **argv)
 
 #if !defined(EXPOSE_SIGNALS)
   signal(SIGABRT, handle_signal);
+#if !defined(DJGPP)
+  /* This signal doesn't seem to be defined on DJGPP */
   signal(SIGBUS, handle_signal);
+#endif
   signal(SIGSEGV, handle_signal);
 #endif
 
   lex2_initialise();
 
   if (filename) {
-    in = fopen(filename, "rb");
+    in = fopen(filename, "r");
     if (!in) {
       fprintf(stderr, "Could not open %s for input\n", filename);
       exit(1);

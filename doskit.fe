@@ -35,7 +35,7 @@ make smujajgau.txt
 make jvocuhadju.txt
 make vlatai.txt
 
-cp *.c *.h smujmaji.dat canonluj.inc /dosc/jbofihe
+cp *.c *.h smujmaji.dat canonluj.inc Makefile.dos /dosc/jbofihe
 
 echo "Now reboot into DOS and do"
 echo "gcc -O2 -o minitouc minitouc.c"
