@@ -1054,6 +1054,9 @@ categorize_number_roi(TreeNode *head) {
             default:
               goto done;
           }
+        } else if (y->type == N_BU) {
+          count++;
+          y = y->prev;
         } else {
           goto done;
         }
