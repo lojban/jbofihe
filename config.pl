@@ -59,7 +59,7 @@ if (&check_wordlists(".")) {
 	    chop $dir;
 	    if (&check_wordlists($dir)) {
 		$word_list_dir = $dir;
-		last try_wordlists;
+		last;
 	    }
 	}
     }	
