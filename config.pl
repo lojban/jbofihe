@@ -18,6 +18,7 @@ try_dirs:
 	    if (-r $incl."/gdbm.h") {
 		$incl_dir = $incl;
 		$lib_dir = $base."/lib";
+		print "Found gdbm.h in ".$incl.", using that.\n";
 		last try_dirs;
 	    }
 	}
