@@ -958,14 +958,18 @@ ckunu2n:conifer species:Prevent extra plural
 ckunu3:D;pine cone
 #
 # x1 is loud/noisy at observation point x2 by standard x3                                         
-#cladu1:DSAP;
-#cladu2:DSAP;
-#cladu3:DSAP;
+cladu1:P;loud
+cladu2:D;point* for loudness
+cladu2t:at point
+cladu3:S;standard for loudness
+cladu3t:by standard
 #
 # x1 is long in dimension/direction x2 (default longest dimension) by measurement standard x3     
-#clani1:DSAP;
-#clani2:DSAP;
-#clani3:DSAP;
+clani1:P;long
+clani2:D;long dimension
+clani2t:in dimension
+clani3:S;standard for length
+clani3t:by standard
 #
 # x1 is without/lacking/free of/lacks x2; x1 is x2-less                                           
 claxu1:A;lack
@@ -983,9 +987,11 @@ clira2:S;standard of earliness
 clira2t:by standard
 #
 # x1 is polite/courteous/civil in matter x2 according to standard/custom x3                       
-#clite1:DSAP;
-#clite2:DSAP;
-#clite3:DSAP;
+clite1:P;polite
+clite2:D;matter* handled politely
+clite2t:in matter
+clite3:S;standard for politeness
+clite3t:by standard
 #
 # x1 leaves/goes away/departs/parts/separates from x2 via route x3                                
 cliva1:A;leave
@@ -993,12 +999,14 @@ cliva2:P;left
 cliva3:D;departure route
 #
 # x1 is a loop/circuit of x2 [material]                                                           
-#clupa1:DSAP;
-#clupa2:DSAP;
+clupa1:D;loop
+clupa2:S;loop material
+clupa2t:of material
 #
 # x1 is a mathematics of type/describing x2                                                       
-#cmaci1:DSAP;
-#cmaci2:DSAP;
+cmaci1:S;mathematics
+cmaci2:D;type* of mathematics
+cmaci2t:of type
 #
 # x1 is small in property/dimension(s) x2 (ka) as compared with standard/norm x3                  
 cmalu1:P;small
@@ -1007,14 +1015,17 @@ cmalu3:D;smallness standard
 cmalu3t:by standard
 #
 # x1 is a mountain/hill/mound/[rise]/[peak]/[summit]/[highlands] projecting from land mass x2     
-#cmana1:DSAP;
-#cmana2:DSAP;
+cmana1:D;mountain
+cmana2:D;land-mass* with mountain
+cmana2t:in land-mass
 #
 # x1 is a structure word of grammatical class x2, with meaning/function x3 in usage (language) x4 
-#cmavo1:DSAP;
-#cmavo2:DSAP;
-#cmavo3:DSAP;
-#cmavo4:DSAP;
+cmavo1:D;structure word
+cmavo2:D;grammatical class
+cmavo3:D;structure word meaning
+cmavo3t:with meaning
+cmavo4:D;language* with structure word
+cmavo4t:in language
 #
 # x1 (quoted word(s)) is a/the name/title/tag of x2 to/used-by namer/name-user x3 (person)        
 cmene1:D;name
@@ -1022,9 +1033,7 @@ cmene2:P;named
 cmene3:A;name
 #
 # x1 laughs (emotional expression)                                                                
-#cmila1:DSAP;
-#cmila2:DSAP;
-#cmila3:DSAP;
+cmila1:A;laugh
 #
 # x1 is a member/element of set x2; x1 belongs to group x2; x1 is amid/among/amongst group x2     
 cmima1:D;member
@@ -1032,36 +1041,42 @@ cmima2:D;group* with members
 cmima2t:group
 #
 # x1 utters moan/groan/howl/scream [non-linguistic utterance] x2 expressing x3 (property)         
-#cmoni1:DSAP;
-#cmoni2:DSAP;
-#cmoni3:DSAP;
+cmoni1:A;moan
+cmoni2:D;moan
+cmoni3:R;expressed by moan
+cmoni3t:expressing
 #
 # x1 [value] is a norm/average in property/amount x2 (ka/ni) among x3(s) (set) by standard x4     
-#cnano1:DSAP;
-#cnano2:DSAP;
-#cnano3:DSAP;
-#cnano4:DSAP;
+cnano1:D;norm
+cnano2:D;average property
+cnano2t:in property
+cnano3:D;set* with norm
+cnano3t:among
+cnano4:S;standard for norm
+cnano4t:by standard
 #
 # x1 is a/the neck [body-part] of x2; [metaphor: a relatively narrow point]                       
-#cnebo1:DSAP;
-#cnebo2:DSAP;
-#cnebo3:DSAP;
-#cnebo4:DSAP;
+cnebo1:D;neck
+cnebo2:D;body* with neck
+cnebo2t:of body
 #
 # x1 (agent) rewards x2 [recipient] for atypical x3 (event/property) with reward/desserts x4      
-#cnemu1:DSAP;
-#cnemu2:DSAP;
-#cnemu3:DSAP;
-#cnemu4:DSAP;
+cnemu1:A;reward
+cnemu2:D;recipient* of reward
+cnemu2t:recipient
+cnemu3:R;justifying reward
+cnemu4:D;reward
 #
 # x1 is orderly/neat/ordered in property/quantity x2 (ka/ni)                                      
-#cnici1:DSAP;
-#cnici2:DSAP;
+cnici1:P;neat
+cnici2:D;neat property
 #
 # x1 is new/unfamiliar/novel to observer x2 in feature x3 (ka) by standard x4; x1 is a novelty    
-#cnino1:DSAP;
-#cnino2:DSAP;
-#cnino3:DSAP;
+cnino1:P;new
+cnino2:A;observe* newness
+cnino3:D;novel feature
+cnino4:S;standard for newness
+cnino4t:by standard
 #
 # x1 is a quantity of/contains/is made of lead (Pb); [metaphor: heavy, malleable, soft metal]     
 #cnisa1:DSAP;
@@ -1074,9 +1089,10 @@ cmima2t:group
 #cnita3:DSAP;
 #
 # x1 soaks up/absorbs/sucks up x2 from x3 into x4; x1 is an absorbant                             
-#cokcu1:DSAP;
-#cokcu2:DSAP;
-#cokcu3:DSAP;
+cokcu1:A;absorb
+cokcu2:S;absorbed substance
+cokcu3:R;absorbed from
+cokcu4:R;absorbed into
 #
 # x1 is deep in extent in direction/property x2 away from reference point x3 by standard x4       
 #condi1:DSAP;
