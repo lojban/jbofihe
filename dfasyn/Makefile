@@ -12,10 +12,10 @@ CC=gcc
 CFLAGS=-O2
 OBJ = parse.o scan.o n2d.o expr.o tabcompr.o compdfa.o
 
-all : n2d
+all : dfasyn
 
-n2d : $(OBJ)
-	$(CC) $(CFLAGS) -o n2d $(OBJ)
+dfasyn : $(OBJ)
+	$(CC) $(CFLAGS) -o dfasyn $(OBJ)
 
 parse.c parse.h : parse.y
 	bison -v -d parse.y
@@ -30,5 +30,5 @@ scan.c : scan.l
 scan.o : scan.c parse.h n2d.h
 
 clean:
-	rm n2d *.o scan.c parse.c parse.h parse.output
+	rm dfasyn *.o scan.c parse.c parse.h parse.output
 

@@ -131,19 +131,19 @@ morfvlex.c : mk_vfetab.pl
 morf_enc.c : mk_enctab.pl
 	perl mk_enctab.pl > morf_enc.c 2>morf_enc.err
 
-morf_dfa.c : morf_nfa.in n2d/n2d
-	n2d/n2d -v -r morf_dfa.report morf_nfa.in -o morf_dfa.c
+morf_dfa.c : morf_nfa.in dfasyn/dfasyn
+	dfasyn/dfasyn -v -r morf_dfa.report morf_nfa.in -o morf_dfa.c
 
 bctest : bccheck.c bctables.c
 	$(CC) $(CFLAGS) -o bctest -DTEST=1 bccheck.c
 
 bccheck.o : bccheck.c bctables.c
 
-bctables.c : bctables.in n2d/n2d
-	n2d/n2d -v -r bctables.report < bctables.in > bctables.c
+bctables.c : bctables.in dfasyn/dfasyn
+	dfasyn/dfasyn -v -r bctables.report < bctables.in > bctables.c
     
-n2d/n2d:
-	(cd n2d && make all)
+dfasyn/dfasyn:
+	(cd dfasyn && make all)
 
 morf.o : morf.c morf.h morf_dfa.c morf_enc.c morf_lex.c morfvlex.c
 
@@ -196,7 +196,7 @@ canonluj.inc:
 	perl canonluj.pl < reduced_gismu > canonluj.inc
 
 clean:
-	-(cd n2d && make clean)
+	-(cd dfasyn && make clean)
 	-rm *.output *.tab.c *_tab.c rpc_full.c *.o \
         jbofihe cmafihe smujajgau vlatai jvocuhadju \
         *.dict uncom.c uncom.o uncom \
