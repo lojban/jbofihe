@@ -978,7 +978,11 @@ print_last_toks(void)
 
       case N_CMAVO:
         code = x->data.cmavo.code;
-        fprintf(stderr,"%s (line %d, col %d)\n", cmavo_table[code].cmavo, x->start_line, x->start_column);
+        fprintf(stderr,"%s [%s] (line %d, col %d)\n",
+                cmavo_table[code].cmavo,
+                selmao_names[cmavo_table[code].ssm_code],
+                x->start_line,
+                x->start_column);
         break;
 
       case N_ZOI:
@@ -998,11 +1002,11 @@ print_last_toks(void)
         break;
         
       case N_BRIVLA:
-        fprintf(stderr,"%s (line %d, col %d)\n", x->data.brivla.word, x->start_line, x->start_column);
+        fprintf(stderr,"%s [BRIVLA] (line %d, col %d)\n", x->data.brivla.word, x->start_line, x->start_column);
         break;
 
       case N_CMENE:
-        fprintf(stderr,"%s (line %d, col %d)\n", x->data.cmene.word, x->start_line, x->start_column);
+        fprintf(stderr,"%s [CMENE] (line %d, col %d)\n", x->data.cmene.word, x->start_line, x->start_column);
         break;
 
       case N_NONTERM:
