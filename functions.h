@@ -88,7 +88,8 @@ extern TreeNode * child_ref(TreeNode *x, int i);
 extern int nch(TreeNode *x);
 extern TreeNode *find_nth_child(TreeNode *x, int n, NonTerm type);
 extern TreeNode *find_nth_cmavo_child(TreeNode *x, int n, int selmao);
-extern TreeNode *strip_attitudinal_from_cmavo(TreeNode *x, int selmao);
+extern TreeNode *strip_attitudinal_from_cmavo(TreeNode *x);
+extern TreeNode *maybe_strip_attitudinal_from_cmavo(TreeNode *x);
 extern int is_simple_nonterm(TreeNode *x);
 
 /* In categ.c */

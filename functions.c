@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include "functions.h"
 #include "nonterm.h"
+#include "rpc.tab.h"
 
 /*++++++++++++++++++++++++++++++
   Go through children in a node and chain them onto that parent.
@@ -539,29 +540,40 @@ find_nth_cmavo_child(TreeNode *x, int n, int selmao)
   ++++++++++++++++++++++++++++++++++++++*/
 
 TreeNode *
-strip_attitudinal_from_cmavo(TreeNode *x, int selmao)
+strip_attitudinal_from_cmavo(TreeNode *x)
 {
   TreeNode *y;
   if (x->type == N_CMAVO) {
-      assert(x->data.cmavo.selmao == selmao);
-      return x;
+    return x;
   } else if (x->type == N_NONTERM) {
-    TreeNode *c;
-    int i, nc;
+    TreeNode *c0, *c1;
     struct nonterm *nt;
 
     nt = &(x->data.nonterm);
     assert(nt->type == AUGMENTED);
-    nc = nt->nchildren;
-    for (i=0; i<nc; i++) {
-      c = nt->children[i];
-      if ((c->type == N_CMAVO) && (c->data.cmavo.selmao == selmao)) {
-        return c;
-      }
+    c0 = nt->children[0];
+    assert (c0->type == N_CMAVO);
+    if (c0->data.cmavo.selmao != BAhE) {
+      return c0;
+    } else {
+      c1 = nt->children[1];
+      assert (c1->type == N_CMAVO);
+      return c1;
     }
-    assert(0);
+  }
+}
+
+/*++++++++++++++++++++++++++++++++++++++
+  If node is augmented, get main internal cmavo.
+  ++++++++++++++++++++++++++++++++++++++*/
+
+TreeNode *
+maybe_strip_attitudinal_from_cmavo(TreeNode *x)
+{
+  if ((x->type == N_NONTERM) && (x->data.nonterm.type == AUGMENTED)) {
+    return strip_attitudinal_from_cmavo(x);
   } else {
-    assert(0);
+    return x;
   }
 }
 

@@ -68,7 +68,8 @@ conv_tag_se_bai(TreeNode *x)
 
     switch (nt->type) {
       case SE_BAI:
-        c1 = strip_attitudinal_from_cmavo(nt->children[0], SE);
+        c1 = strip_attitudinal_from_cmavo(nt->children[0]);
+        assert(c1->data.cmavo.selmao == SE);
         c2 = nt->children[1];
         conv = lookup_converted_place(c1);
         ext = prop_bai_conversion(c2, YES);
@@ -143,7 +144,8 @@ compute_tu2_conv(TreeNode *tu2, TreeNode *apply_to) {
           {
             int p, t;
             XDontGloss *edg;
-            TreeNode *se = child_ref(x, 0);
+            TreeNode *se = strip_attitudinal_from_cmavo(child_ref(x, 0));
+            assert (se->data.cmavo.selmao == SE);
             p = lookup_converted_place(se);
             t = places[1];
             places[1] = places[p];
