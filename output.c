@@ -950,8 +950,12 @@ get_lojban_word_and_translation (TreeNode *x, char *loj, char *eng)
       break;
       
     case N_ZO:
-      sprintf(loj, "zo %s", x->data.zo.text);
-      attempt_translation(x->data.zo.text, eng);
+      {
+        char buffer[1024];
+        sprintf(loj, "zo %s", x->data.zo.text);
+        attempt_translation(x->data.zo.text, buffer);
+        sprintf(eng, "\"%s\"", buffer);
+      }
       break;
       
     case N_LOhU:
