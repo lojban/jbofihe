@@ -5866,9 +5866,11 @@ vecnu4:D;sale price
 #vensa2:DSAP;
 #
 # x1 is a child/kid/juvenile [a young person] of age x2, immature by standard x3                  
-#verba1:DSAP;
-#verba2:DSAP;
-#verba3:DSAP;
+verba1:D;child
+verba1n:child/children
+verba2:D;child's age
+verba3:S;standard of childhood
+verba3t:child by standard
 #
 # x1 is a/the vagina [body-part] of x2                                                            
 #vibna1:DSAP;
@@ -5926,7 +5928,7 @@ vinji3t:with propulsion
 #
 # x1 sees/views/perceives visually x2 under conditions x3                                         
 viska1:A;see
-viska2:D;seen thing
+viska2:P;seen
 viska3:D;viewing condition
 #
 # x1 is irregular/occasional/intermittent in property/action/aspect x2                            
