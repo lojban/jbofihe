@@ -165,8 +165,10 @@ char * translate_unknown(char *w, int place, TransContext ctx)/*{{{*/
         int count;
         char *hyphen_pos;
         hyphen_pos = xtra.u.stage_3.hyph;
-        for (p=w, q=buf; p<hyphen_pos; p++, q++) {
-          *q = *p;
+        for (p=w, q=buf; p<hyphen_pos; p++) {
+          if (*p != ',') {
+            *q++ = *p;
+          }
         }
         /* Advance p over the hyphen */
         for (count=0; count < 2; p++) {
@@ -319,7 +321,7 @@ static char * basic_trans(char *x)/*{{{*/
   result = GETBUF();
   p = x, q = result;
   while (*p) {
-    if (*p != '*') {
+    if (p[0] != '*' || !isspace(p[1])) {
       *q++ = *p;
     }
     p++;
@@ -327,6 +329,11 @@ static char * basic_trans(char *x)/*{{{*/
   *q = 0;
   return result;
 }/*}}}*/
+static int is_ok_after_star(char x)/*{{{*/
+{
+  return (!x || isspace(x) || x == '/');
+}
+/*}}}*/
 static char * make_plural(char *x)/*{{{*/
 /*  Make a word plural, applying standard English rules for when to use
   -es or -ies instead of plain -s. */
@@ -338,7 +345,7 @@ static char * make_plural(char *x)/*{{{*/
   result = GETBUF();
 
   star_pos = strchr(x, '*');
-  if (star_pos) {
+  if (star_pos && is_ok_after_star(star_pos[1])) {
     char head[1024];
     char *result2;
     char *p, *q;
@@ -377,7 +384,7 @@ static char * append_er(char *x)/*{{{*/
   char *star_pos;
 
   star_pos = strchr(x, '*');
-  if (star_pos) {
+  if (star_pos && is_ok_after_star(star_pos[1])) {
     char head[1024];
     char *result2;
     char *p, *q;
@@ -414,7 +421,7 @@ static char * append_ing(char *x)/*{{{*/
   char *star_pos;
 
   star_pos = strchr(x, '*');
-  if (star_pos) {
+  if (star_pos && is_ok_after_star(star_pos[1])) {
     char head[1024];
     char *result2;
     char *p, *q;
