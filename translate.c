@@ -49,16 +49,20 @@ translate(char *word)
   
   loj.dptr = word;
   loj.dsize = strlen(word);
-  eng = gdbm_fetch(db, loj);
-  if (eng.dptr) {
-    for (i=0; i<eng.dsize; i++) {
-      buf[i] = eng.dptr[i];
-    }
-    buf[i] = 0;
+  if (db) {
+    eng = gdbm_fetch(db, loj);
+    if (eng.dptr) {
+      for (i=0; i<eng.dsize; i++) {
+        buf[i] = eng.dptr[i];
+      }
+      buf[i] = 0;
 #if 1
-    free(eng.dptr);
+      free(eng.dptr);
 #endif
-    return buf;
+      return buf;
+    } else {
+      return NULL;
+    }
   } else {
     return NULL;
   }
