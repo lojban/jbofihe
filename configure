@@ -10,5 +10,8 @@
 # unlikely somebody doing this will want the bother of building + installing
 # the translation dictionary properly, so embed it.
 
+echo "Configuring to build with an embedded dictionary"
+echo "(Run perl config.pl directly to set other options)"
+
 perl config.pl --embed $*
 
