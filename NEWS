@@ -11,6 +11,9 @@ New in version 0.35
 - Fix lexing bug if an all-vowels (emotional) cmavo with length > 1 is prefixed
   onto a brivla.
 - Fix inability to parse pe'a.
+- Fix inability to parse fu'e.
+- Return status from main() to the shell reflects whether there was a parse
+  error or not.
 - Port to MSDOS environment (using DJGPP toolchain); binary release for MSDOS.
 - Allow whether to use fread or mmap to access dictionary to be specified at
   configure time.
@@ -21,6 +24,8 @@ New in version 0.35
 - Update various details in manual pages
 - Allow carriage return characters at ends of lines (cmafihe)
 - Further fixes to translation of pre-hyphen part of type 3 fu'ivla
+- Fixes to translation of time_offset when specific entries lacking from
+  dictionary.
 - Support the cmavo va'e (mentioned in reference grammar yet not in word lists)
 - Allow directory containing word lists to be specified to configure script,
   rather than having to be searched for.  
