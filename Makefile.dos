@@ -44,8 +44,11 @@ smujajgau.o : smujajgau.c
 cmafihe : $(CM_OBJS)
 	$(CC) $(CFLAGS) -o cmafihe $(CM_OBJS)
 
-vlatai : morf.c morf.h morf_dfa.c morf_enc.c morf_lex.c morfvlex.c
-	$(CC) -o vlatai -DTEST_MORF $(CFLAGS) morf.c
+vlatai.o : morf.c morf.h morf_enc.c morf_lex.c morfvlex.c
+	$(CC) $(CFLAGS) -c -o vlatai.o -DTEST_MORF morf.c
+    
+vlatai : vlatai.o morf_dfa.o bccheck.o canonluj.o
+	$(CC) -o vlatai -DTEST_MORF $(CFLAGS) vlatai.o morf_dfa.o bccheck.o canonluj.o
 
 jvocuhadju : jvocuhadju.o lujvofns.o
 
