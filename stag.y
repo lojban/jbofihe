@@ -6,7 +6,7 @@
 
 /* COPYRIGHT */
 
-%token JUST_STAG /* try to match <stag> on its own */
+%token JUST_STAG /* try to match <stag> (or an empty string then KE or BO) on its own */
 %token JOIK_STAG /* try to match <joik> <stag> */
 %token JJ_STAG /* try to match <stag> maybe with <jek> or <joik> before, or not */
 
@@ -57,14 +57,25 @@ extern int stag_lex(void);
 
 %%
 
-all : JUST_STAG just_stag
-    | JOIK_STAG joik_stag
-    | JJ_STAG jj_stag
+all : JUST_STAG      just_stag
+    | JUST_STAG      empty_stag
+    | JOIK_STAG      joik_stag
+    | JOIK_STAG joik empty_stag
+    | JJ_STAG        jj_stag
+    | JJ_STAG   jek  empty_stag
+    | JJ_STAG   joik empty_stag
+    | JJ_STAG        empty_stag
     ;
 
 just_stag : stag_ke
           | stag_bo
           ;
+
+empty_stag : STAG_KE
+             { stag_lookahead_ke(); }
+           | STAG_BO
+             { stag_lookahead_bo(); }
+           ;
 
 joik_stag : joik stag_ke
           | joik stag_bo
