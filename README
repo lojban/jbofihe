@@ -61,30 +61,23 @@ The following tools are recommended but not essential
 - LaTeX (to format the highest quality outputs from the s/w)
 - a web browser (to display the intermediate quality output)
 
-Download the wordlists (gismu, cmavo, lujvo-list etc) separately from
-ftp://xiron.pc.helsinki.fi/pub/lojban/wordlists.
+As from version 0.35, the minimal word-lists are bundled with the source.  You
+can download lujvo lists separately from
+ftp://xiron.pc.helsinki.fi/pub/lojban/wordlists.  If either (or both) of the
+files lujvo-list and/or NORALUJV.txt is found at build time, it/they will be
+included into the glossing dictionary that jbofihe and cmafihe use.  Otherwise,
+only gismu & cmavo will be included.  (Any lujvo will then be glossed by
+breaking it into individual rafsi and glossing those.)
 
 The file sizes in bytes of the versions I'm using are as follows
 
  808959 NORALUJV.txt
- 143391 cmavo
- 365437 gismu
  292281 lujvo-list
-  75751 oblique.key
-  49440 rafsi
 
 and their md5 checksums are
 
 d750de398740a2ba701422a466ddbeab  NORALUJV.txt
-4f3bf721f48239b85ab634f159f5557a  cmavo
-859ea58317c0d3811dadaaceb3e0e4ce  gismu
 dbd82f42f4156a2a1801e2a5ec1e551e  lujvo-list
-51cdabc666f3f1ffc0f17c1acea148bc  oblique.key
-b783880c04efe799ec2c07724871c373  rafsi
-
-It's best if these are in the build directory or a 'sibling' of it,
-although config.pl will find them anywhere in your directory tree
-otherwise.
 
 The build sequence looks like this (assuming you want to install under
 /usr/local)
@@ -96,8 +89,6 @@ make install
 The config.pl script takes these additional (optional) arguments :
 --debug to compile with debug instead of optimisation
 --installprog=<name> to specify an alternative installation program.
---wordsdir=<name> to specify the directory containing the 
-                  files gismu, cmavo, rafsi etc.
 --nommap to use fread() rather than mmap() to access the dictionary
                   (use this on non-Posix systems)
 
