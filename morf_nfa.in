@@ -730,6 +730,62 @@ BLOCK STAGE3_LONG
 ENDBLOCK
 
 ###########################################################
+# Recognize an "extended" stage-3, i.e. one with multiple
+# rafsi prior to the hyphen.
+
+BLOCK X_STAGE3_CC_HEAD
+    STATE in
+        C ; CI|CSI ; V ; C -> exit
+ENDBLOCK
+
+BLOCK X_STAGE3_CV_HEAD
+    STATE in
+        C ; V ; APOS ; V -> after_cvv
+        C ; V ; VV       -> after_cvv
+        C ; V ; C        -> after_cvc
+
+    STATE after_cvv
+        R ; CP | CS      -> exit
+        N ; NR           -> exit
+
+    STATE after_cvc
+        CP|CS|NR         -> exit
+ENDBLOCK
+
+BLOCK X_STAGE3_OTHER_RAFSI
+    STATE in
+        CI|CSI ; V  ; C -> in
+        V      ; VV ; C -> in
+        
+        V      ; C  ; CI|CSI|CP|CS|NR -> in
+        
+        V      ; C                   -> exit3
+        CI|CSI ; V ; C               -> exit4
+        V      ; C ; CI|CSI|CP|CS|NR -> exit4
+ENDBLOCK
+
+BLOCK X_STAGE3
+    cc_head : X_STAGE3_CC_HEAD
+    cv_head : X_STAGE3_CV_HEAD
+    other_rafsi : X_STAGE3_OTHER_RAFSI
+    short_tail : STAGE3_TAIL
+    long_tail  : STAGE3_TAIL
+    
+    STATE in -> cc_head.in, cv_head.in
+    STATE cc_head.exit -> other_rafsi.in
+    STATE cv_head.exit -> other_rafsi.in
+    STATE other_rafsi.exit3 -> short_tail.in
+    STATE other_rafsi.exit4 -> long_tail.in
+    STATE short_tail.exit = TAG_X_STAGE3_CVC
+    STATE long_tail.exit = TAG_X_STAGE3_LONG
+    
+ENDBLOCK
+
+
+
+
+###########################################################
+###########################################################
 # Recognize a fuivla
 
 BLOCK FUIVLA
@@ -740,12 +796,15 @@ BLOCK FUIVLA
     slinkui  : SLINKUI
     stage3_short : STAGE3_SHORT
     stage3_long  : STAGE3_LONG
+    xstage3 : X_STAGE3
 
     STATE in_no_prefix -> start_cc.in, start_cv.in, start_v.in,
-                          stage3_short.in, stage3_long.in
+                          stage3_short.in, stage3_long.in,
+                          xstage3.in
                           
     STATE in_prefixed  -> start_cc.in, start_cv.in,
-                          stage3_short.in, stage3_long.in
+                          stage3_short.in, stage3_long.in,
+                          xstage3.in
 
     STATE start_cc.goto_slinkui -> slinkui.in_after_c
 
@@ -877,10 +936,15 @@ Symbol S_FUIVLA_1  = S_FUIVLA_1A | S_FUIVLA_1B
 # particular CVC rafsi impossible, you just have to use its corresponding 4
 # letter form to work around this.)
 
-Symbol ANY_STAGE3  = TAG_STAGE3_LONG | TAG_STAGE3_CVC
+Symbol ANY_STAGE3  = TAG_STAGE3_LONG | TAG_STAGE3_CVC | TAG_X_STAGE3_CVC | TAG_X_STAGE3_LONG
+# Standard stage-3 (1 rafsi + hyphen + fu'ivla tail)
 Result S_FUIVLA_0 &  TAG_STAGE3_LONG -> R_STAGE3_0
 Result S_FUIVLA_1 &  TAG_STAGE3_LONG -> R_STAGE3_1
 Result S_FUIVLA_1 &  TAG_STAGE3_CVC & !TAG_STAGE3_LONG -> R_STAGE3_1_CVC
+# Extended stage-3 (>1 rafsi + hyphen + fu'ivla tail)
+Result S_FUIVLA_0 &  TAG_X_STAGE3_LONG -> R_X_STAGE3_0
+Result S_FUIVLA_1 &  TAG_X_STAGE3_LONG -> R_X_STAGE3_1
+Result S_FUIVLA_1 &  TAG_X_STAGE3_CVC & !TAG_X_STAGE3_LONG -> R_X_STAGE3_1_CVC
 
 Result S_FUIVLA_0 & ~ANY_STAGE3 -> R_STAGE4_0
 Result S_FUIVLA_1 & ~ANY_STAGE3 -> R_STAGE4_1

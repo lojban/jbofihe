@@ -38,6 +38,7 @@ enum raw_category {
   R_LUJVO_0, R_LUJVO_1,
   R_CULTURAL_LUJVO_0, R_CULTURAL_LUJVO_1,
   R_STAGE3_0, R_STAGE3_1, R_STAGE3_1_CVC,
+  R_X_STAGE3_0, R_X_STAGE3_1, R_X_STAGE3_1_CVC,
   R_STAGE4_0, R_STAGE4_1,
   R_CMENE,
   R_BAD_TOSMABRU, R_CULTURAL_BAD_TOSMABRU,
@@ -51,6 +52,7 @@ enum processed_category {
   W_LUJVO,
   W_CULTURAL_LUJVO,
   W_FUIVLA3, W_FUIVLA3_CVC,
+  W_FUIVLA3X, W_FUIVLA3X_CVC,
   W_FUIVLA4,
   W_CMENE,
   W_BAD_TOSMABRU, W_CULTURAL_BAD_TOSMABRU,
@@ -399,6 +401,9 @@ morf_scan(char *s, char ***buf_end)
       case R_STAGE3_0: result = W_FUIVLA3; decrement = 0; break;
       case R_STAGE3_1: result = W_FUIVLA3; decrement = 1; break;
       case R_STAGE3_1_CVC: result = W_FUIVLA3_CVC; decrement = 1; break;
+      case R_X_STAGE3_0: result = W_FUIVLA3X; decrement = 0; break;
+      case R_X_STAGE3_1: result = W_FUIVLA3X; decrement = 1; break;
+      case R_X_STAGE3_1_CVC: result = W_FUIVLA3X_CVC; decrement = 1; break;
       case R_STAGE4_0: result = W_FUIVLA4; decrement = 0; break;
       case R_STAGE4_1: result = W_FUIVLA4; decrement = 1; break;
       case R_CMENE: result = W_CMENE; decrement = 0; break;
@@ -443,6 +448,14 @@ morf_scan(char *s, char ***buf_end)
         break;
       case W_FUIVLA3_CVC:
         ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_FUIVLA3_CVC;
+        if (decrement) pstart--;
+        break;
+      case W_FUIVLA3X:
+        ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_FUIVLA4; /* FIXME : temporary until other stages support it */
+        if (decrement) pstart--;
+        break;
+      case W_FUIVLA3X_CVC:
+        ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_FUIVLA4; /* FIXME : temporary until other stages support it */
         if (decrement) pstart--;
         break;
       case W_FUIVLA4:
@@ -497,11 +510,17 @@ morf_scan(char *s, char ***buf_end)
       case W_CULTURAL_LUJVO:
         printf("lujvo (with cultural rafsi)");
         break;
+      case W_FUIVLA3:
+        printf("fu'ivla (stage-3)");
+        break;
       case W_FUIVLA3_CVC:
         printf("fu'ivla (stage-3 short rafsi)");
         break;
-      case W_FUIVLA3:
-        printf("fu'ivla (stage-3)");
+      case W_FUIVLA3X:
+        printf("fu'ivla (extended-stage-3)");
+        break;
+      case W_FUIVLA3X_CVC:
+        printf("fu'ivla (extended-stage-3 short rafsi)");
         break;
       case W_FUIVLA4:
         printf("fu'ivla (stage-4)");
@@ -532,6 +551,8 @@ morf_scan(char *s, char ***buf_end)
       case W_CULTURAL_LUJVO:
       case W_FUIVLA3:
       case W_FUIVLA3_CVC:
+      case W_FUIVLA3X:
+      case W_FUIVLA3X_CVC:
       case W_FUIVLA4:
       case W_BAD_TOSMABRU:
       case W_CULTURAL_BAD_TOSMABRU:
