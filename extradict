@@ -88,29 +88,34 @@ viska'e2:D;condition* for being able to see
 cintri1:A;sexually attract
 cintri2:P;sexually attracted
 
+nolraitru1:D;king*/queen*
+nolraitru2:@turni2
+nolraitru3:@nobli2
+
 # Changes to common cmavo etc
 a:or
 be'o:
 be:with
 bei:and
-bo:
+bo: :
 cai:intense
 co:of-type
 cu:is/does
 di'a:resume
+doi:O!
 e:and
-fa:
-fai:
-fe:
+fa: :
+fai: :
+fe: :
 fi'o:modal of..
-fi:
+fi: :
 fo'a:he/she/it
 fo'e:he/she/it
 fo'i:he/she/it
 fo'o:he/she/it
 fo'u:he/she/it
-fo:
-fu:
+fo: :
+fu: :
 ga:either(or)
 ge:both(and)
 ge'u:
@@ -124,7 +129,7 @@ je:and
 ka:property of
 ke'a:it
 ke'e:
-ke:
+ke: :
 kei:
 ko'a:he/she/it
 ko'e:he/she/it
@@ -132,8 +137,9 @@ ko'i:he/she/it
 ko'o:he/she/it
 ko'u:he/she/it
 ku'o:
-ku:
-lai:between them those named
+ku: :
+la: :
+lai:between them
 le:the
 lei:between them the
 li'u:$CLOSEQUOTE
@@ -154,9 +160,11 @@ po:of
 poi:which
 roi:-times
 to'e:opposite of
-xu:yes/no question
+to'i:[editorial]
+toi: :left blank, should indicate via bracketing
+xu:yes/no?
 zi'e:and
-jai:
+jai: :
 li'i:experience of
 me:amongst those that are
 ko:YOU!
@@ -173,8 +181,8 @@ sainai:not strong
 cainai:not extreme
 
 jai_v:being the
-jai_n:
-jai_a:
+jai_n: :
+jai_a: :
 jai:[modal]
 
 pu@TERM:before
@@ -209,8 +217,8 @@ pu'o@CONNECT:prior to that
 pu'o@JAI:aftermath of
 
 ba'o@TERM:after
-ba'o@NOUN:has-been
-ba'o@SELBRI:has-been
+ba'o@NOUN:finished
+ba'o@SELBRI:finished
 ba'o@LINK:after that,
 ba'o@CONNECT:after that
 ba'o@JAI:precursor of
@@ -224,7 +232,7 @@ co'a@JAI:thing starting at the time of
 
 co'u@TERM:at the end of
 co'u@NOUN:completed
-co'u@SELBRI:cease to
+co'u@SELBRI:completed
 co'u@LINK:at the end of that,
 co'u@CONNECT:at the end of that
 co'u@JAI:thing ending at the time of
@@ -232,6 +240,14 @@ co'u@JAI:thing ending at the time of
 puzi@SELBRI:just before
 puza@SELBRI:somewhat before
 puzu@SELBRI:a long time before
+
+cazi@SELBRI:at this time
+caza@SELBRI:around this time
+cazu@SELBRI:vaguely around this time
+
+bazi@SELBRI:just after
+baza@SELBRI:somewhat after
+bazu@SELBRI:a long time after
 
 vi@TERM:near to
 vi@NOUN:nearby
@@ -330,3 +346,5 @@ za'i1:S;state of
 zu'o1:S;activity of
 pu'u1:S;process of
 mu'e1:D;point event* of
+
+me1:S;referent of #%d
