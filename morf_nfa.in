@@ -75,7 +75,7 @@ Abbrev LCP = CI|CSI|CP|CS|NR
 
 ###########################################################
 # Subcomponents for lujvo matching
-
+#{{{ BLOCK SYL1
 BLOCK SYL1
 
     STATE in
@@ -87,11 +87,11 @@ BLOCK SYL1
         C   ; LCI ; V   ; CNR             -> ex_y   # Requires y before next syl
     
 ENDBLOCK
-
-###########################################################
-# Glue coming between first syllable (i.e. rafsi) and what follows
-
+#}}}
+#{{{ BLOCK AFTER1
 BLOCK AFTER1
+
+# Glue coming between first syllable (i.e. rafsi) and what follows
 
     STATE in_nr
         R ; CP|CS -> to_lujvo1, to_after_nr_hyphen
@@ -115,9 +115,8 @@ BLOCK AFTER1
         Y ; CP|CS ; BT -> to_in_after_cc1
         
 ENDBLOCK
-
-###########################################################
-
+#}}}
+#{{{ BLOCK SYL2
 BLOCK SYL2 # Lujvo syllables (i.e. rafsi) 2 .. (N-1)
     STATE in
         V   ; VV                 -> ex_cln
@@ -135,12 +134,12 @@ BLOCK SYL2 # Lujvo syllables (i.e. rafsi) 2 .. (N-1)
         V ; CNR            -> ex_y              # from ccvc form
     
 ENDBLOCK
-
-###########################################################
-
-# Linkage from rafsi 2->3, ..., (N-1)->N
+#}}}
+#{{{ BLOCK AFTER2
 BLOCK AFTER2
     
+# Linkage from rafsi 2->3, ..., (N-1)->N
+
     STATE in_cln
         CNR                  -> exit
         
@@ -154,12 +153,10 @@ BLOCK AFTER2
         Y ; CP|CS ; BT       -> exit_after_cc
     
 ENDBLOCK
-
-###########################################################
-
-# Lujvo final syllable
-
+#}}}
+#{{{ BLOCK SYLN
 BLOCK SYLN
+# Lujvo final syllable
     STATE in_main
         V   ; APOS ; V          -> exit  # final CV'V
         V   ; VV                -> exit  # final CVV
@@ -182,8 +179,10 @@ BLOCK SYLN
         V ; CNR ; V             -> exit  # final CCVCV
 
 ENDBLOCK
+#}}}
+#{{{ BLOCK SYL2N
+BLOCK SYL2N
 
-###########################################################
 # Everything from start of 2nd syllable (less initial consonant picked off in
 # AFTER1) through to end of lujvo.  This is in a block because 3 instances are
 # made ; one to recognize lujvo which start with a cluster (lujvo_0), a second
@@ -193,7 +192,6 @@ ENDBLOCK
 # 'tosmabru' block scans the sequence that would have been the shorter lujvo to
 # check it's valid; if not, the 'y' was a bogus insertion.)
 
-BLOCK SYL2N
     s2 : SYL2
     a2 : AFTER2
     sn : SYLN
@@ -212,22 +210,20 @@ BLOCK SYL2N
     STATE a2.exit_after_cc -> s2.in_after_cc, sn.in_after_cc
 
 ENDBLOCK
-
-###########################################################
+#}}}
+#{{{ BLOCK TOS_SYL1
+BLOCK TOS_SYL1
 # Match syllable 1 of what would be the shorter lujvo in a potential tosmabru
 # failure.
-
-BLOCK TOS_SYL1
     STATE in
         V                  -> ex_cln
         V ; CNR            -> ex_y
 
 ENDBLOCK
-
-###########################################################
-# Glue after 1st syllable of potential shorter lujvo (binds 1st syl. to 2nd)
-
+#}}}
+#{{{ BLOCK TOS_AFTER1
 BLOCK TOS_AFTER1
+# Glue after 1st syllable of potential shorter lujvo (binds 1st syl. to 2nd)
 
     STATE in_cln
         CNR -> exit
@@ -237,12 +233,11 @@ BLOCK TOS_AFTER1
         Y ; CP|CS ; BT  -> exit_to_after_cc
 
 ENDBLOCK
-
-###########################################################
+#}}}
+#{{{ BLOCK TOSMABRU
+BLOCK TOSMABRU
 # To check tail portion of word to see if it too is of lujvo
 # form.
-
-BLOCK TOSMABRU
     s1 : TOS_SYL1
     a1 : TOS_AFTER1
     tail : SYL2N
@@ -256,11 +251,11 @@ BLOCK TOSMABRU
     STATE tail.sn.exit -> exit
     
 ENDBLOCK
-
-###########################################################
-# The complete NFA for matching a word of lujvo form.
-
+#}}}
+#{{{ BLOCK LUJVO_BODY
 BLOCK LUJVO_BODY
+
+# The complete NFA for matching a word of lujvo form.
 
     s1 : SYL1
     a1 : AFTER1
@@ -305,12 +300,10 @@ BLOCK LUJVO_BODY
     STATE a1.to_lujvo1t -> t1t.in
     
 ENDBLOCK
-
-
-###########################################################
-# This block deals with recognition of 'normal' lujvo.
-
+#}}}
+#{{{ BLOCK LUJVO
 BLOCK LUJVO
+# This block deals with recognition of 'normal' lujvo.
 
     body : LUJVO_BODY
 
@@ -330,17 +323,18 @@ BLOCK LUJVO
     STATE body.tos.exit = TAG_LUJVO_TAIL_OK
 
 ENDBLOCK
-
+#}}}
 ###########################################################
-# Block to recognise lujvo which have 'cultural' rafsi in them.
-
-# Obviously this recognises all normal lujvo as well, because it will cope with
-# >=0 of the rafsi being cultural.  That is not important, because this case is
-# 'set differenced' away in the priority logic at the end of the file : if the
-# word's a normal lujvo, it is never considered for recognition as a cultural
-# one.
-
+#{{{  BLOCK CULTURAL_LUJVO
 BLOCK CULTURAL_LUJVO
+
+    # Block to recognise lujvo which have 'cultural' rafsi in them.
+
+    # Obviously this recognises all normal lujvo as well, because it will cope
+    # with >=0 of the rafsi being cultural.  That is not important, because
+    # this case is 'set differenced' away in the priority logic at the end of
+    # the file : if the word's a normal lujvo, it is never considered for
+    # recognition as a cultural one.
 
     body : LUJVO_BODY
 
@@ -397,14 +391,16 @@ BLOCK CULTURAL_LUJVO
     STATE body.tos.exit = TAG_CULTURAL_LUJVO_TAIL_OK
 
 ENDBLOCK
-
+#}}}
 ###########################################################
-# Recognize a sequence of cmavo.  There are two exit cases : first is a
-# sequence of 'normal' cmavo; this can potentially be prefixed onto a gismu,
-# lujvo or fu'ivla.  The 2nd may start with some 'normal' cmavo, but ends with
-# one or more cmavo of the Cy form.  This has to occur at the end of the word.
-
+#{{{  BLOCK CMAVOSEQ
 BLOCK CMAVOSEQ
+
+    # Recognize a sequence of cmavo.  There are two exit cases : first is a
+    # sequence of 'normal' cmavo; this can potentially be prefixed onto a
+    # gismu, lujvo or fu'ivla.  The 2nd may start with some 'normal' cmavo, but
+    # ends with one or more cmavo of the Cy form.  This has to occur at the end
+    # of the word.
 
     STATE in
         V -> m2, mv, in1
@@ -451,34 +447,34 @@ BLOCK CMAVOSEQ
     STATE exit_standalone = TAG_CMAVOS_END_CY
 
 ENDBLOCK
-
-###########################################################
+#}}}
+#{{{  BLOCK GISMU
+BLOCK GISMU
 # Recognize a gismu.  The two cases CVC/CV and CCVCV get different exit
 # statuses; this allows the scanner to back up one potential prefix cmavo in
 # the CVC/CV case. (See how this is much simpler than the lujvo matcher!)
-
-BLOCK GISMU
 
     STATE in
         C     ; LCI ; V     ; CNR ; V = TAG_GISMU_0
         CNR   ; V   ; CNR   ; LCP ; V = TAG_GISMU_1
         
 ENDBLOCK
-
+#}}}
 ###########################################################
-# Recognize a slinku'i
-#
-# This is basically like recognizing a lujvo but with a much reduced state
-# topology, because the letter 'y' can't occur anywhere.  So the final rafsi
-# could be any of the valid forms, however, all earlier ones are restricted to
-# CVV, CVC or CCV.
-# For the first syllable, we jump in as though we've already recognized CV.
-# Although the potential lujvo is always going to start CV, we distinguish the
-# cases based on whether it's fu'ivla_0 or fu'ivla_1 that's going to be
-# squashed by a match, to make sure the fu'ivla NFA and slinku'i NFA are
-# treating the same length word tail as the match string.
-
+#{{{  BLOCK SLINKUI
 BLOCK SLINKUI
+    # Recognize a slinku'i
+    #
+    # This is basically like recognizing a lujvo but with a much reduced state
+    # topology, because the letter 'y' can't occur anywhere.  So the final rafsi
+    # could be any of the valid forms, however, all earlier ones are restricted to
+    # CVV, CVC or CCV.
+    # For the first syllable, we jump in as though we've already recognized CV.
+    # Although the potential lujvo is always going to start CV, we distinguish the
+    # cases based on whether it's fu'ivla_0 or fu'ivla_1 that's going to be
+    # squashed by a match, to make sure the fu'ivla NFA and slinku'i NFA are
+    # treating the same length word tail as the match string.
+
     # SYL2N is a superset of what's needed, because it allows y's.  We'll never
     # check for slinkui unless we find it's a fu'ivla so this won't cause false
     # matches.  Ideally, a custom SYL2N block is required, however using the
@@ -499,13 +495,13 @@ BLOCK SLINKUI
     STATE t0.sn.exit = TAG_SLINKUI_0
 
 ENDBLOCK
-
+#}}}
 ###########################################################
 # Fu'ivla matching blocks (including syllabic consonant rules)
 
-# This describes a valid sequence of vowels within a fu'ivla
-
+#{{{  BLOCK FV_VOWELS
 BLOCK FV_VOWELS
+# This describes a valid sequence of vowels within a fu'ivla
 
     STATE in
         V                    -> ex_single
@@ -520,9 +516,8 @@ BLOCK FV_VOWELS
                   -> ex_multi
 
 ENDBLOCK
-
-###########################################################
-
+#}}}
+#{{{  BLOCK FV_INITIAL_CLUSTER
 BLOCK FV_INITIAL_CLUSTER
 
     STATE in
@@ -543,13 +538,13 @@ BLOCK FV_INITIAL_CLUSTER
         CI ; CI ; CI       -> exit
 
 ENDBLOCK
-
-###########################################################
+#}}}
 
 Abbrev FC = C|N|R
 Abbrev FCP = CI|CP|H
 Abbrev FCS = CSI|CS|HS|NR
 
+#{{{  BLOCK FV_INTERNAL_CONS_GROUP
 BLOCK FV_INTERNAL_CONS_GROUP
 
     STATE in
@@ -582,20 +577,16 @@ BLOCK FV_INTERNAL_CONS_GROUP
     # ending in a non-syllabic
     STATE in_after_c -> c1
 
-
     # Coming in after seeing a stage 3 hyphenation triple
     # ending in a syllabic
     STATE in_after_s -> main
-        
-        
 
 ENDBLOCK
-
-###########################################################
+#}}}
+#{{{  BLOCK FUIVLA_START_V
+BLOCK FUIVLA_START_V
 # fu'ivla starting with up to 3 vowels, maybe with apostrophes
 # between them, then a cluster.
-
-BLOCK FUIVLA_START_V
 
     cons    : FV_INTERNAL_CONS_GROUP
     later_v : FV_VOWELS
@@ -624,12 +615,14 @@ BLOCK FUIVLA_START_V
         -> exit, cons.in
 
 ENDBLOCK
+#}}}
 
 ###########################################################
+
+#{{{  BLOCK FUIVLA_START_CV
+BLOCK FUIVLA_START_CV
 # fu'ivla starting with a single consonant and up to 2
 # vowels, maybe with apostrophes between, then a cluster.
-
-BLOCK FUIVLA_START_CV
     cons    : FV_INTERNAL_CONS_GROUP
     later_v : FV_VOWELS
 
@@ -655,9 +648,8 @@ BLOCK FUIVLA_START_CV
         -> exit, cons.in
 
 ENDBLOCK
-
-###########################################################
-
+#}}}
+#{{{  BLOCK FUIVLA_START_CC
 BLOCK FUIVLA_START_CC
     init_cc : FV_INITIAL_CLUSTER
     early_v : FV_VOWELS
@@ -676,9 +668,8 @@ BLOCK FUIVLA_START_CC
     STATE later_v.ex_single -> exit, later_c.in
 
 ENDBLOCK
-
-###########################################################
-
+#}}}
+#{{{  BLOCK STAGE3_TAIL
 BLOCK STAGE3_TAIL
 
     later_c : FV_INTERNAL_CONS_GROUP
@@ -691,33 +682,36 @@ BLOCK STAGE3_TAIL
         CSI|CS|HS|NR -> after_hyph
 
     STATE after_hyph
-        H  -> later_c.in_after_c
-        HS -> later_c.in_after_s
+        H  -> goto_c
+        HS -> goto_s
+
+    STATE goto_c -> later_c.in_after_c
+    STATE goto_s -> later_c.in_after_s
 
     STATE later_c.exit -> later_v.in
     STATE later_v.ex_multi -> exit, later_c.in
     STATE later_v.ex_single -> exit, later_c.in
 
 ENDBLOCK
-
-###########################################################
-# Recognize a stage-3 fu'ivla starting CVC
-
+#}}}
+#{{{  BLOCK STAGE3_SHORT
 BLOCK STAGE3_SHORT
+# Recognize a stage-3 fu'ivla starting CVC
 
     tail : STAGE3_TAIL
 
     STATE in
         CNR ; V ; CNR -> tail.in
 
+    STATE tail.goto_c (AT_S3_3)
+    STATE tail.goto_s (AT_S3_3)
     STATE tail.exit -> exit
 
 ENDBLOCK
-
-###########################################################
-# Recognize a stage-3 fu'ivla starting CVCC or CCVC
-
+#}}}
+#{{{  BLOCK STAGE3_LONG
 BLOCK STAGE3_LONG
+# Recognize a stage-3 fu'ivla starting CVCC or CCVC
 
     tail : STAGE3_TAIL
 
@@ -725,24 +719,28 @@ BLOCK STAGE3_LONG
         C   ; LCI ; V   ; CNR -> tail.in
         CNR ; V   ; CNR ; LCP -> tail.in
 
+    STATE tail.goto_c (AT_S3_4)
+    STATE tail.goto_s (AT_S3_4)
     STATE tail.exit -> exit
 
 ENDBLOCK
-
+#}}}
 ###########################################################
 # Recognize an "extended" stage-3, i.e. one with multiple
 # rafsi prior to the hyphen.
 
+#{{{ BLOCK X_STAGE3_CC_HEAD
 BLOCK X_STAGE3_CC_HEAD
     STATE in
-        C ; CI|CSI ; V ; C -> exit
+        CNR ; LCI ; V ; CNR -> exit
 ENDBLOCK
-
+#}}}
+#{{{  BLOCK X_STAGE3_CV_HEAD
 BLOCK X_STAGE3_CV_HEAD
     STATE in
-        C ; V ; APOS ; V -> after_cvv
-        C ; V ; VV       -> after_cvv
-        C ; V ; C        -> after_cvc
+        CNR ; V ; APOS ; V -> after_cvv
+        CNR ; V ; VV       -> after_cvv
+        CNR ; V ; CNR      -> after_cvc
 
     STATE after_cvv
         R ; CP | CS      -> exit
@@ -751,19 +749,21 @@ BLOCK X_STAGE3_CV_HEAD
     STATE after_cvc
         CP|CS|NR         -> exit
 ENDBLOCK
-
+#}}}
+#{{{ BLOCK X_STAGE3_OTHER_RAFSI
 BLOCK X_STAGE3_OTHER_RAFSI
     STATE in
-        CI|CSI ; V  ; C -> in
-        V      ; VV ; C -> in
+        LCI ; V  ; CNR   -> in
+        V   ; VV ; CNR   -> in
         
-        V      ; C  ; CI|CSI|CP|CS|NR -> in
+        V   ; CNR ; LCP  -> in
         
-        V      ; C                   -> exit3
-        CI|CSI ; V ; C               -> exit4
-        V      ; C ; CI|CSI|CP|CS|NR -> exit4
+        V   ; CNR        -> exit3
+        LCI ; V   ; CNR  -> exit4
+        V   ; CNR ; LCP  -> exit4
 ENDBLOCK
-
+#}}}
+#{{{ BLOCK X_STAGE3 
 BLOCK X_STAGE3
     cc_head : X_STAGE3_CC_HEAD
     cv_head : X_STAGE3_CV_HEAD
@@ -779,16 +779,19 @@ BLOCK X_STAGE3
     STATE short_tail.exit = TAG_X_STAGE3_CVC
     STATE long_tail.exit = TAG_X_STAGE3_LONG
     
+# Add attributes for grabbing hyphen position
+    STATE short_tail.goto_c (AT_XS3_3)
+    STATE short_tail.goto_s (AT_XS3_3)
+    STATE long_tail.goto_c (AT_XS3_4)
+    STATE long_tail.goto_s (AT_XS3_4)
+    
 ENDBLOCK
-
-
-
+#}}}
 
 ###########################################################
-###########################################################
-# Recognize a fuivla
-
+#{{{ BLOCK FUIVLA
 BLOCK FUIVLA
+# Recognize a fuivla
 
     start_cc : FUIVLA_START_CC
     start_cv : FUIVLA_START_CV
@@ -815,8 +818,10 @@ BLOCK FUIVLA
     STATE stage3_long.exit = TAG_STAGE3_LONG
 
 ENDBLOCK
-
+#}}}
 ###########################################################
+#{{{ BLOCK CMENE
+BLOCK CMENE
 # Recognize a cmene.  Has to end with consonant, and y is treated like a vowel.
 # Take care with just a y occurring between consonants; the front end returns
 # consonant pair tokens in this case (only real vowels clear the front-end
@@ -830,8 +835,6 @@ ENDBLOCK
 # Note, uppercase validation is also separate.  The front end tracks whether an
 # uppercase letter has been seen, then case-folds the letter.  At the end the
 # condition (had_uppercase & !cmene) implies a bad word.
-
-BLOCK CMENE
     STATE in
         CNR     -> c
         V       -> v
@@ -861,11 +864,10 @@ BLOCK CMENE
     STATE exit
         = TAG_CMENE
 ENDBLOCK
-
-###########################################################
-# Top level NFA to recognize a word.
-
+#}}}
+#{{{ BLOCK WORD
 BLOCK WORD
+# Top level NFA to recognize a word.
     gismu : GISMU
     lujvo : LUJVO
     cultural_lujvo : CULTURAL_LUJVO
@@ -882,7 +884,7 @@ BLOCK WORD
     STATE in     # ENTRY STATE NAMED LAST IN FILE
 
 ENDBLOCK
-
+#}}}
 ###########################################################
 # Results definition section
 # This is the priority encoding logic to determine
@@ -958,4 +960,15 @@ Result TAG_CMAVOS_END_CY -> R_CMAVOS_END_CY
 
 # The default case if nothing else matches
 DefResult R_UNKNOWN
+
+# Attribute tags
+Attr Result AT_S3_3
+Attr Result AT_S3_4
+Attr Result AT_XS3_3
+Attr Result AT_XS3_4
+
+# The default attribute if nothing else matches
+Attr DefResult AT_UNKNOWN
+
+# vim:cms=#%s
 
