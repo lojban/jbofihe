@@ -112,6 +112,14 @@ handle_brivla_conversion(TreeNode *briv)
     converted = 1;
     
     se_child = gp->data.nonterm.children[0];
+
+    if (prop_dont_gloss(se_child, NO)) {
+      /* Already processed during terms.c processing - i.e. this is a
+         tertau we are looking at.  This routine only has to hoover up
+         the seltau components. */
+      return;
+    }
+
     tok = cmavo_table[se_child->data.cmavo.code].cmavo;
     if (!strcmp(tok, "se")) {
       k = 2;
@@ -174,6 +182,14 @@ handle_abstraction_conversion(TreeNode *abstr)
     converted = 1;
     
     se_child = gp->data.nonterm.children[0];
+
+    if (prop_dont_gloss(se_child, NO)) {
+      /* Already processed during terms.c processing - i.e. this is a
+         tertau we are looking at.  This routine only has to hoover up
+         the seltau components. */
+      return;
+    }
+
     tok = cmavo_table[se_child->data.cmavo.code].cmavo;
     if (!strcmp(tok, "se")) {
       k = 2;
@@ -521,6 +537,7 @@ selbri_scan(TreeNode *x, int is_tertau)
                     }
                   }
                 break;
+
                 
                 default:
                   break;
