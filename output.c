@@ -1072,7 +1072,8 @@ output_term(TreeNode *x, WhatToShow what)
               (drv->start_tag)();
               trans = adv_translate("me", tag->pos, TCX_TAG);
               sprintf(transbuf, trans, tag->me.sumti->data.nonterm.number);
-              (drv->write_tag_text)("me...", "", transbuf, YES);
+              sprintf(tp, "%d..", tag->pos);
+              (drv->write_tag_text)("me", tp, transbuf, YES);
             }
           break;
           case TTT_NUMBERMOI:
