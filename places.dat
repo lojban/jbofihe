@@ -814,9 +814,9 @@ cinla3t:by standard
 #cinse4:DSAP;
 #
 # x1 [material] is a paint of pigment/active substance x2, in a base of x3                        
-#cinta1:DSAP;
-#cinta2:DSAP;
-#cinta3:DSAP;
+cinta1:S;paint
+cinta2:D;pigment
+cinta3:S;paint base
 #
 # x1 is a/are tong(s)/chopsticks/pincers/tweezers/pliers [tool/body-part] for x2 to pinch x3      
 #cinza1:DSAP;
@@ -859,8 +859,8 @@ ciska4:D;writing implement
 #ciste4:DSAP;
 #
 # x1 eats/ingests/consumes (transitive verb) x2                                                   
-#citka1:DSAP;
-#citka2:DSAP;
+citka1:A;eat
+citka2:P;eaten
 #
 # x1 is young/youthful [relatively short in elapsed duration] by standard x2                      
 citno1:P;young
@@ -1202,11 +1202,12 @@ ctuca5:D;method* of teaching
 #cukla1:DSAP;
 #
 # x1 is a book containing work x2 by author x3 for audience x4 preserved in medium x5             
-#cukta1:DSAP;
-#cukta2:DSAP;
-#cukta3:DSAP;
-#cukta4:DSAP;
-#cukta5:DSAP;
+cukta1:D;book
+cukta2:S;work in book
+cukta3:D;book author
+cukta3t:by
+cukta4:D;book audience
+cukta5:S;book medium
 #
 # x1 is full/completely filled with x2                                                            
 #culno1:DSAP;
@@ -1566,9 +1567,11 @@ djica2:P;desired
 djica3:D;purpose* of desire
 #
 # x1 is a ring/annulus/torus/circle [shape/form] of material x2, inside diam. x3, outside diam. x4
-#djine1:DSAP;
-#djine2:DSAP;
-#djine3:DSAP;
+djine1:D;ring
+djine2:S;ring material
+djine2t:of material
+djine3:D;inside ring diameter
+djine4:D;outside ring diameter
 #
 # x1 knows fact(s) x2 (du'u) about subject x3 by epistemology x4                                  
 djuno1:A;know
@@ -1865,7 +1868,10 @@ finti4:S;elements in creation
 #fliba2:DSAP;
 #
 # x1 is a/the face [head/body-part] of x2; (adjective:) x1 is facial                              
-#flira1:DSAP;
+flira1:D;face
+flira1q:facial
+flira2:I;have* face
+flira2t:of
 #
 # x1 is a field [shape/form] of material x2; x1 is a broad uniform expanse of x2                  
 #foldi1:DSAP;
@@ -2501,21 +2507,25 @@ jicmu2:R;having foundations
 #jikca2:DSAP;
 #
 # x1 is made of/contains/is a quantity of liquor/spirits distilled from x2                        
-#jikru1:DSAP;
-#jikru2:DSAP;
+jikru1:D;liquor
+jikru2:D;source* of liquor
+jikru2t:from source
 #
 # x1 is a quantity of/contains/is made of alkali/base of composition including x2                 
-#jilka1:DSAP;
-#jilka2:DSAP;
+jilka1:D;alkali
+jilka1q:alkaline
+jilka2:S;alkali composition
+jilka2t:of composition
 #
 # x1 (person) is jealous of/envies x2 (person) about/for x3 (property - ka)                       
-#jilra1:DSAP;
-#jilra2:DSAP;
-#jilra3:DSAP;
+jilra1:P;jealous
+jilra2:P;envied
+jilra3:D;cause* of jealousy
+jilra3t:for reason
 #
 # x1 is a branch/bough/limb of x2; x2 forks into branches x1; [preferred over metaphorical birka] 
-#jimca1:DSAP;
-#jimca2:DSAP;
+jimca1:D;branch
+jimca2:P;branched
 #
 # x1 understands/comprehends fact/truth x2 (du'u) about subject x3; x1 understands (fi) x3        
 jimpe1:A;understand
@@ -2523,42 +2533,52 @@ jimpe2:D;understood fact
 jimpe3:D;understood subject
 #
 # x1 is a limit/extreme/bound/border/[confinement] of x2 in property/domain x3                    
-#jimte1:DSAP;
-#jimte2:DSAP;
-#jimte3:DSAP;
+jimte1:D;limit
+jimte2:P;confined
+jimte3:D;domain* of confinement
+jimte3t:in domain
 #
 # x1 is a pair of shears/scissors for cutting x2                                                  
-#jinci1:DSAP;
-#jinci2:DSAP;
+jinci1:S;shears
+jinci2:R;cut by shears
+jinci2t:for cutting
 #
 # x1 (person/team) wins/gains prize x2 from/over x3 [competitors/losers] in competition x4        
-#jinga1:DSAP;
-#jinga2:DSAP;
-#jinga3:DSAP;
-#jinga4:DSAP;
+jinga1:A;win
+jinga2:D;prize
+jinga3:D;loser
+jinga4:D;competition
 #
 # x1 is a vaccine/immune-system stimulant protecting x2 against disease x3 introduced by method x4
-#jinku1:DSAP;
-#jinku2:DSAP;
-#jinku3:DSAP;
+jinku1:D;vaccine
+jinku2:P;vaccinated
+jinku3:D;disease* prevented by vaccine
+jinku3t:against
+jinku4:D;method* of vaccination
+jinku4t:by method
 #
 # x1 is a quantity of/contains/is made of made of metal of composition including x2               
-#jinme1:DSAP;
-#jinme2:DSAP;
+jinme1:D;metal
+jinme2:S;metal composition
+jinme2t:of composition
 #
 # x1 (object/person) is immersed/submerged/bathes in liquid x2                                    
-#jinru1:DSAP;
-#jinru2:DSAP;
+jinru1:P;immersed
+jinru2:D;immersing liquid
+jinru2t:in liquid
 #
 # x1 (object) is clean/pure of material/contaminant/dirt x2 by standard x3                        
-#jinsa1:DSAP;
-#jinsa2:DSAP;
-#jinsa3:DSAP;
+jinsa1:P;clean
+jinsa2:S;dirt
+jinsa3:S;cleanliness standard
+jinsa3t:by standard
 #
 # x1 is a well/spring of fluid x2 at location x3                                                  
-#jinto1:DSAP;
-#jinto2:DSAP;
-#jinto3:DSAP;
+jinto1:D;well
+jinto2:D;fluid* in well
+jinto2t:of fluid
+jinto3:D;location* of well
+jinto3t:at location
 #
 # x1 thinks/opines x2 [opinion] (du'u) is true about subject/issue x3 on grounds x4               
 jinvi1:A;have* opinion
@@ -3325,9 +3345,9 @@ lanzu3t:by standard
 #lazni2:DSAP;
 #
 # x1 takes/gets/gains/obtains/seizes/[removes] x2 (object/property) from x3 (possessor)           
-#lebna1:DSAP;
-#lebna2:DSAP;
-#lebna3:DSAP;
+lebna1:A;take
+lebna2:P;taken
+lebna3:P;disposessed
 #
 # x1 is a lens/glass [focussing shape/form] focussing x2 to focus/foci x3 by means/material x4    
 #lenjo1:DSAP;
@@ -4070,7 +4090,10 @@ nobli2:S;culture defining nobility
 #nupre3:DSAP;
 #
 # x1 is a rural/rustic/pastoral area of x2; x1 is in the country                                  
-#nurma1:DSAP;
+nurma1:D;rural area
+nurma1q:rural
+nurma2:R;having rural area
+nurma2t:of
 #
 # x1 is neutral/not taking sides/medial/not towards any extreme on scale/in dissension x2         
 #nutli1:DSAP;
@@ -4767,8 +4790,9 @@ rinsa3t:manner
 #rotsu2:DSAP;
 #
 # x1 is a rose [flower - characterized by prickly stem/fragrance] of species/strain x2            
-#rozgu1:DSAP;
-#rozgu2:DSAP;
+rozgu1:D;rose
+rozgu2:S;rose species
+rozgu2t:of species
 #
 # x1 is weak/feeble/frail in property/quality/aspect x2 (ka) by standard x3                       
 #ruble1:DSAP;
@@ -5125,8 +5149,8 @@ sisku3:P;sought amongst
 #skami2:DSAP;
 #
 # x1 is a pelt/skin/hide/leather from x2                                                          
-#skapi1:DSAP;
-#skapi2:DSAP;
+skapi1:D;skin
+skapi2:D;source* of skin
 #
 # x1 is/appears to be of color/hue x2 as perceived/seen by x3 under conditions x4                 
 #skari1:DSAP;
@@ -5141,26 +5165,29 @@ skicu3:D;audience* for describing
 skicu4:D;description
 #
 # x1 is a ski/skid/skate/runner for surface (of material) x2 supporting skier/skater/sled/cargo x3
-#skiji1:DSAP;
-#skiji2:DSAP;
+skiji1:D;skate
+skiji2:R;skated over
+skiji3:R;supported by skate
 #
 # x1 is a cinema/movie/film about x2 [plot/theme/subject/activity], filmmaker x3, for audience x4 
-#skina1:DSAP;
-#skina2:DSAP;
-#skina3:DSAP;
-#skina4:DSAP;
+skina1:D;film
+skina2:D;film plot
+skina3:D;film-maker
+skina4:D;film audience
 #
 # x1 is cord/cable/rope/line/twine/cordage/woven strands of material x2                           
-#skori1:DSAP;
-#skori2:DSAP;
+skori1:D;rope
+skori2:S;rope material
+skori2t:of material
 #
 # x1 reflects Gaelic/Scottish culture/nationality/language in aspect x2                           
 #skoto1:DSAP;
 #skoto2:DSAP;
 #
 # x1 is a groove/trench/furrow [shape/form] in object/surface x2                                  
-#skuro1:DSAP;
-#skuro2:DSAP;
+skuro1:D;groove
+skuro2:D;grooved surface
+skuro2t:in surface
 #
 # x1 is old/familiar/well-known to observer x2 in feature x3 (ka) by standard x4                  
 slabu1:P;familiar
@@ -5351,8 +5378,9 @@ solri2:D;planet* with sun
 #spano2:DSAP;
 #
 # x1 is a plant/herb/greenery of species/strain/cultivar x2                                       
-#spati1:DSAP;
-#spati2:DSAP;
+spati1:D;plant
+spati2:S;plant species
+spati2t:of species
 #
 # x1 is married to x2; x1 is a spouse of x2 under law/custom/tradition/system/convention x3       
 speni1:P;married
@@ -5711,10 +5739,13 @@ taxfu3t:purpose
 #tcaci3:DSAP;
 #
 # x1 is a town/city of metropolitan area x2, in political unit x3, serving hinterland/region x4   
-#tcadu1:DSAP;
-#tcadu2:DSAP;
-#tcadu3:DSAP;
-#tcadu4:DSAP;
+tcadu1:D;town
+tcadu2:D;area* with town
+tcadu2t:of area
+tcadu3:D;political unit* with town
+tcadu3t:in political unit
+tcadu4:D;region* served by town
+tcadu4t:serving
 #
 # x1 is a station/node of/in/on transport/communication/distribution system/network x2            
 #tcana1:DSAP;
