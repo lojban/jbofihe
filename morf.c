@@ -19,6 +19,7 @@
 #ifdef TEST_MORF
 #include <stdio.h>
 #include <string.h>
+#include <assert.h>
 static int verbose=0;
 static int allow_cultural_rafsi = 1; /* In testbench mode, always allow */
 #else
@@ -31,7 +32,7 @@ extern int allow_cultural_rafsi;
 
 #include "morf.h"
 
-enum raw_category {
+enum raw_category {/*{{{*/
   R_UNKNOWN,
   R_CMAVOS, R_CMAVOS_END_CY,
   R_GISMU_0, R_GISMU_1,
@@ -44,8 +45,8 @@ enum raw_category {
   R_BAD_TOSMABRU, R_CULTURAL_BAD_TOSMABRU,
   R_BAD_SLINKUI
 };
-
-enum processed_category {
+/*}}}*/
+enum processed_category {/*{{{*/
   W_UNKNOWN,
   W_CMAVOS, W_CMAVOS_END_CY,
   W_GISMU,
@@ -59,6 +60,15 @@ enum processed_category {
   W_BAD_SLINKUI,
   W_BIZARRE
 };
+/*}}}*/
+enum state_attribute {/*{{{*/
+  AT_UNKNOWN, /* nothing-to-do option */
+  AT_S3_3, /* after hyphen triplet for short-rafsi stage 3 */
+  AT_S3_4, /* after hyphen triplet for long-rafsi stage 3 */
+  AT_XS3_3, /* after hyphen triplet for short-rafsi extended stage 3 */
+  AT_XS3_4, /* after hyphen triplet for long-rafsi extended stage 3 */
+};
+/*}}}*/
 
 /* Include table for turning the letter stream into meta-classes (consonant,
  * vowel, permissible pair etc).  These 'meta-classes' are the tokens used by
@@ -72,51 +82,57 @@ enum processed_category {
    nfa2dfa.pl. */
 #include "morf_dfa.c"
 
+
+static unsigned char s2l[32] = /*{{{*/
 /* Map N->1, R->2, other C->3, else ->0.  Used to trim down the last-but-one
  * letter, which is saved to allow the front-end to spot illegal triples and
  * type III fu'ivla hyphen patterns. */
-
-static unsigned char s2l[32] = {
+{
   0, 0, 3, 3, 3, 0, 3, 3,
   0, 0, 3, 3, 3, 3, 1, 0,
   3, 0, 2, 3, 3, 0, 3, 0,
   3, 0, 3, 0, 0, 0, 0, 0
 };
+/*}}}*/
 
 #if defined(TEST_MORF)
+static char *toknam[] =/*{{{*/
 /* Token names for -v mode */
-static char *toknam[] = {
+{
   "UNK", "V", "APOS", "Y", "R", "N", "C",
   "NR", "CI", "CSI", "CP", "CS", "CN",
   "H", "HS", "BT", "VV", "VX", "VY", "YY",
   "Y,Y"
 };
-
+/*}}}*/
+static char *actnam[] =/*{{{*/
 /* Front end state machine actions, printable for -v mode */
-static char *actnam[] = {
+{
   "CLR", "SFT", "FRZ"
 };
-
-static char charnames[32] = {
+/*}}}*/
+static char charnames[32] = {/*{{{*/
   '?', 'a', 'b', 'c', 'd', 'e', 'f', 'g',
   '?', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
   'p', '?', 'r', 's', 't', 'u', 'v', 'w',
   'x', 'y', 'z', '?', '?', '?', '\'', '?'
 };
-
-static char vowelnames[8] = {
+/*}}}*/
+static char vowelnames[8] = {/*{{{*/
   ',', 'C', 'y', 'a', 'e', 'i', 'o', 'u'
 };
-
-static char Lname[4] = { 'V', 'n', 'r', 'C' };
-
+/*}}}*/
+static char Lname[4] = {/*{{{*/
+  'V', 'n', 'r', 'C'
+};
+/*}}}*/
 #endif
 
+static unsigned char mapchar[256] =/*{{{*/
 /* Map the ASCII set to the range 0..31 (mostly
    by masking high order bits off the letters,
    except the apostrophe is given the value 30) */
-
-static unsigned char mapchar[256] = {
+{
   0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
   0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
   0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
@@ -157,8 +173,8 @@ static unsigned char mapchar[256] = {
   0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
   0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f
 };
-
-static unsigned char vmapchar[256] = {
+/*}}}*/
+static unsigned char vmapchar[256] = {/*{{{*/
   0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, /* invalid -> consonant code */
   0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, /* (reject by main FSM) */
   0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
@@ -199,12 +215,14 @@ static unsigned char vmapchar[256] = {
   0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
   0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01
 };
+/*}}}*/
 
+/*********************************************************************/
+
+int find_next_state(int cs, unsigned char k)/*{{{*/
 /*********************************************************************/
 /* Given the current state and the 'token' read, find the next state */
 /*********************************************************************/
-
-int find_next_state(int cs, unsigned char k)
 {
   int h, l, m;
   unsigned char xm;
@@ -232,13 +250,12 @@ int find_next_state(int cs, unsigned char k)
 done:
   return (int)nstab[m];
 }
-
+/*}}}*/
+MorfType morf_scan(char *s, char ***buf_end)/*{{{*/
 /* The main scanning routine.  's' is the string to be scanned.  buf_end is a
- * pointer to a table of pointers to characters (i.e. pass by reference so we
- * can pass a result back.)  This table is filled in with the positions in 's'
- * where the prefix cmavo start. */
-MorfType
-morf_scan(char *s, char ***buf_end)
+   pointer to a table of pointers to characters (i.e. pass by reference so we
+   can pass a result back.)  This table is filled in with the positions in 's'
+   where the prefix cmavo start. */
 {
   unsigned int L, S, G;
   unsigned int vsm = 0111; /* 3 consonants as starting state */
@@ -249,6 +266,14 @@ morf_scan(char *s, char ***buf_end)
   int state, next_state;
   int inhibited = 0, initial = 1;
   int decrement = 0;
+
+  /* Remember previous non-comma positions */
+  char *p_1 = NULL, *p_2 = NULL;
+  
+  /* Remember position for stage-3 hyphen after CVC or long rafsi prefix */
+  char *hyph3 = NULL, *hyph3_1 = NULL, *hyph3_2 = NULL;
+  char *hyph4 = NULL, *hyph4_1 = NULL, *hyph4_2 = NULL;
+  
   enum raw_category exival;
   enum processed_category result;
   int had_uppercase=0;
@@ -281,6 +306,7 @@ morf_scan(char *s, char ***buf_end)
   p = s;
   started_with_comma = (*p == ',');
 
+  /*{{{  Main per-character loop */
   while (*p) {
     c = *p;
 
@@ -343,6 +369,27 @@ morf_scan(char *s, char ***buf_end)
       *pcstart++ = p;
     }
 
+    /*{{{  Run attribute code*/
+    switch (morf_attribute[state]) {
+      case AT_UNKNOWN:
+        break;
+      case AT_S3_3:
+      case AT_XS3_3:
+        hyph3 = p;
+        hyph3_1 = p_1;
+        hyph3_2 = p_2;
+        break;
+      case AT_S3_4:
+      case AT_XS3_4:
+        hyph4 = p;
+        hyph4_1 = p_1;
+        hyph4_2 = p_2;
+        break;
+    }
+    /*}}}*/
+
+    p_2 = p_1;
+    p_1 = p;
     p++;
     initial = 0;
 
@@ -357,6 +404,7 @@ morf_scan(char *s, char ***buf_end)
     }
 #endif
 
+    /*{{{  Run action on main (consonant) shift reg. */
     switch (act) {
       case ACT_CLEAR:
         L = S = 0;
@@ -370,14 +418,15 @@ morf_scan(char *s, char ***buf_end)
       default:
         abort();
     }
-    
     last_act = act;
-
+    /*}}}*/
+    
     state = next_state;
 
     if (state < 0) break; /* syntax error */
     
   }
+  /*}}}*/
 
   if (!*p && !(vsm & 0x7)) { /* last char was a comma */
     ended_with_comma = 1;
@@ -389,6 +438,7 @@ morf_scan(char *s, char ***buf_end)
     decrement = 0;
   } else {
     exival = morf_exitval[state];
+    /*{{{  Extract word-type and CV/CC start flag */
     switch (exival) {
       case R_CMAVOS: result = W_CMAVOS; decrement = 0; break;
       case R_CMAVOS_END_CY: result = W_CMAVOS_END_CY; decrement = 0; break;
@@ -414,6 +464,8 @@ morf_scan(char *s, char ***buf_end)
       default:
         result = W_UNKNOWN; decrement = 0; break;
     }
+    /*}}}*/
+    /*{{{  Map to external word type / uppercase validity test */
     switch (result) {
       case W_CMAVOS_END_CY:
         /* Add start of trailing Cy cmavo to list of word start points */
@@ -478,6 +530,7 @@ morf_scan(char *s, char ***buf_end)
         ext_result = MT_BOGUS;
         break;
     }
+    /*}}}*/
   }
 
 #ifdef TEST_MORF
@@ -491,6 +544,7 @@ morf_scan(char *s, char ***buf_end)
 
     if (verbose) printf("[EV=%2d] ", exival);
 
+    /*{{{  Print word type */
     switch (result) {
       case W_UNKNOWN:
         printf("Unrecognized");
@@ -517,10 +571,10 @@ morf_scan(char *s, char ***buf_end)
         printf("fu'ivla (stage-3 short rafsi)");
         break;
       case W_FUIVLA3X:
-        printf("fu'ivla (extended-stage-3)");
+        printf("fu'ivla (multi-stage-3)");
         break;
       case W_FUIVLA3X_CVC:
-        printf("fu'ivla (extended-stage-3 short rafsi)");
+        printf("fu'ivla (multi-stage-3, final short rafsi)");
         break;
       case W_FUIVLA4:
         printf("fu'ivla (stage-4)");
@@ -541,7 +595,8 @@ morf_scan(char *s, char ***buf_end)
         printf("Internal program bug");
         break;
     }
-
+    /*}}}*/
+    /*{{{  Print invalid uppercase msg*/
     switch (result) {
       case W_UNKNOWN:
       case W_CMAVOS:
@@ -566,19 +621,72 @@ morf_scan(char *s, char ***buf_end)
         /* Nothing to do */
         break;
     }
+    /*}}}*/
 
     putchar(' ');
     putchar(':');
     putchar(' ');
 
+    /* {{{ Assert that attributes were picked up properly */
+    switch (result) {
+      case W_FUIVLA3:
+      case W_FUIVLA3X:
+        assert(hyph4);
+        break;
+      case W_FUIVLA3_CVC:
+      case W_FUIVLA3X_CVC:
+        assert(hyph3);
+        break;
+      default:
+        break;
+    }
+    /*}}}*/
+
+    /*{{{  Print original word with prefix cmavo split off */
     for (a=s, x=start; *a; a++) {
+
+      /* Print spaces to separate prefix cmavo */
       if (x && (a == *x)) {
         x++;
         putchar(' ');
         if (x == pstart) x = NULL;
       }
+      
+      /*{{{  Insert pre-char separators */
+      switch (result) {
+        case W_FUIVLA3:
+        case W_FUIVLA3X:
+          if (a == hyph4_2) putchar('/');
+          break;
+        case W_FUIVLA3_CVC:
+        case W_FUIVLA3X_CVC:
+          if (a == hyph3_2) putchar('/');
+          break;
+        default:
+          break;
+      }
+      /*}}}*/
+
+      /* Emit actual character */
       putchar(*a);
+      
+      /*{{{  Insert post-char separators */
+      switch (result) {
+        case W_FUIVLA3:
+        case W_FUIVLA3X:
+          if (a == hyph4_2) putchar('/');
+          break;
+        case W_FUIVLA3_CVC:
+        case W_FUIVLA3X_CVC:
+          if (a == hyph3_2) putchar('/');
+          break;
+        default:
+          break;
+      }
+      /*}}}*/
     }
+    /*}}}*/
+    
     putchar('\n');
     
   }
@@ -587,9 +695,10 @@ morf_scan(char *s, char ***buf_end)
   *buf_end = pstart - 1;
   return ext_result;
 }
+/*}}}*/
 
 #ifdef TEST_MORF
-int main (int argc, char **argv) {
+int main (int argc, char **argv) {/*{{{*/
   char buffer[128];
   char *start[256], **pstart;
   char *word = NULL;
@@ -614,7 +723,7 @@ int main (int argc, char **argv) {
     }
   }
   return 0;
-}
+}/*}}}*/
 #endif
 
 
