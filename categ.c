@@ -1092,6 +1092,8 @@ categorize_number_roi(TreeNode *head) {
       y = x->prev;
       count = 0;
       while (1) {
+        if (y == head) goto done;
+
         if (y->type == N_MARKER) {
           y = y->prev;
         } else if (y->type == N_CMAVO) {
@@ -1150,6 +1152,8 @@ categorize_number_moi(TreeNode *head) {
       y = x->prev;
       count = 0;
       while (1) {
+        if (y == head) goto done;
+
         if (y->type == N_MARKER) {
           y = y->prev;
         } else if (y->type == N_CMAVO) {
