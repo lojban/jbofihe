@@ -6,6 +6,10 @@
 
 /* COPYRIGHT */
 
+%token JUST_STAG /* try to match <stag> on its own */
+%token JOIK_STAG /* try to match <joik> <stag> */
+%token JJ_STAG /* try to match <stag> maybe with <jek> or <joik> before, or not */
+
 %token STAG_BAI
 %token STAG_BIhI
 %token STAG_BU
@@ -53,9 +57,26 @@ extern int stag_lex(void);
 
 %%
 
-all : stag_ke
-    | stag_bo
+all : JUST_STAG just_stag
+    | JOIK_STAG joik_stag
+    | JJ_STAG jj_stag
     ;
+
+just_stag : stag_ke
+          | stag_bo
+          ;
+
+joik_stag : joik stag_ke
+          | joik stag_bo
+          ;
+
+jj_stag : joik stag_ke
+        | joik stag_bo
+        | jek  stag_ke
+        | jek  stag_bo
+        |      stag_ke
+        |      stag_bo
+        ;
 
 stag_ke : stag STAG_KE
 { stag_lookahead_ke(); }
