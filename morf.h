@@ -5,6 +5,9 @@
   
   ***************************************/
 
+/* Copyright (C) Richard P. Curnow  2000-2001 */
+/* LICENCE */
+
 #ifndef MORF_H
 #define MORF_H
 
