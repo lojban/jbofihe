@@ -1,0 +1,40 @@
+Björn Gohla <b.gohla@gmx.de> 01.08.2001
+
+When configuring
+
+	$ perl ./config.pl --plist
+
+enables property list output in cmafihe, the lojban glosser. Thus 
+
+	$ cmafihe -p 
+
+will output the property list to the standard output.  Property lists are
+stringified representations of data structures like hash tables, arrays, or
+binary data very well integrated in gnustep (http://www.gnustep.org). the
+library libPropList (which can be retrieved from http://www.windowmaker.org) is
+a C API for those data structures.
+
+I have implemented and tested this only on my Linux box, so I have no idea
+whether it works on any other platform.
+
+The motivation for this feature is that I am working on a vocabulary learning
+tool (soon to be released) which is written in gnustep. I want to be able to
+take arbitrary Lojban text and extract all valid Lojban words, such that having
+leared the extracted vocabulary one is able to understand the text.  So I may
+someday be able to follow Lojban discussions on lojban@yahoogroups.com ;) .
+
+
+For the sake of authenticity here comes a little preview:
+
+	$  echo "mi na jimpe la'e di'u " |./cmafihe -p
+
+yields:
+
+	{
+		mi = "I, me";
+		na = not;
+		jimpe = understand;
+		"la'e" = "the referent of";
+		"di'u" = "last utterance";
+	}
+
