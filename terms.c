@@ -55,10 +55,15 @@ typedef enum {
 } LCType;
 
 typedef struct {
+  int conv;
+  TreeNode *senode;
+} SeInfo;
+
+typedef struct {
   LCType type;
   union {
     TermVector *links;
-    int se;
+    SeInfo se;
     TreeNode *jai_tag; /* The treenode for the tag in a JAI <tag>
                           construction */
   } data;
@@ -165,11 +170,12 @@ lc_init(LinkConv *lc)
   ++++++++++++++++++++++++++++++++++++++*/
 
 static void
-lc_append_se(LinkConv *lc, int conv)
+lc_append_se(LinkConv *lc, int conv, TreeNode *senode)
 {
   assert(lc->n < MAX_TERMS_IN_VECTOR);
 
-  lc->e[lc->n].data.se = conv;
+  lc->e[lc->n].data.se.conv = conv;
+  lc->e[lc->n].data.se.senode = senode;
   lc->e[lc->n].type = LC_SE;
   ++(lc->n);
 }
@@ -190,6 +196,24 @@ lc_append_jai_tag(LinkConv *lc, TreeNode *tag)
 
   lc->e[lc->n].data.jai_tag = tag;
   lc->e[lc->n].type = LC_TAG;
+  ++(lc->n);
+  
+}
+
+/*++++++++++++++++++++++++++++++++++++++
+  
+
+  LinkConv *lc
+
+  TreeNode *tag
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+lc_append_jai(LinkConv *lc)
+{
+  assert(lc->n < MAX_TERMS_IN_VECTOR);
+
+  lc->e[lc->n].type = LC_JAI;
   ++(lc->n);
   
 }
@@ -552,7 +576,7 @@ fixup_term_place(TreeNode *x, Place *pl, XTermTag *tt)
       break;
 
     case PT_JAI:
-      abort();
+      ts->tag.type = TTT_JAI;
       break;
   }
   
@@ -640,6 +664,73 @@ assign_terms_to_places(TermVector *t, Place *place, Place *fai, int abase, XTerm
 }
 
 
+/*++++++++++++++++++++++++++++++++++++++
+  
+
+  LinkConv *lc
+
+  TreeNode *convertible
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+assign_conversion(LinkConv *lc, TreeNode *convertible)
+{
+  Place place[MAX_POS];
+  XConversion *ext;
+
+  int i, n;
+
+  /* Init the place and vectors */
+  for (i=0; i<MAX_POS; i++) {
+    place[i].valid = 1;
+    place[i].taken = 0;
+    place[i].type = PT_ORD;
+    place[i].pos = i;
+  }
+
+  /* Work back through the linked sumti */
+  n = lc->n;
+  for (i=n-1; i>=0; i--) {
+    switch (lc->e[i].type) {
+      case LC_SE:
+        /* Just swap 2 positions in the place[] array */
+        {
+          Place temp;
+          SeInfo *j;
+          XDontGloss *dg;
+
+          j = &lc->e[i].data.se;
+          temp = place[1];
+          place[1] = place[j->conv];
+          place[j->conv] = temp;
+          dg = prop_dont_gloss(j->senode, YES); /* prevent the node being glossed */
+        }        
+        break;
+
+      case LC_LINKS:
+        /* Binding of linked sumti does not affect the glossing of the
+           brivla or whatever, just drop through to next loop
+           iteration */
+        break;
+
+      case LC_TAG:
+        /* Break out at this point */
+        goto loop_done;
+        break;
+
+      case LC_JAI:
+        fprintf(stderr, "Don't know what to do with <jai> for gloss conversion\n");
+        break;
+    }
+  }
+
+loop_done:
+  
+  ext = prop_conversion(convertible, YES);
+  ext->conv = place[1].pos;
+
+}
+
 
 /*++++++++++++++++++++++++++++++++++++++
   Work out which terms have which places in the bridi, and tag them
@@ -689,11 +780,11 @@ assign_places(TermVector *pre, TermVector *post, LinkConv *lc, XTermTag *tt)
         /* Just swap 2 positions in the place[] array */
         {
           Place temp;
-          int j;
-          j = lc->e[i].data.se;
+          SeInfo *j;
+          j = &lc->e[i].data.se;
           temp = place[1];
-          place[1] = place[j];
-          place[j] = temp;
+          place[1] = place[j->conv];
+          place[j->conv] = temp;
         }        
         break;
       case LC_TAG:
@@ -715,7 +806,20 @@ assign_places(TermVector *pre, TermVector *post, LinkConv *lc, XTermTag *tt)
       break;
 
       case LC_JAI:
-        abort(); /* not handled yet */
+        {
+          int j;
+          /* Shift fai place array up (i.e. need subscripts if more
+             than one fai place is in scope). */
+          for (j=1; ; j++) {
+            if (!fai[j].valid) break;
+          }
+          for (; j>1; j--) {
+            fai[j] = fai[j-1];
+          }
+          fai[1] = place[1];
+          place[1].type = PT_JAI;
+          place[1].valid = 1;
+        }
         break;
 
       case LC_LINKS:
@@ -770,11 +874,15 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
         {
           XTermTag tt;
           XRequireBrac *xrb;
+          TreeNode *me_node;
+
           tt.type = TTT_ME;
           tt.me.sumti = find_nth_child(tu2, 1, SUMTI);
+          me_node = find_nth_cmavo_child(tu2, 1, ME);
           assert(tt.me.sumti);
           xrb = prop_require_brac (tt.me.sumti, YES);
           assign_places(pre, post, lc, &tt);
+          /* Conversion can't occur on ME, there is only an x1 place */
         }
       break;
       case NUhA:
@@ -790,6 +898,7 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
     tt.type = TTT_BRIVLA;
     tt.brivla.x = c1;
     assign_places(pre, post, lc, &tt);
+    assign_conversion(lc, c1);
 
   } else if (c1->type == N_NONTERM) {
     switch (c1->data.nonterm.type) {
@@ -821,7 +930,7 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
           assert(tu2_child);
 
           conv = recover_se_conv(se_child);
-          lc_append_se(&newlc, conv);
+          lc_append_se(&newlc, conv, se_child);
 
           process_tanru_unit_2_args(tu2_child, pre, post, &newlc);
 
@@ -846,8 +955,16 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
         break;
 
       case JAI_TU2:
-        fprintf(stderr, "jai not handled yet for place tags at line %d column %d\n",
-                c1->start_line, c1->start_column);
+        {
+          LinkConv newlc;
+          TreeNode *tu2_child;
+
+          lc_copy(lc, &newlc);
+          tu2_child = find_nth_child(c1, 1, TANRU_UNIT_2);
+          assert(tu2_child);
+          lc_append_jai(&newlc);
+          process_tanru_unit_2_args(tu2_child, pre, post, &newlc);
+        }
         break;
 
       case NAHE_TU2:
@@ -878,9 +995,10 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
             tt.type = TTT_ABSTRACTION;
             tt.abstraction.nu = nu;
             assign_places(pre, post, lc, &tt);
+            assign_conversion(lc, nu);
             
           } else {
-            fprintf(stderr, "Can't handle connected abstractors yet at line %d column %d\n",
+            fprintf(stderr, "Can't handle connected abstractors wrt places yet at line %d column %d\n",
                     c1->start_line, c1->start_column);
           }
         }
@@ -1566,6 +1684,7 @@ process_relative_clause(TreeNode *x)
   if (fc->data.nonterm.type == FULL_RELATIVE_CLAUSE) {
     ss = find_nth_child(fc, 1, SUBSENTENCE);
     if (ss) {
+      fprintf(stderr, "Got here in prc\n");
       process_subsentence(ss, &pre, &post);
     }
   }
