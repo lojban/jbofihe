@@ -6,6 +6,7 @@
 
 /* COPYRIGHT */
 
+/*{{{  Includes */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,6 +17,7 @@
 #include "canonluj.h"
 #include "morf.h"
 #include "dictaccs.h"
+/*}}}*/
 
 extern int show_dictionary_defects;
 
@@ -25,21 +27,19 @@ static int bufptr=0;
 
 /* ================================================== */
 
-typedef struct Component {
+typedef struct Component {/*{{{*/
   int start; /* 0 for 1st, pos of + for others (before conversions) */
   int pure_start; /* likewise, but just the gismu/cmavo excl conversions) */
   char text[6];
   int places[6];
-} Component;
+} Component;/*}}}*/
 
-/*+ Forward prototype for place/context translater. +*/
+/*{{{ Forward prototype for place/context translater. */
 extern char *adv_translate(char *w, int place, TransContext ctx);
 static void split_into_comps(char *canon, Component *comp, int *ncomp);
+/*}}}*/
 
-/* ================================================== */
-
-char *
-translate(char *word)
+char * translate(char *word)/*{{{*/
 {
   char *buf;
   char *res;
@@ -54,14 +54,10 @@ translate(char *word)
     return NULL;
   }
 
-}
-
-/* ================================================== */
-
+}/*}}}*/
+static char * translate_lujvo(char *word, int place)/*{{{*/
 /* Lookup a lujvo that isn't matched in the ordinary dictionary, by
    smashing it into consituent rafsi and glueing these together. */
-static char *
-translate_lujvo(char *word, int place)
 {
   Component comp[32];
   int ncomp;
@@ -95,12 +91,8 @@ translate_lujvo(char *word, int place)
 
   return result;
 
-}
-
-/* ================================================== */
-
-char *
-translate_fuivla_prefix(char *w, int place)
+}/*}}}*/
+char * translate_fuivla_prefix(char *w, int place)/*{{{*/
 {
   char *canon;
   Component comp[32];
@@ -124,17 +116,14 @@ translate_fuivla_prefix(char *w, int place)
     }
   }   
   return buffer;
-}
-
+}/*}}}*/
+char * translate_unknown(char *w, int place)/*{{{*/
 /* ================================================== */
 /* In principle, it would be nice to pass the word type through from the
    original parsing phase.  However, this isn't general enough, since the word
    to translate may have come from an earlier dictionary lookup.  Hence, call
    morf_scan again. */
 /* ================================================== */
-
-char *
-translate_unknown(char *w, int place)
 {
   static char buf[2048];
   char *ltrans;
@@ -200,10 +189,8 @@ translate_unknown(char *w, int place)
       return "[NAME]";
   }
   return "?";
-}
-
-/* ================================================== */
-
+}/*}}}*/
+/*{{{ Comments about 'advanced translate' machinery. */
 /*
 
   This section of the file deals with what I call 'advanced
@@ -298,12 +285,12 @@ CLASS   |     N(oun)       V(erb) (4)          Q(ualifier)        T(ag) (2)
 
 
  */
+ /*}}}*/
 
 static char consonants[] = "bcdfghjklmnpqrstvwxz";
 static char vowels[] = "aeiou";
 
-static int
-starts_with_preposition(char *x)
+static int starts_with_preposition(char *x)/*{{{*/
 {
   char *y;
   y = x;
@@ -318,20 +305,12 @@ starts_with_preposition(char *x)
     return 0;
   }
 
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
+}/*}}}*/
+static char * basic_trans(char *x)/*{{{*/
+/*
   Remove the '*' markers from a translation (only really applies to
   discrete class words being used as qualifiers, so far).
-
-  static char * basic_trans
-
-  char *x
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static char *
-basic_trans(char *x)
+  */
 {
   char *result, *p, *q;
   result = GETBUF();
@@ -344,19 +323,10 @@ basic_trans(char *x)
   }
   *q = 0;
   return result;
-}
-
-/*++++++++++++++++++++++++++++++++++++++
-  Make a word plural, applying standard English rules for when to use
-  -es or -ies instead of plain -s.
-
-  static char * make_plural
-
-  char *x
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static char *
-make_plural(char *x)
+}/*}}}*/
+static char * make_plural(char *x)/*{{{*/
+/*  Make a word plural, applying standard English rules for when to use
+  -es or -ies instead of plain -s. */
 {
   char *result;
   int n;
@@ -396,19 +366,8 @@ make_plural(char *x)
     return result;
   }
 
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  Append "-er" to a word
-
-  static char * append_er
-
-  char *x
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static char *
-append_er(char *x)
+}/*}}}*/
+static char * append_er(char *x)/*{{{*/
 {
   static char result[128];
   int n;
@@ -444,18 +403,8 @@ append_er(char *x)
     return result;
   }
 
-}
-
-/*++++++++++++++++++++++++++++++++++++++
-  Append "-ing" to a word
-
-  static char * append_ing
-
-  char *x
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static char *
-append_ing(char *x)
+}/*}}}*/
+static char * append_ing(char *x)/*{{{*/
 {
   static char result[128];
   int n;
@@ -492,23 +441,8 @@ append_ing(char *x)
     return result;
   }
 
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  static char * translate_pattern
-
-  char *w
-
-  int place
-
-  char *suffix
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static char *
-translate_pattern(char *w, int place, char *suffix)
+}/*}}}*/
+static char * translate_pattern(char *w, int place, char *suffix)/*{{{*/
 {
   char *new_start = NULL;
   int swap;
@@ -583,23 +517,8 @@ translate_pattern(char *w, int place, char *suffix)
   }
 
 
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  char * fix_trans_in_context
-
-  char *trans
-
-  TransContext ctx
-
-  char *w1n
-  ++++++++++++++++++++++++++++++++++++++*/
-
-char *
-fix_trans_in_context(char *src, char *trans, TransContext ctx, char *w1n, int found_full_trans)
+}/*}}}*/
+char * fix_trans_in_context(char *src, char *trans, TransContext ctx, char *w1n, int found_full_trans)/*{{{*/
 {
   enum {CL_DISCRETE, CL_SUBSTANCE, CL_ACTOR, CL_PROPERTY, CL_REVERSE_PROPERTY, CL_IDIOMATIC} wordclass;
   char *result;
@@ -772,21 +691,8 @@ fix_trans_in_context(char *src, char *trans, TransContext ctx, char *w1n, int fo
     return trans;
   }
 
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  static char * subst_base_in_pattern
-
-  char *trans
-
-  char *base
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static char *
-subst_base_in_pattern(char *trans, char *base)
+}/*}}}*/
+static char * subst_base_in_pattern(char *trans, char *base)/*{{{*/
 {
   char *result = GETBUF();
   char *p, *q, *r;
@@ -822,22 +728,13 @@ subst_base_in_pattern(char *trans, char *base)
   }
   *q = 0;
   return result;
-}
-
-/*++++++++++++++++++++++++++++++++++++++
-  Take a string a+b+c and split it into an array of components
-  separated by + signs.  If any components are se, te etc, bind them
-  as place exchanges to the following component.
-
-  char *canon
-
-  Component *comp
-
-  int *ncomp
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-split_into_comps(char *canon, Component *comp, int *ncomp)
+}/*}}}*/
+static void split_into_comps(char *canon, Component *comp, int *ncomp)/*{{{*/
+/*
+  Take a string a+b+c and split it into an array of components separated by +
+  signs.  If any components are se, te etc, bind them as place exchanges to the
+  following component.
+  */
 {
   int i;
   int nc = 0;
@@ -877,29 +774,8 @@ split_into_comps(char *canon, Component *comp, int *ncomp)
 
   *ncomp = nc;
 
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  static char * lookup_template_match
-
-  int prec
-
-  char *orig
-
-  Comp *comp
-
-  int ncomp
-
-  int place
-
-  TransContext ctx
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static char *
-lookup_template_match(int prec, int suffix, int gather, char *orig, Component *comp, int ncomp, int place, TransContext ctx)
+}/*}}}*/
+static char * lookup_template_match(int prec, int suffix, int gather, char *orig, Component *comp, int ncomp, int place, TransContext ctx)/*{{{*/
 {
   char generic[128]; /* the part that's found in the LHS of the dictionary pattern match */
   char specific[256]; /* the other part of the string */
@@ -961,24 +837,12 @@ lookup_template_match(int prec, int suffix, int gather, char *orig, Component *c
   } else {
     return NULL;
   }
-}
-
-/*++++++++++++++++++++++++++++++++++++++
-  Try to match the Lojban word with various standard forms which the
-  dictionary provides.
-
-  char * attempt_pattern_match Return the translation obtained, or
-  NULL if pattern match failed to find anything.
-
-  char *w The Lojban word to pattern match on
-
-  int place The place whose translation is required
-
-  TransContext ctx The context in which the translation is required.
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static char *
-attempt_pattern_match(char *w, int place, TransContext ctx)
+}/*}}}*/
+static char * attempt_pattern_match(char *w, int place, TransContext ctx)/*{{{*/
+/*
+  Try to match the Lojban word with various standard forms which the dictionary
+  provides.  Return NULL on no match.
+  */
 {
   char *canon;
   char *trans;
@@ -1041,20 +905,8 @@ attempt_pattern_match(char *w, int place, TransContext ctx)
 
   return NULL;
 
-}
-
-/*++++++++++++++++++++++++++++++++++++++
-  'Advanced' translate.
-
-  char * adv_translate Returns the english gloss of the word passed.
-
-  char *w
-
-  TransContext ctx
-  ++++++++++++++++++++++++++++++++++++++*/
-
-char *
-adv_translate(char *w, int place, TransContext ctx)
+}/*}}}*/
+char * adv_translate(char *w, int place, TransContext ctx)/*{{{*/
 {
   char *trans, *trans1;
   char w1n[128];
@@ -1167,5 +1019,5 @@ adv_translate(char *w, int place, TransContext ctx)
     }
   }
 
-}
+}/*}}}*/
 
