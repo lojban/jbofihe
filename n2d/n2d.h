@@ -18,6 +18,13 @@
 #define resize_array(T,arr,newN) ((T *) ((arr) ? realloc(arr,(newN)*sizeof(T)) : malloc((newN)*sizeof(T))))
 #define new_string(s) strcpy((char *)malloc((strlen(s)+1)*sizeof(char)),s)
 
+/* For typecasting, especially useful for declarations of local ptrs to args
+   of a qsort comparison fn */
+#define Castdecl(x, T, nx) T nx = (T) x
+
+#define Castderef(x, T, nx) T nx = *(T*) x
+
+
 struct State;
 struct Block;
 
@@ -61,15 +68,32 @@ typedef struct {
   int index; /* Entry's own index in the array */
   int *map; /* index by token code */
   Stringlist *nfa_sl; /* NFA exit values */
-  char *result;
+  char *result; /* Result token, computed by boolean expressions defined in input text */
+
+  /* Fields calculated in compdfa.c */
+  
+  /* The equivalence class the state is in. */
+  int eq_class;
+
+  /* Temp. storage for the new eq. class within a single pass of the splitting alg. */
+  int new_eq_class; 
+
+  /* Signature field from above is also re-used. */
+
+  int is_rep; /* Set if state is chosen as the representative of its equivalence class. */
+  int new_index; /* New index assigned to the state. */
 
   /* Fields calculated in tabcompr.c */
   
   unsigned long transition_sig;
 
-  int defstate;
-  int best_diff;
+  /* Default state, i.e. the one that supplies transitions for tokens not explicitly listed for this one. */
+  int defstate; 
+  /* Number of transitions that this state has different to those in the default state. */
+  int best_diff; 
   
+
+
 } DFANode;
 
 
@@ -113,5 +137,11 @@ void set_symbol_value(char *sym_name);
 int evaluate_result(char **);
 
 void compress_transition_table(DFANode **dfas, int ndfas, int ntokens);
+unsigned long increment(unsigned long x, int field);
+unsigned long count_bits_set(unsigned long x);
+
+/* Return new number of DFA states */
+int compress_dfa(DFANode **dfas, int ndfas, int ntokens);
+
 #endif /* N2D_H */
 

@@ -814,6 +814,7 @@ add_dfa(Block *b, unsigned long *nfas, int N, int Nt)
   dfas[ndfa]->nfas = new_array(unsigned long, round_up(N));
   dfas[ndfa]->map = new_array(int, Nt);
   dfas[ndfa]->index = ndfa;
+  dfas[ndfa]->defstate = -1;
 
   for (j=0; j<round_up(N); j++) {
     unsigned long x = nfas[j];
@@ -992,18 +993,20 @@ print_dfa(Block *b)
   
   for (i=0; i<ndfa; i++) {
     fprintf(stderr, "DFA state %d\n", i);
-    fprintf(stderr, "  NFA states :\n");
-    for (j0=0; j0<rup_N; j0++) {
-      current_nfas = dfas[i]->nfas[j0];
-      if (!current_nfas) continue;
-      j0_5 = j0<<5;
-      for (j1=0, mask=1UL; j1<32; mask<<=1, j1++) {
-        if (current_nfas & mask) {
-          fprintf(stderr, "    %s\n", b->states[j0_5 + j1]->name);
+    if (dfas[i]->nfas) {
+      fprintf(stderr, "  NFA states :\n");
+      for (j0=0; j0<rup_N; j0++) {
+        current_nfas = dfas[i]->nfas[j0];
+        if (!current_nfas) continue;
+        j0_5 = j0<<5;
+        for (j1=0, mask=1UL; j1<32; mask<<=1, j1++) {
+          if (current_nfas & mask) {
+            fprintf(stderr, "    %s\n", b->states[j0_5 + j1]->name);
+          }
         }
       }
+      fprintf(stderr, "\n");
     }
-    fprintf(stderr, "\n");
     fprintf(stderr, "  Transitions :\n");
     for (t=0; t<Nt; t++) {
       int dest = dfas[i]->map[t];
@@ -1239,7 +1242,18 @@ int main (int argc, char **argv)
   compress_nfa(main_block);
   build_transmap(main_block);
   build_dfa(main_block, start_state->index);
+  fprintf(stderr, "--------------------------------\n"
+                  "DFA structure before compression\n"
+                  "--------------------------------\n");
+  print_dfa(main_block);
+  
+  ndfa = compress_dfa(dfas, ndfa, ntokens);
+
   compress_transition_table(dfas, ndfa, ntokens);
+
+  fprintf(stderr, "-------------------------------\n"
+                  "DFA structure after compression\n"
+                  "-------------------------------\n");
   print_dfa(main_block);
 
   if (had_ambiguous_result) {
