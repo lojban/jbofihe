@@ -1,3 +1,52 @@
+New in version 0.37
+===================
+
+(updated as far as 18 June).
+
+general
+=======
+- Include contributed Emacs Lisp functions for driving jbofi'e.
+- Add fold markers in some of the source code for editing with VIM version 6
+
+jbofihe
+=======
+- Improve translations of vowels & other words followed by "bu".  (Only a
+  partial list is included in the extradict file.)
+- Fix crashes which occurred when tagging term places when the selbri was "jai"
+  followed by something other than a brivla.
+- Add entries for mu'e, pu'u, za'i, zu'o to the 'patterns' file for use in
+  glossing unknown lujvo.
+- Integrate recognition of cultural rafsi in lujvo into the ordinary state
+  machine (so now 1 integrated state machine instead of 2 separate ones).
+  Consequent reduction in table sizes.
+- Fix bug : missing 'break' statements causing fall-through and hence bogus
+  access on another branch of a union.
+- Deprecate -g command option from man page.
+
+vlatai
+======
+- For stage 3 fu'ivla, show forward slashes to split the rafsi prefix from the
+  hyphen and the hyphen from the word tail.
+- Recognize an extension to stage 3 fu'ivla, with >1 rafsi before the hyphen
+- Cultural rafsi scanning improvement as for jbofihe.  Remove -cr command line
+  argument.
+- Only show exit value of state machine in verbose (-v) mode.
+- Detect and show bad cmene forms (la/lai/doi break-up)
+
+lexer generator (n2d/*)
+===============
+- Add handling of 'state attributes' (to allow actions to be run when automaton
+  is in DFA states corresponding to particular NFA states)
+- Fix bug in NFA compressor, where algorithm could run off the end of an array.
+- Fix bug in DFA compressor (was functionally correct but over-pessimistic
+  about combining states)
+- Improve command line options
+- Add %{ ... %} text inclusion facility
+- Allow exit and attribute table element types to be defined by input grammar
+- Add 'early exit' capability for DFA states that will immediately exit (=>
+  reduced table sizes + more state merging)
+- Provide next_state functions in the output file.
+
 New in version 0.36
 ===================
 
