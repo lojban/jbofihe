@@ -1,0 +1,19 @@
+;;bjoern gohla <b.gohla@gmx.de> 31.03.2001
+;;attach this to your emacs init file     
+;;you will probably want to adjust program path and options
+(defun lojban-gloss () ""                                  
+  (interactive "_")                                        
+  (shell-command-on-region (region-beginning) (region-end)                                        
+"~/lojban/jbofihe-0.35/cmafihe -b")                                        
+)
+
+(global-set-key "\C-x=" 'lojban-gloss)
+
+(defun lojban-parse () ""
+  (interactive "_")      
+  (shell-command-on-region (region-beginning) (region-end)      
+"~/lojban/jbofihe-0.35/jbofihe")      
+)
+
+(global-set-key "\C-x-" 'lojban-parse)
+
