@@ -14,7 +14,7 @@ MANDIR=$(PREFIX)/man/man1
 
 INSTALL=@@INSTALLPROG@@
 CC=gcc
-CFLAGS= @@OPTDEBUG@@ -DDEFAULT_DICTIONARY=\"$(DICTIONARY)\"
+CFLAGS= @@OPTDEBUG@@ -DHAVE_MMAP=1 -DDEFAULT_DICTIONARY=\"$(DICTIONARY)\"
 
 OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc_tab.o functions.o \
         categ.o nonterm.o tree.o translate.o latex.o \
@@ -146,35 +146,35 @@ main.o: main.c nodes.h nonterm.h functions.h output.h version.h
 lex1.o: lex1.c cmavotab.h nodes.h nonterm.h functions.h output.h \
  lujvofns.h
 lex2.o: lex2.c functions.h nonterm.h nodes.h output.h cmavotab.h \
- rpc.tab.h
-cmavotab.o: cmavotab.c cmavotab.h rpc.tab.h
+ rpc_tab.h
+cmavotab.o: cmavotab.c cmavotab.h rpc_tab.h
 rpc.tab.o: rpc.tab.c nodes.h nonterm.h functions.h output.h
 functions.o: functions.c functions.h nonterm.h nodes.h output.h \
- rpc.tab.h
-categ.o: categ.c nodes.h nonterm.h rpc.tab.h functions.h output.h \
+ rpc_tab.h
+categ.o: categ.c nodes.h nonterm.h rpc_tab.h functions.h output.h \
  stag.h
 nonterm.o: nonterm.c
 tree.o: tree.c nonterm.h functions.h nodes.h output.h cmavotab.h \
- rpc.tab.h
+ rpc_tab.h
 translate.o: translate.c functions.h nonterm.h nodes.h output.h \
  canonluj.h
 latex.o: latex.c functions.h nonterm.h nodes.h output.h latex.h
 properties.o: properties.c nodes.h nonterm.h functions.h output.h
 conversion.o: conversion.c nodes.h nonterm.h functions.h output.h \
- rpc.tab.h cmavotab.h
-terms.o: terms.c functions.h nonterm.h nodes.h output.h rpc.tab.h \
+ rpc_tab.h cmavotab.h
+terms.o: terms.c functions.h nonterm.h nodes.h output.h rpc_tab.h \
  cmavotab.h
 memory.o: memory.c functions.h nonterm.h nodes.h output.h
-tenses.o: tenses.c rpc.tab.h nonterm.h functions.h nodes.h output.h
+tenses.o: tenses.c rpc_tab.h nonterm.h functions.h nodes.h output.h
 output.o: output.c nodes.h nonterm.h functions.h output.h cmavotab.h \
- rpc.tab.h
+ rpc_tab.h
 textout.o: textout.c functions.h nonterm.h nodes.h output.h
 htmlout.o: htmlout.c functions.h nonterm.h nodes.h output.h
-connect.o: connect.c nodes.h nonterm.h functions.h output.h rpc.tab.h \
+connect.o: connect.c nodes.h nonterm.h functions.h output.h rpc_tab.h \
  cmavotab.h
 stag.o: stag.c
 latexblk.o: latexblk.c functions.h nonterm.h nodes.h output.h latex.h
-relative.o: relative.c nodes.h nonterm.h rpc.tab.h functions.h \
+relative.o: relative.c nodes.h nonterm.h rpc_tab.h functions.h \
  output.h cmavotab.h
 textblk.o: textblk.c functions.h nonterm.h nodes.h output.h
 errorscan.o: errorscan.c functions.h nonterm.h nodes.h output.h
