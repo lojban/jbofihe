@@ -284,6 +284,10 @@ conv_mark_gloss_types(TreeNode *x, GlossState g)
 
   if (x->type == N_NONTERM) {
 
+#if 0
+    fprintf(stderr, "MGT called on nonterm ty=%s gs=%d\n", nonterm_names[x->data.nonterm.type], g);
+#endif
+
     nt = &x->data.nonterm;
     nc = nt->nchildren;
 
@@ -330,6 +334,18 @@ conv_mark_gloss_types(TreeNode *x, GlossState g)
     }
 
   } else {
+
+#if 0
+    if (x->type == N_BRIVLA) {
+      fprintf(stderr, "MGT called on brivla %s gs=%d\n", x->data.brivla.word, g);
+    }
+
+    if (x->type == N_CMAVO) {
+      fprintf(stderr, "MGT called on cmavo %s gs=%d\n", cmavo_table[x->data.cmavo.code].cmavo, g);
+
+    }
+#endif
+
     if ((x->type == N_BRIVLA) ||
         ((x->type == N_CMAVO) &&
          (x->data.cmavo.selmao == NU))) {
