@@ -5636,19 +5636,18 @@ steci3:D;set* with special member
 steci3t:amongst
 #
 # x1 is a/the head [body-part] of x2; [metaphor: uppermost portion]                               
-#stedu1:DSAP;
-#stedu2:DSAP;
-#stedu3:DSAP;
+stedu1:D;head
+stedu2:D;body* with head
 #
 # x1 is a lock/seal of/on/for sealing x2 with/by locking mechanism x3                             
-#stela1:DSAP;
-#stela2:DSAP;
-#stela3:DSAP;
+stela1:D;lock
+stela2:P;locked
+stela3:D;locking mechanism
 #
 # x1 is x2 steradian(s) [metric unit] in solid angle (default is 1) by standard x3                
-#stero1:DSAP;
-#stero2:DSAP;
-#stero3:DSAP;
+stero1:R;measured in steradian
+stero2:D;number of steradians
+stero3:D;steradian standard
 #
 # x1 is to the west/western side of x2 according to frame of reference x3                         
 stici1:P;to the west
@@ -5664,14 +5663,12 @@ stidi3:D;audience* of suggestion
 stidi3t:to audience
 #
 # x1 (event) adjusts/regulates/changes x2 (ka/ni) in amount/degree x3                             
-#stika1:DSAP;
-#stika2:DSAP;
-#stika3:DSAP;
+stika1:A;adjust
+stika2:P;adjusted
+stika3:D;amount* of adjustment
 #
 # x1 is a chair/stool/seat/bench, a piece or portion of a piece of furniture intended for sitting 
-#stizu1:DSAP;
-#stizu2:DSAP;
-#stizu3:DSAP;
+stizu1:D;seat
 #
 # x1 is constant/invariant/unchanging in property x2 (ka) in response to stimulus/conditions x3   
 stodi1:P;constant
@@ -5687,70 +5684,72 @@ stuna3:D;eastness reference frame
 stuna3t:reference frame
 #
 # x1 is a structure/arrangement/organization of x2 [set/system/complexity]                        
-#stura1:DSAP;
-#stura2:DSAP;
+stura1:D;structure
+stura2:P;structured
 #
 # x1 is an inherent/inalienable site/place/position/situation/spot/location of x2 (object/event)  
-#stuzi1:DSAP;
-#stuzi2:DSAP;
+stuzi1:D;site
+stuzi2:P;sited
 #
 # x1 (si'o) is abstracted/generalized/idealized from x2 [something concrete] by rules x3          
-#sucta1:DSAP;
-#sucta2:DSAP;
-#sucta3:DSAP;
+sucta1:D;abstraction
+sucta2:P;abstracted
+sucta3:D;abstraction rule
 #
 # x1 is dry of liquid x2; (adjective:) x1 is arid                                                 
-#sudga1:DSAP;
+sudga1:P;dry
+sudga2:D;liquid
 #
 # x1 is a/the hoof [body-part] of x2                                                              
-#sufti1:DSAP;
-#sufti2:DSAP;
+sufti1:D;hoof
+sufti1n:hoof/ves
+sufti2:P;hoofed
 #
 # x1 (event/state) is sudden/sharply changes at stage/point x2 in process/property/function x3    
-#suksa1:DSAP;
-#suksa2:DSAP;
-#suksa3:DSAP;
+suksa1:P;sudden
+suksa2:D;discontinuity
+suksa3:R;suddenly changed
 #
 # x1 is a mathematical sum/result/total of x2 plus/increased by x3                                
-#sumji1:DSAP;
-#sumji2:DSAP;
-#sumji3:DSAP;
+sumji1:D;total
+sumji2:D;summand
+sumji3:D;summand
 #
 # x1 (experiencer) smells/scents (transitive verb) x2; x2 smells/has odor/scent to observer x1    
-#sumne1:DSAP;
-#sumne2:DSAP;
+sumne1:A;smell
+sumne2:P;smelled
 #
 # x1 is a/the argument of predicate/function x2 filling place x3 (kind/number)                    
-#sumti1:DSAP;
-#sumti2:DSAP;
-#sumti3:DSAP;
+sumti1:D;argument
+sumti2:D;predicate
+sumti3:D;argument place
 #
 # x1 is a quantity of garlic [bulb] of species/strain x2                                          
-#sunga1:DSAP;
-#sunga2:DSAP;
+sunga1:S;garlic
+sunga2:S;garlic species
 #
 # x1 is a quantity of/made from/consists of wool [tight curly hair] from animal/species/source x2 
-#sunla1:DSAP;
-#sunla2:DSAP;
+sunla1:S;wool
+sunla2:D;wool source
 #
 # x1 relaxes/rests/is at ease in/by doing/being x2 (activity)                                     
-#surla1:DSAP;
-#surla2:DSAP;
+surla1:A;relax
+surla2:P;relaxing
 #
 # x1 is fast/swift/quick/hastes/rapid at doing/being/bringing about x2 (event/state)              
 sutra1:P;swift
 sutra2:E;event/state* achieved swiftly
 #
 # x1 is a quantity of/contains/is made of carbon/graphite/[diamond]/charcoal; x1 is organic       
-#tabno1:DSAP;
+tabno1:S;carbon
 #
 # x1 is a horn/trumpet/trombone/bugle [brass-wind/lip-reed musical instrument]                    
-#tabra1:DSAP;
+tabra1:D;horn
 #
 # x1 [process] is a method/technique/approach/means for doing x2 (event) under conditions x3      
-#tadji1:DSAP;
-#tadji2:DSAP;
-#tadji3:DSAP;
+tadji1:D;method
+tadji2:R;having method
+tadji3:D;method condition
 #
 # x1 studies/is a student of x2; x1 is a scholar; (adjective:) x1 is scholarly                    
 tadni1:A;study
@@ -5759,55 +5758,62 @@ tadni1a:scholarly
 tadni2:P;studied
 #
 # x1 is snug/tight on x2 in dimension/direction x3 at locus x4                                    
-#tagji1:DSAP;
-#tagji2:DSAP;
-#tagji3:DSAP;
-#tagji4:DSAP;
+tagji1:P;snug
+tagji2:R;fitted snugly
+tagji3:D;snug dimension
+tagji4:S;locus of snugness
 #
 # x1 (person) challenges x2 at/in property x3                                                     
-#talsa1:DSAP;
-#talsa2:DSAP;
-#talsa3:DSAP;
+talsa1:A;challenger
+talsa2:P;challenged
+talsa3:D;challenged property
 #
 # x1 is a tomato [fruit/vegetable/plant] of species/strain x2                                     
-#tamca1:DSAP;
-#tamca2:DSAP;
+tamca1:D;tomato
+tamca2:S;tomato species
 #
 # x1 is a/the thumb/big toe [body-part] on limb x2 of x3; [metaphor based on relative shape]      
-#tamji1:DSAP;
-#tamji2:DSAP;
+tamji1:D;thumb
+tamji2:D;body* with thumb
 #
 # x1 is cousin to x2 by bond/tie x3; [non-immediate family member, default same generation]       
-#tamne1:DSAP;
-#tamne2:DSAP;
+tamne1:D;cousin
+tamne2:R;having cousin
+tamne3:D;cousin bond
 #
 # x1 is a board/plank [3-dimensional long flat rectangle] of material x2                          
-#tanbo1:DSAP;
-#tanbo2:DSAP;
+tanbo1:D;board
+tanbo2:D;board material
 #
 # x1 is a/the tongue [body-part] of x2; (metaphor: similar to nazbi, tamji, degji)                
-#tance1:DSAP;
-#tance2:DSAP;
+tance1:D;tongue
+tance2:D;body* with tongue
 #
 # x1 is the trigonometric tangent of angle/arctangent x2                                          
-#tanjo1:DSAP;
-#tanjo2:DSAP;
+tanjo1:D;tangent
+tanjo2:D;angle* with tangent
 #
 # x1 is a quantity of tobacco [leaf] of species/strain x2                                         
-#tanko1:DSAP;
-#tanko2:DSAP;
+tanko1:S;tobacco
+tanko2:S;tobacco species
 #
 # x1 is a binary metaphor formed with x2 modifying x3, giving meaning x4 in usage/instance x5     
-#tanru1:DSAP;
-#tanru2:DSAP;
-#tanru3:DSAP;
-#tanru4:DSAP;
-#tanru5:DSAP;
+tanru1:D;metaphor
+tanru2:D;metaphor modifier
+tanru2t:modifier
+tanru3:D;metaphor base
+tanru3t:base
+tanru4:D;metaphor meaning
+tanru4t:meaning
+tanru5:D;metaphor usage
+tanru5t:usage
 #
 # x1 is a pan/basin/tub/sink, a shallow container for contents x2, of material/properties x3      
-#tansi1:DSAP;
-#tansi2:DSAP;
-#tansi3:DSAP;
+tansi1:D;basin
+tansi2:S;basin contents
+tansi2t:for contents
+tansi3:D;basin material
+tansi3t:of material
 #
 # x1 is a box/carton/trunk/crate for contents x2, and made of material x3                         
 tanxe1:D;box
@@ -5815,15 +5821,18 @@ tanxe2:D;box content
 tanxe3:S;box material
 #
 # x1 is a tile/cake [shape/form] of material x2, shape x3, thickness x4                           
-#tapla1:DSAP;
-#tapla2:DSAP;
-#tapla3:DSAP;
-#tapla4:DSAP;
+tapla1:D;tile
+tapla2:D;tile material
+tapla2t:of material
+tapla3:D;tile shape
+tapla3t:of shape
+tapla4:D;tile thickness
+tapla4t:of thickness
 #
 # x1 is an embryo/zygote/fetus/fertilized egg with mother x2, and father x3                       
-#tarbi1:DSAP;
-#tarbi2:DSAP;
-#tarbi3:DSAP;
+tarbi1:D;embryo
+tarbi2:D;embryo mother
+tarbi3:D;embryo father
 #
 # x1 is a star/sun with stellar properties x2                                                     
 tarci1:D;star
@@ -6432,8 +6441,8 @@ vrusi1:D;taste
 vrusi2:R;having taste
 #
 # x1 reflects Ukrainian language/culture/nationality in aspect x2                                 
-#vukro1:DSAP;
-#vukro2:DSAP;
+vukro1:P;Ukrainian
+vukro2:D;Ukrainian aspect
 #
 # x1 dwells/lives/resides/abides at/inhabits/is a resident of location/habitat/nest/home/abode x2 
 xabju1:A;dwell
@@ -6567,21 +6576,21 @@ xatra4:D;content* of letter
 xatra4t:with content
 #
 # x1 is 1x10**-18 of x2 in dimension/aspect x3 (default is units)                                 
-#xatsi1:DSAP;
-#xatsi2:DSAP;
-#xatsi3:DSAP;
+xatsi1:D;10**-18
+xatsi2:R;measured in 10**-18
+xatsi3:D;10**-18 aspect
 #
 # x1 reflects Asiatic culture/nationality/geography in aspect x2                                  
-#xazdo1:DSAP;
-#xazdo2:DSAP;
+xazdo1:P;Asiatic
+xazdo2:D;Asiatic aspect
 #
 # x1 hates/despises x2 (object/abstraction); x1 is full of hate for x2; x2 is odious to x1        
 xebni1:A;hate
 xebni2:P;hated
 #
 # x1 reflects Hebrew/Jewish/Israeli culture/nationality/language in aspect x2                     
-#xebro1:DSAP;
-#xebro2:DSAP;
+xebro1:P;Hebrew
+xebro2:D;Hebrew aspect
 #
 # x1 is a hundred [100; 1x10**2] of x2 in dimension/aspect x3 (default is units)                  
 xecto1:D;hundred
@@ -6598,8 +6607,8 @@ xedja2t:of body
 xekri1:P;black
 #
 # x1 reflects Greek/Hellenic culture/nationality/language in aspect x2                            
-#xelso1:DSAP;
-#xelso2:DSAP;
+xelso1:P;Greek
+xelso2:D;Greek aspect
 #
 # x1 (person) is kind to x2 in actions/behavior x3                                                
 xendo1:P;kind
@@ -6611,13 +6620,13 @@ xenru1:A;regret
 xenru2:R;regretted
 #
 # x1 is 1x10**18 of x2 in dimension/aspect x3 (default is units)                                  
-#xexso1:DSAP;
-#xexso2:DSAP;
-#xexso3:DSAP;
+xexso1:D;10**18
+xexso2:R;measured in 10**18
+xexso3:D;10**18 aspect
 #
 # x1 reflects Hindi language/culture/religion in aspect x2                                        
-#xindo1:DSAP;
-#xindo2:DSAP;
+xindo1:P;Hindi
+xindo2:D;Hindi aspect
 #
 # x1 is a quantity of ink of color/pigment x2 used by writing device x3                           
 xinmo1:S;ink
@@ -6638,8 +6647,8 @@ xislu3:S;wheel material/properties
 xislu3t:of material/properties
 #
 # x1 reflects Hispano-American culture/nationalities in aspect x2                                 
-#xispo1:DSAP;
-#xispo2:DSAP;
+xispo1:P;Hispanic
+xispo2:D;Hispanic aspect
 #
 # x1 is bad for x2 by standard x3; x1 is poor/unacceptable to x2                                  
 xlali1:P;bad
@@ -6661,8 +6670,8 @@ xotli3:D;hotel operator
 xotli3t:operated by
 #
 # x1 reflects Arabic-speaking culture/nationality in aspect x2                                    
-#xrabo1:DSAP;
-#xrabo2:DSAP;
+xrabo1:P;Arabic
+xrabo2:D;Arabic aspect
 #
 # x1 (event) injures/harms/damages victim x2 in property x3 (ka) resulting in injury x4 (state)   
 xrani1:R;causing harm
@@ -6671,8 +6680,8 @@ xrani3:D;damaged aspect
 xrani4:S;damage
 #
 # x1 pertains to the Christian religion/culture/nationality in aspect x2                          
-#xriso1:DSAP;
-#xriso2:DSAP;
+xriso1:P;Christian
+xriso2:D;Christian aspect
 #
 # x1 is a quantity of buckwheat/rhubarb/sorrel grass of species/strain x2                         
 xruba1:S;buckwheat/rhubarb
@@ -6706,8 +6715,8 @@ xukmi3:S;purity
 xunre1:P;red
 #
 # x1 reflects Urdu language/culture/nationality in aspect x2                                      
-#xurdo1:DSAP;
-#xurdo2:DSAP;
+xurdo1:P;Urdu
+xurdo2:D;Urdu aspect
 #
 # x1 (agent) asserts/claims/declares x2 (du'u) is true [can be used for epistemology of authority]
 xusra1:A;assert
