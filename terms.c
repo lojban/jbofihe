@@ -763,12 +763,26 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
   if (c1->type == N_CMAVO) {
     switch (c1->data.cmavo.selmao) {
       case GOhA:
+        fprintf(stderr, "GOhA not handled yet for place tags at line %d column %d\n",
+                c1->start_line, c1->start_column);
+        break;
       case ME:
+        {
+          XTermTag tt;
+          XRequireBrac *xrb;
+          tt.type = TTT_ME;
+          tt.me.sumti = find_nth_child(tu2, 1, SUMTI);
+          assert(tt.me.sumti);
+          xrb = prop_require_brac (tt.me.sumti, YES);
+          assign_places(pre, post, lc, &tt);
+        }
+      break;
       case NUhA:
-        fprintf(stderr, "NUhA, GOhA and ME not handled yet for place tags at line %d column %d\n",
+        fprintf(stderr, "NUhA not handled yet for place tags at line %d column %d\n",
                 c1->start_line, c1->start_column);
         break;
     }
+
   } else if (c1->type == N_BRIVLA) {
 
     XTermTag tt;
@@ -1557,6 +1571,38 @@ process_relative_clause(TreeNode *x)
   }
 }
 
+
+/*++++++++++++++++++++++++++++++++++++++
+  Handle metalinguistic constructions (SEI...).  This is slightly
+  different to the other cases, in that we have to resolve the terms
+  and selbri ourselves.
+
+  TreeNode *x
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+process_metalinguistic(TreeNode *x)
+{
+  TermVector pre, post;
+  TreeNode *terms, *mmselbri, *selbri;
+  LinkConv lc;
+
+  terms = find_nth_child(x, 1, TERMS);
+  mmselbri = find_nth_child(x, 1, METALINGUISTIC_MAIN_SELBRI);
+  assert(mmselbri);
+  selbri = child_ref(mmselbri, 0);
+  tv_init(&pre);
+  tv_init(&post);
+  
+  if (terms) {
+    tv_build(&pre, terms);
+  }
+
+  lc_init(&lc);
+  process_selbri_args(selbri, &pre, &post, &lc);
+
+}
+
 /*++++++++++++++++++++++++++++++
   Seek recursively downwards looking for treenodes of type
   STATEMENT_3, ABSTRACTION.  We're really interested in SENTENCE, but
@@ -1587,6 +1633,8 @@ scan_for_sentence_parents(TreeNode *x)
       process_abstraction(x);
     } else if (nt->type == RELATIVE_CLAUSE) {
       process_relative_clause(x);
+    } else if (nt->type == METALINGUISTIC) {
+      process_metalinguistic(x);
     }
 
     /* Traverse down even for statement_3 (there may be abstractors,
