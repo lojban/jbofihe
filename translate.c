@@ -406,7 +406,7 @@ CLASS   |     N(oun)       V(erb) (4)          Q(ualifier)        T(ag) (2)
         |
   A     |    X-er(s) (3)     X-ing (3)            X-ing (3)      X-er(s) (3)
         |
-  P     |    X thing         being X                X            X thing
+  P     |    X thing(s)      being X                X            X thing(s)
 
   Notes
   (1) a->an if X starts with a vowel.
@@ -766,39 +766,30 @@ adv_translate(char *w, int place, TransContext ctx)
   char ctx_suffix[4] = "nvqt";
   char *ctx_suf_as_string[4] = {"n", "v", "q", "t"};
   enum {CL_DISCRETE, CL_SUBSTANCE, CL_ACTOR, CL_PROPERTY} wordclass;
+  int found_full_trans=0;
 
   /* Try looking up the explicit gloss asked for */
   sprintf(buffer, "%s%1d%c", w, place, ctx_suffix[ctx]);
   trans = translate(buffer);
+  if (trans) {
+    found_full_trans = 1;
+  }
+
+  if (!trans) {
+    /* OK, no full translation found.  Lookup the wn form */
+    sprintf(buffer, "%s%1d", w, place);
+    trans = translate(buffer);
+    if (!trans) {
+      /* Try to match sel..., ter..., ...mau etc */
+      trans = translate_pattern(w, place, "");
+    }
+  }
 
   if (!trans) {
     /* Try to match sel..., ter..., ...mau etc */
     trans = translate_pattern(w, place, ctx_suf_as_string[ctx]);
   }
 
-  if (trans) {
-    
-    if (trans[0] == '@') {
-      strcpy(buffer, trans+1);
-      trans = translate(buffer);
-      if (trans) {
-        return trans;
-      }
-
-      /* Fall through to wn form bit if no translation matched */
-
-    } else {
-      return trans;
-    }
-  }
-
-  /* OK, no full translation found.  Lookup the wn form */
-  sprintf(buffer, "%s%1d", w, place);
-  trans = translate(buffer);
-  if (!trans) {
-    /* Try to match sel..., ter..., ...mau etc */
-    trans = translate_pattern(w, place, "");
-  }
   if (trans) {
     if (trans[0] == '@') {
       char *p, *q;
@@ -929,7 +920,7 @@ adv_translate(char *w, int place, TransContext ctx)
         case CL_PROPERTY:
           switch (ctx) {
             case TCX_NOUN:
-              sprintf(result, "%s thing", w1);
+              sprintf(result, "%s thing(s)", w1);
               break;
             case TCX_VERB:
               sprintf(result, "being %s", w1);
@@ -938,7 +929,7 @@ adv_translate(char *w, int place, TransContext ctx)
               strcpy(result, w1);
               break;
             case TCX_TAG:
-              sprintf(result, "%s thing", w1);
+              sprintf(result, "%s thing(s)", w1);
               break;
           }
           break;
@@ -947,8 +938,11 @@ adv_translate(char *w, int place, TransContext ctx)
       return result;
 
     } else {
-      fprintf(stderr, "No advanced entry for [%s]\n", buffer);
-      /* Not an advanced entry, we have to just return the word as-is */
+      if (!found_full_trans) {
+        fprintf(stderr, "No advanced entry for [%s]\n", buffer);
+      }
+      /* Either it's not an advanced entry, we have to just return the
+         word as-is, OR the word1n form matched. */
       return trans;
     }
   } else {
@@ -962,6 +956,7 @@ adv_translate(char *w, int place, TransContext ctx)
       strcat(result, "??");
       return result;
     } else {
+      fprintf(stderr, "No dictionary entry for [%s], attempting to break up as lujvo\n", w);
       trans = translate_unknown(w);
       if (trans) {
         strcpy(result, trans);
