@@ -5031,9 +5031,9 @@ solri2:D;planet* with sun
 #spati2:DSAP;
 #
 # x1 is married to x2; x1 is a spouse of x2 under law/custom/tradition/system/convention x3       
-#speni1:DSAP;
-#speni2:DSAP;
-#speni3:DSAP;
+speni1:P;married
+speni2:P;married to
+speni3:D;custom* for marriage
 #
 # x1 [object/substance] is a piece/portion/lump/chunk/particle of x2 [substance]                  
 #spisa1:DSAP;
