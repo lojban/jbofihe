@@ -1772,6 +1772,79 @@ scan_for_sentence_parents(TreeNode *x)
 
 
 /*++++++++++++++++++++++++++++++++++++++
+  Scan down into the selbri inside a 'quantifier selbri' sumti, to
+  mark up the tertau for conversions.
+
+  TreeNode *x
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+process_sumti_5b(TreeNode *x)
+{
+  TreeNode *c;
+  LinkConv lc;
+
+  TermVector empty_tv;
+  tv_init(&empty_tv);
+
+  c = find_nth_child(x, 1, SELBRI);
+  assert(c);
+  lc_init(&lc);
+  process_selbri_args(c, &empty_tv, &empty_tv, &lc);
+}
+
+/*++++++++++++++++++++++++++++++++++++++
+  Scan down into the selbri inside a sumti_tail construction.
+
+  TreeNode *x
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+process_sumti_tail_1a(TreeNode *x)
+{
+  TreeNode *c;
+  LinkConv lc;
+
+  TermVector empty_tv;
+  tv_init(&empty_tv);
+
+  c = find_nth_child(x, 1, SELBRI);
+  assert(c);
+  lc_init(&lc);
+  process_selbri_args(c, &empty_tv, &empty_tv, &lc);
+}
+
+
+/*++++++++++++++++++++++++++++++
+  Process selbri in the context of sumti.  Allows conversions to be
+  handled with full generality.
+  ++++++++++++++++++++++++++++++*/
+
+static void
+scan_for_selbri_in_sumti(TreeNode *x)
+{
+  int nc, i;
+  struct nonterm *nt;
+  TreeNode *c;
+
+  if (x->type == N_NONTERM) {
+    nt = &x->data.nonterm;
+
+    if (nt->type == SUMTI_5B) {
+      process_sumti_5b(x);
+    } else if (nt->type == SUMTI_TAIL_1A) {
+      process_sumti_tail_1a(x);
+    }
+
+    nc = nt->nchildren;
+    for (i=0; i<nc; i++) {
+      c = nt->children[i];
+      scan_for_selbri_in_sumti(c);
+    }
+  }
+}
+
+/*++++++++++++++++++++++++++++++++++++++
   Check whether there are linked sumti and add property
 
   TreeNode *tu1 The tanru_unit_1 parse node
@@ -1926,5 +1999,6 @@ terms_processing(TreeNode *top)
 {
   scan_tu1_phase1(top);
   scan_for_sentence_parents(top);
+  scan_for_selbri_in_sumti(top);
   scan_tu1_phase2(top);
 }
