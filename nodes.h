@@ -145,7 +145,8 @@ typedef struct x_glosstype {
 typedef enum {
   TTT_BRIVLA,
   TTT_JAITAG,
-  TTT_JAI
+  TTT_JAI,
+  TTT_ABSTRACTION
 } XTermTagType;
 
 typedef struct {
@@ -160,12 +161,20 @@ typedef struct {
   int pad;
 } XTT_Jai;
 
+typedef struct {
+  struct treenode *nu;
+} XTT_Abstraction;
+
 typedef struct x_termtag {
   XTermTagType type;
   int pos; /* Needs extending to do JAI etc */
+
+  /* Not union, because the jai variants need to access the brivla one
+     too.  Look at cleaning this up sometime */
   XTT_Brivla brivla;
   XTT_JaiTag jaitag;
   XTT_Jai    jai;
+  XTT_Abstraction abstraction;
 } XTermTag;
 
 typedef struct x_termtags {

@@ -595,6 +595,81 @@ translate_brivla (TreeNode *x, char *eng)
   }
 }
 
+/*++++++++++++++++++++++++++++++++++++++
+
+  TreeNode *x
+
+  char *eng
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+translate_abstraction (TreeNode *x, char *eng)
+{
+  char buffer[1024];
+  char *trans;
+  int code;
+  char *cmavo;
+  XConversion *conversion;
+  XGlosstype *gt;
+  int conv;
+
+  code = x->data.cmavo.code;
+  cmavo = cmavo_table[code].cmavo;
+
+  eng[0] = 0;
+  conversion = prop_conversion(x, NO);
+  if (conversion) {
+    conv = conversion->conv;
+  } else {
+    conv = 1;
+  }
+  gt = prop_glosstype(x, NO);
+  if (gt) {
+    if (gt->in_selbri) {
+      if (gt->is_tertau) {
+        trans = adv_translate(cmavo, conv, TCX_VERB);
+      } else {
+        trans = adv_translate(cmavo, conv, TCX_QUAL);
+      }
+    } else {
+      /* In a sumti */
+      if (gt->is_tertau) {
+        trans = adv_translate(cmavo, conv, TCX_NOUN);
+      } else {
+        trans = adv_translate(cmavo, conv, TCX_QUAL);
+      }
+    }
+    if (trans) {
+      strcpy(eng, trans);
+    } else {
+      eng[0] = 0;
+    }
+  } else {
+    sprintf(buffer, "%s%1d", cmavo, conv);
+    trans = translate(buffer);
+    if (trans) {
+      strcpy(eng, trans);
+    } else {
+      trans = translate(cmavo);
+      if (trans) {
+        strcpy(eng, trans);
+        if (conversion) {
+          /* If we had to resort to a bare translation and there was
+             a SE prefix, something is wrong. */
+          strcat(eng, " (CONV?)");
+        }
+      } else {
+        trans = translate_unknown(cmavo);
+        if (trans) {
+          strcpy(eng, trans);
+        } else {
+          eng[0] = 0;
+        }
+      }
+    }
+  }
+}
+
 /*++++++++++++++++++++++++++++++
   
   ++++++++++++++++++++++++++++++*/
@@ -615,6 +690,10 @@ get_lojban_word_and_translation (TreeNode *x, char *loj, char *eng)
 
         case SE:
           translate_se(x, eng);
+          break;
+
+        case NU:
+          translate_abstraction(x, eng);
           break;
 
         case PU:
@@ -715,6 +794,18 @@ output_term(TreeNode *x, WhatToShow what)
               (drv->write_tag_text) ("", "", trans, NO);
             }
             break;
+          case TTT_ABSTRACTION:
+            {
+              int code;
+              char *cmavo;
+              code = tag->abstraction.nu->data.cmavo.code;
+              cmavo = cmavo_table[code].cmavo;
+              trans = adv_translate(cmavo, tag->pos, TCX_TAG);
+              if (!trans) trans = "?";
+              sprintf(tp, "%d", tag->pos);
+              (drv->write_tag_text)(cmavo, tp, trans, YES);
+            }
+
           default:
             break;
         }
