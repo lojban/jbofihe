@@ -39,7 +39,29 @@ mark_children(TreeNode *parent)
   }
 }
 
+/*++++++++++++++++++++++++++++++++++++++
+  Compress child array to remove NULLs.  This situation should only arise if
+  one of the children is the result of matching an error token, and has no
+  proper contents (e.g. paragraph).  Without this, the mark_children function
+  will blow up.
+  ++++++++++++++++++++++++++++++++++++++*/
 
+static void
+compress_children(TreeNode *parent)
+{
+  int i, j;
+  struct nonterm *nt;
+
+  assert(parent->type == N_NONTERM);
+  nt = & parent->data.nonterm;
+
+  j = 0;
+  for (i=0; i<nt->nchildren; i++) {
+    if (nt->children[j] = nt->children[i]) j++;
+  }
+  nt->nchildren = j;
+  return;
+}
 
 /*++++++++++++++++++++++++++++++++++++++
   Return a new dynamically allocated token / node.
@@ -100,6 +122,7 @@ new_node_1(NonTerm nt, TreeNode *c1)
   result->data.nonterm.nchildren = 1;
   result->data.nonterm.children = new_array(TreeNode *, 1);
   result->data.nonterm.children[0] = c1;
+  compress_children(result);
   mark_children(result);
   result->data.nonterm.brackets = BR_NONE;
   return result;
@@ -129,6 +152,7 @@ new_node_2(NonTerm nt, TreeNode *c1, TreeNode *c2)
   result->data.nonterm.children = new_array(TreeNode *, 2);
   result->data.nonterm.children[0] = c1;
   result->data.nonterm.children[1] = c2;
+  compress_children(result);
   mark_children(result);
   result->data.nonterm.brackets = BR_NONE;
   return result;
@@ -161,6 +185,7 @@ new_node_3(NonTerm nt, TreeNode *c1, TreeNode *c2, TreeNode *c3)
   result->data.nonterm.children[0] = c1;
   result->data.nonterm.children[1] = c2;
   result->data.nonterm.children[2] = c3;
+  compress_children(result);
   mark_children(result);
   result->data.nonterm.brackets = BR_NONE;
   return result;
@@ -184,6 +209,7 @@ new_node_4(NonTerm nt,
   result->data.nonterm.children[1] = c2;
   result->data.nonterm.children[2] = c3;
   result->data.nonterm.children[3] = c4;
+  compress_children(result);
   mark_children(result);
   result->data.nonterm.brackets = BR_NONE;
   return result;
@@ -209,6 +235,7 @@ new_node_5(NonTerm nt,
   result->data.nonterm.children[2] = c3;
   result->data.nonterm.children[3] = c4;
   result->data.nonterm.children[4] = c5;
+  compress_children(result);
   mark_children(result);
   result->data.nonterm.brackets = BR_NONE;
   return result;
@@ -231,6 +258,7 @@ new_node_6(NonTerm nt,
   result->data.nonterm.children[3] = c4;
   result->data.nonterm.children[4] = c5;
   result->data.nonterm.children[5] = c6;
+  compress_children(result);
   mark_children(result);
   result->data.nonterm.brackets = BR_NONE;
   return result;
@@ -254,6 +282,7 @@ new_node_7(NonTerm nt,
   result->data.nonterm.children[4] = c5;
   result->data.nonterm.children[5] = c6;
   result->data.nonterm.children[6] = c7;
+  compress_children(result);
   mark_children(result);
   result->data.nonterm.brackets = BR_NONE;
   return result;
@@ -278,6 +307,7 @@ new_node_8(NonTerm nt,
   result->data.nonterm.children[5] = c6;
   result->data.nonterm.children[6] = c7;
   result->data.nonterm.children[7] = c8;
+  compress_children(result);
   mark_children(result);
   result->data.nonterm.brackets = BR_NONE;
   return result;
@@ -304,6 +334,7 @@ new_node_9(NonTerm nt,
   result->data.nonterm.children[6] = c7;
   result->data.nonterm.children[7] = c8;
   result->data.nonterm.children[8] = c9;
+  compress_children(result);
   mark_children(result);
   result->data.nonterm.brackets = BR_NONE;
   return result;
@@ -331,6 +362,7 @@ new_node_10(NonTerm nt,
   result->data.nonterm.children[7] = c8;
   result->data.nonterm.children[8] = c9;
   result->data.nonterm.children[9] = c10;
+  compress_children(result);
   mark_children(result);
   result->data.nonterm.brackets = BR_NONE;
   return result;
@@ -359,6 +391,7 @@ new_node_11(NonTerm nt,
   result->data.nonterm.children[8] = c9;
   result->data.nonterm.children[9] = c10;
   result->data.nonterm.children[10] = c11;
+  compress_children(result);
   mark_children(result);
   result->data.nonterm.brackets = BR_NONE;
   return result;
@@ -388,6 +421,7 @@ new_node_12(NonTerm nt,
   result->data.nonterm.children[9] = c10;
   result->data.nonterm.children[10] = c11;
   result->data.nonterm.children[11] = c12;
+  compress_children(result);
   mark_children(result);
   result->data.nonterm.brackets = BR_NONE;
   return result;

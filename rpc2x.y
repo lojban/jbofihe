@@ -453,6 +453,7 @@ paragraph : statement
   fprintf(stderr, "Syntax error in paragraph at line %d\n", last_tok_line);
   error_advance(0);
   yyclearin;
+  $$ = NULL;
 }
 
           | paragraph i_opt_free_seq statement
