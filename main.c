@@ -88,7 +88,7 @@ static void
 show_usage(void)
 {
   fprintf(stderr, "jbofihe version %s\n", version_string);
-  fprintf(stderr, "Copyright 1998-2000 Richard P. Curnow <rpc@myself.com>\n\n"
+  fprintf(stderr, "Copyright 1998-2001 Richard P. Curnow <rpc@myself.com>\n\n"
                   "-k           Show token lists before and after preprocessing\n"
                   "-t           Show edited parse tree\n"
                   "-tf          Show full parse tree\n"
