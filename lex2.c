@@ -25,6 +25,7 @@
 #define YYSTYPE TreeNode *
 
 #include "rpc_tab.h"
+#include "elide.h"
 
 int last_tok_line;
 int last_tok_column;
@@ -854,79 +855,91 @@ error_advance(int code)
   int yylex1
   ++++++++++++++++++++++++++++++++++++++*/
 
-int
-yylex1(void)
+void
+yylex1(TokenType *res)
 {
   static int returned_EOF = 0;
 
   if (returned_EOF) {
-    return 0;
+    res->value = 0;
+    return;
   }
 
   next_tok = next_tok->next;
 
   if (next_tok == &toks) { /* End of file condition */
     returned_EOF = 1;
-    return PRIVATE_EOF_MARK;
+    res->value = PRIVATE_EOF_MARK;
+    return;
   } else {
     /* Return a real token */
 
-    last_tok_line = yylloc.first_line = next_tok->start_line;
-    last_tok_column = yylloc.last_line = next_tok->start_line;
-    yylloc.first_column = next_tok->start_column;
-    yylloc.last_column = next_tok->start_column;
+    last_tok_line = res->yylloc.first_line = next_tok->start_line;
+    last_tok_column = res->yylloc.last_line = next_tok->start_line;
+    res->yylloc.first_column = next_tok->start_column;
+    res->yylloc.last_column = next_tok->start_column;
 
     switch (next_tok->type) {
 
       case N_MARKER:
-        yylval = next_tok;
-        return yylval->data.marker.tok;
+        res->yylval = next_tok;
+        res->value = next_tok->data.marker.tok;
+        return;
         break;
 
       case N_GARBAGE:
       case N_BROKEN_ERASURE:
         /* Needs its own parser token value */
-        return GARBAGE;
+        res->value = GARBAGE;
+        return;
         break;
 
       case N_CMAVO:
         if (next_tok->data.cmavo.selmao == FAhO) {
           returned_EOF = 1;
-          return PRIVATE_EOF_MARK;
+          res->value = PRIVATE_EOF_MARK;
+          return;
         } else {
-          yylval = next_tok;
-          return yylval->data.cmavo.selmao;
+          res->yylval = next_tok;
+          res->value = next_tok->data.cmavo.selmao;
+          return;
         }
         break;
 
       case N_ZOI:
-        yylval = next_tok;
-        return ZOI;
+        res->yylval = next_tok;
+        res->value = ZOI;
+        return;
         break;
 
       case N_ZO:
-        yylval = next_tok;
-        return ZO;
+        res->yylval = next_tok;
+        res->value = ZO;
+        return;
         break;
 
       case N_LOhU:
-        yylval = next_tok;
-        return LOhU;
+        res->yylval = next_tok;
+        res->value = LOhU;
+        return;
         break;
 
       case N_BU:
-        yylval = next_tok;
-        return BU;
+        res->yylval = next_tok;
+        res->value = BU;
+        return;
         break;
 
       case N_BRIVLA:
-        yylval = next_tok;
-        return BRIVLA;
+        res->yylval = next_tok;
+        res->value = BRIVLA;
+        return;
         break;
 
       case N_CMENE:
-        yylval = next_tok;
-        return CMENE;
+        res->yylval = next_tok;
+        res->value = CMENE;
+        return;
         break;
 
       case N_NONTERM:
@@ -937,7 +950,6 @@ yylex1(void)
   }
 
   assert(0);
-  return 0;
 
 }
 
