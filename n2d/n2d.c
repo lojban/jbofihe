@@ -691,12 +691,15 @@ build_transmap(Block *b)
 typedef struct {
   unsigned long *nfas;
   int *map; /* index by token code */
-  Stringlist *exitvals;
+  Stringlist *nfa_sl; /* NFA exit values */
+  char *result;
 } DFAS;
 
 static DFAS **dfas;
 static int ndfa=0;
 static int maxdfa=0;
+
+static int had_ambiguous_result = 0;
 
 /* ================================================================= */
 
@@ -737,6 +740,7 @@ add_dfa(Block *b, unsigned long *nfas, int N, int Nt)
 {
   int j;
   int result = ndfa;
+  int had_exitvals;
   Stringlist *ex;
 
   fprintf(stderr, "Adding DFA state %d\n", ndfa);
@@ -755,6 +759,8 @@ add_dfa(Block *b, unsigned long *nfas, int N, int Nt)
   }
 
   ex = NULL;
+  had_exitvals = 0;
+  clear_symbol_values();
   for (j=0; j<N; j++) {
     if (is_set(dfas[ndfa]->nfas, j)) {
       Stringlist *sl;
@@ -765,11 +771,25 @@ add_dfa(Block *b, unsigned long *nfas, int N, int Nt)
         new_sl->string = sl->string;
         new_sl->next = ex;
         ex = new_sl;
+
+        set_symbol_value(sl->string);
+        had_exitvals = 1;
       }
     }
   }
   
-  dfas[ndfa]->exitvals = ex;
+  dfas[ndfa]->result = evaluate_result();
+  dfas[ndfa]->nfa_sl = ex;
+
+  if (had_exitvals && !dfas[ndfa]->result) {
+    Stringlist *sl;
+    fprintf(stderr, "WARNING : Ambiguous exit state abandoned for DFA state %d\n", ndfa);
+    fprintf(stderr, "NFA exit tags applying in this stage :\n");
+    for (sl = ex; sl; sl = sl->next) {
+      fprintf(stderr, "  %s\n", sl->string);
+    }
+    had_ambiguous_result = 1;
+  }
         
   ndfa++;
   return result;
@@ -872,9 +892,8 @@ print_dfa(Block *b)
         fprintf(stderr, "    %s -> %d\n", toktable[t], dest);
       }
     }
-    fprintf(stderr, "  Exit values :\n");
-    for (ex = dfas[i]->exitvals; ex; ex=ex->next) {
-      fprintf(stderr, "    %s\n", ex->string);
+    if (dfas[i]->result) {
+      fprintf(stderr, "  Exit value : %s\n", dfas[i]->result);
     }
     
     fprintf(stderr, "\n");
@@ -894,17 +913,12 @@ print_exitval_table(Block *b)
   char ucprefix[1024];
 
   if (prefix) {
-    printf("static unsigned long %s_exitval[] = {\n", prefix);
+    printf("static short %s_exitval[] = {\n", prefix);
   } else {
-    printf("static unsigned long exitval[] = {\n");
+    printf("static short exitval[] = {\n");
   }
   for (i=0; i<ndfa; i++) {
-    Stringlist *sl;
-
-    printf("0UL");
-    for (sl=dfas[i]->exitvals; sl; sl=sl->next) {
-      printf("|%s", sl->string);
-    }
+    printf("%s", (dfas[i]->result) ? dfas[i]->result : "0UL");
     putchar ((i<(ndfa-1)) ? ',' : ' ');
     printf(" /* State %d */\n", i);
   }
@@ -1072,6 +1086,12 @@ int main (int argc, char **argv)
   build_transmap(main_block);
   build_dfa(main_block, start_state->index);
   print_dfa(main_block);
+
+  if (had_ambiguous_result) {
+    fprintf(stderr, "No output written, there were ambiguous exit values for accepting states\n");
+    exit(2);
+  }
+  
   print_exitval_table(main_block);
   print_compressed_tables(main_block);
 #if 0

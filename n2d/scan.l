@@ -24,13 +24,25 @@ PREFIX|Prefix|prefix        { return PREFIX; }
 BLOCK|Block|block           { return BLOCK; }
 ENDBLOCK|EndBlock           { return ENDBLOCK; }
 Endblock|endblock           { return ENDBLOCK; }
+RESULT|Result|result        { return RESULT; }
+SYMBOL|Symbol|symbol        { return SYMBOL; }
+SYMRESULT|SymResult         { return SYMRESULT; }
+Symresult|symresult         { return SYMRESULT; }
 [A-Za-z0-9_.]+              { yylval.s = new_string(yytext); return STRING; }
 \#.*$                       { /* strip comments */ }
 \-\>                        { return ARROW; }
 =                           { return EQUAL; }
-\|                          { return PIPE; }
+\|                          { return PIPE; /* OR */ }
+\&                          { return AND; }
+\~                          { return NOT; }
+\!                          { return NOT; }
+\^                          { return XOR; }
+\*                          { return STAR; }
+\?                          { return QUERY; }
 \:                          { return COLON; }
 \;                          { return SEMICOLON; }
+\(                          { return LPAREN; }
+\)                          { return RPAREN; }
 \,                          { return COMMA; }
 \n                          { lineno++; }
 [ \t]+                      { /* ignore */ }

@@ -77,5 +77,21 @@ void instantiate_block(Block *curblock, char *block_name, char *instance_name);
 void fixup_state_refs(Block *b);
 
 void compress_nfa(Block *b);
+
+typedef struct Expr Expr;
+Expr * new_wild_expr(void);
+Expr * new_not_expr(Expr *c);
+Expr * new_and_expr(Expr *c1, Expr *c2);
+Expr * new_or_expr(Expr *c1, Expr *c2);
+Expr * new_xor_expr(Expr *c1, Expr *c2);
+Expr * new_cond_expr(Expr *c1, Expr *c2, Expr *c3);
+Expr * new_sym_expr(char *sym_name);
+void define_symbol(char *name, Expr *e);
+void define_result(char *string, Expr *e);
+void define_symresult(char *string, Expr *e);
+void clear_symbol_values(void);
+void set_symbol_value(char *sym_name);
+char * evaluate_result(void);
+
 #endif /* N2D_H */
 

@@ -27,13 +27,23 @@ State *get_curstate(void) { return curstate; }
     char *s;
     int i;
     Stringlist *sl;
+    Expr *e;
 }
 
-
-%token STRING STATE TOKENS PREFIX ARROW PIPE BLOCK ENDBLOCK COLON EQUAL SEMICOLON COMMA
-%token ABBREV DEFINE
+%token STRING STATE TOKENS PREFIX ARROW BLOCK ENDBLOCK COLON EQUAL SEMICOLON COMMA
+%token ABBREV DEFINE 
 %type<s> STRING option
 %type<sl> option_seq transition_seq
+%type<e> expr
+
+%token RESULT SYMBOL SYMRESULT
+%token STAR
+%right QUERY COLON
+%left PIPE
+%left XOR
+%left AND
+%left NOT
+%left LPAREN RPAREN
 
 %%
 
@@ -41,7 +51,7 @@ all : decl_seq ;
 
 decl_seq : /* empty */ | decl_seq decl ;
 
-decl : block_decl | tokens_decl | prefix_decl | abbrev_decl ;
+decl : block_decl | tokens_decl | prefix_decl | abbrev_decl | result_decl ;
 
 /* Don't invalidate curstate at the end, this is the means of working out the
    starting state of the NFA */
@@ -100,4 +110,19 @@ option : STRING
        | /* empty */ { $$ = NULL; }
        ;
 
+result_decl : RESULT STRING               { define_result($2, NULL); }
+            | RESULT    expr ARROW STRING { define_result($4, $2); }
+            | SYMRESULT expr ARROW STRING { define_symresult($4, $2); }
+            | SYMBOL STRING EQUAL expr    { define_symbol($2, $4); }
+            ;
+
+expr : NOT expr { $$ = new_not_expr($2); }
+     | expr AND expr { $$ = new_and_expr($1, $3); }
+     | expr PIPE /* OR */ expr { $$ = new_or_expr($1, $3); }
+     | expr XOR expr { $$ = new_xor_expr($1, $3); }
+     | expr QUERY expr COLON expr { $$ = new_cond_expr($1, $3, $5); }
+     | LPAREN expr RPAREN { $$ = $2; }
+     | STRING { $$ = new_sym_expr($1); }
+     | STAR { $$ = new_wild_expr(); }
+     ;
 
