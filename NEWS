@@ -1,3 +1,12 @@
+New in version 0.35
+===================
+
+- Fix bugs handling number/lerfu-string containing bu followed by
+  moi/mei/roi/re'u
+- Fix lexing bug if an all-vowels (emotional) cmavo with length > 1 is prefixed
+  onto a brivla.
+- Fix inability to parse pe'a.
+  
 New in version 0.34
 ===================
 
