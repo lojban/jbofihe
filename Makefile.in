@@ -122,11 +122,14 @@ morfvlex.c : mk_vfetab.pl
 morf_enc.c : mk_enctab.pl
 	perl mk_enctab.pl > morf_enc.c 2>morf_enc.err
 
-morf_dfa.c : morf_nfa.in nfa2dfa.pl
-	perl nfa2dfa.pl < morf_nfa.in > morf_dfa.c 2>morf_dfa.err
+morf_dfa.c : morf_nfa.in n2d/n2d
+	n2d/n2d < morf_nfa.in > morf_dfa.c 2>morf_dfa.err
 
-morfnc_dfa.c : morf_nfa.in nfa2dfa.pl
-	grep -v 'CULTURAL' < morf_nfa.in | perl nfa2dfa.pl > morfnc_dfa.c 2>morfnc_dfa.err
+morfnc_dfa.c : morf_nfa.in n2d/n2d
+	grep -v 'CULTURAL' < morf_nfa.in | n2d/n2d > morfnc_dfa.c 2>morfnc_dfa.err
+
+n2d/n2d : n2d/n2d.o n2d/parse.o n2d/scan.o
+	make -C n2d all
 
 morf.o : morf.c morf.h morf_dfa.c morfnc_dfa.c morf_enc.c morf_lex.c morfvlex.c
 

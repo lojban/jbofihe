@@ -1,0 +1,28 @@
+# $Header$
+#
+# Makefile for NFA->DFA conversion utility
+#
+# COPYRIGHT
+#
+
+CC=gcc
+CFLAGS=-O2
+OBJ = parse.o scan.o n2d.o
+
+all : n2d
+
+n2d : $(OBJ)
+	$(CC) $(CFLAGS) -o n2d $(OBJ)
+
+parse.c parse.h : parse.y
+	bison -v -d parse.y
+	mv parse.tab.c parse.c
+	mv parse.tab.h parse.h
+
+parse.o : parse.c n2d.h
+
+scan.c : scan.l
+	flex -t scan.l > scan.c
+
+scan.o : scan.c parse.h n2d.h
+
