@@ -10,7 +10,7 @@
 #include "cm.h"
 
 #ifndef DEFAULT_DICTIONARY
-#define DEFAULT_DICTIONARY "./smujmaji.dat"
+#define DEFAULT_DICTIONARY "smujmaji.dat"
 #endif
 
 #ifdef HAVE_MMAP
