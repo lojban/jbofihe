@@ -51,7 +51,6 @@ add_bracketing_internal(TreeNode *x, int *seq)
         y->number = ++*seq;
         y->brackets = BR_ROUND;
         break;
-      case SUMTI:
       case SUMTI_1:
       case SUMTI_2:
       case SUMTI_3:
@@ -71,6 +70,7 @@ add_bracketing_internal(TreeNode *x, int *seq)
         }
         break;
 
+      case SUMTI:
       case SUMTI_6:
         if ((y->nchildren > 1) ||
             (prop_require_brac(x, NO))) {
@@ -99,6 +99,7 @@ add_bracketing_internal(TreeNode *x, int *seq)
         break;
 
       case MAIN_SELBRI:
+      case METALINGUISTIC_MAIN_SELBRI:
         y->number = ++*seq;
         y->brackets = BR_TRIANGLE;
         break;
@@ -134,6 +135,11 @@ add_bracketing_internal(TreeNode *x, int *seq)
         }
         break;
         
+      case FREE:
+        y->number = ++*seq;
+        y->brackets = BR_ROUND;
+        break;
+
       default:
         y->number = 0;
         y->brackets = BR_NONE;
@@ -916,7 +922,7 @@ get_lojban_word_and_translation (TreeNode *x, char *loj, char *eng)
       
     case N_CMENE:
       strcpy(loj, x->data.cmene.word);
-      eng[0] = 0;
+      strcpy(eng, "[NAME]");
       break;
       
     default:
@@ -978,8 +984,23 @@ output_term(TreeNode *x, WhatToShow what)
               trans = adv_translate(cmavo, tag->pos, TCX_TAG);
               if (!trans) trans = "?";
               sprintf(tp, "%d", tag->pos);
+              (drv->start_tag)();
               (drv->write_tag_text)(cmavo, tp, trans, YES);
             }
+
+          case TTT_ME:
+            {
+              char *trans, transbuf[1024];
+              (drv->start_tag)();
+              trans = adv_translate("me", tag->pos, TCX_TAG);
+              sprintf(transbuf, trans, tag->me.sumti->data.nonterm.number);
+              (drv->write_tag_text)("me...", "", transbuf, YES);
+            }
+            break;
+          case TTT_GAhO:
+          case TTT_NUhA:
+            abort();
+            break;
 
           default:
             break;
