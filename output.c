@@ -21,10 +21,11 @@ static DriverVector *drv;
 
 typedef enum {
   SHOW_NONE,
-  SHOW_LOJBAN,
-  SHOW_ENGLISH,
-  SHOW_TAG_TRANS,
-  SHOW_BOTH
+  SHOW_LOJBAN,                  /* Show just the lojban word */
+  SHOW_ENGLISH,                 /* Show just the translation */
+  SHOW_TAG_TRANS,               /* Show just the translation of a tag */
+  SHOW_LOJBAN_AND_INDICATORS,   /* Show just lojban for most, but both lojban and translation for indicators */
+  SHOW_BOTH                     /* Show lojban and translation */
 } WhatToShow;
 
 /*+ Forward prototype +*/
@@ -367,6 +368,18 @@ translate_tense_in_context(char *text, enum tense_contexts ctx)
 
   strcpy(buffer, text);
 
+  /* Letting X be the cmavo to be looked up are, the cases addressed
+     are :
+
+     TERM    : X le Y
+     NOUN    : le X Y
+     SELBRI  : le Z cu X Y
+     LINK    : i X bo Y
+     CONNECT : Y gi'e X bo Z
+     JAI     : le jai X Y
+
+     */
+
   switch (ctx) {
     case TSC_OTHER:
       break;
@@ -699,6 +712,7 @@ get_lojban_word_and_translation (TreeNode *x, char *loj, char *eng)
         case PU:
         case ZAhO:
         case VA:
+        case FAhA:
           translate_tense(x, eng);
           break;
           
@@ -771,7 +785,9 @@ output_term(TreeNode *x, WhatToShow what)
   struct nonterm *y;
   y = &x->data.nonterm;
 
-  if (what == SHOW_LOJBAN || what == SHOW_BOTH) {
+  if (what == SHOW_LOJBAN ||
+      what == SHOW_LOJBAN_AND_INDICATORS ||
+      what == SHOW_BOTH) {
     xtt = prop_term_tags(x, NO);
     if (xtt) {
       XTermTag *tag;
@@ -783,6 +799,7 @@ output_term(TreeNode *x, WhatToShow what)
             trans = adv_translate(tag->brivla.x->data.brivla.word, tag->pos, TCX_TAG);
             if (!trans) trans = "?";
             sprintf(tp, "%d", tag->pos);
+            (drv->start_tag)();
             (drv->write_tag_text)(tag->brivla.x->data.brivla.word, tp, trans, YES);
             break;
           case TTT_JAITAG:
@@ -833,14 +850,20 @@ static void
 output_simple_time_offset(TreeNode *x, WhatToShow what)
 {
   char loj[1024], eng[1024];
+  int i, n;
 
   loj[0] = 0;
       
   translate_time_offset(x, loj, eng);
+
   switch (what) {
     case SHOW_LOJBAN:
+    case SHOW_LOJBAN_AND_INDICATORS:
     case SHOW_BOTH:
-      (drv->lojban_text)(loj);
+      n = x->data.nonterm.nchildren;
+      for (i=0; i<n; i++) {
+        output_internal(x->data.nonterm.children[i], SHOW_LOJBAN_AND_INDICATORS);
+      }
       break;
     default:
       break;
@@ -889,6 +912,7 @@ output_sumti_tail(TreeNode *x, WhatToShow what)
   if (c1->data.nonterm.type == SUMTI_6) {
     switch (what) {
       case SHOW_LOJBAN:
+      case SHOW_LOJBAN_AND_INDICATORS:
       case SHOW_BOTH:
         output_internal(c1, SHOW_LOJBAN);
         break;
@@ -941,11 +965,11 @@ output_fore_or_afterthought(TreeNode *x, WhatToShow what)
 
   n = y->nchildren;
   if ((what == SHOW_LOJBAN) ||
+      (what == SHOW_LOJBAN_AND_INDICATORS) ||
       (what == SHOW_BOTH)) {
     for (i=0; i<n; i++) {
       c = y->children[i];
-      output_internal(c, SHOW_LOJBAN);
-      /* Extend to do attitudinals later */
+      output_internal(c, SHOW_LOJBAN_AND_INDICATORS);
     }
   }
 
@@ -980,17 +1004,56 @@ output_fore_or_afterthought(TreeNode *x, WhatToShow what)
         }
 
       case CNP_GE_STAG:
+        /* This is what I think negations on this construct mean ... I
+           think it translates as scalar negations of the two phrases.
+           Perhaps there should be scalar negation of the connective?
+           Except that could be within the stag itself, so I think my
+           interpretation is OK.  */
+        if (xcon->neg1) {
+          if (what == SHOW_TAG_TRANS) {
+            (drv->write_tag_text)("", "", "something other than", NO);
+          } else {
+            (drv->translation)("something other than");
+          }
+        }
+        
+
       case CNP_GE_JOIK:
         break; /* Don't put anything here */
 
       case CNP_GI_STAG:
-      case CNP_GI_JOIK:
-        /* Output the stag or joik as though it occurred at the
-           position of the gik in the middle of the sentence.  Need to
-           think further about how to handle NAI and any kind of
-           context dependent stuff.  The problem is that stag can be
-           infinitely recursive, so this is kind of hard to do. */
+        /* Output the stag as though it occurred at the position of
+           the gik in the middle of the sentence.  Doesn't do anything
+           yet about negations occurring on the connective - the
+           reference grammar isn't even clear what these mean. */
+        if (what == SHOW_TAG_TRANS) {
+          output_internal(xcon->js, SHOW_TAG_TRANS);
+        } else {
+          output_internal(xcon->js, SHOW_ENGLISH);
+        }
 
+        if (xcon->neg2) {
+          if (what == SHOW_TAG_TRANS) {
+            (drv->write_tag_text)("", "", "other than", NO);
+          } else {
+            (drv->translation)("other than");
+          }
+        }
+
+        break;
+
+
+      case CNP_GI_JOIK:
+        /* Output the joik as though it occurred at the position of
+           the gik in the middle of the sentence. */
+
+        if (xcon->neg2) {
+          if (what == SHOW_TAG_TRANS) {
+            (drv->write_tag_text)("", "", "other than", NO);
+          } else {
+            (drv->translation)("other than");
+          }
+        }
         if (what == SHOW_TAG_TRANS) {
           output_internal(xcon->js, SHOW_TAG_TRANS);
         } else {
@@ -1015,7 +1078,7 @@ output_internal(TreeNode *x, WhatToShow what)
   if (x->type == N_NONTERM) {
     y = &x->data.nonterm;
 
-    if (what == SHOW_BOTH || what == SHOW_LOJBAN) {
+    if (what == SHOW_BOTH || what == SHOW_LOJBAN || what == SHOW_LOJBAN_AND_INDICATORS) {
       (drv->open_bracket)(y->brackets, y->number);
     }
 
@@ -1068,7 +1131,7 @@ output_internal(TreeNode *x, WhatToShow what)
 #endif
       output_internal(y->children[0], what);
 
-    } else if ((y->type == TIME_OFFSET) && is_simple_nonterm(x)) {
+    } else if (y->type == TIME_OFFSET) {
 
       output_simple_time_offset(x, what);
 
@@ -1116,7 +1179,7 @@ output_internal(TreeNode *x, WhatToShow what)
       
     }
 
-    if (what == SHOW_BOTH || what == SHOW_LOJBAN) {
+    if (what == SHOW_BOTH || what == SHOW_LOJBAN || what == SHOW_LOJBAN_AND_INDICATORS) {
       (drv->close_bracket)(y->brackets, y->number);
     }
 
@@ -1137,6 +1200,7 @@ output_internal(TreeNode *x, WhatToShow what)
 
     switch (what) {
       case SHOW_LOJBAN:
+      case SHOW_LOJBAN_AND_INDICATORS:
       case SHOW_BOTH:
         (drv->lojban_text)(lojbuf);
         break;
@@ -1152,6 +1216,20 @@ output_internal(TreeNode *x, WhatToShow what)
           (drv->translation)(eng);
         }
         (drv->set_eols)(x->eols);
+        break;
+
+      case SHOW_LOJBAN_AND_INDICATORS:
+        if ((x->type == N_CMAVO) && 
+            ((x->data.cmavo.selmao == UI) ||
+             (x->data.cmavo.selmao == BAhE) ||
+             (x->data.cmavo.selmao == Y) || 
+             (x->data.cmavo.selmao == DAhO) ||
+             (x->data.cmavo.selmao == FUhO))) {
+          if (eng[0]) {
+            (drv->translation)(eng);
+          }
+          (drv->set_eols)(x->eols);
+        }          
         break;
 
       case SHOW_TAG_TRANS:
