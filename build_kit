@@ -1,5 +1,7 @@
 #!/usr/local/bin/perl
 
+# $Header$
+
 # Script used to 'groom' the distribution for release after doing the 'cvs export'.
 # (Although not really needed in the distribution, this is bundled for
 # completeness and for 'disaster-recovery' purposes.)
