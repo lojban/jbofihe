@@ -90,6 +90,12 @@ dictclean : dictclean.o
 dictclean.o : dictclean.c
 	$(CC) $(CFLAGS) -c dictclean.c $(INCDIR)
 
+makelujvo : makelujvo.o
+	$(CC) $(CFLAGS) -o makelujvo makelujvo.o
+
+makelujvo.o : makelujvo.c
+	$(CC) $(CFLAGS) -c makelujvo.c
+
 dictionary : dictmake
 	perl giscolon.pl < gismu > gismu.dict
 	perl cmacolon.pl < cmavo > cmavo.dict
@@ -100,7 +106,7 @@ dictionary : dictmake
 	perl rafsid.pl < rafsi > rafsid.dict
 	perl rafsig.pl < rafsi > rafsig.dict
 	perl raf4lg.pl < gismu > raf4lg.dict
-	./dictmake dictionary.dbm gismu.dict cmavo.dict lujvo.dict oblik.dict raf4l.dict rafobl.dict rafsid.dict extradict places.dat
+	./dictmake dictionary.dbm gismu.dict cmavo.dict lujvo.dict oblik.dict raf4l.dict rafobl.dict rafsid.dict rafsig.dict raf4lg.dict extradict places.dat
 
 dictupdate : dictionary.dbm
 
@@ -126,8 +132,8 @@ FILES = lex1.c lex2.c categ.c \
 	giscolon.pl cmacolon.pl lujvod.pl oblik.pl raf4l.pl rafobl.pl rafsid.pl \
         rafsig.pl raf4lg.pl \
 	places.pl extradict places.dat \
-	dictmake.c dictclean.c \
-	work_* home_* cardplayer summer_new assisi2
+	dictmake.c dictclean.c makelujvo.c \
+	work_* home_* cardplayer summer_new assisi2 story sinderelwyd sinder
 
 kit:
 	tar czvf kit.tar.gz $(FILES)

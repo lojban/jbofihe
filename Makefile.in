@@ -77,6 +77,12 @@ dictclean : dictclean.o
 dictclean.o : dictclean.c
 	$(CC) $(CFLAGS) -c dictclean.c $(INCDIR)
 
+makelujvo : makelujvo.o
+	$(CC) $(CFLAGS) -o makelujvo makelujvo.o
+
+makelujvo.o : makelujvo.c
+	$(CC) $(CFLAGS) -c makelujvo.c
+
 dictionary : dictmake
 	perl giscolon.pl < @@WORD-LISTS@@/gismu > gismu.dict
 	perl cmacolon.pl < @@WORD-LISTS@@/cmavo > cmavo.dict
@@ -87,7 +93,7 @@ dictionary : dictmake
 	perl rafsid.pl < @@WORD-LISTS@@/rafsi > rafsid.dict
 	perl rafsig.pl < @@WORD-LISTS@@/rafsi > rafsig.dict
 	perl raf4lg.pl < @@WORD-LISTS@@/gismu > raf4lg.dict
-	./dictmake dictionary.dbm gismu.dict cmavo.dict lujvo.dict oblik.dict raf4l.dict rafobl.dict rafsid.dict extradict places.dat
+	./dictmake dictionary.dbm gismu.dict cmavo.dict lujvo.dict oblik.dict raf4l.dict rafobl.dict rafsid.dict rafsig.dict raf4lg.dict extradict places.dat
 
 dictupdate : dictionary.dbm
 
@@ -128,4 +134,5 @@ htmlout.o: htmlout.c functions.h nonterm.h nodes.h output.h
 connect.o: connect.c nodes.h nonterm.h functions.h output.h rpc.tab.h \
  cmavotab.h
 stag.o: stag.c
-
+relative.o: relative.c nodes.h nonterm.h rpc.tab.h functions.h \
+ output.h cmavotab.h
