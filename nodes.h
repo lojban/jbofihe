@@ -64,8 +64,16 @@ struct lohu {
   char *text;
 };
 
+enum BrivlaType {
+  BVT_GISMU,
+  BVT_LUJVO,
+  BVT_FUIVLA3,
+  BVT_FUIVLA4
+};
+
 struct brivla {
   char *word;
+  enum BrivlaType type;
 };
 
 struct cmene {
