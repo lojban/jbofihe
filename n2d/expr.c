@@ -63,54 +63,42 @@ static Result *results = NULL;
 static int n_results = 0;
 static int max_results = 0;
 
-/*++++++++++++++++++++
-  ++++++++++++++++++++*/
+/* Flag indicating whether any results evaluated so far have evaluated true.
+   (Used for implementing wildcard expression).  */
+static int any_results_so_far;
 
-static void
-add_new_symbol(Symbol *s)
+static void add_new_symbol(Symbol *s)/*{{{*/
 {
   SymbolList *nsl = new(SymbolList);
   nsl->sym = s;
   nsl->next = symbols;
   symbols = nsl;
 }
-  
-/*++++++++++++++++++++
-  ++++++++++++++++++++*/
-static void
-grow_results(void)
+  /*}}}*/
+static void grow_results(void)/*{{{*/
 {
   if (n_results == max_results) {
     max_results += 32;
     results = resize_array(Result, results, max_results);
   }
 }
-
-/*++++++++++++++++++++
-  ++++++++++++++++++++*/
-Expr *
-new_wild_expr(void)
+/*}}}*/
+Expr * new_wild_expr(void)/*{{{*/
 {
   Expr *r = new(Expr);
   r->type = E_WILD;
   return r; 
 }
-
-/*++++++++++++++++++++
-  ++++++++++++++++++++*/
-Expr *
-new_not_expr(Expr *c)
+/*}}}*/
+Expr * new_not_expr(Expr *c)/*{{{*/
 {
   Expr *r = new(Expr);
   r->type = E_NOT;
   r->data.not.c1 = c;
   return r; 
 }
-
-/*++++++++++++++++++++
-  ++++++++++++++++++++*/
-Expr *
-new_and_expr(Expr *c1, Expr *c2)
+/*}}}*/
+Expr * new_and_expr(Expr *c1, Expr *c2)/*{{{*/
 {
   Expr *r = new(Expr);
   r->type = E_AND;
@@ -118,11 +106,8 @@ new_and_expr(Expr *c1, Expr *c2)
   r->data.and.c2 = c2;
   return r; 
 }
-
-/*++++++++++++++++++++
-  ++++++++++++++++++++*/
-Expr *
-new_or_expr(Expr *c1, Expr *c2)
+/*}}}*/
+Expr * new_or_expr(Expr *c1, Expr *c2)/*{{{*/
 {
   Expr *r = new(Expr);
   r->type = E_OR;
@@ -130,11 +115,8 @@ new_or_expr(Expr *c1, Expr *c2)
   r->data.or.c2 = c2;
   return r; 
 }
-
-/*++++++++++++++++++++
-  ++++++++++++++++++++*/
-Expr *
-new_xor_expr(Expr *c1, Expr *c2)
+/*}}}*/
+Expr * new_xor_expr(Expr *c1, Expr *c2)/*{{{*/
 {
   Expr *r = new(Expr);
   r->type = E_XOR;
@@ -142,11 +124,8 @@ new_xor_expr(Expr *c1, Expr *c2)
   r->data.xor.c2 = c2;
   return r; 
 }
-
-/*++++++++++++++++++++
-  ++++++++++++++++++++*/
-Expr *
-new_cond_expr(Expr *c1, Expr *c2, Expr *c3)
+/*}}}*/
+Expr * new_cond_expr(Expr *c1, Expr *c2, Expr *c3)/*{{{*/
 {
   Expr *r = new(Expr);
   r->type = E_COND;
@@ -155,11 +134,8 @@ new_cond_expr(Expr *c1, Expr *c2, Expr *c3)
   r->data.cond.c3 = c3;
   return r; 
 }
-
-/*++++++++++++++++++++
-  ++++++++++++++++++++*/
-static Symbol *  
-find_symbol_or_create(char *sym_name)
+/*}}}*/
+static Symbol *  find_symbol_or_create(char *sym_name)/*{{{*/
 {
   int i;
   Symbol *s;
@@ -177,13 +153,12 @@ find_symbol_or_create(char *sym_name)
   s->name = new_string(sym_name);
   return s;
 }
+/*}}}*/
 
+Expr * new_sym_expr(char *sym_name)/*{{{*/
 /*****************************************************************/
 /* Return expr for symbol name if it already exist, else create. */
 /*****************************************************************/
-
-Expr *
-new_sym_expr(char *sym_name)
 {
   Expr *r;
   Symbol *s;
@@ -195,14 +170,12 @@ new_sym_expr(char *sym_name)
   r->data.symbol.s = s;
   return r; 
 }
-
+/*}}}*/
+void define_result(char *string, Expr *e)/*{{{*/
 /*++++++++++++++++++++
   Add a result defn.  If the expr is null, it means build a single expr corr.
   to the value of the symbol with the same name as the result string.
   ++++++++++++++++++++*/
-
-void
-define_result(char *string, Expr *e)
 {
   int i;
   Result *r;
@@ -220,13 +193,11 @@ define_result(char *string, Expr *e)
 
   return;
 }
-
+/*}}}*/
+void define_symbol(char *name, Expr *e)/*{{{*/
 /*++++++++++++++++++++
   Define an entry in the symbol table.
   ++++++++++++++++++++*/
-  
-void
-define_symbol(char *name, Expr *e)
 {
   Symbol *s;
   s = find_symbol_or_create(name);
@@ -234,31 +205,19 @@ define_symbol(char *name, Expr *e)
   s->is_expr = 1;
   return;
 }
+/*}}}*/
+  
+void define_symresult(char *name, Expr *e)/*{{{*/
 /*++++++++++++++++++++
   Define an entry in the symbol table, and a result with the same name.
   ++++++++++++++++++++*/
-  
-void
-define_symresult(char *name, Expr *e)
 {
   define_symbol(name, e);
   define_result(name, e);
   return;
 }
-
-/*++++++++++++++++++++
-  Flag indicating whether any results evaluated so far have evaluated true.
-  (Used for implementing wildcard expression).
-  ++++++++++++++++++++*/
-
-static int any_results_so_far;
-
-/*++++++++++++++++++++
-  Clear all symbol values.
-  ++++++++++++++++++++*/
-
-void
-clear_symbol_values(void)
+/*}}}*/
+void clear_symbol_values(void)/*{{{*/
 {
   SymbolList *sl;
   for (sl=symbols; sl; sl=sl->next) {
@@ -269,13 +228,8 @@ clear_symbol_values(void)
   }
   any_results_so_far = 0;
 }
-
-/*++++++++++++++++++++
-  Set the value of a symbol
-  ++++++++++++++++++++*/
-
-void
-set_symbol_value(char *sym_name)
+/*}}}*/
+void set_symbol_value(char *sym_name)/*{{{*/
 {
   Symbol *s;
 
@@ -287,13 +241,11 @@ set_symbol_value(char *sym_name)
     s->data.val = 1;
   }
 }
-
+/*}}}*/
+static int eval(Expr *e)/*{{{*/
 /*++++++++++++++++++++
   Evaluate the value of an expr
   ++++++++++++++++++++*/
-  
-static int
-eval(Expr *e)
 {
   switch (e->type) {
     case E_AND:
@@ -322,13 +274,11 @@ eval(Expr *e)
       exit(2);
   }
 }
-
+/*}}}*/
+int evaluate_result(char **result)/*{{{*/
 /*++++++++++++++++++++
   Evaluate the result which holds given the symbols that are set
   ++++++++++++++++++++*/
-
-int
-evaluate_result(char **result)
 {
   int i;
   int matched = -1;
@@ -352,4 +302,4 @@ evaluate_result(char **result)
     return 1;
   }
 }
-
+/*}}}*/
