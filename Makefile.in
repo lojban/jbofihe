@@ -15,6 +15,7 @@ CMAFIHE_LDOPTS=@@CMAFIHE_LDOPTS@@
 
 CC=gcc
 CFLAGS= @@OPTDEBUG@@ @@DEFINES@@ -DDEFAULT_DICTIONARY=\"$(DICTIONARY)\"
+BISON=bison
 
 OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc_tab.o functions.o \
         categ.o nonterm.o tree.o translate.o latex.o \
@@ -41,7 +42,7 @@ jbofihe : $(OBJS2)
 # Analyse shift/reduce conflicts in the grammar
 conflict :
 	perl terminator.pl < rpc2x.y > rpc2x_noet.y
-	bison -v rpc2x_noet.y
+	$(BISON) -v rpc2x_noet.y
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c $<
@@ -56,7 +57,7 @@ rpc2x_act.y nonterm.h nonterm.c : rpc2x_nc.y
 	perl ./action.perl < rpc2x_nc.y > rpc2x_act.y
 
 rpc2x_act.tab.c rpc2x_act.output rpc_tab.h : rpc2x_act.y
-	bison -v -d rpc2x_act.y
+	$(BISON) -v -d rpc2x_act.y
 	mv rpc2x_act.tab.h rpc_tab.h
 
 rpc_tab.c : rpc2x_act.tab.c
@@ -70,7 +71,7 @@ rpc2x_full_act.y : rpc2x_full_nc.y
 	perl ./action.perl -nononterm < rpc2x_full_nc.y > rpc2x_full_act.y
 
 rpc_full.c rpc2x_full_act.output : rpc2x_full_act.y
-	bison -v -p full_yy rpc2x_full_act.y
+	$(BISON) -v -p full_yy rpc2x_full_act.y
 	sed -e "s/full_yylex/yylex/;s/full_yydebug/yydebug/;s/full_yyerror/yyerror/;s/full_yylval/yylval/;" < rpc2x_full_act.tab.c | perl add_trace_to_tabc.pl > rpc_full.c
 
 tracebk.o : tracebk.c trctabs.c trcftabs.c

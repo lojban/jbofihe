@@ -22,13 +22,26 @@ $hicode = 0;
 
 while (<>) {
     chomp;
-    last if (/^\s*$/);
+    last if (/^Terminals, with rules/);
+    next if (/^\s*$/);
+    next if (/^\s*Number, Line, Rule/); # extra junk in recent bisons (1.31 onwards?)
 
-    m{^rule ([0-9]+) +([a-zA-Z0-9_]+) \-\>[ \t](.*)$} || die "Unmatched rule [$_];";
+    my $number = undef;
+    my $lhs = undef;
+    my $rhs = undef;
 
-    $number = $1;
-    $lhs = $2;
-    $rhs = $3;
+    if (m{^rule ([0-9]+) +([a-zA-Z0-9_]+) \-\>[ \t](.*)$}) {
+        $number = $1;
+        $lhs = $2;
+        $rhs = $3;
+    } elsif (m{^\s+([0-9]+)\s+[0-9]+\s+([a-zA-Z0-9_]+) \-\>[ \t](.*)$}) {
+        $number = $1;
+        $lhs = $2;
+        $rhs = $3;
+    }
+
+    die "Unmatched rule [$_]" unless (defined $number);
+
     if ($rhs =~ m{/\* empty \*/}) {
         @r = ();
     } else {
@@ -42,12 +55,8 @@ while (<>) {
     }
 }
 
-while (<>) {
-    if (/^Terminals/) {
-        $_ = <STDIN>;
-        last;
-    }
-}
+# Discard one line after "Terminals" line
+$_ = <STDIN>;
 
 while (<>) {
     chomp;

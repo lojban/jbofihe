@@ -18,6 +18,9 @@ while (<>) {
     if (/^rule\s+([0-9]+)\s+subscript/) {
         $losubscript = $1 unless (defined $losubscript);
         $hisubscript = $1;
+    } elsif (/^\s+([0-9]+)\s+[0-9]+\s+subscript/) {
+        $losubscript = $1 unless (defined $losubscript);
+        $hisubscript = $1;
     }
 
     if (/^Terminals, with rules/) {
