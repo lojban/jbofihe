@@ -472,7 +472,9 @@ translate_indicator (TreeNode *x, char *loj, char *eng)
   trans = translate(loj);
   if (trans) {
     strcat(buffer, trans);
-    strcpy(eng, buffer);
+    strcpy(eng, "{.. ");
+    strcat(eng, buffer);
+    strcat(eng, "}");
   } else {
     eng[0] = 0;
   }
@@ -719,6 +721,9 @@ translate_brivla (TreeNode *x, char *eng)
   }
   gt = prop_glosstype(x, NO);
   if (gt) {
+#if 0
+    fprintf(stderr, "Brivla : %s, selbri=%d tertau=%d\n", x->data.brivla.word, gt->in_selbri, gt->is_tertau);
+#endif
     if (gt->in_selbri) {
       if (gt->is_tertau) {
         trans = adv_translate(x->data.brivla.word, conv, TCX_VERB);
@@ -1260,7 +1265,7 @@ output_clustered(TreeNode *x, WhatToShow what)
 {
   char *cluster, *trans;
   char localtrans[256];
-  char lojbuf[256];
+  char lojbuf[1024], lojbuf2[1024];
   int i, n;
   TreeNode *c;
   struct nonterm *nt;
@@ -1270,6 +1275,7 @@ output_clustered(TreeNode *x, WhatToShow what)
 
   cluster = get_cmavo_text_inside_node(x);
   strcpy(lojbuf, cluster);
+  strcpy(lojbuf2, cluster);
 
   /* May eventually want context dependence here since many of the
      cases are tag/tense sorts of thing */
@@ -1312,6 +1318,11 @@ output_clustered(TreeNode *x, WhatToShow what)
   }
 
   trans = translate(lojbuf);
+  if (!trans) {
+    /* If no form with the @SELBRI etc tacked on, try to translate
+       just the plain cluster without the contextual information added */
+    trans = translate(lojbuf2);
+  }
 
   if (trans) {
     strcpy(localtrans, trans);
@@ -1413,7 +1424,8 @@ output_internal(TreeNode *x, WhatToShow what)
       output_simple_time_offset(x, what);
 
     } else if ((y->type == SPACE_INT_PROP) ||
-               (y->type == INTERVAL_PROPERTY)) {
+               (y->type == INTERVAL_PROPERTY) ||
+               (y->type == NUMBER_MOI_TU2)) {
       
       output_clustered(x, what);
 
