@@ -1688,7 +1688,6 @@ process_relative_clause(TreeNode *x)
   if (fc->data.nonterm.type == FULL_RELATIVE_CLAUSE) {
     ss = find_nth_child(fc, 1, SUBSENTENCE);
     if (ss) {
-      fprintf(stderr, "Got here in prc\n");
       process_subsentence(ss, &pre, &post);
     }
   }
