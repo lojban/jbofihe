@@ -110,17 +110,21 @@ depend:
 
 include .depend
 
+FILES = lex1.c lex2.c categ.c \
+	rpc2x.y \
+	functions.c functions.h Makefile main.c cmavotab.c cmavotab.h \
+	nodes.h uncom.l tree.c translate.c latex.c properties.c \
+	conversion.c terms.c memory.c tenses.c output.c textout.c \
+	output.h htmlout.c connect.c \
+	.depend TODO stag.y COPYRIGHT Makefile.in config.pl build_kit \
+	action.perl terminator.pl \
+	giscolon.pl cmacolon.pl lujvod.pl oblik.pl raf4l.pl rafobl.pl rafsid.pl extradict \
+	dictmake.c dictclean.c \
+	work_* home_* cardplayer summer_new
+
 kit:
-	tar czvf kit.tar.gz lex1.c lex2.c categ.c \
-		 rpc2x.y \
-		 functions.c functions.h Makefile main.c cmavotab.c cmavotab.h \
-		 nodes.h uncom.l tree.c translate.c latex.c properties.c \
-		 conversion.c terms.c memory.c tenses.c output.c textout.c \
-		 output.h htmlout.c connect.c \
-		 .depend TODO stag.y COPYRIGHT \
-		 action.perl terminator.pl \
-		 giscolon.pl cmacolon.pl lujvod.pl oblik.pl raf4l.pl rafobl.pl rafsid.pl extradict \
-		 dictmake.c dictclean.c \
-		 work_* home_* cardplayer summer_new
+	tar czvf kit.tar.gz $(FILES)
 
 
+zipfile:
+	zip -9 kit.zip $(FILES)
