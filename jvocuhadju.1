@@ -1,0 +1,54 @@
+.TH "jvocuhadju" 1L "April 2000"
+.SH NAME
+jvocuhadju \- Lujvo picker (based on the rules in the reference grammar.)
+.SH SYNOPSIS
+.PP
+.B jvocuhadju
+[-v]
+.PP
+.B jvocuhadju
+.I tanru-component-1
+[
+.BR "" ...
+.I tanru-component-n
+]
+.SH DESCRIPTION
+.I jvocuhadju
+is a program that reads a list of tanru-components (gismu or cmavo) on
+the command line, and constructs the possible short-form lujvo
+corresponding to those components in sequence.  The possible lujvo are
+displayed ranked in order of desirability, with their scores shown
+based on the algorithm in the reference grammar.  The lowest score is
+best.
+.SH OPTIONS
+.TP
+.B -v
+Show the program version and exit.
+.TP
+.B tanru-component-k
+This is a gismu or cmavo which is one component of the word.  Cmavo
+must have a rafsi corresponding to them.
+.SH SEE ALSO
+.PP
+.TP
+.B jbofihe
+Checks Lojban grammar checker and provides English translations of the
+individual words.
+.TP
+.B cmafihe
+Provides English translations of Lojban words in the input, without
+checking the grammar.  Useful for getting a rough translation of
+grammatically invalid text.
+.SH FILES
+.SH BUGS
+ju'oru'e so'imei (Surely there are many).
+.SH REFERENCES
+.TP
+.B http://www.lojban.org/
+Home page of the Lojban community
+.TP
+.B http://www.rrbcurnow.freeuk.com/lojban/
+My Lojban page.
+.SH AUTHOR
+Richard Curnow
+.B <rpc@myself.com>

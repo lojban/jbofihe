@@ -1,0 +1,130 @@
+.TH "smujajgau" 1L "April 2000"
+.SH NAME
+smujajgau \- Dictionary builder for use with jbofihe and cmafihe
+.SH SYNOPSIS
+.PP
+.B smujajgau
+[-v]
+.PP
+.B smujajgau
+.I dictionary-name
+[
+.I file1
+.I file2
+.BR "" ...
+.I filen
+]
+.SH DESCRIPTION
+.I smujajgau
+is a program that reads a set of English definitions for Lojban words,
+and formats them into a presorted dictionary for use by the jbofihe
+and cmafihe programs.  The dictionary is arranged for rapid access.
+.SH OPTIONS
+.TP
+.B -v
+Show the program version and exit.
+.TP
+.B dictionary-name
+This is the name of the formatted dictionary to be generated /
+modified.  If the file exists, the definitions in the other file will
+be added, replacing existing entries where they clash.
+.TP
+.B file1 .. filen
+The source files to be added.  Lines beginning with # are treated as
+comments and discarded.  Other lines should have one of the forms
+.PP
+lojban:english
+.PP
+lojban:english:comment
+
+.SH SEE ALSO
+.PP
+.TP
+.B jbofihe
+Checks Lojban grammar checker and provides English translations of the
+individual words.
+.TP
+.B cmafihe
+Provides English translations of Lojban words in the input, without
+checking the grammar.  Useful for getting a rough translation of
+grammatically invalid text.
+.SH FILES
+.TP
+.B /usr/local/lib/jbofihe/jbosmujmaji
+This file is the default location where
+.I jbofihe
+and
+.I cmafihe
+expect to find the dictionary.  It should therefore be the default first argument to smujajgau (unless the software was installed to an alternative location.)
+.SH SPECIAL TRANSLATION FORMATS
+Dictionary entries for brivla (gismu & lujvo) are expected to provide
+entries for each place of the word.  The English translation should
+indicate the type of the word and the translation.  The types are
+shown in the following table.  In addition, the gloss for a
+translation X is shown depending on the context where it will arise in
+the translation.  These defaults may be overridden.
+
+.TS
+center tab(@);
+cb | cb || cb | cb | cb | cb
+c | c || c | c | c | c.
+Letter@Type@Noun@Verb@Qualifier@Tag
+=
+A @ Act @ X-er(s) @ X-ing @ X-ing @ X-er(s)
+D @ Discrete @ X(s) @ being X @ X @ X
+S @ Substance @ X @ being X @ X @ X
+P @ Property @ X thing(s) @ being X @ X @ X thing(s)
+R @ Rev. prop @ thing(s) X @ being X @ X @ things(s) X
+I @ Idiomatic @ thing(s) X-ing @ X-ing @ X-ing @ thing(s) X-ing
+E @ Event @ X(s) @ being X @ X @ X
+.TE
+
+To specify the dictionary entries, the lojban should take the form
+'brivlaN', where brivla is the word and N is the place number.  One of
+the following may be suffixed to provide an override of the defaults
+in the table : n v a or t (for noun, verb, adjective, tag
+respectively.)
+
+As an example, 'nanmu' might have entries
+.PP
+nanmu1:D;man
+.PP
+nanmu1n:D;man/men
+
+.PP
+whereas 'nandu' might have the definition
+.PP
+nandu1:P;difficulty
+.PP
+nandu2:I;have* difficulty
+.PP
+nandu3:S;conditions for difficulty
+.PP
+nandu3t:under conditions
+
+a '*' is used in the places where the affixed -s, -er and -ing should
+be applied (instead of putting them at the end of the English
+translation, which is the default.)
+
+The 'places.dat' file included in the distribution shows many
+examples.
+
+For cmavo, there are special forms used for certain selma'o,
+particular tenses.  These allow dependence on the context in which the
+cmavo is used.  Logical connectives are also defined in a special way.
+The file 'extradict' in the distribution provides examples.
+
+(More documentation is required!)
+
+.SH BUGS
+ju'oru'e so'imei (Surely there are many).
+.SH REFERENCES
+.TP
+.B http://www.lojban.org/
+Home page of the Lojban community
+.TP
+.B http://www.rrbcurnow.freeuk.com/lojban/
+My Lojban page.
+.SH AUTHOR
+Richard Curnow
+.B <rpc@myself.com>
