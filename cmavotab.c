@@ -12,1755 +12,1906 @@
 #define UNKNOWN 0
 
 CmavoCell cmavo_table[] = {
-  { "01085 Lojb", UNKNOWN, "LogFlash cmavo list 06/13/94        010" }, /* 0 */
-  { "", UNKNOWN, "" }, /* 1 */
-  { "", UNKNOWN, "" }, /* 2 */
-  { "", UNKNOWN, "" }, /* 3 */
-  { "", UNKNOWN, "" }, /* 4 */
-  { "", UNKNOWN, "" }, /* 5 */
-  { "", UNKNOWN, "" }, /* 6 */
-  { "", UNKNOWN, "" }, /* 7 */
-  { "", UNKNOWN, "" }, /* 8 */
-  { "", UNKNOWN, "" }, /* 9 */
-  { "", UNKNOWN, "" }, /* 10 */
-  { "", UNKNOWN, "" }, /* 11 */
-  { "", UNKNOWN, "" }, /* 12 */
-  { "", UNKNOWN, "" }, /* 13 */
-  { "a", A, "sumti or" }, /* 14 */
-  { "", UNKNOWN, "" }, /* 15 */
-  { "", UNKNOWN, "" }, /* 16 */
-  { "ai", UI, "intent" }, /* 17 */
-  { "", UNKNOWN, "" }, /* 18 */
-  { "au", UI, "desire" }, /* 19 */
-  { "", UNKNOWN, "" }, /* 20 */
-  { "", UNKNOWN, "" }, /* 21 */
-  { "a\'a", UI, "attentive" }, /* 22 */
-  { "a\'e", UI, "alertness" }, /* 23 */
-  { "a\'i", UI, "effort" }, /* 24 */
-  { "a\'o", UI, "hope" }, /* 25 */
-  { "a\'u", UI, "interest" }, /* 26 */
-  { "", UNKNOWN, "" }, /* 27 */
-  { "e", A, "sumti and" }, /* 28 */
-  { "", UNKNOWN, "" }, /* 29 */
-  { "", UNKNOWN, "" }, /* 30 */
-  { "ei", UI, "obligation" }, /* 31 */
-  { "", UNKNOWN, "" }, /* 32 */
-  { "", UNKNOWN, "" }, /* 33 */
-  { "", UNKNOWN, "" }, /* 34 */
-  { "", UNKNOWN, "" }, /* 35 */
-  { "e\'a", UI, "permission" }, /* 36 */
-  { "e\'e", UI, "competence" }, /* 37 */
-  { "e\'i", UI, "constraint" }, /* 38 */
-  { "e\'o", UI, "request" }, /* 39 */
-  { "e\'u", UI, "suggestion" }, /* 40 */
-  { "", UNKNOWN, "" }, /* 41 */
-  { "i", I, "sentence link" }, /* 42 */
-  { "ia", UI, "belief" }, /* 43 */
-  { "ie", UI, "agreement" }, /* 44 */
-  { "ii", UI, "fear" }, /* 45 */
-  { "io", UI, "respect" }, /* 46 */
-  { "iu", UI, "love" }, /* 47 */
-  { "", UNKNOWN, "" }, /* 48 */
-  { "", UNKNOWN, "" }, /* 49 */
-  { "i\'a", UI, "acceptance" }, /* 50 */
-  { "i\'e", UI, "approval" }, /* 51 */
-  { "i\'i", UI, "togetherness" }, /* 52 */
-  { "i\'o", UI, "appreciation" }, /* 53 */
-  { "i\'u", UI, "familiarity" }, /* 54 */
-  { "", UNKNOWN, "" }, /* 55 */
-  { "o", A, "sumti iff" }, /* 56 */
-  { "", UNKNOWN, "" }, /* 57 */
-  { "", UNKNOWN, "" }, /* 58 */
-  { "oi", UI, "complaint" }, /* 59 */
-  { "", UNKNOWN, "" }, /* 60 */
-  { "", UNKNOWN, "" }, /* 61 */
-  { "", UNKNOWN, "" }, /* 62 */
-  { "", UNKNOWN, "" }, /* 63 */
-  { "o\'a", UI, "pride" }, /* 64 */
-  { "o\'e", UI, "closeness" }, /* 65 */
-  { "o\'i", UI, "caution" }, /* 66 */
-  { "o\'o", UI, "patience" }, /* 67 */
-  { "o\'u", UI, "relaxation" }, /* 68 */
-  { "", UNKNOWN, "" }, /* 69 */
-  { "u", A, "sumti whether" }, /* 70 */
-  { "ua", UI, "discovery" }, /* 71 */
-  { "ue", UI, "surprise" }, /* 72 */
-  { "ui", UI, "happiness" }, /* 73 */
-  { "uo", UI, "completion" }, /* 74 */
-  { "uu", UI, "pity" }, /* 75 */
-  { "", UNKNOWN, "" }, /* 76 */
-  { "", UNKNOWN, "" }, /* 77 */
-  { "u\'a", UI, "gain" }, /* 78 */
-  { "u\'e", UI, "wonder" }, /* 79 */
-  { "u\'i", UI, "amusement" }, /* 80 */
-  { "u\'o", UI, "courage" }, /* 81 */
-  { "u\'u", UI, "repentance" }, /* 82 */
-  { "", UNKNOWN, "" }, /* 83 */
-  { "y", Y, "hesitation" }, /* 84 */
-  { "", UNKNOWN, "" }, /* 85 */
-  { "", UNKNOWN, "" }, /* 86 */
-  { "", UNKNOWN, "" }, /* 87 */
-  { "", UNKNOWN, "" }, /* 88 */
-  { "", UNKNOWN, "" }, /* 89 */
-  { "", UNKNOWN, "" }, /* 90 */
-  { "", UNKNOWN, "" }, /* 91 */
-  { "", UNKNOWN, "" }, /* 92 */
-  { "", UNKNOWN, "" }, /* 93 */
-  { "", UNKNOWN, "" }, /* 94 */
-  { "", UNKNOWN, "" }, /* 95 */
-  { "", UNKNOWN, "" }, /* 96 */
-  { "y\'y", BY, "'" }, /* 97 */
-  { "", UNKNOWN, "" }, /* 98 */
-  { "", UNKNOWN, "" }, /* 99 */
-  { "", UNKNOWN, "" }, /* 100 */
-  { "", UNKNOWN, "" }, /* 101 */
-  { "", UNKNOWN, "" }, /* 102 */
-  { "", UNKNOWN, "" }, /* 103 */
-  { "", UNKNOWN, "" }, /* 104 */
-  { "", UNKNOWN, "" }, /* 105 */
-  { "", UNKNOWN, "" }, /* 106 */
-  { "", UNKNOWN, "" }, /* 107 */
-  { "", UNKNOWN, "" }, /* 108 */
-  { "", UNKNOWN, "" }, /* 109 */
-  { "", UNKNOWN, "" }, /* 110 */
-  { "", UNKNOWN, "" }, /* 111 */
-  { "ba", PU, "after" }, /* 112 */
-  { "", UNKNOWN, "" }, /* 113 */
-  { "", UNKNOWN, "" }, /* 114 */
-  { "bai", BAI, "compelled by" }, /* 115 */
-  { "", UNKNOWN, "" }, /* 116 */
-  { "bau", BAI, "in language" }, /* 117 */
-  { "", UNKNOWN, "" }, /* 118 */
-  { "", UNKNOWN, "" }, /* 119 */
-  { "ba\'a", UI, "I anticipate" }, /* 120 */
-  { "ba\'e", BAhE, "emphasize next" }, /* 121 */
-  { "ba\'i", BAI, "replaced by" }, /* 122 */
-  { "ba\'o", ZAhO, "perfective" }, /* 123 */
-  { "ba\'u", UI, "exaggeration" }, /* 124 */
-  { "", UNKNOWN, "" }, /* 125 */
-  { "be", BE, "link sumti" }, /* 126 */
-  { "", UNKNOWN, "" }, /* 127 */
-  { "", UNKNOWN, "" }, /* 128 */
-  { "bei", BEI, "link more sumti" }, /* 129 */
-  { "", UNKNOWN, "" }, /* 130 */
-  { "", UNKNOWN, "" }, /* 131 */
-  { "", UNKNOWN, "" }, /* 132 */
-  { "", UNKNOWN, "" }, /* 133 */
-  { "be\'a", FAhA, "north of" }, /* 134 */
-  { "be\'e", COI, "request to send" }, /* 135 */
-  { "be\'i", BAI, "sent by" }, /* 136 */
-  { "be\'o", BEhO, "end linked sumti" }, /* 137 */
-  { "be\'u", UI, "lack" }, /* 138 */
-  { "", UNKNOWN, "" }, /* 139 */
-  { "bi", PA, "8" }, /* 140 */
-  { "", UNKNOWN, "" }, /* 141 */
-  { "", UNKNOWN, "" }, /* 142 */
-  { "", UNKNOWN, "" }, /* 143 */
-  { "", UNKNOWN, "" }, /* 144 */
-  { "", UNKNOWN, "" }, /* 145 */
-  { "", UNKNOWN, "" }, /* 146 */
-  { "", UNKNOWN, "" }, /* 147 */
-  { "", UNKNOWN, "" }, /* 148 */
-  { "", UNKNOWN, "" }, /* 149 */
-  { "bi\'i", BIhI, "unordered interval" }, /* 150 */
-  { "bi\'o", BIhI, "ordered interval" }, /* 151 */
-  { "bi\'u", UI, "new information" }, /* 152 */
-  { "", UNKNOWN, "" }, /* 153 */
-  { "bo", BO, "short scope link" }, /* 154 */
-  { "", UNKNOWN, "" }, /* 155 */
-  { "", UNKNOWN, "" }, /* 156 */
-  { "boi", BOI, "end number or lerfu" }, /* 157 */
-  { "", UNKNOWN, "" }, /* 158 */
-  { "", UNKNOWN, "" }, /* 159 */
-  { "", UNKNOWN, "" }, /* 160 */
-  { "", UNKNOWN, "" }, /* 161 */
-  { "", UNKNOWN, "" }, /* 162 */
-  { "", UNKNOWN, "" }, /* 163 */
-  { "", UNKNOWN, "" }, /* 164 */
-  { "", UNKNOWN, "" }, /* 165 */
-  { "", UNKNOWN, "" }, /* 166 */
-  { "", UNKNOWN, "" }, /* 167 */
-  { "bu", BU, "word to lerfu" }, /* 168 */
-  { "", UNKNOWN, "" }, /* 169 */
-  { "", UNKNOWN, "" }, /* 170 */
-  { "", UNKNOWN, "" }, /* 171 */
-  { "", UNKNOWN, "" }, /* 172 */
-  { "", UNKNOWN, "" }, /* 173 */
-  { "", UNKNOWN, "" }, /* 174 */
-  { "", UNKNOWN, "" }, /* 175 */
-  { "bu\'a", GOhA, "some selbri 1" }, /* 176 */
-  { "bu\'e", GOhA, "some selbri 2" }, /* 177 */
-  { "bu\'i", GOhA, "some selbri 3" }, /* 178 */
-  { "bu\'o", UI, "start emotion" }, /* 179 */
-  { "bu\'u", FAhA, "coincident with" }, /* 180 */
-  { "", UNKNOWN, "" }, /* 181 */
-  { "by", BY, "b" }, /* 182 */
-  { "", UNKNOWN, "" }, /* 183 */
-  { "", UNKNOWN, "" }, /* 184 */
-  { "", UNKNOWN, "" }, /* 185 */
-  { "", UNKNOWN, "" }, /* 186 */
-  { "", UNKNOWN, "" }, /* 187 */
-  { "", UNKNOWN, "" }, /* 188 */
-  { "", UNKNOWN, "" }, /* 189 */
-  { "", UNKNOWN, "" }, /* 190 */
-  { "", UNKNOWN, "" }, /* 191 */
-  { "", UNKNOWN, "" }, /* 192 */
-  { "", UNKNOWN, "" }, /* 193 */
-  { "", UNKNOWN, "" }, /* 194 */
-  { "", UNKNOWN, "" }, /* 195 */
-  { "", UNKNOWN, "" }, /* 196 */
-  { "", UNKNOWN, "" }, /* 197 */
-  { "", UNKNOWN, "" }, /* 198 */
-  { "", UNKNOWN, "" }, /* 199 */
-  { "", UNKNOWN, "" }, /* 200 */
-  { "", UNKNOWN, "" }, /* 201 */
-  { "", UNKNOWN, "" }, /* 202 */
-  { "", UNKNOWN, "" }, /* 203 */
-  { "", UNKNOWN, "" }, /* 204 */
-  { "", UNKNOWN, "" }, /* 205 */
-  { "", UNKNOWN, "" }, /* 206 */
-  { "", UNKNOWN, "" }, /* 207 */
-  { "", UNKNOWN, "" }, /* 208 */
-  { "", UNKNOWN, "" }, /* 209 */
-  { "ca", PU, "during" }, /* 210 */
-  { "", UNKNOWN, "" }, /* 211 */
-  { "", UNKNOWN, "" }, /* 212 */
-  { "cai", CAI, "intense emotion" }, /* 213 */
-  { "", UNKNOWN, "" }, /* 214 */
-  { "cau", BAI, "lacked by" }, /* 215 */
-  { "", UNKNOWN, "" }, /* 216 */
-  { "", UNKNOWN, "" }, /* 217 */
-  { "ca\'a", CAhA, "actually is" }, /* 218 */
-  { "ca\'e", UI, "I define" }, /* 219 */
-  { "ca\'i", BAI, "by authority of" }, /* 220 */
-  { "ca\'o", ZAhO, "continuative" }, /* 221 */
-  { "ca\'u", FAhA, "in front of" }, /* 222 */
-  { "", UNKNOWN, "" }, /* 223 */
-  { "ce", JOI, "in a set with" }, /* 224 */
-  { "", UNKNOWN, "" }, /* 225 */
-  { "", UNKNOWN, "" }, /* 226 */
-  { "cei", CEI, "pro-bridi assign" }, /* 227 */
-  { "", UNKNOWN, "" }, /* 228 */
-  { "", UNKNOWN, "" }, /* 229 */
-  { "", UNKNOWN, "" }, /* 230 */
-  { "", UNKNOWN, "" }, /* 231 */
-  { "ce\'a", LAU, "font shift" }, /* 232 */
-  { "", UNKNOWN, "" }, /* 233 */
-  { "ce\'i", PA, "percent" }, /* 234 */
-  { "ce\'o", JOI, "in a sequence with" }, /* 235 */
-  { "", UNKNOWN, "" }, /* 236 */
-  { "", UNKNOWN, "" }, /* 237 */
-  { "ci", PA, "3" }, /* 238 */
-  { "", UNKNOWN, "" }, /* 239 */
-  { "", UNKNOWN, "" }, /* 240 */
-  { "", UNKNOWN, "" }, /* 241 */
-  { "", UNKNOWN, "" }, /* 242 */
-  { "", UNKNOWN, "" }, /* 243 */
-  { "", UNKNOWN, "" }, /* 244 */
-  { "", UNKNOWN, "" }, /* 245 */
-  { "", UNKNOWN, "" }, /* 246 */
-  { "ci\'e", BAI, "in system" }, /* 247 */
-  { "ci\'i", PA, "infinity" }, /* 248 */
-  { "ci\'o", BAI, "emotionally felt by" }, /* 249 */
-  { "ci\'u", BAI, "on the scale" }, /* 250 */
-  { "", UNKNOWN, "" }, /* 251 */
-  { "co", CO, "tanru inversion" }, /* 252 */
-  { "", UNKNOWN, "" }, /* 253 */
-  { "", UNKNOWN, "" }, /* 254 */
-  { "coi", COI, "greetings" }, /* 255 */
-  { "", UNKNOWN, "" }, /* 256 */
-  { "", UNKNOWN, "" }, /* 257 */
-  { "", UNKNOWN, "" }, /* 258 */
-  { "", UNKNOWN, "" }, /* 259 */
-  { "co\'a", ZAhO, "initiative" }, /* 260 */
-  { "co\'e", GOhA, "unspecif bridi" }, /* 261 */
-  { "co\'i", ZAhO, "achievative" }, /* 262 */
-  { "co\'o", COI, "partings" }, /* 263 */
-  { "co\'u", ZAhO, "cessative" }, /* 264 */
-  { "", UNKNOWN, "" }, /* 265 */
-  { "cu", CU, "selbri separator" }, /* 266 */
-  { "", UNKNOWN, "" }, /* 267 */
-  { "", UNKNOWN, "" }, /* 268 */
-  { "", UNKNOWN, "" }, /* 269 */
-  { "", UNKNOWN, "" }, /* 270 */
-  { "", UNKNOWN, "" }, /* 271 */
-  { "", UNKNOWN, "" }, /* 272 */
-  { "", UNKNOWN, "" }, /* 273 */
-  { "cu\'a", VUhU, "absolute value" }, /* 274 */
-  { "cu\'e", CUhE, "modal ?" }, /* 275 */
-  { "cu\'i", CAI, "neutral emotion" }, /* 276 */
-  { "cu\'o", MOI, "probability selbri" }, /* 277 */
-  { "cu\'u", BAI, "as said by" }, /* 278 */
-  { "", UNKNOWN, "" }, /* 279 */
-  { "cy", BY, "c" }, /* 280 */
-  { "", UNKNOWN, "" }, /* 281 */
-  { "", UNKNOWN, "" }, /* 282 */
-  { "", UNKNOWN, "" }, /* 283 */
-  { "", UNKNOWN, "" }, /* 284 */
-  { "", UNKNOWN, "" }, /* 285 */
-  { "", UNKNOWN, "" }, /* 286 */
-  { "", UNKNOWN, "" }, /* 287 */
-  { "", UNKNOWN, "" }, /* 288 */
-  { "", UNKNOWN, "" }, /* 289 */
-  { "", UNKNOWN, "" }, /* 290 */
-  { "", UNKNOWN, "" }, /* 291 */
-  { "", UNKNOWN, "" }, /* 292 */
-  { "", UNKNOWN, "" }, /* 293 */
-  { "", UNKNOWN, "" }, /* 294 */
-  { "", UNKNOWN, "" }, /* 295 */
-  { "", UNKNOWN, "" }, /* 296 */
-  { "", UNKNOWN, "" }, /* 297 */
-  { "", UNKNOWN, "" }, /* 298 */
-  { "", UNKNOWN, "" }, /* 299 */
-  { "", UNKNOWN, "" }, /* 300 */
-  { "", UNKNOWN, "" }, /* 301 */
-  { "", UNKNOWN, "" }, /* 302 */
-  { "", UNKNOWN, "" }, /* 303 */
-  { "", UNKNOWN, "" }, /* 304 */
-  { "", UNKNOWN, "" }, /* 305 */
-  { "", UNKNOWN, "" }, /* 306 */
-  { "", UNKNOWN, "" }, /* 307 */
-  { "da", KOhA, "something 1" }, /* 308 */
-  { "", UNKNOWN, "" }, /* 309 */
-  { "", UNKNOWN, "" }, /* 310 */
-  { "dai", UI, "empathy" }, /* 311 */
-  { "", UNKNOWN, "" }, /* 312 */
-  { "dau", PA, "hex digit A" }, /* 313 */
-  { "", UNKNOWN, "" }, /* 314 */
-  { "", UNKNOWN, "" }, /* 315 */
-  { "da\'a", PA, "all except" }, /* 316 */
-  { "da\'e", KOhA, "eventual utterance" }, /* 317 */
-  { "da\'i", UI, "supposing" }, /* 318 */
-  { "da\'o", DAhO, "cancel pro-assigns" }, /* 319 */
-  { "da\'u", KOhA, "earlier utterance" }, /* 320 */
-  { "", UNKNOWN, "" }, /* 321 */
-  { "de", KOhA, "something 2" }, /* 322 */
-  { "", UNKNOWN, "" }, /* 323 */
-  { "", UNKNOWN, "" }, /* 324 */
-  { "dei", KOhA, "this utterance" }, /* 325 */
-  { "", UNKNOWN, "" }, /* 326 */
-  { "", UNKNOWN, "" }, /* 327 */
-  { "", UNKNOWN, "" }, /* 328 */
-  { "", UNKNOWN, "" }, /* 329 */
-  { "de\'a", ZAhO, "pausative" }, /* 330 */
-  { "de\'e", KOhA, "soon utterance" }, /* 331 */
-  { "de\'i", BAI, "dated" }, /* 332 */
-  { "de\'o", VUhU, "logarithm" }, /* 333 */
-  { "de\'u", KOhA, "recent utterance" }, /* 334 */
-  { "", UNKNOWN, "" }, /* 335 */
-  { "di", KOhA, "something 3" }, /* 336 */
-  { "", UNKNOWN, "" }, /* 337 */
-  { "", UNKNOWN, "" }, /* 338 */
-  { "", UNKNOWN, "" }, /* 339 */
-  { "", UNKNOWN, "" }, /* 340 */
-  { "", UNKNOWN, "" }, /* 341 */
-  { "", UNKNOWN, "" }, /* 342 */
-  { "", UNKNOWN, "" }, /* 343 */
-  { "di\'a", ZAhO, "resumptitive" }, /* 344 */
-  { "di\'e", KOhA, "next utterance" }, /* 345 */
-  { "di\'i", TAhE, "regularly" }, /* 346 */
-  { "di\'o", BAI, "at the locus of" }, /* 347 */
-  { "di\'u", KOhA, "last utterance" }, /* 348 */
-  { "", UNKNOWN, "" }, /* 349 */
-  { "do", KOhA, "you" }, /* 350 */
-  { "", UNKNOWN, "" }, /* 351 */
-  { "", UNKNOWN, "" }, /* 352 */
-  { "doi", DOI, "vocative marker" }, /* 353 */
-  { "", UNKNOWN, "" }, /* 354 */
-  { "", UNKNOWN, "" }, /* 355 */
-  { "", UNKNOWN, "" }, /* 356 */
-  { "", UNKNOWN, "" }, /* 357 */
-  { "do\'a", UI, "generously" }, /* 358 */
-  { "do\'e", BAI, "unspecif modal" }, /* 359 */
-  { "do\'i", KOhA, "unspecif utterance" }, /* 360 */
-  { "do\'o", KOhA, "you and others" }, /* 361 */
-  { "do\'u", DOhU, "end vocative" }, /* 362 */
-  { "", UNKNOWN, "" }, /* 363 */
-  { "du", GOhA, "same identity as" }, /* 364 */
-  { "", UNKNOWN, "" }, /* 365 */
-  { "", UNKNOWN, "" }, /* 366 */
-  { "", UNKNOWN, "" }, /* 367 */
-  { "", UNKNOWN, "" }, /* 368 */
-  { "", UNKNOWN, "" }, /* 369 */
-  { "", UNKNOWN, "" }, /* 370 */
-  { "", UNKNOWN, "" }, /* 371 */
-  { "du\'a", FAhA, "east of" }, /* 372 */
-  { "du\'e", PA, "too many" }, /* 373 */
-  { "du\'i", BAI, "as much as" }, /* 374 */
-  { "du\'o", BAI, "according to" }, /* 375 */
-  { "du\'u", NU, "bridi abstract" }, /* 376 */
-  { "", UNKNOWN, "" }, /* 377 */
-  { "dy", BY, "d" }, /* 378 */
-  { "", UNKNOWN, "" }, /* 379 */
-  { "", UNKNOWN, "" }, /* 380 */
-  { "", UNKNOWN, "" }, /* 381 */
-  { "", UNKNOWN, "" }, /* 382 */
-  { "", UNKNOWN, "" }, /* 383 */
-  { "", UNKNOWN, "" }, /* 384 */
-  { "", UNKNOWN, "" }, /* 385 */
-  { "", UNKNOWN, "" }, /* 386 */
-  { "", UNKNOWN, "" }, /* 387 */
-  { "", UNKNOWN, "" }, /* 388 */
-  { "", UNKNOWN, "" }, /* 389 */
-  { "", UNKNOWN, "" }, /* 390 */
-  { "", UNKNOWN, "" }, /* 391 */
-  { "", UNKNOWN, "" }, /* 392 */
-  { "", UNKNOWN, "" }, /* 393 */
-  { "", UNKNOWN, "" }, /* 394 */
-  { "", UNKNOWN, "" }, /* 395 */
-  { "", UNKNOWN, "" }, /* 396 */
-  { "", UNKNOWN, "" }, /* 397 */
-  { "", UNKNOWN, "" }, /* 398 */
-  { "", UNKNOWN, "" }, /* 399 */
-  { "", UNKNOWN, "" }, /* 400 */
-  { "", UNKNOWN, "" }, /* 401 */
-  { "", UNKNOWN, "" }, /* 402 */
-  { "", UNKNOWN, "" }, /* 403 */
-  { "", UNKNOWN, "" }, /* 404 */
-  { "", UNKNOWN, "" }, /* 405 */
-  { "fa", FA, "1st sumti place" }, /* 406 */
-  { "", UNKNOWN, "" }, /* 407 */
-  { "", UNKNOWN, "" }, /* 408 */
-  { "fai", FA, "extra sumti place" }, /* 409 */
-  { "", UNKNOWN, "" }, /* 410 */
-  { "fau", BAI, "in the event of" }, /* 411 */
-  { "", UNKNOWN, "" }, /* 412 */
-  { "", UNKNOWN, "" }, /* 413 */
-  { "fa\'a", FAhA, "towards point" }, /* 414 */
-  { "fa\'e", BAI, "reverse of" }, /* 415 */
-  { "fa\'i", VUhU, "reciprocal of" }, /* 416 */
-  { "fa\'o", FAhO, "end of text" }, /* 417 */
-  { "fa\'u", JOI, "and respectively" }, /* 418 */
-  { "", UNKNOWN, "" }, /* 419 */
-  { "fe", FA, "2nd sumti place" }, /* 420 */
-  { "", UNKNOWN, "" }, /* 421 */
-  { "", UNKNOWN, "" }, /* 422 */
-  { "fei", PA, "hex digit B" }, /* 423 */
-  { "", UNKNOWN, "" }, /* 424 */
-  { "", UNKNOWN, "" }, /* 425 */
-  { "", UNKNOWN, "" }, /* 426 */
-  { "", UNKNOWN, "" }, /* 427 */
-  { "fe\'a", VUhU, "nth root of" }, /* 428 */
-  { "fe\'e", FEhE, "space aspects" }, /* 429 */
-  { "fe\'i", VUhU, "divided by" }, /* 430 */
-  { "fe\'o", COI, "over and out" }, /* 431 */
-  { "fe\'u", FEhU, "end modal selbri" }, /* 432 */
-  { "", UNKNOWN, "" }, /* 433 */
-  { "fi", FA, "3rd sumti place" }, /* 434 */
-  { "", UNKNOWN, "" }, /* 435 */
-  { "", UNKNOWN, "" }, /* 436 */
-  { "", UNKNOWN, "" }, /* 437 */
-  { "", UNKNOWN, "" }, /* 438 */
-  { "", UNKNOWN, "" }, /* 439 */
-  { "", UNKNOWN, "" }, /* 440 */
-  { "", UNKNOWN, "" }, /* 441 */
-  { "fi\'a", FA, "sumti place ?" }, /* 442 */
-  { "fi\'e", BAI, "created by" }, /* 443 */
-  { "fi\'i", COI, "hospitality" }, /* 444 */
-  { "fi\'o", FIhO, "selbri to modal" }, /* 445 */
-  { "fi\'u", PA, "fraction slash" }, /* 446 */
-  { "", UNKNOWN, "" }, /* 447 */
-  { "fo", FA, "4th sumti place" }, /* 448 */
-  { "", UNKNOWN, "" }, /* 449 */
-  { "", UNKNOWN, "" }, /* 450 */
-  { "foi", FOI, "end composite lerfu" }, /* 451 */
-  { "", UNKNOWN, "" }, /* 452 */
-  { "", UNKNOWN, "" }, /* 453 */
-  { "", UNKNOWN, "" }, /* 454 */
-  { "", UNKNOWN, "" }, /* 455 */
-  { "fo\'a", KOhA, "it-6" }, /* 456 */
-  { "fo\'e", KOhA, "it-7" }, /* 457 */
-  { "fo\'i", KOhA, "it-8" }, /* 458 */
-  { "fo\'o", KOhA, "it-9" }, /* 459 */
-  { "fo\'u", KOhA, "it-10" }, /* 460 */
-  { "", UNKNOWN, "" }, /* 461 */
-  { "fu", FA, "5th sumti place" }, /* 462 */
-  { "", UNKNOWN, "" }, /* 463 */
-  { "", UNKNOWN, "" }, /* 464 */
-  { "", UNKNOWN, "" }, /* 465 */
-  { "", UNKNOWN, "" }, /* 466 */
-  { "", UNKNOWN, "" }, /* 467 */
-  { "", UNKNOWN, "" }, /* 468 */
-  { "", UNKNOWN, "" }, /* 469 */
-  { "fu\'a", FUhA, "reverse Polish" }, /* 470 */
-  { "fu\'e", FUhE, "indicator scope" }, /* 471 */
-  { "fu\'i", UI, "easy" }, /* 472 */
-  { "fu\'o", FUhO, "end indicator scope" }, /* 473 */
-  { "fu\'u", VUhU, "unspecif operator" }, /* 474 */
-  { "", UNKNOWN, "" }, /* 475 */
-  { "fy", BY, "f" }, /* 476 */
-  { "", UNKNOWN, "" }, /* 477 */
-  { "", UNKNOWN, "" }, /* 478 */
-  { "", UNKNOWN, "" }, /* 479 */
-  { "", UNKNOWN, "" }, /* 480 */
-  { "", UNKNOWN, "" }, /* 481 */
-  { "", UNKNOWN, "" }, /* 482 */
-  { "", UNKNOWN, "" }, /* 483 */
-  { "", UNKNOWN, "" }, /* 484 */
-  { "", UNKNOWN, "" }, /* 485 */
-  { "", UNKNOWN, "" }, /* 486 */
-  { "", UNKNOWN, "" }, /* 487 */
-  { "", UNKNOWN, "" }, /* 488 */
-  { "", UNKNOWN, "" }, /* 489 */
-  { "", UNKNOWN, "" }, /* 490 */
-  { "", UNKNOWN, "" }, /* 491 */
-  { "", UNKNOWN, "" }, /* 492 */
-  { "", UNKNOWN, "" }, /* 493 */
-  { "", UNKNOWN, "" }, /* 494 */
-  { "", UNKNOWN, "" }, /* 495 */
-  { "", UNKNOWN, "" }, /* 496 */
-  { "", UNKNOWN, "" }, /* 497 */
-  { "", UNKNOWN, "" }, /* 498 */
-  { "", UNKNOWN, "" }, /* 499 */
-  { "", UNKNOWN, "" }, /* 500 */
-  { "", UNKNOWN, "" }, /* 501 */
-  { "", UNKNOWN, "" }, /* 502 */
-  { "", UNKNOWN, "" }, /* 503 */
-  { "ga", GA, "fore or" }, /* 504 */
-  { "", UNKNOWN, "" }, /* 505 */
-  { "", UNKNOWN, "" }, /* 506 */
-  { "gai", PA, "hex digit C" }, /* 507 */
-  { "", UNKNOWN, "" }, /* 508 */
-  { "gau", BAI, "with active agent" }, /* 509 */
-  { "", UNKNOWN, "" }, /* 510 */
-  { "", UNKNOWN, "" }, /* 511 */
-  { "ga\'a", BAI, "to observer" }, /* 512 */
-  { "ga\'e", BY, "upper-case shift" }, /* 513 */
-  { "ga\'i", UI, "hauteur" }, /* 514 */
-  { "ga\'o", GAhO, "inclusive interval" }, /* 515 */
-  { "ga\'u", FAhA, "above" }, /* 516 */
-  { "", UNKNOWN, "" }, /* 517 */
-  { "ge", GA, "fore and" }, /* 518 */
-  { "", UNKNOWN, "" }, /* 519 */
-  { "", UNKNOWN, "" }, /* 520 */
-  { "gei", VUhU, "exponential notation" }, /* 521 */
-  { "", UNKNOWN, "" }, /* 522 */
-  { "", UNKNOWN, "" }, /* 523 */
-  { "", UNKNOWN, "" }, /* 524 */
-  { "", UNKNOWN, "" }, /* 525 */
-  { "ge\'a", VUhU, "null operator" }, /* 526 */
-  { "ge\'e", UI, "unspecif emotion" }, /* 527 */
-  { "ge\'i", GA, "fore conn ?" }, /* 528 */
-  { "ge\'o", BY, "Greek shift" }, /* 529 */
-  { "ge\'u", GEhU, "end relative phrase" }, /* 530 */
-  { "", UNKNOWN, "" }, /* 531 */
-  { "gi", GI, "connective medial" }, /* 532 */
-  { "", UNKNOWN, "" }, /* 533 */
-  { "", UNKNOWN, "" }, /* 534 */
-  { "", UNKNOWN, "" }, /* 535 */
-  { "", UNKNOWN, "" }, /* 536 */
-  { "", UNKNOWN, "" }, /* 537 */
-  { "", UNKNOWN, "" }, /* 538 */
-  { "", UNKNOWN, "" }, /* 539 */
-  { "gi\'a", GIhA, "bridi or" }, /* 540 */
-  { "gi\'e", GIhA, "bridi and" }, /* 541 */
-  { "gi\'i", GIhA, "bridi conn ?" }, /* 542 */
-  { "gi\'o", GIhA, "bridi iff" }, /* 543 */
-  { "gi\'u", GIhA, "bridi whether" }, /* 544 */
-  { "", UNKNOWN, "" }, /* 545 */
-  { "go", GA, "fore iff" }, /* 546 */
-  { "", UNKNOWN, "" }, /* 547 */
-  { "", UNKNOWN, "" }, /* 548 */
-  { "goi", GOI, "pro-sumti assign" }, /* 549 */
-  { "", UNKNOWN, "" }, /* 550 */
-  { "", UNKNOWN, "" }, /* 551 */
-  { "", UNKNOWN, "" }, /* 552 */
-  { "", UNKNOWN, "" }, /* 553 */
-  { "go\'a", GOhA, "recent bridi" }, /* 554 */
-  { "go\'e", GOhA, "penultimate bridi" }, /* 555 */
-  { "go\'i", GOhA, "last bridi" }, /* 556 */
-  { "go\'o", GOhA, "future bridi" }, /* 557 */
-  { "go\'u", GOhA, "earlier bridi" }, /* 558 */
-  { "", UNKNOWN, "" }, /* 559 */
-  { "gu", GA, "fore whether" }, /* 560 */
-  { "", UNKNOWN, "" }, /* 561 */
-  { "", UNKNOWN, "" }, /* 562 */
-  { "", UNKNOWN, "" }, /* 563 */
-  { "", UNKNOWN, "" }, /* 564 */
-  { "", UNKNOWN, "" }, /* 565 */
-  { "", UNKNOWN, "" }, /* 566 */
-  { "", UNKNOWN, "" }, /* 567 */
-  { "gu\'a", GUhA, "fore tanru or" }, /* 568 */
-  { "gu\'e", GUhA, "fore tanru and" }, /* 569 */
-  { "gu\'i", GUhA, "fore tanru conn ?" }, /* 570 */
-  { "gu\'o", GUhA, "fore tanru iff" }, /* 571 */
-  { "gu\'u", GUhA, "fore tanru whether" }, /* 572 */
-  { "", UNKNOWN, "" }, /* 573 */
-  { "gy", BY, "g" }, /* 574 */
-  { "", UNKNOWN, "" }, /* 575 */
-  { "", UNKNOWN, "" }, /* 576 */
-  { "", UNKNOWN, "" }, /* 577 */
-  { "", UNKNOWN, "" }, /* 578 */
-  { "", UNKNOWN, "" }, /* 579 */
-  { "", UNKNOWN, "" }, /* 580 */
-  { "", UNKNOWN, "" }, /* 581 */
-  { "", UNKNOWN, "" }, /* 582 */
-  { "", UNKNOWN, "" }, /* 583 */
-  { "", UNKNOWN, "" }, /* 584 */
-  { "", UNKNOWN, "" }, /* 585 */
-  { "", UNKNOWN, "" }, /* 586 */
-  { "", UNKNOWN, "" }, /* 587 */
-  { "", UNKNOWN, "" }, /* 588 */
-  { "", UNKNOWN, "" }, /* 589 */
-  { "", UNKNOWN, "" }, /* 590 */
-  { "", UNKNOWN, "" }, /* 591 */
-  { "", UNKNOWN, "" }, /* 592 */
-  { "", UNKNOWN, "" }, /* 593 */
-  { "", UNKNOWN, "" }, /* 594 */
-  { "", UNKNOWN, "" }, /* 595 */
-  { "", UNKNOWN, "" }, /* 596 */
-  { "", UNKNOWN, "" }, /* 597 */
-  { "", UNKNOWN, "" }, /* 598 */
-  { "", UNKNOWN, "" }, /* 599 */
-  { "", UNKNOWN, "" }, /* 600 */
-  { "", UNKNOWN, "" }, /* 601 */
-  { "ja", JA, "tanru or" }, /* 602 */
-  { "", UNKNOWN, "" }, /* 603 */
-  { "", UNKNOWN, "" }, /* 604 */
-  { "jai", JAI, "modal conversion" }, /* 605 */
-  { "", UNKNOWN, "" }, /* 606 */
-  { "jau", PA, "hex digit D" }, /* 607 */
-  { "", UNKNOWN, "" }, /* 608 */
-  { "", UNKNOWN, "" }, /* 609 */
-  { "ja\'a", NA, "bridi affirmer" }, /* 610 */
-  { "ja\'e", BAI, "therefore result" }, /* 611 */
-  { "ja\'i", BAI, "by rule" }, /* 612 */
-  { "ja\'o", UI, "I conclude" }, /* 613 */
-  { "", UNKNOWN, "" }, /* 614 */
-  { "", UNKNOWN, "" }, /* 615 */
-  { "je", JA, "tanru and" }, /* 616 */
-  { "", UNKNOWN, "" }, /* 617 */
-  { "", UNKNOWN, "" }, /* 618 */
-  { "jei", NU, "truth abstract" }, /* 619 */
-  { "", UNKNOWN, "" }, /* 620 */
-  { "", UNKNOWN, "" }, /* 621 */
-  { "", UNKNOWN, "" }, /* 622 */
-  { "", UNKNOWN, "" }, /* 623 */
-  { "je\'a", NAhE, "scalar affirmer" }, /* 624 */
-  { "je\'e", COI, "roger" }, /* 625 */
-  { "je\'i", JA, "tanru conn ?" }, /* 626 */
-  { "je\'o", BY, "Hebrew shift" }, /* 627 */
-  { "je\'u", UI, "truth" }, /* 628 */
-  { "", UNKNOWN, "" }, /* 629 */
-  { "ji", A, "sumti conn ?" }, /* 630 */
-  { "", UNKNOWN, "" }, /* 631 */
-  { "", UNKNOWN, "" }, /* 632 */
-  { "", UNKNOWN, "" }, /* 633 */
-  { "", UNKNOWN, "" }, /* 634 */
-  { "", UNKNOWN, "" }, /* 635 */
-  { "", UNKNOWN, "" }, /* 636 */
-  { "", UNKNOWN, "" }, /* 637 */
-  { "ji\'a", UI, "in addition" }, /* 638 */
-  { "ji\'e", BAI, "up to limit" }, /* 639 */
-  { "ji\'i", PA, "approximately" }, /* 640 */
-  { "ji\'o", BAI, "under direction of" }, /* 641 */
-  { "ji\'u", BAI, "based on" }, /* 642 */
-  { "", UNKNOWN, "" }, /* 643 */
-  { "jo", JA, "tanru iff" }, /* 644 */
-  { "", UNKNOWN, "" }, /* 645 */
-  { "", UNKNOWN, "" }, /* 646 */
-  { "joi", JOI, "in a mass with" }, /* 647 */
-  { "", UNKNOWN, "" }, /* 648 */
-  { "", UNKNOWN, "" }, /* 649 */
-  { "", UNKNOWN, "" }, /* 650 */
-  { "", UNKNOWN, "" }, /* 651 */
-  { "jo\'a", UI, "metalinguistic yes" }, /* 652 */
-  { "jo\'e", JOI, "union" }, /* 653 */
-  { "jo\'i", JOhI, "array" }, /* 654 */
-  { "jo\'o", BY, "Arabic shift" }, /* 655 */
-  { "jo\'u", JOI, "in common with" }, /* 656 */
-  { "", UNKNOWN, "" }, /* 657 */
-  { "ju", JA, "tanru whether" }, /* 658 */
-  { "", UNKNOWN, "" }, /* 659 */
-  { "", UNKNOWN, "" }, /* 660 */
-  { "", UNKNOWN, "" }, /* 661 */
-  { "", UNKNOWN, "" }, /* 662 */
-  { "", UNKNOWN, "" }, /* 663 */
-  { "", UNKNOWN, "" }, /* 664 */
-  { "", UNKNOWN, "" }, /* 665 */
-  { "ju\'a", UI, "I state" }, /* 666 */
-  { "", UNKNOWN, "" }, /* 667 */
-  { "ju\'i", COI, "attention" }, /* 668 */
-  { "ju\'o", UI, "certainty" }, /* 669 */
-  { "ju\'u", VUhU, "number base" }, /* 670 */
-  { "", UNKNOWN, "" }, /* 671 */
-  { "jy", BY, "j" }, /* 672 */
-  { "", UNKNOWN, "" }, /* 673 */
-  { "", UNKNOWN, "" }, /* 674 */
-  { "", UNKNOWN, "" }, /* 675 */
-  { "", UNKNOWN, "" }, /* 676 */
-  { "", UNKNOWN, "" }, /* 677 */
-  { "", UNKNOWN, "" }, /* 678 */
-  { "", UNKNOWN, "" }, /* 679 */
-  { "", UNKNOWN, "" }, /* 680 */
-  { "", UNKNOWN, "" }, /* 681 */
-  { "", UNKNOWN, "" }, /* 682 */
-  { "", UNKNOWN, "" }, /* 683 */
-  { "", UNKNOWN, "" }, /* 684 */
-  { "", UNKNOWN, "" }, /* 685 */
-  { "", UNKNOWN, "" }, /* 686 */
-  { "", UNKNOWN, "" }, /* 687 */
-  { "", UNKNOWN, "" }, /* 688 */
-  { "", UNKNOWN, "" }, /* 689 */
-  { "", UNKNOWN, "" }, /* 690 */
-  { "", UNKNOWN, "" }, /* 691 */
-  { "", UNKNOWN, "" }, /* 692 */
-  { "", UNKNOWN, "" }, /* 693 */
-  { "", UNKNOWN, "" }, /* 694 */
-  { "", UNKNOWN, "" }, /* 695 */
-  { "", UNKNOWN, "" }, /* 696 */
-  { "", UNKNOWN, "" }, /* 697 */
-  { "", UNKNOWN, "" }, /* 698 */
-  { "", UNKNOWN, "" }, /* 699 */
-  { "ka", NU, "property abstract" }, /* 700 */
-  { "", UNKNOWN, "" }, /* 701 */
-  { "", UNKNOWN, "" }, /* 702 */
-  { "kai", BAI, "characterizing" }, /* 703 */
-  { "", UNKNOWN, "" }, /* 704 */
-  { "kau", UI, "indirect question" }, /* 705 */
-  { "", UNKNOWN, "" }, /* 706 */
-  { "", UNKNOWN, "" }, /* 707 */
-  { "ka\'a", BAI, "gone to by" }, /* 708 */
-  { "ka\'e", CAhA, "innately capable of" }, /* 709 */
-  { "ka\'i", BAI, "represented by" }, /* 710 */
-  { "ka\'o", PA, "imaginary i" }, /* 711 */
-  { "ka\'u", UI, "I know culturally" }, /* 712 */
-  { "", UNKNOWN, "" }, /* 713 */
-  { "ke", KE, "start grouping" }, /* 714 */
-  { "", UNKNOWN, "" }, /* 715 */
-  { "", UNKNOWN, "" }, /* 716 */
-  { "kei", KEI, "end abstraction" }, /* 717 */
-  { "", UNKNOWN, "" }, /* 718 */
-  { "", UNKNOWN, "" }, /* 719 */
-  { "", UNKNOWN, "" }, /* 720 */
-  { "", UNKNOWN, "" }, /* 721 */
-  { "ke\'a", KOhA, "relativized it" }, /* 722 */
-  { "ke\'e", KEhE, "end grouping" }, /* 723 */
-  { "ke\'i", GAhO, "exclusive interval" }, /* 724 */
-  { "ke\'o", COI, "please repeat" }, /* 725 */
-  { "ke\'u", UI, "repeating" }, /* 726 */
-  { "", UNKNOWN, "" }, /* 727 */
-  { "ki", KI, "tense default" }, /* 728 */
-  { "", UNKNOWN, "" }, /* 729 */
-  { "", UNKNOWN, "" }, /* 730 */
-  { "", UNKNOWN, "" }, /* 731 */
-  { "", UNKNOWN, "" }, /* 732 */
-  { "", UNKNOWN, "" }, /* 733 */
-  { "", UNKNOWN, "" }, /* 734 */
-  { "", UNKNOWN, "" }, /* 735 */
-  { "ki\'a", UI, "textual confusion" }, /* 736 */
-  { "ki\'e", COI, "thanks" }, /* 737 */
-  { "ki\'i", BAI, "as a relation of" }, /* 738 */
-  { "ki\'o", PA, "number comma" }, /* 739 */
-  { "ki\'u", BAI, "because of reason" }, /* 740 */
-  { "", UNKNOWN, "" }, /* 741 */
-  { "ko", KOhA, "imperative" }, /* 742 */
-  { "", UNKNOWN, "" }, /* 743 */
-  { "", UNKNOWN, "" }, /* 744 */
-  { "koi", BAI, "bounded by" }, /* 745 */
-  { "", UNKNOWN, "" }, /* 746 */
-  { "", UNKNOWN, "" }, /* 747 */
-  { "", UNKNOWN, "" }, /* 748 */
-  { "", UNKNOWN, "" }, /* 749 */
-  { "ko\'a", KOhA, "it-1" }, /* 750 */
-  { "ko\'e", KOhA, "it-2" }, /* 751 */
-  { "ko\'i", KOhA, "it-3" }, /* 752 */
-  { "ko\'o", KOhA, "it-4" }, /* 753 */
-  { "ko\'u", KOhA, "it-5" }, /* 754 */
-  { "", UNKNOWN, "" }, /* 755 */
-  { "ku", KU, "end sumti" }, /* 756 */
-  { "", UNKNOWN, "" }, /* 757 */
-  { "", UNKNOWN, "" }, /* 758 */
-  { "", UNKNOWN, "" }, /* 759 */
-  { "", UNKNOWN, "" }, /* 760 */
-  { "", UNKNOWN, "" }, /* 761 */
-  { "", UNKNOWN, "" }, /* 762 */
-  { "", UNKNOWN, "" }, /* 763 */
-  { "ku\'a", JOI, "intersection" }, /* 764 */
-  { "ku\'e", KUhE, "end mex forethought" }, /* 765 */
-  { "ku\'i", UI, "however" }, /* 766 */
-  { "ku\'o", KUhO, "end relative clause" }, /* 767 */
-  { "ku\'u", BAI, "in culture" }, /* 768 */
-  { "", UNKNOWN, "" }, /* 769 */
-  { "ky", BY, "k" }, /* 770 */
-  { "", UNKNOWN, "" }, /* 771 */
-  { "", UNKNOWN, "" }, /* 772 */
-  { "", UNKNOWN, "" }, /* 773 */
-  { "", UNKNOWN, "" }, /* 774 */
-  { "", UNKNOWN, "" }, /* 775 */
-  { "", UNKNOWN, "" }, /* 776 */
-  { "", UNKNOWN, "" }, /* 777 */
-  { "", UNKNOWN, "" }, /* 778 */
-  { "", UNKNOWN, "" }, /* 779 */
-  { "", UNKNOWN, "" }, /* 780 */
-  { "", UNKNOWN, "" }, /* 781 */
-  { "", UNKNOWN, "" }, /* 782 */
-  { "", UNKNOWN, "" }, /* 783 */
-  { "", UNKNOWN, "" }, /* 784 */
-  { "", UNKNOWN, "" }, /* 785 */
-  { "", UNKNOWN, "" }, /* 786 */
-  { "", UNKNOWN, "" }, /* 787 */
-  { "", UNKNOWN, "" }, /* 788 */
-  { "", UNKNOWN, "" }, /* 789 */
-  { "", UNKNOWN, "" }, /* 790 */
-  { "", UNKNOWN, "" }, /* 791 */
-  { "", UNKNOWN, "" }, /* 792 */
-  { "", UNKNOWN, "" }, /* 793 */
-  { "", UNKNOWN, "" }, /* 794 */
-  { "", UNKNOWN, "" }, /* 795 */
-  { "", UNKNOWN, "" }, /* 796 */
-  { "", UNKNOWN, "" }, /* 797 */
-  { "la", LA, "that named" }, /* 798 */
-  { "", UNKNOWN, "" }, /* 799 */
-  { "", UNKNOWN, "" }, /* 800 */
-  { "lai", LA, "the mass of named" }, /* 801 */
-  { "", UNKNOWN, "" }, /* 802 */
-  { "lau", LAU, "punctuation mark" }, /* 803 */
-  { "", UNKNOWN, "" }, /* 804 */
-  { "", UNKNOWN, "" }, /* 805 */
-  { "la\'a", UI, "probability" }, /* 806 */
-  { "la\'e", LAhE, "the referent of" }, /* 807 */
-  { "la\'i", LA, "the set of named" }, /* 808 */
-  { "la\'o", ZOI, "the non-Lojban named" }, /* 809 */
-  { "la\'u", BAI, "quantifying" }, /* 810 */
-  { "", UNKNOWN, "" }, /* 811 */
-  { "le", LE, "the described" }, /* 812 */
-  { "", UNKNOWN, "" }, /* 813 */
-  { "", UNKNOWN, "" }, /* 814 */
-  { "lei", LE, "the mass described" }, /* 815 */
-  { "", UNKNOWN, "" }, /* 816 */
-  { "", UNKNOWN, "" }, /* 817 */
-  { "", UNKNOWN, "" }, /* 818 */
-  { "", UNKNOWN, "" }, /* 819 */
-  { "le\'a", BAI, "in category" }, /* 820 */
-  { "le\'e", LE, "the stereotypical" }, /* 821 */
-  { "le\'i", LE, "the set described" }, /* 822 */
-  { "le\'o", UI, "aggressive" }, /* 823 */
-  { "le\'u", LEhU, "end error quote" }, /* 824 */
-  { "", UNKNOWN, "" }, /* 825 */
-  { "li", LI, "the number" }, /* 826 */
-  { "", UNKNOWN, "" }, /* 827 */
-  { "", UNKNOWN, "" }, /* 828 */
-  { "", UNKNOWN, "" }, /* 829 */
-  { "", UNKNOWN, "" }, /* 830 */
-  { "", UNKNOWN, "" }, /* 831 */
-  { "", UNKNOWN, "" }, /* 832 */
-  { "", UNKNOWN, "" }, /* 833 */
-  { "li\'a", UI, "clearly" }, /* 834 */
-  { "li\'e", BAI, "preceded by" }, /* 835 */
-  { "li\'i", NU, "experience abstract" }, /* 836 */
-  { "li\'o", UI, "omitted text" }, /* 837 */
-  { "li\'u", LIhU, "end quote" }, /* 838 */
-  { "", UNKNOWN, "" }, /* 839 */
-  { "lo", LE, "the really is" }, /* 840 */
-  { "", UNKNOWN, "" }, /* 841 */
-  { "", UNKNOWN, "" }, /* 842 */
-  { "loi", LE, "the mass really is" }, /* 843 */
-  { "", UNKNOWN, "" }, /* 844 */
-  { "", UNKNOWN, "" }, /* 845 */
-  { "", UNKNOWN, "" }, /* 846 */
-  { "", UNKNOWN, "" }, /* 847 */
-  { "lo\'a", BY, "Lojban shift" }, /* 848 */
-  { "lo\'e", LE, "the typical" }, /* 849 */
-  { "lo\'i", LE, "the set really is" }, /* 850 */
-  { "lo\'o", LOhO, "end mex sumti" }, /* 851 */
-  { "lo\'u", LOhU, "error quote" }, /* 852 */
-  { "", UNKNOWN, "" }, /* 853 */
-  { "lu", LU, "quote" }, /* 854 */
-  { "", UNKNOWN, "" }, /* 855 */
-  { "", UNKNOWN, "" }, /* 856 */
-  { "", UNKNOWN, "" }, /* 857 */
-  { "", UNKNOWN, "" }, /* 858 */
-  { "", UNKNOWN, "" }, /* 859 */
-  { "", UNKNOWN, "" }, /* 860 */
-  { "", UNKNOWN, "" }, /* 861 */
-  { "lu\'a", LAhE, "the individuals of" }, /* 862 */
-  { "lu\'e", LAhE, "the symbol for" }, /* 863 */
-  { "lu\'i", LAhE, "the set composed of" }, /* 864 */
-  { "lu\'o", LAhE, "the mass composed of" }, /* 865 */
-  { "lu\'u", LUhU, "end sumti qualifiers" }, /* 866 */
-  { "", UNKNOWN, "" }, /* 867 */
-  { "ly", BY, "l" }, /* 868 */
-  { "", UNKNOWN, "" }, /* 869 */
-  { "", UNKNOWN, "" }, /* 870 */
-  { "", UNKNOWN, "" }, /* 871 */
-  { "", UNKNOWN, "" }, /* 872 */
-  { "", UNKNOWN, "" }, /* 873 */
-  { "", UNKNOWN, "" }, /* 874 */
-  { "", UNKNOWN, "" }, /* 875 */
-  { "", UNKNOWN, "" }, /* 876 */
-  { "", UNKNOWN, "" }, /* 877 */
-  { "", UNKNOWN, "" }, /* 878 */
-  { "", UNKNOWN, "" }, /* 879 */
-  { "", UNKNOWN, "" }, /* 880 */
-  { "", UNKNOWN, "" }, /* 881 */
-  { "", UNKNOWN, "" }, /* 882 */
-  { "", UNKNOWN, "" }, /* 883 */
-  { "", UNKNOWN, "" }, /* 884 */
-  { "", UNKNOWN, "" }, /* 885 */
-  { "", UNKNOWN, "" }, /* 886 */
-  { "", UNKNOWN, "" }, /* 887 */
-  { "", UNKNOWN, "" }, /* 888 */
-  { "", UNKNOWN, "" }, /* 889 */
-  { "", UNKNOWN, "" }, /* 890 */
-  { "", UNKNOWN, "" }, /* 891 */
-  { "", UNKNOWN, "" }, /* 892 */
-  { "", UNKNOWN, "" }, /* 893 */
-  { "", UNKNOWN, "" }, /* 894 */
-  { "", UNKNOWN, "" }, /* 895 */
-  { "ma", KOhA, "sumti ?" }, /* 896 */
-  { "", UNKNOWN, "" }, /* 897 */
-  { "", UNKNOWN, "" }, /* 898 */
-  { "mai", MAI, "sentence ordinal" }, /* 899 */
-  { "", UNKNOWN, "" }, /* 900 */
-  { "mau", BAI, "exceeded by" }, /* 901 */
-  { "", UNKNOWN, "" }, /* 902 */
-  { "", UNKNOWN, "" }, /* 903 */
-  { "ma\'a", KOhA, "we with you" }, /* 904 */
-  { "ma\'e", BAI, "material object" }, /* 905 */
-  { "ma\'i", BAI, "in reference frame" }, /* 906 */
-  { "ma\'o", MAhO, "operand to operator" }, /* 907 */
-  { "ma\'u", PA, "positive number" }, /* 908 */
-  { "", UNKNOWN, "" }, /* 909 */
-  { "me", ME, "sumti to selbri" }, /* 910 */
-  { "", UNKNOWN, "" }, /* 911 */
-  { "", UNKNOWN, "" }, /* 912 */
-  { "mei", MOI, "cardinal selbri" }, /* 913 */
-  { "", UNKNOWN, "" }, /* 914 */
-  { "", UNKNOWN, "" }, /* 915 */
-  { "", UNKNOWN, "" }, /* 916 */
-  { "", UNKNOWN, "" }, /* 917 */
-  { "me\'a", BAI, "undercut by" }, /* 918 */
-  { "me\'e", BAI, "with name" }, /* 919 */
-  { "me\'i", PA, "less than" }, /* 920 */
-  { "me\'o", LI, "the mex" }, /* 921 */
-  { "me\'u", MEhU, "end sumti to selbri" }, /* 922 */
-  { "", UNKNOWN, "" }, /* 923 */
-  { "mi", KOhA, "me" }, /* 924 */
-  { "", UNKNOWN, "" }, /* 925 */
-  { "", UNKNOWN, "" }, /* 926 */
-  { "", UNKNOWN, "" }, /* 927 */
-  { "", UNKNOWN, "" }, /* 928 */
-  { "", UNKNOWN, "" }, /* 929 */
-  { "", UNKNOWN, "" }, /* 930 */
-  { "", UNKNOWN, "" }, /* 931 */
-  { "mi\'a", KOhA, "we, not you" }, /* 932 */
-  { "mi\'e", COI, "self-introduction" }, /* 933 */
-  { "mi\'i", BIhI, "center-range" }, /* 934 */
-  { "mi\'o", KOhA, "me and you" }, /* 935 */
-  { "mi\'u", UI, "ditto" }, /* 936 */
-  { "", UNKNOWN, "" }, /* 937 */
-  { "mo", GOhA, "bridi ?" }, /* 938 */
-  { "", UNKNOWN, "" }, /* 939 */
-  { "", UNKNOWN, "" }, /* 940 */
-  { "moi", MOI, "ordinal selbri" }, /* 941 */
-  { "", UNKNOWN, "" }, /* 942 */
-  { "", UNKNOWN, "" }, /* 943 */
-  { "", UNKNOWN, "" }, /* 944 */
-  { "", UNKNOWN, "" }, /* 945 */
-  { "mo\'a", PA, "too few" }, /* 946 */
-  { "mo\'e", MOhE, "sumti to operand" }, /* 947 */
-  { "mo\'i", MOhI, "space motion" }, /* 948 */
-  { "mo\'o", MAI, "section ordinal" }, /* 949 */
-  { "mo\'u", ZAhO, "completive" }, /* 950 */
-  { "", UNKNOWN, "" }, /* 951 */
-  { "mu", PA, "5" }, /* 952 */
-  { "", UNKNOWN, "" }, /* 953 */
-  { "", UNKNOWN, "" }, /* 954 */
-  { "", UNKNOWN, "" }, /* 955 */
-  { "", UNKNOWN, "" }, /* 956 */
-  { "", UNKNOWN, "" }, /* 957 */
-  { "", UNKNOWN, "" }, /* 958 */
-  { "", UNKNOWN, "" }, /* 959 */
-  { "mu\'a", UI, "for example" }, /* 960 */
-  { "mu\'e", NU, "point-event abstract" }, /* 961 */
-  { "mu\'i", BAI, "because of motive" }, /* 962 */
-  { "mu\'o", COI, "over" }, /* 963 */
-  { "mu\'u", BAI, "exemplified by" }, /* 964 */
-  { "", UNKNOWN, "" }, /* 965 */
-  { "my", BY, "m" }, /* 966 */
-  { "", UNKNOWN, "" }, /* 967 */
-  { "", UNKNOWN, "" }, /* 968 */
-  { "", UNKNOWN, "" }, /* 969 */
-  { "", UNKNOWN, "" }, /* 970 */
-  { "", UNKNOWN, "" }, /* 971 */
-  { "", UNKNOWN, "" }, /* 972 */
-  { "", UNKNOWN, "" }, /* 973 */
-  { "", UNKNOWN, "" }, /* 974 */
-  { "", UNKNOWN, "" }, /* 975 */
-  { "", UNKNOWN, "" }, /* 976 */
-  { "", UNKNOWN, "" }, /* 977 */
-  { "", UNKNOWN, "" }, /* 978 */
-  { "", UNKNOWN, "" }, /* 979 */
-  { "", UNKNOWN, "" }, /* 980 */
-  { "", UNKNOWN, "" }, /* 981 */
-  { "", UNKNOWN, "" }, /* 982 */
-  { "", UNKNOWN, "" }, /* 983 */
-  { "", UNKNOWN, "" }, /* 984 */
-  { "", UNKNOWN, "" }, /* 985 */
-  { "", UNKNOWN, "" }, /* 986 */
-  { "", UNKNOWN, "" }, /* 987 */
-  { "", UNKNOWN, "" }, /* 988 */
-  { "", UNKNOWN, "" }, /* 989 */
-  { "", UNKNOWN, "" }, /* 990 */
-  { "", UNKNOWN, "" }, /* 991 */
-  { "", UNKNOWN, "" }, /* 992 */
-  { "", UNKNOWN, "" }, /* 993 */
-  { "na", NA, "bridi negator" }, /* 994 */
-  { "", UNKNOWN, "" }, /* 995 */
-  { "", UNKNOWN, "" }, /* 996 */
-  { "nai", NAI, "negate last word" }, /* 997 */
-  { "", UNKNOWN, "" }, /* 998 */
-  { "nau", CUhE, "reference point" }, /* 999 */
-  { "", UNKNOWN, "" }, /* 1000 */
-  { "", UNKNOWN, "" }, /* 1001 */
-  { "na\'a", BY, "cancel shifts" }, /* 1002 */
-  { "na\'e", NAhE, "scalar contrary" }, /* 1003 */
-  { "na\'i", UI, "metalinguistic not" }, /* 1004 */
-  { "na\'o", TAhE, "typically" }, /* 1005 */
-  { "na\'u", NAhU, "selbri to operator" }, /* 1006 */
-  { "", UNKNOWN, "" }, /* 1007 */
-  { "ne", GOI, "incidental phrase" }, /* 1008 */
-  { "", UNKNOWN, "" }, /* 1009 */
-  { "", UNKNOWN, "" }, /* 1010 */
-  { "nei", GOhA, "current bridi" }, /* 1011 */
-  { "", UNKNOWN, "" }, /* 1012 */
-  { "", UNKNOWN, "" }, /* 1013 */
-  { "", UNKNOWN, "" }, /* 1014 */
-  { "", UNKNOWN, "" }, /* 1015 */
-  { "ne\'a", FAhA, "next to" }, /* 1016 */
-  { "", UNKNOWN, "" }, /* 1017 */
-  { "ne\'i", FAhA, "within" }, /* 1018 */
-  { "ne\'o", VUhU, "factorial" }, /* 1019 */
-  { "ne\'u", FAhA, "south of" }, /* 1020 */
-  { "", UNKNOWN, "" }, /* 1021 */
-  { "ni", NU, "amount abstract" }, /* 1022 */
-  { "", UNKNOWN, "" }, /* 1023 */
-  { "", UNKNOWN, "" }, /* 1024 */
-  { "", UNKNOWN, "" }, /* 1025 */
-  { "", UNKNOWN, "" }, /* 1026 */
-  { "", UNKNOWN, "" }, /* 1027 */
-  { "", UNKNOWN, "" }, /* 1028 */
-  { "", UNKNOWN, "" }, /* 1029 */
-  { "ni\'a", FAhA, "below" }, /* 1030 */
-  { "ni\'e", NIhE, "selbri to operand" }, /* 1031 */
-  { "ni\'i", BAI, "because of logic" }, /* 1032 */
-  { "ni\'o", NIhO, "new topic" }, /* 1033 */
-  { "ni\'u", PA, "negative number" }, /* 1034 */
-  { "", UNKNOWN, "" }, /* 1035 */
-  { "no", PA, "0" }, /* 1036 */
-  { "", UNKNOWN, "" }, /* 1037 */
-  { "", UNKNOWN, "" }, /* 1038 */
-  { "noi", NOI, "incidental clause" }, /* 1039 */
-  { "", UNKNOWN, "" }, /* 1040 */
-  { "", UNKNOWN, "" }, /* 1041 */
-  { "", UNKNOWN, "" }, /* 1042 */
-  { "", UNKNOWN, "" }, /* 1043 */
-  { "no\'a", GOhA, "next outer bridi" }, /* 1044 */
-  { "no\'e", NAhE, "scalar midpoint not" }, /* 1045 */
-  { "no\'i", NIhO, "old topic" }, /* 1046 */
-  { "no\'o", PA, "typical value" }, /* 1047 */
-  { "no\'u", GOI, "incidental identity" }, /* 1048 */
-  { "", UNKNOWN, "" }, /* 1049 */
-  { "nu", NU, "event abstract" }, /* 1050 */
-  { "", UNKNOWN, "" }, /* 1051 */
-  { "", UNKNOWN, "" }, /* 1052 */
-  { "", UNKNOWN, "" }, /* 1053 */
-  { "", UNKNOWN, "" }, /* 1054 */
-  { "", UNKNOWN, "" }, /* 1055 */
-  { "", UNKNOWN, "" }, /* 1056 */
-  { "", UNKNOWN, "" }, /* 1057 */
-  { "nu\'a", NUhA, "operator to selbri" }, /* 1058 */
-  { "nu\'e", COI, "promise" }, /* 1059 */
-  { "nu\'i", NUhI, "start termset" }, /* 1060 */
-  { "nu\'o", CAhA, "can but has not" }, /* 1061 */
-  { "nu\'u", NUhU, "end termset" }, /* 1062 */
-  { "", UNKNOWN, "" }, /* 1063 */
-  { "ny", BY, "n" }, /* 1064 */
-  { "", UNKNOWN, "" }, /* 1065 */
-  { "", UNKNOWN, "" }, /* 1066 */
-  { "", UNKNOWN, "" }, /* 1067 */
-  { "", UNKNOWN, "" }, /* 1068 */
-  { "", UNKNOWN, "" }, /* 1069 */
-  { "", UNKNOWN, "" }, /* 1070 */
-  { "", UNKNOWN, "" }, /* 1071 */
-  { "", UNKNOWN, "" }, /* 1072 */
-  { "", UNKNOWN, "" }, /* 1073 */
-  { "", UNKNOWN, "" }, /* 1074 */
-  { "", UNKNOWN, "" }, /* 1075 */
-  { "", UNKNOWN, "" }, /* 1076 */
-  { "", UNKNOWN, "" }, /* 1077 */
-  { "", UNKNOWN, "" }, /* 1078 */
-  { "", UNKNOWN, "" }, /* 1079 */
-  { "", UNKNOWN, "" }, /* 1080 */
-  { "", UNKNOWN, "" }, /* 1081 */
-  { "", UNKNOWN, "" }, /* 1082 */
-  { "", UNKNOWN, "" }, /* 1083 */
-  { "", UNKNOWN, "" }, /* 1084 */
-  { "", UNKNOWN, "" }, /* 1085 */
-  { "", UNKNOWN, "" }, /* 1086 */
-  { "", UNKNOWN, "" }, /* 1087 */
-  { "", UNKNOWN, "" }, /* 1088 */
-  { "", UNKNOWN, "" }, /* 1089 */
-  { "", UNKNOWN, "" }, /* 1090 */
-  { "", UNKNOWN, "" }, /* 1091 */
-  { "pa", PA, "1" }, /* 1092 */
-  { "", UNKNOWN, "" }, /* 1093 */
-  { "", UNKNOWN, "" }, /* 1094 */
-  { "pai", PA, "pi" }, /* 1095 */
-  { "", UNKNOWN, "" }, /* 1096 */
-  { "pau", UI, "question follows" }, /* 1097 */
-  { "", UNKNOWN, "" }, /* 1098 */
-  { "", UNKNOWN, "" }, /* 1099 */
-  { "pa\'a", BAI, "in addition to" }, /* 1100 */
-  { "pa\'e", UI, "justice" }, /* 1101 */
-  { "pa\'i", VUhU, "ratio" }, /* 1102 */
-  { "pa\'o", FAhA, "transfixing" }, /* 1103 */
-  { "pa\'u", BAI, "having component" }, /* 1104 */
-  { "", UNKNOWN, "" }, /* 1105 */
-  { "pe", GOI, "restrictive phrase" }, /* 1106 */
-  { "", UNKNOWN, "" }, /* 1107 */
-  { "", UNKNOWN, "" }, /* 1108 */
-  { "pei", CAI, "emotion ?" }, /* 1109 */
-  { "", UNKNOWN, "" }, /* 1110 */
-  { "", UNKNOWN, "" }, /* 1111 */
-  { "", UNKNOWN, "" }, /* 1112 */
-  { "", UNKNOWN, "" }, /* 1113 */
-  { "pe\'a", PEhA, "start figurative" }, /* 1114 */
-  { "", UNKNOWN, "" }, /* 1115 */
-  { "pe\'i", UI, "I opine" }, /* 1116 */
-  { "pe\'o", PEhO, "fore mex operator" }, /* 1117 */
-  { "pe\'u", COI, "please" }, /* 1118 */
-  { "", UNKNOWN, "" }, /* 1119 */
-  { "pi", PA, "decimal point" }, /* 1120 */
-  { "", UNKNOWN, "" }, /* 1121 */
-  { "", UNKNOWN, "" }, /* 1122 */
-  { "", UNKNOWN, "" }, /* 1123 */
-  { "", UNKNOWN, "" }, /* 1124 */
-  { "", UNKNOWN, "" }, /* 1125 */
-  { "", UNKNOWN, "" }, /* 1126 */
-  { "", UNKNOWN, "" }, /* 1127 */
-  { "pi\'a", VUhU, "matrix of rows" }, /* 1128 */
-  { "pi\'e", PA, "digit separator" }, /* 1129 */
-  { "pi\'i", VUhU, "times" }, /* 1130 */
-  { "pi\'o", BAI, "used by" }, /* 1131 */
-  { "pi\'u", JOI, "cross product" }, /* 1132 */
-  { "", UNKNOWN, "" }, /* 1133 */
-  { "po", GOI, "is specific to" }, /* 1134 */
-  { "", UNKNOWN, "" }, /* 1135 */
-  { "", UNKNOWN, "" }, /* 1136 */
-  { "poi", NOI, "restrictive clause" }, /* 1137 */
-  { "", UNKNOWN, "" }, /* 1138 */
-  { "", UNKNOWN, "" }, /* 1139 */
-  { "", UNKNOWN, "" }, /* 1140 */
-  { "", UNKNOWN, "" }, /* 1141 */
-  { "po\'a", POhA, "end figurative" }, /* 1142 */
-  { "po\'e", GOI, "which belongs to" }, /* 1143 */
-  { "po\'i", BAI, "in the sequence" }, /* 1144 */
-  { "po\'o", UI, "uniquely" }, /* 1145 */
-  { "po\'u", GOI, "restrictive identity" }, /* 1146 */
-  { "", UNKNOWN, "" }, /* 1147 */
-  { "pu", PU, "before" }, /* 1148 */
-  { "", UNKNOWN, "" }, /* 1149 */
-  { "", UNKNOWN, "" }, /* 1150 */
-  { "", UNKNOWN, "" }, /* 1151 */
-  { "", UNKNOWN, "" }, /* 1152 */
-  { "", UNKNOWN, "" }, /* 1153 */
-  { "", UNKNOWN, "" }, /* 1154 */
-  { "", UNKNOWN, "" }, /* 1155 */
-  { "pu\'a", BAI, "pleased by" }, /* 1156 */
-  { "pu\'e", BAI, "by process" }, /* 1157 */
-  { "pu\'i", CAhA, "can and has" }, /* 1158 */
-  { "pu\'o", ZAhO, "anticipative" }, /* 1159 */
-  { "pu\'u", NU, "process abstract" }, /* 1160 */
-  { "", UNKNOWN, "" }, /* 1161 */
-  { "py", BY, "p" }, /* 1162 */
-  { "", UNKNOWN, "" }, /* 1163 */
-  { "", UNKNOWN, "" }, /* 1164 */
-  { "", UNKNOWN, "" }, /* 1165 */
-  { "", UNKNOWN, "" }, /* 1166 */
-  { "", UNKNOWN, "" }, /* 1167 */
-  { "", UNKNOWN, "" }, /* 1168 */
-  { "", UNKNOWN, "" }, /* 1169 */
-  { "", UNKNOWN, "" }, /* 1170 */
-  { "", UNKNOWN, "" }, /* 1171 */
-  { "", UNKNOWN, "" }, /* 1172 */
-  { "", UNKNOWN, "" }, /* 1173 */
-  { "", UNKNOWN, "" }, /* 1174 */
-  { "", UNKNOWN, "" }, /* 1175 */
-  { "", UNKNOWN, "" }, /* 1176 */
-  { "", UNKNOWN, "" }, /* 1177 */
-  { "", UNKNOWN, "" }, /* 1178 */
-  { "", UNKNOWN, "" }, /* 1179 */
-  { "", UNKNOWN, "" }, /* 1180 */
-  { "", UNKNOWN, "" }, /* 1181 */
-  { "", UNKNOWN, "" }, /* 1182 */
-  { "", UNKNOWN, "" }, /* 1183 */
-  { "", UNKNOWN, "" }, /* 1184 */
-  { "", UNKNOWN, "" }, /* 1185 */
-  { "", UNKNOWN, "" }, /* 1186 */
-  { "", UNKNOWN, "" }, /* 1187 */
-  { "", UNKNOWN, "" }, /* 1188 */
-  { "", UNKNOWN, "" }, /* 1189 */
-  { "ra", KOhA, "recent sumti" }, /* 1190 */
-  { "", UNKNOWN, "" }, /* 1191 */
-  { "", UNKNOWN, "" }, /* 1192 */
-  { "rai", BAI, "with superlative" }, /* 1193 */
-  { "", UNKNOWN, "" }, /* 1194 */
-  { "rau", PA, "enough" }, /* 1195 */
-  { "", UNKNOWN, "" }, /* 1196 */
-  { "", UNKNOWN, "" }, /* 1197 */
-  { "ra\'a", BAI, "pertained to by" }, /* 1198 */
-  { "ra\'e", PA, "repeating decimal" }, /* 1199 */
-  { "ra\'i", BAI, "from source" }, /* 1200 */
-  { "ra\'o", RAhO, "pro-assign update" }, /* 1201 */
-  { "ra\'u", UI, "chiefly" }, /* 1202 */
-  { "", UNKNOWN, "" }, /* 1203 */
-  { "re", PA, "2" }, /* 1204 */
-  { "", UNKNOWN, "" }, /* 1205 */
-  { "", UNKNOWN, "" }, /* 1206 */
-  { "rei", PA, "hex digit E" }, /* 1207 */
-  { "", UNKNOWN, "" }, /* 1208 */
-  { "", UNKNOWN, "" }, /* 1209 */
-  { "", UNKNOWN, "" }, /* 1210 */
-  { "", UNKNOWN, "" }, /* 1211 */
-  { "re\'a", VUhU, "transpose" }, /* 1212 */
-  { "re\'e", UI, "spiritual" }, /* 1213 */
-  { "re\'i", COI, "ready to receive" }, /* 1214 */
-  { "re\'o", FAhA, "adjacent to" }, /* 1215 */
-  { "", UNKNOWN, "" }, /* 1216 */
-  { "", UNKNOWN, "" }, /* 1217 */
-  { "ri", KOhA, "last sumti" }, /* 1218 */
-  { "", UNKNOWN, "" }, /* 1219 */
-  { "", UNKNOWN, "" }, /* 1220 */
-  { "", UNKNOWN, "" }, /* 1221 */
-  { "", UNKNOWN, "" }, /* 1222 */
-  { "", UNKNOWN, "" }, /* 1223 */
-  { "", UNKNOWN, "" }, /* 1224 */
-  { "", UNKNOWN, "" }, /* 1225 */
-  { "ri\'a", BAI, "because of cause" }, /* 1226 */
-  { "ri\'e", UI, "release of emotion" }, /* 1227 */
-  { "ri\'i", BAI, "experienced by" }, /* 1228 */
-  { "ri\'o", VUhU, "integral" }, /* 1229 */
-  { "ri\'u", FAhA, "on the right of" }, /* 1230 */
-  { "", UNKNOWN, "" }, /* 1231 */
-  { "ro", PA, "each" }, /* 1232 */
-  { "", UNKNOWN, "" }, /* 1233 */
-  { "", UNKNOWN, "" }, /* 1234 */
-  { "roi", ROI, "quantified tense" }, /* 1235 */
-  { "", UNKNOWN, "" }, /* 1236 */
-  { "", UNKNOWN, "" }, /* 1237 */
-  { "", UNKNOWN, "" }, /* 1238 */
-  { "", UNKNOWN, "" }, /* 1239 */
-  { "ro\'a", UI, "social" }, /* 1240 */
-  { "ro\'e", UI, "mental" }, /* 1241 */
-  { "ro\'i", UI, "emotional" }, /* 1242 */
-  { "ro\'o", UI, "physical" }, /* 1243 */
-  { "ro\'u", UI, "sexual" }, /* 1244 */
-  { "", UNKNOWN, "" }, /* 1245 */
-  { "ru", KOhA, "earlier sumti" }, /* 1246 */
-  { "", UNKNOWN, "" }, /* 1247 */
-  { "", UNKNOWN, "" }, /* 1248 */
-  { "", UNKNOWN, "" }, /* 1249 */
-  { "", UNKNOWN, "" }, /* 1250 */
-  { "", UNKNOWN, "" }, /* 1251 */
-  { "", UNKNOWN, "" }, /* 1252 */
-  { "", UNKNOWN, "" }, /* 1253 */
-  { "ru\'a", UI, "I postulate" }, /* 1254 */
-  { "ru\'e", CAI, "weak emotion" }, /* 1255 */
-  { "ru\'i", TAhE, "continuously" }, /* 1256 */
-  { "ru\'o", BY, "Cyrillic shift" }, /* 1257 */
-  { "ru\'u", FAhA, "surrounding" }, /* 1258 */
-  { "", UNKNOWN, "" }, /* 1259 */
-  { "ry", BY, "r" }, /* 1260 */
-  { "", UNKNOWN, "" }, /* 1261 */
-  { "", UNKNOWN, "" }, /* 1262 */
-  { "", UNKNOWN, "" }, /* 1263 */
-  { "", UNKNOWN, "" }, /* 1264 */
-  { "", UNKNOWN, "" }, /* 1265 */
-  { "", UNKNOWN, "" }, /* 1266 */
-  { "", UNKNOWN, "" }, /* 1267 */
-  { "", UNKNOWN, "" }, /* 1268 */
-  { "", UNKNOWN, "" }, /* 1269 */
-  { "", UNKNOWN, "" }, /* 1270 */
-  { "", UNKNOWN, "" }, /* 1271 */
-  { "", UNKNOWN, "" }, /* 1272 */
-  { "", UNKNOWN, "" }, /* 1273 */
-  { "", UNKNOWN, "" }, /* 1274 */
-  { "", UNKNOWN, "" }, /* 1275 */
-  { "", UNKNOWN, "" }, /* 1276 */
-  { "", UNKNOWN, "" }, /* 1277 */
-  { "", UNKNOWN, "" }, /* 1278 */
-  { "", UNKNOWN, "" }, /* 1279 */
-  { "", UNKNOWN, "" }, /* 1280 */
-  { "", UNKNOWN, "" }, /* 1281 */
-  { "", UNKNOWN, "" }, /* 1282 */
-  { "", UNKNOWN, "" }, /* 1283 */
-  { "", UNKNOWN, "" }, /* 1284 */
-  { "", UNKNOWN, "" }, /* 1285 */
-  { "", UNKNOWN, "" }, /* 1286 */
-  { "", UNKNOWN, "" }, /* 1287 */
-  { "sa", SA, "erase utterance" }, /* 1288 */
-  { "", UNKNOWN, "" }, /* 1289 */
-  { "", UNKNOWN, "" }, /* 1290 */
-  { "sai", CAI, "strong emotion" }, /* 1291 */
-  { "", UNKNOWN, "" }, /* 1292 */
-  { "sau", BAI, "requiring" }, /* 1293 */
-  { "", UNKNOWN, "" }, /* 1294 */
-  { "", UNKNOWN, "" }, /* 1295 */
-  { "sa\'a", UI, "editorial insertion" }, /* 1296 */
-  { "sa\'e", UI, "precisely speaking" }, /* 1297 */
-  { "sa\'i", VUhU, "matrix of columns" }, /* 1298 */
-  { "sa\'o", VUhU, "derivative" }, /* 1299 */
-  { "sa\'u", UI, "simply speaking" }, /* 1300 */
-  { "", UNKNOWN, "" }, /* 1301 */
-  { "se", SE, "2nd conversion" }, /* 1302 */
-  { "", UNKNOWN, "" }, /* 1303 */
-  { "", UNKNOWN, "" }, /* 1304 */
-  { "sei", SEI, "discursive bridi" }, /* 1305 */
-  { "", UNKNOWN, "" }, /* 1306 */
-  { "", UNKNOWN, "" }, /* 1307 */
-  { "", UNKNOWN, "" }, /* 1308 */
-  { "", UNKNOWN, "" }, /* 1309 */
-  { "se\'a", UI, "self-sufficiency" }, /* 1310 */
-  { "se\'e", BY, "character code" }, /* 1311 */
-  { "se\'i", UI, "self-oriented" }, /* 1312 */
-  { "se\'o", UI, "I know internally" }, /* 1313 */
-  { "se\'u", SEhU, "end discursive" }, /* 1314 */
-  { "", UNKNOWN, "" }, /* 1315 */
-  { "si", SI, "erase word" }, /* 1316 */
-  { "", UNKNOWN, "" }, /* 1317 */
-  { "", UNKNOWN, "" }, /* 1318 */
-  { "", UNKNOWN, "" }, /* 1319 */
-  { "", UNKNOWN, "" }, /* 1320 */
-  { "", UNKNOWN, "" }, /* 1321 */
-  { "", UNKNOWN, "" }, /* 1322 */
-  { "", UNKNOWN, "" }, /* 1323 */
-  { "si\'a", UI, "similarly" }, /* 1324 */
-  { "si\'e", MOI, "portion selbri" }, /* 1325 */
-  { "si\'i", VUhU, "sigma summation" }, /* 1326 */
-  { "si\'o", NU, "concept abstract" }, /* 1327 */
-  { "si\'u", BAI, "aided by" }, /* 1328 */
-  { "", UNKNOWN, "" }, /* 1329 */
-  { "so", PA, "9" }, /* 1330 */
-  { "", UNKNOWN, "" }, /* 1331 */
-  { "", UNKNOWN, "" }, /* 1332 */
-  { "soi", SOI, "reciprocal sumti" }, /* 1333 */
-  { "", UNKNOWN, "" }, /* 1334 */
-  { "", UNKNOWN, "" }, /* 1335 */
-  { "", UNKNOWN, "" }, /* 1336 */
-  { "", UNKNOWN, "" }, /* 1337 */
-  { "so\'a", PA, "almost all" }, /* 1338 */
-  { "so\'e", PA, "most" }, /* 1339 */
-  { "so\'i", PA, "many" }, /* 1340 */
-  { "so\'o", PA, "several" }, /* 1341 */
-  { "so\'u", PA, "few" }, /* 1342 */
-  { "", UNKNOWN, "" }, /* 1343 */
-  { "su", SU, "erase discourse" }, /* 1344 */
-  { "", UNKNOWN, "" }, /* 1345 */
-  { "", UNKNOWN, "" }, /* 1346 */
-  { "", UNKNOWN, "" }, /* 1347 */
-  { "", UNKNOWN, "" }, /* 1348 */
-  { "", UNKNOWN, "" }, /* 1349 */
-  { "", UNKNOWN, "" }, /* 1350 */
-  { "", UNKNOWN, "" }, /* 1351 */
-  { "su\'a", UI, "I generalize" }, /* 1352 */
-  { "su\'e", PA, "at most" }, /* 1353 */
-  { "su\'i", VUhU, "plus" }, /* 1354 */
-  { "su\'o", PA, "at least" }, /* 1355 */
-  { "su\'u", NU, "unspecif abstract" }, /* 1356 */
-  { "", UNKNOWN, "" }, /* 1357 */
-  { "sy", BY, "s" }, /* 1358 */
-  { "", UNKNOWN, "" }, /* 1359 */
-  { "", UNKNOWN, "" }, /* 1360 */
-  { "", UNKNOWN, "" }, /* 1361 */
-  { "", UNKNOWN, "" }, /* 1362 */
-  { "", UNKNOWN, "" }, /* 1363 */
-  { "", UNKNOWN, "" }, /* 1364 */
-  { "", UNKNOWN, "" }, /* 1365 */
-  { "", UNKNOWN, "" }, /* 1366 */
-  { "", UNKNOWN, "" }, /* 1367 */
-  { "", UNKNOWN, "" }, /* 1368 */
-  { "", UNKNOWN, "" }, /* 1369 */
-  { "", UNKNOWN, "" }, /* 1370 */
-  { "", UNKNOWN, "" }, /* 1371 */
-  { "", UNKNOWN, "" }, /* 1372 */
-  { "", UNKNOWN, "" }, /* 1373 */
-  { "", UNKNOWN, "" }, /* 1374 */
-  { "", UNKNOWN, "" }, /* 1375 */
-  { "", UNKNOWN, "" }, /* 1376 */
-  { "", UNKNOWN, "" }, /* 1377 */
-  { "", UNKNOWN, "" }, /* 1378 */
-  { "", UNKNOWN, "" }, /* 1379 */
-  { "", UNKNOWN, "" }, /* 1380 */
-  { "", UNKNOWN, "" }, /* 1381 */
-  { "", UNKNOWN, "" }, /* 1382 */
-  { "", UNKNOWN, "" }, /* 1383 */
-  { "", UNKNOWN, "" }, /* 1384 */
-  { "", UNKNOWN, "" }, /* 1385 */
-  { "ta", KOhA, "that there" }, /* 1386 */
-  { "", UNKNOWN, "" }, /* 1387 */
-  { "", UNKNOWN, "" }, /* 1388 */
-  { "tai", BAI, "in form" }, /* 1389 */
-  { "", UNKNOWN, "" }, /* 1390 */
-  { "tau", LAU, "shift next lerfu" }, /* 1391 */
-  { "", UNKNOWN, "" }, /* 1392 */
-  { "", UNKNOWN, "" }, /* 1393 */
-  { "ta\'a", COI, "interruption" }, /* 1394 */
-  { "ta\'e", TAhE, "habitually" }, /* 1395 */
-  { "ta\'i", BAI, "by method" }, /* 1396 */
-  { "ta\'o", UI, "by the way" }, /* 1397 */
-  { "ta\'u", UI, "making a tanru" }, /* 1398 */
-  { "", UNKNOWN, "" }, /* 1399 */
-  { "te", SE, "3rd conversion" }, /* 1400 */
-  { "", UNKNOWN, "" }, /* 1401 */
-  { "", UNKNOWN, "" }, /* 1402 */
-  { "tei", TEI, "composite lerfu" }, /* 1403 */
-  { "", UNKNOWN, "" }, /* 1404 */
-  { "", UNKNOWN, "" }, /* 1405 */
-  { "", UNKNOWN, "" }, /* 1406 */
-  { "", UNKNOWN, "" }, /* 1407 */
-  { "te\'a", VUhU, "to the power" }, /* 1408 */
-  { "te\'e", FAhA, "bordering" }, /* 1409 */
-  { "", UNKNOWN, "" }, /* 1410 */
-  { "te\'o", PA, "exponential e" }, /* 1411 */
-  { "te\'u", TEhU, "end mex converters" }, /* 1412 */
-  { "", UNKNOWN, "" }, /* 1413 */
-  { "ti", KOhA, "this here" }, /* 1414 */
-  { "", UNKNOWN, "" }, /* 1415 */
-  { "", UNKNOWN, "" }, /* 1416 */
-  { "", UNKNOWN, "" }, /* 1417 */
-  { "", UNKNOWN, "" }, /* 1418 */
-  { "", UNKNOWN, "" }, /* 1419 */
-  { "", UNKNOWN, "" }, /* 1420 */
-  { "", UNKNOWN, "" }, /* 1421 */
-  { "ti\'a", FAhA, "behind" }, /* 1422 */
-  { "ti\'e", UI, "I hear" }, /* 1423 */
-  { "ti\'i", BAI, "suggested by" }, /* 1424 */
-  { "ti\'o", SEI, "mex precedence" }, /* 1425 */
-  { "ti\'u", BAI, "associated with time" }, /* 1426 */
-  { "", UNKNOWN, "" }, /* 1427 */
-  { "to", TO, "start parenthesis" }, /* 1428 */
-  { "", UNKNOWN, "" }, /* 1429 */
-  { "", UNKNOWN, "" }, /* 1430 */
-  { "toi", TOI, "end parenthesis" }, /* 1431 */
-  { "", UNKNOWN, "" }, /* 1432 */
-  { "", UNKNOWN, "" }, /* 1433 */
-  { "", UNKNOWN, "" }, /* 1434 */
-  { "", UNKNOWN, "" }, /* 1435 */
-  { "to\'a", BY, "lower-case shift" }, /* 1436 */
-  { "to\'e", NAhE, "polar opposite" }, /* 1437 */
-  { "to\'i", TO, "editorial unquote" }, /* 1438 */
-  { "to\'o", FAhA, "away from point" }, /* 1439 */
-  { "to\'u", UI, "in brief" }, /* 1440 */
-  { "", UNKNOWN, "" }, /* 1441 */
-  { "tu", KOhA, "that yonder" }, /* 1442 */
-  { "", UNKNOWN, "" }, /* 1443 */
-  { "", UNKNOWN, "" }, /* 1444 */
-  { "", UNKNOWN, "" }, /* 1445 */
-  { "", UNKNOWN, "" }, /* 1446 */
-  { "", UNKNOWN, "" }, /* 1447 */
-  { "", UNKNOWN, "" }, /* 1448 */
-  { "", UNKNOWN, "" }, /* 1449 */
-  { "tu\'a", LAhE, "the bridi implied by" }, /* 1450 */
-  { "tu\'e", TUhE, "start text scope" }, /* 1451 */
-  { "tu\'i", BAI, "associated with site" }, /* 1452 */
-  { "tu\'o", PA, "null operand" }, /* 1453 */
-  { "tu\'u", TUhU, "end text scope" }, /* 1454 */
-  { "", UNKNOWN, "" }, /* 1455 */
-  { "ty", BY, "t" }, /* 1456 */
-  { "", UNKNOWN, "" }, /* 1457 */
-  { "", UNKNOWN, "" }, /* 1458 */
-  { "", UNKNOWN, "" }, /* 1459 */
-  { "", UNKNOWN, "" }, /* 1460 */
-  { "", UNKNOWN, "" }, /* 1461 */
-  { "", UNKNOWN, "" }, /* 1462 */
-  { "", UNKNOWN, "" }, /* 1463 */
-  { "", UNKNOWN, "" }, /* 1464 */
-  { "", UNKNOWN, "" }, /* 1465 */
-  { "", UNKNOWN, "" }, /* 1466 */
-  { "", UNKNOWN, "" }, /* 1467 */
-  { "", UNKNOWN, "" }, /* 1468 */
-  { "", UNKNOWN, "" }, /* 1469 */
-  { "", UNKNOWN, "" }, /* 1470 */
-  { "", UNKNOWN, "" }, /* 1471 */
-  { "", UNKNOWN, "" }, /* 1472 */
-  { "", UNKNOWN, "" }, /* 1473 */
-  { "", UNKNOWN, "" }, /* 1474 */
-  { "", UNKNOWN, "" }, /* 1475 */
-  { "", UNKNOWN, "" }, /* 1476 */
-  { "", UNKNOWN, "" }, /* 1477 */
-  { "", UNKNOWN, "" }, /* 1478 */
-  { "", UNKNOWN, "" }, /* 1479 */
-  { "", UNKNOWN, "" }, /* 1480 */
-  { "", UNKNOWN, "" }, /* 1481 */
-  { "", UNKNOWN, "" }, /* 1482 */
-  { "", UNKNOWN, "" }, /* 1483 */
-  { "va", VA, "there at" }, /* 1484 */
-  { "", UNKNOWN, "" }, /* 1485 */
-  { "", UNKNOWN, "" }, /* 1486 */
-  { "vai", PA, "hex digit F" }, /* 1487 */
-  { "", UNKNOWN, "" }, /* 1488 */
-  { "vau", VAU, "end simple bridi" }, /* 1489 */
-  { "", UNKNOWN, "" }, /* 1490 */
-  { "", UNKNOWN, "" }, /* 1491 */
-  { "va\'a", VUhU, "additive inverse" }, /* 1492 */
-  { "", UNKNOWN, "" }, /* 1493 */
-  { "va\'i", UI, "in other words" }, /* 1494 */
-  { "va\'o", BAI, "under conditions" }, /* 1495 */
-  { "va\'u", BAI, "benefiting from" }, /* 1496 */
-  { "", UNKNOWN, "" }, /* 1497 */
-  { "ve", SE, "4th conversion" }, /* 1498 */
-  { "", UNKNOWN, "" }, /* 1499 */
-  { "", UNKNOWN, "" }, /* 1500 */
-  { "vei", VEI, "left bracket" }, /* 1501 */
-  { "", UNKNOWN, "" }, /* 1502 */
-  { "", UNKNOWN, "" }, /* 1503 */
-  { "", UNKNOWN, "" }, /* 1504 */
-  { "", UNKNOWN, "" }, /* 1505 */
-  { "ve\'a", VEhA, "small space interval" }, /* 1506 */
-  { "ve\'e", VEhA, "whole space interval" }, /* 1507 */
-  { "ve\'i", VEhA, "tiny space interval" }, /* 1508 */
-  { "ve\'o", VEhO, "right bracket" }, /* 1509 */
-  { "ve\'u", VEhA, "big space interval" }, /* 1510 */
-  { "", UNKNOWN, "" }, /* 1511 */
-  { "vi", VA, "here at" }, /* 1512 */
-  { "", UNKNOWN, "" }, /* 1513 */
-  { "", UNKNOWN, "" }, /* 1514 */
-  { "", UNKNOWN, "" }, /* 1515 */
-  { "", UNKNOWN, "" }, /* 1516 */
-  { "", UNKNOWN, "" }, /* 1517 */
-  { "", UNKNOWN, "" }, /* 1518 */
-  { "", UNKNOWN, "" }, /* 1519 */
-  { "vi\'a", VIhA, "2-space interval" }, /* 1520 */
-  { "vi\'e", VIhA, "4-space interval" }, /* 1521 */
-  { "vi\'i", VIhA, "1-space interval" }, /* 1522 */
-  { "vi\'o", COI, "wilco" }, /* 1523 */
-  { "vi\'u", VIhA, "3-space interval" }, /* 1524 */
-  { "", UNKNOWN, "" }, /* 1525 */
-  { "vo", PA, "4" }, /* 1526 */
-  { "", UNKNOWN, "" }, /* 1527 */
-  { "", UNKNOWN, "" }, /* 1528 */
-  { "voi", NOI, "descriptive clause" }, /* 1529 */
-  { "", UNKNOWN, "" }, /* 1530 */
-  { "", UNKNOWN, "" }, /* 1531 */
-  { "", UNKNOWN, "" }, /* 1532 */
-  { "", UNKNOWN, "" }, /* 1533 */
-  { "vo\'a", KOhA, "x1 it" }, /* 1534 */
-  { "vo\'e", KOhA, "x2 it" }, /* 1535 */
-  { "vo\'i", KOhA, "x3 it" }, /* 1536 */
-  { "vo\'o", KOhA, "x4 it" }, /* 1537 */
-  { "vo\'u", KOhA, "x5 it" }, /* 1538 */
-  { "", UNKNOWN, "" }, /* 1539 */
-  { "vu", VA, "yonder at" }, /* 1540 */
-  { "", UNKNOWN, "" }, /* 1541 */
-  { "", UNKNOWN, "" }, /* 1542 */
-  { "", UNKNOWN, "" }, /* 1543 */
-  { "", UNKNOWN, "" }, /* 1544 */
-  { "", UNKNOWN, "" }, /* 1545 */
-  { "", UNKNOWN, "" }, /* 1546 */
-  { "", UNKNOWN, "" }, /* 1547 */
-  { "vu\'a", FAhA, "west of" }, /* 1548 */
-  { "vu\'e", UI, "virtue" }, /* 1549 */
-  { "vu\'i", LAhE, "the sequence of" }, /* 1550 */
-  { "vu\'o", VUhO, "long scope relative" }, /* 1551 */
-  { "vu\'u", VUhU, "minus" }, /* 1552 */
-  { "", UNKNOWN, "" }, /* 1553 */
-  { "vy", BY, "v" }, /* 1554 */
-  { "", UNKNOWN, "" }, /* 1555 */
-  { "", UNKNOWN, "" }, /* 1556 */
-  { "", UNKNOWN, "" }, /* 1557 */
-  { "", UNKNOWN, "" }, /* 1558 */
-  { "", UNKNOWN, "" }, /* 1559 */
-  { "", UNKNOWN, "" }, /* 1560 */
-  { "", UNKNOWN, "" }, /* 1561 */
-  { "", UNKNOWN, "" }, /* 1562 */
-  { "", UNKNOWN, "" }, /* 1563 */
-  { "", UNKNOWN, "" }, /* 1564 */
-  { "", UNKNOWN, "" }, /* 1565 */
-  { "", UNKNOWN, "" }, /* 1566 */
-  { "", UNKNOWN, "" }, /* 1567 */
-  { "", UNKNOWN, "" }, /* 1568 */
-  { "", UNKNOWN, "" }, /* 1569 */
-  { "", UNKNOWN, "" }, /* 1570 */
-  { "", UNKNOWN, "" }, /* 1571 */
-  { "", UNKNOWN, "" }, /* 1572 */
-  { "", UNKNOWN, "" }, /* 1573 */
-  { "", UNKNOWN, "" }, /* 1574 */
-  { "", UNKNOWN, "" }, /* 1575 */
-  { "", UNKNOWN, "" }, /* 1576 */
-  { "", UNKNOWN, "" }, /* 1577 */
-  { "", UNKNOWN, "" }, /* 1578 */
-  { "", UNKNOWN, "" }, /* 1579 */
-  { "", UNKNOWN, "" }, /* 1580 */
-  { "", UNKNOWN, "" }, /* 1581 */
-  { "xa", PA, "6" }, /* 1582 */
-  { "", UNKNOWN, "" }, /* 1583 */
-  { "", UNKNOWN, "" }, /* 1584 */
-  { "", UNKNOWN, "" }, /* 1585 */
-  { "", UNKNOWN, "" }, /* 1586 */
-  { "", UNKNOWN, "" }, /* 1587 */
-  { "", UNKNOWN, "" }, /* 1588 */
-  { "", UNKNOWN, "" }, /* 1589 */
-  { "", UNKNOWN, "" }, /* 1590 */
-  { "", UNKNOWN, "" }, /* 1591 */
-  { "", UNKNOWN, "" }, /* 1592 */
-  { "", UNKNOWN, "" }, /* 1593 */
-  { "", UNKNOWN, "" }, /* 1594 */
-  { "", UNKNOWN, "" }, /* 1595 */
-  { "xe", SE, "5th conversion" }, /* 1596 */
-  { "", UNKNOWN, "" }, /* 1597 */
-  { "", UNKNOWN, "" }, /* 1598 */
-  { "", UNKNOWN, "" }, /* 1599 */
-  { "", UNKNOWN, "" }, /* 1600 */
-  { "", UNKNOWN, "" }, /* 1601 */
-  { "", UNKNOWN, "" }, /* 1602 */
-  { "", UNKNOWN, "" }, /* 1603 */
-  { "", UNKNOWN, "" }, /* 1604 */
-  { "", UNKNOWN, "" }, /* 1605 */
-  { "", UNKNOWN, "" }, /* 1606 */
-  { "", UNKNOWN, "" }, /* 1607 */
-  { "", UNKNOWN, "" }, /* 1608 */
-  { "", UNKNOWN, "" }, /* 1609 */
-  { "xi", XI, "subscript" }, /* 1610 */
-  { "", UNKNOWN, "" }, /* 1611 */
-  { "", UNKNOWN, "" }, /* 1612 */
-  { "", UNKNOWN, "" }, /* 1613 */
-  { "", UNKNOWN, "" }, /* 1614 */
-  { "", UNKNOWN, "" }, /* 1615 */
-  { "", UNKNOWN, "" }, /* 1616 */
-  { "", UNKNOWN, "" }, /* 1617 */
-  { "", UNKNOWN, "" }, /* 1618 */
-  { "", UNKNOWN, "" }, /* 1619 */
-  { "", UNKNOWN, "" }, /* 1620 */
-  { "", UNKNOWN, "" }, /* 1621 */
-  { "", UNKNOWN, "" }, /* 1622 */
-  { "", UNKNOWN, "" }, /* 1623 */
-  { "xo", PA, "number ?" }, /* 1624 */
-  { "", UNKNOWN, "" }, /* 1625 */
-  { "", UNKNOWN, "" }, /* 1626 */
-  { "", UNKNOWN, "" }, /* 1627 */
-  { "", UNKNOWN, "" }, /* 1628 */
-  { "", UNKNOWN, "" }, /* 1629 */
-  { "", UNKNOWN, "" }, /* 1630 */
-  { "", UNKNOWN, "" }, /* 1631 */
-  { "", UNKNOWN, "" }, /* 1632 */
-  { "", UNKNOWN, "" }, /* 1633 */
-  { "", UNKNOWN, "" }, /* 1634 */
-  { "", UNKNOWN, "" }, /* 1635 */
-  { "", UNKNOWN, "" }, /* 1636 */
-  { "", UNKNOWN, "" }, /* 1637 */
-  { "xu", UI, "true-false ?" }, /* 1638 */
-  { "", UNKNOWN, "" }, /* 1639 */
-  { "", UNKNOWN, "" }, /* 1640 */
-  { "", UNKNOWN, "" }, /* 1641 */
-  { "", UNKNOWN, "" }, /* 1642 */
-  { "", UNKNOWN, "" }, /* 1643 */
-  { "", UNKNOWN, "" }, /* 1644 */
-  { "", UNKNOWN, "" }, /* 1645 */
-  { "", UNKNOWN, "" }, /* 1646 */
-  { "", UNKNOWN, "" }, /* 1647 */
-  { "", UNKNOWN, "" }, /* 1648 */
-  { "", UNKNOWN, "" }, /* 1649 */
-  { "", UNKNOWN, "" }, /* 1650 */
-  { "", UNKNOWN, "" }, /* 1651 */
-  { "xy", BY, "x" }, /* 1652 */
-  { "", UNKNOWN, "" }, /* 1653 */
-  { "", UNKNOWN, "" }, /* 1654 */
-  { "", UNKNOWN, "" }, /* 1655 */
-  { "", UNKNOWN, "" }, /* 1656 */
-  { "", UNKNOWN, "" }, /* 1657 */
-  { "", UNKNOWN, "" }, /* 1658 */
-  { "", UNKNOWN, "" }, /* 1659 */
-  { "", UNKNOWN, "" }, /* 1660 */
-  { "", UNKNOWN, "" }, /* 1661 */
-  { "", UNKNOWN, "" }, /* 1662 */
-  { "", UNKNOWN, "" }, /* 1663 */
-  { "", UNKNOWN, "" }, /* 1664 */
-  { "", UNKNOWN, "" }, /* 1665 */
-  { "", UNKNOWN, "" }, /* 1666 */
-  { "", UNKNOWN, "" }, /* 1667 */
-  { "", UNKNOWN, "" }, /* 1668 */
-  { "", UNKNOWN, "" }, /* 1669 */
-  { "", UNKNOWN, "" }, /* 1670 */
-  { "", UNKNOWN, "" }, /* 1671 */
-  { "", UNKNOWN, "" }, /* 1672 */
-  { "", UNKNOWN, "" }, /* 1673 */
-  { "", UNKNOWN, "" }, /* 1674 */
-  { "", UNKNOWN, "" }, /* 1675 */
-  { "", UNKNOWN, "" }, /* 1676 */
-  { "", UNKNOWN, "" }, /* 1677 */
-  { "", UNKNOWN, "" }, /* 1678 */
-  { "", UNKNOWN, "" }, /* 1679 */
-  { "za", ZI, "medium time" }, /* 1680 */
-  { "", UNKNOWN, "" }, /* 1681 */
-  { "", UNKNOWN, "" }, /* 1682 */
-  { "zai", LAU, "select alphabet" }, /* 1683 */
-  { "", UNKNOWN, "" }, /* 1684 */
-  { "zau", BAI, "approved by" }, /* 1685 */
-  { "", UNKNOWN, "" }, /* 1686 */
-  { "", UNKNOWN, "" }, /* 1687 */
-  { "za\'a", UI, "I observe" }, /* 1688 */
-  { "za\'e", BAhE, "nonce-word next" }, /* 1689 */
-  { "za\'i", NU, "state abstract" }, /* 1690 */
-  { "za\'o", ZAhO, "superfective" }, /* 1691 */
-  { "za\'u", PA, "greater than" }, /* 1692 */
-  { "", UNKNOWN, "" }, /* 1693 */
-  { "ze", PA, "7" }, /* 1694 */
-  { "", UNKNOWN, "" }, /* 1695 */
-  { "", UNKNOWN, "" }, /* 1696 */
-  { "zei", ZEI, "lujvo glue" }, /* 1697 */
-  { "", UNKNOWN, "" }, /* 1698 */
-  { "", UNKNOWN, "" }, /* 1699 */
-  { "", UNKNOWN, "" }, /* 1700 */
-  { "", UNKNOWN, "" }, /* 1701 */
-  { "ze\'a", ZEhA, "medium time interval" }, /* 1702 */
-  { "ze\'e", ZEhA, "whole time interval" }, /* 1703 */
-  { "ze\'i", ZEhA, "short time interval" }, /* 1704 */
-  { "ze\'o", FAhA, "outward" }, /* 1705 */
-  { "ze\'u", ZEhA, "long time interval" }, /* 1706 */
-  { "", UNKNOWN, "" }, /* 1707 */
-  { "zi", ZI, "short time" }, /* 1708 */
-  { "", UNKNOWN, "" }, /* 1709 */
-  { "", UNKNOWN, "" }, /* 1710 */
-  { "", UNKNOWN, "" }, /* 1711 */
-  { "", UNKNOWN, "" }, /* 1712 */
-  { "", UNKNOWN, "" }, /* 1713 */
-  { "", UNKNOWN, "" }, /* 1714 */
-  { "", UNKNOWN, "" }, /* 1715 */
-  { "", UNKNOWN, "" }, /* 1716 */
-  { "zi\'e", ZIhE, "rel clause joiner" }, /* 1717 */
-  { "", UNKNOWN, "" }, /* 1718 */
-  { "zi\'o", KOhA, "nonexistent it" }, /* 1719 */
-  { "", UNKNOWN, "" }, /* 1720 */
-  { "", UNKNOWN, "" }, /* 1721 */
-  { "zo", ZO, "1-word quote" }, /* 1722 */
-  { "", UNKNOWN, "" }, /* 1723 */
-  { "", UNKNOWN, "" }, /* 1724 */
-  { "zoi", ZOI, "non-Lojban quote" }, /* 1725 */
-  { "", UNKNOWN, "" }, /* 1726 */
-  { "", UNKNOWN, "" }, /* 1727 */
-  { "", UNKNOWN, "" }, /* 1728 */
-  { "", UNKNOWN, "" }, /* 1729 */
-  { "zo\'a", FAhA, "tangential to" }, /* 1730 */
-  { "zo\'e", KOhA, "unspecif it" }, /* 1731 */
-  { "zo\'i", FAhA, "inward" }, /* 1732 */
-  { "zo\'o", UI, "humorously" }, /* 1733 */
-  { "zo\'u", ZOhU, "end prenex" }, /* 1734 */
-  { "", UNKNOWN, "" }, /* 1735 */
-  { "zu", ZI, "long time" }, /* 1736 */
-  { "", UNKNOWN, "" }, /* 1737 */
-  { "", UNKNOWN, "" }, /* 1738 */
-  { "", UNKNOWN, "" }, /* 1739 */
-  { "", UNKNOWN, "" }, /* 1740 */
-  { "", UNKNOWN, "" }, /* 1741 */
-  { "", UNKNOWN, "" }, /* 1742 */
-  { "", UNKNOWN, "" }, /* 1743 */
-  { "zu\'a", FAhA, "on the left of" }, /* 1744 */
-  { "zu\'e", BAI, "with actor" }, /* 1745 */
-  { "zu\'i", KOhA, "typical it" }, /* 1746 */
-  { "zu\'o", NU, "activity abstract" }, /* 1747 */
-  { "zu\'u", UI, "on the one hand" }, /* 1748 */
-  { "", UNKNOWN, "" }, /* 1749 */
-  { "zy", BY, "z" } /* 1750 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*    0 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*    1 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*    2 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*    3 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*    4 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*    5 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*    6 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*    7 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*    8 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*    9 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   10 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   11 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   12 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   13 */
+  { "a"     , A      , CM_A       , SSM_A       , "sumti or"                    }, /*   14 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   15 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   16 */
+  { "ai"    , UI     , CM_AI      , SSM_UI1     , "intent"                      }, /*   17 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   18 */
+  { "au"    , UI     , CM_AU      , SSM_UI1     , "desire"                      }, /*   19 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   20 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   21 */
+  { "a\'a"  , UI     , CM_AhA     , SSM_UI1     , "attentive"                   }, /*   22 */
+  { "a\'e"  , UI     , CM_AhE     , SSM_UI1     , "alertness"                   }, /*   23 */
+  { "a\'i"  , UI     , CM_AhI     , SSM_UI1     , "effort"                      }, /*   24 */
+  { "a\'o"  , UI     , CM_AhO     , SSM_UI1     , "hope"                        }, /*   25 */
+  { "a\'u"  , UI     , CM_AhU     , SSM_UI1     , "interest"                    }, /*   26 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   27 */
+  { "e"     , A      , CM_E       , SSM_A       , "sumti and"                   }, /*   28 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   29 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   30 */
+  { "ei"    , UI     , CM_EI      , SSM_UI1     , "obligation"                  }, /*   31 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   32 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   33 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   34 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   35 */
+  { "e\'a"  , UI     , CM_EhA     , SSM_UI1     , "permission"                  }, /*   36 */
+  { "e\'e"  , UI     , CM_EhE     , SSM_UI1     , "competence"                  }, /*   37 */
+  { "e\'i"  , UI     , CM_EhI     , SSM_UI1     , "constraint"                  }, /*   38 */
+  { "e\'o"  , UI     , CM_EhO     , SSM_UI1     , "request"                     }, /*   39 */
+  { "e\'u"  , UI     , CM_EhU     , SSM_UI1     , "suggestion"                  }, /*   40 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   41 */
+  { "i"     , I      , CM_I       , SSM_I       , "sentence link"               }, /*   42 */
+  { "ia"    , UI     , CM_IA      , SSM_UI1     , "belief"                      }, /*   43 */
+  { "ie"    , UI     , CM_IE      , SSM_UI1     , "agreement"                   }, /*   44 */
+  { "ii"    , UI     , CM_II      , SSM_UI1     , "fear"                        }, /*   45 */
+  { "io"    , UI     , CM_IO      , SSM_UI1     , "respect"                     }, /*   46 */
+  { "iu"    , UI     , CM_IU      , SSM_UI1     , "love"                        }, /*   47 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   48 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   49 */
+  { "i\'a"  , UI     , CM_IhA     , SSM_UI1     , "acceptance"                  }, /*   50 */
+  { "i\'e"  , UI     , CM_IhE     , SSM_UI1     , "approval"                    }, /*   51 */
+  { "i\'i"  , UI     , CM_IhI     , SSM_UI1     , "togetherness"                }, /*   52 */
+  { "i\'o"  , UI     , CM_IhO     , SSM_UI1     , "appreciation"                }, /*   53 */
+  { "i\'u"  , UI     , CM_IhU     , SSM_UI1     , "familiarity"                 }, /*   54 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   55 */
+  { "o"     , A      , CM_O       , SSM_A       , "sumti iff"                   }, /*   56 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   57 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   58 */
+  { "oi"    , UI     , CM_OI      , SSM_UI1     , "complaint"                   }, /*   59 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   60 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   61 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   62 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   63 */
+  { "o\'a"  , UI     , CM_OhA     , SSM_UI1     , "pride"                       }, /*   64 */
+  { "o\'e"  , UI     , CM_OhE     , SSM_UI1     , "closeness"                   }, /*   65 */
+  { "o\'i"  , UI     , CM_OhI     , SSM_UI1     , "caution"                     }, /*   66 */
+  { "o\'o"  , UI     , CM_OhO     , SSM_UI1     , "patience"                    }, /*   67 */
+  { "o\'u"  , UI     , CM_OhU     , SSM_UI1     , "relaxation"                  }, /*   68 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   69 */
+  { "u"     , A      , CM_U       , SSM_A       , "sumti whether"               }, /*   70 */
+  { "ua"    , UI     , CM_UA      , SSM_UI1     , "discovery"                   }, /*   71 */
+  { "ue"    , UI     , CM_UE      , SSM_UI1     , "surprise"                    }, /*   72 */
+  { "ui"    , UI     , CM_UI      , SSM_UI1     , "happiness"                   }, /*   73 */
+  { "uo"    , UI     , CM_UO      , SSM_UI1     , "completion"                  }, /*   74 */
+  { "uu"    , UI     , CM_UU      , SSM_UI1     , "pity"                        }, /*   75 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   76 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   77 */
+  { "u\'a"  , UI     , CM_UhA     , SSM_UI1     , "gain"                        }, /*   78 */
+  { "u\'e"  , UI     , CM_UhE     , SSM_UI1     , "wonder"                      }, /*   79 */
+  { "u\'i"  , UI     , CM_UhI     , SSM_UI1     , "amusement"                   }, /*   80 */
+  { "u\'o"  , UI     , CM_UhO     , SSM_UI1     , "courage"                     }, /*   81 */
+  { "u\'u"  , UI     , CM_UhU     , SSM_UI1     , "repentance"                  }, /*   82 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   83 */
+  { "y"     , Y      , CM_Y       , SSM_Y       , "hesitation"                  }, /*   84 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   85 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   86 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   87 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   88 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   89 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   90 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   91 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   92 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   93 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   94 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   95 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   96 */
+  { "y\'y"  , BY     , CM_YhY     , SSM_BY2     , "'"                           }, /*   97 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   98 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*   99 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  100 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  101 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  102 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  103 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  104 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  105 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  106 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  107 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  108 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  109 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  110 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  111 */
+  { "ba"    , PU     , CM_BA      , SSM_PU      , "after"                       }, /*  112 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  113 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  114 */
+  { "bai"   , BAI    , CM_BAI     , SSM_BAI     , "compelled by"                }, /*  115 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  116 */
+  { "bau"   , BAI    , CM_BAU     , SSM_BAI     , "in language"                 }, /*  117 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  118 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  119 */
+  { "ba\'a" , UI     , CM_BAhA    , SSM_UI2     , "I anticipate"                }, /*  120 */
+  { "ba\'e" , BAhE   , CM_BAhE    , SSM_BAhE    , "emphasize next"              }, /*  121 */
+  { "ba\'i" , BAI    , CM_BAhI    , SSM_BAI     , "replaced by"                 }, /*  122 */
+  { "ba\'o" , ZAhO   , CM_BAhO    , SSM_ZAhO    , "perfective"                  }, /*  123 */
+  { "ba\'u" , UI     , CM_BAhU    , SSM_UI3     , "exaggeration"                }, /*  124 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  125 */
+  { "be"    , BE     , CM_BE      , SSM_BE      , "link sumti"                  }, /*  126 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  127 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  128 */
+  { "bei"   , BEI    , CM_BEI     , SSM_BEI     , "link more sumti"             }, /*  129 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  130 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  131 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  132 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  133 */
+  { "be\'a" , FAhA   , CM_BEhA    , SSM_FAhA1   , "north of"                    }, /*  134 */
+  { "be\'e" , COI    , CM_BEhE    , SSM_COI     , "request to send"             }, /*  135 */
+  { "be\'i" , BAI    , CM_BEhI    , SSM_BAI     , "sent by"                     }, /*  136 */
+  { "be\'o" , BEhO   , CM_BEhO    , SSM_BEhO    , "end linked sumti"            }, /*  137 */
+  { "be\'u" , UI     , CM_BEhU    , SSM_UI5     , "lack"                        }, /*  138 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  139 */
+  { "bi"    , PA     , CM_BI      , SSM_PA1     , "8"                           }, /*  140 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  141 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  142 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  143 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  144 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  145 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  146 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  147 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  148 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  149 */
+  { "bi\'i" , BIhI   , CM_BIhI    , SSM_BIhI    , "unordered interval"          }, /*  150 */
+  { "bi\'o" , BIhI   , CM_BIhO    , SSM_BIhI    , "ordered interval"            }, /*  151 */
+  { "bi\'u" , UI     , CM_BIhU    , SSM_UI3a    , "new information"             }, /*  152 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  153 */
+  { "bo"    , BO     , CM_BO      , SSM_BO      , "short scope link"            }, /*  154 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  155 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  156 */
+  { "boi"   , BOI    , CM_BOI     , SSM_BOI     , "end number or lerfu"         }, /*  157 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  158 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  159 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  160 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  161 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  162 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  163 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  164 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  165 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  166 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  167 */
+  { "bu"    , BU     , CM_BU      , SSM_BU      , "word to lerfu"               }, /*  168 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  169 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  170 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  171 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  172 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  173 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  174 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  175 */
+  { "bu\'a" , GOhA   , CM_BUhA    , SSM_GOhA    , "some selbri 1"               }, /*  176 */
+  { "bu\'e" , GOhA   , CM_BUhE    , SSM_GOhA    , "some selbri 2"               }, /*  177 */
+  { "bu\'i" , GOhA   , CM_BUhI    , SSM_GOhA    , "some selbri 3"               }, /*  178 */
+  { "bu\'o" , UI     , CM_BUhO    , SSM_UI7     , "start emotion"               }, /*  179 */
+  { "bu\'u" , FAhA   , CM_BUhU    , SSM_FAhA3   , "coincident with"             }, /*  180 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  181 */
+  { "by"    , BY     , CM_BY      , SSM_BY2     , "b"                           }, /*  182 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  183 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  184 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  185 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  186 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  187 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  188 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  189 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  190 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  191 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  192 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  193 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  194 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  195 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  196 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  197 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  198 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  199 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  200 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  201 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  202 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  203 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  204 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  205 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  206 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  207 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  208 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  209 */
+  { "ca"    , PU     , CM_CA      , SSM_PU      , "during"                      }, /*  210 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  211 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  212 */
+  { "cai"   , CAI    , CM_CAI     , SSM_CAI     , "intense emotion"             }, /*  213 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  214 */
+  { "cau"   , BAI    , CM_CAU     , SSM_BAI     , "lacked by"                   }, /*  215 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  216 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  217 */
+  { "ca\'a" , CAhA   , CM_CAhA    , SSM_CAhA    , "actually is"                 }, /*  218 */
+  { "ca\'e" , UI     , CM_CAhE    , SSM_UI2     , "I define"                    }, /*  219 */
+  { "ca\'i" , BAI    , CM_CAhI    , SSM_BAI     , "by authority of"             }, /*  220 */
+  { "ca\'o" , ZAhO   , CM_CAhO    , SSM_ZAhO    , "continuative"                }, /*  221 */
+  { "ca\'u" , FAhA   , CM_CAhU    , SSM_FAhA2   , "in front of"                 }, /*  222 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  223 */
+  { "ce"    , JOI    , CM_CE      , SSM_JOI     , "in a set with"               }, /*  224 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  225 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  226 */
+  { "cei"   , CEI    , CM_CEI     , SSM_CEI     , "pro-bridi assign"            }, /*  227 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  228 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  229 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  230 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  231 */
+  { "ce\'a" , LAU    , CM_CEhA    , SSM_LAU     , "font shift"                  }, /*  232 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  233 */
+  { "ce\'i" , PA     , CM_CEhI    , SSM_PA3     , "percent"                     }, /*  234 */
+  { "ce\'o" , JOI    , CM_CEhO    , SSM_JOI     , "in a sequence with"          }, /*  235 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  236 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  237 */
+  { "ci"    , PA     , CM_CI      , SSM_PA1     , "3"                           }, /*  238 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  239 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  240 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  241 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  242 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  243 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  244 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  245 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  246 */
+  { "ci\'e" , BAI    , CM_CIhE    , SSM_BAI     , "in system"                   }, /*  247 */
+  { "ci\'i" , PA     , CM_CIhI    , SSM_PA5     , "infinity"                    }, /*  248 */
+  { "ci\'o" , BAI    , CM_CIhO    , SSM_BAI     , "emotionally felt by"         }, /*  249 */
+  { "ci\'u" , BAI    , CM_CIhU    , SSM_BAI     , "on the scale"                }, /*  250 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  251 */
+  { "co"    , CO     , CM_CO      , SSM_CO      , "tanru inversion"             }, /*  252 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  253 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  254 */
+  { "coi"   , COI    , CM_COI     , SSM_COI     , "greetings"                   }, /*  255 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  256 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  257 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  258 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  259 */
+  { "co\'a" , ZAhO   , CM_COhA    , SSM_ZAhO    , "initiative"                  }, /*  260 */
+  { "co\'e" , GOhA   , CM_COhE    , SSM_GOhA    , "unspecif bridi"              }, /*  261 */
+  { "co\'i" , ZAhO   , CM_COhI    , SSM_ZAhO    , "achievative"                 }, /*  262 */
+  { "co\'o" , COI    , CM_COhO    , SSM_COI     , "partings"                    }, /*  263 */
+  { "co\'u" , ZAhO   , CM_COhU    , SSM_ZAhO    , "cessative"                   }, /*  264 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  265 */
+  { "cu"    , CU     , CM_CU      , SSM_CU      , "selbri separator"            }, /*  266 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  267 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  268 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  269 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  270 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  271 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  272 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  273 */
+  { "cu\'a" , VUhU   , CM_CUhA    , SSM_VUhU3   , "absolute value"              }, /*  274 */
+  { "cu\'e" , CUhE   , CM_CUhE    , SSM_CUhE    , "modal ?"                     }, /*  275 */
+  { "cu\'i" , CAI    , CM_CUhI    , SSM_CAI     , "neutral emotion"             }, /*  276 */
+  { "cu\'o" , MOI    , CM_CUhO    , SSM_MOI     , "probability selbri"          }, /*  277 */
+  { "cu\'u" , BAI    , CM_CUhU    , SSM_BAI     , "as said by"                  }, /*  278 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  279 */
+  { "cy"    , BY     , CM_CY      , SSM_BY2     , "c"                           }, /*  280 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  281 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  282 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  283 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  284 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  285 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  286 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  287 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  288 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  289 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  290 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  291 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  292 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  293 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  294 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  295 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  296 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  297 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  298 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  299 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  300 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  301 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  302 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  303 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  304 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  305 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  306 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  307 */
+  { "da"    , KOhA   , CM_DA      , SSM_KOhA1   , "something 1"                 }, /*  308 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  309 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  310 */
+  { "dai"   , UI     , CM_DAI     , SSM_UI5     , "empathy"                     }, /*  311 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  312 */
+  { "dau"   , PA     , CM_DAU     , SSM_PA2     , "hex digit A"                 }, /*  313 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  314 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  315 */
+  { "da\'a" , PA     , CM_DAhA    , SSM_PA4     , "all except"                  }, /*  316 */
+  { "da\'e" , KOhA   , CM_DAhE    , SSM_KOhA2   , "eventual utterance"          }, /*  317 */
+  { "da\'i" , UI     , CM_DAhI    , SSM_UI3     , "supposing"                   }, /*  318 */
+  { "da\'o" , DAhO   , CM_DAhO    , SSM_DAhO    , "cancel pro-assigns"          }, /*  319 */
+  { "da\'u" , KOhA   , CM_DAhU    , SSM_KOhA2   , "earlier utterance"           }, /*  320 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  321 */
+  { "de"    , KOhA   , CM_DE      , SSM_KOhA1   , "something 2"                 }, /*  322 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  323 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  324 */
+  { "dei"   , KOhA   , CM_DEI     , SSM_KOhA2   , "this utterance"              }, /*  325 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  326 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  327 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  328 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  329 */
+  { "de\'a" , ZAhO   , CM_DEhA    , SSM_ZAhO    , "pausative"                   }, /*  330 */
+  { "de\'e" , KOhA   , CM_DEhE    , SSM_KOhA2   , "soon utterance"              }, /*  331 */
+  { "de\'i" , BAI    , CM_DEhI    , SSM_BAI     , "dated"                       }, /*  332 */
+  { "de\'o" , VUhU   , CM_DEhO    , SSM_VUhU3   , "logarithm"                   }, /*  333 */
+  { "de\'u" , KOhA   , CM_DEhU    , SSM_KOhA2   , "recent utterance"            }, /*  334 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  335 */
+  { "di"    , KOhA   , CM_DI      , SSM_KOhA1   , "something 3"                 }, /*  336 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  337 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  338 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  339 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  340 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  341 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  342 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  343 */
+  { "di\'a" , ZAhO   , CM_DIhA    , SSM_ZAhO    , "resumptitive"                }, /*  344 */
+  { "di\'e" , KOhA   , CM_DIhE    , SSM_KOhA2   , "next utterance"              }, /*  345 */
+  { "di\'i" , TAhE   , CM_DIhI    , SSM_TAhE    , "regularly"                   }, /*  346 */
+  { "di\'o" , BAI    , CM_DIhO    , SSM_BAI     , "at the locus of"             }, /*  347 */
+  { "di\'u" , KOhA   , CM_DIhU    , SSM_KOhA2   , "last utterance"              }, /*  348 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  349 */
+  { "do"    , KOhA   , CM_DO      , SSM_KOhA3   , "you"                         }, /*  350 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  351 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  352 */
+  { "doi"   , DOI    , CM_DOI     , SSM_DOI     , "vocative marker"             }, /*  353 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  354 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  355 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  356 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  357 */
+  { "do\'a" , UI     , CM_DOhA    , SSM_UI3     , "generously"                  }, /*  358 */
+  { "do\'e" , BAI    , CM_DOhE    , SSM_BAI     , "unspecif modal"              }, /*  359 */
+  { "do\'i" , KOhA   , CM_DOhI    , SSM_KOhA2   , "unspecif utterance"          }, /*  360 */
+  { "do\'o" , KOhA   , CM_DOhO    , SSM_KOhA3   , "you and others"              }, /*  361 */
+  { "do\'u" , DOhU   , CM_DOhU    , SSM_DOhU    , "end vocative"                }, /*  362 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  363 */
+  { "du"    , GOhA   , CM_DU      , SSM_GOhA    , "same identity as"            }, /*  364 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  365 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  366 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  367 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  368 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  369 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  370 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  371 */
+  { "du\'a" , FAhA   , CM_DUhA    , SSM_FAhA1   , "east of"                     }, /*  372 */
+  { "du\'e" , PA     , CM_DUhE    , SSM_PA4     , "too many"                    }, /*  373 */
+  { "du\'i" , BAI    , CM_DUhI    , SSM_BAI     , "as much as"                  }, /*  374 */
+  { "du\'o" , BAI    , CM_DUhO    , SSM_BAI     , "according to"                }, /*  375 */
+  { "du\'u" , NU     , CM_DUhU    , SSM_NU      , "bridi abstract"              }, /*  376 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  377 */
+  { "dy"    , BY     , CM_DY      , SSM_BY2     , "d"                           }, /*  378 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  379 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  380 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  381 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  382 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  383 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  384 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  385 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  386 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  387 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  388 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  389 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  390 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  391 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  392 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  393 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  394 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  395 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  396 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  397 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  398 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  399 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  400 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  401 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  402 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  403 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  404 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  405 */
+  { "fa"    , FA     , CM_FA      , SSM_FA      , "1st sumti place"             }, /*  406 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  407 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  408 */
+  { "fai"   , FA     , CM_FAI     , SSM_FA      , "extra sumti place"           }, /*  409 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  410 */
+  { "fau"   , BAI    , CM_FAU     , SSM_BAI     , "in the event of"             }, /*  411 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  412 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  413 */
+  { "fa\'a" , FAhA   , CM_FAhA    , SSM_FAhA4   , "towards point"               }, /*  414 */
+  { "fa\'e" , BAI    , CM_FAhE    , SSM_BAI     , "reverse of"                  }, /*  415 */
+  { "fa\'i" , VUhU   , CM_FAhI    , SSM_VUhU2   , "reciprocal of"               }, /*  416 */
+  { "fa\'o" , FAhO   , CM_FAhO    , SSM_FAhO    , "end of text"                 }, /*  417 */
+  { "fa\'u" , JOI    , CM_FAhU    , SSM_JOI     , "and respectively"            }, /*  418 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  419 */
+  { "fe"    , FA     , CM_FE      , SSM_FA      , "2nd sumti place"             }, /*  420 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  421 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  422 */
+  { "fei"   , PA     , CM_FEI     , SSM_PA2     , "hex digit B"                 }, /*  423 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  424 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  425 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  426 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  427 */
+  { "fe\'a" , VUhU   , CM_FEhA    , SSM_VUhU3   , "nth root of"                 }, /*  428 */
+  { "fe\'e" , FEhE   , CM_FEhE    , SSM_FEhE    , "space aspects"               }, /*  429 */
+  { "fe\'i" , VUhU   , CM_FEhI    , SSM_VUhU1   , "divided by"                  }, /*  430 */
+  { "fe\'o" , COI    , CM_FEhO    , SSM_COI     , "over and out"                }, /*  431 */
+  { "fe\'u" , FEhU   , CM_FEhU    , SSM_FEhU    , "end modal selbri"            }, /*  432 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  433 */
+  { "fi"    , FA     , CM_FI      , SSM_FA      , "3rd sumti place"             }, /*  434 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  435 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  436 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  437 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  438 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  439 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  440 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  441 */
+  { "fi\'a" , FA     , CM_FIhA    , SSM_FA      , "sumti place ?"               }, /*  442 */
+  { "fi\'e" , BAI    , CM_FIhE    , SSM_BAI     , "created by"                  }, /*  443 */
+  { "fi\'i" , COI    , CM_FIhI    , SSM_COI     , "hospitality"                 }, /*  444 */
+  { "fi\'o" , FIhO   , CM_FIhO    , SSM_FIhO    , "selbri to modal"             }, /*  445 */
+  { "fi\'u" , PA     , CM_FIhU    , SSM_PA3     , "fraction slash"              }, /*  446 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  447 */
+  { "fo"    , FA     , CM_FO      , SSM_FA      , "4th sumti place"             }, /*  448 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  449 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  450 */
+  { "foi"   , FOI    , CM_FOI     , SSM_FOI     , "end composite lerfu"         }, /*  451 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  452 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  453 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  454 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  455 */
+  { "fo\'a" , KOhA   , CM_FOhA    , SSM_KOhA4   , "it-6"                        }, /*  456 */
+  { "fo\'e" , KOhA   , CM_FOhE    , SSM_KOhA4   , "it-7"                        }, /*  457 */
+  { "fo\'i" , KOhA   , CM_FOhI    , SSM_KOhA4   , "it-8"                        }, /*  458 */
+  { "fo\'o" , KOhA   , CM_FOhO    , SSM_KOhA4   , "it-9"                        }, /*  459 */
+  { "fo\'u" , KOhA   , CM_FOhU    , SSM_KOhA4   , "it-10"                       }, /*  460 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  461 */
+  { "fu"    , FA     , CM_FU      , SSM_FA      , "5th sumti place"             }, /*  462 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  463 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  464 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  465 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  466 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  467 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  468 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  469 */
+  { "fu\'a" , FUhA   , CM_FUhA    , SSM_FUhA    , "reverse Polish"              }, /*  470 */
+  { "fu\'e" , FUhE   , CM_FUhE    , SSM_FUhE    , "indicator scope"             }, /*  471 */
+  { "fu\'i" , UI     , CM_FUhI    , SSM_UI5     , "easy"                        }, /*  472 */
+  { "fu\'o" , FUhO   , CM_FUhO    , SSM_FUhO    , "end indicator scope"         }, /*  473 */
+  { "fu\'u" , VUhU   , CM_FUhU    , SSM_VUhU0   , "unspecif operator"           }, /*  474 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  475 */
+  { "fy"    , BY     , CM_FY      , SSM_BY2     , "f"                           }, /*  476 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  477 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  478 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  479 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  480 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  481 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  482 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  483 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  484 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  485 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  486 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  487 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  488 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  489 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  490 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  491 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  492 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  493 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  494 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  495 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  496 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  497 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  498 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  499 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  500 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  501 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  502 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  503 */
+  { "ga"    , GA     , CM_GA      , SSM_GA      , "fore or"                     }, /*  504 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  505 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  506 */
+  { "gai"   , PA     , CM_GAI     , SSM_PA2     , "hex digit C"                 }, /*  507 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  508 */
+  { "gau"   , BAI    , CM_GAU     , SSM_BAI     , "with active agent"           }, /*  509 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  510 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  511 */
+  { "ga\'a" , BAI    , CM_GAhA    , SSM_BAI     , "to observer"                 }, /*  512 */
+  { "ga\'e" , BY     , CM_GAhE    , SSM_BY1     , "upper-case shift"            }, /*  513 */
+  { "ga\'i" , UI     , CM_GAhI    , SSM_UI5     , "hauteur"                     }, /*  514 */
+  { "ga\'o" , GAhO   , CM_GAhO    , SSM_GAhO    , "inclusive interval"          }, /*  515 */
+  { "ga\'u" , FAhA   , CM_GAhU    , SSM_FAhA2   , "above"                       }, /*  516 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  517 */
+  { "ge"    , GA     , CM_GE      , SSM_GA      , "fore and"                    }, /*  518 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  519 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  520 */
+  { "gei"   , VUhU   , CM_GEI     , SSM_VUhU2   , "exponential notation"        }, /*  521 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  522 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  523 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  524 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  525 */
+  { "ge\'a" , VUhU   , CM_GEhA    , SSM_VUhU0   , "null operator"               }, /*  526 */
+  { "ge\'e" , UI     , CM_GEhE    , SSM_UI6     , "unspecif emotion"            }, /*  527 */
+  { "ge\'i" , GA     , CM_GEhI    , SSM_GA      , "fore conn ?"                 }, /*  528 */
+  { "ge\'o" , BY     , CM_GEhO    , SSM_BY1     , "Greek shift"                 }, /*  529 */
+  { "ge\'u" , GEhU   , CM_GEhU    , SSM_GEhU    , "end relative phrase"         }, /*  530 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  531 */
+  { "gi"    , GI     , CM_GI      , SSM_GI      , "connective medial"           }, /*  532 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  533 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  534 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  535 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  536 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  537 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  538 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  539 */
+  { "gi\'a" , GIhA   , CM_GIhA    , SSM_GIhA    , "bridi or"                    }, /*  540 */
+  { "gi\'e" , GIhA   , CM_GIhE    , SSM_GIhA    , "bridi and"                   }, /*  541 */
+  { "gi\'i" , GIhA   , CM_GIhI    , SSM_GIhA    , "bridi conn ?"                }, /*  542 */
+  { "gi\'o" , GIhA   , CM_GIhO    , SSM_GIhA    , "bridi iff"                   }, /*  543 */
+  { "gi\'u" , GIhA   , CM_GIhU    , SSM_GIhA    , "bridi whether"               }, /*  544 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  545 */
+  { "go"    , GA     , CM_GO      , SSM_GA      , "fore iff"                    }, /*  546 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  547 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  548 */
+  { "goi"   , GOI    , CM_GOI     , SSM_GOI     , "pro-sumti assign"            }, /*  549 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  550 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  551 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  552 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  553 */
+  { "go\'a" , GOhA   , CM_GOhA    , SSM_GOhA    , "recent bridi"                }, /*  554 */
+  { "go\'e" , GOhA   , CM_GOhE    , SSM_GOhA    , "penultimate bridi"           }, /*  555 */
+  { "go\'i" , GOhA   , CM_GOhI    , SSM_GOhA    , "last bridi"                  }, /*  556 */
+  { "go\'o" , GOhA   , CM_GOhO    , SSM_GOhA    , "future bridi"                }, /*  557 */
+  { "go\'u" , GOhA   , CM_GOhU    , SSM_GOhA    , "earlier bridi"               }, /*  558 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  559 */
+  { "gu"    , GA     , CM_GU      , SSM_GA      , "fore whether"                }, /*  560 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  561 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  562 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  563 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  564 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  565 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  566 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  567 */
+  { "gu\'a" , GUhA   , CM_GUhA    , SSM_GUhA    , "fore tanru or"               }, /*  568 */
+  { "gu\'e" , GUhA   , CM_GUhE    , SSM_GUhA    , "fore tanru and"              }, /*  569 */
+  { "gu\'i" , GUhA   , CM_GUhI    , SSM_GUhA    , "fore tanru conn ?"           }, /*  570 */
+  { "gu\'o" , GUhA   , CM_GUhO    , SSM_GUhA    , "fore tanru iff"              }, /*  571 */
+  { "gu\'u" , GUhA   , CM_GUhU    , SSM_GUhA    , "fore tanru whether"          }, /*  572 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  573 */
+  { "gy"    , BY     , CM_GY      , SSM_BY2     , "g"                           }, /*  574 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  575 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  576 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  577 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  578 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  579 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  580 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  581 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  582 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  583 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  584 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  585 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  586 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  587 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  588 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  589 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  590 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  591 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  592 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  593 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  594 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  595 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  596 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  597 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  598 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  599 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  600 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  601 */
+  { "ja"    , JA     , CM_JA      , SSM_JA      , "tanru or"                    }, /*  602 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  603 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  604 */
+  { "jai"   , JAI    , CM_JAI     , SSM_JAI     , "modal conversion"            }, /*  605 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  606 */
+  { "jau"   , PA     , CM_JAU     , SSM_PA2     , "hex digit D"                 }, /*  607 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  608 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  609 */
+  { "ja\'a" , NA     , CM_JAhA    , SSM_NA      , "bridi affirmer"              }, /*  610 */
+  { "ja\'e" , BAI    , CM_JAhE    , SSM_BAI     , "therefore result"            }, /*  611 */
+  { "ja\'i" , BAI    , CM_JAhI    , SSM_BAI     , "by rule"                     }, /*  612 */
+  { "ja\'o" , UI     , CM_JAhO    , SSM_UI2     , "I conclude"                  }, /*  613 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  614 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  615 */
+  { "je"    , JA     , CM_JE      , SSM_JA      , "tanru and"                   }, /*  616 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  617 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  618 */
+  { "jei"   , NU     , CM_JEI     , SSM_NU      , "truth abstract"              }, /*  619 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  620 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  621 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  622 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  623 */
+  { "je\'a" , NAhE   , CM_JEhA    , SSM_NAhE    , "scalar affirmer"             }, /*  624 */
+  { "je\'e" , COI    , CM_JEhE    , SSM_COI     , "roger"                       }, /*  625 */
+  { "je\'i" , JA     , CM_JEhI    , SSM_JA      , "tanru conn ?"                }, /*  626 */
+  { "je\'o" , BY     , CM_JEhO    , SSM_BY1     , "Hebrew shift"                }, /*  627 */
+  { "je\'u" , UI     , CM_JEhU    , SSM_UI3     , "truth"                       }, /*  628 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  629 */
+  { "ji"    , A      , CM_JI      , SSM_A       , "sumti conn ?"                }, /*  630 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  631 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  632 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  633 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  634 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  635 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  636 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  637 */
+  { "ji\'a" , UI     , CM_JIhA    , SSM_UI3b    , "in addition"                 }, /*  638 */
+  { "ji\'e" , BAI    , CM_JIhE    , SSM_BAI     , "up to limit"                 }, /*  639 */
+  { "ji\'i" , PA     , CM_JIhI    , SSM_PA4     , "approximately"               }, /*  640 */
+  { "ji\'o" , BAI    , CM_JIhO    , SSM_BAI     , "under direction of"          }, /*  641 */
+  { "ji\'u" , BAI    , CM_JIhU    , SSM_BAI     , "based on"                    }, /*  642 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  643 */
+  { "jo"    , JA     , CM_JO      , SSM_JA      , "tanru iff"                   }, /*  644 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  645 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  646 */
+  { "joi"   , JOI    , CM_JOI     , SSM_JOI     , "in a mass with"              }, /*  647 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  648 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  649 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  650 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  651 */
+  { "jo\'a" , UI     , CM_JOhA    , SSM_UI3a    , "metalinguistic yes"          }, /*  652 */
+  { "jo\'e" , JOI    , CM_JOhE    , SSM_JOI     , "union"                       }, /*  653 */
+  { "jo\'i" , JOhI   , CM_JOhI    , SSM_JOhI    , "array"                       }, /*  654 */
+  { "jo\'o" , BY     , CM_JOhO    , SSM_BY1     , "Arabic shift"                }, /*  655 */
+  { "jo\'u" , JOI    , CM_JOhU    , SSM_JOI     , "in common with"              }, /*  656 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  657 */
+  { "ju"    , JA     , CM_JU      , SSM_JA      , "tanru whether"               }, /*  658 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  659 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  660 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  661 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  662 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  663 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  664 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  665 */
+  { "ju\'a" , UI     , CM_JUhA    , SSM_UI2     , "I state"                     }, /*  666 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  667 */
+  { "ju\'i" , COI    , CM_JUhI    , SSM_COI     , "attention"                   }, /*  668 */
+  { "ju\'o" , UI     , CM_JUhO    , SSM_UI5     , "certainty"                   }, /*  669 */
+  { "ju\'u" , VUhU   , CM_JUhU    , SSM_VUhU2   , "number base"                 }, /*  670 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  671 */
+  { "jy"    , BY     , CM_JY      , SSM_BY2     , "j"                           }, /*  672 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  673 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  674 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  675 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  676 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  677 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  678 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  679 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  680 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  681 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  682 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  683 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  684 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  685 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  686 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  687 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  688 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  689 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  690 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  691 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  692 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  693 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  694 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  695 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  696 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  697 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  698 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  699 */
+  { "ka"    , NU     , CM_KA      , SSM_NU      , "property abstract"           }, /*  700 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  701 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  702 */
+  { "kai"   , BAI    , CM_KAI     , SSM_BAI     , "characterizing"              }, /*  703 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  704 */
+  { "kau"   , UI     , CM_KAU     , SSM_UI3a    , "indirect question"           }, /*  705 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  706 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  707 */
+  { "ka\'a" , BAI    , CM_KAhA    , SSM_BAI     , "gone to by"                  }, /*  708 */
+  { "ka\'e" , CAhA   , CM_KAhE    , SSM_CAhA    , "innately capable of"         }, /*  709 */
+  { "ka\'i" , BAI    , CM_KAhI    , SSM_BAI     , "represented by"              }, /*  710 */
+  { "ka\'o" , PA     , CM_KAhO    , SSM_PA5     , "imaginary i"                 }, /*  711 */
+  { "ka\'u" , UI     , CM_KAhU    , SSM_UI2     , "I know culturally"           }, /*  712 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  713 */
+  { "ke"    , KE     , CM_KE      , SSM_KE      , "start grouping"              }, /*  714 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  715 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  716 */
+  { "kei"   , KEI    , CM_KEI     , SSM_KEI     , "end abstraction"             }, /*  717 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  718 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  719 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  720 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  721 */
+  { "ke\'a" , KOhA   , CM_KEhA    , SSM_KOhA7   , "relativized it"              }, /*  722 */
+  { "ke\'e" , KEhE   , CM_KEhE    , SSM_KEhE    , "end grouping"                }, /*  723 */
+  { "ke\'i" , GAhO   , CM_KEhI    , SSM_GAhO    , "exclusive interval"          }, /*  724 */
+  { "ke\'o" , COI    , CM_KEhO    , SSM_COI     , "please repeat"               }, /*  725 */
+  { "ke\'u" , UI     , CM_KEhU    , SSM_UI3     , "repeating"                   }, /*  726 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  727 */
+  { "ki"    , KI     , CM_KI      , SSM_KI      , "tense default"               }, /*  728 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  729 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  730 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  731 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  732 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  733 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  734 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  735 */
+  { "ki\'a" , UI     , CM_KIhA    , SSM_UI6     , "textual confusion"           }, /*  736 */
+  { "ki\'e" , COI    , CM_KIhE    , SSM_COI     , "thanks"                      }, /*  737 */
+  { "ki\'i" , BAI    , CM_KIhI    , SSM_BAI     , "as a relation of"            }, /*  738 */
+  { "ki\'o" , PA     , CM_KIhO    , SSM_PA3     , "number comma"                }, /*  739 */
+  { "ki\'u" , BAI    , CM_KIhU    , SSM_BAI     , "because of reason"           }, /*  740 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  741 */
+  { "ko"    , KOhA   , CM_KO      , SSM_KOhA3   , "imperative"                  }, /*  742 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  743 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  744 */
+  { "koi"   , BAI    , CM_KOI     , SSM_BAI     , "bounded by"                  }, /*  745 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  746 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  747 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  748 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  749 */
+  { "ko\'a" , KOhA   , CM_KOhA    , SSM_KOhA4   , "it-1"                        }, /*  750 */
+  { "ko\'e" , KOhA   , CM_KOhE    , SSM_KOhA4   , "it-2"                        }, /*  751 */
+  { "ko\'i" , KOhA   , CM_KOhI    , SSM_KOhA4   , "it-3"                        }, /*  752 */
+  { "ko\'o" , KOhA   , CM_KOhO    , SSM_KOhA4   , "it-4"                        }, /*  753 */
+  { "ko\'u" , KOhA   , CM_KOhU    , SSM_KOhA4   , "it-5"                        }, /*  754 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  755 */
+  { "ku"    , KU     , CM_KU      , SSM_KU      , "end sumti"                   }, /*  756 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  757 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  758 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  759 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  760 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  761 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  762 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  763 */
+  { "ku\'a" , JOI    , CM_KUhA    , SSM_JOI     , "intersection"                }, /*  764 */
+  { "ku\'e" , KUhE   , CM_KUhE    , SSM_KUhE    , "end mex forethought"         }, /*  765 */
+  { "ku\'i" , UI     , CM_KUhI    , SSM_UI3b    , "however"                     }, /*  766 */
+  { "ku\'o" , KUhO   , CM_KUhO    , SSM_KUhO    , "end relative clause"         }, /*  767 */
+  { "ku\'u" , BAI    , CM_KUhU    , SSM_BAI     , "in culture"                  }, /*  768 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  769 */
+  { "ky"    , BY     , CM_KY      , SSM_BY2     , "k"                           }, /*  770 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  771 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  772 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  773 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  774 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  775 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  776 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  777 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  778 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  779 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  780 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  781 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  782 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  783 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  784 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  785 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  786 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  787 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  788 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  789 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  790 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  791 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  792 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  793 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  794 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  795 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  796 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  797 */
+  { "la"    , LA     , CM_LA      , SSM_LA      , "that named"                  }, /*  798 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  799 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  800 */
+  { "lai"   , LA     , CM_LAI     , SSM_LA      , "the mass of named"           }, /*  801 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  802 */
+  { "lau"   , LAU    , CM_LAU     , SSM_LAU     , "punctuation mark"            }, /*  803 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  804 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  805 */
+  { "la\'a" , UI     , CM_LAhA    , SSM_UI3     , "probability"                 }, /*  806 */
+  { "la\'e" , LAhE   , CM_LAhE    , SSM_LAhE    , "the referent of"             }, /*  807 */
+  { "la\'i" , LA     , CM_LAhI    , SSM_LA      , "the set of named"            }, /*  808 */
+  { "la\'o" , ZOI    , CM_LAhO    , SSM_ZOI     , "the non-Lojban named"        }, /*  809 */
+  { "la\'u" , BAI    , CM_LAhU    , SSM_BAI     , "quantifying"                 }, /*  810 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  811 */
+  { "le"    , LE     , CM_LE      , SSM_LE      , "the described"               }, /*  812 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  813 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  814 */
+  { "lei"   , LE     , CM_LEI     , SSM_LE      , "the mass described"          }, /*  815 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  816 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  817 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  818 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  819 */
+  { "le\'a" , BAI    , CM_LEhA    , SSM_BAI     , "in category"                 }, /*  820 */
+  { "le\'e" , LE     , CM_LEhE    , SSM_LE      , "the stereotypical"           }, /*  821 */
+  { "le\'i" , LE     , CM_LEhI    , SSM_LE      , "the set described"           }, /*  822 */
+  { "le\'o" , UI     , CM_LEhO    , SSM_UI5     , "aggressive"                  }, /*  823 */
+  { "le\'u" , LEhU   , CM_LEhU    , SSM_LEhU    , "end error quote"             }, /*  824 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  825 */
+  { "li"    , LI     , CM_LI      , SSM_LI      , "the number"                  }, /*  826 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  827 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  828 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  829 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  830 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  831 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  832 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  833 */
+  { "li\'a" , UI     , CM_LIhA    , SSM_UI3     , "clearly"                     }, /*  834 */
+  { "li\'e" , BAI    , CM_LIhE    , SSM_BAI     , "preceded by"                 }, /*  835 */
+  { "li\'i" , NU     , CM_LIhI    , SSM_NU      , "experience abstract"         }, /*  836 */
+  { "li\'o" , UI     , CM_LIhO    , SSM_UI3a    , "omitted text"                }, /*  837 */
+  { "li\'u" , LIhU   , CM_LIhU    , SSM_LIhU    , "end quote"                   }, /*  838 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  839 */
+  { "lo"    , LE     , CM_LO      , SSM_LE      , "the really is"               }, /*  840 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  841 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  842 */
+  { "loi"   , LE     , CM_LOI     , SSM_LE      , "the mass really is"          }, /*  843 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  844 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  845 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  846 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  847 */
+  { "lo\'a" , BY     , CM_LOhA    , SSM_BY1     , "Lojban shift"                }, /*  848 */
+  { "lo\'e" , LE     , CM_LOhE    , SSM_LE      , "the typical"                 }, /*  849 */
+  { "lo\'i" , LE     , CM_LOhI    , SSM_LE      , "the set really is"           }, /*  850 */
+  { "lo\'o" , LOhO   , CM_LOhO    , SSM_LOhO    , "end mex sumti"               }, /*  851 */
+  { "lo\'u" , LOhU   , CM_LOhU    , SSM_LOhU    , "error quote"                 }, /*  852 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  853 */
+  { "lu"    , LU     , CM_LU      , SSM_LU      , "quote"                       }, /*  854 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  855 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  856 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  857 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  858 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  859 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  860 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  861 */
+  { "lu\'a" , LAhE   , CM_LUhA    , SSM_LAhE    , "the individuals of"          }, /*  862 */
+  { "lu\'e" , LAhE   , CM_LUhE    , SSM_LAhE    , "the symbol for"              }, /*  863 */
+  { "lu\'i" , LAhE   , CM_LUhI    , SSM_LAhE    , "the set composed of"         }, /*  864 */
+  { "lu\'o" , LAhE   , CM_LUhO    , SSM_LAhE    , "the mass composed of"        }, /*  865 */
+  { "lu\'u" , LUhU   , CM_LUhU    , SSM_LUhU    , "end sumti qualifiers"        }, /*  866 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  867 */
+  { "ly"    , BY     , CM_LY      , SSM_BY2     , "l"                           }, /*  868 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  869 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  870 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  871 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  872 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  873 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  874 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  875 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  876 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  877 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  878 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  879 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  880 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  881 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  882 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  883 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  884 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  885 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  886 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  887 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  888 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  889 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  890 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  891 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  892 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  893 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  894 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  895 */
+  { "ma"    , KOhA   , CM_MA      , SSM_KOhA7   , "sumti ?"                     }, /*  896 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  897 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  898 */
+  { "mai"   , MAI    , CM_MAI     , SSM_MAI     , "sentence ordinal"            }, /*  899 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  900 */
+  { "mau"   , BAI    , CM_MAU     , SSM_BAI     , "exceeded by"                 }, /*  901 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  902 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  903 */
+  { "ma\'a" , KOhA   , CM_MAhA    , SSM_KOhA3   , "we with you"                 }, /*  904 */
+  { "ma\'e" , BAI    , CM_MAhE    , SSM_BAI     , "material object"             }, /*  905 */
+  { "ma\'i" , BAI    , CM_MAhI    , SSM_BAI     , "in reference frame"          }, /*  906 */
+  { "ma\'o" , MAhO   , CM_MAhO    , SSM_MAhO    , "operand to operator"         }, /*  907 */
+  { "ma\'u" , PA     , CM_MAhU    , SSM_PA3     , "positive number"             }, /*  908 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  909 */
+  { "me"    , ME     , CM_ME      , SSM_ME      , "sumti to selbri"             }, /*  910 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  911 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  912 */
+  { "mei"   , MOI    , CM_MEI     , SSM_MOI     , "cardinal selbri"             }, /*  913 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  914 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  915 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  916 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  917 */
+  { "me\'a" , BAI    , CM_MEhA    , SSM_BAI     , "undercut by"                 }, /*  918 */
+  { "me\'e" , BAI    , CM_MEhE    , SSM_BAI     , "with name"                   }, /*  919 */
+  { "me\'i" , PA     , CM_MEhI    , SSM_PA3     , "less than"                   }, /*  920 */
+  { "me\'o" , LI     , CM_MEhO    , SSM_LI      , "the mex"                     }, /*  921 */
+  { "me\'u" , MEhU   , CM_MEhU    , SSM_MEhU    , "end sumti to selbri"         }, /*  922 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  923 */
+  { "mi"    , KOhA   , CM_MI      , SSM_KOhA3   , "me"                          }, /*  924 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  925 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  926 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  927 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  928 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  929 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  930 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  931 */
+  { "mi\'a" , KOhA   , CM_MIhA    , SSM_KOhA3   , "we, not you"                 }, /*  932 */
+  { "mi\'e" , COI    , CM_MIhE    , SSM_COI     , "self-introduction"           }, /*  933 */
+  { "mi\'i" , BIhI   , CM_MIhI    , SSM_BIhI    , "center-range"                }, /*  934 */
+  { "mi\'o" , KOhA   , CM_MIhO    , SSM_KOhA3   , "me and you"                  }, /*  935 */
+  { "mi\'u" , UI     , CM_MIhU    , SSM_UI3b    , "ditto"                       }, /*  936 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  937 */
+  { "mo"    , GOhA   , CM_MO      , SSM_GOhA    , "bridi ?"                     }, /*  938 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  939 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  940 */
+  { "moi"   , MOI    , CM_MOI     , SSM_MOI     , "ordinal selbri"              }, /*  941 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  942 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  943 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  944 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  945 */
+  { "mo\'a" , PA     , CM_MOhA    , SSM_PA4     , "too few"                     }, /*  946 */
+  { "mo\'e" , MOhE   , CM_MOhE    , SSM_MOhE    , "sumti to operand"            }, /*  947 */
+  { "mo\'i" , MOhI   , CM_MOhI    , SSM_MOhI    , "space motion"                }, /*  948 */
+  { "mo\'o" , MAI    , CM_MOhO    , SSM_MAI     , "section ordinal"             }, /*  949 */
+  { "mo\'u" , ZAhO   , CM_MOhU    , SSM_ZAhO    , "completive"                  }, /*  950 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  951 */
+  { "mu"    , PA     , CM_MU      , SSM_PA1     , "5"                           }, /*  952 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  953 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  954 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  955 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  956 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  957 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  958 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  959 */
+  { "mu\'a" , UI     , CM_MUhA    , SSM_UI3     , "for example"                 }, /*  960 */
+  { "mu\'e" , NU     , CM_MUhE    , SSM_NU1     , "point-event abstract"        }, /*  961 */
+  { "mu\'i" , BAI    , CM_MUhI    , SSM_BAI     , "because of motive"           }, /*  962 */
+  { "mu\'o" , COI    , CM_MUhO    , SSM_COI     , "over"                        }, /*  963 */
+  { "mu\'u" , BAI    , CM_MUhU    , SSM_BAI     , "exemplified by"              }, /*  964 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  965 */
+  { "my"    , BY     , CM_MY      , SSM_BY2     , "m"                           }, /*  966 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  967 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  968 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  969 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  970 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  971 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  972 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  973 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  974 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  975 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  976 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  977 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  978 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  979 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  980 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  981 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  982 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  983 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  984 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  985 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  986 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  987 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  988 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  989 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  990 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  991 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  992 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  993 */
+  { "na"    , NA     , CM_NA      , SSM_NA      , "bridi negator"               }, /*  994 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  995 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  996 */
+  { "nai"   , NAI    , CM_NAI     , SSM_NAI     , "negate last word"            }, /*  997 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  998 */
+  { "nau"   , CUhE   , CM_NAU     , SSM_CUhE    , "reference point"             }, /*  999 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1000 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1001 */
+  { "na\'a" , BY     , CM_NAhA    , SSM_BY1     , "cancel shifts"               }, /* 1002 */
+  { "na\'e" , NAhE   , CM_NAhE    , SSM_NAhE    , "scalar contrary"             }, /* 1003 */
+  { "na\'i" , UI     , CM_NAhI    , SSM_UI3a    , "metalinguistic not"          }, /* 1004 */
+  { "na\'o" , TAhE   , CM_NAhO    , SSM_TAhE    , "typically"                   }, /* 1005 */
+  { "na\'u" , NAhU   , CM_NAhU    , SSM_NAhU    , "selbri to operator"          }, /* 1006 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1007 */
+  { "ne"    , GOI    , CM_NE      , SSM_GOI     , "incidental phrase"           }, /* 1008 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1009 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1010 */
+  { "nei"   , GOhA   , CM_NEI     , SSM_GOhA    , "current bridi"               }, /* 1011 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1012 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1013 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1014 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1015 */
+  { "ne\'a" , FAhA   , CM_NEhA    , SSM_FAhA3   , "next to"                     }, /* 1016 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1017 */
+  { "ne\'i" , FAhA   , CM_NEhI    , SSM_FAhA3   , "within"                      }, /* 1018 */
+  { "ne\'o" , VUhU   , CM_NEhO    , SSM_VUhU3   , "factorial"                   }, /* 1019 */
+  { "ne\'u" , FAhA   , CM_NEhU    , SSM_FAhA1   , "south of"                    }, /* 1020 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1021 */
+  { "ni"    , NU     , CM_NI      , SSM_NU      , "amount abstract"             }, /* 1022 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1023 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1024 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1025 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1026 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1027 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1028 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1029 */
+  { "ni\'a" , FAhA   , CM_NIhA    , SSM_FAhA2   , "below"                       }, /* 1030 */
+  { "ni\'e" , NIhE   , CM_NIhE    , SSM_NIhE    , "selbri to operand"           }, /* 1031 */
+  { "ni\'i" , BAI    , CM_NIhI    , SSM_BAI     , "because of logic"            }, /* 1032 */
+  { "ni\'o" , NIhO   , CM_NIhO    , SSM_NIhO    , "new topic"                   }, /* 1033 */
+  { "ni\'u" , PA     , CM_NIhU    , SSM_PA3     , "negative number"             }, /* 1034 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1035 */
+  { "no"    , PA     , CM_NO      , SSM_PA1     , "0"                           }, /* 1036 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1037 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1038 */
+  { "noi"   , NOI    , CM_NOI     , SSM_NOI     , "incidental clause"           }, /* 1039 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1040 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1041 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1042 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1043 */
+  { "no\'a" , GOhA   , CM_NOhA    , SSM_GOhA    , "next outer bridi"            }, /* 1044 */
+  { "no\'e" , NAhE   , CM_NOhE    , SSM_NAhE    , "scalar midpoint not"         }, /* 1045 */
+  { "no\'i" , NIhO   , CM_NOhI    , SSM_NIhO    , "old topic"                   }, /* 1046 */
+  { "no\'o" , PA     , CM_NOhO    , SSM_PA5     , "typical value"               }, /* 1047 */
+  { "no\'u" , GOI    , CM_NOhU    , SSM_GOI     , "incidental identity"         }, /* 1048 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1049 */
+  { "nu"    , NU     , CM_NU      , SSM_NU      , "event abstract"              }, /* 1050 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1051 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1052 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1053 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1054 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1055 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1056 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1057 */
+  { "nu\'a" , NUhA   , CM_NUhA    , SSM_NUhA    , "operator to selbri"          }, /* 1058 */
+  { "nu\'e" , COI    , CM_NUhE    , SSM_COI     , "promise"                     }, /* 1059 */
+  { "nu\'i" , NUhI   , CM_NUhI    , SSM_NUhI    , "start termset"               }, /* 1060 */
+  { "nu\'o" , CAhA   , CM_NUhO    , SSM_CAhA    , "can but has not"             }, /* 1061 */
+  { "nu\'u" , NUhU   , CM_NUhU    , SSM_NUhU    , "end termset"                 }, /* 1062 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1063 */
+  { "ny"    , BY     , CM_NY      , SSM_BY2     , "n"                           }, /* 1064 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1065 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1066 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1067 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1068 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1069 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1070 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1071 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1072 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1073 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1074 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1075 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1076 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1077 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1078 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1079 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1080 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1081 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1082 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1083 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1084 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1085 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1086 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1087 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1088 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1089 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1090 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1091 */
+  { "pa"    , PA     , CM_PA      , SSM_PA1     , "1"                           }, /* 1092 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1093 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1094 */
+  { "pai"   , PA     , CM_PAI     , SSM_PA5     , "pi"                          }, /* 1095 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1096 */
+  { "pau"   , UI     , CM_PAU     , SSM_UI3a    , "question follows"            }, /* 1097 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1098 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1099 */
+  { "pa\'a" , BAI    , CM_PAhA    , SSM_BAI     , "in addition to"              }, /* 1100 */
+  { "pa\'e" , UI     , CM_PAhE    , SSM_UI3     , "justice"                     }, /* 1101 */
+  { "pa\'i" , VUhU   , CM_PAhI    , SSM_VUhU2   , "ratio"                       }, /* 1102 */
+  { "pa\'o" , FAhA   , CM_PAhO    , SSM_FAhA3   , "transfixing"                 }, /* 1103 */
+  { "pa\'u" , BAI    , CM_PAhU    , SSM_BAI     , "having component"            }, /* 1104 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1105 */
+  { "pe"    , GOI    , CM_PE      , SSM_GOI     , "restrictive phrase"          }, /* 1106 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1107 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1108 */
+  { "pei"   , CAI    , CM_PEI     , SSM_CAI     , "emotion ?"                   }, /* 1109 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1110 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1111 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1112 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1113 */
+  { "pe\'a" , PEhA   , CM_PEhA    , SSM_PEhA    , "start figurative"            }, /* 1114 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1115 */
+  { "pe\'i" , UI     , CM_PEhI    , SSM_UI2     , "I opine"                     }, /* 1116 */
+  { "pe\'o" , PEhO   , CM_PEhO    , SSM_PEhO    , "fore mex operator"           }, /* 1117 */
+  { "pe\'u" , COI    , CM_PEhU    , SSM_COI     , "please"                      }, /* 1118 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1119 */
+  { "pi"    , PA     , CM_PI      , SSM_PA3     , "decimal point"               }, /* 1120 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1121 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1122 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1123 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1124 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1125 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1126 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1127 */
+  { "pi\'a" , VUhU   , CM_PIhA    , SSM_VUhU4   , "matrix of rows"              }, /* 1128 */
+  { "pi\'e" , PA     , CM_PIhE    , SSM_PA3     , "digit separator"             }, /* 1129 */
+  { "pi\'i" , VUhU   , CM_PIhI    , SSM_VUhU1   , "times"                       }, /* 1130 */
+  { "pi\'o" , BAI    , CM_PIhO    , SSM_BAI     , "used by"                     }, /* 1131 */
+  { "pi\'u" , JOI    , CM_PIhU    , SSM_JOI     , "cross product"               }, /* 1132 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1133 */
+  { "po"    , GOI    , CM_PO      , SSM_GOI     , "is specific to"              }, /* 1134 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1135 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1136 */
+  { "poi"   , NOI    , CM_POI     , SSM_NOI     , "restrictive clause"          }, /* 1137 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1138 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1139 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1140 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1141 */
+  { "po\'a" , POhA   , CM_POhA    , SSM_POhA    , "end figurative"              }, /* 1142 */
+  { "po\'e" , GOI    , CM_POhE    , SSM_GOI     , "which belongs to"            }, /* 1143 */
+  { "po\'i" , BAI    , CM_POhI    , SSM_BAI     , "in the sequence"             }, /* 1144 */
+  { "po\'o" , UI     , CM_POhO    , SSM_UI3b    , "uniquely"                    }, /* 1145 */
+  { "po\'u" , GOI    , CM_POhU    , SSM_GOI     , "restrictive identity"        }, /* 1146 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1147 */
+  { "pu"    , PU     , CM_PU      , SSM_PU      , "before"                      }, /* 1148 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1149 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1150 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1151 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1152 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1153 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1154 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1155 */
+  { "pu\'a" , BAI    , CM_PUhA    , SSM_BAI     , "pleased by"                  }, /* 1156 */
+  { "pu\'e" , BAI    , CM_PUhE    , SSM_BAI     , "by process"                  }, /* 1157 */
+  { "pu\'i" , CAhA   , CM_PUhI    , SSM_CAhA    , "can and has"                 }, /* 1158 */
+  { "pu\'o" , ZAhO   , CM_PUhO    , SSM_ZAhO    , "anticipative"                }, /* 1159 */
+  { "pu\'u" , NU     , CM_PUhU    , SSM_NU1     , "process abstract"            }, /* 1160 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1161 */
+  { "py"    , BY     , CM_PY      , SSM_BY2     , "p"                           }, /* 1162 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1163 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1164 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1165 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1166 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1167 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1168 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1169 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1170 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1171 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1172 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1173 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1174 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1175 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1176 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1177 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1178 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1179 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1180 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1181 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1182 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1183 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1184 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1185 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1186 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1187 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1188 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1189 */
+  { "ra"    , KOhA   , CM_RA      , SSM_KOhA5   , "recent sumti"                }, /* 1190 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1191 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1192 */
+  { "rai"   , BAI    , CM_RAI     , SSM_BAI     , "with superlative"            }, /* 1193 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1194 */
+  { "rau"   , PA     , CM_RAU     , SSM_PA4     , "enough"                      }, /* 1195 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1196 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1197 */
+  { "ra\'a" , BAI    , CM_RAhA    , SSM_BAI     , "pertained to by"             }, /* 1198 */
+  { "ra\'e" , PA     , CM_RAhE    , SSM_PA3     , "repeating decimal"           }, /* 1199 */
+  { "ra\'i" , BAI    , CM_RAhI    , SSM_BAI     , "from source"                 }, /* 1200 */
+  { "ra\'o" , RAhO   , CM_RAhO    , SSM_RAhO    , "pro-assign update"           }, /* 1201 */
+  { "ra\'u" , UI     , CM_RAhU    , SSM_UI3     , "chiefly"                     }, /* 1202 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1203 */
+  { "re"    , PA     , CM_RE      , SSM_PA1     , "2"                           }, /* 1204 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1205 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1206 */
+  { "rei"   , PA     , CM_REI     , SSM_PA2     , "hex digit E"                 }, /* 1207 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1208 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1209 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1210 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1211 */
+  { "re\'a" , VUhU   , CM_REhA    , SSM_VUhU4   , "transpose"                   }, /* 1212 */
+  { "re\'e" , UI     , CM_REhE    , SSM_UI4     , "spiritual"                   }, /* 1213 */
+  { "re\'i" , COI    , CM_REhI    , SSM_COI     , "ready to receive"            }, /* 1214 */
+  { "re\'o" , FAhA   , CM_REhO    , SSM_FAhA3   , "adjacent to"                 }, /* 1215 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1216 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1217 */
+  { "ri"    , KOhA   , CM_RI      , SSM_KOhA5   , "last sumti"                  }, /* 1218 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1219 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1220 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1221 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1222 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1223 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1224 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1225 */
+  { "ri\'a" , BAI    , CM_RIhA    , SSM_BAI     , "because of cause"            }, /* 1226 */
+  { "ri\'e" , UI     , CM_RIhE    , SSM_UI5     , "release of emotion"          }, /* 1227 */
+  { "ri\'i" , BAI    , CM_RIhI    , SSM_BAI     , "experienced by"              }, /* 1228 */
+  { "ri\'o" , VUhU   , CM_RIhO    , SSM_VUhU4   , "integral"                    }, /* 1229 */
+  { "ri\'u" , FAhA   , CM_RIhU    , SSM_FAhA2   , "on the right of"             }, /* 1230 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1231 */
+  { "ro"    , PA     , CM_RO      , SSM_PA4     , "each"                        }, /* 1232 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1233 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1234 */
+  { "roi"   , ROI    , CM_ROI     , SSM_ROI     , "quantified tense"            }, /* 1235 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1236 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1237 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1238 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1239 */
+  { "ro\'a" , UI     , CM_ROhA    , SSM_UI4     , "social"                      }, /* 1240 */
+  { "ro\'e" , UI     , CM_ROhE    , SSM_UI4     , "mental"                      }, /* 1241 */
+  { "ro\'i" , UI     , CM_ROhI    , SSM_UI4     , "emotional"                   }, /* 1242 */
+  { "ro\'o" , UI     , CM_ROhO    , SSM_UI4     , "physical"                    }, /* 1243 */
+  { "ro\'u" , UI     , CM_ROhU    , SSM_UI4     , "sexual"                      }, /* 1244 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1245 */
+  { "ru"    , KOhA   , CM_RU      , SSM_KOhA5   , "earlier sumti"               }, /* 1246 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1247 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1248 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1249 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1250 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1251 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1252 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1253 */
+  { "ru\'a" , UI     , CM_RUhA    , SSM_UI2     , "I postulate"                 }, /* 1254 */
+  { "ru\'e" , CAI    , CM_RUhE    , SSM_CAI     , "weak emotion"                }, /* 1255 */
+  { "ru\'i" , TAhE   , CM_RUhI    , SSM_TAhE    , "continuously"                }, /* 1256 */
+  { "ru\'o" , BY     , CM_RUhO    , SSM_BY1     , "Cyrillic shift"              }, /* 1257 */
+  { "ru\'u" , FAhA   , CM_RUhU    , SSM_FAhA2   , "surrounding"                 }, /* 1258 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1259 */
+  { "ry"    , BY     , CM_RY      , SSM_BY2     , "r"                           }, /* 1260 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1261 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1262 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1263 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1264 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1265 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1266 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1267 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1268 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1269 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1270 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1271 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1272 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1273 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1274 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1275 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1276 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1277 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1278 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1279 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1280 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1281 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1282 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1283 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1284 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1285 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1286 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1287 */
+  { "sa"    , SA     , CM_SA      , SSM_SA      , "erase utterance"             }, /* 1288 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1289 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1290 */
+  { "sai"   , CAI    , CM_SAI     , SSM_CAI     , "strong emotion"              }, /* 1291 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1292 */
+  { "sau"   , BAI    , CM_SAU     , SSM_BAI     , "requiring"                   }, /* 1293 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1294 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1295 */
+  { "sa\'a" , UI     , CM_SAhA    , SSM_UI3a    , "editorial insertion"         }, /* 1296 */
+  { "sa\'e" , UI     , CM_SAhE    , SSM_UI3     , "precisely speaking"          }, /* 1297 */
+  { "sa\'i" , VUhU   , CM_SAhI    , SSM_VUhU4   , "matrix of columns"           }, /* 1298 */
+  { "sa\'o" , VUhU   , CM_SAhO    , SSM_VUhU4   , "derivative"                  }, /* 1299 */
+  { "sa\'u" , UI     , CM_SAhU    , SSM_UI3     , "simply speaking"             }, /* 1300 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1301 */
+  { "se"    , SE     , CM_SE      , SSM_SE      , "2nd conversion"              }, /* 1302 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1303 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1304 */
+  { "sei"   , SEI    , CM_SEI     , SSM_SEI     , "discursive bridi"            }, /* 1305 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1306 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1307 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1308 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1309 */
+  { "se\'a" , UI     , CM_SEhA    , SSM_UI5     , "self-sufficiency"            }, /* 1310 */
+  { "se\'e" , BY     , CM_SEhE    , SSM_BY1     , "character code"              }, /* 1311 */
+  { "se\'i" , UI     , CM_SEhI    , SSM_UI5     , "self-oriented"               }, /* 1312 */
+  { "se\'o" , UI     , CM_SEhO    , SSM_UI2     , "I know internally"           }, /* 1313 */
+  { "se\'u" , SEhU   , CM_SEhU    , SSM_SEhU    , "end discursive"              }, /* 1314 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1315 */
+  { "si"    , SI     , CM_SI      , SSM_SI      , "erase word"                  }, /* 1316 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1317 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1318 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1319 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1320 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1321 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1322 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1323 */
+  { "si\'a" , UI     , CM_SIhA    , SSM_UI3b    , "similarly"                   }, /* 1324 */
+  { "si\'e" , MOI    , CM_SIhE    , SSM_MOI     , "portion selbri"              }, /* 1325 */
+  { "si\'i" , VUhU   , CM_SIhI    , SSM_VUhU4   , "sigma summation"             }, /* 1326 */
+  { "si\'o" , NU     , CM_SIhO    , SSM_NU      , "concept abstract"            }, /* 1327 */
+  { "si\'u" , BAI    , CM_SIhU    , SSM_BAI     , "aided by"                    }, /* 1328 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1329 */
+  { "so"    , PA     , CM_SO      , SSM_PA1     , "9"                           }, /* 1330 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1331 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1332 */
+  { "soi"   , SOI    , CM_SOI     , SSM_SOI     , "reciprocal sumti"            }, /* 1333 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1334 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1335 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1336 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1337 */
+  { "so\'a" , PA     , CM_SOhA    , SSM_PA4     , "almost all"                  }, /* 1338 */
+  { "so\'e" , PA     , CM_SOhE    , SSM_PA4     , "most"                        }, /* 1339 */
+  { "so\'i" , PA     , CM_SOhI    , SSM_PA4     , "many"                        }, /* 1340 */
+  { "so\'o" , PA     , CM_SOhO    , SSM_PA4     , "several"                     }, /* 1341 */
+  { "so\'u" , PA     , CM_SOhU    , SSM_PA4     , "few"                         }, /* 1342 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1343 */
+  { "su"    , SU     , CM_SU      , SSM_SU      , "erase discourse"             }, /* 1344 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1345 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1346 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1347 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1348 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1349 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1350 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1351 */
+  { "su\'a" , UI     , CM_SUhA    , SSM_UI2     , "I generalize"                }, /* 1352 */
+  { "su\'e" , PA     , CM_SUhE    , SSM_PA4     , "at most"                     }, /* 1353 */
+  { "su\'i" , VUhU   , CM_SUhI    , SSM_VUhU1   , "plus"                        }, /* 1354 */
+  { "su\'o" , PA     , CM_SUhO    , SSM_PA4     , "at least"                    }, /* 1355 */
+  { "su\'u" , NU     , CM_SUhU    , SSM_NU      , "unspecif abstract"           }, /* 1356 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1357 */
+  { "sy"    , BY     , CM_SY      , SSM_BY2     , "s"                           }, /* 1358 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1359 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1360 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1361 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1362 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1363 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1364 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1365 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1366 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1367 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1368 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1369 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1370 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1371 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1372 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1373 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1374 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1375 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1376 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1377 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1378 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1379 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1380 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1381 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1382 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1383 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1384 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1385 */
+  { "ta"    , KOhA   , CM_TA      , SSM_KOhA6   , "that there"                  }, /* 1386 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1387 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1388 */
+  { "tai"   , BAI    , CM_TAI     , SSM_BAI     , "in form"                     }, /* 1389 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1390 */
+  { "tau"   , LAU    , CM_TAU     , SSM_LAU     , "shift next lerfu"            }, /* 1391 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1392 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1393 */
+  { "ta\'a" , COI    , CM_TAhA    , SSM_COI     , "interruption"                }, /* 1394 */
+  { "ta\'e" , TAhE   , CM_TAhE    , SSM_TAhE    , "habitually"                  }, /* 1395 */
+  { "ta\'i" , BAI    , CM_TAhI    , SSM_BAI     , "by method"                   }, /* 1396 */
+  { "ta\'o" , UI     , CM_TAhO    , SSM_UI3     , "by the way"                  }, /* 1397 */
+  { "ta\'u" , UI     , CM_TAhU    , SSM_UI3a    , "making a tanru"              }, /* 1398 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1399 */
+  { "te"    , SE     , CM_TE      , SSM_SE      , "3rd conversion"              }, /* 1400 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1401 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1402 */
+  { "tei"   , TEI    , CM_TEI     , SSM_TEI     , "composite lerfu"             }, /* 1403 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1404 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1405 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1406 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1407 */
+  { "te\'a" , VUhU   , CM_TEhA    , SSM_VUhU2   , "to the power"                }, /* 1408 */
+  { "te\'e" , FAhA   , CM_TEhE    , SSM_FAhA3   , "bordering"                   }, /* 1409 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1410 */
+  { "te\'o" , PA     , CM_TEhO    , SSM_PA5     , "exponential e"               }, /* 1411 */
+  { "te\'u" , TEhU   , CM_TEhU    , SSM_TEhU    , "end mex converters"          }, /* 1412 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1413 */
+  { "ti"    , KOhA   , CM_TI      , SSM_KOhA6   , "this here"                   }, /* 1414 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1415 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1416 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1417 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1418 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1419 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1420 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1421 */
+  { "ti\'a" , FAhA   , CM_TIhA    , SSM_FAhA2   , "behind"                      }, /* 1422 */
+  { "ti\'e" , UI     , CM_TIhE    , SSM_UI2     , "I hear"                      }, /* 1423 */
+  { "ti\'i" , BAI    , CM_TIhI    , SSM_BAI     , "suggested by"                }, /* 1424 */
+  { "ti\'o" , SEI    , CM_TIhO    , SSM_SEI     , "mex precedence"              }, /* 1425 */
+  { "ti\'u" , BAI    , CM_TIhU    , SSM_BAI     , "associated with time"        }, /* 1426 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1427 */
+  { "to"    , TO     , CM_TO      , SSM_TO      , "start parenthesis"           }, /* 1428 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1429 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1430 */
+  { "toi"   , TOI    , CM_TOI     , SSM_TOI     , "end parenthesis"             }, /* 1431 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1432 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1433 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1434 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1435 */
+  { "to\'a" , BY     , CM_TOhA    , SSM_BY1     , "lower-case shift"            }, /* 1436 */
+  { "to\'e" , NAhE   , CM_TOhE    , SSM_NAhE    , "polar opposite"              }, /* 1437 */
+  { "to\'i" , TO     , CM_TOhI    , SSM_TO      , "editorial unquote"           }, /* 1438 */
+  { "to\'o" , FAhA   , CM_TOhO    , SSM_FAhA4   , "away from point"             }, /* 1439 */
+  { "to\'u" , UI     , CM_TOhU    , SSM_UI3     , "in brief"                    }, /* 1440 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1441 */
+  { "tu"    , KOhA   , CM_TU      , SSM_KOhA6   , "that yonder"                 }, /* 1442 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1443 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1444 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1445 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1446 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1447 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1448 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1449 */
+  { "tu\'a" , LAhE   , CM_TUhA    , SSM_LAhE    , "the bridi implied by"        }, /* 1450 */
+  { "tu\'e" , TUhE   , CM_TUhE    , SSM_TUhE    , "start text scope"            }, /* 1451 */
+  { "tu\'i" , BAI    , CM_TUhI    , SSM_BAI     , "associated with site"        }, /* 1452 */
+  { "tu\'o" , PA     , CM_TUhO    , SSM_PA5     , "null operand"                }, /* 1453 */
+  { "tu\'u" , TUhU   , CM_TUhU    , SSM_TUhU    , "end text scope"              }, /* 1454 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1455 */
+  { "ty"    , BY     , CM_TY      , SSM_BY2     , "t"                           }, /* 1456 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1457 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1458 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1459 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1460 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1461 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1462 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1463 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1464 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1465 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1466 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1467 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1468 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1469 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1470 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1471 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1472 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1473 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1474 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1475 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1476 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1477 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1478 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1479 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1480 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1481 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1482 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1483 */
+  { "va"    , VA     , CM_VA      , SSM_VA      , "there at"                    }, /* 1484 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1485 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1486 */
+  { "vai"   , PA     , CM_VAI     , SSM_PA2     , "hex digit F"                 }, /* 1487 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1488 */
+  { "vau"   , VAU    , CM_VAU     , SSM_VAU     , "end simple bridi"            }, /* 1489 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1490 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1491 */
+  { "va\'a" , VUhU   , CM_VAhA    , SSM_VUhU3   , "additive inverse"            }, /* 1492 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1493 */
+  { "va\'i" , UI     , CM_VAhI    , SSM_UI3     , "in other words"              }, /* 1494 */
+  { "va\'o" , BAI    , CM_VAhO    , SSM_BAI     , "under conditions"            }, /* 1495 */
+  { "va\'u" , BAI    , CM_VAhU    , SSM_BAI     , "benefiting from"             }, /* 1496 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1497 */
+  { "ve"    , SE     , CM_VE      , SSM_SE      , "4th conversion"              }, /* 1498 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1499 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1500 */
+  { "vei"   , VEI    , CM_VEI     , SSM_VEI     , "left bracket"                }, /* 1501 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1502 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1503 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1504 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1505 */
+  { "ve\'a" , VEhA   , CM_VEhA    , SSM_VEhA    , "small space interval"        }, /* 1506 */
+  { "ve\'e" , VEhA   , CM_VEhE    , SSM_VEhA    , "whole space interval"        }, /* 1507 */
+  { "ve\'i" , VEhA   , CM_VEhI    , SSM_VEhA    , "tiny space interval"         }, /* 1508 */
+  { "ve\'o" , VEhO   , CM_VEhO    , SSM_VEhO    , "right bracket"               }, /* 1509 */
+  { "ve\'u" , VEhA   , CM_VEhU    , SSM_VEhA    , "big space interval"          }, /* 1510 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1511 */
+  { "vi"    , VA     , CM_VI      , SSM_VA      , "here at"                     }, /* 1512 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1513 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1514 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1515 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1516 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1517 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1518 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1519 */
+  { "vi\'a" , VIhA   , CM_VIhA    , SSM_VIhA    , "2-space interval"            }, /* 1520 */
+  { "vi\'e" , VIhA   , CM_VIhE    , SSM_VIhA    , "4-space interval"            }, /* 1521 */
+  { "vi\'i" , VIhA   , CM_VIhI    , SSM_VIhA    , "1-space interval"            }, /* 1522 */
+  { "vi\'o" , COI    , CM_VIhO    , SSM_COI     , "wilco"                       }, /* 1523 */
+  { "vi\'u" , VIhA   , CM_VIhU    , SSM_VIhA    , "3-space interval"            }, /* 1524 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1525 */
+  { "vo"    , PA     , CM_VO      , SSM_PA1     , "4"                           }, /* 1526 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1527 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1528 */
+  { "voi"   , NOI    , CM_VOI     , SSM_NOI     , "descriptive clause"          }, /* 1529 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1530 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1531 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1532 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1533 */
+  { "vo\'a" , KOhA   , CM_VOhA    , SSM_KOhA4   , "x1 it"                       }, /* 1534 */
+  { "vo\'e" , KOhA   , CM_VOhE    , SSM_KOhA4   , "x2 it"                       }, /* 1535 */
+  { "vo\'i" , KOhA   , CM_VOhI    , SSM_KOhA4   , "x3 it"                       }, /* 1536 */
+  { "vo\'o" , KOhA   , CM_VOhO    , SSM_KOhA4   , "x4 it"                       }, /* 1537 */
+  { "vo\'u" , KOhA   , CM_VOhU    , SSM_KOhA4   , "x5 it"                       }, /* 1538 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1539 */
+  { "vu"    , VA     , CM_VU      , SSM_VA      , "yonder at"                   }, /* 1540 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1541 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1542 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1543 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1544 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1545 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1546 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1547 */
+  { "vu\'a" , FAhA   , CM_VUhA    , SSM_FAhA1   , "west of"                     }, /* 1548 */
+  { "vu\'e" , UI     , CM_VUhE    , SSM_UI5     , "virtue"                      }, /* 1549 */
+  { "vu\'i" , LAhE   , CM_VUhI    , SSM_LAhE    , "the sequence of"             }, /* 1550 */
+  { "vu\'o" , VUhO   , CM_VUhO    , SSM_VUhO    , "long scope relative"         }, /* 1551 */
+  { "vu\'u" , VUhU   , CM_VUhU    , SSM_VUhU1   , "minus"                       }, /* 1552 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1553 */
+  { "vy"    , BY     , CM_VY      , SSM_BY2     , "v"                           }, /* 1554 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1555 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1556 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1557 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1558 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1559 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1560 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1561 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1562 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1563 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1564 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1565 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1566 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1567 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1568 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1569 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1570 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1571 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1572 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1573 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1574 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1575 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1576 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1577 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1578 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1579 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1580 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1581 */
+  { "xa"    , PA     , CM_XA      , SSM_PA1     , "6"                           }, /* 1582 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1583 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1584 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1585 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1586 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1587 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1588 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1589 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1590 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1591 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1592 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1593 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1594 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1595 */
+  { "xe"    , SE     , CM_XE      , SSM_SE      , "5th conversion"              }, /* 1596 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1597 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1598 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1599 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1600 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1601 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1602 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1603 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1604 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1605 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1606 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1607 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1608 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1609 */
+  { "xi"    , XI     , CM_XI      , SSM_XI      , "subscript"                   }, /* 1610 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1611 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1612 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1613 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1614 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1615 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1616 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1617 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1618 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1619 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1620 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1621 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1622 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1623 */
+  { "xo"    , PA     , CM_XO      , SSM_PA5     , "number ?"                    }, /* 1624 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1625 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1626 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1627 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1628 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1629 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1630 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1631 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1632 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1633 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1634 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1635 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1636 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1637 */
+  { "xu"    , UI     , CM_XU      , SSM_UI6     , "true-false ?"                }, /* 1638 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1639 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1640 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1641 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1642 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1643 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1644 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1645 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1646 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1647 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1648 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1649 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1650 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1651 */
+  { "xy"    , BY     , CM_XY      , SSM_BY2     , "x"                           }, /* 1652 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1653 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1654 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1655 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1656 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1657 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1658 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1659 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1660 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1661 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1662 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1663 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1664 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1665 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1666 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1667 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1668 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1669 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1670 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1671 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1672 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1673 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1674 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1675 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1676 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1677 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1678 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1679 */
+  { "za"    , ZI     , CM_ZA      , SSM_ZI      , "medium time"                 }, /* 1680 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1681 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1682 */
+  { "zai"   , LAU    , CM_ZAI     , SSM_LAU     , "select alphabet"             }, /* 1683 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1684 */
+  { "zau"   , BAI    , CM_ZAU     , SSM_BAI     , "approved by"                 }, /* 1685 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1686 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1687 */
+  { "za\'a" , UI     , CM_ZAhA    , SSM_UI2     , "I observe"                   }, /* 1688 */
+  { "za\'e" , BAhE   , CM_ZAhE    , SSM_BAhE    , "nonce-word next"             }, /* 1689 */
+  { "za\'i" , NU     , CM_ZAhI    , SSM_NU1     , "state abstract"              }, /* 1690 */
+  { "za\'o" , ZAhO   , CM_ZAhO    , SSM_ZAhO    , "superfective"                }, /* 1691 */
+  { "za\'u" , PA     , CM_ZAhU    , SSM_PA3     , "greater than"                }, /* 1692 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1693 */
+  { "ze"    , PA     , CM_ZE      , SSM_PA1     , "7"                           }, /* 1694 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1695 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1696 */
+  { "zei"   , ZEI    , CM_ZEI     , SSM_ZEI     , "lujvo glue"                  }, /* 1697 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1698 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1699 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1700 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1701 */
+  { "ze\'a" , ZEhA   , CM_ZEhA    , SSM_ZEhA    , "medium time interval"        }, /* 1702 */
+  { "ze\'e" , ZEhA   , CM_ZEhE    , SSM_ZEhA    , "whole time interval"         }, /* 1703 */
+  { "ze\'i" , ZEhA   , CM_ZEhI    , SSM_ZEhA    , "short time interval"         }, /* 1704 */
+  { "ze\'o" , FAhA   , CM_ZEhO    , SSM_FAhA4   , "outward"                     }, /* 1705 */
+  { "ze\'u" , ZEhA   , CM_ZEhU    , SSM_ZEhA    , "long time interval"          }, /* 1706 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1707 */
+  { "zi"    , ZI     , CM_ZI      , SSM_ZI      , "short time"                  }, /* 1708 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1709 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1710 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1711 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1712 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1713 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1714 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1715 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1716 */
+  { "zi\'e" , ZIhE   , CM_ZIhE    , SSM_ZIhE    , "rel clause joiner"           }, /* 1717 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1718 */
+  { "zi\'o" , KOhA   , CM_ZIhO    , SSM_KOhA7   , "nonexistent it"              }, /* 1719 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1720 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1721 */
+  { "zo"    , ZO     , CM_ZO      , SSM_ZO      , "1-word quote"                }, /* 1722 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1723 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1724 */
+  { "zoi"   , ZOI    , CM_ZOI     , SSM_ZOI     , "non-Lojban quote"            }, /* 1725 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1726 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1727 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1728 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1729 */
+  { "zo\'a" , FAhA   , CM_ZOhA    , SSM_FAhA4   , "tangential to"               }, /* 1730 */
+  { "zo\'e" , KOhA   , CM_ZOhE    , SSM_KOhA7   , "unspecif it"                 }, /* 1731 */
+  { "zo\'i" , FAhA   , CM_ZOhI    , SSM_FAhA4   , "inward"                      }, /* 1732 */
+  { "zo\'o" , UI     , CM_ZOhO    , SSM_UI5     , "humorously"                  }, /* 1733 */
+  { "zo\'u" , ZOhU   , CM_ZOhU    , SSM_ZOhU    , "end prenex"                  }, /* 1734 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1735 */
+  { "zu"    , ZI     , CM_ZU      , SSM_ZI      , "long time"                   }, /* 1736 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1737 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1738 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1739 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1740 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1741 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1742 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1743 */
+  { "zu\'a" , FAhA   , CM_ZUhA    , SSM_FAhA2   , "on the left of"              }, /* 1744 */
+  { "zu\'e" , BAI    , CM_ZUhE    , SSM_BAI     , "with actor"                  }, /* 1745 */
+  { "zu\'i" , KOhA   , CM_ZUhI    , SSM_KOhA7   , "typical it"                  }, /* 1746 */
+  { "zu\'o" , NU     , CM_ZUhO    , SSM_NU1     , "activity abstract"           }, /* 1747 */
+  { "zu\'u" , UI     , CM_ZUhU    , SSM_UI3     , "on the one hand"             }, /* 1748 */
+  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1749 */
+  { "zy"    , BY     , CM_ZY      , SSM_BY2     , "z"                           }  /* 1750 */
+};
+
+char *selmao_names[] = {
+  "A",
+  "BAI",
+  "BAhE",
+  "BE",
+  "BEI",
+  "BEhO",
+  "BIhI",
+  "BO",
+  "BOI",
+  "BU",
+  "BY1",
+  "BY2",
+  "CAI",
+  "CAhA",
+  "CEI",
+  "CO",
+  "COI",
+  "CU",
+  "CUhE",
+  "DAhO",
+  "DOI",
+  "DOhU",
+  "FA",
+  "FAhA1",
+  "FAhA2",
+  "FAhA3",
+  "FAhA4",
+  "FAhO",
+  "FEhE",
+  "FEhU",
+  "FIhO",
+  "FOI",
+  "FUhA",
+  "FUhE",
+  "FUhO",
+  "GA",
+  "GAhO",
+  "GEhU",
+  "GI",
+  "GIhA",
+  "GOI",
+  "GOhA",
+  "GUhA",
+  "I",
+  "JA",
+  "JAI",
+  "JOI",
+  "JOhI",
+  "KE",
+  "KEI",
+  "KEhE",
+  "KI",
+  "KOhA1",
+  "KOhA2",
+  "KOhA3",
+  "KOhA4",
+  "KOhA5",
+  "KOhA6",
+  "KOhA7",
+  "KU",
+  "KUhE",
+  "KUhO",
+  "LA",
+  "LAU",
+  "LAhE",
+  "LE",
+  "LEhU",
+  "LI",
+  "LIhU",
+  "LOhO",
+  "LOhU",
+  "LU",
+  "LUhU",
+  "MAI",
+  "MAhO",
+  "ME",
+  "MEhU",
+  "MOI",
+  "MOhE",
+  "MOhI",
+  "NA",
+  "NAI",
+  "NAhE",
+  "NAhU",
+  "NIhE",
+  "NIhO",
+  "NOI",
+  "NU",
+  "NU1",
+  "NUhA",
+  "NUhI",
+  "NUhU",
+  "PA1",
+  "PA2",
+  "PA3",
+  "PA4",
+  "PA5",
+  "PEhA",
+  "PEhO",
+  "POhA",
+  "PU",
+  "RAhO",
+  "ROI",
+  "SA",
+  "SE",
+  "SEI",
+  "SEhU",
+  "SI",
+  "SOI",
+  "SU",
+  "TAhE",
+  "TEI",
+  "TEhU",
+  "TO",
+  "TOI",
+  "TUhE",
+  "TUhU",
+  "UI1",
+  "UI2",
+  "UI3",
+  "UI3a",
+  "UI3b",
+  "UI4",
+  "UI5",
+  "UI6",
+  "UI7",
+  "VA",
+  "VAU",
+  "VEI",
+  "VEhA",
+  "VEhO",
+  "VIhA",
+  "VUhO",
+  "VUhU0",
+  "VUhU1",
+  "VUhU2",
+  "VUhU3",
+  "VUhU4",
+  "XI",
+  "Y",
+  "ZAhO",
+  "ZEI",
+  "ZEhA",
+  "ZI",
+  "ZIhE",
+  "ZO",
+  "ZOI",
+  "ZOhU"
 };
