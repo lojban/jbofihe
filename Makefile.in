@@ -1,0 +1,124 @@
+# $Header$
+#
+# Makefile for parser/glosser
+#
+# COPYRIGHT
+#
+
+CC=gcc
+CFLAGS= -O2
+LIBDIR=-L@@GDBM-LIBRARY@@
+INCDIR=-I@@GDBM-INCLUDE@@
+
+OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc.tab.o functions.o \
+        categ.o nonterm.o tree.o translate.o latex.o \
+        properties.o conversion.o terms.o memory.o tenses.o \
+	output.o textout.o htmlout.o connect.o stag.o
+
+SRCS2 = $(OBJS2:%.o=%.c)
+
+all : jbofihe dictupdate
+
+jbofihe : $(OBJS2)
+	$(CC) $(CFLAGS) -o jbofihe $(OBJS2) $(LIBDIR) -lgdbm
+
+# Analyse shift/reduce conflicts in the grammar
+conflict :
+	perl terminator.pl < rpc2x.y > rpc2x_noet.y
+	bison -v rpc2x_noet.y
+
+%.o : %.c
+	$(CC) $(CFLAGS) -c $<
+
+%.s : %.c
+	$(CC) $(CFLAGS) -S $<
+
+rpc2x_nc.y : rpc2x.y uncom
+	./uncom < rpc2x.y > rpc2x_nc.y
+
+rpc2x_act.y nonterm.h nonterm.c : rpc2x_nc.y
+	perl ./action.perl < rpc2x_nc.y > rpc2x_act.y
+
+rpc.tab.c rpc.tab.h : rpc2x_act.y
+	bison -v -d rpc2x_act.y
+	mv rpc2x_act.tab.c rpc.tab.c
+	mv rpc2x_act.tab.h rpc.tab.h
+
+stag.c : stag.tab.c
+	sed -e 's/YYSTYPE/STAG_YYSTYPE/g;' < stag.tab.c > stag.c
+
+stag.h : stag.tab.h
+	sed -e 's/YYSTYPE/STAG_YYSTYPE/g;' < stag.tab.h > stag.h
+
+stag.tab.c stag.tab.h : stag.y
+	bison -v -d -p stag_ stag.y
+
+uncom : uncom.o
+
+uncom.o : uncom.c
+	$(CC) -O2 -c uncom.c
+
+uncom.c : uncom.l
+	flex -t uncom.l > uncom.c
+
+translate.o : translate.c
+	$(CC) $(CFLAGS) -c translate.c $(INCDIR)
+
+dictmake : dictmake.o
+	$(CC) $(CFLAGS) -o dictmake dictmake.o $(LIBDIR) -lgdbm
+
+dictmake.o : dictmake.c
+	$(CC) $(CFLAGS) -c dictmake.c $(INCDIR)
+
+dictclean : dictclean.o
+	$(CC) $(CFLAGS) -o dictclean dictclean.o $(LIBDIR) -lgdbm
+
+dictclean.o : dictclean.c
+	$(CC) $(CFLAGS) -c dictclean.c $(INCDIR)
+
+dictionary : dictmake
+	perl giscolon.pl < gismu > gismu.dict
+	perl cmacolon.pl < cmavo > cmavo.dict
+	perl lujvod.pl < lujvo-list > lujvo.dict
+	perl oblik.pl < oblique.key > oblik.dict
+	perl raf4l.pl < gismu > raf4l.dict
+	perl rafobl.pl > rafobl.dict
+	perl rafsid.pl < rafsi > rafsid.dict
+	./dictmake dictionary.dbm gismu.dict cmavo.dict lujvo.dict oblik.dict raf4l.dict rafobl.dict rafsid.dict extradict
+
+dictupdate : dictionary.dbm
+
+dictionary.dbm :: extradict dictmake
+	./dictmake dictionary.dbm extradict
+
+## Include the dependency info below.
+
+main.o: main.c nodes.h nonterm.h functions.h output.h
+lex1.o: lex1.c cmavotab.h nodes.h nonterm.h functions.h output.h
+lex2.o: lex2.c functions.h nonterm.h nodes.h output.h cmavotab.h \
+ rpc.tab.h
+cmavotab.o: cmavotab.c cmavotab.h rpc.tab.h
+rpc.tab.o: rpc.tab.c nodes.h nonterm.h functions.h output.h
+functions.o: functions.c functions.h nonterm.h nodes.h output.h
+categ.o: categ.c nodes.h nonterm.h rpc.tab.h functions.h output.h \
+ stag.h
+nonterm.o: nonterm.c
+tree.o: tree.c nonterm.h functions.h nodes.h output.h cmavotab.h \
+ rpc.tab.h
+translate.o: translate.c functions.h nonterm.h nodes.h output.h
+latex.o: latex.c functions.h nonterm.h nodes.h output.h
+properties.o: properties.c nodes.h nonterm.h functions.h output.h
+conversion.o: conversion.c nodes.h nonterm.h functions.h output.h \
+ rpc.tab.h cmavotab.h
+terms.o: terms.c functions.h nonterm.h nodes.h output.h rpc.tab.h \
+ cmavotab.h
+memory.o: memory.c functions.h nonterm.h nodes.h output.h
+tenses.o: tenses.c rpc.tab.h nonterm.h functions.h nodes.h output.h
+output.o: output.c nodes.h nonterm.h functions.h output.h cmavotab.h \
+ rpc.tab.h
+textout.o: textout.c functions.h nonterm.h nodes.h output.h
+htmlout.o: htmlout.c functions.h nonterm.h nodes.h output.h
+connect.o: connect.c nodes.h nonterm.h functions.h output.h rpc.tab.h \
+ cmavotab.h
+stag.o: stag.c
+
