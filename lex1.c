@@ -23,6 +23,8 @@ static char zoi_delim[64];
 static int zoi_start_line, zoi_start_col;
 static char *zoi_data;
 
+extern int had_bad_tokens; /* in main.c */
+
 static int process_word(char *buf, int start_line, int start_column);
 
 /*++++++++++++++++++++++++++++++
@@ -115,6 +117,7 @@ process_cmavo(char *buf, int start_line, int start_column)
 
   if (!ok) {
     fprintf(stderr, "Bad cmavo [%s]\n", buf);
+    had_bad_tokens = 1;
     return;
   }
     
@@ -131,6 +134,7 @@ process_cmavo(char *buf, int start_line, int start_column)
   } else {
     fprintf(stderr, "Bad cmavo [%s] at line %d column %d\n",
             buf, start_line, start_column);
+    had_bad_tokens = 1;
     node->data.garbage.word = new_string(buf);
     node->type = N_GARBAGE;
     node->start_line = start_line;
@@ -238,7 +242,6 @@ process_word(char *buf, int start_line, int start_column)
   char **pws, **pwe;
   MorfType morf_type;
   int column, incr;
-  extern int had_bad_tokens; /* in main.c */
 
   if (zoi_data) {
     if (!strcmp(buf, zoi_delim)) {
