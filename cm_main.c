@@ -50,7 +50,9 @@ main (int argc, char **argv)
                       "no options : output inline ascii\n"
                       "-b         : output blocked ascii with optional WIDTH, default %i\n"
                       "-l         : output blocked latex code\n"
+#ifdef PLIST
                       "-p         : output GNUStep property list with vocabulary\n"
+#endif
                       "-v         : version\n", width);
       exit(0);
     } else {

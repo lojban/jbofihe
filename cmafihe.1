@@ -3,7 +3,7 @@
 cmafihe \- Lojban word glosser
 .SH SYNOPSIS
 .B cmafihe
-[ -l ] [ -b ] [ -w width ] [ -v ] [filename]
+[ -l ] [ -b ] [ -w width ] [ -p ] [ -v ] [filename]
 .SH DESCRIPTION
 .I cmafihe
 is a program that reads a piece of Lojban text.  It writes out the
@@ -19,6 +19,10 @@ Show the program version and exit.
 Produce output for typesetting with LaTeX.  The Lojban, selma'o and
 English translation are shown on separate lines for each word (or
 closely related group of words).
+.TP
+.B -p
+Output GNUStep property list containing vocabulary.  (Only available if cmafihe
+was compiled with the PLIST option).
 .TP
 .B -b
 Produce plain text output in 'block' format.
