@@ -38,6 +38,7 @@ State *get_curstate(void) { return curstate; }
 %type<e> expr
 
 %token RESULT SYMBOL SYMRESULT DEFRESULT
+%token EARLYRESULT EARLYSYMRESULT
 %token ATTR DEFATTR
 %token STAR
 %right QUERY COLON
@@ -119,16 +120,21 @@ option : STRING
        | /* empty */ { $$ = NULL; }
        ;
 
-result_decl : RESULT STRING               { define_result(exit_evaluator, $2, NULL); }
-            | RESULT    expr ARROW STRING { define_result(exit_evaluator, $4, $2); }
-            | SYMRESULT expr ARROW STRING { define_symresult(exit_evaluator, $4, $2); }
+result_decl : RESULT STRING               { define_result(exit_evaluator, $2, NULL, 0); }
+            | RESULT    expr ARROW STRING { define_result(exit_evaluator, $4, $2, 0); }
+            | EARLYRESULT STRING            { define_result(exit_evaluator, $2, NULL, 1); }
+            | EARLYRESULT expr ARROW STRING { define_result(exit_evaluator, $4, $2, 1); }
+            | SYMRESULT expr ARROW STRING { define_symresult(exit_evaluator, $4, $2, 0); }
+            | EARLYSYMRESULT expr ARROW STRING { define_symresult(exit_evaluator, $4, $2, 1); }
             | SYMBOL STRING EQUAL expr    { define_symbol(exit_evaluator, $2, $4); }
             | DEFRESULT STRING            { define_defresult(exit_evaluator, $2); }
             ;
 
-attr_decl : ATTR RESULT STRING               { define_result(attr_evaluator, $3, NULL); }
-          | ATTR RESULT    expr ARROW STRING { define_result(attr_evaluator, $5, $3); }
-          | ATTR SYMRESULT expr ARROW STRING { define_symresult(attr_evaluator, $5, $3); }
+/* No 'early exit' form for attributes.  They are supposed to be actions that
+   are done en-route to the final exit condition. */
+attr_decl : ATTR RESULT STRING               { define_result(attr_evaluator, $3, NULL, 0); }
+          | ATTR RESULT    expr ARROW STRING { define_result(attr_evaluator, $5, $3, 0); }
+          | ATTR SYMRESULT expr ARROW STRING { define_symresult(attr_evaluator, $5, $3, 0); }
           | ATTR SYMBOL STRING EQUAL expr    { define_symbol(attr_evaluator, $3, $5); }
           | ATTR DEFRESULT STRING            { define_defresult(attr_evaluator, $3); }
           | DEFATTR STRING                   { define_defresult(attr_evaluator, $2); }

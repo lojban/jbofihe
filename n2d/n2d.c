@@ -884,7 +884,7 @@ static int add_dfa(Block *b, unsigned long *nfas, int N, int Nt)/*{{{*/
     }
   }
   
-  this_result_unambiguous = evaluate_result(exit_evaluator, &dfas[ndfa]->result);
+  this_result_unambiguous = evaluate_result(exit_evaluator, &dfas[ndfa]->result, &dfas[ndfa]->result_early);
   dfas[ndfa]->nfa_exit_sl = ex;
 
   if (!this_result_unambiguous) {
@@ -917,7 +917,7 @@ static int add_dfa(Block *b, unsigned long *nfas, int N, int Nt)/*{{{*/
       }
     }
   }
-  this_result_unambiguous = evaluate_result(attr_evaluator, &dfas[ndfa]->attribute);
+  this_result_unambiguous = evaluate_result(attr_evaluator, &dfas[ndfa]->attribute, NULL);
   dfas[ndfa]->nfa_attr_sl = ex;
 
   if (!this_result_unambiguous) {
@@ -984,7 +984,16 @@ static void build_dfa(Block *b, int start_index)/*{{{*/
     int idx;
     unsigned long *current_nfas;
     unsigned long block_bitmap;
-    
+
+    /* If the next DFA state has the result_early flag set, it means that the scanner will
+     * always exit straight away when that state is reached, so there's no need to compute
+     * any transitions out of it. */
+
+    if (dfas[next_to_do]->result_early) {
+      next_to_do++;
+      continue;
+    }
+
     for (j=0; j<Nt; j++) {
       clear_nfas(nfas[j], N);
       found_any[j] = 0;

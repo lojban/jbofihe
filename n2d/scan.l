@@ -26,6 +26,10 @@ BLOCK|Block|block           { return BLOCK; }
 ENDBLOCK|EndBlock           { return ENDBLOCK; }
 Endblock|endblock           { return ENDBLOCK; }
 RESULT|Result|result        { return RESULT; }
+EARLYRESULT                 { return EARLYRESULT; }
+EarlyResult                 { return EARLYRESULT; }
+Earlyresult                 { return EARLYRESULT; }
+earlyresult                 { return EARLYRESULT; }
 ATTRIBUTE|ATTR              { return ATTR; }
 Attribute|Attr              { return ATTR; }
 attribute|attr              { return ATTR; }
@@ -36,6 +40,11 @@ Defresult|defresult         { return DEFRESULT; }
 SYMBOL|Symbol|symbol        { return SYMBOL; }
 SYMRESULT|SymResult         { return SYMRESULT; }
 Symresult|symresult         { return SYMRESULT; }
+EARLYSYMRESULT              { return EARLYSYMRESULT; }
+EarlySymResult              { return EARLYSYMRESULT; }
+EarlySymresult              { return EARLYSYMRESULT; }
+Earlysymresult              { return EARLYSYMRESULT; }
+earlysymresult              { return EARLYSYMRESULT; }
 [A-Za-z0-9_.]+              { yylval.s = new_string(yytext); return STRING; }
 \#.*$                       { /* strip comments */ }
 \-\>                        { return ARROW; }

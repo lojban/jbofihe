@@ -93,6 +93,8 @@ typedef struct {
   Stringlist *nfa_exit_sl; /* NFA exit values */
   Stringlist *nfa_attr_sl; /* NFA exit values */
   char *result;    /* Result token, computed by boolean expressions defined in input text */
+  int result_early; /* If !=0, the scanner is expected to exit immediately this DFA state is entered.
+                       It means that no out-bound transitions have to be created. */
   char *attribute; /* Attribute token, computed by boolean expressions defined in input text */
 
   /* Fields calculated in compdfa.c */
@@ -162,12 +164,12 @@ Expr * new_xor_expr(Expr *c1, Expr *c2);
 Expr * new_cond_expr(Expr *c1, Expr *c2, Expr *c3);
 Expr * new_sym_expr(char *sym_name);
 void define_symbol(Evaluator *x, char *name, Expr *e);
-void define_result(Evaluator *x, char *string, Expr *e);
-void define_symresult(Evaluator *x, char *string, Expr *e);
+void define_result(Evaluator *x, char *string, Expr *e, int early);
+void define_symresult(Evaluator *x, char *string, Expr *e, int early);
 void define_defresult(Evaluator *x, char *string);
 void clear_symbol_values(Evaluator *x);
 void set_symbol_value(Evaluator *x, char *sym_name);
-int evaluate_result(Evaluator *x, char **);
+int evaluate_result(Evaluator *x, char **, int *);
 void define_defresult(Evaluator *x, char *text);
 char* get_defresult(Evaluator *x);
 void eval_initialise(void);

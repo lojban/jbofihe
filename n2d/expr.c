@@ -48,7 +48,12 @@ struct SymbolList {
 
 struct Result {
   char *result; /* The string to write to the output file */
+  /* The boolean expression that defines whether the result is active */
   Expr *e;
+  /* If != 0, assume the state machine that the program's output is embedded in
+     will exit immediately if this result occurs.  This may allow lots of
+     states to be culled from the DFA. */
+  int early; 
 };
 
 typedef struct Result Result;
@@ -205,7 +210,7 @@ Expr * new_sym_expr(char *sym_name)/*{{{*/
   return r; 
 }
 /*}}}*/
-void define_result(Evaluator *x, char *string, Expr *e)/*{{{*/
+void define_result(Evaluator *x, char *string, Expr *e, int early)/*{{{*/
 /*++++++++++++++++++++
   Add a result defn.  If the expr is null, it means build a single expr corr.
   to the value of the symbol with the same name as the result string.
@@ -217,6 +222,7 @@ void define_result(Evaluator *x, char *string, Expr *e)/*{{{*/
   grow_results(x);
   r = &(x->results[x->n_results++]);
   r->result = new_string(string);
+  r->early = early;
   if (e) {
     r->e = e;
   } else {
@@ -241,13 +247,13 @@ void define_symbol(Evaluator *x, char *name, Expr *e)/*{{{*/
 }
 /*}}}*/
   
-void define_symresult(Evaluator *x, char *name, Expr *e)/*{{{*/
+void define_symresult(Evaluator *x, char *name, Expr *e, int early)/*{{{*/
 /*++++++++++++++++++++
   Define an entry in the symbol table, and a result with the same name.
   ++++++++++++++++++++*/
 {
   define_symbol(x, name, e);
-  define_result(x, name, e);
+  define_result(x, name, e, early);
   return;
 }
 /*}}}*/
@@ -313,7 +319,7 @@ static int eval(Evaluator *x, Expr *e)/*{{{*/
   }
 }
 /*}}}*/
-int evaluate_result(Evaluator *x, char **result)/*{{{*/
+int evaluate_result(Evaluator *x, char **result, int *result_early)/*{{{*/
 /*++++++++++++++++++++
   Evaluate the result which holds given the symbols that are set
   ++++++++++++++++++++*/
@@ -334,9 +340,11 @@ int evaluate_result(Evaluator *x, char **result)/*{{{*/
 
   if (matched < 0) {
     *result = NULL;
+    if (result_early) *result_early = 0;
     return 1;
   } else {
     *result = x->results[matched].result;
+    if (result_early) *result_early = x->results[matched].early;
     return 1;
   }
 }
