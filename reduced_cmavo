@@ -1,0 +1,1085 @@
+.a         A        sumti or
+.a'a       UI1      attentive
+.a'acu'i   UI*1     inattentive
+.a'anai    UI*1     avoiding
+.a'e       UI1      alertness
+.a'enai    UI*1     exhaustion
+.a'i       UI1      effort
+.a'icu'i   UI*1     no special effort
+.a'inai    UI*1     repose
+.a'o       UI1      hope
+.a'onai    UI*1     despair
+.a'u       UI1      interest
+.a'ucu'i   UI*1     disinterest
+.a'unai    UI*1     repulsion
+.abu       BY*      a
+.ai        UI1      intent
+.aicu'i    UI*1     indecision
+.ainai     UI*1     refusal
+.au        UI1      desire
+.aucu'i    UI*1     indifference
+.aunai     UI*1     reluctance
+ ba        PU       after
+ ba'a      UI2      I anticipate
+ ba'acu'i  UI*2     I experience
+ ba'anai   UI*2     I remember
+ ba'e      BAhE     emphasize next
+ ba'i      BAI      replaced by
+ ba'o      ZAhO     perfective
+ ba'u      UI3      exaggeration
+ ba'ucu'i  UI*3     accuracy
+ ba'unai   UI*3     understatement
+ baba      PU*      will be going to
+ baca'a    PU*      will actually
+ baca'o    ZAhO*    will be then
+ bai       BAI      compelled by
+ bapu      PU*      will have been
+ bau       BAI      in language
+ be        BE       link sumti
+ be'a      FAhA1    north of
+ be'e      COI      request to send
+ be'i      BAI      sent by
+ be'o      BEhO     end linked sumti
+ be'u      UI5      lack
+ be'ucu'i  UI*5     presence
+ be'unai   UI*5     satiation
+ bei       BEI      link more sumti
+ bi        PA1      8
+ bi'i      BIhI     unordered interval
+ bi'o      BIhI     ordered interval
+ bi'u      UI3a     new information
+ bi'unai   UI*3     old information
+ biki'o    PA*      8,000
+ bimei     MOI*     is a octet
+ bimoi     MOI*     is eighth among
+ bino      PA*      80
+ binono    PA*      800
+ binonovo  PA*      8004
+ bo        BO       short scope link
+ boi       BOI      end number or lerfu
+ bu        BU       word to lerfu
+ bu'a      GOhA     some selbri 1
+ bu'e      GOhA     some selbri 2
+ bu'i      GOhA     some selbri 3
+ bu'o      UI7      start emotion
+ bu'ocu'i  UI*7     continue emotion
+ bu'onai   UI*7     end emotion
+ bu'u      FAhA3    coincident with
+ by        BY2      b
+ ca        PU       during
+ ca ma     PU*      when?
+ ca'a      CAhA     actually is
+ ca'e      UI2      I define
+ ca'i      BAI      by authority of
+ ca'o      ZAhO     continuative
+ ca'u      FAhA2    in front of
+ caba'o    ZAhO*    has been
+ caca'a    PU*      currently is
+ caca'o    ZAhO*    is now
+ cai       CAI      intense emotion
+ cajeba    PU*      during and after
+ capu'o    ZAhO*    is going to
+ cau       BAI      lacked by
+ ce        JOI      in a set with
+ ce'a      LAU      font shift
+ ce'i      PA3      percent
+ ce'o      JOI      in a sequence with
+ cei       CEI      pro-bridi assign
+ ci        PA1      3
+ ci'e      BAI      in system
+ ci'i      PA5      infinity
+ ci'iroi   ROI*     infinite times
+ ci'o      BAI      emotionally felt by
+ ci'u      BAI      on the scale
+ ciki'o    PA*      3,000
+ cimei     MOI*     is a trio
+ cimoi     MOI*     is third among
+ cino      PA*      30
+ cinono    PA*      300
+ ciroi     ROI*     thrice
+ co        CO       tanru inversion
+ co'a      ZAhO     initiative
+ co'e      GOhA     unspecif bridi
+ co'i      ZAhO     achievative
+ co'o      COI      partings
+ co'u      ZAhO     cessative
+ coi       COI      greetings
+ coico'o   COI*     greetings in passing
+ cu        CU       selbri separator
+ cu'a      VUhU3    absolute value
+ cu'e      CUhE     modal ?
+ cu'i      CAI      neutral emotion
+ cu'o      MOI      probability selbri
+ cu'u      BAI      as said by
+ cu'u ko'a BAI*     as said by it-1
+ cy        BY2      c
+ da        KOhA1    something 1
+ da'a      PA4      all except
+ da'amoi   MOI*     is penultimate among
+ da'aremoi MOI*     is antepenultimate
+ da'e      KOhA2    eventual utterance
+ da'i      UI3      supposing
+ da'inai   UI*3     in fact
+ da'o      DAhO     cancel pro-assigns
+ da'u      KOhA2    earlier utterance
+ dai       UI5      empathy
+ dau       PA2      hex digit A
+ de        KOhA1    something 2
+ de'a      ZAhO     pausative
+ de'e      KOhA2    soon utterance
+ de'i      BAI      dated
+ de'o      VUhU3    logarithm
+ de'u      KOhA2    recent utterance
+ dei       KOhA2    this utterance
+ denpa bu  BY*      pause symbol
+ di        KOhA1    something 3
+ di'a      ZAhO     resumptitive
+ di'e      KOhA2    next utterance
+ di'i      TAhE     regularly
+ di'inai   TAhE*    irregularly
+ di'o      BAI      at the locus of
+ di'u      KOhA2    last utterance
+ do        KOhA3    you
+ do'a      UI3      generously
+ do'anai   UI*3     parsimoniously
+ do'e      BAI      unspecif modal
+ do'i      KOhA2    unspecif utterance
+ do'o      KOhA3    you and others
+ do'u      DOhU     end vocative
+ doi       DOI      vocative marker
+ doido'u   DOI*     O You!
+ du        GOhA     same identity as
+ du'a      FAhA1    east of
+ du'e      PA4      too many
+ du'emei   MOI*     is too many
+ du'eroi   ROI*     too many times
+ du'i      BAI      as much as
+ du'o      BAI      according to
+ du'u      NU       bridi abstract
+ dy        BY2      d
+.e         A        sumti and
+.e'a       UI1      permission
+.e'anai    UI*1     prohibition
+.e'e       UI1      competence
+.e'enai    UI*1     incompetence
+.e'i       UI1      constraint
+.e'icu'i   UI*1     independence
+.e'inai    UI*1     challenge
+.e'o       UI1      request
+.e'onai    UI*1     negative request
+.e'u       UI1      suggestion
+.e'ucu'i   UI*1     abandon suggestion
+.e'unai    UI*1     warning
+.ebu       BY*      e
+.ei        UI1      obligation
+.einai     UI*1     freedom
+.enai      A*       sumti but not
+ fa        FA       1st sumti place
+ fa'a      FAhA4    towards point
+ fa'e      BAI      reverse of
+ fa'i      VUhU2    reciprocal of
+ fa'o      FAhO     end of text
+ fa'u      JOI      and respectively
+ fai       FA       extra sumti place
+ fau       BAI      in the event of
+ fe        FA       2nd sumti place
+ fe'a      VUhU3    nth root of
+ fe'e      FEhE     space aspects
+ fe'eba'o  ZAhO*    beyond
+ fe'eca'o  ZAhO*    throughout
+ fe'eco'a  ZAhO*    on this edge of
+ fe'eco'i  ZAhO*    at the point of
+ fe'emo'u  ZAhO*    at the far end of
+ fe'enoroi ROI*     nowhere
+ fe'epu'o  ZAhO*    up to the edge of
+ fe'eroroi ROI*     everywhere
+ fe'eza'o  ZAhO*    continuing too far
+ fe'i      VUhU1    divided by
+ fe'o      COI      over and out
+ fe'u      FEhU     end modal selbri
+ fei       PA2      hex digit B
+ fi        FA       3rd sumti place
+ fi'a      FA       sumti place ?
+ fi'e      BAI      created by
+ fi'i      COI      hospitality
+ fi'inai   COI*     inhospitality
+ fi'o      FIhO     selbri to modal
+ fi'u      PA3      fraction slash
+ fo        FA       4th sumti place
+ fo'a      KOhA4    it-6
+ fo'e      KOhA4    it-7
+ fo'i      KOhA4    it-8
+ fo'o      KOhA4    it-9
+ fo'u      KOhA4    it-10
+ foi       FOI      end composite lerfu
+ fu        FA       5th sumti place
+ fu'a      FUhA     reverse Polish
+ fu'e      FUhE     indicator scope
+ fu'i      UI5      easy
+ fu'inai   UI*5     difficult
+ fu'o      FUhO     end indicator scope
+ fu'u      VUhU0    unspecif operator
+ fy        BY2      f
+ ga        GA       fore or
+ ga'a      BAI      to observer
+ ga'e      BY1      upper-case shift
+ ga'i      UI5      hauteur
+ ga'icu'i  UI*5     equal rank
+ ga'inai   UI*5     meekness
+ ga'o      GAhO     inclusive interval
+ ga'u      FAhA2    above
+ gai       PA2      hex digit C
+ ganai     GA*      fore only if
+ gau       BAI      with active agent
+ ge        GA       fore and
+ ge'a      VUhU0    null operator
+ ge'e      UI6      unspecif emotion
+ ge'i      GA       fore conn ?
+ ge'o      BY1      Greek shift
+ ge'u      GEhU     end relative phrase
+ gei       VUhU2    exponential notation
+ gi        GI       connective medial
+ gi'a      GIhA     bridi or
+ gi'e      GIhA     bridi and
+ gi'enai   GIhA*    bridi but not
+ gi'i      GIhA     bridi conn ?
+ gi'o      GIhA     bridi iff
+ gi'onai   GIhA*    bridi xor
+ gi'u      GIhA     bridi whether
+ go        GA       fore iff
+ go'a      GOhA     recent bridi
+ go'e      GOhA     penultimate bridi
+ go'i      GOhA     last bridi
+ go'ira'o  GOhA*    true for me too
+ go'o      GOhA     future bridi
+ go'u      GOhA     earlier bridi
+ goi       GOI      pro-sumti assign
+ gonai     GA*      fore xor
+ gu        GA       fore whether
+ gu'a      GUhA     fore tanru or
+ gu'anai   GUhA*    fore tanru only if
+ gu'e      GUhA     fore tanru and
+ gu'i      GUhA     fore tanru conn ?
+ gu'o      GUhA     fore tanru iff
+ gu'onai   GUhA*    fore tanru xor
+ gu'u      GUhA     fore tanru whether
+ gy        BY2      g
+.i         I        sentence link
+.i'a       UI1      acceptance
+.i'anai    UI*1     blame
+.i'e       UI1      approval
+.i'ecu'i   UI*1     non-approval
+.i'enai    UI*1     disapproval
+.i'i       UI1      togetherness
+.i'inai    UI*1     privacy
+.i'o       UI1      appreciation
+.i'onai    UI*1     envy
+.i'u       UI1      familiarity
+.i'unai    UI*1     mystery
+.ia        UI1      belief
+.iacu'i    UI*1     skepticism
+.ianai     UI*1     disbelief
+.ibu       BY*      i
+.ie        UI1      agreement
+.ienai     UI*1     disagreement
+.ii        UI1      fear
+.iinai     UI*1     security
+.ija       JA*      sentence or
+.ijanai    JA*      sentence if
+.ije       JA*      sentence and
+.ije'i     JA*      sentence conn ?
+.ijenai    JA*      sentence but not
+.ijo       JA*      sentence iff
+.ijonai    JA*      sentence xor
+.iju       JA*      sentence whether
+.inaja     JA*      sentence only if
+.io        UI1      respect
+.ionai     UI*1     disrespect
+.iu        UI1      love
+.iucu'i    UI*1     no love lost
+.iunai     UI*1     hatred
+ ja        JA       tanru or
+ ja'a      NA       bridi affirmer
+ ja'e      BAI      therefore result
+ ja'enai   BAI*     nevertheless result
+ ja'i      BAI      by rule
+ ja'o      UI2      I conclude
+ jai       JAI      modal conversion
+ jaica     SE*      time conversion
+ jaigau    SE*      agent conversion
+ jaivi     SE*      location conversion
+ jau       PA2      hex digit D
+ je        JA       tanru and
+ je'a      NAhE     scalar affirmer
+ je'e      COI      roger
+ je'enai   COI*     negative acknowledge
+ je'i      JA       tanru conn ?
+ je'o      BY1      Hebrew shift
+ je'u      UI3      truth
+ je'unai   UI*3     falsity
+ jei       NU       truth abstract
+ jenai     JA*      tanru but not
+ ji        A        sumti conn ?
+ ji'a      UI3b     in addition
+ ji'e      BAI      up to limit
+ ji'i      PA4      approximately
+ ji'ima'u  PA*      rounded up
+ ji'ini'u  PA*      rounded down
+ ji'o      BAI      under direction of
+ ji'u      BAI      based on
+ jo        JA       tanru iff
+ jo'a      UI3a     metalinguistic yes
+ jo'e      JOI      union
+ jo'i      JOhI     array
+ jo'o      BY1      Arabic shift
+ jo'u      JOI      in common with
+ joi       JOI      in a mass with
+ joibu     BY*      &
+ jonai     JA*      tanru xor
+ ju        JA       tanru whether
+ ju'a      UI2      I state
+ ju'i      COI      attention
+ ju'icu'i  COI*     at ease
+ ju'inai   COI*     ignore me
+ ju'o      UI5      certainty
+ ju'ocai   UI*5     quite certain
+ ju'ocu'i  UI*5     uncertainty
+ ju'onai   UI*5     impossibility
+ ju'opei   UI*6     how certain?
+ ju'u      VUhU2    number base
+ jy        BY2      j
+ ka        NU       property abstract
+ ka'a      BAI      gone to by
+ ka'e      CAhA     innately capable of
+ ka'i      BAI      represented by
+ ka'o      PA5      imaginary i
+ ka'u      UI2      I know culturally
+ kai       BAI      characterizing
+ kau       UI3a     indirect question
+ ke        KE       start grouping
+ ke'a      KOhA7    relativized it
+ ke'e      KEhE     end grouping
+ ke'i      GAhO     exclusive interval
+ ke'o      COI      please repeat
+ ke'u      UI3      repeating
+ ke'unai   UI*3     continuing
+ kei       KEI      end abstraction
+ ki        KI       tense default
+ ki'a      UI6      textual confusion
+ ki'anai   UI*6     understanding
+ ki'e      COI      thanks
+ ki'enai   COI*     no thanks to you
+ ki'i      BAI      as a relation of
+ ki'o      PA3      number comma
+ ki'u      BAI      because of reason
+ ki'u ma   BAI*     with what reason?
+ ki'unai   BAI*     despite reason
+ ko        KOhA3    imperative
+ ko'a      KOhA4    it-1
+ ko'e      KOhA4    it-2
+ ko'i      KOhA4    it-3
+ ko'o      KOhA4    it-4
+ ko'u      KOhA4    it-5
+ koi       BAI      bounded by
+ ku        KU       end sumti
+ ku'a      JOI      intersection
+ ku'e      KUhE     end mex forethought
+ ku'i      UI3b     however
+ ku'o      KUhO     end relative clause
+ ku'u      BAI      in culture
+ ky        BY2      k
+ la        LA       that named
+ la'a      UI3      probability
+ la'anai   UI*3     improbability
+ la'e      LAhE     the referent of
+ la'edi'u  KOhA*    last utterance it
+ la'i      LA       the set of named
+ la'o      ZOI      the non-Lojban named
+ la'u      BAI      quantifying
+ la'u ma   BAI*     in what quantity?
+ lai       LA       the mass of named
+ lau       LAU      punctuation mark
+ le        LE       the described
+ le go'i   KOhA*    the x1 of last bridi
+ le jaica  LE*      the time of
+ le jaigau LE*      the agent in
+ le jaivi  LE*      the location of
+ le sego'i KOhA*    the x2 of last bridi
+ le tego'i KOhA*    the x3 of last bridi
+ le vego'i KOhA*    the x4 of last bridi
+ le xego'i KOhA*    the x5 of last bridi
+ le'a      BAI      in category
+ le'e      LE       the stereotypical
+ le'i      LE       the set described
+ le'o      UI5      aggressive
+ le'ocu'i  UI*5     passive
+ le'onai   UI*5     defensive
+ le'u      LEhU     end error quote
+ ledo      LE*      your described as
+ lei       LE       the mass described
+ leko'a    LE*      it-1's described as
+ lemi      LE*      my described as
+ leta      LE*      that one's
+ leti      LE*      this one's
+ letu      LE*      the yonder one's
+ leva      LE*      that there
+ levi      LE*      this here
+ levu      LE*      that yonder
+ li        LI       the number
+ li'a      UI3      clearly
+ li'anai   UI*3     obscurely
+ li'e      BAI      preceded by
+ li'i      NU       experience abstract
+ li'o      UI3a     omitted text
+ li'u      LIhU     end quote
+ lo        LE       the really is
+ lo'a      BY1      Lojban shift
+ lo'e      LE       the typical
+ lo'i      LE       the set really is
+ lo'o      LOhO     end mex sumti
+ lo'u      LOhU     error quote
+ loi       LE       the mass really is
+ lu        LU       quote
+ lu'a      LAhE     the individuals of
+ lu'e      LAhE     the symbol for
+ lu'i      LAhE     the set composed of
+ lu'o      LAhE     the mass composed of
+ lu'u      LUhU     end sumti qualifiers
+ ly        BY2      l
+ ma        KOhA7    sumti ?
+ ma'a      KOhA3    we with you
+ ma'e      BAI      material object
+ ma'i      BAI      in reference frame
+ ma'o      MAhO     operand to operator
+ ma'u      PA3      positive number
+ mai       MAI      sentence ordinal
+ mau       BAI      exceeded by
+ me        ME       sumti to selbri
+ me'a      BAI      undercut by
+ me'e      BAI      with name
+ me'e ma   BAI*     with what name?
+ me'i      PA3      less than
+ me'o      LI       the mex
+ me'u      MEhU     end sumti to selbri
+ mei       MOI      cardinal selbri
+ mi        KOhA3    me
+ mi'a      KOhA3    we, not you
+ mi'e      COI      self-introduction
+ mi'enai   COI*     no, I am not
+ mi'i      BIhI     center-range
+ mi'o      KOhA3    me and you
+ mi'u      UI3b     ditto
+ mo        GOhA     bridi ?
+ mo'a      PA4      too few
+ mo'aroi   ROI*     too few times
+ mo'e      MOhE     sumti to operand
+ mo'i      MOhI     space motion
+ mo'ibe'a  FAhA*    northwardly
+ mo'ibu'u  FAhA*    moving to coincide
+ mo'ica'u  FAhA*    forward
+ mo'idu'a  FAhA*    eastwardly
+ mo'ifa'a  FAhA*    arriving at
+ mo'iga'u  FAhA*    upwardly
+ mo'ine'a  FAhA*    approximating
+ mo'ine'i  FAhA*    into
+ mo'ine'u  FAhA*    southwardly
+ mo'ini'a  FAhA*    downwardly
+ mo'ipa'o  FAhA*    passing through
+ mo'ire'o  FAhA*    along
+ mo'iri'u  FAhA*    rightwardly
+ mo'iru'u  FAhA*    orbiting
+ mo'ite'e  FAhA*    moving the border
+ mo'iti'a  FAhA*    rearwardsly
+ mo'ito'o  FAhA*    moving away from
+ mo'ivu'a  FAhA*    westwardly
+ mo'ize'o  FAhA*    outwardsly
+ mo'izo'a  FAhA*    passing by
+ mo'izo'i  FAhA*    approaching
+ mo'izu'a  FAhA*    leftwardsly
+ mo'o      MAI      section ordinal
+ mo'u      ZAhO     completive
+ moi       MOI      ordinal selbri
+ mu        PA1      5
+ mu'a      UI3      for example
+ mu'acu'i  UI*3     omitting examples
+ mu'anai   UI*3     concluding examples
+ mu'e      NU1      point-event abstract
+ mu'i      BAI      because of motive
+ mu'i ma   BAI*     with what motive?
+ mu'inai   BAI*     despite motive
+ mu'o      COI      over
+ mu'onai   COI*     more to come
+ mu'u      BAI      exemplified by
+ muki'o    PA*      5,000
+ mumei     MOI*     is a quintet
+ mumoi     MOI*     is fifth among
+ muno      PA*      50
+ munono    PA*      500
+ my        BY2      m
+ na        NA       bridi negator
+ na'a      BY1      cancel shifts
+ na'e      NAhE     scalar contrary
+ na'efa'a  FAhA*    not towards point
+ na'epu'i  CAhA*    has never
+ na'i      UI3a     metalinguistic not
+ na'o      TAhE     typically
+ na'onai   TAhE*    atypically
+ na'u      NAhU     selbri to operator
+ na.a      A*       sumti only if
+ nagi'a    GIhA*    bridi only if
+ nago'i    GOhA*    deny last bridi
+ nai       NAI      negate last word
+ naja      JA*      tanru only if
+ nau       CUhE     reference point
+ ne        GOI      incidental phrase
+ ne'a      FAhA3    next to
+ ne'i      FAhA3    within
+ ne'o      VUhU3    factorial
+ ne'u      FAhA1    south of
+ nei       GOhA     current bridi
+ ni        NU       amount abstract
+ ni'a      FAhA2    below
+ ni'e      NIhE     selbri to operand
+ ni'i      BAI      because of logic
+ ni'i ma   BAI*     by what logic?
+ ni'inai   BAI*     despite logic
+ ni'o      NIhO     new topic
+ ni'u      PA3      negative number
+ no        PA1      0
+ no'a      GOhA     next outer bridi
+ no'e      NAhE     scalar midpoint not
+ no'i      NIhO     old topic
+ no'o      PA5      typical value
+ no'u      GOI      incidental identity
+ noda      KOhA*    nothing at all
+ noi       NOI      incidental clause
+ nomo'o    MAI*     section 0
+ noroi     ROI*     never
+ nu        NU       event abstract
+ nu'a      NUhA     operator to selbri
+ nu'e      COI      promise
+ nu'ecu'i  COI*     release from promise
+ nu'enai   COI*     non-promise
+ nu'i      NUhI     start termset
+ nu'o      CAhA     can but has not
+ nu'u      NUhU     end termset
+ ny        BY2      n
+.o         A        sumti iff
+.o'a       UI1      pride
+.o'acu'i   UI*1     modesty
+.o'anai    UI*1     shame
+.o'e       UI1      closeness
+.o'enai    UI*1     distance
+.o'i       UI1      caution
+.o'inai    UI*1     rashness
+.o'o       UI1      patience
+.o'ocu'i   UI*1     mere tolerance
+.o'onai    UI*1     anger
+.o'u       UI1      relaxation
+.o'ucu'i   UI*1     composure
+.o'unai    UI*1     stress
+.obu       BY*      o
+.oi        UI1      complaint
+.oinai     UI*1     pleasure
+.oire'e    UI*1     spiritual complaint
+.oiro'a    UI*1     embarrassment
+.oiro'e    UI*1     puzzlement
+.oiro'i    UI*1     anxiety
+.oiro'o    UI*1     physical pain
+.oiro'u    UI*1     sexual complaint
+.onai      A*       sumti xor
+ pa        PA1      1
+ pa'a      BAI      in addition to
+ pa'aku    BAI*     each respectively
+ pa'e      UI3      justice
+ pa'enai   UI*3     prejudice
+ pa'i      VUhU2    ratio
+ pa'o      FAhA3    transfixing
+ pa'u      BAI      having component
+ pabi      PA*      18
+ paci      PA*      13
+ pai       PA5      pi
+ paki'o    PA*      1,000
+ pamai     MAI*     firstly
+ pamei     MOI*     is singular
+ pamo'o    MAI*     section 1
+ pamoi     MOI*     is first among
+ pamu      PA*      15
+ pano      PA*      10
+ panomei   MOI*     is a decade
+ panomoi   MOI*     is tenth among
+ panono    PA*      100
+ panonomei MOI*     is a century
+ papa      PA*      11
+ pare      PA*      12
+ paremei   MOI*     is a dozen
+ paroi     ROI*     once
+ paso      PA*      19
+ pau       UI3a     question follows
+ paunai    UI*3     rhetorical question
+ pavo      PA*      14
+ paxa      PA*      16
+ paze      PA*      17
+ pe        GOI      restrictive phrase
+ pe'a      PEhA     start figurative
+ pe'i      UI2      I opine
+ pe'o      PEhO     fore mex operator
+ pe'u      COI      please
+ pei       CAI      emotion ?
+ pi        PA3      decimal point
+ pi'a      VUhU4    matrix of rows
+ pi'e      PA3      digit separator
+ pi'i      VUhU1    times
+ pi'o      BAI      used by
+ pi'u      JOI      cross product
+ pidu'e    PA*      too much of
+ piji'i    PA*      approximately all of
+ pimo'a    PA*      too little of
+ pimucu'o  MOI*     has even odds
+ piresi'e  MOI*     is a fifth portion
+ piro      PA*      all of
+ pirosi'e  MOI*     is the whole of
+ piso'a    PA*      almost all of
+ piso'i    PA*      much of
+ piso'iroi ROI*     much of the time
+ piso'u    PA*      a little of
+ piso'uroi ROI*     rarely
+ pisu'o    PA*      at least some of
+ po        GOI      is specific to
+ po'a      POhA     end figurative
+ po'e      GOI      which belongs to
+ po'i      BAI      in the sequence
+ po'o      UI3b     uniquely
+ po'u      GOI      restrictive identity
+ poi       NOI      restrictive clause
+ pu        PU       before
+ pu'a      BAI      pleased by
+ pu'e      BAI      by process
+ pu'i      CAhA     can and has
+ pu'o      ZAhO     anticipative
+ pu'u      NU1      process abstract
+ puba      PU*      was going to
+ puca'a    PU*      actually was
+ puca'o    ZAhO*    was then
+ pujeba    PU*      before and after
+ pujeca    PU*      before and during
+ pupu      PU*      had earlier been
+ puza      PU*      a medium time before
+ puze'a    PU*      for a period in past
+ puze'i    PU*      for a moment in past
+ puze'u    PU*      for an era in past
+ puzi      PU*      a short time before
+ puzu      PU*      a long time before
+ py        BY2      p
+ ra        KOhA5    recent sumti
+ ra'a      BAI      pertained to by
+ ra'e      PA3      repeating decimal
+ ra'i      BAI      from source
+ ra'o      RAhO     pro-assign update
+ ra'u      UI3      chiefly
+ ra'ucu'i  UI*3     equally
+ ra'unai   UI*3     incidentally
+ rai       BAI      with superlative
+ rau       PA4      enough
+ raumei    MOI*     are enough
+ raumoi    MOI*     is enoughth among
+ re        PA1      2
+ re'a      VUhU4    transpose
+ re'e      UI4      spiritual
+ re'enai   UI*4     sacrilege
+ re'i      COI      ready to receive
+ re'inai   COI*     not ready to receive
+ re'o      FAhA3    adjacent to
+ rei       PA2      hex digit E
+ reki'o    PA*      2,000
+ remai     MAI*     secondly
+ remei     MOI*     is a pair
+ remoi     MOI*     is second among
+ reno      PA*      20
+ renomei   MOI*     is a score
+ renono    PA*      200
+ reroi     ROI*     twice
+ ri        KOhA5    last sumti
+ ri'a      BAI      because of cause
+ ri'a ma   BAI*     with what cause?
+ ri'anai   BAI*     despite cause
+ ri'e      UI5      release of emotion
+ ri'enai   UI*5     restraint of emotion
+ ri'i      BAI      experienced by
+ ri'o      VUhU4    integral
+ ri'u      FAhA2    on the right of
+ ro        PA4      each
+ ro'a      UI4      social
+ ro'anai   UI*4     antisocial
+ ro'e      UI4      mental
+ ro'enai   UI*4     mindless
+ ro'i      UI4      emotional
+ ro'inai   UI*4     denying emotion
+ ro'o      UI4      physical
+ ro'onai   UI*4     denying physical
+ ro'u      UI4      sexual
+ ro'unai   UI*4     sexual abstinence
+ roda      KOhA*    everything
+ roi       ROI      quantified tense
+ romai     MAI*     lastly
+ romoi     MOI*     is last among
+ roroi     ROI*     always
+ ru        KOhA5    earlier sumti
+ ru'a      UI2      I postulate
+ ru'e      CAI      weak emotion
+ ru'i      TAhE     continuously
+ ru'inai   TAhE*    occasionally
+ ru'o      BY1      Cyrillic shift
+ ru'u      FAhA2    surrounding
+ ry        BY2      r
+ sa        SA       erase utterance
+ sa'a      UI3a     editorial insertion
+ sa'e      UI3      precisely speaking
+ sa'enai   UI*3     loosely speaking
+ sa'i      VUhU4    matrix of columns
+ sa'o      VUhU4    derivative
+ sa'u      UI3      simply speaking
+ sa'unai   UI*3     elaborating
+ sai       CAI      strong emotion
+ sau       BAI      requiring
+ se        SE       2nd conversion
+ se'a      UI5      self-sufficiency
+ se'anai   UI*5     dependency
+ se'e      BY1      character code
+ se'i      UI5      self-oriented
+ se'inai   UI*5     other-oriented
+ se'o      UI2      I know internally
+ se'u      SEhU     end discursive
+ seba'i    BAI*     instead of
+ sebai     BAI*     compelling
+ sebau     BAI*     in language of
+ sebe'i    BAI*     transmitting
+ seca'i    BAI*     with authority over
+ secau     BAI*     without
+ seci'e    BAI*     with system function
+ seci'o    BAI*     emoting
+ seci'u    BAI*     on scale measuring
+ secu'u    BAI*     expressing
+ sede'i    BAI*     on the same date as
+ sedi'o    BAI*     at specific locus
+ sedu'i    BAI*     equal to
+ sedu'o    BAI*     knowing facts
+ sedu'u    NU*      sentence abstract
+ sefa'e    BAI*     in reversal of
+ sefi'e    BAI*     creating work
+ sega'a    BAI*     observing
+ segau     BAI*     as agent in doing
+ sei       SEI      discursive bridi
+ seja'e    BAI*     results because
+ seja'enai BAI*     results despite
+ seja'i    BAI*     by rule prescribing
+ seji'e    BAI*     as a limit of
+ seji'o    BAI*     controlling aspects
+ seji'u    BAI*     supporting
+ seka'a    BAI*     with destination
+ seka'i    BAI*     on behalf of
+ sekai     BAI*     with property
+ sekai ma  BAI*     which kind?
+ seki'i    BAI*     related to
+ seki'u    BAI*     reason therefore
+ seki'unai BAI*     reason nevertheless
+ sekoi     BAI*     as boundary of
+ seku'u    BAI*     in culture of
+ sela'u    BAI*     in quantity
+ sele'a    BAI*     as a category of
+ seli'e    BAI*     preceding
+ sema'e    BAI*     made of material
+ sema'i    BAI*     as a standard for
+ semau     BAI*     more than
+ semaunai  BAI*     not more than
+ seme'a    BAI*     less than
+ seme'anai BAI*     not less than
+ seme'e    BAI*     as a name for
+ semu'i    BAI*     motive therefore
+ semu'inai BAI*     motive nevertheless
+ semu'u    BAI*     example of property
+ seni'i    BAI*     entails therefore
+ seni'inai BAI*     entails nevertheless
+ sepa'a    BAI*     similar to
+ sepa'u    BAI*     as a part of
+ sepi'o    BAI*     using tool
+ sepo'i    BAI*     sequenced by rules
+ sepu'a    BAI*     in order to please
+ sepu'e    BAI*     processing from
+ sera'a    BAI*     concerning
+ sera'i    BAI*     as an origin of
+ serai     BAI*     superlative in
+ seri'a    BAI*     causal therefore
+ seri'anai BAI*     causal nevertheless
+ seri'i    BAI*     experiencing
+ sesau     BAI*     necessary for
+ sesi'u    BAI*     assisting
+ seta'i    BAI*     as a method for
+ setai     BAI*     as a form of
+ seti'i    BAI*     suggesting
+ seti'u    BAI*     at the same time as
+ setu'i    BAI*     as a location of
+ seva'o    BAI*     as conditions for
+ seva'u    BAI*     with beneficiary
+ sezau     BAI*     approving
+ sezu'e    BAI*     goalfully acting at
+ si        SI       erase word
+ si'a      UI3b     similarly
+ si'e      MOI      portion selbri
+ si'i      VUhU4    sigma summation
+ si'o      NU       concept abstract
+ si'u      BAI      aided by
+ slaka bu  BY*      close-comma
+ so        PA1      9
+ so'a      PA4      almost all
+ so'e      PA4      most
+ so'eroi   ROI*     usually
+ so'i      PA4      many
+ so'imei   MOI*     is a bunch
+ so'iroi   ROI*     many times
+ so'o      PA4      several
+ so'u      PA4      few
+ so'uroi   ROI*     a few times
+ soi       SOI      reciprocal sumti
+ soki'o    PA*      9,000
+ somoi     MOI*     is ninth among
+ sono      PA*      90
+ sonono    PA*      900
+ sosoce'i  PA*      99 percent
+ sozepimu  PA*      97.5
+ su        SU       erase discourse
+ su'a      UI2      I generalize
+ su'anai   UI*2     I particularize
+ su'e      PA4      at most
+ su'i      VUhU1    plus
+ su'o      PA4      at least
+ su'oremei MOI*     is plural
+ su'oremoi MOI*     is at least second
+ su'u      NU       unspecif abstract
+ sy        BY2      s
+ ta        KOhA6    that there
+ ta'a      COI      interruption
+ ta'e      TAhE     habitually
+ ta'enai   TAhE*    non-habitually
+ ta'i      BAI      by method
+ ta'i ma   BAI*     by what method?
+ ta'o      UI3      by the way
+ ta'onai   UI*3     return to main point
+ ta'u      UI3a     making a tanru
+ ta'unai   UI*3a    expanding the tanru
+ tai       BAI      in form
+ tau       LAU      shift next lerfu
+ te        SE       3rd conversion
+ te'a      VUhU2    to the power
+ te'e      FAhA3    bordering
+ te'o      PA5      exponential e
+ te'u      TEhU     end mex converters
+ tebau     BAI*     expressing
+ tebe'i    BAI*     sent to
+ teca'i    BAI*     basis for authority
+ teci'e    BAI*     of system components
+ teci'o    BAI*     emoting about
+ tecu'u    BAI*     as told to
+ tede'i    BAI*     on date at location
+ tedi'o    BAI*     at locus within range
+ tedu'i    BAI*     equal in property
+ tedu'o    BAI*     knowing about
+ tefi'e    BAI*     created for purpose
+ tega'a    BAI*     observed by means
+ tei       TEI      composite lerfu
+ teja'i    BAI*     by rule within
+ teji'e    BAI*     limited in property
+ teji'o    BAI*     controlling event
+ teka'a    BAI*     with origin
+ teka'i    BAI*     representing in
+ teki'i    BAI*     with relation
+ tekoi     BAI*     bordering
+ tela'u    BAI*     measured on scale
+ tele'a    BAI*     defined by quality
+ teli'e    BAI*     ordered in sequence
+ tema'e    BAI*     in material form
+ tema'i    BAI*     rules of standard
+ temau     BAI*     more in property
+ teme'a    BAI*     less in property
+ teme'e    BAI*     as a name used by
+ temu'i    BAI*     motive of person
+ temu'u    BAI*     example out oof set
+ teni'i    BAI*     under logic system
+ tepa'a    BAI*     contrasting property
+ tepi'o    BAI*     usage for purpose
+ tepo'i    BAI*     ordering items
+ tepu'a    BAI*     pleasing conditions
+ tepu'e    BAI*     processing into
+ terai     BAI*     at extreme
+ teri'a    BAI*     causal conditions
+ tesau     BAI*     necessarily under
+ tesi'u    BAI*     assisting in
+ teta'i    BAI*     method conditions
+ tetai     BAI*     sharing ideal form
+ teti'i    BAI*     suggested to
+ teti'u    BAI*     time on day
+ teva'u    BAI*     goodness standard
+ tezu'e    BAI*     with goal
+ ti        KOhA6    this here
+ ti'a      FAhA2    behind
+ ti'e      UI2      I hear
+ ti'i      BAI      suggested by
+ ti'o      SEI      mex precedence
+ ti'u      BAI      associated with time
+ to        TO       start parenthesis
+ to'a      BY1      lower-case shift
+ to'e      NAhE     polar opposite
+ to'i      TO       editorial unquote
+ to'o      FAhA4    away from point
+ to'u      UI3      in brief
+ to'unai   UI*3     in detail
+ toi       TOI      end parenthesis
+ tu        KOhA6    that yonder
+ tu'a      LAhE     the bridi implied by
+ tu'e      TUhE     start text scope
+ tu'i      BAI      associated with site
+ tu'o      PA5      null operand
+ tu'u      TUhU     end text scope
+ ty        BY2      t
+.u         A        sumti whether
+.u'a       UI1      gain
+.u'anai    UI*1     loss
+.u'e       UI1      wonder
+.u'enai    UI*1     commonplace
+.u'i       UI1      amusement
+.u'inai    UI*1     weariness
+.u'o       UI1      courage
+.u'ocu'i   UI*1     timidity
+.u'onai    UI*1     cowardice
+.u'u       UI1      repentance
+.u'ucu'i   UI*1     lack of regret
+.u'unai    UI*1     innocence
+.ua        UI1      discovery
+.uanai     UI*1     confusion
+.ubu       BY*      u
+.ue        UI1      surprise
+.uecu'i    UI*1     not very surprised
+.uenai     UI*1     expectation
+.uepei     UI*1     surprised?
+.ui        UI1      happiness
+.uibu      BY*      happy face
+.uinai     UI*1     unhappiness
+.uo        UI1      completion
+.uonai     UI*1     incompleteness
+.uu        UI1      pity
+.uunai     UI*1     cruelty
+ va        VA       there at
+ va'a      VUhU3    additive inverse
+ va'i      UI3      in other words
+ va'inai   UI*3     in the same words
+ va'o      BAI      under conditions
+ va'u      BAI      benefiting from
+ vai       PA2      hex digit F
+ vau       VAU      end simple bridi
+ ve        SE       4th conversion
+ ve'a      VEhA     small space interval
+ ve'e      VEhA     whole space interval
+ ve'i      VEhA     tiny space interval
+ ve'o      VEhO     right bracket
+ ve'u      VEhA     big space interval
+ vebe'i    BAI*     transmit origin
+ veci'e    BAI*     with synergy in
+ vecu'u    BAI*     expressed in medium
+ vede'i    BAI*     on date by calendar
+ vedu'o    BAI*     under epistemology
+ vefi'e    BAI*     created from
+ vega'a    BAI*     observed under
+ vei       VEI      left bracket
+ veka'a    BAI*     via route
+ vemau     BAI*     more by amount
+ veme'a    BAI*     less by amount
+ vepa'a    BAI*     similar by standard
+ vepu'e    BAI*     passing thru stages
+ verai     BAI*     superlative among
+ vetai     BAI*     similar in property
+ veti'u    BAI*     time at location
+ vi        VA       here at
+ vi ma     VA*      where?
+ vi'a      VIhA     2-space interval
+ vi'e      VIhA     4-space interval
+ vi'i      VIhA     1-space interval
+ vi'o      COI      wilco
+ vi'u      VIhA     3-space interval
+ vo        PA1      4
+ vo'a      KOhA4    x1 it
+ vo'e      KOhA4    x2 it
+ vo'i      KOhA4    x3 it
+ vo'o      KOhA4    x4 it
+ vo'u      KOhA4    x5 it
+ voi       NOI      descriptive clause
+ voki'o    PA*      4,000
+ vomoi     MOI*     is fourth among
+ vono      PA*      40
+ vonono    PA*      400
+ vu        VA       yonder at
+ vu'a      FAhA1    west of
+ vu'e      UI5      virtue
+ vu'enai   UI*5     sin
+ vu'i      LAhE     the sequence of
+ vu'o      VUhO     long scope relative
+ vu'u      VUhU1    minus
+ vy        BY2      v
+ xa        PA1      6
+ xaki'o    PA*      6,000
+ xamoi     MOI*     is sixth among
+ xano      PA*      60
+ xanono    PA*      600
+ xavoki'o  PA*      64,000
+ xe        SE       5th conversion
+ xebe'i    BAI*     transmitted via
+ xeka'a    BAI*     by transport mode
+ xi        XI       subscript
+ xo        PA5      number ?
+ xu        UI6      true-false ?
+ xy        BY2      x
+.y         Y        hesitation
+.y'y       BY2      '
+.ybu       BY*      y
+ za        ZI       medium time
+ za'a      UI2      I observe
+ za'e      BAhE     nonce-word next
+ za'i      NU1      state abstract
+ za'o      ZAhO     superfective
+ za'u      PA3      greater than
+ zai       LAU      select alphabet
+ zau       BAI      approved by
+ ze        PA1      7
+ ze'a      ZEhA     medium time interval
+ ze'aba    ZEhA*    for a while after
+ ze'aca    ZEhA*    for a while during
+ ze'apu    ZEhA*    for a while before
+ ze'e      ZEhA     whole time interval
+ ze'i      ZEhA     short time interval
+ ze'o      FAhA4    outward
+ ze'u      ZEhA     long time interval
+ zei       ZEI      lujvo glue
+ zeki'o    PA*      7,000
+ zemoi     MOI*     is seventh among
+ zeno      PA*      70
+ zenono    PA*      700
+ zi        ZI       short time
+ zi'e      ZIhE     rel clause joiner
+ zi'o      KOhA7    nonexistent it
+ zo        ZO       1-word quote
+ zo'a      FAhA4    tangential to
+ zo'e      KOhA7    unspecif it
+ zo'i      FAhA4    inward
+ zo'o      UI5      humorously
+ zo'obu    BY*      smiley face
+ zo'ocu'i  UI*5     dully
+ zo'onai   UI*5     seriously
+ zo'u      ZOhU     end prenex
+ zoi       ZOI      non-Lojban quote
+ zu        ZI       long time
+ zu'a      FAhA2    on the left of
+ zu'e      BAI      with actor
+ zu'i      KOhA7    typical it
+ zu'o      NU1      activity abstract
+ zu'u      UI3      on the one hand
+ zu'unai   UI*3     on the other hand
+ zy        BY2      z
