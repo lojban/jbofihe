@@ -216,14 +216,22 @@ static Block *
 create_block(char *name)
 {
   Block *result;
+  int i;
+  
   if (nblocks == maxblocks) {
     grow_blocks();
   }
+  
   result = blocks[nblocks++] = new(Block);
   result->name = new_string(name);
+  for (i=0; i<HASH_BUCKETS; i++) { 
+    result->state_hash[i].states = NULL;
+    result->state_hash[i].nstates = 0;
+    result->state_hash[i].maxstates = 0;
+  }
   result->states = NULL;
-  result->nstates = 0;
-  result->maxstates = 0;
+  result->nstates = result->maxstates = 0;
+
   result->subcount = 1;
   return result;
 }
@@ -271,10 +279,40 @@ lookup_block(char *name, int create)
 /* ================================================================= */
   
 static void
-grow_states(Block *b)
+maybe_grow_states(Block *b, int hash)
 {
-  b->maxstates += 32;
-  b->states = resize_array(State*, b->states, b->maxstates);
+  Stateset *ss = b->state_hash + hash;
+  if (ss->nstates == ss->maxstates) {
+    ss->maxstates += 8;
+    ss->states = resize_array(State*, ss->states, ss->maxstates);
+  }
+  if (b->nstates == b->maxstates) {
+    b->maxstates += 32;
+    b->states = resize_array(State*, b->states, b->maxstates);
+  }
+  
+}
+
+/* ================================================================= */
+
+static unsigned long
+hashfn(const char *s)
+{
+  unsigned long y = 0UL, v, w, x, k;
+  unsigned long yl, yh;
+  const char *t = s;
+  while (1) {
+    k = (unsigned long) *(unsigned char *)(t++);
+    if (!k) break;
+    v = ~y;
+    w = y<<13;
+    x = v>>6;
+    y = w ^ x;
+    y += k;
+  }
+  y ^= (y>>13);
+  y &= HASH_MASK;
+  return y;
 }
 
 /* ================================================================= */
@@ -283,10 +321,12 @@ static State *
 create_state(Block *b, char *name)
 {
   State *result;
-  if (b->nstates == b->maxstates) {
-    grow_states(b);
-  }
-  result = b->states[b->nstates++] = new(State);
+  int hash;
+  Stateset *ss;
+  hash = hashfn(name);
+  maybe_grow_states(b, hash);
+  ss = b->state_hash + hash;
+  result = b->states[b->nstates++] = ss->states[ss->nstates++] = new(State);
   result->name = new_string(name);
   result->parent = b;
   result->index = b->nstates - 1;
@@ -305,9 +345,15 @@ lookup_state(Block *b, char *name, int create)
 {
   State *found = NULL;
   int i;
-  for (i=0; i<b->nstates; i++) {
-    if (!strcmp(b->states[i]->name, name)) {
-      found = b->states[i];
+  int hash;
+  Stateset *ss;
+
+  hash = hashfn(name);
+  ss = b->state_hash + hash;
+  
+  for (i=0; i<ss->nstates; i++) {
+    if (!strcmp(ss->states[i]->name, name)) {
+      found = ss->states[i];
       break;
     }
   }

@@ -54,11 +54,29 @@ typedef struct State {
   unsigned char removed; /* Flag indicating state has been pruned by compression stage */
 } State;
 
-typedef struct Block {
-  char *name;
+typedef struct S_Stateset {
   State **states;
   int nstates;
   int maxstates;
+} Stateset;
+
+#define HASH_BUCKETS 64
+#define HASH_MASK (HASH_BUCKETS-1)
+
+typedef struct Block {
+  char *name;
+
+  /* The master table of states within this block.  This has to be in a flat
+     array because we have to work with respect to state indices when doing the
+     2D bitmap stuff for the subset construction. */
+  State **states;
+  int nstates;
+  int maxstates;
+  
+  /* Hash table for getting rapid access to a state within the block, given
+     its name */
+  Stateset state_hash[HASH_BUCKETS];
+  
   int subcount; /* Number for generating substates */
 } Block;
 
