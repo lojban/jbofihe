@@ -120,7 +120,7 @@ main (int argc, char **argv)
   lex2_initialise();
 
   if (filename) {
-    in = fopen(filename, "r");
+    in = fopen(filename, "rb");
     if (!in) {
       fprintf(stderr, "Could not open %s for input\n", filename);
       exit(1);

@@ -147,7 +147,7 @@ init(void)
     if (!dname) {
       dname = DEFAULT_DICTIONARY;
     }
-    in = fopen(dname, "r");
+    in = fopen(dname, "rb");
     if (!in) {
       fprintf(stderr, "Cannot open dictionary\n");
     } else {
