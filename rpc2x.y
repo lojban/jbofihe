@@ -787,10 +787,11 @@ term<83> = sumti | (tag | FA #) (sumti | /KU#/) | termset | NA KU #
 */
 
 term : term_plain_sumti
-     | term_tagged_sumti
+     | term_tagged_sumti /* ET */
      | term_placed_sumti
      | term_floating_tense
      | termset
+     | tagged_termset
      | term_floating_negate
      | term_other
      ;
@@ -804,6 +805,14 @@ term_placed_sumti : FA free_seq sumti
 
 term_tagged_sumti : tag sumti
                   ;
+
+/* The next rule follows an email discussion on onelist/egroups in early June
+ * 2000, about how to fix the "tag tag gi sumti gi sumti" shift-reduce conflict
+ * problem. This also accommodates a statement in the Book which is not
+ * realised in either bnf.233 or bnf.300 */
+
+tagged_termset : tag termset
+               ;
 
 term_floating_tense : tag KU free_seq
                     | tag KU
@@ -1857,7 +1866,7 @@ gek : START_GEK SE GA NAI free_seq
     | START_GEK    GA    
     | START_GEK joik GI free_seq
     | START_GEK joik GI
-    | /* SG */ stag gik
+    | stag gik
     ;
 
 /*
