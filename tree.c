@@ -479,7 +479,7 @@ print_bracketed(TreeNode *x, int depth, State *state, Conversion conv)
           if (conv == CV_NORMAL) {
             english = translate(x->data.brivla.word);
             if (!english) {
-              english = translate_unknown(x->data.brivla.word, 1);
+              english = translate_unknown(x->data.brivla.word, 1, TCX_NOUN);
             }
             if (english) {
               printf(" /%s/", english);
@@ -514,7 +514,7 @@ print_bracketed(TreeNode *x, int depth, State *state, Conversion conv)
             } else {
               english = translate(x->data.brivla.word);
               if (!english) {
-                english = translate_unknown(x->data.brivla.word, 1);
+                english = translate_unknown(x->data.brivla.word, 1, TCX_NOUN);
               }
               if (english) {
                 printf(" /%s/", english);

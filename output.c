@@ -662,7 +662,7 @@ static char * translate_convertible(char *loj, TreeNode *basis)/*{{{*/
         }
         return trans;
       } else {
-        trans = translate_unknown(loj, conv);
+        trans = translate_unknown(loj, conv, TCX_NOUN);
         if (trans) {
           return trans;
         } else {
