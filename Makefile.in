@@ -94,6 +94,7 @@ stag.tab.c stag.tab.h : stag.y
 	bison -v -d -p stag_ stag.y
 
 uncom : uncom.o
+	$(CC) -o uncom uncom.o
 
 uncom.o : uncom.c
 	$(CC) -O2 -c uncom.c
@@ -129,7 +130,7 @@ morfnc_dfa.c : morf_nfa.in n2d/n2d
 	grep -v 'CULTURAL' < morf_nfa.in | n2d/n2d > morfnc_dfa.c 2>morfnc_dfa.err
 
 n2d/n2d:
-	make -C n2d all
+	(cd n2d && make all)
 
 morf.o : morf.c morf.h morf_dfa.c morfnc_dfa.c morf_enc.c morf_lex.c morfvlex.c
 
@@ -197,10 +198,12 @@ depend:
 	gcc -MM $(SRCS2) $(CM_SRCS) > .depend
 
 install : jbofihe smujajgau cmafihe jvocuhadju $(DICTNAME)
-	$(INSTALL) -s -m 755 jbofihe smujajgau cmafihe jvocuhadju vlatai $(EXEDIR)
-	$(INSTALL) -m 755 -d $(LIBDIR)
-	$(INSTALL) -m 644 $(DICTNAME) $(LIBDIR)/$(DICTNAME)
-	$(INSTALL) -m 644 jbofihe.1 cmafihe.1 smujajgau.1 jvocuhadju.1 vlatai.1 $(MANDIR)
+	[ -d $(EXEDIR) ] || mkdir -p $(EXEDIR)
+	[ -d $(LIBDIR) ] || mkdir -p $(LIBDIR)
+	[ -d $(MANDIR) ] || mkdir -p $(MANDIR)
+	for e in jbofihe cmafihe smujajgau jvocuhadju vlatai ; do cp $$e $(EXEDIR) ; chmod 755 $(EXEDIR)/$$e ; strip -s $(EXEDIR)/$$e ; done
+	for d in $(DICTNAME) ; do cp $$d $(LIBDIR) ; chmod 644 $(LIBDIR)/$$d ; done
+	for m in jbofihe.1 cmafihe.1 smujajgau.1 jvocuhadju.1 vlatai.1 ; do cp $$m $(MANDIR) ; chmod 755 $(MANDIR)/$$m ; done
 
 ## Include the dependency info below.
 
