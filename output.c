@@ -1316,6 +1316,8 @@ output_fore_or_afterthought(TreeNode *x, WhatToShow what)
           }
         }
 
+        break;
+
       case CNP_GE_STAG:
         /* This is what I think negations on this construct mean ... I
            think it translates as scalar negations of the two phrases.
@@ -1329,7 +1331,8 @@ output_fore_or_afterthought(TreeNode *x, WhatToShow what)
             (drv->translation)("something other than");
           }
         }
-        
+
+        break;
 
       case CNP_GE_JOIK:
         break; /* Don't put anything here */
@@ -1355,7 +1358,6 @@ output_fore_or_afterthought(TreeNode *x, WhatToShow what)
 
         break;
 
-
       case CNP_GI_JOIK:
         /* Output the joik as though it occurred at the position of
            the gik in the middle of the sentence. */
@@ -1372,6 +1374,9 @@ output_fore_or_afterthought(TreeNode *x, WhatToShow what)
         } else {
           output_internal(xcon->js, SHOW_ENGLISH);
         }
+        
+        break;
+
     }
   }
 
