@@ -240,10 +240,12 @@ compress_states(DFANode **dfas, int ndfas)
     }
   }
 
-  /* Go through and crunch the entries in the DFA array */
+  /* Go through and crunch the entries in the DFA array, fixing up the indices */
   for (i=j=0; i<ndfas; i++) {
     if (dfas[i]->is_rep) {
-      dfas[j++] = dfas[i];
+      dfas[j] = dfas[i];
+      dfas[j]->index = dfas[j]->new_index;
+      j++;
     }
   }
 
