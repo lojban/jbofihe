@@ -16,7 +16,7 @@
 
 print <<EOF;
 extern elide_trace_reduce(int, int);
-extern elide_trace_shift(int);
+extern elide_trace_shift(int,int);
 extern elide_trace_register(const short*, const short*, const short*, const short*);
 extern report_trace_shift(int);
 extern report_trace_reduce(int, int);
@@ -32,7 +32,7 @@ while (<>) {
 
     if (m{/\* Shift the lookahead}o) {
         print;
-        print "elide_trace_shift(yychar);\n";
+        print "elide_trace_shift(yystate,yychar);\n";
         print "report_trace_shift(yychar);\n";
     } elsif (m{^\s*yyreduce\:}o) {
         print;
