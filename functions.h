@@ -170,4 +170,7 @@ extern void connectives_processing(TreeNode *top);
 /* In relative.c */
 extern void relative_clause_processing (TreeNode *top);
 
+/* In errorscan.c */
+extern void error_scan (TreeNode *x);
+
 #endif /* FUNCTIONS_H */

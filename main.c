@@ -122,6 +122,8 @@ main (int argc, char **argv)
   if (result == 0 && !had_syntax_error) {
     expand_bahe_ui(top);
 
+    error_scan(top);
+
     if (show_tree) {
       if (!full_tree) {
         compress_singletons(top);
