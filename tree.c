@@ -105,9 +105,11 @@ print_tree(TreeNode *x, int indent)
 
     case N_CMAVO:
       if (prop_elidable(x, NO)) {
-        printf("CMAVO : %s\n", make_uppercase(cmavo_table[x->data.cmavo.code].cmavo));
+        printf("CMAVO : %s [%s]\n", make_uppercase(cmavo_table[x->data.cmavo.code].cmavo),
+                                    selmao_names[cmavo_table[x->data.cmavo.code].ssm_code]);
       } else {
-        printf("CMAVO : %s\n", cmavo_table[x->data.cmavo.code].cmavo);
+        printf("CMAVO : %s [%s]\n", cmavo_table[x->data.cmavo.code].cmavo,
+                                    selmao_names[cmavo_table[x->data.cmavo.code].ssm_code]);
       }
       break;
 
