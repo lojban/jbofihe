@@ -221,7 +221,7 @@ MorfType
 morf_scan(char *s, char ***buf_end)
 {
   unsigned int L, S, G;
-  unsigned int vsm = 0x49; /* 9'b001001001 in verilog-ese */
+  unsigned int vsm = 0111; /* 3 consonants as starting state */
   char *p, c;
   char **start, **pstart;
   char *cstart[256], **pcstart; /* Used for holding start of Cy structures */
@@ -266,9 +266,10 @@ morf_scan(char *s, char ***buf_end)
     c = *p;
 
     /* The vowel cluster state machine evolves on all input chars including
-       commas.  (The normal state machine doesn't bother about commas) */
+       commas.  (The normal consonant state machine doesn't bother about
+       commas) */
 
-    vsm = ((vsm & 0x3f) << 3) | vmapchar[c];
+    vsm = ((vsm & 077) << 3) | vmapchar[c];
     
     /* If char is a comma, just advance now. */
     if (c == ',') {
@@ -306,7 +307,14 @@ morf_scan(char *s, char ***buf_end)
     } else if (tok == 3) { /* y recognized by main FSM */
       tok = vcheck[vsm];
     } else {
-      /* fall through with main FSM's token value */
+      /* Just check that there hasn't been a doubled comma.
+         (Doubled commas followed by vowels or y will be checked by VSM LUT
+         reporting an unknown token in that case.) */
+      if (!(vsm & 0770)) {
+        tok = 0; /* unknown token, will jam the automaton */
+      } else {
+        /* pass tok through from consonant front-end FSM */
+      }
     }
 
     if ((last_act == ACT_FREEZE) && (act == ACT_SHIFT)) {
