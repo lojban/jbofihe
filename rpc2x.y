@@ -1243,20 +1243,20 @@ tanru_unit_2      : BRIVLA free_seq
 
                   | ME free_seq sumti    MEhU free_seq MOI free_seq
                   | ME free_seq sumti    MEhU free_seq MOI
-                  | ME free_seq sumti    MEhU free_seq /* ET */
+                  | ME free_seq sumti    MEhU free_seq
                   | ME free_seq sumti    MEhU          MOI free_seq
                   | ME free_seq sumti    MEhU          MOI
-                  | ME free_seq sumti    MEhU /* ET */
+                  | ME free_seq sumti    MEhU
                   | ME free_seq sumti                  MOI free_seq
                   | ME free_seq sumti                  MOI
                   | ME free_seq sumti         /* ET */
 
                   | ME          sumti    MEhU free_seq MOI free_seq
                   | ME          sumti    MEhU free_seq MOI
-                  | ME          sumti    MEhU free_seq /* ET */
+                  | ME          sumti    MEhU free_seq
                   | ME          sumti    MEhU          MOI free_seq
                   | ME          sumti    MEhU          MOI
-                  | ME          sumti    MEhU /* ET */
+                  | ME          sumti    MEhU
                   | ME          sumti                  MOI free_seq
                   | ME          sumti                  MOI
                   | ME          sumti         /* ET */
