@@ -4,7 +4,8 @@
   Routines for compressing the DFA by commoning-up equivalent states
   ***************************************/
 
-/* COPYRIGHT */
+/* Copyright (C) Richard P. Curnow  2001 */
+/* LICENCE */
 
 /*
   The input to this stage is the 'raw' DFA build from the NFA by the subset
