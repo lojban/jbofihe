@@ -395,7 +395,7 @@ static void
 categorize_nahe(TreeNode *head)
 {
   TreeNode *x, *y, *marker;
-  enum {NEED_BO, NEED_TIME, NEED_SPACE, NEED_NONE} result;
+  enum {NEED_BO, NEED_TIME, NEED_SPACE, NEED_CAhA, NEED_NONE} result;
 
   for (x = head->next; x!=head; x=x->next) {
     if (x->type == N_CMAVO &&
@@ -424,6 +424,10 @@ categorize_nahe(TreeNode *head)
           case FEhE:
           case MOhI:
             result = NEED_SPACE;
+            break;
+
+          case CAhA:
+            result = NEED_CAhA;
             break;
 
           default:
@@ -457,6 +461,10 @@ categorize_nahe(TreeNode *head)
           case NEED_SPACE:
             marker->data.marker.tok = NAhE_space;
             marker->data.marker.text = new_string("NAhE_space");
+            break;
+          case NEED_CAhA:
+            marker->data.marker.tok = NAhE_CAhA;
+            marker->data.marker.text = new_string("NAhE_CAhA");
             break;
           case NEED_NONE:
             /* If prevents us getting here, but we put the branch in
