@@ -1094,6 +1094,13 @@ static void print_dfa(Block *b)/*{{{*/
       fprintf(report, "  Use state %d as basis (%d fixups)\n",
               dfas[i]->defstate, dfas[i]->best_diff);
     }
+    if (dfas[i]->nfa_exit_sl) {
+      Stringlist *sl;
+      fprintf(report, "  NFA exit tags applying :\n");
+      for (sl=dfas[i]->nfa_exit_sl; sl; sl = sl->next) {
+        fprintf(report, "    %s\n", sl->string);
+      }
+    }
     if (dfas[i]->result) {
       fprintf(report, "  Exit value : %s\n", dfas[i]->result);
     }
@@ -1380,6 +1387,7 @@ int main (int argc, char **argv)
   char *output_name = NULL;
   char *report_name = NULL;
   int uncompressed_tables = 0;
+  int uncompressed_dfa = 0; /* Useful for debug */
   verbose = 0;
   report = NULL;
 
@@ -1395,6 +1403,8 @@ int main (int argc, char **argv)
       report_name = *argv;
     } else if (!strcmp(*argv, "-u") || !strcmp(*argv, "--uncompressed-tables")) {
       uncompressed_tables = 1;
+    } else if (!strcmp(*argv, "-ud") || !strcmp(*argv, "--uncompressed-dfa")) {
+      uncompressed_dfa = 1;
     } else if ((*argv)[0] == '-') {
       fprintf(stderr, "Unrecognized command line option %s\n", *argv);
     } else {
@@ -1468,8 +1478,10 @@ int main (int argc, char **argv)
   }
   print_dfa(main_block);
   
-  if (verbose) fprintf(stderr, "\nCompressing DFA...\n");
-  ndfa = compress_dfa(dfas, ndfa, ntokens);
+  if (!uncompressed_dfa) {
+    if (verbose) fprintf(stderr, "\nCompressing DFA...\n");
+    ndfa = compress_dfa(dfas, ndfa, ntokens);
+  }
 
   if (verbose) fprintf(stderr, "\nCompressing transition tables...\n");
   compress_transition_table(dfas, ndfa, ntokens);
