@@ -1,6 +1,7 @@
 New in version 0.35
 ===================
 
+- Add case tagging for selbri involving MOI, GOhA, NUhA
 - Fix bugs handling number/lerfu-string containing bu followed by
   moi/mei/roi/re'u
 - Fix lexing bug if an all-vowels (emotional) cmavo with length > 1 is prefixed
