@@ -610,17 +610,13 @@ BLOCK FUIVLA_START_CC
 ENDBLOCK
 
 ###########################################################
-# Recognize a stage-3 fu'ivla
 
-BLOCK STAGE3
+BLOCK STAGE3_TAIL
 
     later_c : FV_INTERNAL_CONS_GROUP
     later_v : FV_VOWELS
 
-    STATE in
-        C   ; LCI ; V ; CNR   -> before_hyph
-        CNR ; V   ; CNR ; LCP -> before_hyph
-        CNR ; V   ; CNR       -> before_hyph
+    STATE in -> before_hyph
 
     # Central letter of hyphen (l,n or r) is always syllabic
     STATE before_hyph
@@ -634,7 +630,34 @@ BLOCK STAGE3
     STATE later_v.ex_multi -> exit, later_c.in
     STATE later_v.ex_single -> exit, later_c.in
 
-    STATE exit
+ENDBLOCK
+
+###########################################################
+# Recognize a stage-3 fu'ivla starting CVC
+
+BLOCK STAGE3_SHORT
+
+    tail : STAGE3_TAIL
+
+    STATE in
+        CNR ; V ; CNR -> tail.in
+
+    STATE tail.exit -> exit
+
+ENDBLOCK
+
+###########################################################
+# Recognize a stage-3 fu'ivla starting CVCC or CCVC
+
+BLOCK STAGE3_LONG
+
+    tail : STAGE3_TAIL
+
+    STATE in
+        C   ; LCI ; V   ; CNR -> tail.in
+        CNR ; V   ; CNR ; LCP -> tail.in
+
+    STATE tail.exit -> exit
 
 ENDBLOCK
 
@@ -647,17 +670,22 @@ BLOCK FUIVLA
     start_cv : FUIVLA_START_CV
     start_v  : FUIVLA_START_V
     slinkui  : SLINKUI
-    stage3 : STAGE3
+    stage3_short : STAGE3_SHORT
+    stage3_long  : STAGE3_LONG
 
-    STATE in_no_prefix -> start_cc.in, start_cv.in, start_v.in, stage3.in
-    STATE in_prefixed  -> start_cc.in, start_cv.in,             stage3.in
+    STATE in_no_prefix -> start_cc.in, start_cv.in, start_v.in,
+                          stage3_short.in, stage3_long.in
+                          
+    STATE in_prefixed  -> start_cc.in, start_cv.in,
+                          stage3_short.in, stage3_long.in
 
     STATE start_cc.goto_slinkui -> slinkui.in_after_c
 
     STATE start_cc.exit = TAG_FUIVLA_0
     STATE start_cv.exit = TAG_FUIVLA_1
     STATE start_v.exit  = TAG_FUIVLA_1
-    STATE stage3.exit = TAG_STAGE3
+    STATE stage3_short.exit = TAG_STAGE3_CVC
+    STATE stage3_long.exit = TAG_STAGE3_LONG
 
 ENDBLOCK
 
@@ -747,10 +775,20 @@ Symbol S_FUIVLA_0  = ~VLG &  TAG_FUIVLA_0 & ~TAG_SLINKUI_0
 Symbol S_FUIVLA_1A = ~VLG &  TAG_FUIVLA_0 &  TAG_SLINKUI_0 &  TAG_FUIVLA_1
 Symbol S_FUIVLA_1B = ~VLG & ~TAG_FUIVLA_0 &                   TAG_FUIVLA_1
 Symbol S_FUIVLA_1  = S_FUIVLA_1A | S_FUIVLA_1B
-Result S_FUIVLA_0 &  TAG_STAGE3 -> R_STAGE3_0
-Result S_FUIVLA_1 &  TAG_STAGE3 -> R_STAGE3_1
-Result S_FUIVLA_0 & ~TAG_STAGE3 -> R_STAGE4_0
-Result S_FUIVLA_1 & ~TAG_STAGE3 -> R_STAGE4_1
+
+# The logic here is that if a stage 3 fu'ivla could start with either a CVC or
+# a 4 letter rafsi prefix, prefer the 4 letter form.  Otherwise, you could not
+# write a stage 3 fu'ivla starting with that rafsi!  (If this renders a
+# particular CVC rafsi impossible, you just have to use its corresponding 4
+# letter form to work around this.)
+
+Symbol ANY_STAGE3  = TAG_STAGE3_LONG | TAG_STAGE3_CVC
+Result S_FUIVLA_0 &  TAG_STAGE3_LONG -> R_STAGE3_0
+Result S_FUIVLA_1 &  TAG_STAGE3_LONG -> R_STAGE3_1
+Result S_FUIVLA_1 &  TAG_STAGE3_CVC & !TAG_STAGE3_LONG -> R_STAGE3_1_CVC
+
+Result S_FUIVLA_0 & ~ANY_STAGE3 -> R_STAGE4_0
+Result S_FUIVLA_1 & ~ANY_STAGE3 -> R_STAGE4_1
 
 # All of the following are disjoint with each other and with any
 # of the earlier ones
