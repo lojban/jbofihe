@@ -632,7 +632,7 @@ BLOCK CMAVOSEQ
         Y -> cy2
     STATE cy2
         -> exit_standalone
-        CI|CP|CN|NR|H -> cy1
+        CI|CP|CN|NR|H|BT -> cy1
 
     STATE exit_prefixable
         = BIT_CMAVOS    
