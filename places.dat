@@ -1274,58 +1274,65 @@ dacru2:D;filing unit
 dacru3:S;file contents
 #
 # x1 is a material object enduring in space-time; x1 is a thing                                   
-#dacti1:DSAP;
+dacti1:D;object
 #
 # x1 pertains to the Taoist culture/ethos/religion in aspect x2                                   
 #dadjo1:DSAP;
 #dadjo2:DSAP;
 #
 # x1 is a knife (tool) for cutting x2, with blade of material x3                                  
-#dakfu1:DSAP;
-#dakfu2:DSAP;
-#dakfu3:DSAP;
+dakfu1:D;knife
+dakfu1n:knife(ves)
+dakfu2:R;cut by knife
+dakfu3:S;knife blade material
+dakfu3t:blade material
 #
 # x1 is a sack/bag with contents x2, and of material x3                                           
-#dakli1:DSAP;
-#dakli2:DSAP;
-#dakli3:DSAP;
+dakli1:D;bag
+dakli2:S;bag contents
+dakli3:S;bag material
 #
 # x1 fights/combats/struggles with x2 over issue x3 (abstract); x1 is a fighter/combatant         
-#damba1:DSAP;
-#damba2:DSAP;
-#damba3:DSAP;
+damba1:A;fight
+damba2:R;fought against
+damba3:D;reason* for fight
+damba3t:over issue
 #
 # x1 is a drum/cymbal/gong [percussion musical instrument] with beater/actuator x2                
-#damri1:DSAP;
-#damri2:DSAP;
+damri1:D;percussion instrument
+damri1t:instrument
+damri2:D;percussion instrument beater
+damri2t:with beater
 #
 # x1 hangs/dangles/is suspended from x2 by/at/with joint x3                                       
-#dandu1:DSAP;
-#dandu2:DSAP;
-#dandu3:DSAP;
+dandu1:R;suspended
+dandu2:D;hanging support
+dandu3:S;means of suspension
+dandu3t:by means
 #
 # x1 is the answer/response/solution/[reply] to question/problem x2                               
-#danfu1:DSAP;
-#danfu2:DSAP;
+danfu1:D;answer
+danfu2:D;answered problem
 #
 # x1 is an animal/creature of species x2; x1 is biologically animate                              
-#danlu1:DSAP;
+danlu1:D;animal
+danlu2:S;animal species
 #
 # x1 is made of/contains/is a quantity of smoke/smog/air pollution from source x2                 
-#danmo1:DSAP;
-#danmo2:DSAP;
+danmo1:S;smoke
+danmo2:D;source* of smoke
 #
 # x1 (force) puts pressure on/presses/applies force to x2                                         
-#danre1:DSAP;
-#danre2:DSAP;
+danre1:I;apply* pressure
+danre2:R;subject to pressure
 #
 # x1 (individual, mass) dances to accompaniment/music/rhythm x2                                   
 dansu1:A;dance
 dansu2:D;dance accompaniment
 #
 # x1 is a ballistic projectile [e.g. bullet/missile] for firing by [gun/propelling launcher] x2   
-#danti1:DSAP;
-#danti2:DSAP;
+danti1:D;projectile
+danti2:D;projectile launcher
 #
 # x1 is an island/atoll/key of [material/properties] x2 in surroundings/body x3; x1 is insular    
 daplu1:D;island
@@ -1335,19 +1342,20 @@ daplu3:S;island surroundings
 daplu3t:surroundings
 #
 # x1 curses/damns/condemns x2 to fate (event) x3                                                  
-#dapma1:DSAP;
-#dapma2:DSAP;
-#dapma3:DSAP;
+dapma1:A;condemn
+dapma2:P;condemned
+dapma3:S;fate
 #
 # x1 is a road/highway to x2 from x3 with route x4 (x2/x3 may be unordered)                       
-#dargu1:DSAP;
-#dargu2:DSAP;
-#dargu3:DSAP;
-#dargu4:DSAP;
+dargu1:D;highway
+dargu2:D;destination* of highway
+dargu3:D;origin* of highway
+dargu4:D;route* of highway
 #
 # x1 argues for stand x2 against stand x3; [an opponent is not necessary]                         
-#darlu1:DSAP;
-#darlu2:DSAP;
+darlu1:A;present* an argument
+darlu2:R;argued for
+darlu3:R;argued against
 #
 # x1 is far/distant from x2 in property x3 (ka)                                                   
 darno1:P;distant
@@ -1357,8 +1365,8 @@ darno3:D;distant property
 darno3t:property
 #
 # x1 shows audacity/chutzpah in behavior x2 (event/activity); x1 dares to do/be x2 (event/ka)     
-#darsi1:DSAP;
-#darsi2:DSAP;
+darsi1:A;show* audacity
+darsi2:D;audacious behaviour
 #
 # x1 hits/strikes/[beats] x2 with instrument [or body-part] x3 at locus x4                        
 darxi1:A;strike
@@ -1370,8 +1378,8 @@ darxi4n:locus/i of strike
 darxi4t:locus
 #
 # x1 is a pocket/pouch of/in garment/item x2                                                      
-#daski1:DSAP;
-#daski2:DSAP;
+daski1:D;pocket
+daski2:D;garment* with pocket
 #
 # x1 wears/is robed/garbed in x2 as a garment of type x3                                          
 dasni1:A;wear
@@ -1379,7 +1387,8 @@ dasni2:D;worn garment
 dasni3:D;type* of worn garment
 #
 # x1 (event) destroys/ruins/wrecks/despoils x2; x1 is destructive                                 
-#daspo1:DSAP;
+daspo1:A;destroy
+daspo2:P;destroyed
 #
 # x1 is a ribbon/tape/strip/band/stripe of material x2                                            
 dasri1:D;ribbon
@@ -1387,13 +1396,13 @@ dasri2:D;ribbon material
 dasri2t:material
 #
 # x1 is a duck/[drake] of species/breed x2                                                        
-#datka1:DSAP;
-#datka2:DSAP;
+datka1:D;duck
+datka2:S;duck species
 #
 # x1 (du'u) [fact/measurement] is data/information/statistic(s) about x2 gathered by method x3    
-#datni1:DSAP;
-#datni2:DSAP;
-#datni3:DSAP;
+datni1:S;data
+datni2:D;data subject
+datni3:D;data gathering method
 #
 # x1 is a tenth [1/10; 1x10**-1] of x2 in dimension/aspect x3 (default is units)                  
 #decti1:DSAP;
@@ -1401,14 +1410,15 @@ dasri2t:material
 #decti3:DSAP;
 #
 # x1 is a/the finger/digit/toe [body-part] on limb/body site x2 of body x3; [metaphor: peninsula] 
-#degji1:DSAP;
-#degji2:DSAP;
+degji1:D;finger*/toe*
+degji2:D;limb* with digit
+degji3:D;body* with digit
 #
 # x1 owes x2 in debt/obligation to creditor x3 in return for x4 [service, loan]; x1 is a debtor   
-#dejni1:DSAP;
-#dejni2:DSAP;
-#dejni3:DSAP;
-#dejni4:DSAP;
+dejni1:D;debtor
+dejni2:D;debt
+dejni3:D;creditor
+dejni4:D;reason* for debt
 #
 # x1 is x2 (default 1) local volume unit(s) [non-metric; e.g. bushel], standard x3, x4 subunits   
 #dekpu1:DSAP;
@@ -1427,16 +1437,19 @@ dasri2t:material
 #delno3:DSAP;
 #
 # x1 is a bean/pea/leguminous seed from plant [legume] x2                                         
-#dembi1:DSAP;
-#dembi2:DSAP;
+dembi1:D;leguminous seed
+dembi2:D;leguminous plant
 #
 # x1 is a/the tooth [body-part] of x2; (adjective:) x1 is dental                                  
-#denci1:DSAP;
+denci1:D;tooth
+denci1n:tooth/teeth
+denci1a:dental
+denci2:D;body* with teeth
 #
 # x1 is dense/concentrated/packed/intense in property x2 (ka) at location/locus x3                
-#denmi1:DSAP;
-#denmi2:DSAP;
-#denmi3:DSAP;
+denmi1:P;concentrated
+denmi2:D;concentrated property
+denmi3:S;locus of concentration
 #
 # x1 awaits/waits/pauses for/until x2 at state x3 before starting/continuing x4 (activity/process)
 denpa1:A;wait
@@ -1451,39 +1464,46 @@ dertu3:S;earth composition
 dertu3t:composition
 #
 # x1 is a heap/pile/stack/mound/hill of materials x2 at location x3                               
-#derxi1:DSAP;
-#derxi2:DSAP;
-#derxi3:DSAP;
+derxi1:D;heap
+derxi2:S;heaped materials
+derxi3:D;heap location
 #
 # x1 shakes/quakes/trembles/quivers/shudders/wobbles/vibrates from force x2                       
-#desku1:DSAP;
-#desku2:DSAP;
+desku1:P;vibrating
+desku2:D;force* causing vibration
+desku2t:due to force
 #
 # x1 is the date [day,{week},{month},year] of event/state x2, at location x3, by calendar x4      
-#detri1:DSAP;
-#detri2:DSAP;
-#detri3:DSAP;
-#detri4:DSAP;
+detri1:D;date
+detri2:D;dated event
+detri2t:of event
+detri3:D;location* with date
+detri3t:at location
+detri4:D;calendar* defining date
+detri4t:by calendar
 #
 # x1 (event) interrupts/stops/halts/[disrupts] x2 (object/event/process) due to quality x3        
-#dicra1:DSAP;
-#dicra2:DSAP;
-#dicra3:DSAP;
+dicra1:A;interrupt
+dicra2:P;interrupted
+dicra3:D;reason* for interruption
+dicra3t:due to
 #
 # x1 is electricity [electric charge or current] in/on x2 of polarity/quantity x3 (def. negative) 
-#dikca1:DSAP;
-#dikca2:DSAP;
-#dikca3:DSAP;
+dikca1:S;electricity
+dikca2:R;with electrical charge
+dikca3:D;amount* of electricity
 #
 # x1 is local to x2; x1 is confined to locus x2 within range x3                                   
-#diklo1:DSAP;
-#diklo2:DSAP;
-#diklo3:DSAP;
+diklo1:P;local
+diklo2:D;centre* of locality
+diklo2t:to locus
+diklo3:S;range of locality
+diklo3t:within range
 #
 # x1 is regular/cyclical/periodic in property (ka)/activity x2 with period/interval x3            
-#dikni1:DSAP;
-#dikni2:DSAP;
-#dikni3:DSAP;
+dikni1:P;regular
+dikni2:D;regular property
+dikni3:D;repeat period
 #
 # x1 is a quotient of 'x2/x3' [dividend x2 divided by divisor x3], leaving remainder x4           
 #dilcu1:DSAP;
@@ -1498,8 +1518,8 @@ dilnu3:D;air mass* containing cloud
 dilnu4:D;cloud base
 #
 # x1 is a fate/destiny of x2; [doom, curse are mabla-forms]; x2 is fated/predestined/doomed to x1 
-#dimna1:DSAP;
-#dimna2:DSAP;
+dimna1:D;destiny
+dimna2:R;having destiny
 #
 # x1 is a building/edifice for purpose x2                                                         
 #dinju1:DSAP;
@@ -3969,7 +3989,7 @@ nelci1:A;like
 nelci2:P;liked
 #
 # x1 is in/inside/within x2; x1 is on the inside/interior of x2 [totally within the bounds of x2] 
-nenri1:P;inside
+nenri1:S;contents
 nenri2:D;container
 #
 # x1 logically necessitates/entails/implies action/event/state x2 under rules/logic system x3     
