@@ -78,7 +78,7 @@ hash_cmavo(char *buf) {
 
   if (!*p) return val;
 
-  if (*p == '\'') {
+  if (*p == '\'' || *p == ',') {
     val += 7;
     p++;
   }
