@@ -141,6 +141,12 @@ translate_unknown(char *w, int place)
   MorfType morf_type;
   char *word_starts[64], **pws, **pwe;
 
+  if (strchr(w, '+')) {
+    /* If word has already been 'canonicalised', the lujvo translator
+       is geared up to cope. */
+    return translate_lujvo(w, place);
+  }
+
   pws = pwe = word_starts;
   morf_type = morf_scan(w, &pwe);
 
