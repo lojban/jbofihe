@@ -7,7 +7,7 @@
 /* Copyright (C) Richard P. Curnow  2000-2001 */
 /* LICENCE */
 
-/*
+/* {{{ General comments
   Convert a nondeterminstic finite automaton (NFA) into a deterministic finite
   automaton (DFA).
 
@@ -31,7 +31,7 @@
   morf_nfa.in for an example of the input grammar, and morf.c for a
   (non-trivial) example of how to build the automaton around the tables that
   this script generates.
-*/
+  }}} */
 
 #include <ctype.h>
 #include "n2d.h"
@@ -59,29 +59,14 @@ static struct Abbrev *abbrevtable=NULL;
 static int nabbrevs = 0;
 static int maxabbrevs = 0;
 
-static char *defresult = "0";
-
 /* ================================================================= */
-
-void
-define_defresult(char *string)
-{
-  defresult = string;
-}
-
-/* ================================================================= */
-
-static void
-grow_tokens(void)
+static void grow_tokens(void)/*{{{*/
 {
   maxtokens += 32;
   toktable = resize_array(char *, toktable, maxtokens);
 }
-
-/* ================================================================= */
-
-static int
-create_token(char *name)
+/*}}}*/
+static int create_token(char *name)/*{{{*/
 {
   int result;
   if (ntokens == maxtokens) {
@@ -91,11 +76,8 @@ create_token(char *name)
   toktable[result] = new_string(name);
   return result;
 }
-
-/* ================================================================= */
-
-int
-lookup_token(char *name, int create)
+/*}}}*/
+int lookup_token(char *name, int create)/*{{{*/
 {
   int found = -1;
   int i;
@@ -130,20 +112,15 @@ lookup_token(char *name, int create)
   
   return found;
 }
-
+/*}}}*/
 /* ================================================================= */
-
-static void
-grow_abbrevs(void)
+static void grow_abbrevs(void)/*{{{*/
 {
   maxabbrevs += 32;
   abbrevtable = resize_array(struct Abbrev, abbrevtable, maxabbrevs);
 }
-
-/* ================================================================= */
-
-struct Abbrev *
-create_abbrev(char *name)
+/*}}}*/
+struct Abbrev * create_abbrev(char *name)/*{{{*/
 {
   struct Abbrev *result;
   if (nabbrevs == maxabbrevs) {
@@ -155,11 +132,8 @@ create_abbrev(char *name)
   result->rhs = 0;
   return result;
 }
-
-/* ================================================================= */
-
-void
-add_tok_to_abbrev(struct Abbrev *abbrev, char *tok)
+/*}}}*/
+void add_tok_to_abbrev(struct Abbrev *abbrev, char *tok)/*{{{*/
 {
   if (abbrev->nrhs == abbrev->maxrhs) {
     abbrev->maxrhs += 8;
@@ -168,11 +142,8 @@ add_tok_to_abbrev(struct Abbrev *abbrev, char *tok)
 
   abbrev->rhs[abbrev->nrhs++] = new_string(tok);
 }
-
-/* ================================================================= */
-
-static struct Abbrev *
-lookup_abbrev(char *name, int create)
+/*}}}*/
+static struct Abbrev * lookup_abbrev(char *name, int create)/*{{{*/
 {
   int found = -1;
   int i;
@@ -205,20 +176,56 @@ lookup_abbrev(char *name, int create)
   
   return result;
 }
-
+/*}}}*/
 /* ================================================================= */
 
-static void
-grow_blocks(void)
+struct Attribute {
+  char *name;
+};
+
+static struct Attribute *attributes = NULL;
+static int n_attributes = 0;
+static int max_attributes = 0;
+
+static void grow_attributes(void)/*{{{*/
+{
+  max_attributes += 16;
+  attributes = resize_array(struct Attribute, attributes, max_attributes);
+}
+/*}}}*/
+static int create_attribute(char *name)/*{{{*/
+{
+  int n;
+  if (n_attributes == max_attributes) {
+    grow_attributes();
+  }
+  
+  n = n_attributes;
+  attributes[n].name = new_string(name);
+  n_attributes++;
+  return n;
+}
+/*}}}*/
+static int lookup_attribute(char *name)/*{{{*/
+  /* Always create if not found */
+{
+  int i;
+  for (i=0; i<n_attributes; i++) {
+    if (!strcmp(name, attributes[i].name)) {
+      return i;
+    }
+  }
+  return create_attribute(name);
+}
+/*}}}*/
+/* ================================================================= */
+static void grow_blocks(void)/*{{{*/
 {
   maxblocks += 32;
   blocks = resize_array(Block*, blocks, maxblocks);
 }
-
-/* ================================================================= */
-
-static Block *
-create_block(char *name)
+/*}}}*/
+static Block * create_block(char *name)/*{{{*/
 {
   Block *result;
   int i;
@@ -247,12 +254,8 @@ create_block(char *name)
   result->subcount = 1;
   return result;
 }
-
-/* ================================================================= */
-
-
-Block *
-lookup_block(char *name, int create)
+/*}}}*/
+Block * lookup_block(char *name, int create)/*{{{*/
 {
   Block *found = NULL;
   int i;
@@ -287,11 +290,9 @@ lookup_block(char *name, int create)
   
   return found;
 }
-
+/*}}}*/
 /* ================================================================= */
-  
-static void
-maybe_grow_states(Block *b, int hash)
+static void maybe_grow_states(Block *b, int hash)/*{{{*/
 {
   Stateset *ss = b->state_hash + hash;
   if (ss->nstates == ss->maxstates) {
@@ -304,11 +305,9 @@ maybe_grow_states(Block *b, int hash)
   }
   
 }
-
+/*}}}*/
 /* ================================================================= */
-
-static unsigned long
-hashfn(const char *s)
+static unsigned long hashfn(const char *s)/*{{{*/
 {
   unsigned long y = 0UL, v, w, x, k;
   unsigned long yl, yh;
@@ -326,11 +325,8 @@ hashfn(const char *s)
   y &= HASH_MASK;
   return y;
 }
-
-/* ================================================================= */
-
-static State *
-create_state(Block *b, char *name)
+/*}}}*/
+static State * create_state(Block *b, char *name)/*{{{*/
 {
   State *result;
   int hash;
@@ -344,16 +340,14 @@ create_state(Block *b, char *name)
   result->index = b->nstates - 1;
   result->transitions = NULL;
   result->exitvals = NULL;
+  result->attributes = NULL;
   result->ordered_trans = NULL;
   result->n_transitions = 0;
   result->removed = 0;
   return result;
 }
-
-/* ================================================================= */
-
-State *
-lookup_state(Block *b, char *name, int create)
+/*}}}*/
+State * lookup_state(Block *b, char *name, int create)/*{{{*/
 {
   State *found = NULL;
   int i;
@@ -393,11 +387,9 @@ lookup_state(Block *b, char *name, int create)
   
   return found;
 }
-
+/*}}}*/
 /* ================================================================= */
-  
-Stringlist *
-add_token(Stringlist *existing, char *token)
+Stringlist * add_token(Stringlist *existing, char *token)/*{{{*/
 {
   Stringlist *result = new(Stringlist);
   if (token) {
@@ -408,13 +400,10 @@ add_token(Stringlist *existing, char *token)
   result->next = existing;
   return result;
 }
-
-/* ================================================================= */
+/*}}}*/
+static void add_transition(State *curstate, char *str, char *destination)/*{{{*/
 /* Add a single transition to the state.  Allow definitions to be
    recursive */
-
-static void
-add_transition(State *curstate, char *str, char *destination)
 {
   struct Abbrev *abbrev;
   abbrev = (str) ? lookup_abbrev(str, USE_OLD_MUST_EXIST) : NULL;
@@ -434,11 +423,8 @@ add_transition(State *curstate, char *str, char *destination)
     curstate->transitions = tl;
   }
 }
-
-/* ================================================================= */
-
-void
-add_transitions(State *curstate, Stringlist *tokens, char *destination)
+/*}}}*/
+void add_transitions(State *curstate, Stringlist *tokens, char *destination)/*{{{*/
 {
   Stringlist *sl;
   struct Abbrev *abbrev;
@@ -446,11 +432,8 @@ add_transitions(State *curstate, Stringlist *tokens, char *destination)
     add_transition(curstate, sl->string, destination);
   }
 }
-
-/* ================================================================= */
-
-State *
-add_transitions_to_internal(Block *curblock, State *addtostate, Stringlist *tokens)
+/*}}}*/
+State * add_transitions_to_internal(Block *curblock, State *addtostate, Stringlist *tokens)/*{{{*/
 {
   char buffer[1024];
   State *result;
@@ -459,12 +442,8 @@ add_transitions_to_internal(Block *curblock, State *addtostate, Stringlist *toke
   add_transitions(addtostate, tokens, result->name);
   return result;
 }
-
-
-/* ================================================================= */
-
-void
-add_exit_value(State *curstate, char *value)
+/*}}}*/
+void add_exit_value(State *curstate, char *value)/*{{{*/
 {
   Stringlist *sl;
   sl = new(Stringlist);
@@ -472,11 +451,18 @@ add_exit_value(State *curstate, char *value)
   sl->next = curstate->exitvals;
   curstate->exitvals = sl;
 }
-
+/*}}}*/
+void set_state_attribute(State *curstate, char *name)/*{{{*/
+{
+  Stringlist *sl;
+  sl = new(Stringlist);
+  sl->string = name;
+  sl->next = curstate->attributes;
+  curstate->attributes = sl;
+}
+/*}}}*/
 /* ================================================================= */
-
-void
-instantiate_block(Block *curblock, char *block_name, char *instance_name)
+void instantiate_block(Block *curblock, char *block_name, char *instance_name)/*{{{*/
 {
   Block *master = lookup_block(block_name, USE_OLD_MUST_EXIST);
   char namebuf[1024];
@@ -506,6 +492,7 @@ instantiate_block(Block *curblock, char *block_name, char *instance_name)
       new_state->transitions = new_tl;
     }
     
+    /*{{{  Copy state exit values*/
     ex = NULL;
     for (sl=s->exitvals; sl; sl=sl->next) {
       Stringlist *new_sl = new(Stringlist);
@@ -514,15 +501,22 @@ instantiate_block(Block *curblock, char *block_name, char *instance_name)
       ex = new_sl;
     }
     new_state->exitvals = ex;
-        
+    /*}}}*/
+    /*{{{  Copy state attributes */
+    ex = NULL;
+    for (sl=s->attributes; sl; sl=sl->next) {
+      Stringlist *new_sl = new(Stringlist);
+      new_sl->string = sl->string;
+      new_sl->next = ex;
+      ex = new_sl;
+    }
+    new_state->attributes = ex;
+    /*}}}*/
     
   }
 }
-
-/* ================================================================= */
-
-void
-fixup_state_refs(Block *b)
+/*}}}*/
+void fixup_state_refs(Block *b)/*{{{*/
 {
   int i;
   for (i=0; i<b->nstates; i++) {
@@ -533,41 +527,32 @@ fixup_state_refs(Block *b)
     }
   }
 }
-
+/*}}}*/
 /* ================================================================= */
 
 /* Bitmap to contain epsilon closure for NFA */
 
 static unsigned long **eclo;
 
-
 /* ================================================================= */
-
-static inline const int
-round_up(const int x) {
+static inline const int round_up(const int x) {/*{{{*/
   return (x+31)>>5;
 }
-
-/* ================================================================= */
-
-static inline void
-set_bit(unsigned long *x, int n)
+/*}}}*/
+static inline void set_bit(unsigned long *x, int n)/*{{{*/
 {
   int r = n>>5;
   unsigned long m = 1UL<<(n&31);
   x[r] |= m;
 }
-
-/* ================================================================= */
-
-static inline int
-is_set(unsigned long *x, int n)
+/*}}}*/
+static inline int is_set(unsigned long *x, int n)/*{{{*/
 {
   int r = n>>5;
   unsigned long m = 1UL<<(n&31);
   return !!(x[r] & m);
 }
-
+/*}}}*/
 /* ================================================================= */
 /* During the algorithm to transitively close the epsilon closure table,
    maintain a stack of indices that have to be rescanned.  This avoids the slow
@@ -584,9 +569,7 @@ static IntPair *freelist=NULL;
 static IntPair *stack=NULL;
 
 /* ================================================================= */
-
-static void
-push_pair(int i, int j)
+static void push_pair(int i, int j)/*{{{*/
 {
   static const int grow_by = 32;
   IntPair *np;
@@ -607,12 +590,8 @@ push_pair(int i, int j)
   np->i = i;
   np->j = j;
 }
-
-
-/* ================================================================= */
-
-static int
-pop_pair(int *i, int *j) {
+/*}}}*/
+static int pop_pair(int *i, int *j) {/*{{{*/
   IntPair *ip;
   if (!stack) {
     return 0;
@@ -626,11 +605,8 @@ pop_pair(int *i, int *j) {
     return 1;
   }
 }
-
-/* ================================================================= */
-
-static void
-generate_epsilon_closure(Block *b)
+/*}}}*/
+static void generate_epsilon_closure(Block *b)/*{{{*/
 {
   int i, j, N;
   
@@ -670,11 +646,8 @@ generate_epsilon_closure(Block *b)
     }
   }
 }
-
-/* ================================================================= */
-
-static void
-print_nfa(Block *b)
+/*}}}*/
+static void print_nfa(Block *b)/*{{{*/
 {
   int i, j, N;
   N = b->nstates;
@@ -693,11 +666,21 @@ print_nfa(Block *b)
     }
     if (s->exitvals) {
       int first = 1;
-      if (report) fprintf(report, "  Exit value : ");
+      fprintf(report, "  Exit value : ");
       for (sl=s->exitvals; sl; sl=sl->next) {
         fprintf(report, "%s%s",
                 first ? "" : "|",
-                s->exitvals->string);
+                sl->string);
+      }
+      fprintf(report, "\n");
+    }
+    if (s->attributes) {
+      int first = 1;
+      fprintf(report, "  Attributes : ");
+      for (sl=s->attributes; sl; sl=sl->next) {
+        fprintf(report, "%s%s",
+                first ? "" : "|",
+                sl->string);
       }
       fprintf(report, "\n");
     }
@@ -712,7 +695,7 @@ print_nfa(Block *b)
   }
 
 }
-
+/*}}}*/
 /* ================================================================= */
 
 /* Indexed [from_state][token][to_state], flag set if there is
@@ -726,9 +709,7 @@ static unsigned long ***transmap;
 static unsigned long **anytrans;
 
 /* ================================================================= */
-
-static void
-build_transmap(Block *b)
+static void build_transmap(Block *b)/*{{{*/
 {
   int N = b->nstates;
   int Nt = ntokens;
@@ -767,7 +748,7 @@ build_transmap(Block *b)
 
   
 }
-
+/*}}}*/
 /* ================================================================= */
 
 static DFANode **dfas;
@@ -790,18 +771,13 @@ struct DFAList {
 static struct DFAList *dfa_hashtable[DFA_HASHSIZE];
 
 /* ================================================================= */
-
-static void
-grow_dfa(void)
+static void grow_dfa(void)/*{{{*/
 { 
   maxdfa += 32;
   dfas = resize_array(DFANode*, dfas, maxdfa);
 }
-
-/* ================================================================= */
-
-static unsigned long
-fold_signature(unsigned long sig)
+/*}}}*/
+static unsigned long fold_signature(unsigned long sig)/*{{{*/
 {
   unsigned long folded;
   folded = sig ^ (sig >> 16);
@@ -809,14 +785,11 @@ fold_signature(unsigned long sig)
   folded &= 0xff;
   return folded;
 }
-
-
+/*}}}*/
 /* ================================================================= */
+static int find_dfa(unsigned long *nfas, int N)/*{{{*/
 /* Simple linear search.  Use 'signatures' to get rapid rejection
    of any DFA state that can't possibly match */
-
-static int
-find_dfa(unsigned long *nfas, int N)
 {
   int res=-1;
   int i, j;
@@ -849,17 +822,15 @@ find_dfa(unsigned long *nfas, int N)
   }
   return -1;
 }
+/*}}}*/
 
-/* ================================================================= */
-
-static int
-add_dfa(Block *b, unsigned long *nfas, int N, int Nt)
+static int add_dfa(Block *b, unsigned long *nfas, int N, int Nt)/*{{{*/
 {
   int j;
   int result = ndfa;
   int had_exitvals;
   int this_result_unambiguous;
-  
+ 
   Stringlist *ex;
   unsigned long signature = 0UL, folded_signature;
   struct DFAList *dfal;
@@ -892,9 +863,10 @@ add_dfa(Block *b, unsigned long *nfas, int N, int Nt)
   dfal->next = dfa_hashtable[folded_signature];
   dfa_hashtable[folded_signature] = dfal;
 
+  /* {{{ Boolean reduction for result */
   ex = NULL;
   had_exitvals = 0;
-  clear_symbol_values();
+  clear_symbol_values(exit_evaluator);
   for (j=0; j<N; j++) {
     if (is_set(dfas[ndfa]->nfas, j)) {
       Stringlist *sl;
@@ -906,14 +878,14 @@ add_dfa(Block *b, unsigned long *nfas, int N, int Nt)
         new_sl->next = ex;
         ex = new_sl;
 
-        set_symbol_value(sl->string);
+        set_symbol_value(exit_evaluator, sl->string);
         had_exitvals = 1;
       }
     }
   }
   
-  this_result_unambiguous = evaluate_result(&dfas[ndfa]->result);
-  dfas[ndfa]->nfa_sl = ex;
+  this_result_unambiguous = evaluate_result(exit_evaluator, &dfas[ndfa]->result);
+  dfas[ndfa]->nfa_exit_sl = ex;
 
   if (!this_result_unambiguous) {
     Stringlist *sl;
@@ -924,26 +896,54 @@ add_dfa(Block *b, unsigned long *nfas, int N, int Nt)
     }
     had_ambiguous_result = 1;
   }
-        
+  /*}}}*/
+  /* {{{ Boolean reduction for attributes */
+  ex = NULL;
+  had_exitvals = 0;
+  clear_symbol_values(attr_evaluator);
+  for (j=0; j<N; j++) {
+    if (is_set(dfas[ndfa]->nfas, j)) {
+      Stringlist *sl;
+      State *s = b->states[j];
+      for (sl = s->attributes; sl; sl = sl->next) {
+        Stringlist *new_sl;
+        new_sl = new(Stringlist);
+        new_sl->string = sl->string;
+        new_sl->next = ex;
+        ex = new_sl;
+
+        set_symbol_value(attr_evaluator, sl->string);
+        had_exitvals = 1;
+      }
+    }
+  }
+  this_result_unambiguous = evaluate_result(attr_evaluator, &dfas[ndfa]->attribute);
+  dfas[ndfa]->nfa_attr_sl = ex;
+
+  if (!this_result_unambiguous) {
+    Stringlist *sl;
+    fprintf(stderr, "WARNING : Ambiguous attribute abandoned for DFA state %d\n", ndfa);
+    fprintf(stderr, "NFA attribute tags applying in this stage :\n");
+    for (sl = ex; sl; sl = sl->next) {
+      fprintf(stderr, "  %s\n", sl->string);
+    }
+    had_ambiguous_result = 1;
+  }
+  /*}}}*/
+  
   ndfa++;
   return result;
 }
-
-/* ================================================================= */
-
-static void
-clear_nfas(unsigned long *nfas, int N)
+/*}}}*/
+static void clear_nfas(unsigned long *nfas, int N)/*{{{*/
 {
   int i;
   for (i=0; i<round_up(N); i++) {
     nfas[i] = 0;
   }
 }
-
-/* ================================================================= */
-
-static void
-build_dfa(Block *b, int start_index)
+/*}}}*/
+static void build_dfa(Block *b, int start_index)/*{{{*/
 {
   unsigned long **nfas;
   int i;
@@ -1039,11 +1039,9 @@ build_dfa(Block *b, int start_index)
   for (i=0; i<Nt; i++) free(nfas[i]);
   free(nfas);
 }
-
+/*}}}*/
 /* ================================================================= */
-
-static void
-print_dfa(Block *b)
+static void print_dfa(Block *b)/*{{{*/
 {
   int N = b->nstates;
   int Nt = ntokens;
@@ -1086,22 +1084,23 @@ print_dfa(Block *b)
     if (dfas[i]->result) {
       fprintf(report, "  Exit value : %s\n", dfas[i]->result);
     }
-    
+    if (dfas[i]->attribute) {
+      fprintf(report, "  Attribute : %s\n", dfas[i]->attribute);
+    }
+
     fprintf(report, "\n");
   }
 }
-
+/*}}}*/
 /* ================================================================= */
-/* Emit the exit value table. */
-
-static void
-print_exitval_table(Block *b)
+static void print_exitval_table(Block *b)/*{{{*/
 {
   int N = b->nstates;
   int Nt = ntokens;
   int n, i, j;
   extern char *prefix;
   char ucprefix[1024];
+  char *defresult = get_defresult(exit_evaluator);
 
   if (prefix) {
     printf("static short %s_exitval[] = {\n", prefix);
@@ -1115,14 +1114,32 @@ print_exitval_table(Block *b)
   }
   printf("};\n\n");
 }
+/*}}}*/
+static void print_attribute_table(void)/*{{{*/
+{
+  int i;
+  extern char *prefix;
+  char *defattr = get_defresult(attr_evaluator);
 
-/* ================================================================= */
+  if (prefix) {
+    printf("static short %s_attribute[] = {\n", prefix);
+  } else {
+    printf("static short attribute[] = {\n");
+  }
+  for (i=0; i<ndfa; i++) {
+    char *av = dfas[i]->attribute;
+    printf("%s", av ? av : defattr);
+    putchar ((i<(ndfa-1)) ? ',' : ' ');
+    printf(" /* State %d */\n", i);
+  }
+  printf("};\n\n");
+
+}
+/*}}}*/
+static void print_uncompressed_tables(Block *b)/*{{{*/
 /* Print out the state/transition table uncompressed, i.e. every
    token has an array entry in every state.  This is fast to access
    but quite wasteful on memory with many states and many tokens. */
-
-static void
-print_uncompressed_tables(Block *b)
 {
   int N = b->nstates;
   int Nt = ntokens;
@@ -1163,11 +1180,8 @@ print_uncompressed_tables(Block *b)
     printf("#define NEXT_STATE(s,t) trans[%d*(s)+(t)]\n", Nt);
   }
 }
-
-/* ================================================================= */
-
-static int
-check_include_char(int this_state, int token)
+/*}}}*/
+static int check_include_char(int this_state, int token)/*{{{*/
 {
   if (dfas[this_state]->defstate >= 0) {
     return (dfas[this_state]->map[token] !=
@@ -1176,14 +1190,11 @@ check_include_char(int this_state, int token)
     return (dfas[this_state]->map[token] >= 0);
   }
 }
-
-/* ================================================================= */
+/*}}}*/
+static void print_compressed_tables(Block *b)/*{{{*/
 /* Print state/transition table in compressed form.  This is more
    economical on storage, but requires a bisection search to find
    the next state for a given current state & token */
-
-static void
-print_compressed_tables(Block *b)
 {
   int N = b->nstates;
   int *basetab = new_array(int, ndfa+1);
@@ -1277,19 +1288,19 @@ print_compressed_tables(Block *b)
   
   free(basetab);
 }
-
+/*}}}*/
 /* ================================================================= */
-
-void yyerror (char *s)
+void yyerror (char *s)/*{{{*/
 {
   extern int lineno;
   fprintf(stderr, "%s at line %d\n", s, lineno);
 }
-
-/* ================================================================= */
-
-int yywrap(void) { return -1; }
-
+/*}}}*/
+int yywrap(void) /*{{{*/
+{ 
+  return -1;
+}
+/*}}}*/
 /* ================================================================= */
 
 int main (int argc, char **argv)
@@ -1323,6 +1334,8 @@ int main (int argc, char **argv)
     fprintf(stderr, "General-purpose automaton builder\n");
     fprintf(stderr, "Copyright (C) Richard P. Curnow  2000-2001\n");
   }
+
+  eval_initialise();
   
   if (verbose) fprintf(stderr, "Parsing input...");
   result = yyparse();
@@ -1366,6 +1379,7 @@ int main (int argc, char **argv)
   }
   
   print_exitval_table(main_block);
+  print_attribute_table();
   print_compressed_tables(main_block);
 #if 0
   print_uncompressed_tables(main_block);
