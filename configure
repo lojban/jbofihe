@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# $Header$
+
+# Copyright (C) Richard P. Curnow  2001
+# LICENCE
+
+# Configure script which will be invoked by people who just want to try
+# building in the conventional way without reading the instructions. It's
+# unlikely somebody doing this will want the bother of building + installing
+# the translation dictionary properly, so embed it.
+
+perl config.pl --embed $*
+
