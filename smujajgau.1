@@ -79,8 +79,8 @@ I @ Idiomatic @ thing(s) X-ing @ X-ing @ X-ing @ thing(s) X-ing
 E @ Event @ X(s) @ being X @ X @ X
 .TE
 
-To specify the dictionary entries, the lojban should take the form
-'brivlaN', where brivla is the word and N is the place number.  One of
+To specify the dictionary entries, the lojban should take the form 'brivlaN',
+where brivla is the word and N is the place number.  One of
 the following may be suffixed to provide an override of the defaults
 in the table : n v a or t (for noun, verb, adjective, tag
 respectively.)
@@ -108,6 +108,80 @@ translation, which is the default.)
 
 The 'places.dat' file included in the distribution shows many
 examples.
+
+Where a translation with an 'n' suffix exists, this is used in place
+of some other default forms in the table.  For example, this allows
+special plural forms to be used in other places (e.g. tags.)
+
+The dictionary also supports some 'pattern' translations.  This allows
+defaults to be automatically generated for forms ending in '-gau',
+'-zma, '-rai' etc, where there is a standard lujvo place structure
+defined in terms of the prefix.
+
+The 'Lojban' form for such patterns should be defined in the
+dictionary as '*Mprefix+N' or '*M+suffixN' for prefix forms (e.g. nu+)
+and suffix forms (e.g. +zmadu) respectively.  M is the 'precedence' (5
+highest, 0 lowest), defining the order in which prefix v suffix
+matches will be attempted.  N is the place number as usual.  The
+letters n, v, a or t may be suffixed to define a particular form if
+required, as for normal definitions.
+
+The 'English' form is either a standard definition or a place
+redirection. In standard definitions, the symbol % is used to mean the
+translation of the rest of the lujvo form.  Place redirections take
+the form @N, and mean that the lojban pattern form should be
+translated as place N of the rest of the lujvo.
+
+An example makes this clearer : zmadu.
+
+*2+zmadu1:R;more %1q
+.br
+*2+zmadu2:R;less %1q
+.br
+*2+zmadu2t:than
+.br
+*2+zmadu3:@2
+.br
+*2+zmadu4:@3
+.br
+*2+zmadu5:@4
+.br
+*2+zmadu6:@5
+
+The components are defined in terms of the full gismu forms, rather
+than rafsi (hence zmadu rather than mau).  This is necessary because
+the form of a rafsi can change when components are added to or
+subtracted from a lujvo form.
+
+When the 'English' form is given as '-', it indicates that the next
+components inwards should be concatenated to form a new 'Lojban' form
+for lookup.  This facility is only used for one thing so far - to
+handle the rafsi 'zil' followed by the rafsi for a cmavo of selma'o PA
+to puncture a place from the following form.  An example (to delete
+the 1st place of a word, e.g. zilpavykla) :
+
+*4zi'o+1:-
+.br
+*4zi'o+2:-
+.br
+*4zi'o+3:-
+.br
+*4zi'o+4:-
+.br
+*4zi'o+5:-
+.br
+*4zi'o+pa+1:@2
+.br
+*4zi'o+pa+2:@3
+.br
+*4zi'o+pa+3:@4
+.br
+*4zi'o+pa+4:@5
+.br
+*4zi'o+pa+5:@6
+
+The pattern forms are all defined in a file 'patterns' in the
+distribution.
 
 For cmavo, there are special forms used for certain selma'o,
 particular tenses.  These allow dependence on the context in which the
