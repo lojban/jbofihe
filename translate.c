@@ -461,6 +461,32 @@ starts_with_preposition(char *x)
 
 }
 
+
+/*++++++++++++++++++++++++++++++++++++++
+  Remove the '*' markers from a translation (only really applies to
+  discrete class words being used as qualifiers, so far).
+
+  static char * basic_trans
+
+  char *x
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static char *
+basic_trans(char *x)
+{
+  char *result, *p, *q;
+  result = GETBUF();
+  p = x, q = result;
+  while (*p) {
+    if (*p != '*') {
+      *q++ = *p;
+    }
+    p++;
+  }
+  *q = 0;
+  return result;
+}
+
 /*++++++++++++++++++++++++++++++++++++++
   Make a word plural, applying standard English rules for when to use
   -es or -ies instead of plain -s.
@@ -690,7 +716,7 @@ adv_translate(char *w, int place, TransContext ctx)
               }
               break;
             case TCX_QUAL:
-              strcpy(result, w1);
+              strcpy(result, basic_trans(w1));
               break;
             case TCX_TAG:
               if (*w1n) {
@@ -715,7 +741,7 @@ adv_translate(char *w, int place, TransContext ctx)
 
           switch (ctx) {
             case TCX_NOUN:
-              strcpy(result, w1);
+              strcpy(result, basic_trans(w1));
               break;
             case TCX_VERB:
               if (*w1n) {
