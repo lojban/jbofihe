@@ -1,0 +1,603 @@
+# $Header$
+
+# Extra lujvo etc I've invented
+cavycau:drought
+cikcfa:wake up, rise:awake-begin
+cirnolsoi:knight
+darmasyvi'e:pilgrim
+daryrai:farthest
+gugypau:county, province
+kamstace:honesty, truth
+kamtra:behaviour
+kamvli:power
+kamzi'e:freedom
+kriselcatra:martyr:murdered as a believer
+nalsau:unfamiliar
+ricblutu'u:tree-vein
+rictu'a:woodland
+solnuncanci:sunset
+vitcarvi:shower
+xirzda1:stable
+xirzda2:stabled horse
+xirzda:stable
+ceirselzau:blessed
+
+tisygau1:filler
+tisygau2:object filled
+tisygau3:material
+
+jbirai1:P;closest
+#FIXME
+
+kampa'e1:S;perfection
+kampa'e2:P;perfect
+kampa'e3:D;perfect property
+
+xaskoi1:D;beach*/coast*
+xaskoi2:D;sea* at coast
+xaskoi3:P;by coast
+
+jacpi'egau1:A;splash
+#FIXME
+
+cticru1:A;allow* to eat
+cticru2:P;allowed to eat
+cticru3:P;allowed to be eaten
+
+biskruji1:S;ice-cream
+#FIXME
+
+vicybilga1n:person obliged to remove something
+vicybilga1v:must remove
+vicybilga1a:obliged to remove
+vicybilga1t:obliged person
+vicybilga2:D;object* removed under obligation
+vicybilga3:D;location* removed from under obligation
+vicybilga4:S;remains after obliged removal
+
+vi'asmi1:P;visually similar
+vi'asmi2:P;visually similar to
+vi'asmi3:D;condition* for visual similarity
+
+ku'uzme1:D;pineapple
+
+kampalci1:S;evil
+kampalci2:P;evil
+kampalci3:D;standard* of evil
+
+seltivypoi1:D;television series
+seltivypoi1n:television series
+
+viska'e1:P;able to see
+viska'e2:D;condition* for being able to see
+
+bacru1:A;utter
+bacru2:D;uttered sound
+
+balvi1:P;later
+balvi2:P;earlier
+
+banli1:P;great
+banli2:D;property* of greatness
+
+banzu1:P;sufficient
+banzu2:D;purpose* for which sufficient
+banzu3:D;condition* for sufficiency
+
+bersa1:D;son
+bersa2:D;parent* of son
+
+binxo1:A;become
+binxo2:D;result* of becoming
+binxo3:D;becoming condition
+
+blanu1:P;blue
+
+bloti1:D;boat*/ship*
+bloti2:D;boat/ship cargo
+bloti3:A;propel* boat/ship
+
+cabna1:P;current
+cabna2:D;reference* for being current
+
+cabra1:S;apparatus
+cabra2:D;function* of apparatus
+cabra3:A;control* apparatus
+
+cafne1:P;frequent
+cafne2:D;standard* for being frequent
+
+catlu1:A;look* at
+catlu2:P;looked at
+
+cedra1:D;era
+cedra2:P;characterising an era
+
+censa1:P;holy
+censa2:A;consider* holy(ness)
+
+cevni1:D;god
+cevni2:D;people* having god
+cevni3:D;sphere* of god
+
+cidja1:S;food
+#ANIMAL
+cidja2:P;fed
+
+ciska1:A;write
+ciska2:P;written
+ciska3:D;writing medium
+ciska4:D;writing implement
+
+citno1:P;young
+citno2:D;standard* for youth
+
+ckunu1:D;conifer*/pine*
+ckunu2:D;conifer species
+ckunu2n:conifer species:Prevent extra plural
+ckunu3:D;pine cone
+
+cmene1:D;name
+cmene2:P;named
+cmene3:A;name
+
+cortu1:A;feel* pain
+cortu2:D;locus* of pain
+
+crisa1:D;summer
+crisa2:D;year* of summer
+crisa3:D;location* of summer
+
+curve1:P;pure
+curve2:D;pure property
+
+cutci1:D;shoe
+cutci2:D;shod foot
+cutci2n:shod foot/feet
+cutci3:S;shoe material
+
+denpa1:A;wait
+denpa2:P;waited for
+denpa3:D;waiting state
+denpa4:D;paused activity
+
+djedi1:D;full day
+djedi2:S;number of full days
+djedi3:D;standard* defining full day
+
+djuno1:A;know
+djuno2:D;fact* known
+djuno3:D;known subject*
+djuno4:D;epistemology for knowing
+
+drata1:P;different
+drata2:D;reference* for being different
+drata3:D;standard* for being different
+
+fanmo1:P;final
+fanmo2:D;ending process
+
+fanta1:A;prevent
+fanta2:D;prevented event
+
+fasnu1:D;occurrence
+fasnu1v:occurring
+
+fatci1:D;fact
+
+fenki1:P;crazy
+fenki2:D;standard* for craziness
+
+frili1:P;easy
+frili2:D;person* for whom easy
+frili3:D;condition* for ease
+
+gerku1:D;dog
+gerku2:D;dog breed
+
+gletu1:A;copulate
+gletu2:A;copulate
+
+grana1:D;rod*/pole*
+grana2:S;rod material
+
+gugde1:D;country
+gugde2:D;people* of country
+gugde3:D;land*/territory*
+
+gusni1:S;light
+gusni2:P;illuminated
+gusni3:D;light source
+
+jbena1:P;born
+jbena2:A;give* birth
+jbena3:D;time* of birth
+jbena4:D;place* of birth
+
+jetnu1:P;true
+jetnu2:D;standard* for truth
+
+jimpe1:A;understand
+jimpe2:D;understood fact
+jimpe3:D;understood subject
+
+jinvi1:A;have* opinion
+jinvi2:D;opinion
+jinvi3:D;subject* of opinion
+jinvi4:S;grounds for opinion
+
+jitro1:A;control
+jitro2:P;under control
+jitro3:D;controlled activity
+
+jmive1:A;live
+jmive2:D;standard* of living
+
+kanla1:D;eye
+kanla2:D;body* with eye
+
+kansa1:A;accompany
+kansa2:P;accompanied
+kansa3:D;circumstance* of accompaniment
+
+karce1:D;car
+karce2:D;car passenger
+karce3:D;car engine
+
+klama1:A;go
+klama2:D;destination
+klama3:D;origin
+klama4:D;route
+klama5:D;vehicle
+
+krasi1:D;origin
+krasi2:D;object*/process* with origin
+
+krefu1:D;recurrence
+krefu2:A;recur
+krefu2v:happening again
+krefu3:S;number of recurrence
+
+krici1:A;believe
+krici2:D;belief
+krici3:D;subject* of belief
+
+lidne1:A;precede
+lidne2:P;preceded
+lidne3:D;sequence
+
+lifri1:A;experience
+lifri2:P;experienced
+lifri2v:happening
+
+limna1:A;swim
+limna2:S;fluid swum in
+
+morsi1:P;dead
+
+munje1:D;universe
+munje2:D;domain* of universe
+munje3:D;rule* for universe
+
+mutce1:P;extreme
+mutce2:D;extreme property
+mutce3:D;extreme
+
+nanmu1:D;man
+nanmu1n:man/men
+
+nelci1:A;like
+nelci2:P;liked
+
+nenri1:P;inside
+nenri2:D;container
+
+pajni1:A;judge
+pajni2:D;judged matter
+
+patfu1:D;father
+patfu2:P;with father
+patfu2v:having father
+
+penmi1:A;encounter
+penmi2:P;encountered
+penmi3:D;location* of encounter
+
+pensi1:A;consider
+pensi2:D;considered subject*
+
+prami1:A;love
+prami2:P;loved
+
+pritu1:P;at the right
+pritu2:P;with something at the right
+pritu3:D;frame* of reference for right
+
+pruxi1:P;spiritual
+
+remna1:D;human
+
+rinka1:E;cause
+rinka2:E;caused
+rinka3:D;causal condition
+
+sarji1:A;support
+sarji2:P;supported
+sarji3:P;supported against
+sarji4:S;means for support
+
+since1:D;snake
+since2:D;snake breed
+
+skicu1:A;describe
+skicu2:P;described
+skicu3:D;audience* for describing
+skicu4:D;description
+
+smoka1:D;sock
+smoka2:S;sock material
+
+smuni1:D;meaning
+smuni2:P;interpreted
+smuni3:A;accept* meaning
+
+snura1:P;safe
+snura2:D;threat
+
+sutra1:P;swift
+sutra2:E;event/state* achieved swiftly
+
+tanxe1:D;box
+tanxe2:D;box content
+tanxe3:S;box material
+
+tarmi1:D;shape*/form*
+tarmi2:P;shaped
+
+tavla1:A;talk
+tavla2:P;talked to
+tavla3:D;subject* of talk
+tavla4:D;language* of talk
+
+terdi1:S;earth
+terdi2:D;race* with home planet
+
+tsani1:D;sky
+tsani2:D;place* with sky
+
+turni1:A;govern
+turni2:P;governed
+
+vecnu1:A;sell
+vecnu2:S;goods/commodity
+vecnu3:A;buy
+vecnu4:D;sale price
+
+vifne1:P;fresh
+
+vindu1:P;poisonous
+vindu2:D;poison victim
+
+viska1:A;see
+viska2:D;seen thing
+viska3:D;viewing condition
+
+xamgu1:P;good
+xamgu2:A;goodness beneficiary
+xamgu3:D;goodness standard
+
+xamsi1:D;sea*/ocean*
+xamsi1a:marine
+xamsi2:D;planet* with sea
+xamsi3:S;sea fluid
+
+xrula1:D;flower
+xrula2:D;flowering plant
+
+xunre1:P;red
+
+xusra1:A;assert
+xusra2:P;asserted
+
+zanru1:A;approver
+zanru2:D;approved plan
+
+zarci1:D;trading place
+zarci2:P;traded
+zarci3:A;trade
+
+zasti1:A;exist
+zasti2:A;observe* existence
+zasti3:S;metaphysics of existence
+
+zbasu1:A;make
+zbasu2:P;made
+zbasu3:S;material/part(s)
+
+zdani1:D;home
+zdani2:A;reside
+
+zmadu1:A;exceed
+zmadu2:P;exceeded
+zmadu3:D;property* of exceeding
+zmadu4:D;amount* of exceeding
+
+zmiku1:P;automatic
+zmiku2:D;automatic function
+zmiku3:D;condition* for automation
+
+zutse1:A;sit
+zutse2:D;sitting surface
+
+# Changes to common cmavo etc
+a:or
+be'o:
+be:with
+bo:
+cai:intense
+co:of-type
+cu:is/does
+di'a:resume
+e:and
+fa:
+fai:
+fe:
+fi'o:modal of..
+fi:
+fo'a:he/she/it
+fo'e:he/she/it
+fo'i:he/she/it
+fo'o:he/she/it
+fo'u:he/she/it
+fo:
+fu:
+ga:either(or)
+ge:both(and)
+gi'a:or
+gi'e:and
+gi:and/or
+goi:equivalently
+i:`.'
+ja:or
+je:and
+ka:property of
+ke'e:
+ke:
+kei:
+ko'a:he/she/it
+ko'e:he/she/it
+ko'i:he/she/it
+ko'o:he/she/it
+ko'u:he/she/it
+ku'o:
+ku:
+lai:between them those named
+le:the
+lei:between them the
+li'u:$CLOSEQUOTE
+lo:a, any
+loi:some
+lu:$OPENQUOTE
+mei:-some
+mi:I, me
+moi:-st/nd/th
+mu'e:point-event of
+na'e:not
+na:not
+ne:,associated with...,
+noi:,which..,
+nu:event of
+pe:associated with
+po:of
+poi:which
+roi:-times
+to'e:opposite of
+xu:yes/no question
+zi'e:and
+jai:
+li'i:experience of
+du'u:fact that
+me:amongst those that are
+
+cai:extreme
+sai:strong
+ru'e:weak
+cu'i:neutral
+# I'm not sure these are right, but the refgram doesn't cover
+# what CAI followed by NAI means.
+ru'enai:not weak
+sainai:not strong
+cainai:not extreme
+
+jai_v:being the
+jai_n:
+jai_a:
+jai:[modal]
+
+pu@TERM:before
+pu@NOUN:earlier
+pu@SELBRI:was/did (past)
+pu@LINK:earlier,
+pu@CONNECT:and earlier,
+ca@TERM:during
+ca@NOUN:current
+ca@SELBRI:is/does (present)
+ca@LINK:at the same time,
+ca@CONNECT:when
+ca@JAI:time of
+ba@TERM:after
+ba@NOUN:later
+ba@SELBRI:will be (future)
+ba@LINK:later,
+ba@CONNECT:and later,
+
+puzi@SELBRI:just before
+puza@SELBRI:somewhat before
+puzu@SELBRI:a long time before
+
+vi@TERM:near to
+vi@NOUN:nearby
+vi@SELBRI:nearby
+vi@LINK:nearby,
+vi@CONNECT:where
+vi@JAI:location of
+
+pu'o@TERM:prior to
+pu'o@NOUN:yet-to-be
+pu'o@SELBRI:yet-to-be
+pu'o@LINK:prior to that,
+
+# Afterthought connectives
+FFFF@AFTER:[IMPOSSIBLE!]
+FFFT@AFTER:[not that, and also not]
+FFTF@AFTER:[not that, however]
+FFTT@AFTER:[not that, whether or not]
+FTFF@AFTER:[but not]
+FTFT@AFTER:[or not, but certainly not]
+FTTF@AFTER:[one of LHS or RHS, but not both]
+FTTT@AFTER:[LHS and RHS not both true]
+TFFF@AFTER:and
+TFFT@AFTER:[if and only if]
+TFTF@AFTER:[or not, but certainly]
+TFTT@AFTER:[only if / implies]
+TTFF@AFTER:[whether or not]
+TTFT@AFTER:[if / implied by]
+TTTF@AFTER:and/or
+TTTT@AFTER:[IMPOSSIBLE!]
+
+# Forethought connectives
+FFFF@GE:[IMPOSSIBLE!]
+FFFF@GI:[IMPOSSIBLE!]
+FFFT@GE:[not]
+FFFT@GI:[and also not]
+FFTF@GE:[not]
+FFTF@GI:[however]
+FFTT@GE:[not]
+FFTT@GI:[whether or not]
+FTFF@GE:
+FTFF@GI:[but not]
+FTFT@GE:[whether or not]
+FTFT@GI:[certainly not]
+FTTF@GE:[precisely one of]
+FTTF@GI:[and]
+FTTT@GE:[not both]
+FTTT@GI:[and]
+TFFF@GE:both
+TFFF@GI:and
+TFFT@GE:
+TFFT@GI:[if and only if]
+TFTF@GE:[whether or not]
+TFTF@GI:[certainly]
+TFTT@GE:[if]
+TFTT@GI:[then]
+TTFF@GE:
+TTFF@GI:[whether or not]
+TTFT@GE:
+TTFT@GI:[implied by]
+TTTF@GE:either
+TTTF@GI:and/or
+TTTT@GE:[IMPOSSIBLE!]
+TTTT@GI:[IMPOSSIBLE!]
+
+
+ka'a:with go-er
