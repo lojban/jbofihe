@@ -1,0 +1,59 @@
+.TH "cmafihe" 1L "April 2000"
+.SH NAME
+cmafihe \- Lojban word glosser
+.SH SYNOPSIS
+.B cmafihe
+[ -l ]
+< file
+.SH DESCRIPTION
+.I cmafihe
+is a program that reads a piece of Lojban text.  It writes out the
+text, showing the rough English translation of each word.  It also
+shows the selma'o (category) to which each cmavo (grammar word)
+belongs.
+.SH OPTIONS
+.TP
+.TP
+.B -l
+Produce output for typesetting with LaTeX.  The Lojban, selma'o and
+English translation are shown on separate lines for each word (or
+closely related group of words).
+.PP
+The default is to write text to stdout.  The Lojban words are shown
+without brackets.  The selma'o information is in angle brackets.  The
+English translation is in square brackets.
+.SH SEE ALSO
+.PP
+.TP
+.B jbofihe
+A much more sophisticated program which includes grammar checking.
+.TP
+.B dictmake
+A program for compiling binary dictionaries for use by jbofihe
+.SH FILES
+.TP
+.B /usr/local/lib/jbofihe/dictionary.bin
+This file contains all the dictionary data compiled (using
+.I dictmake
+) into a binary format to facilitate lookup and search.
+.TP
+.B /usr/local/bin/cmafihe
+The executable.
+.SH ENVIRONMENT
+.TP
+.B JBOFIHE_DICTIONARY
+This should point to the name of the file containing the dictionary.
+The default is /usr/local/lib/jbofihe/dictionary.bin.
+\".SH CAVEATS
+.SH BUGS
+ju'oru'e so'imei (Surely there are many)
+.SH REFERENCES
+.TP
+.B http://www.lojban.org/
+Home page of the Lojban community
+.TP
+.B http://www.rrbcurnow.freeuk.com/lojban/
+My Lojban page.
+.SH AUTHOR
+Richard Curnow
+.B <rpc@myself.com>

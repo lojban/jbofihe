@@ -1,0 +1,88 @@
+.TH "jbofihe" 1L "April 2000"
+.SH NAME
+jbofihe \- Lojban parser / grammar checker / word glosser
+.SH SYNOPSIS
+.B jbofihe
+[ -k ] [ -g ] [ -t ] [-tf ] [ -l ] [ -b ] [ -x ] [ -h ] [ -m ] [ -w width ]
+< file
+.SH DESCRIPTION
+.I jbofihe
+is a program that reads a piece of Lojban text and checks it for
+grammatical correctness.  If it passes, the output will show the
+nesting of the major grammatical constructs by means of bracketing.
+Also, words will have their approximate English translations shown.
+Some of these translations are context-dependent.
+.SH OPTIONS
+.TP
+.B -k
+Display lists of tokens after parse and after pseudo-token insertion
+(mainly useful for debugging the lexer and parser).
+.TP
+.B -g
+Produce a rough English gloss (superseded)
+.TP
+.B -t
+Produce a syntax tree on stdout.  Nodes with only one child will be
+filtered out.
+.TP
+.B -tf
+Produce a full syntax tree on stdout, including nodes with only one
+child.
+.TP
+.B -l
+Produce output for typesetting with LaTeX.
+.TP
+.B -x
+Produce plain text output.
+.TP
+.B  -w width
+Set the width of the screen (in characters) for the -x option.
+.TP
+.B -h.
+TP
+.B -b
+Produce output in 'block' mode, where each block shows the Lojban, the
+English gloss and a term tag where applicable. The default is
+'running' mode, with term tags, Lojban and the English gloss all on
+the same line.  Only applicable to -l and -x (not to -h).
+.TP
+.B -m
+Show the amount of memory used by the processing.
+.SH SEE ALSO
+.PP
+.TP
+.B cmafihe
+A program which does English word glossing without the grammar
+parsing and checking stage.  This is useful to get words quickly
+looked up when studying someone else's text which contains many
+grammatical errors.
+.TP
+.B dictmake
+A program for compiling binary dictionaries for use by jbofihe
+.SH FILES
+.TP
+.B /usr/local/lib/jbofihe/dictionary.bin
+This file contains all the dictionary data compiled (using
+.I dictmake
+) into a binary format to facilitate lookup and search.
+.TP
+.B /usr/local/bin/jbofihe
+The executable.
+.SH ENVIRONMENT
+.TP
+.B JBOFIHE_DICTIONARY
+This should point to the name of the file containing the dictionary.
+The default is /usr/local/lib/jbofihe/dictionary.bin.
+\".SH CAVEATS
+.SH BUGS
+ju'oru'e so'imei (Surely there are many).
+.SH REFERENCES
+.TP
+.B http://www.lojban.org/
+Home page of the Lojban community
+.TP
+.B http://www.rrbcurnow.freeuk.com/lojban/
+My Lojban page.
+.SH AUTHOR
+Richard Curnow
+.B <rpc@myself.com>
