@@ -43,9 +43,11 @@ for $f (@files) {
 	} elsif (m,\/\* LICEN[CS]E \*\/,) {
         # For the case where the copyright strings are in the file itself.  This may be
         # the case with multiple contributors.
+        print OUT "/*\n";
 	    for (@copy) {
             print OUT " * ".$_;
 	    }
+        print OUT "*/\n";
 	} elsif (m,\# LICEN[CS]E,) {
         # For the case where the copyright strings are in the file itself.  This may be
         # the case with multiple contributors.
