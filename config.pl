@@ -80,6 +80,9 @@ unless (defined $word_list_dir) {
 $optdebug = $debug ? "-g" : "-O2";
 $mmap_flag = $mmap ? "-DHAVE_MMAP=1" : "";
 $defines = $mmap_flag;
+if ($debug) {
+    $defines .= " -DEXPOSE_SIGNALS";
+}
 
 open(IN, "<Makefile.in");
 open(OUT, ">Makefile");

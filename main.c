@@ -138,9 +138,11 @@ main (int argc, char **argv)
     }
   }
 
+#if !defined(EXPOSE_SIGNALS)
   signal(SIGABRT, handle_signal);
   signal(SIGBUS, handle_signal);
   signal(SIGSEGV, handle_signal);
+#endif
 
   lex2_initialise();
 
