@@ -10,7 +10,7 @@ CFLAGS= -g -Wall
 LIBDIR=-L/opt/free/lib
 INCDIR=-I/opt/free/include
 OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc.tab.o functions.o \
-        categ.o nonterm.o tree.o translate.o latex.o \
+        categ.o nonterm.o tree.o translate.o latex.o latexblk.o \
         properties.o conversion.o terms.o memory.o tenses.o \
 	output.o textout.o htmlout.o connect.o stag.o
 
@@ -107,6 +107,9 @@ dictupdate : dictionary.dbm
 dictionary.dbm :: extradict dictmake
 	./dictmake dictionary.dbm extradict
 
+dictionary.dbm :: places.dat dictmake
+	./dictmake dictionary.dbm places.dat
+
 depend:
 	gcc -MM $(INCDIR) $(SRCS2) > .depend
 
@@ -117,13 +120,14 @@ FILES = lex1.c lex2.c categ.c \
 	functions.c functions.h Makefile main.c cmavotab.c cmavotab.h \
 	nodes.h uncom.l tree.c translate.c latex.c properties.c \
 	conversion.c terms.c memory.c tenses.c output.c textout.c \
-	output.h htmlout.c connect.c \
+	output.h htmlout.c connect.c latex.h latexblk.c \
 	.depend TODO stag.y COPYRIGHT Makefile.in config.pl build_kit \
 	action.perl terminator.pl \
 	giscolon.pl cmacolon.pl lujvod.pl oblik.pl raf4l.pl rafobl.pl rafsid.pl \
-	places.pl extradict \
+        rafsig.pl raf4lg.pl \
+	places.pl extradict places.dat \
 	dictmake.c dictclean.c \
-	work_* home_* cardplayer summer_new
+	work_* home_* cardplayer summer_new assisi2
 
 kit:
 	tar czvf kit.tar.gz $(FILES)
