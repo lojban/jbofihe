@@ -322,6 +322,11 @@ cu'o1:D;event with prob. #%d
 cu'o2:S;event conditions
 cu'o2t:under conditions
 
+va'e:scale selbri
+va'e1:R;at position #%d on scale
+va'e2:S;scale
+va'e2t:on scale
+
 bau@JAI:language of
 
 bi'e:hi priority

@@ -1505,7 +1505,7 @@ CmavoCell cmavo_table[] = {
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1490 */
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1491 */
   { "va\'a" , VUhU   , CM_VAhA    , SSM_VUhU3   , "additive inverse"            }, /* 1492 */
-  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1493 */
+  { "va\'e" , MOI    , CM_MOI     , SSM_MOI     , "scale selbri"                }, /* 1493 */
   { "va\'i" , UI     , CM_VAhI    , SSM_UI3     , "in other words"              }, /* 1494 */
   { "va\'o" , BAI    , CM_VAhO    , SSM_BAI     , "under conditions"            }, /* 1495 */
   { "va\'u" , BAI    , CM_VAhU    , SSM_BAI     , "benefiting from"             }, /* 1496 */
