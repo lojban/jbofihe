@@ -4,6 +4,29 @@
 
 # Accept a list of tests as command arguments, run them and check the results.
 
+# COPYRIGHT
+
+#######################################################################
+#
+# Usage notes :
+#
+# Each command line arg should be the path to a file whose name ends in .in
+# The contents of each such file should be something like :
+#
+# require "testpak.pl";
+# &test(prog=>"jbofihe -x -b", stdin => "mi klama le zdani";
+#
+# Multiple &test lines can appear.
+#
+# The specified program will be run with the specified arguments and text on
+# its standard input.  The results (exit status + data written to stdout and
+# stder) will be gathered in a file with the .out suffix replacing .in.  If a
+# file with the .ref suffix exists, .out and .ref are compared to determine
+# whether the test has passed.  The first time a new test is run, the .out file
+# is manually checked and moved to the .ref file if acceptable.  This way,
+# regression failures can be detected.
+#######################################################################
+
 $| = 1; # Autoflush stdout
 
 $here = $0;

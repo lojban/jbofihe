@@ -4,6 +4,8 @@
 
 # Perl package for supporting regression tests.
 
+# COPYRIGHT
+
 local *LOG;
 my $inited = 0;
 
