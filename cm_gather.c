@@ -252,7 +252,7 @@ do_trans(void)
         if (t) {
           p->trans = new_string(t);
         } else {
-          t = translate_unknown(p->lojban, 1);
+          t = translate_unknown(p->lojban);
           if (t) {
             p->trans = new_string(t);
           } else {
