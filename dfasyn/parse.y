@@ -28,6 +28,8 @@ State *get_curstate(void) { return curstate; }
     char *s;
     int i;
     Stringlist *sl;
+    InlineBlockList *ibl;
+    InlineBlock *ib;
     Expr *e;
 }
 
@@ -36,6 +38,8 @@ State *get_curstate(void) { return curstate; }
 %type<s> STRING option
 %type<sl> option_seq transition_seq
 %type<e> expr
+%type<ibl> inline_block_seq
+%type<ib> inline_block
 
 %token RESULT SYMBOL SYMRESULT DEFRESULT
 %token EARLYRESULT EARLYSYMRESULT
@@ -48,6 +52,7 @@ State *get_curstate(void) { return curstate; }
 %left AND
 %left NOT
 %left LPAREN RPAREN
+%left LANGLE RANGLE
 
 %%
 
@@ -111,7 +116,22 @@ destination_seq : STRING                       { add_transitions(addtostate, cur
                 ;
 
 transition_seq : option_seq { $$ = $1; }
-               | transition_seq SEMICOLON option_seq { addtostate = add_transitions_to_internal(curblock, addtostate, $1); $$ = $3; }
+               | inline_block_seq 
+                 { 
+                   addtostate = add_inline_block_transitions(curblock, addtostate, $1);
+                   $$ = add_token(NULL, NULL); /* epsilon transition afterwards */
+                 }
+               | transition_seq SEMICOLON option_seq 
+                 {
+                   addtostate = add_transitions_to_internal(curblock, addtostate, $1);
+                   $$ = $3;
+                 }
+               | transition_seq SEMICOLON inline_block_seq
+                 {
+                   addtostate = add_transitions_to_internal(curblock, addtostate, $1);
+                   addtostate = add_inline_block_transitions(curblock, addtostate, $3);
+                   $$ = add_token(NULL, NULL); /* epsilon transition afterwards */
+                 }
                ;
 
 option_seq : option { $$ = add_token(NULL, $1); }
@@ -120,6 +140,18 @@ option_seq : option { $$ = add_token(NULL, $1); }
 option : STRING 
        | /* empty */ { $$ = NULL; }
        ;
+
+inline_block_seq : inline_block
+                   { $$ = add_inline_block(NULL, $1); }
+                 | inline_block_seq PIPE inline_block
+                   { $$ = add_inline_block($1, $3); }
+                 | inline_block_seq PIPE /* + epsilon transitinon */
+                   { $$ = add_inline_block($1, NULL); }
+                 ;
+
+inline_block : LANGLE STRING COLON STRING ARROW STRING RANGLE
+               { $$ = create_inline_block($2, $4, $6); }
+             ;
 
 result_decl : RESULT STRING               { define_result(exit_evaluator, $2, NULL, 0); }
             | RESULT    expr ARROW STRING { define_result(exit_evaluator, $4, $2, 0); }

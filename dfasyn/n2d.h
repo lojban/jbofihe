@@ -43,6 +43,17 @@ typedef struct Stringlist {
   struct Stringlist *next;
   char *string;
 } Stringlist;
+
+typedef struct InlineBlock {
+  char *type; /* Block type */
+  char *in;   /* Name of input node */
+  char *out;  /* Name of output node */
+} InlineBlock;
+
+typedef struct InlineBlockList {
+  struct InlineBlockList *next;
+  InlineBlock *ib;
+} InlineBlockList;
   
 typedef struct State {
   char *name;
@@ -83,6 +94,7 @@ typedef struct Block {
   Stateset state_hash[HASH_BUCKETS];
   
   int subcount; /* Number for generating substates */
+  int subblockcount; /* Number for generating inline subblocks */
 } Block;
 
 typedef struct {
@@ -146,6 +158,9 @@ void add_transitions(State *curstate, Stringlist *tokens, char *destination);
 State * add_transitions_to_internal(Block *curblock, State *addtostate, Stringlist *tokens);
 void add_exit_value(State *curstate, char *value);
 void set_state_attribute(State *curstate, char *name);
+InlineBlock *create_inline_block(char *type, char *in, char *out);
+InlineBlockList *add_inline_block(InlineBlockList *existing, InlineBlock *nib);
+State * add_inline_block_transitions(Block *curblock, State *addtostate, InlineBlockList *ibl);
 void instantiate_block(Block *curblock, char *block_name, char *instance_name);
 void fixup_state_refs(Block *b);
 

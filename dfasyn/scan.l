@@ -64,6 +64,8 @@ earlysymresult              { return EARLYSYMRESULT; }
 \;                          { return SEMICOLON; }
 \(                          { return LPAREN; }
 \)                          { return RPAREN; }
+\<                          { return LANGLE; }
+\>                          { return RANGLE; }
 \,                          { return COMMA; }
 \n                          { lineno++; }
 [ \t]+                      { /* ignore */ }
