@@ -176,7 +176,7 @@ write_close_bracket(BracketType type, int subscript)
       printf("]");
       break;
     case BR_BRACE:
-      printf("\\}");
+      printf("}");
       break;
     case BR_ANGLE:
       printf(">");
