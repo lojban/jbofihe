@@ -20,9 +20,9 @@ while(<>) {
 	} elsif ($gloss =~ / x1 /) {
 	    $high = 1;
 	}
-    }
-    print "#\n# ".$gloss."\n";
-    for ($i=1; $i<=$high; $i++) {
-	print $gis.$i.":DSAP;\n";
+	print "#\n# ".$gloss."\n";
+	for ($i=1; $i<=$high; $i++) {
+	    print "#".$gis.$i.":DSAP;\n";
+	}
     }
 }
