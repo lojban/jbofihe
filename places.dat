@@ -2191,31 +2191,34 @@ gusta3t:customer
 #guzme2:DSAP;
 #
 # x1 brakes/causes to slow motion/activity x2 with device/mechanism/principle x3                  
-#jabre1:DSAP;
-#jabre2:DSAP;
-#jabre3:DSAP;
+jabre1:I;slow
+jabre2:P;slowed
+jabre3:S;means for slowing
 #
 # x1 (object) adorns/decorates x2; x1 is an adornment/decoration of x2; x2 is fancy/decorated     
-#jadni1:DSAP;
-#jadni2:DSAP;
+jadni1:I;adorn
+jadni2:P;adorned
 #
 # x1 is a rocket [vehicle] propelled by jet expelling x2 carrying payload x3                      
-#jakne1:DSAP;
-#jakne2:DSAP;
-#jakne3:DSAP;
+jakne1:D;rocket
+jakne2:R;expelled by rocket jet
+jakne3:D;rocket payload
 #
 # x1 (action/event/state) is a result/outcome/conclusion of antecedent x2 (event/state/process)   
-#jalge1:DSAP;
-#jalge2:DSAP;
+jalge1:D;outcome
+jalge2:I;cause* outcome
 #
 # x1 is a quantity of/contains/is made of starch from source x2 of composition including x3       
-#jalna1:DSAP;
-#jalna2:DSAP;
-#jalna3:DSAP;
+jalna1:S;starch
+jalna2:D;starch source
+jalna2t:from source
+jalna3:S;starch composition
+jalna3t:with composition
 #
 # x1 is a cockroach/[orthopteran/termite] of order/species/breed x2                               
-#jalra1:DSAP;
-#jalra2:DSAP;
+jalra1:D;cockroach
+jalra2:S;cockroach species
+jalra2t:of species
 #
 # x1 is a/the foot [body-part] of x2; [metaphor: lowest portion] (adjective:) x1 is pedal         
 jamfu1:D;foot
@@ -2223,37 +2226,42 @@ jamfu1n:foot/feet
 jamfu2:D;body* having foot
 #
 # x1 (person/mass) wars against x2 over territory/matter x3; x1 is at war with x2                 
-#jamna1:DSAP;
-#jamna2:DSAP;
+jamna1:R;at war
+jamna2:R;at war
+jamna3:D;reason* for war
 #
 # x1 is a bell/chime/[tuning fork] [tuned percussion instrument] producing sound/note x2          
-#janbe1:DSAP;
-#janbe2:DSAP;
+janbe1:D;bell
+janbe2:D;chime
 #
 # x1 is a/the shoulder/hip/joint [body-part] attaching limb/extremity x2 to body x3               
-#janco1:DSAP;
-#janco2:DSAP;
-#janco3:DSAP;
+janco1:D;shoulder*/hip*
+janco2:D;limb* with end joint
+janco3:D;body* with joined limb
 #
 # x1 collides with/crashes/bumps/runs into x2                                                     
-#janli1:DSAP;
-#janli2:DSAP;
+janli1:I;collide
+janli2:R;collided with
 #
 # x1 is a diplomat/consul representing polity x2 in/at negotiation x3 for function/purpose x4     
-#jansu1:DSAP;
-#jansu2:DSAP;
-#jansu3:DSAP;
-#jansu4:DSAP;
+jansu1:D;diplomat
+jansu2:R;represented by diplomat
+jansu2t:representing polity
+jansu3:D;diplomatic negotiation
+jansu3t:at negotiation
+jansu4:D;purpose* of diplomat
+jansu4t:for purpose
 #
 # x1 is an account/bill/invoice for goods/services x2, billed to x3 by x4                         
-#janta1:DSAP;
-#janta2:DSAP;
-#janta3:DSAP;
-#janta4:DSAP;
+janta1:D;invoice
+janta2:S;invoiced goods
+janta3:A;receive* invoice
+janta4:A;send* invoice
 #
 # x1 is a suburban area of city/metropolis x2                                                     
-#jarbu1:DSAP;
-#jarbu2:DSAP;
+jarbu1:D;suburban area
+jarbu2:R;with suburban area
+jarbu2t:of city
 #
 # x1 (agent) shows/exhibits/displays/[reveals]/demonstrates x2 (property) to audience x3          
 jarco1:A;show*/display*
@@ -2261,28 +2269,34 @@ jarco2:D;shown property
 jarco3:S;audience of display
 #
 # x1 is narrow in dimension x2 [2nd most significant dimension] by standard x3                    
-#jarki1:DSAP;
-#jarki2:DSAP;
-#jarki3:DSAP;
+jarki1:P;narrow
+jarki2:D;narrow dimension
+jarki2t:in dimension
+jarki3:S;standard for narrowness
+jarki3t:by standard
 #
 # x1 is a passport issued to x2 (person) by authority x3 allowing x4 (activity)                   
-#jaspu1:DSAP;
-#jaspu2:DSAP;
-#jaspu3:DSAP;
-#jaspu4:DSAP;
+jaspu1:D;passport
+jaspu2:A;hold* passport
+jaspu3:A;issue* passport
+jaspu4:D;activity* allowed by passport
+jaspu4t:allowing
 #
 # x1 is captain/commander/leader/in-charge/boss of vehicle/domain x2                              
-#jatna1:DSAP;
-#jatna2:DSAP;
+jatna1:D;commander
+jatna2:D;domain* of command
+jatna2t:over domain
 #
 # x1 is a rule prescribing/mandating/requiring x2 (event/state) within system/community x3        
-#javni1:DSAP;
-#javni2:DSAP;
-#javni3:DSAP;
+javni1:D;rule
+javni2:R;mandated by rule
+javni2t:mandating
+javni3:D;system* having rule
+javni3t:in system
 #
 # x1 is a bomb/explosive device with explosive material/principle x2                              
-#jbama1:DSAP;
-#jbama2:DSAP;
+jbama1:D;bomb
+jbama2:S;means of explosion
 #
 # x1 is a berry (fruit/plant) of plant/species x2                                                 
 #jbari1:DSAP;
@@ -2670,9 +2684,11 @@ jvinu2:P;viewed
 jvinu3:D;viewpoint
 #
 # x1 is a cup/glass/tumbler/mug/vessel/[bowl] containing contents x2, and of material x3          
-#kabri1:DSAP;
-#kabri2:DSAP;
-#kabri3:DSAP;
+kabri1:D;cup
+kabri2:S;cup contents
+kabri2t:contents
+kabri3:S;cup material
+kabri3t:of material
 #
 # x1 is a camera/photographic equipment recording illumination type x2 images to medium x3        
 kacma1:D;camera
@@ -2685,9 +2701,10 @@ kacma3t:medium
 #kadno2:DSAP;
 #
 # x1 coughs/farts/burps up/out x2 [predominantly gaseous] from orifice x3                         
-#kafke1:DSAP;
-#kafke2:DSAP;
-#kafke3:DSAP;
+kafke1:A;cough
+kafke2:P;coughed
+kafke3:D;coughing orifices
+kafke3t:from orifice
 #
 # x1 is a company/corporation/firm/partnership chartered by authority x2 for purpose x3           
 kagni1:D;corporation
@@ -2703,9 +2720,11 @@ kajde3:D;danger* warned of
 kajde3t:danger
 #
 # x1 is a shelf/counter/bar in/on/attached to supporting object x2, for purpose x3                
-#kajna1:DSAP;
-#kajna2:DSAP;
-#kajna3:DSAP;
+kajna1:D;shelf
+kajna2:R;supported by shelf
+kajna2t:supported thing
+kajna3:D;purpose* of shelf
+kajna3t:for purpose
 #
 # x1 is able to do/be/capable of doing/being x2 (event/state) under conditions x3 (event/state)   
 kakne1:P;capable
@@ -2717,45 +2736,54 @@ kakne3:S;conditions for capability
 kakne3t:conditions
 #
 # x1 (agent) digs x2 [material] up/out of x3 [source/hole] with limbs/tool(s) x4                  
-#kakpa1:DSAP;
-#kakpa2:DSAP;
-#kakpa3:DSAP;
-#kakpa4:DSAP;
+kakpa1:A;dig
+kakpa2:P;dug
+kakpa3:R;dug from
+kakpa4:D;digging tool
+kakpa4t:using
 #
 # x1 is a/the feces/excrement/dung/shit of x2 (animal/person); (adjective:) x1 is fecal (matter)  
 #kalci1:DSAP;
 #kalci2:DSAP;
 #
 # x1 (portal/passage/entrance-way) is open/ajar/not shut permitting passage/access to x2 by x3    
-#kalri1:DSAP;
-#kalri2:DSAP;
-#kalri3:DSAP;
+kalri1:P;open
+kalri2:R;reachable through open portal
+kalri2t:reachable
+kalri3:R;given access by open portal
+kalri3t:given access
 #
 # x1 is chaotic/disordered in property/aspect x2 (ka)                                             
-#kalsa1:DSAP;
-#kalsa2:DSAP;
+kalsa1:P;chaotic
+kalsa2:S;chaotic property
+kalsa2t:in propery
 #
 # x1 hunts/stalks prey/quarry/game x2 for purpose x3                                              
-#kalte1:DSAP;
-#kalte2:DSAP;
-#kalte3:DSAP;
+kalte1:A;hunt
+kalte2:P;hunted
+kalte3:S;purpose of hunt
 #
 # x1 is a column/pillar of material x2                                                            
-#kamju1:DSAP;
-#kamju2:DSAP;
+kamju1:D;pillar
+kamju2:S;material of pillar
+kamju2t:of material
 #
 # x1 (mass) is a committee with task/purpose x2 of body x3                                        
-#kamni1:DSAP;
-#kamni2:DSAP;
-#kamni3:DSAP;
+kamni1:D;committee
+kamni2:D;committee purpose
+kamni2t:for purpose
+kamni3:D;body* with committee
+kamni3t:of body
 #
 # x1 (property - ka) is common/general/universal among members of set x2 (complete set)           
-#kampu1:DSAP;
-#kampu2:DSAP;
+kampu1:P;common/general
+kampu2:S;set with commonality
+kampu2t:amongst
 #
 # x1 is a goat/angora/[billy-goat/kid] of species/breed x2                                        
-#kanba1:DSAP;
-#kanba2:DSAP;
+kanba1:D;goat
+kanba2:S;goat species
+kanba2t:of species
 #
 # x1 (agent) counts the number in set x2 to be x3 [number/count] counting [off] by units x4       
 #kancu1:DSAP;
@@ -2764,15 +2792,20 @@ kakne3t:conditions
 #kancu4:DSAP;
 #
 # x1 is dim/dull/pale/non-intense in property x2 (ka) as received/measured by observer x3         
-#kandi1:DSAP;
-#kandi2:DSAP;
-#kandi3:DSAP;
+kandi1:P;non-intense
+kandi2:S;non-intense property
+kandi2t:in property
+kandi3:A;measure* non-intensity
+kandi3t:to observer
 #
 # x1 calculates/reckons/computes x2 [value (ni)/state] from data x3 by process x4                 
-#kanji1:DSAP;
-#kanji2:DSAP;
-#kanji3:DSAP;
-#kanji4:DSAP;
+kanji1:A;calculate
+kanji2:D;calculated value
+kanji2t:value
+kanji3:S;data for calculation
+kanji3t:from data
+kanji4:D;calculation process
+kanji4t:using process
 #
 # x1 is a/the eye [body-part] of x2; [metaphor: sensory apparatus]; (adjective:) x1 is ocular     
 kanla1:D;eye
@@ -2788,8 +2821,9 @@ kansa2:P;accompanied
 kansa3:D;circumstance* of accompaniment
 #
 # x1 is a quantum/ray/elementary particle/smallest measurable increment of property/activity x2   
-#kantu1:DSAP;
-#kantu2:DSAP;
+kantu1:D;quantum
+kantu1n:quantum/-a
+kantu2:P;quantised
 #
 # x1 is a conjunction, stating that x2 (du'u) and x3 (du'u) are both true                         
 #kanxe1:DSAP;
@@ -2797,11 +2831,12 @@ kansa3:D;circumstance* of accompaniment
 #kanxe3:DSAP;
 #
 # x1 [observer] compares x2 with x3 in property x4 (ka), determining comparison x5 (state)        
-#karbi1:DSAP;
-#karbi2:DSAP;
-#karbi3:DSAP;
-#karbi4:DSAP;
-#karbi5:DSAP;
+karbi1:A;compare
+karbi2:P;compared
+karbi3:P;compared
+karbi4:D;compared property
+karbi4t:in property
+karbi5:D;comparison
 #
 # x1 is a car/automobile/truck/van [a wheeled motor vehicle] for carrying x2, propelled by x3     
 karce1:D;car
@@ -2809,30 +2844,40 @@ karce2:D;car passenger
 karce3:D;car engine
 #
 # x1 is a card [small nearly-2-dimensional shape/form] of material x2, shape x3                   
-#karda1:DSAP;
-#karda2:DSAP;
-#karda3:DSAP;
+karda1:D;card
+karda2:S;card material
+karda2t:of material
+karda3:D;card shape
+karda3t:of shape
 #
 # x1 (object/commodity/property/event) is costly/expensive/dear to x2 by standard x3              
-#kargu1:DSAP;
-#kargu2:DSAP;
-#kargu3:DSAP;
+kargu1:P;expensive
+kargu2:A;experience* expensive
+kargu2t:expensive for
+kargu3:S;standard for cost
+kargu3t:by standard
 #
 # x1 is a collar/ring/belt/band around/surrounding x2 made of material x3                         
-#karli1:DSAP;
-#karli2:DSAP;
-#karli3:DSAP;
+karli1:D;collar
+karli2:R;surrounded by collar
+karli2t:thing surrounded
+karli3:S;collar material
+karli3t:of material
 #
 # x1 is a journal/periodical/magazine/[newspaper] with content x2 published by x3 for audience x4 
-#karni1:DSAP;
-#karni2:DSAP;
-#karni3:DSAP;
-#karni4:DSAP;
+karni1:D;journal
+karni2:S;journal contents
+karni2t:with contents
+karni3:D;journal publisher
+karni3t:with publisher
+karni4:D;journal audience
+karni4t:with audience
 #
 # x1 (tool/blade/force) cuts [through]/splits/divides x2 (object) into pieces x3                  
-#katna1:DSAP;
-#katna2:DSAP;
-#katna3:DSAP;
+katna1:A;cut
+katna2:P;cut
+katna3:D;piece* resulting from cut
+katna3t:into pieces
 #
 # x1 captures/catches/apprehends/seizes/nabs x2 with trap/restraint x3                            
 kavbu1:A;capture
@@ -2840,13 +2885,14 @@ kavbu2:P;captured
 kavbu3:D;trap* used for capture
 #
 # x1 (person) pities/feels sorry for x2 (person) about x3 (abstraction)                           
-#kecti1:DSAP;
-#kecti2:DSAP;
-#kecti3:DSAP;
+kecti1:A;feel* sorrow
+kecti2:A;receive* pity
+kecti3:D;reason* for sorrow
+kecti3t:for reason
 #
 # x1 [agent] plays with plaything/toy x2                                                          
-#kelci1:DSAP;
-#kelci2:DSAP;
+kelci1:A;play
+kelci2:D;toy
 #
 # x1 is x2 degree(s) Kelvin [metric unit] in temperature (default is 1) by standard x3            
 #kelvo1:DSAP;
@@ -2854,12 +2900,13 @@ kavbu3:D;trap* used for capture
 #kelvo3:DSAP;
 #
 # x1 is a cancer [malignant disease] in x2                                                        
-#kenra1:DSAP;
-#kenra2:DSAP;
+kenra1:D;cancer
+kenra2:P;cancerous
 #
 # x1 is outer space near/associated with celestial body/region x2                                 
-#kensa1:DSAP;
-#kensa2:DSAP;
+kensa1:S;outer space
+kensa2:D;location* in outer space
+kensa2t:at location
 #
 # x1 is a/the hair/fur [body-part] of x2 at body location x3                                      
 kerfa1:S;hair
@@ -2868,9 +2915,9 @@ kerfa3:D;location* of hair
 kerfa3t:location
 #
 # x1 is a/the ear [body-part] of x2; [metaphor: sensory apparatus, information gathering]         
-#kerlo1:DSAP;
-#kerlo2:DSAP;
-#kerlo3:DSAP;
+kerlo1:D;ear
+kerlo2:D;body* with ear
+kerlo2t:on body
 #
 # x1 reflects South American culture/nationality/geography in aspect x2                           
 #ketco1:DSAP;
@@ -2881,14 +2928,14 @@ kevna1:D;cavity
 kevna2:P;with cavity
 #
 # x1 cushions x2 with material x3; x1 is a cushion/pillow/pad [for x2] of padding material x3     
-#kicne1:DSAP;
-#kicne2:DSAP;
-#kicne3:DSAP;
+kicne1:A;cushion
+kicne1n:cushion
+kicne2:P;cushioned
+kicne3:S;cushion material
+kicne3t:of material
 #
 # x1 is a quantity of/contains/is made of oxygen (O); [metaphor: supporting life/combustion]      
-#kijno1:DSAP;
-#kijno2:DSAP;
-#kijno3:DSAP;
+kijno1:D;oxygen
 #
 # x1 is a thousand [1000; 1x10**3] of x2 in dimension/aspect x3 (default is units)                
 #kilto1:DSAP;
@@ -2896,22 +2943,26 @@ kevna2:P;with cavity
 #kilto3:DSAP;
 #
 # x1 is sharp/keen at locus x2                                                                    
-#kinli1:DSAP;
-#kinli2:DSAP;
+kinli1:P;sharp
+kinli2:D;location* of sharpness
+kinli2t:at location
 #
 # x1 reflects Pakistani/Pashto culture/nationality/language in aspect x2                          
 #kisto1:DSAP;
 #kisto2:DSAP;
 #
 # x1 is a street/avenue/lane/drive/cul-de-sac/way/alley/[road] at x2 accessing x3                 
-#klaji1:DSAP;
-#klaji2:DSAP;
-#klaji3:DSAP;
+klaji1:D;street
+klaji2:D;street location
+klaji2t:at location
+klaji3:R;accessed by street
+klaji3t:accessing
 #
 # x1 weeps/cries tears x2 about/for reason x3 (event/state)                                       
-#klaku1:DSAP;
-#klaku2:DSAP;
-#klaku3:DSAP;
+klaku1:A;weep
+klaku2:D;tear
+klaku3:D;reason* for weeping
+klaku3t:for reason
 #
 # x1 comes/goes to destination x2 from origin x3 via route x4 using means/vehicle x5              
 klama1:A;go
@@ -2921,9 +2972,10 @@ klama4:D;route
 klama5:D;vehicle
 #
 # x1 is a quantity quantified/measured/enumerated by x2 (quantifier) on scale x3 (si'o)           
-#klani1:DSAP;
-#klani2:DSAP;
-#klani3:DSAP;
+klani1:P;quantified
+klani2:A;quantify
+klani3:D;measurement scale
+klani3t:on scale
 #
 # x1 (mass/si'o) is a class/category/subgroup/subset within x2 with defining property x3 (ka)     
 #klesi1:DSAP;
@@ -2936,25 +2988,32 @@ klina2:D;unhindered transmission
 klina2t:transmission
 #
 # x1 is a quantity of/contains/is made of halogen of type x2 [chlorine, fluorine, iodine, etc.]   
-#kliru1:DSAP;
-#kliru2:DSAP;
+kliru1:D;halogen
+kliru2:D;halogen type
+kliru2t:of type
 #
 # x1 is a quantity of/contains/is made of clay [moist, clammy dirt] of composition including x2   
-#kliti1:DSAP;
-#kliti2:DSAP;
+kliti1:S;clay
+kliti2:S;clay composition
+kliti2t:of composition
 #
 # x1 is a screw [fastener] for purpose x2, threads [pitch, material] x3, frame [size, material] x4
-#klupe1:DSAP;
-#klupe2:DSAP;
+klupe1:D;screw
+klupe2:D;screw purpose
+klupe2t:for purpose
+klupe3:D;screw thread
+klupe4:D;screw size*/material*
 #
 # x1 (obj.) is loose/bloused/not tight on x2 (obj.) at locus x3                                   
-#kluza1:DSAP;
-#kluza2:DSAP;
-#kluza3:DSAP;
+kluza1:P;loose
+kluza2:R;having loose thing
+kluza3:D;location* of looseness
+kluza3t:at location
 #
 # x1 is a quantity of cabbage/lettuce/leafy vegetable of species/strain x2                        
-#kobli1:DSAP;
-#kobli2:DSAP;
+kobli1:D;cabbage*/lettuce*
+kobli2:S;cabbage/lettuce species
+kobli2t:of species
 #
 # x1 is a corner/point/at-least-3-dimensional [solid] angle [shape/form] in/on x2, of material x3 
 kojna1:D;corner
@@ -2963,33 +3022,41 @@ kojna3:D;corner material
 kojna3t:material
 #
 # x1 is a quantity of/contains/is made of coal/peat/anthracite/bituminous from source x2          
-#kolme1:DSAP;
-#kolme2:DSAP;
+kolme1:S;coal
+kolme2:D;coal source
+kolme2t:from source
 #
 # x1 is a comb [many-needled shape] of material x2 with tines/needles x3                          
-#komcu1:DSAP;
-#komcu2:DSAP;
-#komcu3:DSAP;
+komcu1:D;comb
+komcu2:S;comb material
+komcu2t:of material
+komcu3:D;comb needle
 #
 # x1 is a cone [shape/form] of material x2 with vertex x3                                         
-#konju1:DSAP;
-#konju2:DSAP;
-#konju3:DSAP;
+konju1:D;cone
+konju2:S;cone material
+konju2t:of material
+konju3:D;cone vertex
+konju3n:cone vertex/ices
 #
 # x1 is an edge/margin/border/curb/boundary of x2 next-to/bordering-on x3                         
-#korbi1:DSAP;
-#korbi2:DSAP;
-#korbi3:DSAP;
+korbi1:D;edge
+korbi2:R;having edge
+korbi3:R;bordered by edge
+korbi3t:bordering on
 #
 # (adjective:) x1 is bent/crooked/not straight or direct/[twisted]/folded                         
-#korcu1:DSAP;
+korcu1:P;bent
 #
 # x1 is a quantity of/contains/is made of cork/bark from tree/species x2; [material]              
-#korka1:DSAP;
+korka1:S;cork
+korka2:S;cork species
+korka2t:of species
 #
 # x1 is a coat/jacket/sweater/cloak/[cape/shawl/pullover] [extra outer garment] of material x2    
-#kosta1:DSAP;
-#kosta2:DSAP;
+kosta1:D;outer garment
+kosta2:S;outer garment material
+kosta2t:of material
 #
 # x1 is x2 local area unit(s) [non-metric] (default 1) by standard x3, x4 subunits                
 #kramu1:DSAP;
@@ -3002,9 +3069,10 @@ krasi1:D;origin
 krasi2:D;object*/process* with origin
 #
 # x1 represents/is an agent/proxy/stands-in for [absent] x2 in matter(s)/function(s) x3           
-#krati1:DSAP;
-#krati2:DSAP;
-#krati3:DSAP;
+krati1:A;represent
+krati2:P;represented
+krati3:D;function* of proxy
+krati3t:in function
 #
 # x1 (event) is the x3'rd recurrence/repetition of x2 (abstract); x2 happens again in [form] x1   
 krefu1:D;recurrence
@@ -3018,26 +3086,28 @@ krici2:D;belief
 krici3:D;subject* of belief
 #
 # x1 is a quantity of/contains/is made of crystal of composition x2 in form/arrangement x3        
-#krili1:DSAP;
-#krili2:DSAP;
-#krili3:DSAP;
+krili1:D;crystal
+krili2:S;crystal composition
+krili3:S;crystal arrangement
+krili3t:in arrangement
 #
 # x1 (event/state) is a reason/justification/explanation for/causing/permitting x2 (event/state)  
-#krinu1:DSAP;
-#krinu2:DSAP;
+krinu1:D;reason
+krinu2:P;justified
 #
 # x1 cries out/yells/howls sound x2; x1 is a crier                                                
 krixa1:A;yell
 krixa2:D;yelled sound
 #
 # x1 intersects/crosses/traverses x2 at locus x3                                                  
-#kruca1:DSAP;
-#kruca2:DSAP;
-#kruca3:DSAP;
+kruca1:A;intersect
+kruca2:P;intersected
+kruca3:D;intersection
 #
 # x1 is made of/contains/is a quantity of cream/emulsion/puree [consistency] of composition x2    
-#kruji1:DSAP;
-#kruji2:DSAP;
+kruji1:S;cream
+kruji2:S;cream composition
+kruji2t:of composition
 #
 # x1 is a curve/turn/bend in x2, at locus x3, and defined by set of points/properties x4          
 kruvi1:D;curve
@@ -3049,64 +3119,74 @@ kruvi4:D;property* defining curve
 kruvi4t:defined by
 #
 # x1 is a cube/regular polyhedron/polygon of dimensions x2 (def. 3), surfaces/sides x3 (def. 6)   
-#kubli1:DSAP;
-#kubli2:DSAP;
-#kubli3:DSAP;
+kubli1:D;cube
+kubli2:D;cube dimension
+kubli2t:of dimension
+kubli3:D;cube side
+kubli3t:with sides
 #
 # x1 is curious/wonders about/is interested in/[inquisitive about] x2 (object/abstract)           
-#kucli1:DSAP;
-#kucli2:DSAP;
+kucli1:P;curious
+kucli2:D;subject* of curiosity
+kucli2t:about
 #
 # x1 feels comfort/is comfortable with conditions/environmental property(ies) x2                  
-#kufra1:DSAP;
-#kufra2:DSAP;
+kufra1:P;comfortable
+kufra2:A;inspire* comfort
+kufra2t:about
 #
 # x1 is delicious/tasty/delightful to observer/sense x2 [person, or sensory activity]             
-#kukte1:DSAP;
-#kukte2:DSAP;
+kukte1:P;tasty
+kukte2:A;observe* taste
+kukte2t:observer
 #
 # x1 [mass of ideas, customs, skills, arts] is culture of nation/ethos x2 (mass); x1 is ethnic    
-#kulnu1:DSAP;
-#kulnu2:DSAP;
+kulnu1:D;culture
+kulnu2:R;having culture
 #
 # x1 is a room of/in structure x2 surrounded by partitions/walls/ceiling/floor x3 (mass/jo'u)     
-#kumfa1:DSAP;
-#kumfa2:DSAP;
-#kumfa3:DSAP;
+kumfa1:D;room
+kumfa2:R;having rooms
+kumfa3:D;room partition
 #
 # x1 is a camel/llama/alpaca/vicuna/dromedary of species/breed x2                                 
-#kumte1:DSAP;
-#kumte2:DSAP;
+kumte1:D;camel
+kumte2:S;camel species
+kumte2t:of species
 #
 # x1 is/contains/is made from a mineral/ore of type/metal x2 mined from location/lode/mine x3     
-#kunra1:DSAP;
-#kunra2:DSAP;
-#kunra3:DSAP;
+kunra1:D;mineral*/ore*
+kunra2:D;ore type
+kunra3:D;mineral mine
 #
 # x1 [container] is empty/vacant of x2 [material]; x1 is hollow                                   
-#kunti1:DSAP;
-#kunti2:DSAP;
+kunti1:P;empty
+kunti2:R;lacking from container
 #
 # x1 is a right-angled shape/form defined by set of vertices x2, dimensions x3 (default 2)        
-#kurfa1:DSAP;
-#kurfa2:DSAP;
-#kurfa3:DSAP;
+kurfa1:P;right-angled
+kurfa2:D;vertex* of right-angled thing
+kurfa2t:with vertices
+kurfa3:D;dimension* of right-angled thing
+kurfa3t:with dimensions
 #
 # x1 takes-care-of/looks after/attends to/provides for/is caretaker for x2 (object/event/person)  
-#kurji1:DSAP;
-#kurji2:DSAP;
+kurji1:D;caretaker
+kurji2:R;looked after
 #
 # x1 is bitter/acrid/sharply disagreeable to observer/sense x2                                    
-#kurki1:DSAP;
-#kurki2:DSAP;
+kurki1:P;bitter
+kurki2:A;observe* bitterness
+kurki2t:to observer
 #
 # x1 ranges/extends/spans/persists/reaches across/over interval/gap/area/scope/extent/range x2    
-#kuspe1:DSAP;
-#kuspe2:DSAP;
+kuspe1:I;extend* over
+kuspe2:D;extent
 #
 # x1 (person) is cruel/mean/unkind to victim x2                                                   
-#kusru1:DSAP;
-#kusru2:DSAP;
+kusru1:P;cruel
+kusru2:D;victim* of cruelty
+kusru2t:to victim
 #
 # x1 is a wolf/lupine of species/breed x2                                                         
 #labno1:DSAP;
