@@ -106,7 +106,7 @@ BLOCK space
         VA                                                                                          -> out
 ENDBLOCK
 
-BLOCK ntsst
+BLOCK tsst
     STATE in
         NAhE| ; <time:in->out>  ; <space:in->out>| -> out
         NAhE| ; <space:in->out> ; <time:in->out> | -> out
@@ -114,11 +114,11 @@ ENDBLOCK
 
 BLOCK simple_tense_modal
     STATE in
-        NAhE| ; SE| ; BAI ; NAI| ; KI| -> out
-        <ntsst:in->out>| ; CAhA ; KI|  -> out
-        <ntsst:in->out>         ; KI|  -> out
-        KI                             -> out
-        CUhE                           -> out
+        NAhE| ; SE| ; BAI ; NAI| ; KI|        -> out
+        NAhE| ; <tsst:in->out>| ; CAhA ; KI|  -> out
+        NAhE| ; <tsst:in->out>         ; KI|  -> out
+        KI                                    -> out
+        CUhE                                  -> out
 ENDBLOCK
 
 BLOCK main
