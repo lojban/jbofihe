@@ -7,8 +7,9 @@
 
 CC=gcc
 #CFLAGS=-g
-CFLAGS=-O2 -pg
-OBJ = parse.o scan.o n2d.o compnfa.o expr.o
+#CFLAGS=-O2 -pg
+CFLAGS=-O2
+OBJ = parse.o scan.o n2d.o compnfa.o expr.o tabcompr.o
 
 all : n2d
 

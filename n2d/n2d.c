@@ -709,16 +709,7 @@ build_transmap(Block *b)
 
 /* ================================================================= */
 
-typedef struct {
-  unsigned long *nfas;
-  unsigned long signature; /* All the longwords in the nfas array xor'ed together */
-  int index; /* Entry's own index in the array */
-  int *map; /* index by token code */
-  Stringlist *nfa_sl; /* NFA exit values */
-  char *result;
-} DFAS;
-
-static DFAS **dfas;
+static DFANode **dfas;
 static int ndfa=0;
 static int maxdfa=0;
 
@@ -731,7 +722,7 @@ static int had_ambiguous_result = 0;
 
 struct DFAList {
   struct DFAList *next;
-  DFAS *dfa;
+  DFANode *dfa;
 };
 
 #define DFA_HASHSIZE 256
@@ -743,7 +734,7 @@ static void
 grow_dfa(void)
 { 
   maxdfa += 32;
-  dfas = resize_array(DFAS*, dfas, maxdfa);
+  dfas = resize_array(DFANode*, dfas, maxdfa);
 }
 
 /* ================================================================= */
@@ -778,7 +769,7 @@ find_dfa(unsigned long *nfas, int N)
   folded_signature = fold_signature(signature);
   
   for(dfal=dfa_hashtable[folded_signature]; dfal; dfal = dfal->next) {
-    DFAS *dfa = dfal->dfa;
+    DFANode *dfa = dfal->dfa;
     int matched;
 
     if (signature != dfa->signature) continue;
@@ -819,7 +810,7 @@ add_dfa(Block *b, unsigned long *nfas, int N, int Nt)
     grow_dfa();
   }
 
-  dfas[ndfa] = new(DFAS);
+  dfas[ndfa] = new(DFANode);
   dfas[ndfa]->nfas = new_array(unsigned long, round_up(N));
   dfas[ndfa]->map = new_array(int, Nt);
   dfas[ndfa]->index = ndfa;
@@ -1020,6 +1011,10 @@ print_dfa(Block *b)
         fprintf(stderr, "    %s -> %d\n", toktable[t], dest);
       }
     }
+    if (dfas[i]->defstate >= 0) {
+      fprintf(stderr, "  Use state %d as basis (%d fixups)\n",
+              dfas[i]->defstate, dfas[i]->best_diff);
+    }
     if (dfas[i]->result) {
       fprintf(stderr, "  Exit value : %s\n", dfas[i]->result);
     }
@@ -1102,6 +1097,19 @@ print_uncompressed_tables(Block *b)
 }
 
 /* ================================================================= */
+
+static int
+check_include_char(int this_state, int token)
+{
+  if (dfas[this_state]->defstate >= 0) {
+    return (dfas[this_state]->map[token] !=
+            dfas[dfas[this_state]->defstate]->map[token]);
+  } else {
+    return (dfas[this_state]->map[token] >= 0);
+  }
+}
+
+/* ================================================================= */
 /* Print state/transition table in compressed form.  This is more
    economical on storage, but requires a bisection search to find
    the next state for a given current state & token */
@@ -1124,7 +1132,7 @@ print_compressed_tables(Block *b)
   }
   for (i=0; i<ndfa; i++) {
     for (j=0; j<Nt; j++) {
-      if (dfas[i]->map[j] >= 0) {
+      if (check_include_char(i, j)) {
         if (n>0) putchar (',');
         if (n%8 == 0) {
           printf("\n  ");
@@ -1140,14 +1148,14 @@ print_compressed_tables(Block *b)
 
   n = 0;
   if (prefix) {
-    printf("static unsigned short %s_nextstate[] = {", prefix);
+    printf("static short %s_nextstate[] = {", prefix);
   } else {
-    printf("static unsigned short nextstate[] = {");
+    printf("static short nextstate[] = {");
   }
   for (i=0; i<ndfa; i++) {
     basetab[i] = n;
     for (j=0; j<Nt; j++) {
-      if (dfas[i]->map[j] >= 0) {
+      if (check_include_char(i, j)) {
         if (n>0) putchar (',');
         if (n%8 == 0) {
           printf("\n  ");
@@ -1180,6 +1188,24 @@ print_compressed_tables(Block *b)
   }
   printf("\n};\n\n");
   
+  n = 0;
+  if (prefix) {
+    printf("static short %s_defstate[] = {", prefix);
+  } else {
+    printf("static short defstate[] = {");
+  }
+  for (i=0; i<ndfa; i++) {
+    if (n>0) putchar (',');
+    if (n%8 == 0) {
+      printf("\n  ");
+    } else {
+      putchar(' ');
+    }
+    n++;
+    printf("%5d", dfas[i]->defstate);
+  }
+  printf("\n};\n\n");
+
   
   free(basetab);
 }
@@ -1213,6 +1239,7 @@ int main (int argc, char **argv)
   compress_nfa(main_block);
   build_transmap(main_block);
   build_dfa(main_block, start_state->index);
+  compress_transition_table(dfas, ndfa, ntokens);
   print_dfa(main_block);
 
   if (had_ambiguous_result) {

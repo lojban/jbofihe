@@ -55,6 +55,24 @@ typedef struct Block {
   int subcount; /* Number for generating substates */
 } Block;
 
+typedef struct {
+  unsigned long *nfas;
+  unsigned long signature; /* All the longwords in the nfas array xor'ed together */
+  int index; /* Entry's own index in the array */
+  int *map; /* index by token code */
+  Stringlist *nfa_sl; /* NFA exit values */
+  char *result;
+
+  /* Fields calculated in tabcompr.c */
+  
+  unsigned long transition_sig;
+
+  int defstate;
+  int best_diff;
+  
+} DFANode;
+
+
 /* Constants for 'create' args */  
 #define USE_OLD_MUST_EXIST 0
 #define CREATE_MUST_NOT_EXIST 1
@@ -94,5 +112,6 @@ void clear_symbol_values(void);
 void set_symbol_value(char *sym_name);
 int evaluate_result(char **);
 
+void compress_transition_table(DFANode **dfas, int ndfas, int ntokens);
 #endif /* N2D_H */
 
