@@ -463,6 +463,12 @@ parse_file(FILE *f)
   } while (1);
 
 done:
+
+  if (zoi_data) {
+    fprintf(stderr, "Unclosed %s construction at end of file\n", zoi_form);
+    had_bad_tokens = 1;
+  }
+  
   return;
 
 }
