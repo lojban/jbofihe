@@ -119,10 +119,8 @@ read_database(FILE *in)
     char key[1024], val[1024];
 
     for (i=0; i<n_entries; i++) {
-      fread(key, sizeof(char), entries[i].klen, in);
-      fread(val, sizeof(char), entries[i].vlen, in);
-      key[entries[i].klen] = 0;
-      val[entries[i].vlen] = 0;
+      fread(key, sizeof(char), entries[i].klen + 1, in);
+      fread(val, sizeof(char), entries[i].vlen + 1, in);
       dict[i].key = new_string(key);
       dict[i].val = new_string(val);
     }
