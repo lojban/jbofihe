@@ -59,11 +59,12 @@ sub test {
         &openlog();
     }
 
-    my ($prog, $stdin, $inputs, $outputs, $notes, $expect, $pid);
+    my ($program, $stdin, $inputs, $outputs, $notes, $expect, $pid);
 
-    $prog = $_{prog};
-    $prog = $_{program} unless (defined $prog);
-    die "No program defined" unless (defined $prog);
+    $program = $_{prog};
+    $program = $_{program} unless (defined $program);
+    $program = $prog       unless (defined $program);
+    die "No program defined" unless (defined $program);
 
     $stdin = $_{stdin};
     $stdin = $_{text} unless (defined $stdin);
@@ -86,7 +87,7 @@ sub test {
     my $sep = ('-' x 10)."\n";
 
     print LOG $testsep;
-    print LOG "PROGRAM : $prog\n";
+    print LOG "PROGRAM : $program\n";
     print LOG $bigsep;
     if (defined $stdin) {
         print LOG "STDIN :\n";
@@ -121,8 +122,8 @@ sub test {
     open (STDOUT, ">__STDOUT");
     open (STDERR, ">__STDERR");
 
-    $prog =~ s/\'/\\'/go;
-    my $cmd = "/bin/sh -c \"$prog\"";
+    $program =~ s/\'/\\'/go;
+    my $cmd = "/bin/sh -c \"$program\"";
     system ($cmd);
 
     my $status = $? >> 8;
@@ -131,7 +132,7 @@ sub test {
 
     print LOG "Exit status : $status\n";
     if (defined $expect && $status != $expect) {
-        print LOG "  FAILURE ---> EXPECTED STATUS WAS $expect\n";
+        print LOG "  ###FAILURE### ---> EXPECTED STATUS WAS $expect\n";
     }
     print LOG "Core dumped : ", ($dumped_core ? "YES" : "NO"), "\n";
     print LOG "Signal      : $signal\n";

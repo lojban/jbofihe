@@ -39,7 +39,13 @@ while ($test = shift @ARGV) {
             print "COULD NOT DIFF RESULTS\n";
         }
     } else {
-        print "NO REFERENCE RESULT\n";
+        system ("egrep '###FAILURE###' $out > /dev/null");
+        $status = $? >> 8;
+        if ($status == 0) {
+            print "NO REFERENCE, SOME CASES FAILED\n";
+        } else {
+            print "NO REFERENCE RESULT\n";
+        }
     }
 
 }
