@@ -2,10 +2,10 @@
 $Header$
 ################################################################################
 
-This file needs a lot of detail adding, it is a skeleton set of
-instructions for now.
 
-The author can be reached at richard@rrbcurnow.freeserve.co.uk
+First : The author can be reached at  :         rpc@myself.com
+        My page for lojban-related things is :
+           http://www.rrbcurnow.freeuk.com/lojban
 
 COMPILING
 
@@ -16,7 +16,6 @@ building the software :
 - flex (lex probably OK, ditto)
 - an ANSI C compiler (gcc recommended)
 - perl
-- gdbm
 - make (GNU make recommended)
 
 I would guess a Unix (or maybe Win32) system is probably necessary, as
@@ -29,32 +28,45 @@ The following tools are recommended but not essential
 - a web browser (to display the intermediate quality output)
 
 Download the wordlists (gismu, cmavo, lujvo-list etc) separately from
-ftp://xiron.pc.helsinki.fi/pub/lojban/wordlists.  It's best if these
-are in the build directory or a 'sibling' of it, although config.pl
-will find them anywhere in your directory tree otherwise.
+ftp://xiron.pc.helsinki.fi/pub/lojban/wordlists.
 
-Run 'perl config.pl' then 'make dictionary' then 'make'.
+The file sizes in bytes of the versions I'm using are as follows
 
-Manually copy jbofihe, dictmake, dictclean and dictionary.dbm to their
-final location.
+ 808959 NORALUJV.txt
+ 143391 cmavo
+ 365437 gismu
+ 292281 lujvo-list
+  75751 oblique.key
+  49440 rafsi
+
+and their md5 checksums are
+
+d750de398740a2ba701422a466ddbeab  NORALUJV.txt
+4f3bf721f48239b85ab634f159f5557a  cmavo
+859ea58317c0d3811dadaaceb3e0e4ce  gismu
+dbd82f42f4156a2a1801e2a5ec1e551e  lujvo-list
+51cdabc666f3f1ffc0f17c1acea148bc  oblique.key
+b783880c04efe799ec2c07724871c373  rafsi
+
+It's best if these are in the build directory or a 'sibling' of it,
+although config.pl will find them anywhere in your directory tree
+otherwise.
+
+The build sequence looks like this (assuming you want to install under
+/usr/local)
+
+perl config.pl --prefix=/usr/local
+make all
+make install
 
 RUNNING
 
-Set the JBOFIHE_DICTIONARY environment variable to where you have
-installed dictionary.dbm, unless it's in the current directory where
-you running jbofihe.
+If your compiled dictionary is not in the default location (i.e. you
+are not installing properly or want to use a private local
+dictionary), set the JBOFIHE_DICTIONARY environment variable to where
+you have installed jbosmujmaji.
 
-The command line arguments are
--d : show debug output
--k : show token lists
--g : do glossing on tree output mode (superceded by -x in 
-     all honesty - this was a first attempt)
--t : show parse tree, stripped down to nodes with >1 children
--tf : show parse tree without stripping down (huge volume of output)
--l : generate LaTeX output to stdout
--b : generate LaTeX output in 'blocked' mode
--x : generate text output to stdout
--h : generate HTML output to stdout
+The command line is documented in the jbofihe manual page.
 
 The lojban text to be parsed/glossed is supplied on stdin, e.g. if
 you've a file called sample
@@ -63,23 +75,15 @@ you've a file called sample
 latex sample.tex
 xdvi sample.dvi
 
-To run dictmake, the arguments are
+Three other programs are bundled :
 
-dictmake dictionary.dbm dict1 dict2...
+cmafihe - a less feature-ful glosser which supplies no grammatical
+structure to the output but can cope with grammatically faulty input.
 
-(see makefile for examples).  The entries are of the form
+smujajgau - program to build the binary dictionary
 
-lojban:english
-or
-lojban:english:comment
-
-Where lojban is followed by a digit it means an 'xn' places of the
-gismu, lujvo etc.  Where the digit is followed by one of n, v, a or t,
-it means in the context of a noun, verb, adjective or case tag.  See
-comments in translate.c for help.  Where the English contains a '*',
-it is the 'active point' where endings such as plurals, -er, -ing etc
-go.  Some of the cmavo, particularly tenses and connectives, have
-special handling.  Documentation still to be written!
+jvocuhadju - program to select the preferred lujvo form for a
+particular tanru.
 
 FAQ
 
