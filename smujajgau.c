@@ -116,6 +116,7 @@ add_defn(char *key, char *val)
   new_trans = new(Trans);
   new_link = new(Link);
 
+
   new_trans->action = DEFINE;
   new_trans->key = new_string(key);
   new_trans->val = new_string(val);
@@ -450,6 +451,9 @@ handle_mapping(char *src, char *dest)
 
   add_defn(src, dest);
 
+#if defined (DIAG)
+  fprintf(stderr, "Adding defn 1 key=[%s] val=[%s]\n", src, dest);
+#endif
   
   /* If we're adding a lujvo, add the definition against
      its 'canonical' form too.  e.g. if we're defining
@@ -469,27 +473,32 @@ handle_mapping(char *src, char *dest)
      
      */
 
-  if (isalpha(src[0]) && (len >= 7) && defines_place) {
-    strncpy(buffer, src, len-1);
-    buffer[len-1] = 0;
-    canon = canon_lujvo(buffer);
-    if (canon) {
-      int lencanon = strlen(canon);
-      strcpy(buffer2, canon);
-      buffer2[lencanon++] = src[len-1];
-      buffer2[lencanon] = 0;
-      preen(buffer2);
-      strcpy(buffer3, "@");
-      strcat(buffer3, src);
-      add_defn(buffer2, buffer3);
+  if (isalpha(src[0])) {
+    char *p = src;
+    int baselen;
+
+    /* Work out length of basic lujvo/gismu etc */
+    while (isalpha(*p)) p++;
+    baselen = p - src;
+
+    if ((baselen >= 6) && defines_place) {
+      strncpy(buffer, src, baselen);
+      buffer[baselen] = 0;
+      canon = canon_lujvo(buffer);
+      if (canon) {
+        int lencanon = strlen(canon);
+        strcpy(buffer2, canon);
+        buffer2[lencanon++] = src[len-1];
+        buffer2[lencanon] = 0;
+        preen(buffer2);
+        strcpy(buffer3, "@");
+        strcat(buffer3, src);
+        add_defn(buffer2, buffer3);
+#if defined (DIAG)
+        fprintf(stderr, "Adding defn 2 key=[%s] val=[%s]\n", buffer2, buffer3);
+#endif
+      }
     }
-  } else if (len >= 6) {
-    strncpy(buffer, src, len-1);
-    buffer[len-1] = 0;
-    canon = canon_lujvo(buffer);
-    if (canon) {
-      add_defn(canon, dest);
-    }      
   }
 }
 
