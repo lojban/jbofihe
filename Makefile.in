@@ -128,7 +128,7 @@ morf_dfa.c : morf_nfa.in n2d/n2d
 morfnc_dfa.c : morf_nfa.in n2d/n2d
 	grep -v 'CULTURAL' < morf_nfa.in | n2d/n2d > morfnc_dfa.c 2>morfnc_dfa.err
 
-n2d/n2d : n2d/n2d.o n2d/parse.o n2d/scan.o
+n2d/n2d:
 	make -C n2d all
 
 morf.o : morf.c morf.h morf_dfa.c morfnc_dfa.c morf_enc.c morf_lex.c morfvlex.c
