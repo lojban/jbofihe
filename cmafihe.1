@@ -3,7 +3,7 @@
 cmafihe \- Lojban word glosser
 .SH SYNOPSIS
 .B cmafihe
-[ -l ]
+[ -l ] [ -b ] [ -w width ] [ -v ]
 < file
 .SH DESCRIPTION
 .I cmafihe
@@ -20,6 +20,12 @@ Show the program version and exit.
 Produce output for typesetting with LaTeX.  The Lojban, selma'o and
 English translation are shown on separate lines for each word (or
 closely related group of words).
+.TP
+.B -b
+Produce plain text output in 'block' format.
+.TP
+.BI -w " width"
+Set the line width for the -b option (default 80).
 .PP
 The default is to write text to stdout.  The Lojban words are shown
 without brackets.  The selma'o information is in angle brackets.  The

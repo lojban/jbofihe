@@ -25,9 +25,19 @@
 
 /* ================================================== */
 
+typedef enum {
+  OF_LATEX,
+  OF_TEXT,
+  OF_TEXTBLK
+
+} OutputFormat;
+
 /*+ Flag indicating whether to generate latex blocked output instead
   of text. +*/
-extern int do_latex;
+extern OutputFormat ofmt;
+
+/*+ Line width to use +*/
+extern int width;
 
 /* ================================================== */
 

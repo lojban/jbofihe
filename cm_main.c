@@ -18,9 +18,17 @@ yywrap(void)
 int
 main (int argc, char **argv)
 {
+  ofmt = OF_TEXT;
+  width = 80;
+
   while (++argv,--argc) {
     if (!strcmp(*argv, "-l")) {
-      do_latex = 1;
+      ofmt = OF_LATEX;
+    } else if (!strcmp(*argv, "-b")) {
+      ofmt = OF_TEXTBLK;
+    } else if (!strcmp(*argv, "-w")) {
+      ++argv, --argc;
+      width = atoi(*argv);
     } else if (!strcmp(*argv, "-v")) {
       fprintf(stderr, "cmafihe version %s\n", version_string);
       exit(0);
