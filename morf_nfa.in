@@ -311,12 +311,10 @@ BLOCK SYLN
         -> ccv1
         -> ccvcv1
         -> cvccv1
-        -> ccvvcv1 ## CULTURAL
     STATE in_after_nr_hyphen
         -> cvv1
         -> ccvcv1
         -> cvccv1
-        -> ccvvcv1 ## CULTURAL
     STATE in_to_ccv
         -> ccv1
 
@@ -324,7 +322,6 @@ BLOCK SYLN
     STATE in_after_cc
         -> ccv2
         -> ccvcv2
-        -> ccvvcv2 ## CULTURAL
 
     STATE cvv1
         V -> cvv2
@@ -355,20 +352,6 @@ BLOCK SYLN
     STATE cvccv3
         CI|CP|NR -> cvccv4
     STATE cvccv4
-        V -> exit
-
-    STATE ccvvcv1
-        CI -> ccvvcv2
-    STATE ccvvcv2
-        V -> ccvvcv3
-        V -> ccvvcv2a
-    STATE ccvvcv2a
-        APOS -> ccvvcv3
-    STATE ccvvcv3
-        V -> ccvvcv4
-    STATE ccvvcv4
-        C|N|R -> ccvvcv5
-    STATE ccvvcv5
         V -> exit
 
     STATE exit
@@ -895,6 +878,10 @@ BLOCK CMENE
     STATE v
         V -> v
         C|N|R -> c
+        APOS -> a
+
+    STATE a
+        V -> v
 
     STATE exit
         = BIT_CMENE
