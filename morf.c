@@ -93,6 +93,7 @@ static unsigned char s2l[32] = {
   3, 0, 3, 0, 0, 0, 0, 0
 };
 
+#if defined(TEST_MORF)
 /* Token names for -v mode */
 static unsigned char *toknam[] = {
   "UNK", "V", "APOS", "Y", "R", "N", "C",
@@ -103,6 +104,17 @@ static unsigned char *toknam[] = {
 static unsigned char *actnam[] = {
   "CLR", "SFT", "FRZ"
 };
+
+static char charnames[32] = {
+  '?', 'a', 'b', 'c', 'd', 'e', 'f', 'g',
+  '?', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
+  'p', '?', 'r', 's', 't', 'u', 'v', 'w',
+  'x', 'y', 'z', '?', '?', '?', '\'', '?'
+};
+
+static char Lname[4] = { 'V', 'n', 'r', 'C' };
+
+#endif
 
 /* Map the ASCII set to the range 0..31 (mostly
    by masking high order bits off the letters,
@@ -190,7 +202,7 @@ morf_scan(char *s, char ***buf_end)
 
 #ifdef TEST_MORF
   if (verbose) {
-    printf ("Chr L  S   G  tok    act set inh state'\n");
+    printf ("Chr L     S      G     tok    act set inh state'\n");
   }
 #endif
 
@@ -239,8 +251,9 @@ morf_scan(char *s, char ***buf_end)
 
 #ifdef TEST_MORF
     if (verbose) {
-      printf ("%c   %01x  %02x  %02x  %-4s  %-3s  %d   %d  %4d\n",
-              c, L, S, G, toknam[tok], actnam[act], set, inhibit, next_state);
+      printf ("%c   %01x(%c)  %02x(%c)  %02x(%c)  %-4s  %-3s  %d   %d  %4d\n",
+              c, L, Lname[L], S, charnames[S], G, charnames[G], 
+              toknam[tok], actnam[act], set, inhibit, next_state);
     }
 #endif
 
@@ -271,6 +284,7 @@ morf_scan(char *s, char ***buf_end)
   
   if ((state < 0) || (exitval_table[state] == 0)) {
     result = W_UNKNOWN;
+    ext_result = MT_BOGUS;
     decrement = 0;
   } else {
     exival = exitval_table[state];
