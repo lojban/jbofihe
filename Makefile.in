@@ -193,17 +193,16 @@ canonluj.inc:
 	perl canonluj.pl < reduced_gismu > canonluj.inc
 
 clean:
-	-rm *.output \
-        *.tab.c *.tab.o *_tab.c *_tab.o rpc_full.c \
-        *.o \
+	-(cd n2d && make clean)
+	-rm *.output *.tab.c *_tab.c rpc_full.c *.o \
         jbofihe cmafihe smujajgau vlatai jvocuhadju \
         *.dict uncom.c uncom.o uncom \
         morf_lex.c morfvlex.c morf_enc.c morf*_dfa.c \
         elitabs.c trcftabs.c trctabs.c \
         stag.c stag.h stag.tab.c stag.tab.h \
-        rpc2x_nc.y rpc2x_act.y rpc_full_nc.y rpc_full_act.y \
+        rpc2x_nc.y rpc2x_act.y rpc2x_full_nc.y rpc2x_full_act.y \
         canonluj.inc version.h \
-        nonterm.*
+        nonterm.c nonterm.h morf_dfa.report morf_lex.err
 
 # Specify in this perverse way so that the $-Name construction doesn't get replaced on checkout!
 
