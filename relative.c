@@ -212,7 +212,6 @@ process_keha(TreeNode *x)
 
   if (rel->data.nonterm.type == RELATIVE_CLAUSE) {
     /* Set property on ke'a to point back to containing clause */
-    fprintf(stderr, "got here\n");
     prop_rel_clause_link(x, YES)->rel = rel;
 
     /* Set property on containing clause to warn that it contains ke'a */
