@@ -409,19 +409,7 @@ start_tag(void)
   first_tag = 0;
 }
 
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  char *brivla
-
-  char *place
-
-  char *trans
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-write_tag_text(char *brivla, char *place, char *trans, int brac)
+static void write_tag_text(char *brivla, char *place, char *trans, int brac)/*{{{*/
 {
   if (brac) {
     printf("\\textsl{\\footnotesize{}%s%s (%s)}\n", brivla, place, make_texsafe(trans));
@@ -429,10 +417,15 @@ write_tag_text(char *brivla, char *place, char *trans, int brac)
     printf("\\textsl{\\footnotesize{}%s%s %s}\n", brivla, place, make_texsafe(trans));
   }
 }
+/*}}}*/
+static void write_partial_tag_text(char *t)/*{{{*/
+{
+  printf("\\textsl{\\footnotesize{}%s}\n", t);
+}
+/*}}}*/
 
-
-/*+  +*/
-DriverVector latex_driver = {
+DriverVector latex_driver =/*{{{*/
+{
   initialise,
   write_prologue,
   latex_write_epilog,
@@ -445,4 +438,5 @@ DriverVector latex_driver = {
   end_tags,
   start_tag,
   write_tag_text,
-};
+  write_partial_tag_text
+};/*}}}*/

@@ -424,9 +424,20 @@ write_tag_text(char *brivla, char *place, char *trans, int brac)
   strcat(tag_text, buffer);
 }
 
+static void write_partial_tag_text(char *t)/*{{{*/
+{
+  char buffer[1024];
 
-/*+  +*/
-DriverVector latex_block_driver = {
+  sprintf(buffer, "%s", t);
+  if (tag_text[1]) { /* '[' is pre-inserted by start_tags */
+    strcat(tag_text, "\n");
+  }
+  strcat(tag_text, buffer);
+}
+/*}}}*/
+
+DriverVector latex_block_driver =/*{{{*/
+{
   initialise,
   write_prologue,
   latex_write_epilog,
@@ -439,4 +450,5 @@ DriverVector latex_block_driver = {
   end_tags,
   start_tag,
   write_tag_text,
-};
+  write_partial_tag_text
+};/*}}}*/

@@ -25,6 +25,7 @@ typedef struct {
   void (*end_tags)(void);
   void (*start_tag)(void);
   void (*write_tag_text)(char *, char *, char *, int);
+  void (*write_partial_tag_text)(char *);
 } DriverVector;
 
 #endif /* OUTPUT_H */

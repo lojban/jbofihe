@@ -220,6 +220,7 @@ write_lojban_text(char *text)
   }
 
   printf("%s", text);
+  fflush(stdout);
 
   state = ST_TEXT;
 }
@@ -271,6 +272,7 @@ write_translation(char *text)
   }
 
   state = ST_TEXT;
+  /* fflush(stdout); */
 }
 
 /*+  +*/
@@ -337,8 +339,14 @@ write_tag_text(char *brivla, char *place, char *trans, int brac)
   }
 }
 
-/*+  +*/
-DriverVector textout_driver = {
+static void write_partial_tag_text(char *t)/*{{{*/
+{
+  printf("%s", t);
+}
+/*}}}*/
+
+DriverVector textout_driver = /*{{{*/
+{
   initialise,
   write_prologue,
   write_epilog,
@@ -350,5 +358,7 @@ DriverVector textout_driver = {
   start_tags,
   end_tags,
   start_tag,
-  write_tag_text
-};
+  write_tag_text,
+  write_partial_tag_text
+};/*}}}*/
+

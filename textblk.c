@@ -398,8 +398,14 @@ static void write_tag_text(char *brivla, char *place, char *trans, int brac)/*{{
   strcat(tag_text[tags_used], buffer2);
 }
 /*}}}*/
+static void write_partial_tag_text(char *t)/*{{{*/
+{
+  strcat(tag_text[tags_used], t);
+}
+/*}}}*/
 
-DriverVector text_block_driver = {/*{{{*/
+DriverVector text_block_driver = /*{{{*/
+{
   initialise,
   write_prologue,
   write_epilog,
@@ -412,4 +418,5 @@ DriverVector text_block_driver = {/*{{{*/
   end_tags,
   start_tag,
   write_tag_text,
+  write_partial_tag_text
 };/*}}}*/
