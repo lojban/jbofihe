@@ -112,12 +112,13 @@ BLOCK AFTER1
 
     STATE in_cvy
         Y ; LCP|CN|HS|H|BT -> to_lujvo1, to_pair1
+        Y ; CP|H ; BT      -> to_in_after_cc1
 
     STATE in_cvc
         LCP         -> to_lujvo1, to_pair1
         Y ; CN      -> to_lujvo1, to_pair1
         Y ; LCI     -> to_lujvo1t, to_pair1t, to_tosmabru
-        Y ; CP|CS ; BT -> to_in_after_cc1
+        Y ; CP ; BT -> to_in_after_cc1
         
 ENDBLOCK
 #}}}
@@ -150,12 +151,12 @@ BLOCK AFTER2
         
     STATE in_cvc
         Y ; CN               -> exit
-        Y ; CP|CS ; BT       -> exit_after_cc
+        Y ; CP ; BT          -> exit_after_cc
         LCP                  -> exit
 
     STATE in_y
         Y ; LCP|CN|HS|H|BT   -> exit
-        Y ; CP|CS ; BT       -> exit_after_cc
+        Y ; CP|H ; BT        -> exit_after_cc
     
 ENDBLOCK
 #}}}
