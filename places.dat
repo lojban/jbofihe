@@ -820,20 +820,26 @@ ckaji1:P;having property
 ckaji2:D;property
 #
 # x1 is a bed/pallet of material x2 for holding/supporting x3 (person/object/event)               
-#ckana1:DSAP;
-#ckana2:DSAP;
-#ckana3:DSAP;
+ckana1:D;bed
+ckana2:S;bed material
+ckana2t:material
+ckana3:R;supported by bed
+ckana3t:supported
 #
 # x1 is perilous/dangerous/potentially harmful to x2 under conditions x3                          
-#ckape1:DSAP;
-#ckape2:DSAP;
-#ckape3:DSAP;
+ckape1:P;dangerous
+ckape2:R;at risk of harm
+ckape2t:harmful to
+ckape3:S;conditions for danger
+ckape3t:under conditions
 #
 # x1 ridicules/mocks/scoffs at x2 about x3 (property/event) by doing activity x4 (event)          
-#ckasu1:DSAP;
-#ckasu2:DSAP;
-#ckasu3:DSAP;
-#ckasu4:DSAP;
+ckasu1:A;ridicule
+ckasu2:P;ridiculed
+ckasu3:D;topic* of ridicule
+ckasu3t:topic
+ckasu4:D;event* leading to ridicule
+ckasu4t:causal event
 #
 # x1 feels ashamed/mortified/humiliated under conditions x2 before community/audience x3          
 #ckeji1:DSAP;

@@ -9,7 +9,7 @@
 # Changes to common cmavo etc
 a:or
 be'o:
-be:with
+be: :
 bei:and
 bo: :
 cai:intense
@@ -47,7 +47,7 @@ ka:property of
 ke'a:it
 ke'e: :
 ke: :
-kei:
+kei: :
 ko'a:he/she/it
 ko'e:he/she/it
 ko'i:he/she/it
@@ -228,6 +228,7 @@ TTFF@AFTER:[whether or not]
 TTFT@AFTER:[if / implied by]
 TTTF@AFTER:and/or
 TTTT@AFTER:[IMPOSSIBLE!]
+QQQQ@AFTER:[connective?]
 
 # Forethought connectives
 FFFF@GE:[IMPOSSIBLE!]
@@ -238,7 +239,7 @@ FFTF@GE:[not]
 FFTF@GI:[however]
 FFTT@GE:[not]
 FFTT@GI:[whether or not]
-FTFF@GE:
+FTFF@GE: :
 FTFF@GI:[but not]
 FTFT@GE:[whether or not]
 FTFT@GI:[certainly not]
@@ -248,13 +249,13 @@ FTTT@GE:[not both]
 FTTT@GI:[and]
 TFFF@GE:both
 TFFF@GI:and
-TFFT@GE:
+TFFT@GE: :
 TFFT@GI:[if and only if]
 TFTF@GE:[whether or not]
 TFTF@GI:[certainly]
 TFTT@GE:[if]
 TFTT@GI:[then]
-TTFF@GE:
+TTFF@GE: :
 TTFF@GI:[whether or not]
 TTFT@GE:
 TTFT@GI:[implied by]
@@ -262,6 +263,8 @@ TTTF@GE:either
 TTTF@GI:and/or
 TTTT@GE:[IMPOSSIBLE!]
 TTTT@GI:[IMPOSSIBLE!]
+QQQQ@GE: :
+QQQQ@GI:[connective?]
 
 
 ka'a:with go-er
