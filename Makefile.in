@@ -124,8 +124,10 @@ jvocuhadju.o : jvocuhadju.c
 clean:
 	-rm *.output *.tab.* *.o jbofihe uncom smujajgau *.dict rpc2x_nc.y rpc2x_act.y nonterm.*
 
+# Specify in this perverse way so that the $-Name construction doesn't get replaced on checkout!
+
 version.h : version.txt
-	sed -e 's/$$Name$$/\1/;' < version.txt > version.h
+	sed -e 's/[$$]Name: \(.*\) [$$]/\1/;' < version.txt > version.h
 
 depend:
 	gcc -MM $(SRCS2) $(CM_SRCS) > .depend
