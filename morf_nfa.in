@@ -21,7 +21,7 @@
 # Declare all symbols in same order as lexer (lexer returns (0 .. whatever)
 # when it recognizes the corresponding token)
 
-TOKENS UNK V APOS Y R N C NR CI CP CN H BT VV VX VY
+TOKENS UNK V APOS Y R N C NR CI CP CN H BT VV VX VY YY
 
 # Token meanings are as follows
 # UNK   : Unknown character
@@ -44,6 +44,7 @@ TOKENS UNK V APOS Y R N C NR CI CP CN H BT VV VX VY
 #         and in fu'ivla & cmene)
 # VY    : vowel pair forms involving y, maybe with a comma between (valid only
 #         in cmene)
+# YY    : 2 copies of the letter y adjacent to each other with no separation
 
 # Notes
 # - pairs & triples may have y within them.  This allows this 'grammar' to
@@ -606,6 +607,7 @@ BLOCK CMAVOSEQ
         C|N|R -> main
         C|N|R -> cy1
         V -> in1
+        Y -> y
 
     STATE in1
         VX -> in2
@@ -633,6 +635,18 @@ BLOCK CMAVOSEQ
     STATE cy2
         -> exit_standalone
         CI|CP|CN|NR|H|BT -> cy1
+
+    STATE y
+        YY -> yy
+        -> exit_standalone
+        APOS -> ya
+
+    STATE yy
+        YY -> yy
+        -> exit_standalone
+
+    STATE ya
+        Y -> exit_standalone
 
     STATE exit_prefixable
         = BIT_CMAVOS    
