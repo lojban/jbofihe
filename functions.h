@@ -145,6 +145,10 @@ extern XTenseCtx *prop_tense_ctx(TreeNode *x, int create);
 extern XNegIndicator *prop_neg_indicator(TreeNode *x, int create);
 extern XCaiIndicator *prop_cai_indicator(TreeNode *x, int create);
 extern XConnective *prop_connective(TreeNode *x, int create);
+extern XAntecedent *prop_antecedent(TreeNode *x, int create);
+extern XRequireBrac *prop_require_brac(TreeNode *x, int create);
+extern XRelClauseLink *prop_rel_clause_link(TreeNode *x, int create);
+extern XContainsKeha *prop_contains_keha(TreeNode *x, int create);
 
 /* In conversion.c */
 extern void do_conversions(TreeNode *top);
@@ -162,5 +166,8 @@ extern void tense_processing(TreeNode *top);
 
 /* In connect.c */
 extern void connectives_processing(TreeNode *top);
+
+/* In relative.c */
+extern void relative_clause_processing (TreeNode *top);
 
 #endif /* FUNCTIONS_H */
