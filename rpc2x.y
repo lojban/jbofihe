@@ -477,9 +477,12 @@ i_opt_free_seq : I
 statement<11> = statement-1 | prenex statement
 */
 
-statement : statement_1
-          | prenex statement
+statement : inner_statement
           ;
+
+inner_statement : statement_1
+                | prenex inner_statement
+                ;
 
 /*
 statement-1<12> = statement-2 [I joik-jek [statement-2]] ...
@@ -1616,11 +1619,13 @@ number<812> = PA [PA | lerfu-word] ...
 */
 
 
-number : PA
-       | number PA
-       | number lerfu_word
+number : inner_number
        ;
 
+inner_number : PA
+             | inner_number PA
+             | inner_number lerfu_word
+             ;
 
 /*
 lerfu-string<817> = lerfu-word [PA | lerfu-word] ...
