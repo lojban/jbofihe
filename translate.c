@@ -384,6 +384,8 @@ translate_unknown(char *w)
       e.g. bajra (x1 is a runner, x1 runs)
   (P) property (adjective) [x1 is _ (adjective)]
       e.g. badri (x1 is sad)
+  (R) reverse property (adjective) [x1 is _ (adjective)]
+      e.g. te ckana (x1 is supported by a bed)
 
   (Perhaps some other classes will be defined later.)
 
@@ -407,6 +409,8 @@ CLASS   |     N(oun)       V(erb) (4)          Q(ualifier)        T(ag) (2)
   A     |    X-er(s) (3)     X-ing (3)            X-ing (3)      X-er(s) (3)
         |
   P     |    X thing(s)      being X                X            X thing(s)
+        |
+  R     |    thing(s) X      being X                X            thing(s) X
 
   Notes
   (1) a->an if X starts with a vowel.
@@ -765,7 +769,7 @@ adv_translate(char *w, int place, TransContext ctx)
   static char result[1024];
   char ctx_suffix[4] = "nvqt";
   char *ctx_suf_as_string[4] = {"n", "v", "q", "t"};
-  enum {CL_DISCRETE, CL_SUBSTANCE, CL_ACTOR, CL_PROPERTY} wordclass;
+  enum {CL_DISCRETE, CL_SUBSTANCE, CL_ACTOR, CL_PROPERTY, CL_REVERSE_PROPERTY} wordclass;
   int found_full_trans=0;
 
   /* Try looking up the explicit gloss asked for */
@@ -825,6 +829,9 @@ adv_translate(char *w, int place, TransContext ctx)
           break;
         case 'P':
           wordclass = CL_PROPERTY;
+          break;
+        case 'R':
+          wordclass = CL_REVERSE_PROPERTY;
           break;
         default:
           fprintf(stderr, "Dictionary contains bogus extended entry for [%s]\n", buffer);
@@ -930,6 +937,23 @@ adv_translate(char *w, int place, TransContext ctx)
               break;
             case TCX_TAG:
               sprintf(result, "%s thing(s)", w1);
+              break;
+          }
+          break;
+
+        case CL_REVERSE_PROPERTY:
+          switch (ctx) {
+            case TCX_NOUN:
+              sprintf(result, "thing(s) %s", w1);
+              break;
+            case TCX_VERB:
+              sprintf(result, "being %s", w1);
+              break;
+            case TCX_QUAL:
+              strcpy(result, w1);
+              break;
+            case TCX_TAG:
+              sprintf(result, "thing(s) %s", w1);
               break;
           }
           break;
