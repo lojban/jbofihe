@@ -179,6 +179,12 @@ split_lujvo (char *x)
             strip_leading_rafsi(&x, 3, 1, first, result);
           } else if (x[4] == 'y') {
             strip_leading_rafsi(&x, 4, 1, first, result);
+          } else if (x[5] == 'y') {
+            /* Handle cultural rafsi of form CCVVCy */
+            strip_leading_rafsi(&x, 5, 1, first, result);
+          } else if ((x[6] == 'y') && (x[3] == '\'')) {
+            /* Handle cultural rafsi of form CCV'VCy */
+            strip_leading_rafsi(&x, 6, 1, first, result);
           } else {
             /* Have to decide if there's an r/n hyphen */
             if (!is_consonant(x[0])) return NULL; /* can't ever happen */
