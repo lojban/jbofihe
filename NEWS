@@ -1,8 +1,6 @@
 New in version 0.37
 ===================
 
-(updated as far as 18 June).
-
 general
 =======
 - Include contributed Emacs Lisp functions for driving jbofi'e.
@@ -19,9 +17,14 @@ jbofihe
 - Integrate recognition of cultural rafsi in lujvo into the ordinary state
   machine (so now 1 integrated state machine instead of 2 separate ones).
   Consequent reduction in table sizes.
+- Recognize stage-3-like fu'ivla with >1 short rafsi before the hyphen and
+  gloss accordingly if the word isn't in the dictionary 'as-is'.
+- New more robust checking for bad cmene (containing la, doi etc)
 - Fix bug : missing 'break' statements causing fall-through and hence bogus
   access on another branch of a union.
 - Deprecate -g command option from man page.
+- Fix glossing of the words for 10**X (the asterisks were treated as
+  meta-characters by the glosser)
 
 vlatai
 ======
@@ -32,8 +35,26 @@ vlatai
   argument.
 - Only show exit value of state machine in verbose (-v) mode.
 - Detect and show bad cmene forms (la/lai/doi break-up)
+- New option '-el' to show a lujvo broken into its component words.
+- Fixed some more obscure faults with words containing patterns like "nytc" and
+  "ntyc".
 
-lexer generator (n2d/*)
+cmafihe
+=======
+- Include contribution from Björn Gohla to output GNUStep property lists for
+  the vocabulary found in the input.
+
+jvocuhadju
+==========
+- Complete rewrite of the lujvo form checker used to detect tosmabru failures.
+  The old one was completely broken.
+- Added the script testing/jvocipra.pl, which couples jvocuhadju and vlatai in
+  a back-to-back configuration for mutual testing.
+- Add '-l' switch to try long rafsi even if a short one is available.
+- Add '-a' switch to show all possible lujvo forms, not just the 8 most
+  preferred ones.
+
+lexer generator (dfasyn/*)
 ===============
 - Add handling of 'state attributes' (to allow actions to be run when automaton
   is in DFA states corresponding to particular NFA states)
@@ -46,6 +67,7 @@ lexer generator (n2d/*)
 - Add 'early exit' capability for DFA states that will immediately exit (=>
   reduced table sizes + more state merging)
 - Provide next_state functions in the output file.
+- Renamed "dfasyn" with a view to it being made a project in its own right.
 
 New in version 0.36
 ===================
