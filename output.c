@@ -196,8 +196,8 @@ translate_bai (TreeNode *x, char *eng)
   xtc = prop_tense_ctx(x, NO);
 
   if (baiconv) {
-    static char *prefixes[] = {"se", "te", "ve", "xe"};
-    strcat(buffer, prefixes[baiconv->conv - 2]);
+    static char *prefixes[] = {"", "se", "te", "ve", "xe"};
+    strcat(buffer, prefixes[baiconv->conv - 1]);
   }
   strcat(buffer, cmavo_table[x->data.cmavo.code].cmavo);
 
