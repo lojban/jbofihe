@@ -2,6 +2,25 @@
   $Header$
 
   Bison parser generator input for lojban grammar.
+
+  This is developed directly from the bnf.300 file.  A number of extra
+  tokens are added (in categ.c) so that the parser developed from this
+  is LALR(1).  bnf.300 has been extended in a few areas - for syntax
+  error handling, and to make certain sub-categories of some rules
+  directly recognizable in the back-end processing.  The same language
+  should still be recognized as that defined in bnf.300.
+
+  With acknowledgements to the Logical Language Group, as discussed at
+  the top of bnf.300.
+
+  The string \* ET *\ indicates where an elidable terminator is
+  optionally missing from a rule.  A perl script (terminator.pl) can be
+  used to strip these rules, leaving a grammer where all rules are
+  closed by terminators.  By running that grammar through bison, you can
+  look for residual shift/reduce conflicts, if any.  (The only ones left
+  here result from the error processing.)  (There is a small crock for
+  the <stag gik> case, q.v.).
+
   ***************************************/
 
 /* COPYRIGHT */
