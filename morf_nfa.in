@@ -1,0 +1,924 @@
+###########################################################
+# NFA definition file for matching Lojban morphology
+#
+# (process with nfa2dfa.pl to produce the DFA state/transition
+# and accept tables for use with a suitable parsing fn.)
+# This generates a scanner with the following functions
+# - recognizes type of word
+# - for gismu/lujvo/fu'ivla, provides enough info to work out where word
+#   starts, i.e. how many cmavo are prefixed.  (Equivalently, works out whether
+#   the consonant cluster or the preceding single consonant is that start of
+#   the word.)
+# - rigorously checks the word form for errors (bad clusters, y where not
+#   required, bad hyphenation after initial CVV rafsi etc)
+#
+# $Header$
+#
+# COPYRIGHT
+#
+###########################################################
+
+# Declare all symbols in same order as lexer (lexer returns (0 .. whatever)
+# when it recognizes the corresponding token)
+
+TOKENS UNK V APOS Y R N C NR CI CP CN H BT
+
+# Token meanings are as follows
+# UNK   : Unknown character
+# V     : vowel [aeiou]
+# APOS  : '
+# Y     : y
+# R     : r following vowel
+# N     : n following vowel
+# C     : consonant other than r or n after vowel
+# NR    : r in the pair nr (or triple nyr)
+# CI    : 2nd letter of permissible initial consonant pair
+# CP    : 2nd letter of permissible consonant pair (except nr)
+# CN    : 2nd letter of impermissible consonant pair
+# H     : rln,nlr,rnC,Cnr,CrC (hyphen occuring in type III fu'ivla)
+#         (note, recognition of type III's not done yet)
+# BT    : 3rd letter of one of the banned triples (ntc,nts,ndj,ndz)
+
+# Notes
+# - pairs & triples may have y within them.  This allows this 'grammar' to
+#   specify the checks for whether the y is actually required or not.
+# - NR is separated out from CP (and R, N separated from C) to allow checking
+#   the validity/necessity of the hyphenation structure after an initial CVV
+#   rafsi in a lujvo.
+# - At the moment, the NFA contains some dead paths, mostly concerned with
+#   saying CI can follow N or R (which can never happen).  This is where
+#   C|N|R is used to specify any single consonant after a vowel, and the next
+#   letter may or may not be part of an initial cluster.  It's too tedious to
+#   optimise away all such cases.  The net result is that the resuting DFA is
+#   larger than it needs to be and has unreachable states in it.
+
+# Prefix applied to the tables written out for inclusion into
+# the C program.
+PREFIX morf
+
+###########################################################
+# Subcomponents for lujvo matching
+
+BLOCK SYL1
+
+    STATE in
+        C|N|R -> cvv1
+        C|N|R -> cvc1
+        C     -> ccv1
+        C|N|R -> cvcc1
+        C     -> ccvc1
+        C     -> ccvvc1
+
+    # Stages for CVV initial rafsi
+    STATE cvv1
+        V -> cvv2
+        V -> cvv1a
+    STATE cvv1a
+        APOS -> cvv2
+    STATE cvv2
+        V -> ex_nr
+
+    # Stages for CCV initial rafsi
+    STATE ccv1
+        CI -> ccv2
+    STATE ccv2
+        V -> ex_cln
+
+    # CVC initial rafsi
+    STATE cvc1
+        V -> cvc2
+    STATE cvc2
+        C|N|R -> ex_cvc
+
+    # CVCCy initial rafsi
+    STATE cvcc1
+        V -> cvcc2
+    STATE cvcc2
+        C|N|R -> cvcc3
+    STATE cvcc3
+        CI|CP|NR -> ex_cvy
+
+    # CCVCy initial rafsi
+    STATE ccvc1
+        CI -> ccvc2
+    STATE ccvc2
+        V -> ccvc3
+    STATE ccvc3
+        C|N|R -> ex_y
+
+    # CCVVCy (cultural, section 4.16) initial rafsi
+    STATE ccvvc1
+        CI -> ccvvc2
+    STATE ccvvc2
+        V -> ccvvc3
+        V -> ccvvc2a
+    STATE ccvvc2a
+        APOS -> ccvvc3
+    STATE ccvvc3
+        V -> ccvvc4
+    STATE ccvvc4
+        C|N|R -> ex_y
+    
+    # Exit states
+    STATE ex_nr # Requires nr hyphen after or just final CCV
+    STATE ex_cln # No special binding to next syl
+    STATE ex_y # Requires y before next syl
+    STATE ex_cvy # Ditto, starts CV
+    STATE ex_cvc # Starts CVC, may require tosmabru check
+
+ENDBLOCK
+
+###########################################################
+# Glue coming between first syllable and what follows
+
+BLOCK AFTER1
+    STATE in_nr
+        R -> cvvr
+        N -> cvvn
+        C|N|R -> to_final_ccv
+    STATE in_cln
+        C|N|R -> to_lujvo0
+        C|N|R -> to_pair0
+    STATE in_y
+        Y -> xy
+    STATE in_cvy
+        Y -> cvy1
+    STATE in_cvc
+        CI|CP|NR -> to_lujvo1
+        CI|CP|NR -> to_pair1
+        Y -> cvc1
+
+    STATE cvvr
+        CP -> to_lujvo1
+        CP -> to_after_nr_hyphen
+    STATE cvvn
+        NR -> to_lujvo1
+        NR -> to_after_nr_hyphen
+
+    STATE xy
+        CI|CP|CN|NR -> to_lujvo0
+        CI|CP|CN|NR -> to_pair0
+        CP -> xybt
+
+    STATE xybt
+        BT -> to_in_after_cc0
+
+    STATE cvy1
+        CI|CP|CN|NR|H|BT -> to_lujvo1
+        CI|CP|CN|NR|H|BT -> to_pair1
+
+    STATE cvc1
+        CN -> to_lujvo1
+        CN -> to_pair1
+        # Can't have CP|NR at start of a lujvo, therefore they
+        # can't be valid as the transition pair in the tosmabru
+        # check case.
+        CI -> to_lujvo1t
+        CI -> to_pair1t
+        CI -> to_tosmabru
+        CP -> cvc1bt
+
+    STATE cvc1bt
+        BT -> to_in_after_cc1
+
+    # Exit states
+    STATE to_lujvo0 # lujvo starting CC
+    STATE to_lujvo1 # lujvo starting CV
+    STATE to_lujvo1t # starting CV, requires tosmabru check
+    STATE to_final_ccv # CVV+CCV form
+    STATE to_tosmabru # tosmabru checking block
+    STATE to_pair0
+    STATE to_pair1
+    STATE to_pair1t
+    STATE to_after_nr_hyphen
+    STATE to_in_after_cc0
+    STATE to_in_after_cc1
+        
+ENDBLOCK
+
+###########################################################
+
+BLOCK SYL2 # syllables 2 .. (N-1)
+    STATE in
+        -> cvv1
+        -> ccv1
+        -> cvc1
+        -> cvcc1
+        -> ccvc1
+        -> ccvvc1
+
+    STATE in_after_cc
+        -> ccv2
+        -> ccvc2
+        -> ccvvc2
+
+    STATE cvv1
+        V -> cvv2
+        V -> cvv1a
+    STATE cvv1a
+        APOS -> cvv2
+    STATE cvv2
+        V -> ex_cln
+
+    STATE ccv1
+        CI -> ccv2
+    STATE ccv2
+        V -> ex_cln
+
+    STATE cvc1
+        V -> cvc2
+    STATE cvc2
+        C|N|R -> ex_cvc
+
+    STATE cvcc1
+        V -> cvcc2
+    STATE cvcc2
+        C|N|R -> cvcc3
+    STATE cvcc3
+        CI|CP|NR -> ex_y
+
+    STATE ccvc1
+        CI -> ccvc2
+    STATE ccvc2
+        V -> ccvc3
+    STATE ccvc3
+        C|N|R -> ex_y
+
+    STATE ccvvc1
+        CI -> ccvvc2
+    STATE ccvvc2
+        V -> ccvvc3
+        V -> ccvvc2a
+    STATE ccvvc2a
+        APOS -> ccvvc3
+    STATE ccvvc3
+        V -> ccvvc4
+    STATE ccvvc4
+        C|N|R -> ex_y
+
+    # Exit states
+    STATE ex_cln
+    STATE ex_cvc
+    STATE ex_y
+    
+ENDBLOCK
+
+###########################################################
+
+# Linkage from rafsi 2->3, ..., (N-1)->N
+BLOCK AFTER2
+    STATE in_cln
+        C|N|R -> exit
+    STATE in_cvc
+        Y -> cvc2
+        CI|CP|NR -> exit
+    STATE in_y
+        Y -> y2
+
+    STATE cvc2
+        CN -> exit
+        CP -> cvc2bt
+
+    STATE cvc2bt
+        BT -> exit_after_cc
+
+    STATE y2
+        CI|CP|NR|CN|H|BT -> exit
+        CP -> y2bt
+
+    STATE y2bt
+        BT -> exit_after_cc
+
+    # Exit states
+    STATE exit
+    STATE exit_after_cc
+    
+ENDBLOCK
+
+###########################################################
+
+# Final syllable
+
+BLOCK SYLN
+    STATE in_main
+        -> cvv1
+        -> ccv1
+        -> ccvcv1
+        -> cvccv1
+        -> ccvvcv1
+    STATE in_after_nr_hyphen
+        -> cvv1
+        -> ccvcv1
+        -> cvccv1
+        -> ccvvcv1
+    STATE in_to_ccv
+        -> ccv1
+
+    # Used to support bad triples with n at end of previous syllable
+    STATE in_after_cc
+        -> ccv2
+        -> ccvcv2
+        -> ccvvcv2
+
+    STATE cvv1
+        V -> cvv2
+        V -> cvv1a
+    STATE cvv1a
+        APOS -> cvv2
+    STATE cvv2
+        V -> exit
+
+    STATE ccv1
+        CI -> ccv2
+    STATE ccv2
+        V -> exit
+
+    STATE ccvcv1
+        CI -> ccvcv2
+    STATE ccvcv2
+        V -> ccvcv3
+    STATE ccvcv3
+        C|N|R -> ccvcv4
+    STATE ccvcv4
+        V -> exit
+        
+    STATE cvccv1
+        V -> cvccv2
+    STATE cvccv2
+        C|N|R -> cvccv3
+    STATE cvccv3
+        CI|CP|NR -> cvccv4
+    STATE cvccv4
+        V -> exit
+
+    STATE ccvvcv1
+        CI -> ccvvcv2
+    STATE ccvvcv2
+        V -> ccvvcv3
+        V -> ccvvcv2a
+    STATE ccvvcv2a
+        APOS -> ccvvcv3
+    STATE ccvvcv3
+        V -> ccvvcv4
+    STATE ccvvcv4
+        C|N|R -> ccvvcv5
+    STATE ccvvcv5
+        V -> exit
+
+    STATE exit
+
+ENDBLOCK
+
+###########################################################
+# Everything from start of 2nd syllable (less initial consonant picked off in
+# AFTER1) through to end of lujvo.  This is in a block because 3 instances are
+# made ; one to recognize lujvo which start with a cluster (lujvo_0), a second
+# to recognize those starting with CV.. (i.e. deferred cluster), and a third to
+# recognize the subset of the second where a y has been inserted after an
+# initial CVC to prevent a tosmabru failure.  (For that third case, the
+# 'tosmabru' block scans the sequence that would have been the shorter lujvo to
+# check it's valid; if not, the 'y' was a bogus insertion.)
+
+BLOCK SYL2N
+    s2 : SYL2
+    a2 : AFTER2
+    sn : SYLN
+
+    STATE in
+        -> s2.in
+
+    STATE in_after_cc
+        -> s2.in_after_cc
+        -> sn.in_after_cc
+
+    # Bridge s2->a2
+    STATE s2.ex_cln
+        -> a2.in_cln
+    STATE s2.ex_cvc
+        -> a2.in_cvc
+    STATE s2.ex_y
+        -> a2.in_y
+    
+    # Bind a2->s2
+    # Bind a2->s2
+    STATE a2.exit
+        -> s2.in
+        -> sn.in_main
+
+    STATE a2.exit_after_cc
+        -> s2.in_after_cc
+        -> sn.in_after_cc
+
+ENDBLOCK
+
+###########################################################
+# Match syllable 1 of what would be the shorter lujvo in a potential tosmabru
+# failure.
+
+BLOCK TOS_SYL1
+    STATE in
+        -> ccv1
+        -> ccvc1
+        -> ccvvcv1
+
+    STATE ccv1
+        V -> ex_cln
+        
+    STATE ccvc1
+        V -> ccvc2
+    STATE ccvc2
+        C|N|R -> ex_y
+
+    STATE ccvvcv1
+        V -> ccvvcv2
+        V -> ccvvcv1a
+    STATE ccvvcv1a
+        APOS -> ccvvcv2
+    STATE ccvvcv2
+        V -> ccvvcv3
+    STATE ccvvcv3
+        C|N|R -> ex_y
+
+    STATE ex_cln
+    STATE ex_y
+
+ENDBLOCK
+
+###########################################################
+# Glue after 1st syllable of potential shorter lujvo (binds 1st syl. to 2nd)
+
+BLOCK TOS_AFTER1
+
+    STATE in_cln
+        C|N|R -> exit
+    STATE in_y
+        Y -> y1
+    STATE y1
+        CI|CP|CN|NR -> exit
+        CP -> y2
+
+    STATE y2
+        BT -> exit_to_after_cc
+
+    STATE exit
+    STATE exit_to_after_cc
+
+ENDBLOCK
+
+###########################################################
+# To check tail portion of word to see if it too is of lujvo
+# form.
+
+BLOCK TOSMABRU
+    s1 : TOS_SYL1
+    a1 : TOS_AFTER1
+    t : SYL2N
+    
+    STATE in
+        -> s1.in
+
+    STATE s1.ex_cln
+        -> a1.in_cln
+
+    STATE s1.ex_y
+        -> a1.in_y
+
+    STATE a1.exit
+        -> t.sn.in_main
+        -> t.in
+
+    STATE a1.exit_to_after_cc
+        -> t.in_after_cc
+
+    STATE t.sn.exit
+        -> exit
+        
+    STATE exit
+    
+ENDBLOCK
+
+###########################################################
+# The complete NFA for matching a word of lujvo form.
+
+BLOCK LUJVO
+
+    s1 : SYL1
+    a1 : AFTER1
+
+    t0 : SYL2N
+    t1 : SYL2N
+    t1t : SYL2N
+
+    tos : TOSMABRU
+    
+    STATE in
+        -> s1.in
+
+    # Bridge s1->a1
+    STATE s1.ex_nr
+        -> a1.in_nr
+    STATE s1.ex_cln
+        -> a1.in_cln
+    STATE s1.ex_y
+        -> a1.in_y
+    STATE s1.ex_cvy
+        -> a1.in_cvy
+    STATE s1.ex_cvc
+        -> a1.in_cvc
+
+    # Bridge a1->t1.sn
+    STATE a1.to_final_ccv
+        -> t1.sn.in_to_ccv
+
+    STATE a1.to_after_nr_hyphen
+        -> t1.sn.in_after_nr_hyphen
+
+    STATE a1.to_in_after_cc0
+        -> t0.in_after_cc
+
+    STATE a1.to_in_after_cc1
+        -> t1.in_after_cc
+
+    # Bridge a1 to final syllables for cases where a 2 rafsi lujvo is valid
+    # this way
+    STATE a1.to_pair0
+        -> t0.sn.in_main
+
+    STATE a1.to_pair1
+        -> t1.sn.in_main
+
+    STATE a1.to_pair1t
+        -> t1t.sn.in_main
+
+    # Bridge a1 to tosmabru
+    STATE a1.to_tosmabru
+        -> tos.in
+
+    # Bridge a1->t0
+    STATE a1.to_lujvo0
+        -> t0.in
+
+    # Bridge a1->t1
+    STATE a1.to_lujvo1
+        -> t1.in
+
+    # Bridge a1->t1t
+    STATE a1.to_lujvo1t
+        -> t1t.in
+
+    # Set exit states on t0
+    STATE t0.sn.exit
+        = BIT_LUJVO_0
+    
+    # Set exit states on t1
+    STATE t1.sn.exit
+        = BIT_LUJVO_1
+        
+    # Set exit states on t1t
+    STATE t1t.sn.exit
+        = BIT_LUJVO_1T
+
+    # Set exit status when potentially shorter word is of valid lujvo form
+    # (e.g. the smabru in tosmabru)
+    STATE tos.exit
+        = BIT_LUJVO_TAIL_OK
+
+ENDBLOCK
+
+###########################################################
+# Recognize a sequence of cmavo.  There are two exit cases : first is a
+# sequence of 'normal' cmavo; this can potentially be prefixed onto a gismu,
+# lujvo or fu'ivla.  The 2nd may start with some 'normal' cmavo, but ends with
+# one or more cmavo of the Cy form.  This has to occur at the end of the word.
+
+BLOCK CMAVOSEQ
+
+    STATE in
+        -> main
+        C|N|R -> main
+        C|N|R -> cy1
+
+    STATE main
+        V -> m2
+
+    STATE m2
+        -> main
+        C|N|R -> main
+        APOS -> main
+        -> exit_prefixable
+        C|N|R -> cy1
+
+    STATE cy1
+        Y -> cy2
+    STATE cy2
+        -> exit_standalone
+        CI|CP|CN|NR|H -> cy1
+
+    STATE exit_prefixable
+        = BIT_CMAVOS    
+    STATE exit_standalone
+        = BIT_CMAVOS_END_CY
+
+ENDBLOCK
+
+###########################################################
+# Recognize a gismu.  The two cases CVC/CV and CCVCV get different exit
+# statuses; this allows the scanner to back up one potential prefix cmavo in
+# the CVC/CV case. (See how this is much simpler than the lujvo matcher!)
+
+BLOCK GISMU
+    STATE in
+        C -> ccvcv1
+        C|N|R -> cvccv1
+    STATE ccvcv1
+        CI -> ccvcv2
+    STATE ccvcv2
+        V -> ccvcv3
+    STATE ccvcv3
+        C|N|R -> ccvcv4
+    STATE ccvcv4
+        V -> exit_0
+
+    STATE cvccv1
+        V -> cvccv2
+    STATE cvccv2
+        C|N|R -> cvccv3
+    STATE cvccv3
+        CI|CP|NR -> cvccv4
+    STATE cvccv4
+        V -> exit_1
+
+    STATE exit_0
+        = BIT_GISMU_0
+    STATE exit_1
+        = BIT_GISMU_1
+        
+ENDBLOCK
+
+###########################################################
+# Recognize a slinku'i
+#
+# This is basically like recognizing a lujvo but with a much reduced state
+# topology, because the letter 'y' can't occur anywhere.  So the final rafsi
+# could be any of the valid forms, however, all earlier ones are restricted to
+# CVV, CVC or CCV.
+# For the first syllable, we jump in as though we've already recognized CV.
+# Although the potential lujvo is always going to start CV, we distinguish the
+# cases based on whether it's fu'ivla_0 or fu'ivla_1 that's going to be
+# squashed by a match, to make sure the fu'ivla NFA and slinku'i NFA are
+# treating the same length word tail as the match string.
+# The only possible first syllables are CVC or CVV (must be CV that's prefixed,
+# and no 4 letter form will do because that would require y after.)
+
+BLOCK SLINKUI
+    # SYL2N is a superset of what's needed, because it allows y's.  We'll never
+    # check for slinkui unless we find it's a fu'ivla so this won't cause false
+    # matches.  Ideally, a custom SYL2N block is required, however using the
+    # existing lujvo one at least gives code commonality so is easier to
+    # maintain.
+    t0 : SYL2N
+    t1 : SYL2N
+
+    STATE in_after_c # First syl is CVC
+        # Link to final syl
+        # CVC + CC... or CVC + CV...
+        # Must be valid pair across transition, no y allowed
+        CI|CP|NR -> c1
+
+    STATE c1
+        # Initial C => fu'ivla has init. cons. cluster, so fu'ivla_0
+        # will match if anything.  Hence need SLINKUI_0 result
+        -> t0.sn.in_main
+        -> t0.in
+
+    STATE in_after_v # First syl is CVV
+        R -> cvvr
+        N -> cvvn
+        C|N|R -> t1.sn.in_to_ccv
+
+    STATE cvvr
+        CP -> t1.in
+        CP -> t1.sn.in_after_nr_hyphen 
+
+    STATE cvvn
+        NR -> t1.in
+        NR -> t1.sn.in_after_nr_hyphen 
+
+    STATE t0.sn.exit
+        = BIT_SLINKUI_0
+
+    STATE t1.sn.exit
+        = BIT_SLINKUI_1
+
+ENDBLOCK
+
+###########################################################
+# Tail syllables of fu'ivla, once early cluster & 2
+# syllable requirements are met.  All this forces is exit
+# on a vowel.
+
+BLOCK FV_TAIL
+    STATE in
+        C|N|R -> c
+    STATE c
+        CI|CP|NR|H -> c
+        V -> v
+    STATE v
+        V -> v
+        APOS -> a
+        -> exit
+        -> in
+    STATE a
+        V -> v
+
+    STATE exit
+   
+ENDBLOCK
+
+###########################################################
+# First part of fu'ivla, starting with init cluster
+
+BLOCK FV_START0
+    STATE in
+        C -> c
+    STATE c
+        CI -> cc
+    STATE cc
+        CI -> cc
+        V -> v
+    STATE v
+        V -> v
+        APOS -> a
+        -> exit_need_syl
+    STATE a
+        V -> v1
+    STATE v1
+        V -> v1
+        -> exit
+        APOS -> a1
+    STATE a1
+        V -> v1
+
+    STATE exit
+    STATE exit_need_syl
+    
+ENDBLOCK
+
+###########################################################
+# First part of fu'ivla, starting with vowels or single cons.  The case of
+# vowels preceding a single cons. can be discarded, because that would just
+# break into cmavo + shorter fu'ivla.
+
+BLOCK FV_START1
+    STATE in_prefixed
+        C|N|R -> s1
+        
+    STATE in_no_prefix
+        V -> one_v
+        V -> s1
+        V -> v1
+    STATE one_v
+        -> s2
+    STATE v1
+        APOS -> s1
+    STATE s1
+        V -> v2
+        V -> s2
+    STATE v2
+        APOS -> a2
+        V -> s2
+    STATE a2
+        V -> s2
+
+    STATE s2
+        C|N|R -> c
+    STATE c
+        CI|CP|NR -> cc
+    STATE cc
+        CI|CP|NR|H -> cc
+        V -> v3
+    STATE v3
+        V -> v3
+        APOS -> a3
+        -> exit
+    STATE a3
+        V -> v3
+
+    STATE exit
+ENDBLOCK
+
+
+###########################################################
+# Tentatively recognize a fuivla (the slinku'i test is separate)
+
+BLOCK FUIVLA
+    start0 : FV_START0
+    start1 : FV_START1
+    tail0 : FV_TAIL
+    tail1 : FV_TAIL
+    slinkui : SLINKUI
+
+    # In state if there aren't any cmavo in front (i.e. fu'ivla starting with a
+    # vowel makes sense)
+    STATE in_no_prefix
+        -> start0.in
+        -> start1.in_prefixed
+        -> start1.in_no_prefix
+
+    # In state if there are cmavo in front (i.e. fu'ivla starting with a
+    # vowel doesn't make sense)
+    STATE in_prefixed
+        -> start0.in
+        -> start1.in_prefixed
+
+    STATE start1.one_v
+        -> slinkui.in_after_v
+
+    STATE start0.c
+        -> slinkui.in_after_c
+
+    STATE start1.exit
+        -> tail1.in
+        = BIT_FUIVLA_1
+
+    STATE start0.exit
+        -> tail0.in
+        = BIT_FUIVLA_0
+
+    STATE start0.exit_need_syl
+        -> tail0.in
+
+    STATE tail1.exit
+        = BIT_FUIVLA_1
+
+    STATE tail0.exit
+        = BIT_FUIVLA_0
+
+ENDBLOCK
+
+###########################################################
+# Recognize a cmene.  Has to end with consonant, and y is treated like a vowel.
+# Take care with just a y occurring between consonants; the front end returns
+# consonant pair tokens in this case (only real vowels clear the front-end
+# state machine); that behaviour is needed so that when ..CyC.. occurs in
+# lujvo, the lujvo matching NFA can check whether the consonant cluster was
+# such as to require the y.  (Extra y's are illegal if not necessary.) Checks
+# for la, doi etc within the word are done later.  It's too hard to do those
+# checks and word splits in here without conflicing with the processing of
+# lujvo etc.
+
+# Note, uppercase validation is also separate.  The front end tracks whether an
+# uppercase letter has been seen, then case-folds the letter.  At the end the
+# condition (had_uppercase & !cmene) implies a bad word.
+
+BLOCK CMENE
+    STATE in
+        C|N|R -> c
+        Y|V -> v
+
+    STATE c
+        CI|CP|NR|H -> c
+        -> exit
+        V -> v
+        Y -> y
+
+    STATE y
+        V -> v
+        CI|CP|NR|H|CN|BT -> c
+
+    STATE v
+        V -> v
+        C|N|R -> c
+
+    STATE exit
+        = BIT_CMENE
+ENDBLOCK
+
+###########################################################
+# Top level NFA to recognize a word.
+
+BLOCK WORD
+    gismu : GISMU
+    lujvo : LUJVO
+    cms : CMAVOSEQ
+    cmene : CMENE
+    fuivla : FUIVLA
+    
+    STATE in
+        -> gismu.in
+        -> lujvo.in
+        -> fuivla.in_no_prefix
+        -> cms.in
+        -> cmene.in
+
+    STATE cms.exit_prefixable
+        -> gismu.in
+        -> lujvo.in
+        -> fuivla.in_prefixed
+
+    #####
+    # ENTRY STATE NAMED LAST IN FILE
+    STATE in
+
+ENDBLOCK
+

@@ -1,6 +1,17 @@
 New in version 0.35
 ===================
 
+- Add support to jbofihe to show elidable cmavo that are missing from the input
+  text (-ie command switch).  (Cmavo inserted this way are displayed in upper
+  case in the output).
+- Add option to require the input text to contain every elidable cmavo (-re
+  command switch).  (This may be useful as a learning aid and when trying to
+  debug grammar failures.)
+- Totally rewritten algorithm for determining type (cmavo, brivla, cmene etc)
+  of input words.  Should now enforce word structure rules 100%, and be
+  competely robust at removing cmavo prefixed onto the front of brivla.  The
+  testbench for this part of the program is bundled as a separate tool
+  (vlatai).
 - Add case tagging for selbri involving MOI, GOhA, NUhA
 - Fix bugs parsing number/lerfu-string containing bu followed by
   moi/mei/roi/re'u

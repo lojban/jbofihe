@@ -9,11 +9,13 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <assert.h>
 
 #include "cmavotab.h"
 #include "nodes.h"
 #include "functions.h"
 #include "lujvofns.h"
+#include "morf.h"
 
 static char zoi_form[8]; /* la'o or zoi */
 static int  zoi_delim_next;
@@ -22,38 +24,6 @@ static int zoi_start_line, zoi_start_col;
 static char *zoi_data;
 
 static int process_word(char *buf, int start_line, int start_column);
-
-/*++++++++++++++++++++++++++++++++++++++
-  Are there any consonant clusters in the buffer?
-
-  static int any_clusters
-
-  char *buf
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static int
-any_clusters(char *buf)
-{
-  char *p;
-  int last_was_cons = -1;
-  for (p = buf;
-       *p;
-       p++) {
-    if (is_consonant(*p)) {
-      if (last_was_cons >= 0) {
-        return last_was_cons;
-      }
-      last_was_cons = p - buf;
-    } else if (is_vowel(*p)) {
-      last_was_cons = -1;
-    }
-  }
-   
-  return -1;
-  
-}
-
-
 
 /*++++++++++++++++++++++++++++++
 
@@ -170,45 +140,6 @@ process_cmavo(char *buf, int start_line, int start_column)
 
 }
 
-
-/*++++++++++++++++++++++++++++++++++++++
-  Take 1 cmavo off the front of a buffer and update the buffer pointer.
-
-  char **bb Pointer to the buffer pointer.
-
-  int start_line
-
-  int start_column
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static int
-do_a_cmavo(char **bb, int start_line, int start_column) {
-  char *b = *bb;
-  char buf3[1024];
-  char *p, *q;
-
-  q = buf3;
-  for (p = b;
-       *p;
-       p++) {
-    *q++ = *p;
-    if (is_consonant(p[1]) || !p[1]) {
-      *q = 0;
-      process_cmavo(buf3, start_line, start_column);
-      if (!strcmp(buf3, "fa'o")) {
-        /* End of stream token */
-        return 0;
-      }
-      b = p + 1;
-      break;
-    }
-  }
-
-  *bb = b;
-  return 1;
-}
-
-
 /*++++++++++++++++++++++++++++++++++++++
   Take the text in 'x' and add it as a single brivla to the token list.
 
@@ -302,8 +233,10 @@ static int
 process_word(char *buf, int start_line, int start_column)
 {
   char buf2[1024];
-  char *p, *q;
   TreeNode *tok;
+  char *word_starts[1024];
+  char **pws, **pwe;
+  MorfType morf_type;
 
   if (zoi_data) {
     if (!strcmp(buf, zoi_delim)) {
@@ -350,98 +283,47 @@ process_word(char *buf, int start_line, int start_column)
   }
 
   /* Analyse word type */
-  /* Does word end in consonant (leave commas etc in for this)? */
-  p = buf;
-  while (*p) p++;
-  p--;
-  if (is_consonant(*p) || is_uppercase_consonant(*p)) {
-    process_cmene(buf, start_line, start_column);
-  } else {
-    int cluster_start;
-    char *b2;
-
-    /* Take out commas and other spurious characters and canonicalise to
-       LC */
-    for (p = buf, q = buf2;
-         *p;
-         p++) {
-      if (isalpha((int) *p) || *p == '\'') {
-        *q++ = tolower(*p);
+  
+  pws = pwe = word_starts;
+  morf_type = morf_scan(buf, &pwe);
+  switch (morf_type) {
+    case MT_BOGUS:
+      fprintf(stderr, "Unrecognizable word %s at line %d column %d, ignored\n",
+              buf, start_line, start_column);
+      break;
+    case MT_BRIVLA:
+      {
+        char **pw;
+        char *p, *q;
+        for (pw=pws; pw<pwe; pw++) {
+          for (p=*pw, q=buf2; p<*(pw+1);) {
+            *q++ = *p++;
+          }
+          *q = 0;
+          process_cmavo(buf2, start_line, start_column);
+        }
+        add_brivla_token(*pwe, start_line, start_column);
       }
-    }
-
-    *q = 0;
-    b2 = buf2;
-    
-    cluster_start = any_clusters(buf2);
-    if (cluster_start < 0) {
-      while (*b2) {
-        if (!do_a_cmavo(&b2, start_line, start_column)) return 0;
-      }
-    } else {
-      while (1) {
-        switch (cluster_start) {
-          case 0:
-            add_brivla_token(b2, start_line, start_column);
-            goto all_subtoks_done;
-            break;
-          case 1:
-            /* Must be VCC..., i.e. something of selma'o A then a brivla */
-            if (!do_a_cmavo(&b2, start_line, start_column)) return 0;
-            add_brivla_token(b2, start_line, start_column);
-            goto all_subtoks_done;
-            break;
-          case 2:
-            if (is_valid_lujvo(b2+2)) {
-              do_a_cmavo(&b2, start_line, start_column);
-            }              
-            add_brivla_token(b2, start_line, start_column);
-            goto all_subtoks_done;
-            break;
-          case 3:
-            if (is_valid_lujvo(b2+3)) {
-              do_a_cmavo(&b2, start_line, start_column);
-            }              
-            add_brivla_token(b2, start_line, start_column);
-            goto all_subtoks_done;
-            break;
-          case 4:
-            /* Take care with CVCV+lujvo/gismu, rather than the obvious
-               CV'V+lujvo/gismu.  Also cope with CV+gismu, CV+CVCCVV,
-               CV+CVCCCV.  Also, take care with attitudinal cmavo starting with
-               a vowel appearing at the start.  */
-            if (is_vowel(*b2) || is_cvc(b2)) {
-              if (!do_a_cmavo(&b2, start_line, start_column)) return 0;
-              cluster_start = any_clusters(b2);
-            } else if (is_cvv(b2)) {
-              if (b2[2] == '\'') {
-                if (is_valid_lujvo(b2+4)) {
-                  if (!do_a_cmavo(&b2, start_line, start_column)) return 0;
-                }
-                add_brivla_token(b2, start_line, start_column);
-                goto all_subtoks_done;
-              } else {
-                if (is_valid_lujvo(b2+3)) {                  
-                  if (!do_a_cmavo(&b2, start_line, start_column)) return 0;
-                }
-                add_brivla_token(b2, start_line, start_column);
-                goto all_subtoks_done;
-              }
-            } else {
-              add_brivla_token(b2, start_line, start_column);
-              goto all_subtoks_done;
-            }
-            break;
-          default: /* at least 5 */
-            if (!do_a_cmavo(&b2, start_line, start_column)) return 0;
-            cluster_start = any_clusters(b2);
-            break;
+      break;
+    case MT_CMENE:
+      process_cmene(buf, start_line, start_column);
+      break;
+    case MT_CMAVOS:
+      {
+        char **pw;
+        char *p, *q;
+        for (pw=pws; pw<=pwe; pw++) {
+          for (p=*pw, q=buf2; ((pw<pwe)&&(p<*(pw+1)))||((pw==pwe)&&(*p));) {
+            *q++ = *p++;
+          }
+          *q = 0;
+          process_cmavo(buf2, start_line, start_column);
         }
       }
-
-    all_subtoks_done:
-      ;
-    }
+      break;
+    default:
+      assert(0);
+      break;
   }
   return 1;
 }

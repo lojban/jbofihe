@@ -21,7 +21,7 @@ OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc_tab.o functions.o \
         properties.o conversion.o terms.o memory.o tenses.o \
 	output.o textout.o htmlout.o connect.o stag.o latexblk.o \
         relative.o textblk.o errorscan.o canonluj.o lujvofns.o \
-        erasure.o rpc_full.o
+        erasure.o rpc_full.o morf.o
 
 SRCS2 = $(OBJS2:%.o=%.c)
 
@@ -34,7 +34,7 @@ jbofihe : $(OBJS2)
 
 all : dictionary progs
 
-progs : jbofihe cmafihe jvocuhadju smujajgau
+progs : jbofihe cmafihe jvocuhadju smujajgau vlatai
 
 # Analyse shift/reduce conflicts in the grammar
 conflict :
@@ -94,6 +94,20 @@ smujajgau : smujajgau.o canonluj.o
 
 smujajgau.o : smujajgau.c
 	$(CC) $(CFLAGS) -c smujajgau.c
+
+vlatai : morf.c morf.h morf_dfa.c morf_enc.c morf_lex.c
+	$(CC) -o vlatai -DTEST_MORF $(CFLAGS) morf.c
+
+morf_lex.c : mk_fetab.pl
+	perl mk_fetab.pl > morf_lex.c 2>morf_lex.err
+
+morf_enc.c : mk_enctab.pl
+	perl mk_enctab.pl > morf_enc.c 2>morf_enc.err
+
+morf_dfa.c : morf_nfa.in nfa2dfa.pl
+	perl nfa2dfa.pl < morf_nfa.in > morf_dfa.c 2>morf_dfa.err
+
+morf.o : morf.c morf.h morf_dfa.c morf_enc.c morf_lex.c
 
 txtman: jbofihe.txt cmafihe.txt smujajgau.txt jvocuhadju.txt
 

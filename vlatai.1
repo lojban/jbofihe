@@ -1,0 +1,32 @@
+.TH "vlatai" 1L "December 2000"
+.SH NAME
+vlatai \- Lojban word analyzer
+.SH SYNOPSIS
+.B vlatai
+[ -v ]
+.SH DESCRIPTION
+.I vlatai
+is a program that reads a list of Lojban words from standard input, one word per line.  In it's usual mode, it writes a single output line for each input line, advising of which kind of Lojban word the input line is.   If the input word has cmavo prefixed onto it, vlatai shows the individual cmavo and the base word itself.
+.P
+In the verbose mode (obtained using -v), the workings of the internal state machines used for scanning the word are exposed.  This may give some insight into where an error lies on words that can't be parsed, especially if the output is used in conjuction with the report files built during the compilation process.
+.P
+Note that vlatai is primarily a testbench for the word categorizer/splitter
+inside jbofihe.  vlatai is not fully supported or documented as a stand-alone
+program.
+.SH OPTIONS
+.TP
+.B -v
+Show the program version and exit.
+.SH REFERENCES
+.TP
+.B http://go.to/jbofihe
+Home page for the jbofihe project (of which cmafihe is part)
+.TP
+.B http://www.lojban.org/
+Home page of the Lojban community
+.TP
+.B http://www.rrbcurnow.freeuk.com/lojban/
+My Lojban page.
+.SH AUTHOR
+Richard Curnow
+.B <rpc@myself.com>
