@@ -210,7 +210,7 @@ install : jbofihe smujajgau cmafihe jvocuhadju $(DICTNAME)
 	[ -d $(LIBDIR) ] || mkdir -p $(LIBDIR)
 	[ -d $(MANDIR) ] || mkdir -p $(MANDIR)
 	for e in jbofihe cmafihe smujajgau jvocuhadju vlatai ; do cp $$e $(EXEDIR) ; chmod 755 $(EXEDIR)/$$e ; strip -s $(EXEDIR)/$$e ; done
-	for d in $(DICTNAME) ; do cp $$d $(LIBDIR) ; chmod 644 $(LIBDIR)/$$d ; done
+	if [ -r $(DICTNAME) ]; then for d in $(DICTNAME) ; do cp $$d $(LIBDIR) ; chmod 644 $(LIBDIR)/$$d ; done ; fi
 	for m in jbofihe.1 cmafihe.1 smujajgau.1 jvocuhadju.1 vlatai.1 ; do cp $$m $(MANDIR) ; chmod 755 $(MANDIR)/$$m ; done
 
 ## Include the dependency info below.
