@@ -21,7 +21,7 @@
 # Declare all symbols in same order as lexer (lexer returns (0 .. whatever)
 # when it recognizes the corresponding token)
 
-TOKENS UNK V APOS Y R N C NR CI CP CN H BT
+TOKENS UNK V APOS Y R N C NR CI CP CN H BT VV VX VA VY
 
 # Token meanings are as follows
 # UNK   : Unknown character
@@ -80,9 +80,11 @@ BLOCK SYL1
         V -> cvv2
         V -> cvv1a
     STATE cvv1a
-        APOS -> cvv2
-    STATE cvv2
+        APOS -> cvv1b
+    STATE cvv1b
         V -> ex_nr
+    STATE cvv2
+        VV -> ex_nr
 
     # Stages for CCV initial rafsi
     STATE ccv1
@@ -119,9 +121,11 @@ BLOCK SYL1
         V -> ccvvc3
         V -> ccvvc2a
     STATE ccvvc2a
-        APOS -> ccvvc3
-    STATE ccvvc3
+        APOS -> ccvvc2b
+    STATE ccvvc2b
         V -> ccvvc4
+    STATE ccvvc3
+        VV -> ccvvc4
     STATE ccvvc4
         C|N|R -> ex_y
     
@@ -222,9 +226,11 @@ BLOCK SYL2 # syllables 2 .. (N-1)
         V -> cvv2
         V -> cvv1a
     STATE cvv1a
-        APOS -> cvv2
-    STATE cvv2
+        APOS -> cvv1b
+    STATE cvv1b
         V -> ex_cln
+    STATE cvv2
+        VV -> ex_cln
 
     STATE ccv1
         CI -> ccv2
@@ -256,9 +262,11 @@ BLOCK SYL2 # syllables 2 .. (N-1)
         V -> ccvvc3
         V -> ccvvc2a
     STATE ccvvc2a
-        APOS -> ccvvc3
-    STATE ccvvc3
+        APOS -> ccvvc2b
+    STATE ccvvc2b
         V -> ccvvc4
+    STATE ccvvc3
+        VV -> ccvvc4
     STATE ccvvc4
         C|N|R -> ex_y
 
@@ -327,9 +335,11 @@ BLOCK SYLN
         V -> cvv2
         V -> cvv1a
     STATE cvv1a
-        APOS -> cvv2
-    STATE cvv2
+        APOS -> cvv1b
+    STATE cvv1b
         V -> exit
+    STATE cvv2
+        VV -> exit
 
     STATE ccv1
         CI -> ccv2
@@ -422,9 +432,11 @@ BLOCK TOS_SYL1
         V -> ccvvcv2
         V -> ccvvcv1a
     STATE ccvvcv1a
-        APOS -> ccvvcv2
-    STATE ccvvcv2
+        APOS -> ccvvcv1b
+    STATE ccvvcv1b
         V -> ccvvcv3
+    STATE ccvvcv2
+        VV -> ccvvcv3
     STATE ccvvcv3
         C|N|R -> ex_y
 
@@ -583,15 +595,28 @@ ENDBLOCK
 BLOCK CMAVOSEQ
 
     STATE in
-        -> main
+        V -> m2
+        V -> mv
         C|N|R -> main
         C|N|R -> cy1
+        V -> in1
+
+    STATE in1
+        VX -> in2
+
+    STATE in2
+        -> exit_prefixable
+        C|N|R -> main
 
     STATE main
         V -> m2
+        V -> mv
+
+    STATE mv
+        VV -> m2
+        VV -> mv
 
     STATE m2
-        -> main
         C|N|R -> main
         APOS -> main
         -> exit_prefixable
@@ -713,7 +738,7 @@ BLOCK FV_TAIL
         CI|CP|NR|H -> c
         V -> v
     STATE v
-        V -> v
+        VV|VX|VA -> v
         APOS -> a
         -> exit
         -> in
@@ -736,13 +761,13 @@ BLOCK FV_START0
         CI -> cc
         V -> v
     STATE v
-        V -> v
+        VV|VX|VA -> v #VX since "these 10 can be used in .. borrowings (secn. 3.4)"
         APOS -> a
         -> exit_need_syl
     STATE a
         V -> v1
     STATE v1
-        V -> v1
+        VV|VX|VA -> v1
         -> exit
         APOS -> a1
     STATE a1
@@ -771,11 +796,12 @@ BLOCK FV_START1
     STATE v1
         APOS -> s1
     STATE s1
-        V -> v2
-        V -> s2
+        # Vowel could follow ' so need bare V as well as vowel compounds
+        V|VV|VX|VA -> v2
+        V|VV|VX|VA -> s2
     STATE v2
         APOS -> a2
-        V -> s2
+        VV|VX|VA -> s2
     STATE a2
         V -> s2
 
@@ -787,7 +813,7 @@ BLOCK FV_START1
         CI|CP|NR|H -> cc
         V -> v3
     STATE v3
-        V -> v3
+        VV|VX|VA -> v3
         APOS -> a3
         -> exit
     STATE a3
@@ -868,20 +894,15 @@ BLOCK CMENE
     STATE c
         CI|CP|NR|H -> c
         -> exit
-        V -> v
-        Y -> y
-
-    STATE y
-        V -> v
-        CI|CP|NR|H|CN|BT -> c
+        V|Y -> v
 
     STATE v
-        V -> v
-        C|N|R -> c
+        VV|VX|VA|VY -> v
+        C|N|R|CI|CP|NR|H|CN|BT -> c
         APOS -> a
 
     STATE a
-        V -> v
+        V|Y -> v
 
     STATE exit
         = BIT_CMENE

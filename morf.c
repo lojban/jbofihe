@@ -69,6 +69,9 @@ extern int allow_cultural_rafsi;
  * the DFA.  These tables are built my mk_fetab.pl */
 #include "morf_lex.c"
 
+/* Include file for checking vowel pairs/clusters within the input stream. */
+#include "morfvlex.c"
+
 /* Include the main DFA scanning tables (including cultural rafsi) built by
    nfa2dfa.pl. */
 #include "morf_dfa.c"
@@ -97,7 +100,8 @@ static unsigned char s2l[32] = {
 /* Token names for -v mode */
 static unsigned char *toknam[] = {
   "UNK", "V", "APOS", "Y", "R", "N", "C",
-  "NR", "CI", "CP", "CN", "H", "BT"
+  "NR", "CI", "CP", "CN", "H", "BT",
+  "VV", "VX", "VA", "VY"
 };
 
 /* Front end state machine actions, printable for -v mode */
@@ -110,6 +114,10 @@ static char charnames[32] = {
   '?', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
   'p', '?', 'r', 's', 't', 'u', 'v', 'w',
   'x', 'y', 'z', '?', '?', '?', '\'', '?'
+};
+
+static char vowelnames[8] = {
+  ',', 'C', 'y', 'a', 'e', 'i', 'o', 'u'
 };
 
 static char Lname[4] = { 'V', 'n', 'r', 'C' };
@@ -162,6 +170,48 @@ static unsigned char mapchar[256] = {
   0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f
 };
 
+static unsigned char vmapchar[256] = {
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, /* invalid -> consonant code */
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, /* (reject by main FSM) */
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, /* apos. -> 1=cons */
+  0x01, 0x01, 0x01, 0x01, 0x00, 0x01, 0x01, 0x01, /* comma -> 0 */
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+
+  0x01, 0x03, 0x01, 0x01, 0x01, 0x04, 0x01, 0x01, /* aeiou->34567 */
+  0x01, 0x05, 0x01, 0x01, 0x01, 0x01, 0x01, 0x06, /* cons ->1 */
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x07, 0x01, 0x01, /* y -> 2 */
+  0x01, 0x02, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+
+  0x01, 0x03, 0x01, 0x01, 0x01, 0x04, 0x01, 0x01, /* aeiou->34567 */
+  0x01, 0x05, 0x01, 0x01, 0x01, 0x01, 0x01, 0x06, /* cons ->1 */
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x07, 0x01, 0x01, /* y -> 2 */
+  0x01, 0x02, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
+  0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01
+};
+
 
 /* The main scanning routine.  's' is the string to be scanned.  buf_end is a
  * pointer to a table of pointers to characters (i.e. pass by reference so we
@@ -171,6 +221,7 @@ MorfType
 morf_scan(char *s, char ***buf_end)
 {
   unsigned int L, S, G;
+  unsigned int vsm = 0x49; /* 9'b001001001 in verilog-ese */
   char *p, c;
   char **start, **pstart;
   char *cstart[256], **pcstart; /* Used for holding start of Cy structures */
@@ -182,6 +233,8 @@ morf_scan(char *s, char ***buf_end)
   int result;
   int had_uppercase=0;
   int letter_uppercase;
+  int ended_with_comma=0;
+  int started_with_comma=0;
   MorfType ext_result;
   unsigned long *exitval_table;
 
@@ -202,17 +255,27 @@ morf_scan(char *s, char ***buf_end)
 
 #ifdef TEST_MORF
   if (verbose) {
-    printf ("Chr L     S      G     tok    act set inh state'\n");
+    printf ("Chr L     S      G      vsm  tok   act set inh state'\n");
   }
 #endif
 
   p = s;
+  started_with_comma = (*p == ',');
+
   while (*p) {
     c = *p;
+
+    /* The vowel cluster state machine evolves on all input chars including
+       commas.  (The normal state machine doesn't bother about commas) */
+
+    vsm = ((vsm & 0x3f) << 3) | vmapchar[c];
+    
+    /* If char is a comma, just advance now. */
     if (c == ',') {
       p++;
       continue;
     }
+    
     G = (unsigned int) mapchar[c];
     letter_uppercase = (G >> 7) & 1;
     had_uppercase |= letter_uppercase;
@@ -237,6 +300,15 @@ morf_scan(char *s, char ***buf_end)
       *pstart++ = p;
     }
 
+    /* If tok is V or Y, need to adapt it based on the vowel cluster checker */
+    if (tok == 1) { /* vowel recognized by main FSM */
+      tok = vcheck[vsm];
+    } else if (tok == 3) { /* y recognized by main FSM */
+      tok = vcheck[vsm];
+    } else {
+      /* fall through with main FSM's token value */
+    }
+
     if ((last_act == ACT_FREEZE) && (act == ACT_SHIFT)) {
       /* This happens if the input has a y-to-consonant transition.  Such
        * positions may be the start of Cy cmavo, if the whole string ends in a
@@ -251,8 +323,9 @@ morf_scan(char *s, char ***buf_end)
 
 #ifdef TEST_MORF
     if (verbose) {
-      printf ("%c   %01x(%c)  %02x(%c)  %02x(%c)  %-4s  %-3s  %d   %d  %4d\n",
-              c, L, Lname[L], S, charnames[S], G, charnames[G], 
+      printf ("%c   %01x(%c)  %02x(%c)  %02x(%c)  %c%c%c  %-4s  %-3s  %d   %d  %4d\n",
+              c, L, Lname[L], S, charnames[S], G, charnames[G],
+              vowelnames[(vsm>>6)&7], vowelnames[(vsm>>3)&7], vowelnames[vsm&7],
               toknam[tok], actnam[act], set, inhibit, next_state);
     }
 #endif
@@ -278,11 +351,14 @@ morf_scan(char *s, char ***buf_end)
     if (state < 0) break; /* syntax error */
     
   }
+
+  if (!*p && !(vsm & 0x7)) { /* last char was a comma */
+    ended_with_comma = 1;
+  }
   
   exitval_table = allow_cultural_rafsi ? morf_exitval : morfnc_exitval;
-
   
-  if ((state < 0) || (exitval_table[state] == 0)) {
+  if ((state < 0) || started_with_comma || ended_with_comma || (exitval_table[state] == 0)) {
     result = W_UNKNOWN;
     ext_result = MT_BOGUS;
     decrement = 0;
