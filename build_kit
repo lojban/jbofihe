@@ -19,6 +19,7 @@ open(COPY, "<LICINS");
 close(COPY);
 for $f (@files) {
     chomp $f;
+    next if ($f =~ /build_kit/);
     print "doing $f\n";
     rename "$f","$f.tmp";
     open (IN, "<$f.tmp");
@@ -62,3 +63,6 @@ for $f (@files) {
     close(OUT);
     unlink "$f.tmp";
 }
+
+chmod 0755, "configure";
+
