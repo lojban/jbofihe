@@ -690,6 +690,7 @@ build_transmap(Block *b)
 
 typedef struct {
   unsigned long *nfas;
+  unsigned long signature; /* All the longwords in the nfas array xor'ed together */
   int *map; /* index by token code */
   Stringlist *nfa_sl; /* NFA exit values */
   char *result;
@@ -711,15 +712,27 @@ grow_dfa(void)
 }
 
 /* ================================================================= */
-/* Simple linear search */
+/* Simple linear search.  Use 'signatures' to get rapid rejection
+   of any DFA state that can't possibly match */
 
 static int
 find_dfa(unsigned long *nfas, int N)
 {
   int res=-1;
   int i, j;
+  unsigned long signature = 0UL;
+
+  for (j=0; j<round_up(N); j++) {
+    signature ^= nfas[j];
+  }
+  
   for(i=0; i<ndfa; i++) {
-    int matched=1;
+    int matched;
+
+    if (signature != dfas[i]->signature) continue;
+    
+    matched=1;
+
     for (j=0; j<round_up(N); j++) {
       if (nfas[j] != dfas[i]->nfas[j]) {
         matched = 0;
@@ -742,6 +755,7 @@ add_dfa(Block *b, unsigned long *nfas, int N, int Nt)
   int result = ndfa;
   int had_exitvals;
   Stringlist *ex;
+  unsigned long signature = 0UL;
 
   fprintf(stderr, "Adding DFA state %d\n", ndfa);
   fflush(stderr);
@@ -755,8 +769,11 @@ add_dfa(Block *b, unsigned long *nfas, int N, int Nt)
   dfas[ndfa]->map = new_array(int, Nt);
   
   for (j=0; j<round_up(N); j++) {
-    dfas[ndfa]->nfas[j] = nfas[j];
+    unsigned long x = nfas[j];
+    signature ^= x;
+    dfas[ndfa]->nfas[j] = x;
   }
+  dfas[ndfa]->signature = signature;
 
   ex = NULL;
   had_exitvals = 0;
@@ -811,58 +828,83 @@ clear_nfas(unsigned long *nfas, int N)
 static void
 build_dfa(Block *b, int start_index)
 {
-  unsigned long *nfas;
+  unsigned long **nfas;
   int i;
   int N, Nt;
   int next_to_do;
+  int *found_any;
+  int rup_N;
   
   N = b->nstates;
+  rup_N = round_up(N);
   Nt = ntokens;
   
   /* Add initial state */
-  nfas = new_array(unsigned long, round_up(N));
-  clear_nfas(nfas, N);
-  for (i=0; i<round_up(N); i++) {
-    nfas[i] |= eclo[start_index][i];
+  nfas = new_array(unsigned long *, Nt);
+  for (i=0; i<Nt; i++) {
+    nfas[i] = new_array(unsigned long, round_up(N));
   }
-  add_dfa(b, nfas, N, Nt);
+  clear_nfas(nfas[0], N);
+  for (i=0; i<round_up(N); i++) {
+    nfas[0][i] |= eclo[start_index][i];
+  }
+  add_dfa(b, nfas[0], N, Nt);
   next_to_do = 0;
+  found_any = new_array(int, Nt);
 
   /* Now the heart of the program : the subset construction to turn the NFA
-     into a DFA. */
+     into a DFA.  This is a major performance hog in the program, so there are
+     lots of tricks to speed this up (particularly, hoisting intermediate
+     pointer computations out of the loop to assert the fact that there is no
+     aliasing between the arrays.) */
 
   while (next_to_do < ndfa) {
 
     int t; /* token index */
     int j, k, m;
     int idx;
-    int found_any;
     
-    for (t=0; t<Nt; t++) {
-      clear_nfas(nfas, N);
-      found_any = 0;
-      for (j=0; j<N; j++) {
-        if (is_set(dfas[next_to_do]->nfas, j)) {
-          for (k=0; k<round_up(N); k++) {
+    for (j=0; j<Nt; j++) {
+      clear_nfas(nfas[j], N);
+      found_any[j] = 0;
+    }
+
+    for (j=0; j<N; j++) { /* Loop over NFA states which may be in this DFA state */
+      unsigned long **transmap_j = transmap[j];
+      if (is_set(dfas[next_to_do]->nfas, j)) { /* Is NFA state in DFA */
+        for (t=0; t<Nt; t++) { /* Loop over transition symbols */
+          unsigned long *transmap_t = transmap_j[t];
+          unsigned long *nfas_t = nfas[t];
+          unsigned long found_any_t = found_any[t];
+          for (k=0; k<rup_N; k++) { /* Loop over destination NFA states */
             unsigned long x;
-            x = transmap[j][t][k];
-            nfas[k] |= x;
-            found_any |= !!x;
+            x = transmap_t[k];
+            nfas_t[k] |= x;
+            found_any_t |= !!x;
           }
+          found_any[t] = found_any_t;
         }
       }
-      if (found_any) {
-        idx = find_dfa(nfas, N);
+    }
+          
+    for (t=0; t<Nt; t++) {
+      if (found_any[t]) {
+        idx = find_dfa(nfas[t], N);
         if (idx < 0) {
-          idx = add_dfa(b, nfas, N, Nt);
+          idx = add_dfa(b, nfas[t], N, Nt);
         }
       } else {
         idx = -1;
       }
       dfas[next_to_do]->map[t] = idx;
     }
+
     next_to_do++;
   }
+
+  free(found_any);
+  for (i=0; i<Nt; i++) free(nfas[i]);
+  free(nfas);
 }
 
 /* ================================================================= */
