@@ -73,8 +73,10 @@ check_tense_context(TreeNode *x)
         break;
 
       case STATEMENT_3:
+      case TERM_FLOATING_TENSE:
       case GEK_SENTENCE:
       case MAIN_SELBRI:
+      case METALINGUISTIC_MAIN_SELBRI:
         /* It's no use just looking for <selbri>, because that happens
            in a sumti context as well. */
         tc = prop_tense_ctx(x, YES);
