@@ -4,13 +4,7 @@
 #
 # COPYRIGHT
 
-if ($#ARGV < 0) {
-    $dir="./";
-} else {
-    $dir = $ARGV[0];
-}
-
-open (IN, "<".$dir."NORALUJV.txt") || die "Could not open NORALUJV.txt";
+open (IN, "<NORALUJV.txt") || die "Could not open NORALUJV.txt";
 @lines = <IN>;
 close (IN);
 
@@ -33,16 +27,15 @@ foreach $x (@lines) {
     
     @places = ();
     foreach $p (@plac) {
-	if ($p =~ m/x([1-9]) = ([a-z\']+[12345])/) {
-	    $place = $1;
-	    $gismu = $2;
-	    $gplace = $3;
-	    
-	    if ($place > 1) {
-		$places[$place] = $gismu.$gplace;
-		print $lujvo.$place.":\@".$gismu.$gplace."\n";
-	    }
-	} else {
-	}
+        if ($p =~ m/x([1-9]) = ([a-z\']+[12345])/) {
+            $place = $1;
+            $gismu = $2;
+            $gplace = $3;
+            
+            if ($place > 1) {
+                $places[$place] = $gismu.$gplace;
+                print $lujvo.$place.":\@".$gismu.$gplace."\n";
+            }
+        }
     }
 }
