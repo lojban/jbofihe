@@ -165,6 +165,7 @@ cm_scan.c : cm_scan.l
 	flex -t cm_scan.l > cm_scan.c
 
 jvocuhadju : jvocuhadju.o lujvofns.o
+	$(CC) $(CFLAGS) -o jvocuhadju jvocuhadju.o lujvofns.o
 
 jvocuhadju.o : jvocuhadju.c version.h
 
