@@ -19,13 +19,13 @@ open(COPY, "<LICINS");
 close(COPY);
 for $f (@files) {
     chomp $f;
-    next if ($f =~ /build_kit/);
+    $done = 0;
     print "doing $f\n";
     rename "$f","$f.tmp";
     open (IN, "<$f.tmp");
     open (OUT, ">$f");
     while (<IN>) {
-	if (m,\/\* COPYRIGHT \*\/,) {
+	if (!$done && m,\/\* COPYRIGHT \*\/,) {
         # When the copyright string is not locally in the source file.  This is the default
         # for most of the parts Richard wrote.
 	    print OUT "/**********************************************************************\n";
@@ -34,14 +34,16 @@ for $f (@files) {
             print OUT " * ".$_;
 	    }
 	    print OUT " *********************************************************************/\n";
-	} elsif (m,\# COPYRIGHT,) {
+        $done = 1;
+	} elsif (!$done && m,\# COPYRIGHT,) {
 	    print OUT "#\n";
         print OUT "# Copyright (C) Richard P. Curnow  1998-$year\n";
 	    for (@copy) {
             print OUT "# ".$_;
 	    }
 	    print OUT "#\n";
-	} elsif (m,\/\* LICEN[CS]E \*\/,) {
+        $done = 1;
+	} elsif (!$done && m,\/\* LICEN[CS]E \*\/,) {
         # For the case where the copyright strings are in the file itself.  This may be
         # the case with multiple contributors.
         print OUT "/*\n";
@@ -49,12 +51,14 @@ for $f (@files) {
             print OUT " * ".$_;
 	    }
         print OUT "*/\n";
-	} elsif (m,\# LICEN[CS]E,) {
+        $done = 1;
+	} elsif (!$done && m,\# LICEN[CS]E,) {
         # For the case where the copyright strings are in the file itself.  This may be
         # the case with multiple contributors.
 	    for (@copy) {
             print OUT "# ".$_;
 	    }
+        $done = 1;
 	} else {
 	    print OUT;
 	}
