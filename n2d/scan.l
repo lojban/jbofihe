@@ -26,6 +26,11 @@ BLOCK|Block|block           { return BLOCK; }
 ENDBLOCK|EndBlock           { return ENDBLOCK; }
 Endblock|endblock           { return ENDBLOCK; }
 RESULT|Result|result        { return RESULT; }
+ATTRIBUTE|ATTR              { return ATTR; }
+Attribute|Attr              { return ATTR; }
+attribute|attr              { return ATTR; }
+DEFATTR|DefAttr             { return DEFATTR; }
+Defattr|defattr             { return DEFATTR; }
 DEFRESULT|DefResult         { return DEFRESULT; }
 Defresult|defresult         { return DEFRESULT; }
 SYMBOL|Symbol|symbol        { return SYMBOL; }
