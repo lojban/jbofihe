@@ -1,4 +1,3 @@
-
 /***************************************
   $Header$
 
@@ -227,6 +226,71 @@ try_removals(Block *b, struct StateRec *recs)
   return removed_any;
 }
 
+/************** Lexicographic comparison of states by exit value **************/
+
+static int
+compare_states_by_exitval(const void *a, const void *b)
+{
+  const State *aa = *(const State **) a;
+  const State *bb = *(const State **) b;
+  const char *aaa = aa->exitvals->string;
+  const char *bbb = bb->exitvals->string;
+
+  return strcmp(aaa, bbb);
+}
+
+/******* Try to squash accepting states that have the same result value *******/
+
+static void
+compress_accepting_states(Block *b)
+{
+  int N = b->nstates;
+  State **ac_states = new_array(State *, N);
+  int n, i;
+  int base, here;
+  const char *base_str, *here_str;
+  
+  for (i=n=0; i<N; i++) {
+    State *s = b->states[i];
+    if (s->exitvals) {
+      if (s->transitions) {
+        fprintf(stderr, "Didn't expect to find an accepting NFA state with transitions\n");
+        exit(2);
+      }
+      if (s->exitvals->next) {
+        fprintf(stderr, "Didn't expect to find an accepting NFA state with more than one result\n");
+        exit(2);
+      } 
+
+      ac_states[n++] = s;
+    }
+  }
+
+  /* Sort into ascending order */
+  if (n > 1) {
+    qsort(ac_states, n, sizeof(State *), compare_states_by_exitval);
+
+    base = 0;
+    base_str = ac_states[base]->exitvals->string;
+    here = 1;
+    while (here < n) {
+      here_str = ac_states[here]->exitvals->string;
+      if (!strcmp(base_str, here_str)) {
+        squash_state(b, ac_states[here], ac_states[base]);
+        fprintf(stderr, "Replacing accepting state '%s' by '%s'\n",
+                ac_states[here]->name, ac_states[base]->name);
+
+      } else {
+        base = here;
+        base_str = here_str;
+      }
+
+      here++;
+    }
+  } 
+
+  free(ac_states);
+}
 
 /************************** Main callable interface **************************/
 
@@ -239,6 +303,8 @@ compress_nfa(Block *b)
   int N = b->nstates;
   struct StateRec *recs = new_array(struct StateRec, N);
   int pass, any_removed;
+
+  compress_accepting_states(b);
 
   canonicalise_transitions(b);
   pass = 1;
