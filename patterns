@@ -124,6 +124,30 @@
 *4nu+4:@3
 *4nu+5:@4
 *4nu+6:@5
+*4mu'e+1:D;achievement* of %1v
+*4mu'e+2:@1
+*4mu'e+3:@2
+*4mu'e+4:@3
+*4mu'e+5:@4
+*4mu'e+6:@5
+*4pu'u+1:D;process* of %1v
+*4pu'u+2:@1
+*4pu'u+3:@2
+*4pu'u+4:@3
+*4pu'u+5:@4
+*4pu'u+6:@5
+*4za'i+1:D;state* of %1v
+*4za'i+2:@1
+*4za'i+3:@2
+*4za'i+4:@3
+*4za'i+5:@4
+*4za'i+6:@5
+*4zu'o+1:D;activity* of %1v
+*4zu'o+2:@1
+*4zu'o+3:@2
+*4zu'o+4:@3
+*4zu'o+5:@4
+*4zu'o+6:@5
 *4ka+1:D;quality* of %1v
 *4ka+2:@1
 *4ka+3:@2
