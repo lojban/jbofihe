@@ -99,6 +99,43 @@ any_clusters(char *buf)
   
 }
 
+
+/*++++++++++++++++++++++++++++++++++++++
+  Return 1 if an initial consonant pair is acceptable for a lujvo, otherwise return 0.
+
+  static int is_initial_pair_ok
+
+  char *s The string whose first 2 chars are to be tested.
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static int
+is_initial_pair_ok(char *s) {
+
+  switch (s[0]) {
+    case 'b':
+    case 'f':
+    case 'g':
+    case 'k':
+    case 'm':
+    case 'p':
+    case 'v':
+    case 'x':
+      return !!strchr("lr", s[1]);
+    case 'c':
+    case 's':
+      return !!strchr("fklmnprt", s[1]);
+    case 'd':
+      return !!strchr("jrz", s[1]);
+    case 'j':
+    case 'z':
+      return !!strchr("bdgmv", s[1]);
+    case 't':
+      return !!strchr("crs", s[1]);
+    default:
+      return 0;
+  }
+}
+
 /*++++++++++++++++++++++++++++++
 
   Tables for encoding cmavos into the indices in the cmavo_table.
@@ -251,6 +288,22 @@ do_a_cmavo(char **bb, int start_line, int start_column) {
   return 1;
 }
 
+static void
+add_brivla_token(char *x, int start_line, int start_column)
+{
+  TreeNode *tok;
+
+  tok = new_node();
+  tok->start_line = start_line;
+  tok->start_column = start_column;
+  tok->type = N_BRIVLA;
+  /* Leave commas etc in for BRIVLA - you can use them in a
+     fu'ivla? */
+  tok->data.brivla.word = new_string(x);
+  add_token(tok);
+
+
+}
 
 
 /*++++++++++++++++++++++++++++++++++++++
@@ -354,15 +407,16 @@ process_word(char *buf, int start_line, int start_column)
         if (cluster_start >= 4) {
           if (!do_a_cmavo(&b2, start_line, start_column)) return 0;
           cluster_start = any_clusters(b2);
+        } else if (cluster_start == 2) {
+          if ((strlen(b2) >= 7) &&
+              (is_initial_pair_ok(b2 + 2))) {
+            if (!do_a_cmavo(&b2, start_line, start_column)) return 0;
+          } else {
+            add_brivla_token(b2, start_line, start_column);
+            break;
+          }
         } else {
-          tok = new_node();
-          tok->start_line = start_line;
-          tok->start_column = start_column;
-          tok->type = N_BRIVLA;
-          /* Leave commas etc in for BRIVLA - you can use them in a
-             fu'ivla? */
-          tok->data.brivla.word = new_string(b2);
-          add_token(tok);
+          add_brivla_token(b2, start_line, start_column);
           break;
         }
       }
