@@ -173,6 +173,7 @@ init(void)
     in = fopen(dname, "r");
     if (!in) {
       fprintf(stderr, "Cannot open dictionary\n");
+      inited = -1;
     } else {
       read_database(in);
       fclose(in);
@@ -218,6 +219,7 @@ translate(char *word)
   buf = GETBUF();
   
   init();
+  if (inited == -1) return "?";
   
   res = lookup(word);
   if (res) {
@@ -248,6 +250,10 @@ translate_lujvo(char *word, int place)
   if (!canon) return "?";
   
   split_into_comps(canon, comp, &ncomp);
+  if (ncomp < 2) {
+    /* Prevent infinite recursion */
+    return NULL;
+  }
   result = GETBUF();
   result[0] = 0;
   for (i=0; i<ncomp; i++) {
