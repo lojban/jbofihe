@@ -1204,6 +1204,52 @@ static int check_include_char(int this_state, int token)/*{{{*/
   }
 }
 /*}}}*/
+static void write_next_state_function(void)/*{{{*/
+/* Write the next_state function for traversing compressed tables into the
+   output file. */
+{
+  extern char *prefix;
+  if (prefix) {
+    fprintf(output, "int %s_next_state(int current_state, int next_token) {\n", prefix);
+    fprintf(output, "int h, l, m, xm;\n");
+    fprintf(output, "while (current_state >= 0) {\n");
+    fprintf(output, "  l = %s_base[current_state], h = %s_base[current_state+1];\n", prefix, prefix);
+    fprintf(output, "  while (h > l) {\n");
+    fprintf(output, "    m = (h + l) >> 1; xm = %s_token[m];\n", prefix);
+    fprintf(output, "    if (xm == next_token) goto done;\n");
+    fprintf(output, "    if (m == l) break;\n");
+    fprintf(output, "    if (xm > next_token) h = m;\n");
+    fprintf(output, "    else                 l = m;\n");
+    fprintf(output, "  }\n");
+    fprintf(output, "  current_state = %s_defstate[current_state]\n", prefix);
+    fprintf(output, "}\n");
+    fprintf(output, "return -1;\n");
+    fprintf(output, "done:\n");
+    fprintf(output, "return %s_nextstate[m];\n", prefix);
+    fprintf(output, "}\n");
+  } else {
+    fprintf(output, "int next_state(int current_state, int token) {\n");
+    fprintf(output, "int h, l, m, xm;\n");
+    fprintf(output, "while (current_state >= 0) {\n");
+    fprintf(output, "  l = base[current_state], h = base[current_state+1];\n");
+    fprintf(output, "  while (h > l) {\n");
+    fprintf(output, "    m = (h + l) >> 1; xm = token[m];\n");
+    fprintf(output, "    if (xm == next_token) goto done;\n");
+    fprintf(output, "    if (m == l) break;\n");
+    fprintf(output, "    if (xm > next_token) h = m;\n");
+    fprintf(output, "    else                 l = m;\n");
+    fprintf(output, "  }\n");
+    fprintf(output, "  current_state = defstate[current_state]\n");
+    fprintf(output, "}\n");
+    fprintf(output, "return -1;\n");
+    fprintf(output, "done:\n");
+    fprintf(output, "return nextstate[m];\n");
+    fprintf(output, "}\n");
+  }
+
+
+}
+/*}}}*/
 static void print_compressed_tables(Block *b)/*{{{*/
 /* Print state/transition table in compressed form.  This is more
    economical on storage, but requires a bisection search to find
@@ -1297,9 +1343,10 @@ static void print_compressed_tables(Block *b)/*{{{*/
     fprintf(output, "%5d", dfas[i]->defstate);
   }
   fprintf(output, "\n};\n\n");
-
   
   free(basetab);
+
+  write_next_state_function();
 }
 /*}}}*/
 /* ================================================================= */
