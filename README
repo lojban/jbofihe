@@ -59,6 +59,10 @@ perl config.pl --prefix=/usr/local
 make all
 make install
 
+The config.pl script takes two additional arguments :
+--debug to compile with debug instead of optimisation
+--installprog <name> to specify an alternative installation program.
+
 RUNNING
 
 If your compiled dictionary is not in the default location (i.e. you
