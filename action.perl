@@ -6,6 +6,13 @@
 # COPYRIGHT
 #
 
+$do_nonterm = 1;
+while (shift @ARGV) {
+    if (/-nononterm/) {
+        $do_nonterm = 0;
+    }
+}
+
 while (<>) {
     print;
     if (/^\%\%/) { last; }
@@ -133,6 +140,8 @@ while (<>) {
 $nonterms{"AUGMENTED"} = 1;
 
 @nt = sort keys(%nonterms);
+
+unless ($do_nonterm) { exit 0; }
 
 open(NT, ">nonterm.h");
 print NT "#ifndef NONTERM_H\n#define NONTERM_H\n\n/* max childen = $max_nchildren */\n\nextern char *nonterm_names[];\n\ntypedef enum {\n";

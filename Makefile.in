@@ -21,7 +21,7 @@ OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc_tab.o functions.o \
         properties.o conversion.o terms.o memory.o tenses.o \
 	output.o textout.o htmlout.o connect.o stag.o latexblk.o \
         relative.o textblk.o errorscan.o canonluj.o lujvofns.o \
-        erasure.o
+        erasure.o rpc_full.o
 
 SRCS2 = $(OBJS2:%.o=%.c)
 
@@ -57,6 +57,17 @@ rpc_tab.c rpc_tab.h : rpc2x_act.y
 	bison -v -d rpc2x_act.y
 	mv rpc2x_act.tab.c rpc_tab.c
 	mv rpc2x_act.tab.h rpc_tab.h
+
+# Create grammar that will only recognize text with all elidable cmavo present
+rpc2x_full_nc.y : rpc2x.y terminator.pl uncom
+	perl terminator.pl < rpc2x.y | ./uncom > rpc2x_full_nc.y
+
+rpc2x_full_act.y : rpc2x_full_nc.y
+	perl ./action.perl -nononterm < rpc2x_full_nc.y > rpc2x_full_act.y
+
+rpc_full.c : rpc2x_full_act.y
+	bison -v -p full_yy rpc2x_full_act.y
+	sed -e "s/full_yylex/yylex/;s/full_yydebug/yydebug/;s/full_yyerror/yyerror/;s/full_yylval/yylval/;" < rpc2x_full_act.tab.c > rpc_full.c
 
 stag.c : stag.tab.c
 	sed -e 's/YYSTYPE/STAG_YYSTYPE/g;' < stag.tab.c > stag.c

@@ -3,7 +3,7 @@
 jbofihe \- Lojban parser / grammar checker / word glosser
 .SH SYNOPSIS
 .B jbofihe
-[-v] [ -h | --help | -? ] [ -k ] [ -g ] [ -t ] [-tf ] [ -l ] [ -b ] [ -x ] [ -H ] [ -m ] [ -w width ] [-ie] [filename]
+[-v] [ -h | --help | -? ] [ -k ] [ -g ] [ -t ] [-tf ] [ -l ] [ -b ] [ -x ] [ -H ] [ -m ] [ -w width ] [-ie] [-re] [filename]
 .SH DESCRIPTION
 .I jbofihe
 is a program that reads a piece of Lojban text and checks it for
@@ -63,6 +63,11 @@ Show the amount of memory used by the processing.
 .TP
 .B -ie
 Display elided separators and terminators in the output.
+.TP
+.B -re
+Require the input text to have all elidable cmavo actually present.  (May be
+useful for forcing the user to think about the grammatical structure of the
+input text more carefully when debugging parse errors.)
 .TP
 .B filename
 The name of the file containing text to be parsed.  If omitted, the text is

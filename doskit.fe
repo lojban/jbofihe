@@ -23,6 +23,7 @@ if [ ! -r smujmaji.dat ]; then
 fi
 
 make rpc_tab.c
+make rpc_full.c
 make stag.c
 make canonluj.inc
 make jbofihe.txt

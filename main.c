@@ -22,6 +22,7 @@ TreeNode *top;
 extern int yydebug;
 
 extern int yyparse(void);
+extern int full_yyparse(void);
 
 extern DriverVector latex_driver, latex_block_driver;
 extern DriverVector textout_driver, text_block_driver;
@@ -82,6 +83,7 @@ show_usage(void)
                   "\n"
                   "These options relate to handling elidable separators/terminators\n"
                   "-ie          Display elided separators and terminators\n"
+                  "-re          Require elidable separators and terminators to be present\n"
                   "\n"
                   "These options relate to help & debug\n"
                   "-v           Show version number and exit\n"
@@ -112,6 +114,7 @@ main (int argc, char **argv)
   int textout;
   int htmlout;
   int show_memory;
+  int require_elidables;
 
   debug = 0;
   token_lists = 0;
@@ -125,6 +128,7 @@ main (int argc, char **argv)
   show_memory = 0;
   opt_output_width = 80;
   insert_elidables = 0;
+  require_elidables = 0;
 
   show_dictionary_defects = 0;
 
@@ -155,6 +159,8 @@ main (int argc, char **argv)
       show_memory = 1;
     } else if (!strcmp(*argv, "-ie")) {
       insert_elidables = 1;
+    } else if (!strcmp(*argv, "-re")) {
+      require_elidables = 1;
     } else if (!strcmp(*argv, "-dd")) {
       show_dictionary_defects = 1;
     } else if (!strncmp(*argv, "-w", 2)) {
@@ -220,7 +226,11 @@ main (int argc, char **argv)
   yydebug = debug;
   had_syntax_error = 0;
 
-  result = yyparse();
+  if (require_elidables) {
+    result = full_yyparse();
+  } else {
+    result = yyparse();
+  }
 
   if (result == 0 && !had_syntax_error) {
     expand_bahe_ui(top);
