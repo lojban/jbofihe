@@ -789,6 +789,15 @@ categorize_jek_kebo(TreeNode *head)
            JEK_KE tokens will screw up parsing of I construct */
       } else {
         y = x->next;
+        while (y->type != N_CMAVO ||
+               y->data.cmavo.selmao != JA) {
+          y = y->next;
+        }
+        y = y->next;
+        if (y->type == N_CMAVO &&
+            y->data.cmavo.selmao == NAI) {
+          y = y->next;
+        }
         switch (lookahead(y)) {
           case FOUND_BO:
             marker = new_node();
@@ -839,6 +848,10 @@ categorize_ek_kebo(TreeNode *head)
         x->data.cmavo.selmao == A) {
 
       y = x->next;
+      if (y->type == N_CMAVO &&
+          y->data.cmavo.selmao == NAI) {
+        y = y->next;
+      }
       z = x->prev;
       while (z->type != N_MARKER ||
              z->data.marker.tok != START_EK) {
@@ -892,6 +905,16 @@ categorize_joik_kebo(TreeNode *head)
         x->data.marker.tok == START_JOIK) {
 
       y = x->next;
+      while (y->type != N_CMAVO ||
+             y->data.cmavo.selmao != JOI) {
+        /* FIXME - This won't work for BIhI etc */
+        y = y->next;
+      }
+      y = y->next;
+      if (y->type == N_CMAVO &&
+          y->data.cmavo.selmao == NAI) {
+        y = y->next;
+      }
       switch (lookahead(y)) {
         case FOUND_BO:
           marker = new_node();
@@ -940,6 +963,10 @@ categorize_gihek_kebo(TreeNode *head)
         x->data.cmavo.selmao == GIhA) {
 
       y = x->next;
+      if (y->type == N_CMAVO &&
+          y->data.cmavo.selmao == NAI) {
+        y = y->next;
+      }
       z = x->prev;
       while (z->type != N_MARKER ||
              z->data.marker.tok != START_GIHEK) {
