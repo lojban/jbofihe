@@ -1163,7 +1163,6 @@ attempt_pattern_match(char *w, int place, TransContext ctx)
      mapped onto it, do a place switch */
   if (ncomp == 1) {
     int new_place = comp[0].places[place];
-    fprintf(stderr, "Single component, lookup place %d on %s\n", new_place, comp[0].text);
     return adv_translate(comp[0].text, new_place, ctx);
 
   } else {
@@ -1293,7 +1292,9 @@ adv_translate(char *w, int place, TransContext ctx)
       /* Try to get pattern match for word */
       trans = attempt_pattern_match(w, place, ctx);
       if (trans) {
+#if 0
         fprintf(stderr, "Used pattern match to resolve [%s]\n", w);
+#endif
         return trans;
       }
 
