@@ -38,6 +38,7 @@ State *get_curstate(void) { return curstate; }
 %type<e> expr
 
 %token RESULT SYMBOL SYMRESULT DEFRESULT
+%token ATTR DEFATTR
 %token STAR
 %right QUERY COLON
 %left PIPE
@@ -52,7 +53,7 @@ all : decl_seq ;
 
 decl_seq : /* empty */ | decl_seq decl ;
 
-decl : block_decl | tokens_decl | prefix_decl | abbrev_decl | result_decl ;
+decl : block_decl | tokens_decl | prefix_decl | abbrev_decl | result_decl | attr_decl ;
 
 /* Don't invalidate curstate at the end, this is the means of working out the
    starting state of the NFA */
@@ -82,7 +83,14 @@ instance_decl_seq : /* empty */ | instance_decl_seq instance_decl ;
 
 state_decl_seq : /* empty */ | state_decl_seq state_decl ;
 
-state_decl : STATE STRING { addtostate = curstate = lookup_state(curblock, $2, CREATE_OR_USE_OLD); } sdecl_seq ;
+state_decl : STATE STRING { addtostate = curstate = lookup_state(curblock, $2, CREATE_OR_USE_OLD); }
+             opt_state_attribute
+             sdecl_seq ;
+
+opt_state_attribute : LPAREN STRING RPAREN
+                      { set_state_attribute(curstate, $2); }
+                    | /* empty */
+                    ;
 
 sdecl_seq : /* empty */ | sdecl_seq sdecl ;
 
@@ -111,12 +119,20 @@ option : STRING
        | /* empty */ { $$ = NULL; }
        ;
 
-result_decl : RESULT STRING               { define_result($2, NULL); }
-            | RESULT    expr ARROW STRING { define_result($4, $2); }
-            | SYMRESULT expr ARROW STRING { define_symresult($4, $2); }
-            | SYMBOL STRING EQUAL expr    { define_symbol($2, $4); }
-            | DEFRESULT STRING            { define_defresult($2); }
+result_decl : RESULT STRING               { define_result(exit_evaluator, $2, NULL); }
+            | RESULT    expr ARROW STRING { define_result(exit_evaluator, $4, $2); }
+            | SYMRESULT expr ARROW STRING { define_symresult(exit_evaluator, $4, $2); }
+            | SYMBOL STRING EQUAL expr    { define_symbol(exit_evaluator, $2, $4); }
+            | DEFRESULT STRING            { define_defresult(exit_evaluator, $2); }
             ;
+
+attr_decl : ATTR RESULT STRING               { define_result(attr_evaluator, $3, NULL); }
+          | ATTR RESULT    expr ARROW STRING { define_result(attr_evaluator, $5, $3); }
+          | ATTR SYMRESULT expr ARROW STRING { define_symresult(attr_evaluator, $5, $3); }
+          | ATTR SYMBOL STRING EQUAL expr    { define_symbol(attr_evaluator, $3, $5); }
+          | ATTR DEFRESULT STRING            { define_defresult(attr_evaluator, $3); }
+          | DEFATTR STRING                   { define_defresult(attr_evaluator, $2); }
+          ;
 
 expr : NOT expr { $$ = new_not_expr($2); }
      | expr AND expr { $$ = new_and_expr($1, $3); }
