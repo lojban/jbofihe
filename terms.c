@@ -7,6 +7,7 @@
 
 /* COPYRIGHT */
 
+/*{{{ #Includes  */
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -16,6 +17,7 @@
 #include "rpc_tab.h"
 #include "nodes.h"
 #include "cmavotab.h"
+/*}}}*/
 
 #define MAX_TERMS_IN_VECTOR 20
 
@@ -28,6 +30,8 @@
   1..5, f[aeiou] xi xa is 6, ... f[aeiou] xi soso is 99, fai or fai xi
   pa is 101 etc +*/
 #define FAI_OFFSET 101
+
+/* Type definitions *//*{{{*/
 
 typedef enum {
   TRM_POS, /* positional, i.e. just bare sumti */
@@ -77,35 +81,19 @@ typedef struct {
   int n;
   LinkConvEntry e[MAX_TERMS_IN_VECTOR];
 } LinkConv;
+/*}}}*/
+/* Forward prototypes *//*{{{*/
+static void process_bridi_tail(TreeNode *bt, TermVector *pre, TermVector *post);
+static void process_selbri_args(TreeNode *s, TermVector *pre, TermVector *post, LinkConv *lc);
+static void process_selbri_3_args(TreeNode *s3, TermVector *pre, TermVector *post, LinkConv *lc);
+/*}}}*/
 
-/*+ Forward prototype +*/
-static void
-process_bridi_tail(TreeNode *bt, TermVector *pre, TermVector *post);
-
-/*+ Forward prototype +*/
-static void
-process_selbri_args(TreeNode *s, TermVector *pre, TermVector *post, LinkConv *lc);
-
-static void
-process_selbri_3_args(TreeNode *s3, TermVector *pre, TermVector *post, LinkConv *lc);
-
-
-/*++++++++++++++++++++++++++++++
-  Initialise a term vector to empty
-  ++++++++++++++++++++++++++++++*/
-
-static void
-tv_init(TermVector *tv)
+static void tv_init(TermVector *tv)/*{{{*/
 {
   tv->n_nodes = 0;
 }
-
-/*++++++++++++++++++++++++++++++
-  Concatenate two vectors together, r = s1 ++ s2
-  ++++++++++++++++++++++++++++++*/
-
-static void
-tv_catenate(TermVector *s1, TermVector *s2, TermVector *r)
+/*}}}*/
+static void tv_catenate(TermVector *s1, TermVector *s2, TermVector *r)/*{{{*/
 {
   int tn;
   int i, n1, n2;
@@ -129,14 +117,10 @@ tv_catenate(TermVector *s1, TermVector *s2, TermVector *r)
     r->nodes[n1+i] = s2->nodes[i];
   }
 }
-
-/*++++++++++++++++++++++++++++++
-  Reverse the order of a Termector.
-  ++++++++++++++++++++++++++++++*/
-
-static void
-tv_reverse(TermVector *dest, TermVector *src)
+/*}}}*/
+static void tv_reverse(TermVector *dest, TermVector *src)/*{{{*/
 {
+  /* Reverse the order of a Termector. */
   int n, i;
 
   assert(dest != src); /* Not designed to cope with this case */
@@ -146,33 +130,16 @@ tv_reverse(TermVector *dest, TermVector *src)
   for (i=0; i<n; i++) {
     dest->nodes[i] = src->nodes[n-1-i];
   }
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  Initialise a linkconv list to empty
-
-  LinkConv *lc
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-lc_init(LinkConv *lc)
+}/*}}}*/
+static void lc_init(LinkConv *lc)/*{{{*/
 {
+  /* Initialise a linkconv list to empty */
   lc->n = 0;
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  Append a SE conversion to a linkconv chain
-
-  LinkConv *lc The vector to append to
-
-  int conv The conversion to append
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-lc_append_se(LinkConv *lc, int conv, TreeNode *senode)
+/*}}}*/
+static void lc_append_se(LinkConv *lc, int conv, TreeNode *senode)/*{{{*/
 {
+  /* Append a SE conversion to a linkconv chain */
   assert(lc->n < MAX_TERMS_IN_VECTOR);
 
   lc->e[lc->n].data.se.conv = conv;
@@ -180,18 +147,8 @@ lc_append_se(LinkConv *lc, int conv, TreeNode *senode)
   lc->e[lc->n].type = LC_SE;
   ++(lc->n);
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  LinkConv *lc
-
-  TreeNode *tag
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-lc_append_jai_tag(LinkConv *lc, TreeNode *tag)
+/*}}}*/
+static void lc_append_jai_tag(LinkConv *lc, TreeNode *tag)/*{{{*/
 {
   assert(lc->n < MAX_TERMS_IN_VECTOR);
 
@@ -200,17 +157,8 @@ lc_append_jai_tag(LinkConv *lc, TreeNode *tag)
   ++(lc->n);
   
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  LinkConv *lc
-
-  TreeNode *tag
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-lc_append_jai(LinkConv *lc)
+/*}}}*/
+static void lc_append_jai(LinkConv *lc)/*{{{*/
 {
   assert(lc->n < MAX_TERMS_IN_VECTOR);
 
@@ -218,19 +166,11 @@ lc_append_jai(LinkConv *lc)
   ++(lc->n);
   
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-  Append a set of linked sumti to a linkconv chain
-
-  LinkConv *lc The vector to append to
-
-  TermVector *v The vector of linked sumti.  A dynamically allocated
-  COPY is made of this argument.
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-lc_append_links(LinkConv *lc, TermVector *v)
+/*}}}*/
+static void lc_append_links(LinkConv *lc, TermVector *v)/*{{{*/
 {
+  /* Append a set of linked sumti to a linkconv chain.  Note, a dynamic COPY is
+     made of 'v'. */
   assert(lc->n < MAX_TERMS_IN_VECTOR);
   lc->e[lc->n].data.links = new(TermVector);
 
@@ -240,39 +180,20 @@ lc_append_links(LinkConv *lc, TermVector *v)
   lc->e[lc->n].type = LC_LINKS;
   ++(lc->n);
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  Copy a link/conv vector.  A semi-deep structure copy is made,
-  i.e. the pointers to the vectors of linked sumti get aliased.  The
-  intention is to produce a local copy onto which extra terms can be
-  appended, rather than to make a completely general copy.
-
-  const LinkConv *src The source for the copy
-
-  LinkConv *dest The destination of the copy.
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-lc_copy(const LinkConv *src, LinkConv *dest)
+/*}}}*/
+static void lc_copy(const LinkConv *src, LinkConv *dest)/*{{{*/
 {
-  /* Deep structure copy */
+/* Copy a link/conv vector.  A semi-deep structure copy is made, i.e. the
+  pointers to the vectors of linked sumti get aliased.  The intention is to
+  produce a local copy onto which extra terms can be appended, rather than to
+  make a completely general copy.  */
+  
   *dest = *src;
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-  Turn se, te... into 2 .. 5
-
-  static int recover_se_conv Return the value in the range 2 .. 5
-  corresponding to the SE cmavo.
-
-  TreeNode *x The parse node, must be a cmavo of selma'o SE.
-
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static int
-recover_se_conv(TreeNode *x)
+/*}}}*/
+static int recover_se_conv(TreeNode *x)/*{{{*/
 {
+  /* Turn se, te etc into 2..5 */
   int se_code;
   char *se_str;
   TreeNode *se;
@@ -298,22 +219,17 @@ recover_se_conv(TreeNode *x)
     abort();
   }
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-  Turn fa, fe... into 1 .. 5
+/*}}}*/
+static int recover_fa_conv(TreeNode *x)/*{{{*/
+{
+/* Turn fa, fe... into 1 .. 5
 
   EXTEND TO COPE WITH SUBSCRIPTED VALUES!!!
 
   static int recover_fa_conv Return the value in the range 1 .. 5
   corresponding to the FA cmavo.
 
-  TreeNode *x The parse node, must be a cmavo of selma'o FA.
-
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static int
-recover_fa_conv(TreeNode *x)
-{
+  TreeNode *x The parse node, must be a cmavo of selma'o FA.  */
   int fa_code;
   char *fa_str;
 
@@ -344,18 +260,13 @@ recover_fa_conv(TreeNode *x)
     abort();
   }
 }
-
-/*++++++++++++++++++++++++++++++
-
-  Build a TermVector from a terms node in the parse tree.  Any terms_1
-  or terms_2 with CEhE or PEhE inside is ignored - to defer the
-  problem of what to do about afterthought termsets to somewhere else.
-
-  ++++++++++++++++++++++++++++++*/
-
-static void
-tv_build(TermVector *r, TreeNode *x)
+/*}}}*/
+static void tv_build(TermVector *r, TreeNode *x)/*{{{*/
 {
+/* Build a TermVector from a terms node in the parse tree.  Any terms_1
+  or terms_2 with CEhE or PEhE inside is ignored - to defer the problem of what
+  to do about afterthought termsets to somewhere else.  */
+
   TermVector vv;
   TreeNode *xx, *t1, *t2, *t, *tc, *tcc;
   struct nonterm *ntx, *ntt;
@@ -457,19 +368,8 @@ tv_build(TermVector *r, TreeNode *x)
   tv_reverse(r, &vv);
 
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-  Analyse a subsentence (occurring within a gek_sentence)
-  
-  TreeNode *ss The subsentence node.
-
-  TermVector *pre Terms before selbri
-
-  TermVector *post Terms after selbri
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-process_subsentence(TreeNode *ss, TermVector *pre, TermVector *post)
+/*}}}*/
+static void process_subsentence(TreeNode *ss, TermVector *pre, TermVector *post)/*{{{*/
 {
   struct nonterm *nt, *ntc;
   int nc;
@@ -521,9 +421,9 @@ process_subsentence(TreeNode *ss, TermVector *pre, TermVector *post)
     process_bridi_tail(btail, pre, post);
   }
 }
+/*}}}*/
 
-/* ================================================== */
-/* Type definitions */
+/* Type definitions (tags, places etc) *//*{{{*/
 
 typedef enum {
   PT_ORD, /* one of the x1 .. x5 of the BRIVLA etc */
@@ -547,19 +447,12 @@ typedef struct {
   TagPlace tag;
   JaiPlace jai;
 } Place;
+/*}}}*/
 
-/*++++++++++++++++++++++++++++++++++++++
-  Given a term treenode and a single place descriptor, chain the place
-  information to the node's property list for later display.
-
-  TreeNode *x
-
-  Place pl
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-fixup_term_place(TreeNode *x, Place *pl, XTermTag *tt)
+static void fixup_term_place(TreeNode *x, Place *pl, XTermTag *tt)/*{{{*/
 {
+  /* Given a term treenode and a single place descriptor, chain the place
+     information to the node's property list for later display. */
   XTermTags *ts, *nts;
 
   type_check(x, TERM);
@@ -594,26 +487,8 @@ fixup_term_place(TreeNode *x, Place *pl, XTermTag *tt)
       break;
   }
   
-}
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  TermVector *t
-
-  Place *place
-
-  Place *fai
-
-  int abase The base value for terms which are in unmarked places. (2
-  for links and tail terms, 1 for head terms)
-
-  XTermTag *tt Information about the primitive tanru_unit_2, one of
-  whose places the term occupies.
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-assign_terms_to_places(TermVector *t, Place *place, Place *fai, int abase, XTermTag *tt)
+}/*}}}*/
+static void assign_terms_to_places(TermVector *t, Place *place, Place *fai, int abase, XTermTag *tt)/*{{{*/
 {
   int i, n;
   int base;
@@ -676,18 +551,8 @@ assign_terms_to_places(TermVector *t, Place *place, Place *fai, int abase, XTerm
   }
 
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  LinkConv *lc
-
-  TreeNode *convertible
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-assign_conversion(LinkConv *lc, TreeNode *convertible)
+/*}}}*/
+static void assign_conversion(LinkConv *lc, TreeNode *convertible)/*{{{*/
 {
   Place place[MAX_POS];
   XConversion *ext;
@@ -744,24 +609,12 @@ loop_done:
   ext->conv = place[1].pos;
 
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  Work out which terms have which places in the bridi, and tag them
-  accordingly
-
-  TermVector *pre
-
-  TermVector *post
-
-  LinkConv *lc
-
-  XTermTag *tt
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-assign_places(TermVector *pre, TermVector *post, LinkConv *lc, XTermTag *tt)
+/*}}}*/
+static void assign_places(TermVector *pre, TermVector *post, LinkConv *lc, XTermTag *tt)/*{{{*/
 {
+  /* Work out which terms have which places in the bridi, and tag them
+     accordingly */
+
   /* Variable declarations */
 
   /*+ Array for the ordinary places in the bridi.  e.g. if you get a
@@ -847,40 +700,20 @@ assign_places(TermVector *pre, TermVector *post, LinkConv *lc, XTermTag *tt)
   assign_terms_to_places(post, place, fai, 2, tt);
 
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-  Handle argument processing at the level of a tanru_unit_2.  This is
-  where the clever tag assignment stuff is done!
-
-  TreeNode *tu2 The tanru_unit_1 node
-
-  TermVector *pre The vector of terms occurring before the selbri
-
-  TermVector *post The vector of terms occurring after the selbri
-
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, LinkConv *lc)
+/*}}}*/
+static void process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, LinkConv *lc)/*{{{*/
 {
-
-  /* Need to descend until we get to something 'primitive' enough.
-     This is one of :
-     
-     BRIVLA
-
-     (other cases need adding, when I think how to do it.)
-     
-     */
+  /* Handle argument processing at the level of a tanru_unit_2.  This is
+     where the clever tag assignment stuff is done! */
 
   TreeNode *c1;
 
   type_check(tu2, TANRU_UNIT_2);
   c1 = maybe_strip_attitudinal(child_ref(tu2, 0));
 
-  if (c1->type == N_CMAVO) {
+  if (c1->type == N_CMAVO) {/*{{{*/
     switch (c1->data.cmavo.selmao) {
-      case GOhA:
+      case GOhA:/*{{{*/
         {
           XTermTag tt;
 
@@ -889,8 +722,8 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
           assign_places(pre, post, lc, &tt);
           assign_conversion(lc, c1);
         }
-        break;
-      case ME:
+        break;/*}}}*/
+      case ME:/*{{{*/
         {
           XTermTag tt;
           XRequireBrac *xrb;
@@ -904,8 +737,8 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
           assign_places(pre, post, lc, &tt);
           /* Conversion can't occur on ME, there is only an x1 place */
         }
-      break;
-      case NUhA:
+      break;/*}}}*/
+      case NUhA:/*{{{*/
         {
           XTermTag tt;
           XRequireBrac *xrb;
@@ -916,21 +749,21 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
           assign_conversion(lc, c1);
           xrb = prop_require_brac (tt.nuha.mex_operator, YES);
         }
-        break;
+        break;/*}}}*/
+        
     }
-
-  } else if (c1->type == N_BRIVLA) {
+/*}}}*/
+  } else if (c1->type == N_BRIVLA) {/*{{{*/
 
     XTermTag tt;
 
     tt.type = TTT_BRIVLA;
     tt.brivla.x = c1;
     assign_places(pre, post, lc, &tt);
-    assign_conversion(lc, c1);
-
+    assign_conversion(lc, c1);/*}}}*/
   } else if (c1->type == N_NONTERM) {
     switch (c1->data.nonterm.type) {
-      case NUMBER_MOI_TU2:
+      case NUMBER_MOI_TU2:/*{{{*/
         {
           TreeNode *norl, *moi;
           XRequireBrac *xrb;
@@ -949,8 +782,8 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
           }
         }
         break;
-
-      case KE_SELBRI3_TU2:
+/*}}}*/
+      case KE_SELBRI3_TU2:/*{{{*/
         {
           TreeNode *cs3;
 
@@ -959,9 +792,8 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
           process_selbri_3_args(cs3, pre, post, lc);
         }
 
-        break;
-
-      case SE_TU2:
+        break;/*}}}*/
+      case SE_TU2:/*{{{*/
         {
           LinkConv newlc;
           int conv;
@@ -979,9 +811,8 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
 
         }
 
-        break;
-
-      case JAI_TAG_TU2:
+        break;/*}}}*/
+      case JAI_TAG_TU2:/*{{{*/
         {
           LinkConv newlc;
           TreeNode *ctag, *tu2_child;
@@ -996,8 +827,8 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
         }
 
         break;
-
-      case JAI_TU2:
+/*}}}*/
+      case JAI_TU2:/*{{{*/
         {
           LinkConv newlc;
           TreeNode *tu2_child;
@@ -1009,8 +840,8 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
           process_tanru_unit_2_args(tu2_child, pre, post, &newlc);
         }
         break;
-
-      case NAHE_TU2:
+/*}}}*/
+      case NAHE_TU2:/*{{{*/
         {
           TreeNode *tu2_child;
           tu2_child = find_nth_child(c1, 1, TANRU_UNIT_2);
@@ -1018,8 +849,8 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
           process_tanru_unit_2_args(tu2_child, pre, post, lc);
         }
         break;
-
-      case ABSTRACTION:
+/*}}}*/
+      case ABSTRACTION:/*{{{*/
         {
           TreeNode *nns, *c2, *nu, *nai;
           XTermTag tt;
@@ -1050,12 +881,12 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
           }
         }
         break;
-
+/*}}}*/
       default:
         break;
 
     }
-  } else if (c1->type == N_ZEI) {
+  } else if (c1->type == N_ZEI) {/*{{{*/
 
     XTermTag tt;
 
@@ -1063,29 +894,18 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
     tt.zei.zei = c1;
     assign_places(pre, post, lc, &tt);
     assign_conversion(lc, c1);
-    
+    /*}}}*/
   } else {
     abort();
   }
   
 
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  Handle argument processing at the level of a tanru_unit_1.
-
-  TreeNode *tu1 The tanru_unit_1 node
-
-  TermVector *pre The vector of terms occurring before the selbri
-
-  TermVector *post The vector of terms occurring after the selbri
-
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-process_tanru_unit_1_args(TreeNode *tu1, TermVector *pre, TermVector *post, LinkConv *lc)
+/*}}}*/
+static void process_tanru_unit_1_args(TreeNode *tu1, TermVector *pre, TermVector *post, LinkConv *lc)/*{{{*/
 {
+/* Handle argument processing at the level of a tanru_unit_1.  */
+
   XTermVector *xtv; /* The linked sumti vector of the tu1 if any */
   XDoneTU1 *xdtu1; /* Property whose existence on the TU1 tree node
                       shows we have processed its linked sumti */
@@ -1112,21 +932,11 @@ process_tanru_unit_1_args(TreeNode *tu1, TermVector *pre, TermVector *post, Link
   xdtu1 = prop_done_tu1(tu1, YES);
 
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-  Drill down into a selbri_6 etc
-
-  TreeNode *s6 The selbri_6 node
-
-  TermVector *pre The vector of terms occurring before the selbri
-
-  TermVector *post The vector of terms occurring after the selbri
-
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-process_selbri_6_args(TreeNode *s6, TermVector *pre, TermVector *post, LinkConv *lc)
+/*}}}*/
+static void process_selbri_6_args(TreeNode *s6, TermVector *pre, TermVector *post, LinkConv *lc)/*{{{*/
 {
+  /* Drill down into a selbri_6 etc */
+
   TreeNode *tu, *tu1, *cs6, *cs;
   
   /* For the cases with BO, I think it's only the very final term
@@ -1160,21 +970,11 @@ process_selbri_6_args(TreeNode *s6, TermVector *pre, TermVector *post, LinkConv 
     }
   }
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-  Drill down into a selbri_5 etc
-
-  TreeNode *s5 The selbri_5 node
-
-  TermVector *pre The vector of terms occurring before the selbri
-
-  TermVector *post The vector of terms occurring after the selbri
-
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-process_selbri_5_args(TreeNode *s5, TermVector *pre, TermVector *post, LinkConv *lc)
+/*}}}*/
+static void process_selbri_5_args(TreeNode *s5, TermVector *pre, TermVector *post, LinkConv *lc)/*{{{*/
 {
+  /* Drill down into a selbri_5 etc */
+
   TreeNode *s6, *cs5;
 
   cs5 = s5;
@@ -1185,24 +985,13 @@ process_selbri_5_args(TreeNode *s5, TermVector *pre, TermVector *post, LinkConv 
   } while (cs5);
 
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-  Drill down into a selbri_3 to try to recover a single tanru_unit_2
-  which is the tertau.  Apply the supplied args to that - i.e. work
-  out the place structure, then go and mark all the referenced terms
-  accordingly.
-
-  TreeNode *s3 The selbri_3 node
-
-  TermVector *pre The vector of terms occurring before the selbri
-
-  TermVector *post The vector of terms occurring after the selbri
-
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-process_selbri_3_args(TreeNode *s3, TermVector *pre, TermVector *post, LinkConv *lc)
+/*}}}*/
+static void process_selbri_3_args(TreeNode *s3, TermVector *pre, TermVector *post, LinkConv *lc)/*{{{*/
 {
+  /* Drill down into a selbri_3 to try to recover a single tanru_unit_2 which is
+     the tertau.  Apply the supplied args to that - i.e. work out the place
+     structure, then go and mark all the referenced terms accordingly.  */
+
   TreeNode *s4, *s5, *ks3, *cs3; /* The selbri chain */
 
   type_check(s3, SELBRI_3);
@@ -1241,21 +1030,11 @@ process_selbri_3_args(TreeNode *s3, TermVector *pre, TermVector *post, LinkConv 
   }
 
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-  Drill down into a selbri etc
-
-  TreeNode *s The selbri node
-
-  TermVector *pre The vector of terms occurring before the selbri
-
-  TermVector *post The vector of terms occurring after the selbri
-
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-process_selbri_args(TreeNode *s, TermVector *pre, TermVector *post, LinkConv *lc)
+/*}}}*/
+static void process_selbri_args(TreeNode *s, TermVector *pre, TermVector *post, LinkConv *lc)/*{{{*/
 {
+  /* Drill down into a selbri etc */
+
   TreeNode *cs, *s1, *s2, *s3; /* The selbri chain */
   TermVector empty_tv;
 
@@ -1295,21 +1074,11 @@ process_selbri_args(TreeNode *s, TermVector *pre, TermVector *post, LinkConv *lc
     /* All arguments apply to the selbri_3 */
     process_selbri_3_args(s3, pre, post, lc);
   }
-}
-
-/*++++++++++++++++++++++++++++++++++++++
-  Handle each main selbri after it has been located.
-
-  TreeNode *ms A main_selbri parse tree node
-
-  TermVector *pre Vector of terms occurring before the selbri
-
-  TermVector *post Vector of terms occurring after the selbri
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-process_main_selbri(TreeNode *ms, TermVector *pre, TermVector *post)
+}/*}}}*/
+static void process_main_selbri(TreeNode *ms, TermVector *pre, TermVector *post)/*{{{*/
 {
+  /* Handle each main selbri after it has been located.  */
+
   TermVector *cpre, *cpost;
   XTermVectors *xtv;
   TreeNode *s;
@@ -1339,20 +1108,8 @@ process_main_selbri(TreeNode *ms, TermVector *pre, TermVector *post)
 
   process_selbri_args(s, pre, post, &lc);
 
-}
-
-/*++++++++++++++++++++++++++++++++++++++
-  Analyse a bridi_tail_3.
-  
-  TreeNode *bt3 The bridi_tail_3 node.
-
-  TermVector *pre Terms before selbri
-
-  TermVector *post Terms after selbri
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-process_bridi_tail_3(TreeNode *bt3, TermVector *pre, TermVector *post)
+}/*}}}*/
+static void process_bridi_tail_3(TreeNode *bt3, TermVector *pre, TermVector *post)/*{{{*/
 {
   TreeNode *c1, *gsc, *tt, *ttc;
   TermVector tail_terms, new_post;
@@ -1423,20 +1180,8 @@ process_bridi_tail_3(TreeNode *bt3, TermVector *pre, TermVector *post)
   }
     
   return;
-}
-
-/*++++++++++++++++++++++++++++++++++++++
-  Analyse a bridi_tail_2.
-  
-  TreeNode *bt2 The bridi_tail_2 node.
-
-  TermVector *pre Terms before selbri
-
-  TermVector *post Terms after selbri
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-process_bridi_tail_2(TreeNode *bt2, TermVector *pre, TermVector *post)
+}/*}}}*/
+static void process_bridi_tail_2(TreeNode *bt2, TermVector *pre, TermVector *post)/*{{{*/
 {
 
   TreeNode *bt3, *bt2a, *bt2b, *tt, *ttt; /* The children */
@@ -1485,22 +1230,8 @@ process_bridi_tail_2(TreeNode *bt2, TermVector *pre, TermVector *post)
 
   return;
 
-}
-
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  Analyse a bridi_tail_1.
-  
-  TreeNode *bt1 The bridi_tail_1 node.
-
-  TermVector *pre Terms before selbri
-
-  TermVector *post Terms after selbri
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-process_bridi_tail_1(TreeNode *bt1, TermVector *pre, TermVector *post)
+}/*}}}*/
+static void process_bridi_tail_1(TreeNode *bt1, TermVector *pre, TermVector *post)/*{{{*/
 {
 
   TreeNode *bt2, *bt1c, *tt, *ttt; /* The children */
@@ -1549,11 +1280,10 @@ process_bridi_tail_1(TreeNode *bt1, TermVector *pre, TermVector *post)
 
   return;
 
-}
-
-
-/*++++++++++++++++++++++++++++++
-
+}/*}}}*/
+static void process_bridi_tail(TreeNode *bt, TermVector *pre, TermVector *post)/*{{{*/
+{
+/*
   Analyse a bridi_tail down to each vector of tail_terms and find each
   main_selbri within it.  Ultimately tag each main_selbri with the
   vectors of pre- and post- terms that apply to it.
@@ -1567,11 +1297,8 @@ process_bridi_tail_1(TreeNode *bt1, TermVector *pre, TermVector *post)
   TermVector *post The vector of tail_terms accumulated from outer
   bridi_tail constructions.  (Initially this will be empty).
 
-  ++++++++++++++++++++++++++++++*/
+  */
 
-static void
-process_bridi_tail(TreeNode *bt, TermVector *pre, TermVector *post)
-{
   TreeNode *bt1, *btc, *tt, *ttt; /* The children */
   struct nonterm *nt;
   int nc;
@@ -1616,16 +1343,8 @@ process_bridi_tail(TreeNode *bt, TermVector *pre, TermVector *post)
       process_bridi_tail(btc, pre, post);
     }
   }
-}
-
-/*++++++++++++++++++++++++++++++
-  
-  Deal with a STATEMENT_3 once we have found it.
-
-  ++++++++++++++++++++++++++++++*/
-
-static void
-process_statement_3(TreeNode *x)
+}/*}}}*/
+static void process_statement_3(TreeNode *x)/*{{{*/
 {
   struct nonterm *nt, *nts, *ntc;
   TreeNode *sent, *terms, *btail, *c;
@@ -1698,18 +1417,8 @@ process_statement_3(TreeNode *x)
     }
 #endif
   }
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  Handle abstraction nodes
-
-  TreeNode *x
-  ++++++++++++++++++++++++++++++++++++++*/
-
-
-static void
-process_abstraction(TreeNode *x)
+}/*}}}*/
+static void process_abstraction(TreeNode *x)/*{{{*/
 {
   TreeNode *ss;
   TermVector pre, post;
@@ -1719,17 +1428,8 @@ process_abstraction(TreeNode *x)
   ss = child_ref(x, 1);
   type_check(ss, SUBSENTENCE);
   process_subsentence(ss, &pre, &post);
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  TreeNode *x
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-process_relative_clause(TreeNode *x)
+}/*}}}*/
+static void process_relative_clause(TreeNode *x)/*{{{*/
 {
   TreeNode *ss, *fc;
   TermVector pre, post;
@@ -1743,20 +1443,13 @@ process_relative_clause(TreeNode *x)
       process_subsentence(ss, &pre, &post);
     }
   }
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  Handle metalinguistic constructions (SEI...).  This is slightly
-  different to the other cases, in that we have to resolve the terms
-  and selbri ourselves.
-
-  TreeNode *x
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-process_metalinguistic(TreeNode *x)
+}/*}}}*/
+static void process_metalinguistic(TreeNode *x)/*{{{*/
 {
+  /* Handle metalinguistic constructions (SEI...).  This is slightly
+    different to the other cases, in that we have to resolve the terms and selbri
+    ourselves.  */
+
   TermVector pre, post;
   TreeNode *terms, *mmselbri, *selbri;
   LinkConv lc;
@@ -1775,24 +1468,17 @@ process_metalinguistic(TreeNode *x)
   lc_init(&lc);
   process_selbri_args(selbri, &pre, &post, &lc);
 
-}
-
-/*++++++++++++++++++++++++++++++
-  Seek recursively downwards looking for treenodes of type
-  STATEMENT_3, ABSTRACTION.  We're really interested in SENTENCE, but
-  that occurs within ge subsentence->sentence gi
-  subsentence->sentence, and we have to track term strings into
-  gek_sentences because you can have terms in front plus tail terms
-  behind, that are part of both clauses.
-
-  Relative clauses and NU abstractions (the 2 other places where
-  sentences can occur) will have to be looked at afterwards.
-
-  ++++++++++++++++++++++++++++++*/
-
-static void
-scan_for_sentence_parents(TreeNode *x)
+}/*}}}*/
+static void scan_for_sentence_parents(TreeNode *x)/*{{{*/
 {
+  /* Seek recursively downwards looking for treenodes of type
+    STATEMENT_3, ABSTRACTION.  We're really interested in SENTENCE, but that
+    occurs within ge subsentence->sentence gi subsentence->sentence, and we
+    have to track term strings into gek_sentences because you can have terms in
+    front plus tail terms behind, that are part of both clauses.
+
+    Relative clauses and NU abstractions (the 2 other places where sentences
+    can occur) will have to be looked at afterwards.  */
 
   int nc, i;
   struct nonterm *nt;
@@ -1820,19 +1506,12 @@ scan_for_sentence_parents(TreeNode *x)
     }
 
   }
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  Scan down into the selbri inside a 'quantifier selbri' sumti, to
-  mark up the tertau for conversions.
-
-  TreeNode *x
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-process_sumti_5b(TreeNode *x)
+}/*}}}*/
+static void process_sumti_5b(TreeNode *x)/*{{{*/
 {
+  /* Scan down into the selbri inside a 'quantifier selbri' sumti, to mark up the
+     tertau for conversions.  */
+
   TreeNode *c;
   LinkConv lc;
 
@@ -1843,17 +1522,11 @@ process_sumti_5b(TreeNode *x)
   assert(c);
   lc_init(&lc);
   process_selbri_args(c, &empty_tv, &empty_tv, &lc);
-}
-
-/*++++++++++++++++++++++++++++++++++++++
-  Scan down into the selbri inside a sumti_tail construction.
-
-  TreeNode *x
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-process_sumti_tail_1a(TreeNode *x)
+}/*}}}*/
+static void process_sumti_tail_1a(TreeNode *x)/*{{{*/
 {
+  /* Scan down into the selbri inside a sumti_tail construction.  */ 
+
   TreeNode *c;
   LinkConv lc;
 
@@ -1864,17 +1537,12 @@ process_sumti_tail_1a(TreeNode *x)
   assert(c);
   lc_init(&lc);
   process_selbri_args(c, &empty_tv, &empty_tv, &lc);
-}
-
-
-/*++++++++++++++++++++++++++++++
-  Process selbri in the context of sumti.  Allows conversions to be
-  handled with full generality.
-  ++++++++++++++++++++++++++++++*/
-
-static void
-scan_for_selbri_in_sumti(TreeNode *x)
+}/*}}}*/
+static void scan_for_selbri_in_sumti(TreeNode *x)/*{{{*/
 {
+  /* Process selbri in the context of sumti.  Allows conversions to be
+    handled with full generality.  */
+
   int nc, i;
   struct nonterm *nt;
   TreeNode *c;
@@ -1894,17 +1562,11 @@ scan_for_selbri_in_sumti(TreeNode *x)
       scan_for_selbri_in_sumti(c);
     }
   }
-}
-
-/*++++++++++++++++++++++++++++++++++++++
-  Check whether there are linked sumti and add property
-
-  TreeNode *tu1 The tanru_unit_1 parse node
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-check_tu1_for_links(TreeNode *tu1)
+}/*}}}*/
+static void check_tu1_for_links(TreeNode *tu1)/*{{{*/
 {
+/* Check whether there are linked sumti and add property */
+
   TreeNode *la, *tm, *lk, *tc, *tcc;
   TermVector tv;
   XTermVector *xtv;
@@ -1973,18 +1635,12 @@ check_tu1_for_links(TreeNode *tu1)
     xtv->vec = new(TermVector);
     *(xtv->vec) = tv;
   }
-}
-
-/*++++++++++++++++++++++++++++++++++++++
-  Find any tanru_unit_1 with linked sumti on it, and build a
-  termvector property to attach to it.
-
-  TreeNode *top Top node of parse tree
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-scan_tu1_phase1(TreeNode *x)
+}/*}}}*/
+static void scan_tu1_phase1(TreeNode *x)/*{{{*/
 {
+  /* Find any tanru_unit_1 with linked sumti on it, and build a termvector
+     property to attach to it.  */
+
   int nc, i;
   struct nonterm *nt;
   TreeNode *c;
@@ -2003,16 +1659,8 @@ scan_tu1_phase1(TreeNode *x)
     }
   }
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  TreeNode *x
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-scan_tu1_phase2(TreeNode *x)
+/*}}}*/
+static void scan_tu1_phase2(TreeNode *x)/*{{{*/
 {
   int nc, i;
   struct nonterm *nt;
@@ -2052,16 +1700,12 @@ scan_tu1_phase2(TreeNode *x)
   }
 
 }
-
-/*++++++++++++++++++++++++++++++
-  The top-level operation called from the main program.
-  ++++++++++++++++++++++++++++++*/
-
-void
-terms_processing(TreeNode *top)
+/*}}}*/
+void terms_processing(TreeNode *top)/*{{{*/
 {
   scan_tu1_phase1(top);
   scan_for_sentence_parents(top);
   scan_for_selbri_in_sumti(top);
   scan_tu1_phase2(top);
 }
+/*}}}*/

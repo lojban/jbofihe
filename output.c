@@ -31,12 +31,7 @@ typedef enum {
 /*+ Forward prototype +*/
 static void output_internal(TreeNode *x, WhatToShow what);
 
-/*++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++*/
-
-static void
-add_bracketing_internal(TreeNode *x, int *seq)
+static void add_bracketing_internal(TreeNode *x, int *seq)/*{{{*/
 {
   struct nonterm *y;
   int i, n;
@@ -169,34 +164,18 @@ add_bracketing_internal(TreeNode *x, int *seq)
   }
 
 }
-
-/*++++++++++++++++++++++++++++++
-  Go through parse tree and mark specific non-terminals with
-  bracketing type and sequence number
-  ++++++++++++++++++++++++++++++*/
-
-void
-add_bracketing_tags(TreeNode *top)
+/*}}}*/
+void add_bracketing_tags(TreeNode *top)/*{{{*/
+/* Go through parse tree and mark specific non-terminals with bracketing type
+   and sequence number */
 {
   int seq = 0;
 
   add_bracketing_internal(top, &seq);
 
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  TreeNode *x
-
-  char *loj
-
-  char *eng
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-translate_bai (TreeNode *x, char *eng)
+/*}}}*/
+static void translate_bai (TreeNode *x, char *eng)/*{{{*/
 {
   XBaiConversion *baiconv;
   XTenseCtx *xtc;
@@ -247,19 +226,8 @@ translate_bai (TreeNode *x, char *eng)
   }
 
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-
-  TreeNode *x
-
-  char *loj
-
-  char *eng
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-translate_se (TreeNode *x, char *eng)
+/*}}}*/
+static void translate_se (TreeNode *x, char *eng)/*{{{*/
 {
   char *trans;
 
@@ -274,18 +242,8 @@ translate_se (TreeNode *x, char *eng)
     }
   }
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-
-  TreeNode *x
-
-  char *loj
-
-  char *eng
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-translate_goi (TreeNode *x, char *eng)
+/*}}}*/
+static void translate_goi (TreeNode *x, char *eng)/*{{{*/
 {
   char *trans;
 
@@ -300,18 +258,8 @@ translate_goi (TreeNode *x, char *eng)
     }
   }
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-
-  TreeNode *x
-
-  char *loj
-
-  char *eng
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-translate_koha (TreeNode *x, char *eng)
+/*}}}*/
+static void translate_koha (TreeNode *x, char *eng)/*{{{*/
 {
   char *trans;
   char *cmavo;
@@ -338,18 +286,8 @@ translate_koha (TreeNode *x, char *eng)
     }
   }
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  TreeNode *x
-
-  char *sofar
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-get_cmavo_text_inside_node_internal(TreeNode *x, char *sofar)
+/*}}}*/
+static void get_cmavo_text_inside_node_internal(TreeNode *x, char *sofar)/*{{{*/
 {
   struct nonterm *nt;
   int i, n;
@@ -388,36 +326,16 @@ get_cmavo_text_inside_node_internal(TreeNode *x, char *sofar)
   return;
 
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  Retrieve the lojban text for the cmavo inside a node, excluding
-  indicator stuff.
-
-  static char * get_cmavo_text_inside_node
-
-  TreeNode *x
-  ++++++++++++++++++++++++++++++++++++++*/
-
-
-static char *
-get_cmavo_text_inside_node(TreeNode *x)
+/*}}}*/
+static char * get_cmavo_text_inside_node(TreeNode *x)/*{{{*/
 {
   static char buffer[4096];
   buffer[0] = 0;
   get_cmavo_text_inside_node_internal(x, buffer);
   return buffer;
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-
-  TreeNode *x
-
-  char *eng
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-translate_other_cmavo (TreeNode *x, char *eng)
+/*}}}*/
+static void translate_other_cmavo (TreeNode *x, char *eng)/*{{{*/
 {
   char *trans;
   
@@ -428,20 +346,8 @@ translate_other_cmavo (TreeNode *x, char *eng)
     eng[0] = 0;
   }
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  TreeNode *x
-
-  char *loj
-
-  char *eng
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-translate_indicator (TreeNode *x, char *loj, char *eng)
+/*}}}*/
+static void translate_indicator (TreeNode *x, char *loj, char *eng)/*{{{*/
 {
   char *trans;
   int negated;
@@ -537,20 +443,8 @@ translate_indicator (TreeNode *x, char *loj, char *eng)
   }
 
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  static char * translate_tense_in_context
-
-  char *text
-
-  enum tense_contexts ctx
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static char *
-translate_tense_in_context(char *text, enum tense_contexts ctx)
+/*}}}*/
+static char * translate_tense_in_context(char *text, enum tense_contexts ctx)/*{{{*/
 {
   char buffer[128];
   char *trans;
@@ -599,17 +493,8 @@ translate_tense_in_context(char *text, enum tense_contexts ctx)
     return trans; /* tough if null */
   }
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-
-  TreeNode *x
-
-  char *eng
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-translate_tense (TreeNode *x, char *eng)
+/*}}}*/
+static void translate_tense (TreeNode *x, char *eng)/*{{{*/
 {
   XTenseCtx *ctx;
   char buffer[128], *trans;
@@ -631,18 +516,8 @@ translate_tense (TreeNode *x, char *eng)
     translate_other_cmavo(x, eng);
   }
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  Process nonterminals of type time_offset.
-
-  TreeNode *x
-
-  char *eng
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-translate_time_offset (TreeNode *x, char *loj, char *eng)
+/*}}}*/
+static void translate_time_offset (TreeNode *x, char *loj, char *eng)/*{{{*/
 {
   XTenseCtx *ctx;
   char *trans;
@@ -694,16 +569,8 @@ translate_time_offset (TreeNode *x, char *loj, char *eng)
   }
 
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-
-  TreeNode *x
-
-  char *eng
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-translate_jai (TreeNode *x, char *eng)
+/*}}}*/
+static void translate_jai (TreeNode *x, char *eng)/*{{{*/
 {
   XGlosstype *xgt;
   char buffer[128], *trans;
@@ -737,21 +604,8 @@ translate_jai (TreeNode *x, char *eng)
     translate_other_cmavo(x, eng);
   }
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-  If the lojban text comes from a source that supports conversion (and may
-  require different glossing depending on context), apply the appropriate
-  adjustments to translate it.
-
-  char *loj The lojban text to translate (not derived from 'basis' since this
-  fn is used for several different node types).
-
-  TreeNode *basis The treenode on which the gloss-type and conversion tags may
-  be hanging.
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static char *
-translate_convertible(char *loj, TreeNode *basis)
+/*}}}*/
+static char * translate_convertible(char *loj, TreeNode *basis)/*{{{*/
 {
   char buffer[1024];
   char *trans;
@@ -811,13 +665,8 @@ translate_convertible(char *loj, TreeNode *basis)
     }
   }
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-translate_brivla (TreeNode *x, char *eng)
+/*}}}*/
+static void translate_brivla (TreeNode *x, char *eng)/*{{{*/
 {
   char *trans;
 
@@ -828,13 +677,8 @@ translate_brivla (TreeNode *x, char *eng)
     eng[0] = 0;
   }
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-translate_abstraction (TreeNode *x, char *eng)
+/*}}}*/
+static void translate_abstraction (TreeNode *x, char *eng)/*{{{*/
 {
   char *trans;
   int code;
@@ -850,13 +694,8 @@ translate_abstraction (TreeNode *x, char *eng)
   }
 
 }
-
-/*++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++*/
-
-static void
-attempt_translation(char *loj, char *eng)
+/*}}}*/
+static void attempt_translation(char *loj, char *eng)/*{{{*/
 {
   char *trans;
   trans = translate(loj);
@@ -866,13 +705,8 @@ attempt_translation(char *loj, char *eng)
     strcpy(eng, "?");
   }
 }
-
-/*++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++*/
-
-static void
-get_lojban_word_and_translation (TreeNode *x, char *loj, char *eng)
+/*}}}*/
+static void get_lojban_word_and_translation (TreeNode *x, char *loj, char *eng)/*{{{*/
 {
 
   switch (x->type) {
@@ -999,17 +833,8 @@ get_lojban_word_and_translation (TreeNode *x, char *loj, char *eng)
   }
 
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  TreeNode *x
-  ++++++++++++++++++++++++++++++++++++++*/
-
-
-static void
-output_term(TreeNode *x, WhatToShow what)
+/*}}}*/
+static void output_term(TreeNode *x, WhatToShow what)/*{{{*/
 {
   XTermTags *xtt;
   char *trans;
@@ -1028,14 +853,14 @@ output_term(TreeNode *x, WhatToShow what)
       do {
         tag = &(xtt->tag);
         switch (tag->type) {
-          case TTT_BRIVLA:
+          case TTT_BRIVLA:/*{{{*/
             trans = adv_translate(tag->brivla.x->data.brivla.word, tag->pos, TCX_TAG);
             if (!trans) trans = "?";
             sprintf(tp, "%d", tag->pos);
             (drv->start_tag)();
             (drv->write_tag_text)(tag->brivla.x->data.brivla.word, tp, trans, YES);
-            break;
-          case TTT_JAITAG:
+            break;/*}}}*/
+          case TTT_JAITAG:/*{{{*/
             (drv->start_tag)();
             output_internal(tag->jaitag.tag, SHOW_TAG_TRANS);
             trans = adv_translate(tag->brivla.x->data.brivla.word, tag->pos, TCX_VERB);
@@ -1043,15 +868,15 @@ output_term(TreeNode *x, WhatToShow what)
             if (trans) {
               (drv->write_tag_text) ("", "", trans, NO);
             }
-            break;
-          case TTT_JAI:
+            break;/*}}}*/
+          case TTT_JAI:/*{{{*/
             trans = adv_translate(tag->brivla.x->data.brivla.word, tag->pos, TCX_TAG);
             if (!trans) trans = "?";
             sprintf(tp, "%d", tag->pos);
             (drv->start_tag)();
             (drv->write_tag_text)(tag->brivla.x->data.brivla.word, tp, trans, YES);
-            break;
-          case TTT_ABSTRACTION:
+            break;/*}}}*/
+          case TTT_ABSTRACTION:/*{{{*/
             {
               int code;
               char *cmavo;
@@ -1064,8 +889,8 @@ output_term(TreeNode *x, WhatToShow what)
               (drv->write_tag_text)(cmavo, tp, trans, YES);
             }
           break;
-
-          case TTT_ME:
+/*}}}*/
+          case TTT_ME:/*{{{*/
             {
               char *trans, transbuf[1024];
               (drv->start_tag)();
@@ -1074,8 +899,8 @@ output_term(TreeNode *x, WhatToShow what)
               sprintf(tp, "%d..", tag->pos);
               (drv->write_tag_text)("me", tp, transbuf, YES);
             }
-          break;
-          case TTT_NUMBERMOI:
+          break;/*}}}*/
+          case TTT_NUMBERMOI:/*{{{*/
             {
               char *trans, lojbuf[128], transbuf[1024];
               int code;
@@ -1095,8 +920,8 @@ output_term(TreeNode *x, WhatToShow what)
               (drv->write_tag_text)(lojbuf, "", transbuf, YES);
             }
             break;
-            
-          case TTT_GOhA:
+            /*}}}*/
+          case TTT_GOhA:/*{{{*/
             {
               int code;
               char *cmavo;
@@ -1109,8 +934,8 @@ output_term(TreeNode *x, WhatToShow what)
               (drv->write_tag_text)(lojbuf, "", "", YES);
             }
             break;
-          
-          case TTT_NUhA:
+          /*}}}*/
+          case TTT_NUhA:/*{{{*/
             {
               TreeNode *mex_operator = tag->nuha.mex_operator;
               int number = mex_operator->data.nonterm.number;
@@ -1120,8 +945,8 @@ output_term(TreeNode *x, WhatToShow what)
               (drv->write_tag_text)(lojbuf, "", "", YES);
             }
             break;
-
-          case TTT_ZEI:
+/*}}}*/
+          case TTT_ZEI:/*{{{*/
             {
               int number;
               char lojbuf[32];
@@ -1133,7 +958,7 @@ output_term(TreeNode *x, WhatToShow what)
               (drv->write_tag_text)(lojbuf, "", trans, YES);
             }
             break;
-            
+            /*}}}*/
           default:
             break;
         }
@@ -1148,17 +973,8 @@ output_term(TreeNode *x, WhatToShow what)
     output_internal(y->children[i], what);
   }
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  TreeNode *x
-  ++++++++++++++++++++++++++++++++++++++*/
-
-
-static void
-output_simple_time_offset(TreeNode *x, WhatToShow what)
+/*}}}*/
+static void output_simple_time_offset(TreeNode *x, WhatToShow what)/*{{{*/
 {
   char loj[1024], eng[1024];
   int i, n;
@@ -1199,18 +1015,8 @@ output_simple_time_offset(TreeNode *x, WhatToShow what)
       break;
   }
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  Special output processing for <sumti_tail>.  See if there's a
-  <sumti_6> at the start.  If so, do a special gloss to turn it into a
-  genetive form.
-
-  TreeNode *x
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-output_sumti_tail(TreeNode *x, WhatToShow what)
+/*}}}*/
+static void output_sumti_tail(TreeNode *x, WhatToShow what)/*{{{*/
 {
   int n, i;
   struct nonterm *y;
@@ -1250,20 +1056,8 @@ output_sumti_tail(TreeNode *x, WhatToShow what)
     }
   }
 }      
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  Handle the various types of jek, ek and gihek non-terminal.  In
-  connect.c, we have worked out the truth function being expressed and
-  stored it on a property.
-
-  TreeNode *x
-
-  WhatToShow what
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-output_fore_or_afterthought(TreeNode *x, WhatToShow what)
+/*}}}*/
+static void output_fore_or_afterthought(TreeNode *x, WhatToShow what)/*{{{*/
 {
   XConnective *xcon;
   struct nonterm *y;
@@ -1381,21 +1175,8 @@ output_fore_or_afterthought(TreeNode *x, WhatToShow what)
   }
 
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  For certain types of non-terminal, gather together the constituent
-  children as a concatenated string.  Try to look this up in the
-  dictionary.  If it works output that translation, else drill down as
-  normal.
-
-  TreeNode *x
-
-  WhatToShow what
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-output_clustered(TreeNode *x, WhatToShow what)
+/*}}}*/
+static void output_clustered(TreeNode *x, WhatToShow what)/*{{{*/
 {
   char *cluster, *trans;
   char localtrans[256];
@@ -1485,18 +1266,13 @@ output_clustered(TreeNode *x, WhatToShow what)
     }
   }
 }
-
-/*++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++*/
-
-static void
-output_internal(TreeNode *x, WhatToShow what)
+/*}}}*/
+static void output_internal(TreeNode *x, WhatToShow what)/*{{{*/
 {
   char loj[1024], eng[1024];
   int i, n;
 
-  if (x->type == N_NONTERM) {
+  if (x->type == N_NONTERM) {/*{{{*/
     struct nonterm *y;
     y = &x->data.nonterm;
 
@@ -1504,7 +1280,7 @@ output_internal(TreeNode *x, WhatToShow what)
       (drv->open_bracket)(y->brackets, y->number);
     }
 
-    if (y->type == SELBRI_3 &&
+    if (y->type == SELBRI_3 &&/*{{{*/
         y->nchildren == 2) {
       /* Special handling */
 
@@ -1519,12 +1295,12 @@ output_internal(TreeNode *x, WhatToShow what)
       }
           
       output_internal(y->children[1], what);
-
-    } else if (y->type == TERM) {
+/*}}}*/
+    } else if (y->type == TERM) {/*{{{*/
 
       output_term(x, what);
-      
-    } else if (y->type == NO_CU_SENTENCE) {
+      /*}}}*/
+    } else if (y->type == NO_CU_SENTENCE) {/*{{{*/
       /* Special handling */
 
       if (y->nchildren == 2) { /* not in 'insert elidables' mode */
@@ -1544,8 +1320,8 @@ output_internal(TreeNode *x, WhatToShow what)
           output_internal(y->children[i], what);
         }
       }
-
-    } else if (y->type == OBSERVATIVE_SENTENCE) {
+/*}}}*/
+    } else if (y->type == OBSERVATIVE_SENTENCE) {/*{{{*/
       /* Special handling */
 
 #if 0
@@ -1555,22 +1331,22 @@ output_internal(TreeNode *x, WhatToShow what)
       (drv->translation)("(there is)");
 #endif
       output_internal(y->children[0], what);
-
-    } else if (y->type == TIME_OFFSET) {
+/*}}}*/
+    } else if (y->type == TIME_OFFSET) {/*{{{*/
 
       output_simple_time_offset(x, what);
-
-    } else if ((y->type == SPACE_INT_PROP) ||
+/*}}}*/
+    } else if ((y->type == SPACE_INT_PROP) ||/*{{{*/
                (y->type == INTERVAL_PROPERTY) ||
                (y->type == NUMBER_MOI_TU2)) {
       
       output_clustered(x, what);
-
-    } else if (y->type == SUMTI_TAIL) {
+/*}}}*/
+    } else if (y->type == SUMTI_TAIL) {/*{{{*/
 
       output_sumti_tail(x, what);
-
-    } else if (((y->type == SUMTI_5A) && (y->nchildren ==2)) ||
+/*}}}*/
+    } else if (((y->type == SUMTI_5A) && (y->nchildren ==2)) ||/*{{{*/
                ((y->type == SUMTI_TAIL_1) &&
                 (y->children[0]->data.nonterm.type == QUANTIFIER) &&
                 (y->children[1]->data.nonterm.type == SUMTI))) {
@@ -1587,8 +1363,8 @@ output_internal(TreeNode *x, WhatToShow what)
       for (i=1; i<n; i++) {
         output_internal(y->children[i], what);
       }
-
-    } else if ((y->type == JEK) ||
+/*}}}*/
+    } else if ((y->type == JEK) ||/*{{{*/
                (y->type == JEK_OPT_KE) ||
                (y->type == JEK_OPT_KEBO) ||
                (y->type == EK) ||
@@ -1598,21 +1374,21 @@ output_internal(TreeNode *x, WhatToShow what)
                (y->type == GUHEK)) {
       
       output_fore_or_afterthought(x, what);
-
-    } else {
+/*}}}*/
+    } else {/*{{{*/
 
       n = y->nchildren;
       for (i=0; i<n; i++) {
         output_internal(y->children[i], what);
       }
-      
+      /*}}}*/
     }
 
     if (what == SHOW_BOTH || what == SHOW_LOJBAN || what == SHOW_LOJBAN_AND_INDICATORS) {
       (drv->close_bracket)(y->brackets, y->number);
     }
-
-  } else if (x->type == N_ZEI) {
+/*}}}*/
+  } else if (x->type == N_ZEI) {/*{{{*/
 
     if (what == SHOW_BOTH || what == SHOW_LOJBAN || what == SHOW_LOJBAN_AND_INDICATORS) {
       (drv->open_bracket)(x->data.zei.brackets, x->data.zei.number);
@@ -1653,8 +1429,8 @@ output_internal(TreeNode *x, WhatToShow what)
     if (what == SHOW_BOTH || what == SHOW_LOJBAN || what == SHOW_LOJBAN_AND_INDICATORS) {
       (drv->close_bracket)(x->data.zei.brackets, x->data.zei.number);
     }
-
-  } else {
+/*}}}*/
+  } else {/*{{{*/
     /* Terminal token */
     char lojbuf[1024];
 
@@ -1715,15 +1491,10 @@ output_internal(TreeNode *x, WhatToShow what)
 
 
   }
-
+/*}}}*/
 }
-
-/*++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++*/
-
-void
-do_output(TreeNode *top, DriverVector *driver)
+/*}}}*/
+void do_output(TreeNode *top, DriverVector *driver)/*{{{*/
 {
   drv = driver;
 
@@ -1734,3 +1505,4 @@ do_output(TreeNode *top, DriverVector *driver)
 
   drv->epilogue();
 }
+/*}}}*/
