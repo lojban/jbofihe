@@ -13,6 +13,7 @@
 #include <assert.h>
 
 #include "functions.h"
+#include "canonluj.h"
 
 /* Undefine this if you can't use mmap to read the data in */
 #define HAVE_MMAP 1
@@ -35,6 +36,8 @@ typedef struct {
 static Keyval *dict = NULL;
 static int n_entries = 0;
 
+/*+ Forward prototype for place/context translater. +*/
+extern char *adv_translate(char *w, int place, TransContext ctx);
 
 /*++++++++++++++++++++++++++++++++++++++
   Read a 'long' integer from file avoiding endianness problems.
@@ -545,9 +548,9 @@ translate_unknown(char *w)
                                      CONTEXT
 CLASS   |     N(oun)       V(erb) (4)          Q(ualifier)        T(ag) (2)
 --------+--------------------------------------------------------------------
-  D     |     X(s) (5)      being X(s) (6)          X              X(s) (6)
+  D     |     X(s) (5)      being X(s) (6)        X-ish            X(s) (6)
         |
-  S     |       X            being X (6)            X               X (6)
+  S     |       X            being X (6)          X-ish             X (6)
         |
   A     |    X-er(s) (3)     X-ing (3)            X-ing (3)      X-er(s) (3)
         |
@@ -600,7 +603,7 @@ static char vowels[] = "aeiou";
 
 static char buffers[32][1024];
 static int bufptr=0;
-#define GETBUF() (&buffers[bufptr=(bufptr+1)&0xf][0])
+#define GETBUF() (&buffers[bufptr=(bufptr+1)&0x1f][0])
 
 static int
 starts_with_preposition(char *x)
@@ -828,6 +831,8 @@ translate_pattern(char *w, int place, char *suffix)
   char *buffer, *buffer2;
   char *trans;
 
+  return NULL;
+
   if (!strncmp("sel", w, 3)) {
     new_start = w+3;
     swap = 2;
@@ -895,6 +900,342 @@ translate_pattern(char *w, int place, char *suffix)
 
 }
 
+
+/*++++++++++++++++++++++++++++++++++++++
+  
+
+  char * fix_trans_in_context
+
+  char *trans
+
+  TransContext ctx
+
+  char *w1n
+  ++++++++++++++++++++++++++++++++++++++*/
+
+char *
+fix_trans_in_context(char *src, char *trans, TransContext ctx, char *w1n, int found_full_trans)
+{
+  enum {CL_DISCRETE, CL_SUBSTANCE, CL_ACTOR, CL_PROPERTY, CL_REVERSE_PROPERTY, CL_IDIOMATIC} wordclass;
+  char *result;
+  char w1[128];
+
+  result = GETBUF();
+  
+  if (trans[1] == ';') {
+    switch (trans[0]) {
+      case 'D':
+      case 'E': /* place holder for adding 'event' type later */
+        wordclass = CL_DISCRETE;
+        break;
+      case 'S':
+        wordclass = CL_SUBSTANCE;
+        break;
+      case 'A':
+        wordclass = CL_ACTOR;
+        break;
+      case 'P':
+        wordclass = CL_PROPERTY;
+        break;
+      case 'R':
+        wordclass = CL_REVERSE_PROPERTY;
+        break;
+      case 'I':
+        wordclass = CL_IDIOMATIC;
+        break;
+      default:
+        fprintf(stderr, "Dictionary contains bogus extended entry for [%s]\n", src);
+        return NULL;
+        break;
+    }
+    
+    strcpy(w1, trans+2);
+    
+    switch (wordclass) {
+      case CL_DISCRETE:
+        
+        switch (ctx) {
+          case TCX_NOUN:
+            strcpy(result, make_plural(w1));
+            break;
+          case TCX_VERB:
+            if (*w1n) {
+              sprintf(result, "being %s", w1n);
+            } else {
+              sprintf(result, "being %s", make_plural(w1));
+            }
+            break;
+          case TCX_QUAL:
+            strcpy(result, basic_trans(w1));
+            strcat(result, "-ish");
+            break;
+          case TCX_TAG:
+            if (*w1n) {
+              strcpy(result, w1n);
+            } else {
+              strcpy(result, make_plural(w1));
+            }
+            break;
+        }
+
+        break;
+
+      case CL_SUBSTANCE:
+
+        switch (ctx) {
+          case TCX_NOUN:
+            strcpy(result, basic_trans(w1));
+            break;
+          case TCX_VERB:
+            if (*w1n) {
+              sprintf(result, "being %s", w1n);
+            } else {
+              sprintf(result, "being %s", w1);
+            }
+            break;
+          case TCX_QUAL:
+            strcpy(result, w1);
+            strcat(result, "-ish");
+            break;
+          case TCX_TAG:
+            if (*w1n) {
+              strcpy(result, w1n);
+            } else {
+              strcpy(result, w1);
+            }
+            break;
+        }
+        break;
+
+      case CL_ACTOR:
+        switch (ctx) {
+          case TCX_NOUN:
+          case TCX_TAG:
+            strcpy(result, append_er(w1));
+            break;
+          case TCX_VERB:
+          case TCX_QUAL:
+            strcpy(result, append_ing(w1));
+            break;
+        }
+        break;
+
+      case CL_PROPERTY:
+        switch (ctx) {
+          case TCX_NOUN:
+            sprintf(result, "%s thing(s)", w1);
+            break;
+          case TCX_VERB:
+            sprintf(result, "being %s", w1);
+            break;
+          case TCX_QUAL:
+            strcpy(result, w1);
+            break;
+          case TCX_TAG:
+            sprintf(result, "%s thing(s)", w1);
+            break;
+        }
+        break;
+
+      case CL_REVERSE_PROPERTY:
+        switch (ctx) {
+          case TCX_NOUN:
+            sprintf(result, "thing(s) %s", w1);
+            break;
+          case TCX_VERB:
+            sprintf(result, "being %s", w1);
+            break;
+          case TCX_QUAL:
+            strcpy(result, w1);
+            break;
+          case TCX_TAG:
+            sprintf(result, "thing(s) %s", w1);
+            break;
+        }
+        break;
+
+      case CL_IDIOMATIC:
+        {
+          char tempbuf[1024];
+          strcpy(tempbuf, append_ing(w1));
+            
+          switch (ctx) {
+            case TCX_NOUN:
+            case TCX_TAG:
+              sprintf(result, "thing(s) %s", tempbuf);
+              break;
+            case TCX_VERB:
+            case TCX_QUAL:
+              strcpy(result, tempbuf);
+              break;
+          }
+        }
+      break;
+
+    }
+
+    return result;
+
+  } else {
+    if (!found_full_trans) {
+      fprintf(stderr, "No advanced entry for [%s]\n", src);
+    }
+    /* Either it's not an advanced entry, we have to just return the
+       word as-is, OR the word1n form matched. */
+    return trans;
+  }
+
+}
+
+
+/*++++++++++++++++++++++++++++++++++++++
+  
+
+  static char * subst_base_in_pattern
+
+  char *trans
+
+  char *base
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static char *
+subst_base_in_pattern(char *trans, char *base)
+{
+  char *result = GETBUF();
+  char *p, *q, *r;
+  char buffer[64], *localtrans;
+  q = result;
+  p = trans;
+  fprintf(stderr, "subst tr=%s base=%s\n", trans, base);
+  while (*p) {
+    if (*p == '%') {
+      int place = *++p - '0';
+      char context = *++p;
+      TransContext ctx;
+      switch (context) {
+        case 'n': ctx = TCX_NOUN; break;
+        case 'v': ctx = TCX_VERB; break;
+        case 'q': ctx = TCX_QUAL; break;
+        case 't': ctx = TCX_TAG; break;
+        default: 
+          ctx = TCX_NOUN;
+          fprintf(stderr, "Broken base context for %s\n", trans);
+          break;
+      }
+      fprintf(stderr, "subst calling adv tr p=%d c=%c\n", place, context);
+      localtrans = adv_translate(base, place, ctx);
+      r = localtrans;
+      while (*r) {
+        *q++ = *r++;
+      }
+      ++p; /* onto the char beyond the context symbol */
+    } else {
+      *q++ = *p++;
+    }
+  }
+  *q = 0;
+  fprintf(stderr, "subst returns %s\n", result);
+  return result;
+}
+
+/*++++++++++++++++++++++++++++++++++++++
+  Try to match the Lojban word with various standard forms which the
+  dictionary provides.
+
+  char * attempt_pattern_match Return the translation obtained, or
+  NULL if pattern match failed to find anything.
+
+  char *w The Lojban word to pattern match on
+
+  int place The place whose translation is required
+
+  TransContext ctx The context in which the translation is required.
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static char *
+attempt_pattern_match(char *w, int place, TransContext ctx)
+{
+  char *canon;
+  char first[64], last[64], *p, *q;
+  char first_rest[1024], last_rest[1024];
+  char buffer[64], *subst, *trans;
+  char *ctx_suf_as_string[4] = {"n", "v", "q", "t"};
+  int got_full_trans;
+
+  canon = canon_lujvo(w);
+
+  fprintf(stderr, "Try pattern match for place %d of %s, canon=[%s]\n", place, w, canon);
+
+  /* Bail out now if it's not a lujvo that can be split up. */
+  if (!canon) return NULL;
+
+  /* If it's not got a '+' in it, give up too. */
+  if (!strchr(canon, '+')) return NULL;
+
+  /* OK, pull off first and last components. */
+  p = canon, q=first;
+  while ((*q++ = *p++) != '+')
+    ;
+  *q = 0;
+  strcpy(first_rest, p);
+
+  p = canon;
+  while (*p) p++;
+  while (*p != '+') p--;
+  strcpy(last, p);
+  strncpy(last_rest, canon, p-canon);
+  last_rest[p-canon] = 0;
+
+  fprintf(stderr, "first=%s last=%s first_rest=%s last_rest=%s\n",
+          first, last, first_rest, last_rest);
+  
+  /* Now try for matches.  Attempt match at end of lujvo first. */
+  sprintf(buffer, "*%s%1d%s", last, place, ctx_suf_as_string[ctx]);
+  fprintf(stderr, "Trying full match for %s\n", buffer);
+  trans = translate(buffer);
+  if (trans) {
+    got_full_trans = 1;
+  } else {
+    got_full_trans = 0;
+    sprintf(buffer, "*%s%1d", last, place);
+    trans = translate(buffer);
+  }
+  if (trans) {
+    fprintf(stderr, "Got trans [%s] for last\n", trans);
+    if (trans[0] == '@') {
+      /* redirection to another form */
+      int place = trans[1] - '0';
+      return adv_translate(last_rest, place, ctx);
+    } else {
+      /* Need to substitute % stuff. */
+      subst = subst_base_in_pattern(trans, last_rest);
+      if (got_full_trans) {
+        return subst;
+      } else {
+        return fix_trans_in_context(buffer, subst, ctx, "", 0);
+      }
+    }
+  } 
+  
+  /* Try match at start */
+  sprintf(buffer, "*%s%1d", first, place);
+  trans = translate(buffer);
+  if (trans) {
+    fprintf(stderr, "Got trans [%s] for first\n", trans);
+    if (trans[0] == '@') {
+      /* redirection to another form */
+      int place = trans[1] - '0';
+      return adv_translate(first_rest, place, ctx);
+    } else {
+      subst = subst_base_in_pattern(trans, first_rest);
+      return fix_trans_in_context(buffer, subst, ctx, "", 0);
+    }
+  }
+
+  return NULL;
+
+}
+
 /*++++++++++++++++++++++++++++++++++++++
   'Advanced' translate.
 
@@ -908,7 +1249,7 @@ translate_pattern(char *w, int place, char *suffix)
 char *
 adv_translate(char *w, int place, TransContext ctx)
 {
-  char *trans;
+  char *trans, *trans1;
   char w1[128], w1n[128];
   char buffer[1024];
   static char result[1024];
@@ -969,182 +1310,17 @@ adv_translate(char *w, int place, TransContext ctx)
       /* Never get here */
     }
 
-    if (trans[1] == ';') {
-      switch (trans[0]) {
-        case 'D':
-        case 'E': /* place holder for adding 'event' type later */
-          wordclass = CL_DISCRETE;
-          break;
-        case 'S':
-          wordclass = CL_SUBSTANCE;
-          break;
-        case 'A':
-          wordclass = CL_ACTOR;
-          break;
-        case 'P':
-          wordclass = CL_PROPERTY;
-          break;
-        case 'R':
-          wordclass = CL_REVERSE_PROPERTY;
-          break;
-        case 'I':
-          wordclass = CL_IDIOMATIC;
-          break;
-        default:
-          fprintf(stderr, "Dictionary contains bogus extended entry for [%s]\n", buffer);
-          return NULL;
-          break;
-      }
-      
-      strcpy(w1, trans+2);
-
-      switch (wordclass) {
-        case CL_DISCRETE:
-
-          sprintf(buffer, "%s%1dn", w, place);
-          trans = translate(buffer);
-          if (trans) {
-            strcpy(w1n, trans);
-          } else {
-            w1n[0] = 0;
-          }
-
-          switch (ctx) {
-            case TCX_NOUN:
-              strcpy(result, make_plural(w1));
-              break;
-            case TCX_VERB:
-              if (*w1n) {
-                sprintf(result, "being %s", w1n);
-              } else {
-                sprintf(result, "being %s", make_plural(w1));
-              }
-              break;
-            case TCX_QUAL:
-              strcpy(result, basic_trans(w1));
-              break;
-            case TCX_TAG:
-              if (*w1n) {
-                strcpy(result, w1n);
-              } else {
-                strcpy(result, make_plural(w1));
-              }
-              break;
-          }
-
-          break;
-
-        case CL_SUBSTANCE:
-
-          sprintf(buffer, "%s%1dn", w, place);
-          trans = translate(buffer);
-          if (trans) {
-            strcpy(w1n, trans);
-          } else {
-            w1n[0] = 0;
-          }
-
-          switch (ctx) {
-            case TCX_NOUN:
-              strcpy(result, basic_trans(w1));
-              break;
-            case TCX_VERB:
-              if (*w1n) {
-                sprintf(result, "being %s", w1n);
-              } else {
-                sprintf(result, "being %s", w1);
-              }
-              break;
-            case TCX_QUAL:
-              strcpy(result, w1);
-              break;
-            case TCX_TAG:
-              if (*w1n) {
-                strcpy(result, w1n);
-              } else {
-                strcpy(result, w1);
-              }
-              break;
-          }
-          break;
-
-        case CL_ACTOR:
-          switch (ctx) {
-            case TCX_NOUN:
-            case TCX_TAG:
-              strcpy(result, append_er(w1));
-              break;
-            case TCX_VERB:
-            case TCX_QUAL:
-              strcpy(result, append_ing(w1));
-              break;
-          }
-          break;
-
-        case CL_PROPERTY:
-          switch (ctx) {
-            case TCX_NOUN:
-              sprintf(result, "%s thing(s)", w1);
-              break;
-            case TCX_VERB:
-              sprintf(result, "being %s", w1);
-              break;
-            case TCX_QUAL:
-              strcpy(result, w1);
-              break;
-            case TCX_TAG:
-              sprintf(result, "%s thing(s)", w1);
-              break;
-          }
-          break;
-
-        case CL_REVERSE_PROPERTY:
-          switch (ctx) {
-            case TCX_NOUN:
-              sprintf(result, "thing(s) %s", w1);
-              break;
-            case TCX_VERB:
-              sprintf(result, "being %s", w1);
-              break;
-            case TCX_QUAL:
-              strcpy(result, w1);
-              break;
-            case TCX_TAG:
-              sprintf(result, "thing(s) %s", w1);
-              break;
-          }
-          break;
-
-        case CL_IDIOMATIC:
-          {
-            char tempbuf[1024];
-            strcpy(tempbuf, append_ing(w1));
-            
-            switch (ctx) {
-              case TCX_NOUN:
-              case TCX_TAG:
-                sprintf(result, "thing(s) %s", tempbuf);
-                break;
-              case TCX_VERB:
-              case TCX_QUAL:
-                strcpy(result, tempbuf);
-                break;
-            }
-          }
-        break;
-
-      }
-
-      return result;
-
+    sprintf(buffer, "%s%1dn", w, place);
+    trans1 = translate(buffer);
+    if (trans1) {
+      strcpy(w1n, trans1);
     } else {
-      if (!found_full_trans) {
-        fprintf(stderr, "No advanced entry for [%s]\n", buffer);
-      }
-      /* Either it's not an advanced entry, we have to just return the
-         word as-is, OR the word1n form matched. */
-      return trans;
+      w1n[0] = 0;
     }
+
+    strcpy(result, fix_trans_in_context(buffer, trans, ctx, w1n, found_full_trans));
+
+
   } else {
     /* If we can't get any place-dependent translation, don't bother -
        the gismu headword entry is probably misleading and does more
@@ -1156,6 +1332,13 @@ adv_translate(char *w, int place, TransContext ctx)
       strcat(result, "??");
       return result;
     } else {
+      /* Try to get pattern match for word */
+      trans = attempt_pattern_match(w, place, ctx);
+      if (trans) {
+        fprintf(stderr, "Used pattern match to resolve [%s]\n", w);
+        return trans;
+      }
+
       fprintf(stderr, "No dictionary entry for [%s], attempting to break up as lujvo\n", w);
       trans = translate_unknown(w);
       if (trans) {
