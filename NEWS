@@ -6,12 +6,14 @@ New in version 0.35
 - Add support to show elidable cmavo that were omitted from the input text (-ie
   command switch).  (Cmavo inserted this way are displayed in upper case in the
   output).
-- Add option to require the input text to contain every elidable cmavo (-re
+- Add option to require that the input text does not have any cmavo elided (-re
   command switch).  (This may be useful as a learning aid and when trying to
   debug grammar failures.)
 - Add option to report any elidable cmavo which are superfluous in the text,
   accessed with the -se comand switch.  Where a sequence of such words can be
-  partially omitted, all possible 'minimal' sub-sequences are shown.
+  partially omitted, all possible 'minimal' sub-sequences are shown.  A verbose
+  option (-sev) gives extra visibility of how the algorithm makes its decisions
+  about valid minimal sequences.
 - Totally rewritten algorithm for determining type (cmavo, brivla, cmene etc)
   of input words.  Should now enforce word structure rules 100%, and be
   competely robust at removing cmavo prefixed onto the front of gismu, lujvo
@@ -20,6 +22,11 @@ New in version 0.35
   Reference Grammar) is optional (-cr switch).
 - Add backtracing mode for showing the parser stack when a syntax error occurs
   (-bt option).  May assist in debugging syntactically invalid texts.
+- Changed approach to building the glossing dictionary for jbofihe and cmafihe.
+  The gismu and cmavo information is now bundled with the source.  The 2 lujvo
+  files are also used if they are found in the current directory at build time.
+  This avoids the user having to download extra files to get a minimal working
+  installation.
 - Add case tagging for selbri involving MOI, GOhA, NUhA
 - Fix bugs parsing number/lerfu-string containing bu followed by
   moi/mei/roi/re'u
