@@ -101,7 +101,7 @@ static unsigned char s2l[32] = {
 static unsigned char *toknam[] = {
   "UNK", "V", "APOS", "Y", "R", "N", "C",
   "NR", "CI", "CP", "CN", "H", "BT",
-  "VV", "VX", "VA", "VY"
+  "VV", "VX", "VY"
 };
 
 /* Front end state machine actions, printable for -v mode */

@@ -21,7 +21,7 @@
 # Declare all symbols in same order as lexer (lexer returns (0 .. whatever)
 # when it recognizes the corresponding token)
 
-TOKENS UNK V APOS Y R N C NR CI CP CN H BT VV VX VA VY
+TOKENS UNK V APOS Y R N C NR CI CP CN H BT VV VX VY
 
 # Token meanings are as follows
 # UNK   : Unknown character
@@ -38,12 +38,10 @@ TOKENS UNK V APOS Y R N C NR CI CP CN H BT VV VX VA VY
 # H     : rln,nlr,rnC,Cnr,CrC (hyphen occuring in type III fu'ivla)
 #         (note, recognition of type III's not done yet)
 # BT    : 3rd letter of one of the banned triples (ntc,nts,ndj,ndz)
-# VV    : 2nd vowel of ai|au|ei|oi (allowed in any word type)
+# VV    : 2nd vowel of ai|au|ei|oi (allowed in any word type), or 2nd vowel
+#         of v,v pattern. [Comma treated the same as apostrophe between vowels]
 # VX    : (extended) 2nd vowel of [iu][aeiou] (allowed as single VV cmavo,
 #         and in fu'ivla & cmene)
-# VA    : (arbitrary) 2nd vowel of [aeiou],?[aeiou] with appropriate pre-checking
-#         as to whether the comma is present/absent/required/optional on a case
-#         by case basis (valid in fu'ivla and cmene)
 # VY    : vowel pair forms involving y, maybe with a comma between (valid only
 #         in cmene)
 
@@ -746,7 +744,7 @@ BLOCK FV_TAIL
         CI|CP|NR|H -> c
         V -> v
     STATE v
-        VV|VX|VA -> v
+        VV|VX -> v
         APOS -> a
         -> exit
         -> in
@@ -769,13 +767,13 @@ BLOCK FV_START0
         CI -> cc
         V -> v
     STATE v
-        VV|VX|VA -> v #VX since "these 10 can be used in .. borrowings (secn. 3.4)"
+        VV|VX -> v #VX since "these 10 can be used in .. borrowings (secn. 3.4)"
         APOS -> a
         -> exit_need_syl
     STATE a
         V -> v1
     STATE v1
-        VV|VX|VA -> v1
+        VV|VX -> v1
         -> exit
         APOS -> a1
     STATE a1
@@ -805,11 +803,11 @@ BLOCK FV_START1
         APOS -> s1
     STATE s1
         # Vowel could follow ' so need bare V as well as vowel compounds
-        V|VV|VX|VA -> v2
-        V|VV|VX|VA -> s2
+        V|VV|VX -> v2
+        V|VV|VX -> s2
     STATE v2
         APOS -> a2
-        VV|VX|VA -> s2
+        VV|VX -> s2
     STATE a2
         V -> s2
 
@@ -821,7 +819,7 @@ BLOCK FV_START1
         CI|CP|NR|H -> cc
         V -> v3
     STATE v3
-        VV|VX|VA -> v3
+        VV|VX -> v3
         APOS -> a3
         -> exit
     STATE a3
@@ -905,7 +903,7 @@ BLOCK CMENE
         V|Y -> v
 
     STATE v
-        VV|VX|VA|VY -> v
+        VV|VX|VY -> v
         C|N|R|CI|CP|NR|H|CN|BT -> c
         APOS -> a
 

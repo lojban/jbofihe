@@ -10,8 +10,7 @@ $VTOK_V = 1; # must agree with coding for V in consonant FSM
 $VTOK_Y = 3; # must agree with coding for y in consonant FSM
 $VTOK_VV = 13; # ai/au/ei/oi valid anywhere
 $VTOK_VX = 14; # [iu][aeiou] - vowel extended
-$VTOK_VA = 15; # other arb. pair if valid [e,a in kore,a etc]
-$VTOK_VY = 16; # combinations involving y where valid [only in cmene]
+$VTOK_VY = 15; # combinations involving y where valid [only in cmene]
 $VTOK_UNK = 0;
 
 # Note, C encodes all consonants + apostrophe
@@ -31,7 +30,9 @@ if ($x =~ /..,/) {
 } elsif ($x =~ /.[iu][aeiou]/) {
     $r = $VTOK_VX;
 } elsif ($x =~ /[aeiou],[aeiou]/) {
-    $r = $VTOK_VA;
+    # Conclusion of egroups discussion in Jan 2001 : v,v is treated
+    # as equivalent to v'v, so is valid in any type of word.
+    $r = $VTOK_VV;
 } elsif ($x =~ /.[iu]y/ || $x =~ /y,[aeiou]/ || $x =~ /[aeiou],y/) {
     $r = $VTOK_VY;
 } elsif ($x =~ /.Cy/) {
