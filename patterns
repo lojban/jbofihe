@@ -69,6 +69,16 @@
 *1barda+3:@3
 *1barda+4:@4
 *1barda+5:@5
+*1to'e+1:R;opposite of %1q
+*1to'e+2:@2
+*1to'e+3:@3
+*1to'e+4:@4
+*1to'e+5:@5
+*1na'e+1:R;other than %1q
+*1na'e+2:@2
+*1na'e+3:@3
+*1na'e+4:@4
+*1na'e+5:@5
 *2+stuzi1:D;place* for %1v
 *2+stuzi2:@2
 *2+stuzi3:@3
