@@ -21,6 +21,34 @@
 #include "cmavotab.h"
 
 /*++++++++++++++++++++++++++++++
+  Lookup which place is exchanged for a cmavo of selma'o SE
+  ++++++++++++++++++++++++++++++*/
+
+static int
+lookup_converted_place(TreeNode *se_cmavo)
+{
+  char *se;
+  int conv;
+
+  assert (se_cmavo->type == N_CMAVO);
+  assert (se_cmavo->data.cmavo.selmao == SE);
+  se = cmavo_table[se_cmavo->data.cmavo.code].cmavo;
+  if (!strcmp(se, "se")) {
+    conv = 2;
+  } else if (!strcmp(se, "te")) {
+    conv = 3;
+  } else if (!strcmp(se, "ve")) {
+    conv = 4;
+  } else if (!strcmp(se, "xe")) {
+    conv = 5;
+  } else {
+    assert(0); /* No other cmavo in selma'o SE hopefully */
+  }
+  return conv;
+}
+
+
+/*++++++++++++++++++++++++++++++
   Go through the parse tree and mark all SE BAI cmavo with extension
   records on the BAI.  Simple recursive traversal over the whole parse
   tree.
@@ -31,7 +59,6 @@ conv_tag_se_bai(TreeNode *x)
 {
   TreeNode *c, *c1, *c2;
   int nc, i;
-  char *se;
   int conv;
   XBaiConversion *ext;
   XDontGloss *edg;
@@ -45,20 +72,7 @@ conv_tag_se_bai(TreeNode *x)
       case SE_BAI:
         c1 = nt->children[0];
         c2 = nt->children[1];
-        assert(c1->type == N_CMAVO);
-        se = cmavo_table[c1->data.cmavo.code].cmavo;
-        if (!strcmp(se, "se")) {
-          conv = 2;
-        } else if (!strcmp(se, "te")) {
-          conv = 3;
-        } else if (!strcmp(se, "ve")) {
-          conv = 4;
-        } else if (!strcmp(se, "xe")) {
-          conv = 5;
-        } else {
-          assert(0); /* No other cmavo in selma'o SE hopefully */
-        }
-
+        conv = lookup_converted_place(c1);
         ext = prop_bai_conversion(c2, YES);
         ext->conv = conv;
 
@@ -82,6 +96,150 @@ conv_tag_se_bai(TreeNode *x)
     /* Nothing to do, the se_bai construction can only occur as a
        non-terminal */
   }
+}
+
+/*++++++++++++++++++++++++++++++
+
+  Take a tanru_unit_2 node found by the downward scan, and work
+  outwards gathering conversion operators.
+
+  TreeNode *tu2 The tu2 node (ancestor of apply_to)
+
+  TreeNode *apply_to The tu_2 node that wants the conversion applying
+  to it when the glossing is done later.
+
+  ++++++++++++++++++++++++++++++*/
+
+static void
+compute_tu2_conv(TreeNode *tu2, TreeNode *apply_to) {
+
+  /* If the node already has a conversion on it, it must be something
+     whose conversion was determined in terms.c processing. */
+
+  if (prop_conversion(apply_to, NO)) {
+    return;
+  } else {
+    int places[6];
+    int i;
+    TreeNode *x = tu2;
+
+    for (i=1; i<=5; i++) {
+      places[i] = i;
+    }
+
+    /* Barf on JAI constructions for now, fix that up later */
+
+    for (;;) {
+      switch (x->data.nonterm.type) {
+        
+        case SE_TU2:
+          {
+            int p, t;
+            XDontGloss *edg;
+            TreeNode *se = child_ref(x, 0);
+            p = lookup_converted_place(se);
+            t = places[1];
+            places[1] = places[p];
+            places[p] = t;
+            edg = prop_dont_gloss(se, YES);
+          }
+        x = x->parent;
+        break;
+
+        /* This block just need to go up a level and keep scanning */
+        case TANRU_UNIT_2:
+        case NAHE_TU2:
+        case TANRU_UNIT_1:
+        case TANRU_UNIT:
+        case SELBRI_6:
+        case SELBRI_5: 
+        case SELBRI_3:
+        case KE_SELBRI_3:
+        case KE_SELBRI3_TU2:
+          x = x->parent;
+          break;
+          
+          /* This block need some clever stuff which we don't do yet */
+        case JAI_TU2:
+        case JAI_TAG_TU2:
+          fprintf(stderr, "Can't handle conversion with JAI on seltau\n");
+          assert(0);
+          break;
+          
+        case SELBRI_4:
+          /* Depends on whether we're immediately below an outermost
+             selbri_3 as to whether we close the conversion now or
+             propagate. */
+          if ((x->parent->        data.nonterm.type == SELBRI_3) &&
+              (x->parent->parent->data.nonterm.type == SELBRI_3)) {
+            /* close */
+            XConversion *ext;
+            ext = prop_conversion(apply_to, YES);
+            ext->conv = places[1];
+            return;
+          } else {
+            x = x->parent;
+          }
+          break;
+          
+        case SELBRI_2:
+          /* done in all cases */
+          {
+            XConversion *ext;
+            ext = prop_conversion(apply_to, YES);
+            ext->conv = places[1];
+            return;
+          }
+        break;
+        default:
+          fprintf(stderr, "Unexpected case!!\n");
+          assert(0);
+          break;
+      }
+    }
+  }
+}
+
+/*++++++++++++++++++++++++++++++
+  Scan down the tree looking for BRIVLA, abstractions and other forms
+  of tanru_unit_2 that may be subject to conversion (SE) operators.
+  Work back up the syntax tree, accumulating conversions, until coming
+  to something that indicates no more conversions apply to this
+  tanru_unit_2.
+
+  ++++++++++++++++++++++++++++++*/
+
+static void
+conv_mark_tu2s(TreeNode *x)
+{
+  int nc, i;
+  TreeNode *c;
+  struct nonterm *nt;
+
+  nt = &x->data.nonterm;
+  
+  if (x->type == N_NONTERM) {
+    nc = nt->nchildren;
+    for (i=0; i<nc; i++) {
+      c = nt->children[i];
+      conv_mark_tu2s(c);
+    }
+  } else if (x->type == N_BRIVLA) {
+    compute_tu2_conv(x->parent, x);
+
+  } else if ((x->type == N_CMAVO) &&
+             (x->data.cmavo.selmao == NU)) {
+    TreeNode *y;
+    y = x->parent;
+    assert(y->type == N_NONTERM);
+    while (y->data.nonterm.type != TANRU_UNIT_2) {
+      y = y->parent;
+      assert(y->type == N_NONTERM);
+    }
+    compute_tu2_conv(y, x);
+
+  }
+
 }
 
 
@@ -412,6 +570,7 @@ void
 do_conversions(TreeNode *top)
 {
   conv_tag_se_bai(top);
+  conv_mark_tu2s(top);
   conv_mark_gloss_types(top, GS_NONE);
   selbri_scan(top, 0);
 }
