@@ -107,7 +107,7 @@ BLOCK AFTER1
         CNR -> to_lujvo0, to_pair0
 
     STATE in_y
-        Y ; LCP|CN|     -> to_lujvo0, to_pair0
+        Y ; LCP|CN      -> to_lujvo0, to_pair0
         Y ; CP ; BT     -> to_in_after_cc0
 
     STATE in_cvy
