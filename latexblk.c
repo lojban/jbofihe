@@ -63,6 +63,8 @@ write_prologue(void)
          "\\geometry{left=0.75in,top=0.5in,bottom=0.5in,right=0.75in,noheadfoot}\n"
          "\\pagestyle{empty}\n"
          "\\setlength{\\parindent}{0pt}\n"
+         "\\setlength{\\tabcolsep}{0pt}\n"
+         "\\emergencystretch=200pt\n"
          "\\font\\zd = pzdr at 10pt\n"
          );
   printf("\\DeclareSymbolFont{AMSa}{U}{msa}{m}{n}\n"
@@ -74,6 +76,7 @@ write_prologue(void)
          "\\small\n");
 }
 
+
 /*++++++++++++++++++++++++++++++++++++++
   
   ++++++++++++++++++++++++++++++++++++++*/
@@ -81,13 +84,12 @@ write_prologue(void)
 static void
 flush_block(void)
 {
-  printf("\\begin{tabular}[t]{l}{\\bf %s}\\\\{\\it %s}\\\\{\\it\\footnotesize %s}\\end{tabular}\n",
+  printf("\\begin{tabular}[t]{l}{\\bf %s}\\\\{\\it %s}\\\\{\\it\\scriptsize %s}\\end{tabular}\n",
          loj_text, eng_text, tag_text);
   tag_text[0] = 0;
   loj_text[0] = 0;
   eng_text[0] = 0;
 }
-
 
 /* Number of end of lines that are pending.  (These are only inserted
    when we have closed a sequence of close brackets, i.e. before the
@@ -103,11 +105,10 @@ clear_eols(void)
 {
   double xes;
 
-  if (loj_text[0] || eng_text[0]) {
-    flush_block();
-  }
-
   if (pending_eols > 0) {
+    if (loj_text[0] || eng_text[0]) {
+      flush_block();
+    }
     if (pending_eols > 1) {
       xes = 1.5;
     } else {
@@ -141,6 +142,9 @@ set_eols(int eols)
 static void
 write_open_bracket(BracketType type, int subscript)
 {
+
+  if (type == BR_NONE) return;
+
   if (loj_text[0] || eng_text[0]) {
     flush_block();
   }
@@ -212,6 +216,8 @@ write_open_bracket(BracketType type, int subscript)
 static void
 write_close_bracket(BracketType type, int subscript)
 {
+
+  if (type == BR_NONE) return;
 
   if (loj_text[0] || eng_text[0]) {
     flush_block();
