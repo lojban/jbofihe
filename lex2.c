@@ -467,11 +467,29 @@ handle_bu(void)
           x->data.bu.word = new_string(y->data.zoi.text);
           break;
 
-        case N_NONTERM:
         case N_ZO:
+          {
+            int len = strlen(y->data.zo.text);
+            len += 3;
+            x->data.bu.word = new_array(char, len);
+            strcpy(x->data.bu.word, "zo");
+            strcat(x->data.bu.word, y->data.zo.text);
+          }
+          break;
+
+        case N_BU:
+          {
+            int len = strlen(y->data.bu.word);
+            len += 3;
+            x->data.bu.word = new_array(char, len);
+            strcpy(x->data.bu.word, y->data.bu.word);
+            strcat(x->data.bu.word, "bu");
+          }
+          break;
+
+        case N_NONTERM:
         case N_LOhU:
         case N_MARKER:
-        case N_BU:
           assert(0);
           break;
       }
