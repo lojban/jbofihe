@@ -414,9 +414,9 @@ write_tag_text(char *brivla, char *place, char *trans, int brac)
   char buffer[1024];
 
   if (brac) {
-    sprintf(buffer, "%s%s\n(%s)", brivla, place, make_texsafe(trans));
+    sprintf(buffer, "%s%s (%s)", brivla, place, make_texsafe(trans));
   } else {
-    sprintf(buffer, "%s%s\n%s", brivla, place, make_texsafe(trans));
+    sprintf(buffer, "%s%s %s", brivla, place, make_texsafe(trans));
   }
   if (tag_text[1]) { /* '[' is pre-inserted by start_tags */
     strcat(tag_text, "\n");
