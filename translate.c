@@ -6,7 +6,6 @@
 
 /* COPYRIGHT */
 
-#include <gdbm.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -152,7 +151,7 @@ init(void)
     inited = 1;
     dname = getenv("JBOFIHE_DICTIONARY");
     if (!dname) {
-      dname = "./dictionary.bin";
+      dname = DEFAULT_DICTIONARY;
     }
     in = fopen(dname, "r");
     if (!in) {
