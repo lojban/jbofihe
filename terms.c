@@ -69,8 +69,10 @@ typedef struct {
   union {
     TermVector *links;
     SeInfo se;
-    TreeNode *jai_tag; /* The treenode for the tag in a JAI <tag>
-                          construction */
+    struct {
+      TreeNode *tag; /* The tag */
+      TreeNode *inner_tu2; /* The modified tanru_unit_2 */
+    } jai_tag;
   } data;
 } LinkConvEntry;
 
@@ -148,11 +150,12 @@ static void lc_append_se(LinkConv *lc, int conv, TreeNode *senode)/*{{{*/
   ++(lc->n);
 }
 /*}}}*/
-static void lc_append_jai_tag(LinkConv *lc, TreeNode *tag)/*{{{*/
+static void lc_append_jai_tag(LinkConv *lc, TreeNode *tag, TreeNode *inner_tu2)/*{{{*/
 {
   assert(lc->n < MAX_TERMS_IN_VECTOR);
 
-  lc->e[lc->n].data.jai_tag = tag;
+  lc->e[lc->n].data.jai_tag.tag = tag;
+  lc->e[lc->n].data.jai_tag.inner_tu2 = inner_tu2;
   lc->e[lc->n].type = LC_TAG;
   ++(lc->n);
   
@@ -433,6 +436,7 @@ typedef enum {
 
 typedef struct {
   TreeNode *tag;
+  TreeNode *inner_tu2;
 } TagPlace;
 
 typedef struct {
@@ -479,6 +483,7 @@ static void fixup_term_place(TreeNode *x, Place *pl, XTermTag *tt)/*{{{*/
 
     case PT_TAG:
       ts->tag.jaitag.tag = pl->tag.tag;
+      ts->tag.jaitag.inner_tu2 = pl->tag.inner_tu2;
       ts->tag.type = TTT_JAITAG;
       break;
 
@@ -668,7 +673,8 @@ static void assign_places(TermVector *pre, TermVector *post, LinkConv *lc, XTerm
           fai[1] = place[1];
           place[1].type = PT_TAG;
           place[1].valid = 1;
-          place[1].tag.tag = lc->e[i].data.jai_tag;
+          place[1].tag.tag = lc->e[i].data.jai_tag.tag;
+          place[1].tag.inner_tu2 = lc->e[i].data.jai_tag.inner_tu2;
         }
       break;
 
@@ -684,7 +690,7 @@ static void assign_places(TermVector *pre, TermVector *post, LinkConv *lc, XTerm
             fai[j] = fai[j-1];
           }
           fai[1] = place[1];
-          place[1].type = PT_JAI;
+          place[1].type = PT_ORD;
           place[1].valid = 1;
         }
         break;
@@ -816,13 +822,15 @@ static void process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector
         {
           LinkConv newlc;
           TreeNode *ctag, *tu2_child;
+          XRequireBrac *xrb;
 
           lc_copy(lc, &newlc);
           ctag = find_nth_child(c1, 1, TAG);
           tu2_child = find_nth_child(c1, 1, TANRU_UNIT_2);
           assert(ctag);
           assert(tu2_child);
-          lc_append_jai_tag(&newlc, ctag);
+          lc_append_jai_tag(&newlc, ctag, tu2_child);
+          xrb = prop_require_brac(tu2_child, YES);
           process_tanru_unit_2_args(tu2_child, pre, post, &newlc);
         }
 

@@ -195,7 +195,10 @@ typedef struct {
 } XTT_Brivla;
 
 typedef struct {
+  /* The tag (BAI, tense etc that does the modifying) */
   struct treenode *tag;
+  /* The tanru_unit_2 that is modified. */
+  struct treenode *inner_tu2;
 } XTT_JaiTag;
 
 typedef struct {

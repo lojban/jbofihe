@@ -134,6 +134,13 @@ static void add_bracketing_internal(TreeNode *x, int *seq)/*{{{*/
         }
         break;
         
+      case TANRU_UNIT_2:
+        if (prop_require_brac(x, NO)) {
+          y->number = ++*seq;
+          y->brackets = BR_BRACE;
+        }
+        break;
+        
       case FREE:
         y->number = ++*seq;
         y->brackets = BR_ROUND;
@@ -861,12 +868,13 @@ static void output_term(TreeNode *x, WhatToShow what)/*{{{*/
             (drv->write_tag_text)(tag->brivla.x->data.brivla.word, tp, trans, YES);
             break;/*}}}*/
           case TTT_JAITAG:/*{{{*/
-            (drv->start_tag)();
-            output_internal(tag->jaitag.tag, SHOW_TAG_TRANS);
-            trans = adv_translate(tag->brivla.x->data.brivla.word, tag->pos, TCX_VERB);
-            sprintf(tp, "%d", tag->pos);
-            if (trans) {
-              (drv->write_tag_text) ("", "", trans, NO);
+            {
+              char transbuf[1024];
+              (drv->start_tag)();
+              (drv->write_partial_tag_text)("jai+<tag>1: (");
+              output_internal(tag->jaitag.tag, SHOW_TAG_TRANS);
+              sprintf(transbuf, "#%d)", tag->jaitag.inner_tu2->data.nonterm.number);
+              (drv->write_partial_tag_text) (transbuf);
             }
             break;/*}}}*/
           case TTT_JAI:/*{{{*/
