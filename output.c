@@ -463,6 +463,12 @@ translate_indicator (TreeNode *x, char *loj, char *eng)
       case CC_CAINAI:
         strcpy(buffer, translate("cainai"));
         break;
+      case CC_PEI:
+        strcpy(buffer, translate("pei"));
+        break;
+      case CC_PEINAI:
+        strcpy(buffer, translate("peinai"));
+        break;
     }
     strcat(buffer, " ");
   } else {
@@ -505,6 +511,12 @@ translate_indicator (TreeNode *x, char *loj, char *eng)
         break;
       case CC_CAINAI:
         strcat(loj, " cainai");
+        break;
+      case CC_PEI:
+        strcat(loj, " pei");
+        break;
+      case CC_PEINAI:
+        strcat(loj, " peinai");
         break;
     }
   }

@@ -577,6 +577,8 @@ pair_off_indicator_suffixes(void)
           xci->code = CC_RUhE;
         } else if (!strcmp(tok, "cu'i")) {
           xci->code = CC_CUhI;
+        } else if (!strcmp(tok, "pei")) {
+          xci->code = CC_PEI;
         } else {
           abort();
         }
@@ -604,6 +606,9 @@ pair_off_indicator_suffixes(void)
             case CC_CUhI:
               /* Nothing to do, this is the neutral case so you
                  can't invert it */
+              break;
+            case CC_PEI:
+              xci->code = CC_PEINAI;
               break;
             default:
               break;
@@ -932,3 +937,4 @@ print_last_toks(void)
   }
 
 }
+

@@ -237,7 +237,9 @@ typedef struct x_caiindicator {
     CC_CUhI,
     CC_RUhENAI,
     CC_SAINAI,
-    CC_CAINAI
+    CC_CAINAI,
+    CC_PEI,
+    CC_PEINAI
   } code;
 } XCaiIndicator;
 
