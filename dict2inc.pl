@@ -17,7 +17,10 @@ chomp;
     }
 
     if (/^([^:]+):([^:]+)/) {
-        $def{$1} = $2;
+        my $word = $1;
+        my $def = $2;
+        $def =~ s/\"/\\"/go;
+        $def{$word} = $def;
     }
 }
 
