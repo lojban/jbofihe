@@ -1,0 +1,37 @@
+################################################################################
+$Header$
+################################################################################
+
+
+First : The author can be reached at  :         rpc@myself.com
+        My page for lojban-related things is :
+           http://www.rrbcurnow.freeuk.com/lojban
+
+This distribution contains a pre-compiled set of binaries for jbofihe.  No
+source code is included; if you want that, you need to visit my web-site
+(http://go.to/jbofihe) and find the jbofihe-v.vv.tar.gz file.
+
+Four tools are included :
+
+  jbofihe is a grammar checker for v3.0 of the Lojban grammar.  Its output (for
+  grammatically acceptable input) can show approximate English equivalents for
+  the words (to assist with translation), together with the grammatical
+  structure of the text.
+
+  cmafihe is a very cut-down version of jbofihe, mainly intended for showing
+  the approx. English equivalents of the words without doing the grammar
+  checking stage.  Its main use is for handling grammatically incorrect text.
+
+  smujajgau is used to compile plain text Lojban -> English dictionaries into
+  the sorted random access database used by jbofihe and cmafihe.
+
+  jvocuhadju accepts a sequence of gismu/cmavo as command-line arguments, and
+  computes the optimal lujvo form for them considered as a tanru.
+
+Each of the tools is documented more fully in its companion .txt file.
+
+The tools have been compiled using DJGPP (http://www.delorie.com/djgpp/).  They
+are intended to run either under MSDOS or in a Windows DOS box.  Under plain
+MSDOS, they need access to DPMI services.  The bundled cwsdpmi.exe supplies
+these if it is found on the path.
+
