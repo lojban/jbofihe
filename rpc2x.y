@@ -950,7 +950,7 @@ sumti_5a : quantifier sumti_6
 
 sumti_5b : quantifier selbri KU free_seq
          | quantifier selbri KU
-         | quantifier selbri /* ET */
+         | quantifier selbri /* ET KU */
          ;
 
 /*
