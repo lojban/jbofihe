@@ -33,13 +33,13 @@ while (1) {
     
     @args = ();
     $shown_args = 0;
-    $n = 2 + int (rand(6));
+    $n = 2 + int (6 * &Rng::rng());
     for $i (1 .. $n) {
         while (1) {
             # For final component, can't have a cmavo, unless that cmavo has a
             # rafsi ending in a vowel.  Don't know that in here, so be
             # pessimistic.
-            $e = int(rand $ngc);
+            $e = int(&Rng::rng() * $ngc);
             $w = $gc[$e];
             
             # Lujvo canonicaliser in vlatai reverses brody to brodu always, so
@@ -55,6 +55,7 @@ while (1) {
 
     @lujvo = (); # alleged lujvo for this tanru
     $args = join(" ", @args);
+    #    print $args."\n";
 
     open (IN, "../jvocuhadju -l -a $args 2>&1 |");
     while (<IN>) {
@@ -103,5 +104,21 @@ while (1) {
 
 }
 
+package Rng;
+BEGIN {
+    $rng_open = 0;
+}
+
+sub rng {
+    if (!$rng_open) {
+        open (RNG, "</dev/urandom") or die "No /dev/urandom";
+        $rng_open = 1;
+    }
+
+    sysread(RNG, $data, 4);
+    $x = unpack("L", $data);
+    $x *= 2.3283064365387e-10;
+    return $x;
+}
     
 
