@@ -17,8 +17,8 @@ while (<STDIN>) {
     foreach (split / /,$rafsi) {
 	$rafsi{$_} = $gismu;
     }
-    if (length $g == 5) {
-	$rafsi{substr($g,0,4)} = $g;
+    if (length $gismu == 5) {
+	$rafsi{substr($gismu,0,4)} = $gismu;
     }
 }
 
