@@ -830,7 +830,7 @@ error_advance(int code)
     if ((next_tok == &toks) || /* End of file */
         ((next_tok->type == N_CMAVO || next_tok->type == N_MARKER) &&
          ((next_tok->data.cmavo.selmao == I) ||
-          (next_tok->data.cmavo.selmao == I_BO) ||
+          (next_tok->data.cmavo.selmao == PRIVATE_I_BO) ||
           (next_tok->data.cmavo.selmao == NIhO) ||
           (next_tok->data.cmavo.selmao == LIhU) ||
           (next_tok->data.cmavo.selmao == TOI) ||
@@ -851,11 +851,11 @@ error_advance(int code)
 /*++++++++++++++++++++++++++++++++++++++
   Look-alike for the yylex function
 
-  int yylex
+  int yylex1
   ++++++++++++++++++++++++++++++++++++++*/
 
 int
-yylex(void)
+yylex1(void)
 {
   static int returned_EOF = 0;
 
@@ -867,7 +867,7 @@ yylex(void)
 
   if (next_tok == &toks) { /* End of file condition */
     returned_EOF = 1;
-    return EOF_MARK;
+    return PRIVATE_EOF_MARK;
   } else {
     /* Return a real token */
 
@@ -892,7 +892,7 @@ yylex(void)
       case N_CMAVO:
         if (next_tok->data.cmavo.selmao == FAhO) {
           returned_EOF = 1;
-          return EOF_MARK;
+          return PRIVATE_EOF_MARK;
         } else {
           yylval = next_tok;
           return yylval->data.cmavo.selmao;
