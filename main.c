@@ -203,9 +203,10 @@ main (int argc, char **argv)
   preprocess_tokens();
 
   if (token_lists) {
-    printf("\n------------------------------"
-           "\nToken list after preprocessing\n\n");
+    printf("------------------------------\n"
+           "Token list after preprocessing\n\n");
     show_tokens();
+    printf("\n------------------------------\n");
   }
 
 #if 1
