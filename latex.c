@@ -49,6 +49,7 @@ write_prologue(void)
          "\\usepackage[dvips]{graphicx}\n"
          "\\else\n"
          "\\usepackage[pdftex]{graphicx}\n"
+         "\\pdfcompresslevel=9\n"
          "\\fi"
          "\\def\\rmdefault{phv}\n"
          "\\def\\mddefault{mc}\n"
@@ -270,9 +271,9 @@ make_texsafe(char *s)
 #if 0
       case '\\':
       case '$':
+#endif
       case '{':
       case '}':
-#endif
       case '%':
       case '_':
       case '#':
