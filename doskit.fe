@@ -27,8 +27,13 @@ make rpc_full.c
 make stag.c
 make canonluj.inc
 make morf_lex.c
+make morfvlex.c
 make morf_dfa.c
+make morfnc_dfa.c
 make morf_enc.c
+make trctabs.c
+make trcftabs.c
+make elitabs.c
 make jbofihe.txt
 make cmafihe.txt
 make smujajgau.txt
