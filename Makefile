@@ -12,7 +12,7 @@ INCDIR=-I/opt/free/include
 OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc.tab.o functions.o \
         categ.o nonterm.o tree.o translate.o latex.o latexblk.o \
         properties.o conversion.o terms.o memory.o tenses.o \
-	output.o textout.o htmlout.o connect.o stag.o
+	output.o textout.o htmlout.o connect.o stag.o relative.o
 
 SRCS2 = $(OBJS2:%.o=%.c)
 
@@ -100,7 +100,7 @@ dictionary : dictmake
 	perl rafsid.pl < rafsi > rafsid.dict
 	perl rafsig.pl < rafsi > rafsig.dict
 	perl raf4lg.pl < gismu > raf4lg.dict
-	./dictmake dictionary.dbm gismu.dict cmavo.dict lujvo.dict oblik.dict raf4l.dict rafobl.dict rafsid.dict extradict
+	./dictmake dictionary.dbm gismu.dict cmavo.dict lujvo.dict oblik.dict raf4l.dict rafobl.dict rafsid.dict extradict places.dat
 
 dictupdate : dictionary.dbm
 
@@ -120,7 +120,7 @@ FILES = lex1.c lex2.c categ.c \
 	functions.c functions.h Makefile main.c cmavotab.c cmavotab.h \
 	nodes.h uncom.l tree.c translate.c latex.c properties.c \
 	conversion.c terms.c memory.c tenses.c output.c textout.c \
-	output.h htmlout.c connect.c latex.h latexblk.c \
+	output.h htmlout.c connect.c latex.h latexblk.c relative.c \
 	.depend TODO stag.y COPYRIGHT Makefile.in config.pl build_kit \
 	action.perl terminator.pl \
 	giscolon.pl cmacolon.pl lujvod.pl oblik.pl raf4l.pl rafobl.pl rafsid.pl \
