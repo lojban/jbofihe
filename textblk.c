@@ -46,13 +46,7 @@ static int line_tags_used;
 static char loj_line[BUFFER_SIZE];
 static char eng_line[BUFFER_SIZE];
 
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-clear_line_buffer(void)
+static void clear_line_buffer(void)/*{{{*/
 {
   int i;
 
@@ -66,14 +60,8 @@ clear_line_buffer(void)
 
   current_width = 0;
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-initialise(void)
+/*}}}*/
+static void initialise(void)/*{{{*/
 {
   int i;
 
@@ -89,23 +77,13 @@ initialise(void)
 
   max_width = opt_output_width;
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-write_prologue(void)
+/*}}}*/
+static void write_prologue(void)/*{{{*/
 {
   return;
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-flush_line(void)
+/*}}}*/
+static void flush_line(void)/*{{{*/
 {
   int i;
   
@@ -121,24 +99,14 @@ flush_line(void)
   }
   fputs("\n", stdout);
   clear_line_buffer();
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++++++++++*/
+}/*}}}*/
 
 /* Number of end of lines that are pending.  (These are only inserted
    when we have closed a sequence of close brackets, i.e. before the
    next open bracket or ordinary text.) */
 static int pending_eols = 0;
 
-/*++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++*/
-
-static void
-clear_eols(void)
+static void clear_eols(void)/*{{{*/
 {
   if (pending_eols > 0) {
 
@@ -152,22 +120,11 @@ clear_eols(void)
     state = ST_OPEN;
     pending_eols = 0;
   }
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  Append a string onto a buffer, and right pad with spaces to bring up
-  to a specific width
-
-  char *src
-
-  char *dbuf
-
-  int wid
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-append_to_width(char *src, char *dbuf, int wid) {
+}/*}}}*/
+static void append_to_width(char *src, char *dbuf, int wid)/*{{{*/
+/* Append a string onto a buffer, and right pad with spaces to bring up
+  to a specific width */
+{
   int len, toadd, i;
   char buffer[BUFFER_SIZE];
   len = strlen(src);
@@ -178,14 +135,9 @@ append_to_width(char *src, char *dbuf, int wid) {
   buffer[toadd] = '\0';
   strcat(dbuf, src);
   strcat(dbuf, buffer);
-}
-
-/*++++++++++++++++++++++++++++++
-  Push current block onto line buffer
-  ++++++++++++++++++++++++++++++*/
-
-static void
-flush_block(void)
+}/*}}}*/
+static void flush_block(void)/*{{{*/
+/* Push current block onto line buffer */
 {
   int i;
   int max_len, len;
@@ -237,39 +189,20 @@ flush_block(void)
   tags_used = 0;
   
 }
-
-/*++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++*/
-
-static void
-set_eols(int eols)
+/*}}}*/
+static void set_eols(int eols)/*{{{*/
 {
   pending_eols += eols;
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-  Do final acts of writing to output file.
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-write_epilog(void)
+/*}}}*/
+static void write_epilog(void)/*{{{*/
+/* Do final acts of writing to output file. */
 {
   flush_block();
   flush_line();
   return;
-}
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  BracketType type
-
-  int subscript
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-write_open_bracket(BracketType type, int subscript)
+}/*}}}*/
+static void write_open_bracket(BracketType type, int subscript)/*{{{*/
 {
   char *brac;
   char *brac1, *brac2, *brac3;
@@ -332,18 +265,8 @@ write_open_bracket(BracketType type, int subscript)
   state = ST_OPEN;
 
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  BracketType type
-
-  int subscript
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-write_close_bracket(BracketType type, int subscript)
+/*}}}*/
+static void write_close_bracket(BracketType type, int subscript)/*{{{*/
 {
   char *brac;
   char *brac1, *brac2, *brac3;
@@ -403,18 +326,8 @@ write_close_bracket(BracketType type, int subscript)
 
   state = ST_CLOSE;
 
-}
-
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  char *text
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-write_lojban_text(char *text)
+}/*}}}*/
+static void write_lojban_text(char *text)/*{{{*/
 {
 
   if (eng_text[0]) {
@@ -426,17 +339,8 @@ write_lojban_text(char *text)
   strcat(loj_text, text);
   strcat(loj_text, " ");
 
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  char *text
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-write_special(char *text)
+}/*}}}*/
+static void write_special(char *text)/*{{{*/
 {
   if (!strcmp(text, "$LEFTARROW")) {
     strcat(eng_text, "<-");
@@ -445,16 +349,8 @@ write_special(char *text)
   } else if (!strcmp(text, "$CLOSEQUOTE")) {
     strcat(eng_text,"\"");
   }
-}
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  char *text
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-write_translation(char *text)
+}/*}}}*/
+static void write_translation(char *text)/*{{{*/
 {
   if (text[0] == '$') {
     write_special(text);
@@ -463,62 +359,32 @@ write_translation(char *text)
     strcat(eng_text, " ");
   }
 }
+/*}}}*/
 
 /*+  +*/
 static int first_tag;
 
-/*++++++++++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-start_tags(void)
+static void start_tags(void)/*{{{*/
 {
   if (loj_text[0] || eng_text[0]) {
     flush_block();
   }
   clear_eols();
   first_tag = 1;
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-end_tags(void)
+}/*}}}*/
+static void end_tags(void)/*{{{*/
 {
   tags_used++;
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-start_tag(void)
+}/*}}}*/
+static void start_tag(void)/*{{{*/
 {
   if (!first_tag) {
     tags_used++;
   }
   first_tag = 0;
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  char *brivla
-
-  char *place
-
-  char *trans
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-write_tag_text(char *brivla, char *place, char *trans, int brac)
+/*}}}*/
+static void write_tag_text(char *brivla, char *place, char *trans, int brac)/*{{{*/
 {
   char buffer1[256], buffer2[256];
 
@@ -531,10 +397,9 @@ write_tag_text(char *brivla, char *place, char *trans, int brac)
   strcat(tag_text[tags_used], buffer1);
   strcat(tag_text[tags_used], buffer2);
 }
+/*}}}*/
 
-
-/*+  +*/
-DriverVector text_block_driver = {
+DriverVector text_block_driver = {/*{{{*/
   initialise,
   write_prologue,
   write_epilog,
@@ -547,4 +412,4 @@ DriverVector text_block_driver = {
   end_tags,
   start_tag,
   write_tag_text,
-};
+};/*}}}*/
