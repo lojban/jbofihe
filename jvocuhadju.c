@@ -15,6 +15,8 @@
 #include "lujvofns.h"
 #include "version.h"
 
+static int uselong = 0; /* Consider lujvo including long rafsi when short ones are available */
+static int showall = 0; /* List all lujvo, not just the best MAXLUJVO of them */
 
 static int ends_in_vowel(char *s) {
   char *p;
@@ -74,7 +76,7 @@ static int initial_join(char *s1, char *s2) {
   char e1, f2;
   char *p;
   char trial[3];
-  int test1, test2, test3;
+  int test1;
   f2 = s2[0];
   p = s1;
   while (*p) p++;
@@ -698,14 +700,11 @@ static void makelujvo(char **tanru) {
   int i, j, k, n;
   int last;
   int index, si;
-  int uselong;
-  char rr[5];
   int c[MAXT]; /* Counters over the rafsi forms for each argument
                   (implements an arbitrarily-nested for loop) */
 
   int check1, check2, check3, check4;
 
-  uselong = 0;
   i=0;
   while (*tanru) {
     strcpy(t[i], *tanru);
@@ -734,8 +733,8 @@ static void makelujvo(char **tanru) {
           j++;
         }
       }
-      if (uselong || j==0) {
-        strcpy(r[i][0], t[i]);
+      if ((uselong || j==0) && (strlen(t[i]) == 5)) {
+        strcpy(r[i][j], t[i]);
         j++;
       }
       nr[i] = j;
@@ -747,9 +746,9 @@ static void makelujvo(char **tanru) {
         j++;
       }
       if ((uselong || j==0) && (strlen(t[i]) == 5)) {
-        strcpy(r[i][0], t[i]);
-        chop_last_char(r[i][0]);
-        j ++;
+        strcpy(r[i][j], t[i]);
+        chop_last_char(r[i][j]);
+        j++;
       }
       nr[i] = j;
     }
@@ -783,7 +782,7 @@ static void makelujvo(char **tanru) {
     }
 
     /* Work out glue */
-    if ((nt > 2) && is_cvv(r[0][c[0]])) {
+    if ((nt > 2) && (is_cvv(r[0][c[0]]) || is_cvav(r[0][c[0]]))) {
       /* Require r or n hyphen to stop initial cmavo falling off */
       if (r[1][c[1]][0] == 'r') {
         g[0] = 'n';
@@ -791,13 +790,8 @@ static void makelujvo(char **tanru) {
         g[0] = 'r';
       }
     } else {
-#if 0
-      if (!strcmp(r[0][c[0]], "lo'i") && !strcmp(r[1][c[1]], "lei")) {
-        printf("nt=%d test1=%d test2=%d\n", nt, is_cvv(r[0][c[0]]), is_ccv(r[1][c[1]]));
-      }
-#endif
       check1 = (nt == 2);
-      check2 = is_cvv(r[0][c[0]]);
+      check2 = is_cvv(r[0][c[0]]) || is_cvav(r[0][c[0]]);
       check3 = is_ccv(r[1][c[1]]);
       check4 = is_ccvcv(r[1][c[1]]);
       if (check1 && check2 && (!check3 || check4)) {
@@ -959,7 +953,7 @@ static void makelujvo(char **tanru) {
 
   qsort(lujvo, nl, sizeof(Lujvo), compare_lujvo);
 
-  if (nl>MAXLUJVO) nl = MAXLUJVO;
+  if (!showall && (nl>MAXLUJVO)) nl = MAXLUJVO;
   for (i=0; i<nl; i++) {
     printf("%6d %s\n", lujvo[i].score, lujvo[i].word);
   }
@@ -967,10 +961,26 @@ static void makelujvo(char **tanru) {
 }
 
 int main (int argc, char **argv) {
-  if (argc > 1 && !strcmp(argv[1], "-v")) {
-    fprintf(stderr, "jvocuhadju version %s\n", version_string);
-    exit(0);
+  char *words[MAXT];
+  char **wp;
+  wp = words;
+  while (++argv, --argc) {
+    if (!strcmp(*argv, "-v")) {
+      fprintf(stderr, "jvocuhadju version %s\n", version_string);
+      exit(0);
+    } else if (!strcmp(*argv, "-a")) {
+      showall = 1;
+    } else if (!strcmp(*argv, "-l")) {
+      uselong = 1;
+    } else if ((*argv)[0] == '-') {
+      fprintf(stderr, "Unrecognised command line option %s\n", *argv);
+      exit(1);
+    } else {
+      *wp = *argv;
+      ++wp;
+    }
   }
-  makelujvo(argv+1);
+  *wp = NULL;
+  makelujvo(words);
   return 0;
 }
