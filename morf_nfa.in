@@ -330,6 +330,23 @@ BLOCK LUJVO
 ENDBLOCK
 #}}}
 ###########################################################
+#{{{  BLOCK CULTURAL_BRIDGE_2
+BLOCK CULTURAL_BRIDGE_2
+
+# This blocks describes the extra NFA states that have to bridged on top of the
+# standard lujvo to get something that copes with cultural rafsi too.
+
+    STATE in
+        LCI -> in_after_cc
+
+    STATE in_after_cc
+        V ; APOS ; V ; CNR -> exit
+        V ; VV       ; CNR -> exit
+
+ENDBLOCK
+#}}}
+
+###########################################################
 #{{{  BLOCK CULTURAL_LUJVO
 BLOCK CULTURAL_LUJVO
 
@@ -341,7 +358,14 @@ BLOCK CULTURAL_LUJVO
     # the file : if the word's a normal lujvo, it is never considered for
     # recognition as a cultural one.
 
+    # The core lujvo - replicates the main lujvo matching block.
     body : LUJVO_BODY
+
+    # The extra bits
+    t0  : CULTURAL_BRIDGE_2
+    t1  : CULTURAL_BRIDGE_2
+    t1t : CULTURAL_BRIDGE_2
+    tos : CULTURAL_BRIDGE_2
 
     STATE in -> body.in
 
@@ -352,42 +376,26 @@ BLOCK CULTURAL_LUJVO
         C   ; LCI ; V          ; VV ; CNR -> body.s1.ex_y
         C   ; LCI ; V   ; APOS ; V  ; CNR -> body.s1.ex_y
 
-    STATE body.t0.s2.in
-        LCI ; V ; APOS ; V ; CNR -> body.t0.s2.ex_y
-        LCI ; V ; VV   ;     CNR -> body.t0.s2.ex_y
+    STATE body.t0.s2.in          -> t0.in
+    STATE body.t0.s2.in_after_cc -> t0.in_after_cc
+    STATE t0.exit                -> body.t0.s2.ex_y
 
-    STATE body.t0.s2.in_after_cc
-        V ; APOS ; V ; CNR -> body.t0.s2.ex_y
-        V ; VV       ; CNR -> body.t0.s2.ex_y
-    
-    STATE body.t1.s2.in
-        LCI ; V ; APOS ; V ; CNR -> body.t1.s2.ex_y
-        LCI ; V ; VV   ;     CNR -> body.t1.s2.ex_y
+    STATE body.t1.s2.in          -> t1.in
+    STATE body.t1.s2.in_after_cc -> t1.in_after_cc
+    STATE t1.exit                -> body.t1.s2.ex_y
 
-    STATE body.t1.s2.in_after_cc
-        V ; APOS ; V ; CNR -> body.t1.s2.ex_y
-        V ; VV       ; CNR -> body.t1.s2.ex_y
-    
-    STATE body.t1t.s2.in
-        LCI ; V ; APOS ; V ; CNR -> body.t1t.s2.ex_y
-        LCI ; V ; VV   ;     CNR -> body.t1t.s2.ex_y
+    STATE body.t1t.s2.in          -> t1t.in
+    STATE body.t1t.s2.in_after_cc -> t1t.in_after_cc
+    STATE t1t.exit                -> body.t1t.s2.ex_y
 
-    STATE body.t1t.s2.in_after_cc
-        V ; APOS ; V ; CNR -> body.t1t.s2.ex_y
-        V ; VV       ; CNR -> body.t1t.s2.ex_y
+    STATE body.tos.tail.s2.in          -> tos.in
+    STATE body.tos.tail.s2.in_after_cc -> tos.in_after_cc
+    STATE tos.exit                     -> body.tos.tail.s2.ex_y
     
     STATE body.tos.s1.in
         V ; APOS ; V ; CNR -> body.tos.s1.ex_y
         V ; VV       ; CNR -> body.tos.s1.ex_y
 
-    STATE body.tos.tail.s2.in
-        LCI ; V ; APOS ; V ; CNR -> body.tos.tail.s2.ex_y
-        LCI ; V ; VV   ;     CNR -> body.tos.tail.s2.ex_y
-
-    STATE body.tos.tail.s2.in_after_cc
-        V ; APOS ; V ; CNR -> body.tos.tail.s2.ex_y
-        V ; VV       ; CNR -> body.tos.tail.s2.ex_y
-        
     ##############
 
     # Set exit states on t0
