@@ -42,8 +42,10 @@ if (&check_wordlists(".")) {
     $word_list_dir = ".";
 } else {
     # Try all directories below the parent directory
+    print "Searching to find directory containing wordlists ...\n";
     @dirs = qx=find .. -type d -print=;
     for $dir (@dirs) {
+	chop $dir;
 	if (&check_wordlists($dir)) {
 	    $word_list_dir = $dir;
 	    last;
@@ -54,6 +56,7 @@ if (&check_wordlists(".")) {
     unless ($word_list_dir) {
 	@dirs = qx=find ~ -type d -print=;
 	for $dir (@dirs) {
+	    chop $dir;
 	    if (&check_wordlists($dir)) {
 		$word_list_dir = $dir;
 		last try_wordlists;
