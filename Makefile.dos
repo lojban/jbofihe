@@ -1,0 +1,52 @@
+# $Header$
+#
+# Makefile for parser/glosser using DJGPP on DOS
+#
+# COPYRIGHT
+#
+
+CC=gcc
+CFLAGS= -O2
+
+OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc_tab.o functions.o \
+        categ.o nonterm.o tree.o translate.o latex.o \
+        properties.o conversion.o terms.o memory.o tenses.o \
+	output.o textout.o htmlout.o connect.o stag.o latexblk.o \
+        relative.o textblk.o errorscan.o canonluj.o lujvofns.o
+
+SRCS2 = $(OBJS2:%.o=%.c)
+
+CM_OBJS = cm_gather.o cm_output.o cm_main.o cm_translate.o cm_scan.o
+
+CM_SRCS = $(CM_OBJS:%.o=%.c)
+
+all : progs
+
+jbofihe : $(OBJS2)
+	$(CC) $(CFLAGS) -o jbofihe $(OBJS2)
+
+progs : jbofihe cmafihe jvocuhadju smujajgau
+
+
+%.o : %.c
+	$(CC) $(CFLAGS) -c $<
+
+%.s : %.c
+	$(CC) $(CFLAGS) -S $<
+
+smujajgau : smujajgau.o canonluj.o
+	$(CC) $(CFLAGS) -o smujajgau smujajgau.o canonluj.o
+
+smujajgau.o : smujajgau.c
+	$(CC) $(CFLAGS) -c smujajgau.c
+
+cmafihe : $(CM_OBJS)
+	$(CC) $(CFLAGS) -o cmafihe $(CM_OBJS)
+
+jvocuhadju : jvocuhadju.o lujvofns.o
+
+jvocuhadju.o : jvocuhadju.c version.h
+
+smujajgau.o : smujajgau.c version.h
+
+
