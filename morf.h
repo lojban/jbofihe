@@ -16,6 +16,7 @@ typedef enum {
   MT_GISMU,
   MT_LUJVO,
   MT_FUIVLA3, /* stage 3 */
+  MT_FUIVLA3_CVC, /* stage 3 starting with CVC rafsi */
   MT_FUIVLA4, /* stage 4 */
   MT_CMAVOS,
   MT_CMENE,
