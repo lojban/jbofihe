@@ -129,10 +129,10 @@ morf_enc.c : mk_enctab.pl
 	perl mk_enctab.pl > morf_enc.c 2>morf_enc.err
 
 morf_dfa.c : morf_nfa.in n2d/n2d
-	n2d/n2d < morf_nfa.in > morf_dfa.c 2>morf_dfa.err
+	n2d/n2d -v -r morf_dfa.report < morf_nfa.in > morf_dfa.c
 
 morfnc_dfa.c : morf_nfa.in n2d/n2d
-	grep -v 'CULTURAL' < morf_nfa.in | n2d/n2d > morfnc_dfa.c 2>morfnc_dfa.err
+	grep -v 'CULTURAL' < morf_nfa.in | n2d/n2d -v -r morfnc_dfa.report > morfnc_dfa.c
 
 n2d/n2d:
 	(cd n2d && make all)
