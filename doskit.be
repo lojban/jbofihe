@@ -10,6 +10,17 @@
 # 5. Run some basic sanity checks
 # 6. Reboot Linux and run this script
 
+if [ ! -d /dosc/jbofihe ]; then
+    echo "You need to mount /dosc first!"
+    exit 1
+fi
+
+make jbofihe.txt
+make cmafihe.txt
+make smujajgau.txt
+make jvocuhadju.txt
+make vlatai.txt
+
 cp /dosc/jbofihe/jbofihe.exe .
 cp /dosc/jbofihe/cmafihe.exe .
 cp /dosc/jbofihe/jvocuhad.exe ./jvocuhad.exe

@@ -38,11 +38,6 @@ make bctables.c
 make trctabs.c
 make trcftabs.c
 make elitabs.c
-make jbofihe.txt
-make cmafihe.txt
-make smujajgau.txt
-make jvocuhadju.txt
-make vlatai.txt
 
 cp *.c *.h smujmaji.dat canonluj.inc Makefile.dos /dosc/jbofihe
 
