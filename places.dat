@@ -2607,26 +2607,27 @@ jinzi1:P;innate
 jinzi2:R;with innate property
 #
 # x1 is a chicken/[hen/cock/rooster]/small fowl [a type of bird] of species/breed x2              
-#jipci1:DSAP;
-#jipci2:DSAP;
+jipci1:D;chicken
+jipci2:S;species of chicken
+jipci2t:of species
 #
 # x1 is a tip/point/vertex/extremity/end [0-dimension shape/form] on object x2 at locus x3        
-#jipno1:DSAP;
-#jipno2:DSAP;
-#jipno3:DSAP;
+jipno1:D;tip
+jipno2:R;with tip
+jipno3:S;locus of tip
 #
 # x1 is a/the horn [body-part] of x2; [metaphor: pointed extremity]                               
-#jirna1:DSAP;
-#jirna2:DSAP;
-#jirna3:DSAP;
+jirna1:D;horn
+jirna2:P;horned
 #
 # x1 is made of/contains/is a quantity of juice/nectar from-source/of-type x2                     
 #jisra1:DSAP;
 #jisra2:DSAP;
 #
 # x1 (du'u) is false/is an untruth by standard/epistemology/metaphysics x2                        
-#jitfa1:DSAP;
-#jitfa2:DSAP;
+jitfa1:P;false
+jitfa2:S;standard of falseness
+jitfa2t:by standard
 #
 # x1 has control over/harnesses/manages/directs/conducts x2 in x3 (activity/event/performance)    
 jitro1:A;control
@@ -2634,14 +2635,15 @@ jitro2:R;under control
 jitro3:D;controlled activity
 #
 # x1 weaves x2 from material/[yarn] x3                                                            
-#jivbu1:DSAP;
-#jivbu2:DSAP;
-#jivbu3:DSAP;
+jivbu1:A;weave
+jivbu2:D;woven product
+jivbu3:D;yarn
 #
 # x1 competes/vies with opponent x2 in contest/competition x3 (event) for gain x4; x1 rivals x2   
-#jivna1:DSAP;
-#jivna2:DSAP;
-#jivna3:DSAP;
+jivna1:A;compete
+jivna2:D;opponent
+jivna3:D;contest
+jivna4:D;prize
 #
 # x1 (mass/jo'u) gathers/collects at location x2 from locations x3 (mass/jo'u)                    
 jmaji1:I;gather
@@ -2667,42 +2669,49 @@ jmive2:D;standard* of living
 #jordo2:DSAP;
 #
 # x1 is joined to/connects to/is united with x2 at common locus x3; x1 and x2 are a union         
-#jorne1:DSAP;
-#jorne2:DSAP;
+jorne1:P;joined
+jorne2:P;joined
+jorne3:S;locus of join
 #
 # x1 is a table/flat solid upper surface of material x2, supported by legs/base/pedestal x3       
-#jubme1:DSAP;
-#jubme2:DSAP;
-#jubme3:DSAP;
+jubme1:D;table
+jubme2:S;material of table
+jubme2t:of material
+jubme3:D;table support
+jubme3t:with support
 #
 # x1 is an address of/are coordinates of x2 in system x3                                          
-#judri1:DSAP;
-#judri2:DSAP;
-#judri3:DSAP;
+judri1:D;address
+judri2:R;having address
+judri3:S;system defining address
+judri3t:in system
 #
 # x1 (text) is a sentence/statement about x2 [topic/subject/predicate/focus] in language x3       
-#jufra1:DSAP;
-#jufra2:DSAP;
-#jufra3:DSAP;
+jufra1:D;sentence
+jufra2:D;sentence topic
+jufra2t:about
+jufra3:S;language of sentence
+jufra3t:in language
 #
 # x1 is a spider/arachnid/[crustacean/crab/lobster/non-insect arthropod] of species/breed x2      
-#jukni1:DSAP;
-#jukni2:DSAP;
+jukni1:D;spider
+jukni2:S;spider species
+jukni2t:of species
 #
 # x1 cooks/prepares food-for-eating x2 by recipe/method x3 (process)                              
-#jukpa1:DSAP;
-#jukpa2:DSAP;
-#jukpa3:DSAP;
+jukpa1:A;cook
+jukpa2:D;cooked food
+jukpa3:D;recipe
 #
 # x1 is a net/filter allowing passage of x2, prohibiting passage of x3, netting properties x4     
-#julne1:DSAP;
-#julne2:DSAP;
-#julne3:DSAP;
-#julne4:DSAP;
+julne1:D;filter
+julne2:R;passed by filter
+julne3:R;blocked by filter
+julne4:D;filter property
 #
 # x1 is attentive towards/attends/tends/pays attention to object/affair x2                        
-#jundi1:DSAP;
-#jundi2:DSAP;
+jundi1:P;attentive
+jundi2:D;object* of attention
 #
 # x1 reflects Chinese [Mandarin, Cantonese, Wu, etc.] culture/nationality/language in aspect x2   
 #jungo1:DSAP;
@@ -2717,8 +2726,9 @@ junla4:D;timing mechanism
 junla4t:mechanism
 #
 # x1 (person) is serious/earnest/has gravity about x2 (event/state/activity)                      
-#junri1:DSAP;
-#junri2:DSAP;
+junri1:P;earnest
+junri2:D;topic* of seriousness
+junri2t:about topic
 #
 # x1 is the weight of object x2 in [gravitational or other force] field x3                        
 #junta1:DSAP;
@@ -2730,8 +2740,9 @@ junla4t:mechanism
 #jurme2:DSAP;
 #
 # x1 (event/action/state) is severe/harsh to x2 [victim/experiencer]                              
-#jursa1:DSAP;
-#jursa2:DSAP;
+jursa1:P;harsh
+jursa2:R;experiencing harshness
+jursa2t:to victim
 #
 # x1 is a species of genus x2, family x3, etc.; [open-ended tree-structure categorization]        
 #jutsi1:DSAP;
