@@ -179,52 +179,31 @@ add_brivla_token(char *x, int start_line, int start_column, enum BrivlaType briv
   ++++++++++++++++++++++++++++++++++++++*/
 
 static void
-process_cmene(char *buf, int start_line, int start_column)
+process_cmene(char *buf, int start_line, int start_column,
+              int is_bad, int can_split, char *ladoi, char *tail)
 {
   TreeNode *tok;
   char *p;
 
-  /* Check for invalid construct within name. */
-  p = buf;
-  while (*p) {
-    if ((!strncmp(p, "la",  2) && is_consonant(p[2])) ||
-        (!strncmp(p, "lai", 3) && is_consonant(p[3])) ||
-        (!strncmp(p, "doi", 3) && is_consonant(p[3]))) {
-      if ((p == buf) || is_vowel(*(p-1))) {
-        char temp[128], *q;
-        int len;
-
-        /* Deal with what comes before la, lai, doi */
-        len = p - buf;
-        strncpy(temp, buf, len);
-        if (len > 0) {
-          temp[len] = 0;
-          process_word(temp, start_line, start_column);
-        }
-        
-        /* Deal with la, lai, doi */
-        temp[0] = *p++;
-        q = temp + 1;
-        while (is_vowel(*p)) {
-          *q++ = *p++;
-        }
-        *q = 0;
-        process_word(temp, start_line, start_column+len);
-
-        /* Deal with the tail */
-        process_cmene(p, start_line, start_column + (p-buf));
-        return;
-      }
-    }
-    p++;
+  if (is_bad)  {
+    char prefix[1024], labuf[8];
+    char *p, *q;
+    int len1, len2;
+    for (p=buf, q=prefix, len1=0; p!=ladoi; len1++) *q++ = *p++;
+    *q = 0;
+    for (p=ladoi, q=labuf, len2=0; p!=tail; len2++) *q++ = *p++;
+    *q = 0;
+    process_word(prefix, start_line, start_column);
+    process_word(labuf, start_line, start_column+len1);
+    process_word(tail, start_line, start_column+len1+len2);
+  } else {
+    tok = new_node();
+    tok->start_line = start_line;
+    tok->start_column = start_column;
+    tok->type = N_CMENE;
+    tok->data.cmene.word = new_string(buf);
+    add_token(tok);
   }
-
-  tok = new_node();
-  tok->start_line = start_line;
-  tok->start_column = start_column;
-  tok->type = N_CMENE;
-  tok->data.cmene.word = new_string(buf);
-  add_token(tok);
 }
 
 /*++++++++++++++++++++++++++++++++++++++
@@ -267,6 +246,7 @@ process_word(char *buf, int start_line, int start_column)
   char *word_starts[1024];
   char **pws, **pwe;
   MorfType morf_type;
+  struct morf_xtra mx;
   int column, incr;
 
   if (zoi_data) {
@@ -318,7 +298,7 @@ process_word(char *buf, int start_line, int start_column)
   pws = pwe = word_starts;
   /* FIXME: Need to get morf_xtra info back here, to help with splitting bad
    * cmene */
-  morf_type = morf_scan(buf, &pwe, NULL);
+  morf_type = morf_scan(buf, &pwe, &mx);
   column = start_column;
   switch (morf_type) {
     case MT_BOGUS:
@@ -349,7 +329,11 @@ process_word(char *buf, int start_line, int start_column)
       add_brivla_token(*pwe, start_line, column, BVT_FUIVLA4);
       break;
     case MT_CMENE:
-      process_cmene(buf, start_line, column);
+      process_cmene(buf, start_line, column,
+                    mx.u.cmene.is_bad,
+                    mx.u.cmene.can_split,
+                    mx.u.cmene.ladoi,
+                    mx.u.cmene.tail);
       break;
     case MT_CMAVOS:
       {
