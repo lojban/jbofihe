@@ -110,6 +110,10 @@ void error_advance(int code);
 int yylex(void);
 void print_last_toks(void);
 
+/* Return dynamically allocated string */ 
+char *build_string_from_nodes(TreeNode *start, TreeNode *end);
+char *build_string_from_node(TreeNode *the_node);
+
 /* In erasure.c */
 void do_erasures(TreeNode *toks);
 

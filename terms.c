@@ -1055,6 +1055,15 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
         break;
 
     }
+  } else if (c1->type == N_ZEI) {
+
+    XTermTag tt;
+
+    tt.type = TTT_ZEI;
+    tt.zei.zei = c1;
+    assign_places(pre, post, lc, &tt);
+    assign_conversion(lc, c1);
+    
   } else {
     abort();
   }

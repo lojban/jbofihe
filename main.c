@@ -267,6 +267,11 @@ main (int argc, char **argv)
 
   preprocess_tokens();
 
+  /* Check again, lex2 can detect bad constructs as well. */
+  if (had_bad_tokens) {
+    return 3;
+  }
+
   if (token_lists) {
     printf("------------------------------\n"
            "Token list after preprocessing\n\n");

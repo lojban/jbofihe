@@ -342,6 +342,7 @@ conv_mark_gloss_types(TreeNode *x, GlossState g)
 #endif
 
     if ((x->type == N_BRIVLA) ||
+        (x->type == N_ZEI) ||
         ((x->type == N_CMAVO) &&
          (x->data.cmavo.selmao == NU))) {
       if (g != GS_NONE) {
@@ -473,7 +474,7 @@ selbri_scan(TreeNode *x, int is_tertau)
           {
             TreeNode *c;
             c = child_ref(x, 0);
-            if (c->type == N_BRIVLA) {
+            if (c->type == N_BRIVLA || c->type == N_ZEI) {
               XGlosstype *gt;
               gt = prop_glosstype(c, YES);
               gt->is_tertau = 1;

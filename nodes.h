@@ -22,12 +22,24 @@ typedef enum {
   N_ZOI,
   N_ZO,
   N_LOhU,
+  N_ZEI,
   N_BU,
   N_BRIVLA,
   N_CMENE,
   N_NONTERM,
   N_BROKEN_ERASURE /* ZOI, ZO or LOhU with insufficient SI after => parse error */
 } NodeTypes;
+
+typedef enum {
+  BR_NONE,
+  BR_ROUND,
+  BR_SQUARE,
+  BR_BRACE,
+  BR_ANGLE,
+  BR_CEIL,
+  BR_FLOOR,
+  BR_TRIANGLE
+} BracketType;
 
 struct marker {
   int tok; /* To lie at same offset as selmao in struct cmavo, to
@@ -64,6 +76,17 @@ struct lohu {
   char *text;
 };
 
+/* For X zei Y, nchildren==2.  For X zei Y zei Z, nchildren==3 etc. */
+
+struct zei {
+  int nchildren;
+  struct treenode **children;
+  char *sep_with_plus; /* Form for dictionary lookup of whole thing, e.g. o'o+cinmo */
+  char *sep_with_zei; /* Form with zei separating terms, kept for printing out if needed */
+  int number; /* Sequence number (can print out to help user match start and end of constructs) */
+  BracketType brackets; /* bracketing to apply to this construction */
+};
+
 enum BrivlaType {
   BVT_GISMU,
   BVT_LUJVO,
@@ -89,17 +112,6 @@ struct bu {
 struct erasure {
   int defects;
 };
-
-typedef enum {
-  BR_NONE,
-  BR_ROUND,
-  BR_SQUARE,
-  BR_BRACE,
-  BR_ANGLE,
-  BR_CEIL,
-  BR_FLOOR,
-  BR_TRIANGLE
-} BracketType;
 
 struct nonterm {
   int nchildren;
@@ -174,7 +186,8 @@ typedef enum {
   TTT_ME,
   TTT_GOhA,
   TTT_NUhA,
-  TTT_NUMBERMOI
+  TTT_NUMBERMOI,
+  TTT_ZEI
 } XTermTagType;
 
 typedef struct {
@@ -209,6 +222,10 @@ typedef struct {
   struct treenode *number_or_lerfu;
   struct treenode *moi;
 } XTT_NumberMoi;
+
+typedef struct {
+  struct treenode *zei;
+} XTT_Zei;
   
 typedef struct x_termtag {
   XTermTagType type;
@@ -224,6 +241,7 @@ typedef struct x_termtag {
   XTT_Goha   goha;
   XTT_Nuha   nuha;
   XTT_NumberMoi numbermoi;
+  XTT_Zei    zei;
 } XTermTag;
 
 typedef struct x_termtags {
@@ -363,6 +381,7 @@ typedef struct treenode {
     struct cmavo   cmavo;
     struct zoi     zoi;
     struct zo      zo;
+    struct zei     zei;
     struct lohu    lohu;
     struct bu      bu;
     struct brivla  brivla;

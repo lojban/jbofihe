@@ -149,8 +149,8 @@ translate_unknown(char *w, int place)
     case MT_BAD_UPPERCASE:
     case MT_CMAVOS:
       /* Should never get these, other than from a broken redirecting dictionary
-         entry.  Give up. */
-      return "?";
+         entry, or from trying to translate a 'zei' form.  Give up. */
+      return NULL;
     case MT_FUIVLA4:
       /* No way to automatically translate such a word if unknown */
       return "?";

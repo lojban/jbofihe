@@ -163,6 +163,9 @@ add_bracketing_internal(TreeNode *x, int *seq)
       add_bracketing_internal(y->children[i], seq);
     }
 
+  } else if (x->type == N_ZEI) {
+    x->data.zei.number = ++*seq;
+    x->data.zei.brackets = BR_FLOOR;
   }
 
 }
@@ -735,17 +738,20 @@ translate_jai (TreeNode *x, char *eng)
   }
 }
 
-
-
 /*++++++++++++++++++++++++++++++++++++++
+  If the lojban text comes from a source that supports conversion (and may
+  require different glossing depending on context), apply the appropriate
+  adjustments to translate it.
 
-  TreeNode *x
+  char *loj The lojban text to translate (not derived from 'basis' since this
+  fn is used for several different node types).
 
-  char *eng
+  TreeNode *basis The treenode on which the gloss-type and conversion tags may
+  be hanging.
   ++++++++++++++++++++++++++++++++++++++*/
 
-static void
-translate_brivla (TreeNode *x, char *eng)
+static char *
+translate_convertible(char *loj, TreeNode *basis)
 {
   char buffer[1024];
   char *trans;
@@ -753,57 +759,53 @@ translate_brivla (TreeNode *x, char *eng)
   XGlosstype *gt;
   int conv;
 
-  eng[0] = 0;
-  conversion = prop_conversion(x, NO);
+  conversion = prop_conversion(basis, NO);
   if (conversion) {
     conv = conversion->conv;
   } else {
     conv = 1;
   }
-  gt = prop_glosstype(x, NO);
+  gt = prop_glosstype(basis, NO);
   if (gt) {
-#if 0
-    fprintf(stderr, "Brivla : %s, selbri=%d tertau=%d\n", x->data.brivla.word, gt->in_selbri, gt->is_tertau);
-#endif
     if (gt->in_selbri) {
       if (gt->is_tertau) {
-        trans = adv_translate(x->data.brivla.word, conv, TCX_VERB);
+        trans = adv_translate(loj, conv, TCX_VERB);
       } else {
-        trans = adv_translate(x->data.brivla.word, conv, TCX_QUAL);
+        trans = adv_translate(loj, conv, TCX_QUAL);
       }
     } else {
       /* In a sumti */
       if (gt->is_tertau) {
-        trans = adv_translate(x->data.brivla.word, conv, TCX_NOUN);
+        trans = adv_translate(loj, conv, TCX_NOUN);
       } else {
-        trans = adv_translate(x->data.brivla.word, conv, TCX_QUAL);
+        trans = adv_translate(loj, conv, TCX_QUAL);
       }
     }
     if (trans) {
-      strcpy(eng, trans);
+      return trans;
     } else {
-      eng[0] = 0;
+      return NULL;
     }
   } else {
-    sprintf(buffer, "%s%1d", x->data.brivla.word, conv);
+    sprintf(buffer, "%s%1d", loj, conv);
     trans = translate(buffer);
     if (trans) {
-      strcpy(eng, trans);
+      return trans;
     } else {
-      trans = translate(x->data.brivla.word);
+      trans = translate(loj);
       if (trans) {
-        strcpy(eng, trans);
         if (conversion) {
           /* If we had to resort to a bare translation and there was
              a SE prefix, something is wrong. */
-          strcat(eng, " (CONV?)");
+          strcat(trans, " (CONV?)");
         }
+        return trans;
       } else {
-        trans = translate_unknown(x->data.brivla.word, conv);
+        trans = translate_unknown(loj, conv);
         if (trans) {
-          strcpy(eng, trans);
+          return trans;
         } else {
-          eng[0] = 0;
+          return NULL;
         }
       }
     }
@@ -812,77 +814,41 @@ translate_brivla (TreeNode *x, char *eng)
 
 /*++++++++++++++++++++++++++++++++++++++
 
-  TreeNode *x
+  ++++++++++++++++++++++++++++++++++++++*/
 
-  char *eng
+static void
+translate_brivla (TreeNode *x, char *eng)
+{
+  char *trans;
+
+  trans = translate_convertible(x->data.brivla.word, x);
+  if (trans) {
+    strcpy(eng, trans);
+  } else {
+    eng[0] = 0;
+  }
+}
+
+/*++++++++++++++++++++++++++++++++++++++
+
   ++++++++++++++++++++++++++++++++++++++*/
 
 static void
 translate_abstraction (TreeNode *x, char *eng)
 {
-  char buffer[1024];
   char *trans;
   int code;
   char *cmavo;
-  XConversion *conversion;
-  XGlosstype *gt;
-  int conv;
 
   code = x->data.cmavo.code;
   cmavo = cmavo_table[code].cmavo;
+  trans = translate_convertible(cmavo, x);
+  if (trans) {
+    strcpy(eng, trans);
+  } else {
+    eng[0] = 0;
+  }
 
-  eng[0] = 0;
-  conversion = prop_conversion(x, NO);
-  if (conversion) {
-    conv = conversion->conv;
-  } else {
-    conv = 1;
-  }
-  gt = prop_glosstype(x, NO);
-  if (gt) {
-    if (gt->in_selbri) {
-      if (gt->is_tertau) {
-        trans = adv_translate(cmavo, conv, TCX_VERB);
-      } else {
-        trans = adv_translate(cmavo, conv, TCX_QUAL);
-      }
-    } else {
-      /* In a sumti */
-      if (gt->is_tertau) {
-        trans = adv_translate(cmavo, conv, TCX_NOUN);
-      } else {
-        trans = adv_translate(cmavo, conv, TCX_QUAL);
-      }
-    }
-    if (trans) {
-      strcpy(eng, trans);
-    } else {
-      eng[0] = 0;
-    }
-  } else {
-    sprintf(buffer, "%s%1d", cmavo, conv);
-    trans = translate(buffer);
-    if (trans) {
-      strcpy(eng, trans);
-    } else {
-      trans = translate(cmavo);
-      if (trans) {
-        strcpy(eng, trans);
-        if (conversion) {
-          /* If we had to resort to a bare translation and there was
-             a SE prefix, something is wrong. */
-          strcat(eng, " (CONV?)");
-        }
-      } else {
-        trans = translate_unknown(cmavo, conv);
-        if (trans) {
-          strcpy(eng, trans);
-        } else {
-          eng[0] = 0;
-        }
-      }
-    }
-  }
 }
 
 /*++++++++++++++++++++++++++++++
@@ -974,6 +940,41 @@ get_lojban_word_and_translation (TreeNode *x, char *loj, char *eng)
         sprintf(eng, "\"%s\"", buffer);
       }
       break;
+
+    case N_ZEI:
+      {
+        /* For the translation, try 2 modes : glue together all the non-zei
+           words with + signs and look that up.  If the lookup is successful,
+           good.  If it fails, translate it a word at a time with zei
+           translated as 'type-of' i.e. treat it pretty much like a tanru */
+
+        char *trans;
+        int i, N = x->data.zei.nchildren;
+
+        strcpy(loj, x->data.zei.sep_with_zei);
+
+        trans = translate_convertible(x->data.zei.sep_with_plus, x);
+
+        if (trans && trans[0] != '?') {
+          strcpy(eng, trans);
+        } else {
+          /* A word at a time */
+          eng[0] = 0;
+        fprintf(stderr, "Got here 3\n");
+          for (i=0; i<N; i++) {
+            char *temp;
+            if (i > 0) strcat(eng, " type-of ");
+            temp = build_string_from_node(x->data.zei.children[i]);
+            fprintf(stderr, "Comp [%s]\n", temp);
+            trans = translate(temp);
+            Free(temp);
+            if (trans) strcat(eng, trans);
+            else       strcat(eng, "?");
+          }
+        }
+        
+      }
+      break;
       
     case N_LOhU:
       sprintf(loj, "lo'u %s le'u", x->data.lohu.text);
@@ -981,7 +982,7 @@ get_lojban_word_and_translation (TreeNode *x, char *loj, char *eng)
       break;
 
     case N_BU:
-      sprintf(loj, "%sbu", x->data.bu.word);
+      sprintf(loj, "%s.bu", x->data.bu.word);
       attempt_translation(loj, eng);
       break;
         
@@ -1122,6 +1123,19 @@ output_term(TreeNode *x, WhatToShow what)
             }
             break;
 
+          case TTT_ZEI:
+            {
+              int number;
+              char lojbuf[32];
+              number = tag->zei.zei->data.zei.number;
+              sprintf(lojbuf, "#%d-%d", number, tag->pos);
+              trans = adv_translate(tag->zei.zei->data.zei.sep_with_plus, tag->pos, TCX_TAG);
+              if (!trans) trans = "?";
+              (drv->start_tag)();
+              (drv->write_tag_text)(lojbuf, "", trans, YES);
+            }
+            break;
+            
           default:
             break;
         }
@@ -1476,11 +1490,11 @@ output_clustered(TreeNode *x, WhatToShow what)
 static void
 output_internal(TreeNode *x, WhatToShow what)
 {
-  struct nonterm *y;
   char loj[1024], eng[1024];
   int i, n;
 
   if (x->type == N_NONTERM) {
+    struct nonterm *y;
     y = &x->data.nonterm;
 
     if (what == SHOW_BOTH || what == SHOW_LOJBAN || what == SHOW_LOJBAN_AND_INDICATORS) {
@@ -1593,6 +1607,48 @@ output_internal(TreeNode *x, WhatToShow what)
 
     if (what == SHOW_BOTH || what == SHOW_LOJBAN || what == SHOW_LOJBAN_AND_INDICATORS) {
       (drv->close_bracket)(y->brackets, y->number);
+    }
+
+  } else if (x->type == N_ZEI) {
+
+    if (what == SHOW_BOTH || what == SHOW_LOJBAN || what == SHOW_LOJBAN_AND_INDICATORS) {
+      (drv->open_bracket)(x->data.zei.brackets, x->data.zei.number);
+    }
+
+    /* FIXME : Need to do lojban word and translation stuff here. */
+    get_lojban_word_and_translation(x, loj, eng);
+    switch (what) {
+      case SHOW_LOJBAN:
+      case SHOW_LOJBAN_AND_INDICATORS:
+      case SHOW_BOTH:
+        (drv->lojban_text)(loj);
+        break;
+      default:
+        break;
+    }
+    
+    /* Translation */
+    switch (what) {
+      case SHOW_ENGLISH:
+      case SHOW_BOTH:
+        if (eng[0]) {
+          (drv->translation)(eng);
+        }
+        (drv->set_eols)(x->eols);
+        break;
+
+      case SHOW_TAG_TRANS:
+        if (eng[0]) {
+          (drv->write_tag_text)("", "", eng, NO);
+        }
+        (drv->set_eols)(x->eols);
+        break;
+      default:
+        break;
+    }
+
+    if (what == SHOW_BOTH || what == SHOW_LOJBAN || what == SHOW_LOJBAN_AND_INDICATORS) {
+      (drv->close_bracket)(x->data.zei.brackets, x->data.zei.number);
     }
 
   } else {

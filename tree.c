@@ -191,6 +191,10 @@ print_tree(TreeNode *x, int indent)
     case N_LOhU:
       printf("LOhU  : %s\n", x->data.lohu.text);
       break;
+
+    case N_ZEI:
+      printf("ZEI : %s\n", x->data.zei.sep_with_zei);
+      break;
       
     case N_BU:
       printf("BU : %s\n", x->data.bu.word);
@@ -261,6 +265,32 @@ clear_eols(State *state)
   
   ++++++++++++++++++++++++++++++*/
 
+static void
+print_open(int depth)
+{
+  switch (depth % 4) {
+    case 0: printf("(%d", depth/4); break;
+    case 1: printf("["); break;
+    case 2: printf("{"); break;
+    case 3: printf("<"); break;
+  }
+}
+
+/*++++++++++++++++++++++++++++++
+  
+  ++++++++++++++++++++++++++++++*/
+
+static void
+print_close(int depth)
+{
+  switch (depth % 4) {
+    case 0: printf(")%d",depth/4); break;
+    case 1: printf("]"); break;
+    case 2: printf("}"); break;
+    case 3: printf(">"); break;
+  }
+}
+
 typedef enum {
   CV_NORMAL,
   CV_2,
@@ -269,6 +299,10 @@ typedef enum {
   CV_5
 } Conversion;
 
+/*++++++++++++++++++++++++++++++
+  Print out 'raw' bracketed version of the text
+  ++++++++++++++++++++++++++++++*/
+  
 static void
 print_bracketed(TreeNode *x, int depth, State *state, Conversion conv)
 {
@@ -283,12 +317,7 @@ print_bracketed(TreeNode *x, int depth, State *state, Conversion conv)
     if (*state == B_TEXT || *state == B_CLOSE) {
       printf(" ");
     }
-    switch (depth % 4) {
-      case 0: printf("(%d", depth/4); break;
-      case 1: printf("["); break;
-      case 2: printf("{"); break;
-      case 3: printf("<"); break;
-    }
+    print_open(depth);
     *state = B_OPEN;
 
     n = x->data.nonterm.nchildren;
@@ -322,12 +351,7 @@ print_bracketed(TreeNode *x, int depth, State *state, Conversion conv)
       }
     }
 
-    switch (depth % 4) {
-      case 0: printf(")%d",depth/4); break;
-      case 1: printf("]"); break;
-      case 2: printf("}"); break;
-      case 3: printf(">"); break;
-    }
+    print_close(depth);
     *state = B_CLOSE;
 
   } else {
@@ -418,27 +442,26 @@ print_bracketed(TreeNode *x, int depth, State *state, Conversion conv)
         printf("zo %s", x->data.zo.text);
         break;
 
+      case N_ZEI:
+        print_open(depth+1);
+        *state = B_OPEN;
+        SPACE_B4_TEXT;
+        printf("%s\n", x->data.zei.sep_with_zei);
+        print_close(depth+1);
+        *state = B_CLOSE;
+        break;
+
       case N_LOhU:
         if (*state == B_TEXT || *state == B_CLOSE) {
           printf(" ");
         }
-        switch ((1+depth) % 4) {
-          case 0: printf("(%d",(1+depth)/4); break;
-          case 1: printf("["); break;
-          case 2: printf("{"); break;
-          case 3: printf("<"); break;
-        }
+        print_open(depth+1);
         *state = B_OPEN;
         
         SPACE_B4_TEXT;
         printf("lo'u %s le'u", x->data.lohu.text);
 
-        switch ((1+depth) % 4) {
-          case 0: printf(")%d", (1+depth)/4); break;
-          case 1: printf("]"); break;
-          case 2: printf("}"); break;
-          case 3: printf(">"); break;
-        }
+        print_close(depth+1);
         *state = B_CLOSE;
 
         break;

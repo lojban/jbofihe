@@ -27,9 +27,14 @@
 #include "rpc_tab.h"
 #include "elide.h"
 
+/* For signalling syntax errors back to main routine */
+int had_bad_tokens;
+
 int last_tok_line;
 int last_tok_column;
 
+/* This is the main linked list used to hold all the tokens acquired during the
+   lexical analysis phase. */
 static TreeNode toks = {&toks,&toks};
 static TreeNode *next_tok;
 
@@ -97,6 +102,71 @@ free_node(TreeNode *x)
 }
 
 /*++++++++++++++++++++++++++++++++++++++
+  Display a single token.
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+show_token(TreeNode *x)
+{
+  int code;
+
+  switch (x->type) {
+
+    case N_GARBAGE:
+      printf("GAR : %s\n", x->data.garbage.word);
+      break;
+
+    case N_MARKER:
+      printf("MAR : %s\n", x->data.marker.text);
+      break;
+
+    case N_CMAVO:
+      code = x->data.cmavo.code;
+      printf("CMV : %s [%s]\n", cmavo_table[code].cmavo, cmavo_table[code].meaning);
+      break;
+
+    case N_ZOI:
+      printf("ZOI : %s\n", x->data.zoi.text);
+      break;
+      
+    case N_ZO:
+      printf("ZO  : %s\n", x->data.zo.text);
+      break;
+
+    case N_LOhU:
+      printf("LOhU  : %s\n", x->data.lohu.text);
+      break;
+      
+    case N_ZEI:
+      printf("ZEI : ");
+      printf("%s", build_string_from_node(x));
+      printf("\n");
+      break;
+      
+    case N_BU:
+      printf("BU : %s\n", x->data.bu.word);
+      break;
+
+    case N_BRIVLA:
+      printf("BRV : %s\n", x->data.brivla.word);
+      break;
+
+    case N_CMENE:
+      printf("CMN : %s\n", x->data.cmene.word);
+      break;
+      
+    case N_BROKEN_ERASURE:
+      printf("BKN : (broken erasure)\n");
+      break;
+
+    case N_NONTERM:
+      assert(0);
+      break;
+
+  }
+}
+
+/*++++++++++++++++++++++++++++++++++++++
   Display sequence of tokens
   ++++++++++++++++++++++++++++++++++++++*/
 
@@ -104,60 +174,12 @@ void
 show_tokens(void)
 {
   TreeNode *x;
-  int code;
 
   for (x=toks.next;
        x!=&toks;
        x=x->next) {
-    
-    switch (x->type) {
 
-      case N_GARBAGE:
-        printf("GAR : %s\n", x->data.garbage.word);
-        break;
-
-      case N_MARKER:
-        printf("MAR : %s\n", x->data.marker.text);
-        break;
-
-      case N_CMAVO:
-        code = x->data.cmavo.code;
-        printf("CMV : %s [%s]\n", cmavo_table[code].cmavo, cmavo_table[code].meaning);
-        break;
-
-      case N_ZOI:
-        printf("ZOI : %s\n", x->data.zoi.text);
-        break;
-        
-      case N_ZO:
-        printf("ZO  : %s\n", x->data.zo.text);
-        break;
-
-      case N_LOhU:
-        printf("LOhU  : %s\n", x->data.lohu.text);
-        break;
-        
-      case N_BU:
-        printf("BU : %s\n", x->data.bu.word);
-        break;
-
-      case N_BRIVLA:
-        printf("BRV : %s\n", x->data.brivla.word);
-        break;
-
-      case N_CMENE:
-        printf("CMN : %s\n", x->data.cmene.word);
-        break;
-        
-      case N_BROKEN_ERASURE:
-        printf("BKN : (broken erasure)\n");
-        break;
-
-      case N_NONTERM:
-        assert(0);
-        break;
-
-    }
+    show_token(x);  
     
   }
 
@@ -168,7 +190,9 @@ show_tokens(void)
   Nodes should be primitive lexer tokens - can extend this later.
   ++++++++++++++++++++++++++++++*/
 
-static char *
+#define DEFECTIVE_ERASURE "<Defective erasure>"
+
+char *
 build_string_from_nodes(TreeNode *start, TreeNode *end)
 {
   char *result;
@@ -198,7 +222,16 @@ build_string_from_nodes(TreeNode *start, TreeNode *end)
       case N_ZO:
         len += 3 + strlen(y->data.zo.text);
         break;
-      
+     
+      case N_ZEI:
+        /* Not particularly efficient, the strings get built again later for now! */
+        len += strlen(y->data.zei.sep_with_zei);
+        break;
+
+      case N_BROKEN_ERASURE:
+        len += strlen(DEFECTIVE_ERASURE);
+        break;
+     
       case N_NONTERM:
       case N_MARKER:
       case N_LOhU:
@@ -244,6 +277,14 @@ build_string_from_nodes(TreeNode *start, TreeNode *end)
         strcat(result, y->data.zo.text);
         break;
 
+      case N_ZEI:
+        strcat(result, y->data.zei.sep_with_zei);
+        break;
+
+      case N_BROKEN_ERASURE:
+        strcat(result, DEFECTIVE_ERASURE);
+        break;
+     
       case N_NONTERM:
       case N_MARKER:
       case N_LOhU:
@@ -263,6 +304,17 @@ build_string_from_nodes(TreeNode *start, TreeNode *end)
   
   return result;
 
+}
+
+/*++++++++++++++++++++++++++++++++++++++
+  Convert a single treenode to a string representation.  This is at its most
+  useful for recursively expanding zei nodes.  
+  ++++++++++++++++++++++++++++++++++++++*/
+
+char *
+build_string_from_node(TreeNode *the_node)
+{
+  return build_string_from_nodes(the_node, the_node);
 }
 
 /*++++++++++++++++++++++++++++++++++++++
@@ -316,6 +368,8 @@ handle_zo(void)
         case N_LOhU:
         case N_MARKER:
         case N_BU:
+        case N_ZEI:
+        case N_BROKEN_ERASURE:
           assert(0);
           break;
 
@@ -378,11 +432,100 @@ handle_lohu(void)
   ZEI processing.
   ++++++++++++++++++++++++++++++*/
 
+static inline int
+is_zei(TreeNode *x)
+{
+  return ((x->type == N_CMAVO) &&
+          (x->data.cmavo.selmao == ZEI));
+}
+
 static void
 handle_zei(void)
 {
+  TreeNode *x, *nt;
+  int first = 1;
+  char **components;
+  int total_comp_length;
 
+  for (x = toks.next;
+       x != &toks;
+       x = nt) {
 
+    nt = x->next; /* As a default */
+
+    if (is_zei(x)) {
+        
+      int count = 1;
+      int i;
+      TreeNode *y, *z, *left, *right;
+
+      if (first) {
+        fprintf(stderr, "Cannot have 'zei' at the start of the text\n");
+        had_bad_tokens = 1; /* flag back to main */
+        nt = x->next;
+        continue;
+      }
+
+      z = x; /* Points to a zei */
+      
+      do {
+      y = z->next;
+        if (y == &toks) {
+          fprintf(stderr, "Cannot have 'zei' at the end of the text\n");
+          had_bad_tokens = 1; /* flag back to main */
+          nt = x->next;
+          goto done_this_block;
+        }
+        count++;
+        z = y->next;
+      } while ((z != &toks) && is_zei(z)); 
+      
+      x->type = N_ZEI;
+      x->data.zei.nchildren = count;
+      x->data.zei.children = new_array(TreeNode *, count);
+      components = new_array(char *, count);
+      
+      total_comp_length = 0;
+      for (i = 0, y = x->prev;
+           i < count;
+           i++, y = y->next->next) {
+        x->data.zei.children[i] = y;
+        components[i] = build_string_from_node(y);
+        total_comp_length += strlen(components[i]);
+      }
+
+      x->data.zei.sep_with_plus = new_array(char, total_comp_length + (count - 1) + 1);
+      x->data.zei.sep_with_zei  = new_array(char, total_comp_length + (count - 1) * 5 + 1);
+      
+      x->data.zei.sep_with_plus[0] = 0;
+      x->data.zei.sep_with_zei[0] = 0;
+      for (i=0; i<count; i++) {
+        if (i > 0) {
+          strcat(x->data.zei.sep_with_plus, "+");
+          strcat(x->data.zei.sep_with_zei, " zei ");
+        }
+        strcat(x->data.zei.sep_with_plus, components[i]);
+        strcat(x->data.zei.sep_with_zei, components[i]);
+        Free(components[i]);
+      }
+      Free(components);
+
+      left = x->prev->prev;
+      right = y->prev;
+
+      /* Fix up pointers to take collapsed tokens out of the sequence */
+      right->prev = x;
+      left->next = x;
+      x->next = right;
+      x->prev = left; 
+      nt = right;
+
+    }
+    
+done_this_block:
+
+    first = 0;
+  }
 
 }
 
@@ -474,6 +617,10 @@ handle_bu(void)
           }
           break;
 
+        case N_ZEI:
+          x->data.bu.word = build_string_from_node(y);
+          break;
+
         case N_BU:
           {
             int len = strlen(y->data.bu.word);
@@ -495,6 +642,9 @@ handle_bu(void)
           }
           break;
         
+        case N_BROKEN_ERASURE:
+          x->data.bu.word = new_string(DEFECTIVE_ERASURE);
+          break;
 
         case N_NONTERM:
         case N_MARKER:
@@ -927,6 +1077,12 @@ yylex1(TokenType *res)
         return;
         break;
 
+      case N_ZEI:
+        res->yylval = next_tok;
+        res->value = ZEI;
+        return;
+        break;
+
       case N_BU:
         res->yylval = next_tok;
         res->value = BU;
@@ -998,6 +1154,15 @@ print_token_details(TreeNode *x)
 
     case N_LOhU:
       fprintf(stderr,"lo'u %s le'u (line %d, col %d)\n", x->data.lohu.text, x->start_line, x->start_column);
+      break;
+
+    case N_ZEI:
+      {
+        char *zei_text;
+        zei_text = build_string_from_node(x);
+        fprintf(stderr,"%s (line %d, col %d)\n", zei_text, x->start_line, x->start_column);
+        Free(zei_text);
+      }
       break;
 
     case N_BU:
