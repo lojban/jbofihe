@@ -16,7 +16,77 @@
 #include "functions.h"
 
 static int inited = 0;
-static GDBM_FILE db;
+
+typedef struct {
+  char *key;
+  char *val;
+} Keyval;
+
+static Keyval *dict = NULL;
+static int n_entries = 0;
+
+/*++++++++++++++++++++++++++++++++++++++
+  Read a 'long' integer from file avoiding endianness problems.
+
+  static unsigned long get_long
+
+  FILE *in
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static unsigned long
+get_long(FILE *in)
+{
+  unsigned long a, b, c, d;
+  /* Avoid endian-ness problem if we were to use fwrite */
+  a = getc(in);
+  b = getc(in);
+  c = getc(in);
+  d = getc(in);
+  return (a << 24) | (b << 16) | (c << 8) | (d << 0);
+}
+
+/*++++++++++++++++++++++++++++++++++++++
+  Read the database to build the transaction list.
+
+  FILE *in
+  ++++++++++++++++++++++++++++++++++++++*/
+
+
+static void
+read_database(FILE *in)
+{
+  typedef struct {
+    int klen;
+    int vlen;
+  } Entry;
+
+  Entry *entries;
+  int i, len;
+  char key[1024], val[1024];
+
+  n_entries = get_long(in);
+  entries = new_array(Entry, n_entries);
+  dict = new_array(Keyval, n_entries);
+
+  for (i=0; i<n_entries; i++) {
+    len = getc(in);
+    entries[i].klen = len;
+    len = getc(in);
+    entries[i].vlen = len;
+  }
+  for (i=0; i<n_entries; i++) {
+    fread(key, sizeof(char), entries[i].klen, in);
+    fread(val, sizeof(char), entries[i].vlen, in);
+    key[entries[i].klen] = 0;
+    val[entries[i].vlen] = 0;
+    dict[i].key = new_string(key);
+    dict[i].val = new_string(val);
+  }
+
+  Free(entries);
+}
+
+
 
 /* ================================================== */
 
@@ -24,49 +94,69 @@ static void
 init(void) 
 {
   char *dname;
+  FILE *in;
 
   if (!inited) {
     inited = 1;
     dname = getenv("JBOFIHE_DICTIONARY");
     if (!dname) {
-      dname = "./dictionary.dbm";
+      dname = "./dictionary.bin";
     }
-    db = gdbm_open(dname, 0, GDBM_READER, 0, NULL);
+    in = fopen(dname, "r");
+    if (!in) {
+      fprintf(stderr, "Cannot open dictionary\n");
+    } else {
+      read_database(in);
+      fclose(in);
+    }
   }
 }
 
 /* ================================================== */
 
+static int
+comparison(const void *a, const void *b)
+{
+  const Keyval *aa, *bb;
+  aa = (Keyval *) a;
+  bb = (Keyval *) b;
+  return strcmp(aa->key, bb->key);
+}
+
+/* ================================================== */
+
+static char *
+lookup(char *key)
+{
+  Keyval k, *res;
+  k.key = key;
+  res = bsearch(&k, dict, n_entries, sizeof(Keyval), comparison);
+  if (res) {
+    return res->val;
+  } else {
+    return NULL;
+  }
+}
+
+
+/* ================================================== */
 
 char *
 translate(char *word)
 {
-  datum loj, eng;
   static char buf[1024];
-  int i;
+  char *res;
 
   init();
   
-  loj.dptr = word;
-  loj.dsize = strlen(word);
-  if (db) {
-    eng = gdbm_fetch(db, loj);
-    if (eng.dptr) {
-      for (i=0; i<eng.dsize; i++) {
-        buf[i] = eng.dptr[i];
-      }
-      buf[i] = 0;
-#if 1
-      free(eng.dptr);
-#endif
-      return buf;
-    } else {
-      return NULL;
-    }
+  res = lookup(word);
+  if (res) {
+    strcpy(buf, res);
+    return buf;
   } else {
     return NULL;
   }
-  
+
 }
 
 /* ================================================== */
