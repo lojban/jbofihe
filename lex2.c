@@ -597,15 +597,7 @@ static void
 advance_indicator(TreeNode **x)
 {
   while (is_indicator_cmavo(*x)) {
-    if (((*x)->data.cmavo.selmao == UI) ||
-        ((*x)->data.cmavo.selmao == CAI)) {
-      (*x) = (*x)->next;
-      if (((*x)->type == N_CMAVO) &&
-          ((*x)->data.cmavo.selmao == NAI)) {
-        abort(); /* Shouldn't get here now */
-        (*x) = (*x)->next;
-      }
-    }
+    (*x) = (*x)->next;
   }
 }
 
