@@ -194,5 +194,5 @@ main (int argc, char **argv)
     print_memory_statistics();
   }
   
-  return 0;
+  return result ? 1 : had_syntax_error ? 2 : 0;
 }
