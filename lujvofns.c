@@ -224,7 +224,7 @@ int is_initialpairok(char *s) {/*{{{*/
 /*}}}*/
 int is_bad_triple (char *s) {/*{{{*/
 /* Check whether a triple is bad */
-  if (!strcmp(s,"ntc") || !strcmp(s,"nts") || !strcmp(s,"ndj") || !strcmp(s,"ndz"))
+  if (!strncmp(s,"ntc",3) || !strncmp(s,"nts",3) || !strncmp(s,"ndj",3) || !strncmp(s,"ndz",3))
     return 1;
   else
     return 0;
@@ -232,6 +232,8 @@ int is_bad_triple (char *s) {/*{{{*/
 /*}}}*/
 
 /* ========================================*/
+
+static int debug_ivl = 0;
 
 #define ADVANCE(n) t+=(n), len-=(n)
 
@@ -256,6 +258,9 @@ is_valid_lujvo(char *t)
   nrafsi = 0;
 
   for (;;) {
+
+    if (debug_ivl) printf("Residual [%s]\n", t);
+    
     if ((len == 5) && is_cvccv(t)) {/*{{{*/
       if (nrafsi==0) return 0; /* Can't be initial */
       if (!is_pairok(t+2)) return 0;
@@ -289,6 +294,10 @@ is_valid_lujvo(char *t)
         smabru = initial ? is_valid_lujvo(buf) : 0;
         need_y = bad_triple || (initial && smabru);
 
+        if (debug_ivl)
+          printf("cvc+y, pok=%d bt=%d init=%d smabru=%d\n",
+                 pair_ok, bad_triple, initial, smabru);
+
         /* Check whether the y is unnecessary */
         if (pair_ok && !need_y) return 0;
             
@@ -301,6 +310,10 @@ is_valid_lujvo(char *t)
         initial = (nrafsi == 0);
         smabru = initial ? is_valid_lujvo(t+2) : 0;
         need_y = bad_triple || (initial && smabru);
+
+        if (debug_ivl)
+          printf("cvc, pok=%d bt=%d init=%d smabru=%d\n",
+                 pair_ok, bad_triple, initial, smabru);
 
         /* Check whether there should be a y */
         if (!pair_ok || need_y) return 0;
@@ -381,15 +394,26 @@ int main() {
 #ifdef TEST_IS_VALID_LUJVO
 int main(int argc, char **argv) {
   int ivl;
+  char *word = NULL;
   
-  if (argc < 2) {
+  while (++argv, --argc) {
+    if (!strcmp(*argv, "-d")) {
+      debug_ivl = 1;
+    } else if ((*argv)[0] == '-') {
+      fprintf(stderr, "Unrecognized switch %s\n", *argv);
+    } else {
+      word = *argv;
+    }
+  }
+  
+  if (!word) {
     fprintf(stderr, "Need a lujvo to check as an argument\n");
     exit(1);
   }
 
-  ivl = is_valid_lujvo(argv[1]);
+  ivl = is_valid_lujvo(word);
 
-  printf("%s : %s\n", argv[1], ivl ? "is a lujvo" : "not a lujvo");
+  printf("%s : %s\n", word, ivl ? "is a lujvo" : "not a lujvo");
 
   return !ivl;
 }
