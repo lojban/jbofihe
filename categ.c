@@ -610,7 +610,7 @@ void categorize_number_mai(TreeNode *head) {/*{{{*/
         if (y == head) {
           goto done;
         } else if (y->type == N_MARKER) {
-          y = y->prev;
+          break;
         } else if (y->type == N_CMAVO) {
           switch (y->data.cmavo.selmao) {
             case PA:
@@ -657,9 +657,6 @@ void categorize_number_roi(TreeNode *head) {/*{{{*/
 
         if (y->type == N_MARKER) {
           goto done;
-#if 0
-          y = y->prev;
-#endif
         } else if (y->type == N_CMAVO) {
           switch (y->data.cmavo.selmao) {
             case PA:
@@ -705,7 +702,7 @@ void categorize_number_moi(TreeNode *head) {/*{{{*/
         if (y == head) goto done;
 
         if (y->type == N_MARKER) {
-          y = y->prev;
+          break;
         } else if (y->type == N_CMAVO) {
           switch (y->data.cmavo.selmao) {
             case PA:
