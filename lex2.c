@@ -551,11 +551,27 @@ is_indicator_cmavo(TreeNode *x)
         (x->data.cmavo.selmao == CAI) ||
         (x->data.cmavo.selmao == Y) ||
         (x->data.cmavo.selmao == DAhO) ||
+        (x->data.cmavo.selmao == FUhE) ||
         (x->data.cmavo.selmao == FUhO)) {
       return 1;
     } else {
       return 0;
     }
+  } else {
+    return 0;
+  }
+}
+
+/*++++++++++++++++++++++++++++++
+  
+  ++++++++++++++++++++++++++++++*/
+
+static int
+is_fuhe(TreeNode *x)
+{
+  if (x->type == N_CMAVO &&
+      x->data.cmavo.selmao == FUhE) {
+    return 1;
   } else {
     return 0;
   }
@@ -691,7 +707,7 @@ handle_indicators(void)
 {
 
   TreeNode *x, *nt, *target, *start, *end;
-  int first=1;
+  enum {XX_BEGIN, XX_AFTER_INITIAL_FUHE, XX_AFTER_INITIAL_INDICATOR, XX_OTHER} state = XX_BEGIN;
 
   pair_off_indicator_suffixes();
 
@@ -699,28 +715,59 @@ handle_indicators(void)
        x != &toks;
        x = nt) {
 
-    if (!first &&
-        is_indicator_cmavo(x)) {
-      target = x->prev;
-      start = x;
-      advance_indicator(&x); /* So x now looks at the first token
-                                beyond the end of the indicator string */
-      nt = x;
-      end = nt->prev;
+    switch(state) {
+      case XX_BEGIN:
+        if (is_fuhe(x)) {
+          state = XX_AFTER_INITIAL_FUHE;
+        } else if (is_indicator_cmavo(x)) {
+          state = XX_AFTER_INITIAL_INDICATOR;
+        } else {
+          state = XX_OTHER;
+        }
+        nt = x->next;
+        break;
 
-      /* Unlink the indicator string from the main token list .. */
-      nt->prev = target;
-      target->next = nt;
+      case XX_AFTER_INITIAL_FUHE:
+        if (is_indicator_cmavo(x)) {
+          state = XX_AFTER_INITIAL_INDICATOR;
+        } else {
+          state = XX_OTHER;
+        }
+        nt = x->next;
+        break;
 
-      /* .. and link it onto the indicators list of the target */
-      start->prev = end->next = (TreeNode *) &target->ui_next;
-      target->ui_next = start;
-      target->ui_prev = end;
-    } else {
-      nt = x->next;
+      case XX_AFTER_INITIAL_INDICATOR:
+        if (!is_indicator_cmavo(x)) {
+          state = XX_OTHER;
+        }
+        nt = x->next;
+        break;
+
+      case XX_OTHER:
+        if (is_indicator_cmavo(x)) {
+          target = x->prev;
+          start = x;
+          advance_indicator(&x); /* So x now looks at the first token
+                                    beyond the end of the indicator string */
+          nt = x;
+          end = nt->prev;
+
+          /* Unlink the indicator string from the main token list .. */
+          nt->prev = target;
+          target->next = nt;
+
+          /* .. and link it onto the indicators list of the target */
+          start->prev = end->next = (TreeNode *) &target->ui_next;
+          target->ui_next = start;
+          target->ui_prev = end;
+        } else {
+          nt = x->next;
+        }
+
+        break;
+
     }
 
-    first = 0;
   }
 }
 
