@@ -1,0 +1,33 @@
+require "testpak.pl";
+
+$t1 = "ledoklama
+i
+ga'irfanta
+i
+ga'ifanta
+i
+leklama
+i
+leiklama
+i
+leninmu
+i
+leininmu
+i
+ga'ininmu
+i
+ledoninmu
+i
+gekykansa
+i
+eibancu
+i
+e'ibancu
+i
+e'i.uinaibancu
+";
+
+&test(prog => "jbofihe",
+      stdin => $t1);
+
+

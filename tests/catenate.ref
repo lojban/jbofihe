@@ -1,0 +1,74 @@
+############################################################
+PROGRAM : jbofihe
+========================================
+STDIN :
+----------
+ledoklama
+i
+ga'irfanta
+i
+ga'ifanta
+i
+leklama
+i
+leiklama
+i
+leninmu
+i
+leininmu
+i
+ga'ininmu
+i
+ledoninmu
+i
+gekykansa
+i
+eibancu
+i
+e'ibancu
+i
+e'i.uinaibancu
+
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+(0[{<(1[{<(2[{<(3[le {do klama}]
+i
+ga'irfanta)3
+(3i
+ga'i)3 fanta>
+i
+<le klama>}
+i
+{lei klama}]
+i
+[le ninmu])2
+i
+(2lei ninmu)2>
+<i
+ga'i> ninmu}
+i
+{le <do ninmu>}]
+i
+gekykansa)1
+(1i
+ei)1 bancu>
+<i
+e'i> bancu}
+{i
+e'i ui nai} bancu])0
+-------------------------
+__STDERR
+----------
+Warning: Sentence may be missing selbri at line 1 column 1?
+Warning: Sentence may be missing selbri at line 7 column 1?
+Warning: Sentence may be missing selbri at line 9 column 1?
+Warning: Sentence may be missing selbri at line 11 column 1?
+Warning: Sentence may be missing selbri at line 13 column 1?
+Warning: Sentence may be missing selbri at line 17 column 1?
+-------------------------

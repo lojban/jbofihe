@@ -1,0 +1,4 @@
+require "testpak.pl";
+
+&test (prog=>"jbofihe -x -b", stdin => "kamtcexau");
+

@@ -1,0 +1,155 @@
+############################################################
+PROGRAM : jbofihe -t
+========================================
+STDIN :
+----------
+mi djica le nu le nu pensi na zekri
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+| +-CMAVO : mi [KOhA3]
+| | +-BRIVLA : djica
+| | | +-CMAVO : le [LE]
+| | | | +-CMAVO : nu [NU]
+| | | | | | +-CMAVO : le [LE]
+| | | | | | | +-CMAVO : nu [NU]
+| | | | | | | +-BRIVLA : pensi
+| | | | | | +-ABSTRACTION
+| | | | | +-SUMTI_6
+| | | | | | +-CMAVO : na [NA]
+| | | | | | +-BRIVLA : zekri
+| | | | | +-SELBRI_1
+| | | | +-NO_CU_SENTENCE
+| | | +-ABSTRACTION
+| | +-SUMTI_6
+| +-BRIDI_TAIL_3
++-NO_CU_SENTENCE
+CHUNKS
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -t
+========================================
+STDIN :
+----------
+mi djica le nu le nu pensi na ku zekri
+-------------------------
+========================================
+NOTE : remains parse error because (pensi na ku)(zekri) is like 2 selbri4's
+========================================
+Exit status : 1
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+-------------------------
+__STDERR
+----------
+--------------------
+SYNTAX ERROR IN TEXT
+--------------------
+Misparsed token :
+  <End of text>
+Latest successfully parsed tokens :
+  zekri [BRIVLA] (line 1, col 34)
+  ku [KU] (line 1, col 31)
+  na [NA] (line 1, col 28)
+  MARKER : PRIVATE_NA_KU
+  pensi [BRIVLA] (line 1, col 22)
+  nu [NU] (line 1, col 19)
+  le [LE] (line 1, col 16)
+  nu [NU] (line 1, col 13)
+--------------------
+-------------------------
+############################################################
+PROGRAM : jbofihe -t
+========================================
+STDIN :
+----------
+mi djica le nu le nu pensi na ku zekri cu zekri
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+| +-CMAVO : mi [KOhA3]
+| | +-BRIVLA : djica
+| | | +-CMAVO : le [LE]
+| | | | +-CMAVO : nu [NU]
+| | | | | | +-CMAVO : le [LE]
+| | | | | | | | +-CMAVO : nu [NU]
+| | | | | | | | | +-BRIVLA : pensi
+| | | | | | | | | | +-CMAVO : na [NA]
+| | | | | | | | | | +-CMAVO : ku [KU]
+| | | | | | | | | +-TERM_FLOATING_NEGATE
+| | | | | | | | +-BRIDI_TAIL_3
+| | | | | | | +-ABSTRACTION
+| | | | | | | +-BRIVLA : zekri
+| | | | | | +-SELBRI_3
+| | | | | +-SUMTI_6
+| | | | | +-CMAVO : cu [CU]
+| | | | | +-BRIVLA : zekri
+| | | | +-SENTENCE
+| | | +-ABSTRACTION
+| | +-SUMTI_6
+| +-BRIDI_TAIL_3
++-NO_CU_SENTENCE
+CHUNKS
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -t
+========================================
+STDIN :
+----------
+mi djica le nu le nu pensi na ui ku zekri cu zekri
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+| +-CMAVO : mi [KOhA3]
+| | +-BRIVLA : djica
+| | | +-CMAVO : le [LE]
+| | | | +-CMAVO : nu [NU]
+| | | | | | +-CMAVO : le [LE]
+| | | | | | | | +-CMAVO : nu [NU]
+| | | | | | | | | +-BRIVLA : pensi
+| | | | | | | | | | | +-CMAVO : na [NA]
+| | | | | | | | | | | +-CMAVO : ui [UI1]
+| | | | | | | | | | +-AUGMENTED
+| | | | | | | | | | +-CMAVO : ku [KU]
+| | | | | | | | | +-TERM_FLOATING_NEGATE
+| | | | | | | | +-BRIDI_TAIL_3
+| | | | | | | +-ABSTRACTION
+| | | | | | | +-BRIVLA : zekri
+| | | | | | +-SELBRI_3
+| | | | | +-SUMTI_6
+| | | | | +-CMAVO : cu [CU]
+| | | | | +-BRIVLA : zekri
+| | | | +-SENTENCE
+| | | +-ABSTRACTION
+| | +-SUMTI_6
+| +-BRIDI_TAIL_3
++-NO_CU_SENTENCE
+CHUNKS
+-------------------------
+__STDERR
+----------
+-------------------------

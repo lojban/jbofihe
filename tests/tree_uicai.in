@@ -1,0 +1,31 @@
+require "testpak.pl";
+
+$prog = "jbofihe -t";
+
+&test(stdin => "le nanmu ui cu zvati");
+&test(stdin => "le nanmu ui cai cu zvati");
+&test(stdin => "le nanmu ui nai cu zvati");
+&test(stdin => "le nanmu ui cai nai cu zvati");
+&test(stdin => "le nanmu ui nai pei nai cu zvati");
+&test(stdin => "ui le nanmu cu zvati");
+&test(stdin => "ui cai le nanmu cu zvati");
+&test(stdin => "ui nai le nanmu cu zvati");
+&test(stdin => "ui cai nai le nanmu cu zvati");
+&test(stdin => "ui nai pei nai le nanmu cu zvati");
+
+$prog = "jbofihe";
+
+&test(stdin => "le nanmu ui cu zvati");
+&test(stdin => "le nanmu ui cai cu zvati");
+&test(stdin => "le nanmu ui nai cu zvati");
+&test(stdin => "le nanmu ui cai nai cu zvati");
+&test(stdin => "le nanmu ui nai pei nai cu zvati");
+&test(stdin => "ui le nanmu cu zvati");
+&test(stdin => "ui cai le nanmu cu zvati");
+&test(stdin => "ui nai le nanmu cu zvati");
+&test(stdin => "ui cai nai le nanmu cu zvati");
+&test(stdin => "ui nai pei nai le nanmu cu zvati");
+
+&test(stdin => "le ba'e nanmu ui cu zvati");
+&test(stdin => "le za'e ba'e nanmu ui cu zvati");
+&test(stdin => "ba'e le ba'e nanmu ui cu zvati");

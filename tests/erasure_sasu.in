@@ -1,0 +1,21 @@
+
+# Tests on si, sa, su
+
+require "testpak.pl";
+@prog=("prog", "jbofihe -k");
+
+# Test basic SA functions + at limits of text
+
+&test(@prog, text=>"le nanmu sa ninmu cu xamgu", note=>"simple replace");
+&test(@prog, text=>"mi nelci le nu limna le xamsi sa nu klama le zdani", note=>"phrase replace");
+&test(@prog, text=>"le nanmu cu xamgu sa i mi nelci lenu limna", note=>"replace to start of text");
+&test(@prog, text=>"sa i mi nelci lenu limna", note=>"replace to start of text at start of text");
+&test(@prog, text=>"mi nelci lenu limna sa", note=>"replace to start of text at start of text");
+
+# Test basic SU functions
+&test(@prog, text=>"mi nelci su do nelci lenu limna");
+&test(@prog, text=>"su mi nelci lenu limna");
+&test(@prog, text=>"mi nelci lenu limna ni'o mi klama le su i do nelci lenu limna");
+&test(@prog, text=>"mi nelci lenu limna ni'o mi klama le do nelci lenu limna su");
+&test(@prog, text=>"mi nelci lenu limna ni'o mi klama le susu do nelci lenu limna");
+

@@ -1,0 +1,122 @@
+############################################################
+PROGRAM : jbofihe -x -b
+========================================
+STDIN :
+----------
+le crisa cu jai me la solstis
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+[ ( le                     crisa     ) cu      << jai me                     
+[ ( the                    summer(s) ) is/does <<     amongst those that are 
+[ ( me1.. (referent of #4)           )         <<                            
+1 2                                  2         3                             
+
+ / la solstis. \  >> ] 
+|     [NAME]    | >> ] 
+|               | >> ] 
+4              4  3  1 
+
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -x -b
+========================================
+STDIN :
+----------
+le crisa cu jai ca me la solstis
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+[ ( le                       crisa     ) cu      << jai       ca      { 
+[ ( the                      summer(s) ) is/does << being the time of { 
+[ ( jai+<tag>1: ( time of #4)          )         <<                   { 
+1 2                                    2         3                    4 
+
+me                      / la solstis. \  } >> ] 
+amongst those that are |     [NAME]    | } >> ] 
+                       |               | } >> ] 
+                       5              5  4 3  1 
+
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -x -b
+========================================
+STDIN :
+----------
+le crisa cu jai ca je vi me la solstis
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+[ ( le                                         crisa     ) cu      << 
+[ ( the                                        summer(s) ) is/does << 
+[ ( jai+<tag>1: ( time of  and  location of #4)          )         << 
+1 2                                                      2         3  
+
+jai       ca      je  vi          { me                      / la solstis. \  } 
+being the time of and location of { amongst those that are |     [NAME]    | } 
+                                  {                        |               | } 
+                                  4                        5              5  4 
+
+>> ] 
+>> ] 
+>> ] 
+3  1 
+
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -x -b
+========================================
+STDIN :
+----------
+le crisa cu jai ca je vi nu gleki
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+[ ( le                                         crisa     ) cu      << 
+[ ( the                                        summer(s) ) is/does << 
+[ ( jai+<tag>1: ( time of  and  location of #4)          )         << 
+1 2                                                      2         3  
+
+jai       ca      je  vi          { < nu                [ << gleki       >> ] 
+being the time of and location of { < being event(s) of [ << being happy >> ] 
+                                  { <                   [ <<             >> ] 
+                                  4 5                   6 7              7  6 
+
+> } >> ] 
+> } >> ] 
+> } >> ] 
+5 4 3  1 
+
+-------------------------
+__STDERR
+----------
+-------------------------

@@ -1,0 +1,10 @@
+# Check the area that finds tertau within selbri
+
+require "testpak.pl";
+
+$prog = "jbofihe -x -b";
+
+&test(stdin => "le nanmu ui cai cu klama");
+&test(stdin => "le za'e ba'e nanmu ui cai cu klama");
+&test(stdin => "le nanmu cu klama ui cai");
+

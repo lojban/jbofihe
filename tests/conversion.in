@@ -1,0 +1,17 @@
+require "testpak.pl";
+
+$t1 = "le xamgu blanu bloti
+i
+le se ke xamgu blanu ke'e bloti
+i
+le se ke ve xamgu te blanu ke'e bloti
+i
+le se xamgu te blanu bloti
+i
+le se ke te xamgu ve ke se blanu ke'e ke'e te bloti
+";
+
+&test(prog => "jbofihe -x",
+      stdin => $t1);
+
+

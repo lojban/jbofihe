@@ -1,0 +1,8 @@
+require "testpak.pl";
+# Check ability to parse single and multiple bahe cmavo
+&test (prog => "jbofihe -x -b", stdin => "ba'e mi klama");
+&test (prog => "jbofihe -x -b", stdin => "za'e mi klama");
+&test (prog => "jbofihe -x -b", stdin => "za'e ba'e mi klama");
+&test (prog => "jbofihe -x -b", stdin => "ba'e za'e mi klama");
+&test (prog => "jbofihe -x -b", stdin => "ba'e za'e mi ba'e klama");
+

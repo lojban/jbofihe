@@ -1,0 +1,11 @@
+require "testpak.pl";
+
+$t1 = "le si'o viska le xamsi cu gasnu lenu mi gleki
+i
+le se si'o viska le xamsi cu gleki
+";
+
+&test(prog => "jbofihe -x",
+      stdin => $t1);
+
+

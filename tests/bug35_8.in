@@ -1,0 +1,16 @@
+require "testpak.pl";
+
+$prog = "vlatai ";
+
+&test (prog => "vlatai",
+       stdin => "y
+yyyyyy
+y'y
+y'y'y
+y'yy
+y'yyy
+y'a
+y'i
+y'u
+");
+

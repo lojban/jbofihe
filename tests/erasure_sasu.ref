@@ -1,0 +1,454 @@
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+le nanmu sa ninmu cu xamgu
+-------------------------
+========================================
+NOTE : simple replace
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : sa [erase utterance]
+BRV : ninmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : ninmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{le ninmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+mi nelci le nu limna le xamsi sa nu klama le zdani
+-------------------------
+========================================
+NOTE : phrase replace
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : mi [me]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+CMV : le [the described]
+BRV : xamsi
+CMV : sa [erase utterance]
+CMV : nu [event abstract]
+BRV : klama
+CMV : le [the described]
+BRV : zdani
+------------------------------
+Token list after preprocessing
+
+CMV : mi [me]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : klama
+CMV : le [the described]
+BRV : zdani
+------------------------------
+
+(0[mi {nelci <le (1nu [klama {le zdani}])1>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+le nanmu cu xamgu sa i mi nelci lenu limna
+-------------------------
+========================================
+NOTE : replace to start of text
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+CMV : sa [erase utterance]
+CMV : i [sentence link]
+CMV : mi [me]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+------------------------------
+Token list after preprocessing
+
+CMV : i [sentence link]
+CMV : mi [me]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+------------------------------
+
+(0[i {mi <nelci (1le [nu limna])1>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+sa i mi nelci lenu limna
+-------------------------
+========================================
+NOTE : replace to start of text at start of text
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : sa [erase utterance]
+CMV : i [sentence link]
+CMV : mi [me]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+------------------------------
+Token list after preprocessing
+
+CMV : i [sentence link]
+CMV : mi [me]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+------------------------------
+
+(0[i {mi <nelci (1le [nu limna])1>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+mi nelci lenu limna sa
+-------------------------
+========================================
+NOTE : replace to start of text at start of text
+========================================
+Exit status : 2
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : mi [me]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+CMV : sa [erase utterance]
+------------------------------
+Token list after preprocessing
+
+CMV : mi [me]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+CMV : sa [erase utterance]
+------------------------------
+
+-------------------------
+__STDERR
+----------
+--------------------
+SYNTAX ERROR IN TEXT
+--------------------
+Misparsed token :
+  sa [SA] (line 1, col 21)
+Latest successfully parsed tokens :
+  limna [BRIVLA] (line 1, col 15)
+  nu [NU] (line 1, col 12)
+  le [LE] (line 1, col 10)
+  nelci [BRIVLA] (line 1, col 4)
+  mi [KOhA3] (line 1, col 1)
+--------------------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+mi nelci su do nelci lenu limna
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : mi [me]
+BRV : nelci
+CMV : su [erase discourse]
+CMV : do [you]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+------------------------------
+Token list after preprocessing
+
+CMV : do [you]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+------------------------------
+
+(0[do {nelci <le (1nu limna)1>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+su mi nelci lenu limna
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : su [erase discourse]
+CMV : mi [me]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+------------------------------
+Token list after preprocessing
+
+CMV : mi [me]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+------------------------------
+
+(0[mi {nelci <le (1nu limna)1>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+mi nelci lenu limna ni'o mi klama le su i do nelci lenu limna
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : mi [me]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+CMV : ni'o [new topic]
+CMV : mi [me]
+BRV : klama
+CMV : le [the described]
+CMV : su [erase discourse]
+CMV : i [sentence link]
+CMV : do [you]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+------------------------------
+Token list after preprocessing
+
+CMV : mi [me]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+CMV : i [sentence link]
+CMV : do [you]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+------------------------------
+
+(0[{mi <nelci (1le [nu limna])1>} i {do <nelci (1le [nu limna])1>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+mi nelci lenu limna ni'o mi klama le do nelci lenu limna su
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : mi [me]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+CMV : ni'o [new topic]
+CMV : mi [me]
+BRV : klama
+CMV : le [the described]
+CMV : do [you]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+CMV : su [erase discourse]
+------------------------------
+Token list after preprocessing
+
+CMV : mi [me]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+------------------------------
+
+(0[mi {nelci <le (1nu limna)1>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+mi nelci lenu limna ni'o mi klama le susu do nelci lenu limna
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : mi [me]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+CMV : ni'o [new topic]
+CMV : mi [me]
+BRV : klama
+CMV : le [the described]
+CMV : su [erase discourse]
+CMV : su [erase discourse]
+CMV : do [you]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+------------------------------
+Token list after preprocessing
+
+CMV : do [you]
+BRV : nelci
+CMV : le [the described]
+CMV : nu [event abstract]
+BRV : limna
+------------------------------
+
+(0[do {nelci <le (1nu limna)1>}])0
+-------------------------
+__STDERR
+----------
+-------------------------

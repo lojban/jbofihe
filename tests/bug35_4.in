@@ -1,0 +1,20 @@
+require "testpak.pl";
+$prog = "jbofihe -sev";
+
+&test(stdin => "ca nu'i ge pu le crisa nu'u gi ba le vensa nu'u mi cu klama le xaskoi",
+      notes => "Can omit first nu'u but not 2nd"); 
+
+&test(stdin => "nu'i ge mi do nu'u gi do mi nu'u viska",
+      notes => "Can omit both nu'u");
+
+&test(prog => "jbofihe -x -b",
+      stdin => "nu'i ge mi do nu'u gi do mi nu'u viska",
+      notes => "Should not core dump");
+      
+&test(stdin => "mi cu klama le zarci", notes => "cu is elidable");
+&test(stdin => "le nu do klama tu kei cu rinka tu'a mi", notes => "cu is not elidable");
+
+# Check that term tagging insertion still works for cu in both sentences (checked above) and subsentences
+&test(prog=>"jbofihe -x -b",
+      stdin => "do djuno ledu'u mi cu klama le zarci", 
+      notes => "'mi' place should be tagged in abstraction");

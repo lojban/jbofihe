@@ -1,0 +1,121 @@
+############################################################
+PROGRAM : jbofihe -x -b
+========================================
+STDIN :
+----------
+fu'e ianai mi klama le zdani
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+fu'e            .ianai        [ ( mi                )            << klama  >> 
+indicator scope {disbelief..} [ ( I, me             ) [is, does] << go-ing >> 
+                              [ ( klama1 (go-er(s)) )            <<        >> 
+                              1 2                   2            3         3  
+
+( le                      zdani   ) ] 
+( the                     home(s) ) ] 
+( klama2 (destination(s))         ) ] 
+4                                 4 1 
+
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -x -b
+========================================
+STDIN :
+----------
+fu'e ianai fu'e uu mi fu'o klama le zdani
+-------------------------
+========================================
+NOTE : fu'e isn't an indicator as far as grammar is concerned,
+so it's invalid amongst a string of indicators at the start of the text.
+========================================
+Exit status : 2
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+-------------------------
+__STDERR
+----------
+--------------------
+SYNTAX ERROR IN TEXT
+--------------------
+Misparsed token :
+  fu'e [FUhE] (line 1, col 12)
+Latest successfully parsed tokens :
+  ia [UI1] (line 1, col 6)
+  fu'e [FUhE] (line 1, col 1)
+--------------------
+-------------------------
+############################################################
+PROGRAM : jbofihe -x -b
+========================================
+STDIN :
+----------
+ianai mi fu'e uu fu'e klama fu'o le zdani
+-------------------------
+========================================
+NOTE : fu'e is treated as grammar-free away from the start of the text.
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+.ianai        [ ( mi                fu'e            .uu      fu'e            
+{disbelief..} [ ( I, me             indicator scope {pity..} indicator scope 
+              [ ( klama1 (go-er(s))                                          
+              1 2                                                            
+
+)            << klama  fu'o                >> ( le                      
+) [is, does] << go-ing end indicator scope >> ( the                     
+)            <<                            >> ( klama2 (destination(s)) 
+2            3                             3  4                         
+
+zdani   ) ] 
+home(s) ) ] 
+        ) ] 
+        4 1 
+
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -x -b
+========================================
+STDIN :
+----------
+ianai mi fu'e ia klama fu'o le zdani
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+.ianai        [ ( mi                fu'e            .ia        )            << 
+{disbelief..} [ ( I, me             indicator scope {belief..} ) [is, does] << 
+              [ ( klama1 (go-er(s))                            )            << 
+              1 2                                              2            3  
+
+klama  fu'o                >> ( le                      zdani   ) ] 
+go-ing end indicator scope >> ( the                     home(s) ) ] 
+                           >> ( klama2 (destination(s))         ) ] 
+                           3  4                                 4 1 
+
+-------------------------
+__STDERR
+----------
+-------------------------

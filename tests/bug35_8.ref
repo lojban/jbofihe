@@ -1,0 +1,36 @@
+############################################################
+PROGRAM : vlatai
+========================================
+STDIN :
+----------
+y
+yyyyyy
+y'y
+y'y'y
+y'yy
+y'yyy
+y'a
+y'i
+y'u
+
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+y                         : cmavo(s) :  y
+yyyyyy                    : cmavo(s) :  yyyyyy
+y'y                       : cmavo(s) :  y'y
+y'y'y                     : UNMATCHED : y'y'y
+y'yy                      : UNMATCHED : y'yy
+y'yyy                     : UNMATCHED : y'yyy
+y'a                       : UNMATCHED : y'a
+y'i                       : UNMATCHED : y'i
+y'u                       : UNMATCHED : y'u
+-------------------------
+__STDERR
+----------
+-------------------------

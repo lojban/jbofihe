@@ -1,0 +1,26 @@
+############################################################
+PROGRAM : jbofihe -x
+========================================
+STDIN :
+----------
+le si'o viska le xamsi cu gasnu lenu mi gleki
+i
+le se si'o viska le xamsi cu gleki
+
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+[([gasnu1 (thing(s) bring-ing about):] le /the/ <si'o /idea(s) of/ [<<viska /see-ing/>> ([viska2 (seen thing(s)):] le /the/ xamsi /sea(s)/ocean(s)/)]>) cu /is/does/ <<gasnu /bring-ing about/>> ([gasnu2 (thing(s) brought about):] le /the/ <nu /event(s) of/ [([gleki1 (happy thing(s)):] mi /I, me/) /[is, does]/ <<gleki /being happy/>>]>)]
+
+.i /`.'/
+
+[([gleki1 (happy thing(s)):] le /the/ se <si'o /person with idea/ [<<viska /see-ing/>> ([viska2 (seen thing(s)):] le /the/ xamsi /sea(s)/ocean(s)/)]>) cu /is/does/ <<gleki /being happy/>>]
+-------------------------
+__STDERR
+----------
+-------------------------

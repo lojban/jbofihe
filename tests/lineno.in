@@ -1,0 +1,5 @@
+require "testpak.pl";
+# Tests to check line numbering"
+
+&test(prog=>"jbofihe -k", stdin=>"le jai\n(This is a comment with\na line feed\nin it)\nzo rinka");
+

@@ -1,0 +1,35 @@
+#
+# EXPERIMENTAL STUFF (word forms are non-conformant with standard lojban refgram.)
+
+require "testpak.pl";
+
+$prog="vlatai";
+
+# Check basic scanning of lujvo with fu'ivla rafsi
+$in = <<EOF;
+gerzdanyrotfaila
+rotfailybau
+rotfailygerbau
+rotfailygerkybau
+rostailygerkybau
+gerkyrotfaila
+gerkyrotfailybau
+geskyrotfailybau
+gerkacyrotfailybau
+geskacyrotfailybau
+zdanyrotfailybau
+xesyprenrapostolo
+xesyprenrxapostolo
+EOF
+&test(stdin => $in);
+
+# FIXME: Need to do more testing once DFA can recognize fu'ivla as 1st component of word.
+# Particularly, need to work out the slinkui and tosmabru stuff in this context.
+# Need some corner cases to test these.
+
+#$in = <<EOF;
+#EOF
+#&test(stdin => $in);
+
+# vim:ft=perl
+

@@ -1,0 +1,16 @@
+require "testpak.pl";
+
+&test(prog=>"vlatai", stdin=>"
+catrtfredo
+catrnfredo
+mlibdenu
+");
+
+&test(prog=>"jbofihe -x -b", stdin => "catrtfredo");
+&test(prog=>"jbofihe -x -b", stdin => "catrnfredo");
+&test(prog=>"jbofihe -x -b", stdin => "mlibdenu");
+&test(prog=>"jbofihe -x -b", stdin => "gugdrkore,a");
+&test(prog=>"jbofihe -x -b", stdin => "gugd,r,kore,a");
+&test(prog=>"jbofihe -x -b", stdin => "gugd,rkore,a");
+&test(prog=>"jbofihe -x -b", stdin => "gugdr,kore,a");
+

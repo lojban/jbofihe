@@ -1,0 +1,744 @@
+############################################################
+PROGRAM : jbofihe -ie 
+========================================
+STDIN :
+----------
+mu klama be la london. poi nanmu cu viska
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+(0[{<mu BOI> <klama (1be [{la london} {poi <nanmu VAU> KU'O}] BE'O)1> KU} cu {viska VAU}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie -t
+========================================
+STDIN :
+----------
+mu klama be la london. poi nanmu cu viska
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+| | | +-CMAVO : mu [PA1]
+| | | +-CMAVO : BOI [BOI]
+| | +-QUANTIFIER
+| | | +-BRIVLA : klama
+| | | | +-CMAVO : be [BE]
+| | | | | | +-CMAVO : la [LA]
+| | | | | | +-CMENE : london
+| | | | | +-NAME_SUMTI_6
+| | | | | | +-CMAVO : poi [NOI]
+| | | | | | | +-BRIVLA : nanmu
+| | | | | | | +-CMAVO : VAU [VAU]
+| | | | | | +-BRIDI_TAIL_3
+| | | | | | +-CMAVO : KU'O [KUhO]
+| | | | | +-FULL_RELATIVE_CLAUSE
+| | | | +-SUMTI_5
+| | | | +-CMAVO : BE'O [BEhO]
+| | | +-LINKARGS
+| | +-TANRU_UNIT_1
+| | +-CMAVO : KU [KU]
+| +-SUMTI_5B
+| +-CMAVO : cu [CU]
+| | +-BRIVLA : viska
+| | +-CMAVO : VAU [VAU]
+| +-BRIDI_TAIL_3
++-SENTENCE
+CHUNKS
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie -x -b
+========================================
+STDIN :
+----------
+mu klama be la london. poi nanmu cu viska
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+[ ( mu                BOI { klama    be (                          /  / la 
+[ ( 5                     { go-er(s)    (                         |  |     
+[ ( viska1 (see-r(s))     {             ( klama2 (destination(s)) |  |     
+1 2                       3             4                         5  6     
+
+london. \  < poi   [ << nanmu         >> VAU ] KU'O > \  ) BE'O } KU ) cu      
+[NAME]   | < which [ << being man/men >>     ]      >  | )      }    ) is/does 
+         | <       [ <<               >>     ]      >  | )      }    )         
+        6  7       8 9                9      8      7 5  4      3    2         
+
+<< viska   >> VAU ] 
+<< see-ing >>     ] 
+<<         >>     ] 
+10         10     1 
+
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie -H
+========================================
+STDIN :
+----------
+mu klama be la london. poi nanmu cu viska
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+<HTML>
+<HEAD>
+<TITLE>Lojban translation</TITLE>
+<BODY>
+[<SUB><FONT SIZE="-3">1</FONT></SUB>(<SUB><FONT SIZE="-3">2</FONT></SUB><U><FONT SIZE=-1>[viska1 (see-r(s))
+:] </FONT></U><B>mu</B>
+<I>5</I>
+<B>BOI</B>
+<I> </I> {<SUB><FONT SIZE="-3">3</FONT></SUB><B>klama</B>
+<I>go-er(s)</I> <B>be</B>
+<I> </I> (<SUB><FONT SIZE="-3">4</FONT></SUB><U><FONT SIZE=-1>[klama2 (destination(s))
+:] </FONT></U>(<SUB><FONT SIZE="-3">5</FONT></SUB>(<SUB><FONT SIZE="-3">6</FONT></SUB><B>la</B>
+<I> </I> <B>london.</B>
+<I>[NAME]</I>)<SUB><FONT SIZE="-3">6</FONT></SUB> &lt;<SUB><FONT SIZE="-3">7</FONT></SUB><B>poi</B>
+<I>which</I> [<SUB><FONT SIZE="-3">8</FONT></SUB>&lt;&lt;<SUB><FONT SIZE="-3">9</FONT></SUB><B>nanmu</B>
+<I>being man/men</I>&gt;&gt;<SUB><FONT SIZE="-3">9</FONT></SUB>
+<B>VAU</B>
+<I> </I>]<SUB><FONT SIZE="-3">8</FONT></SUB>
+<B>KU'O</B>&gt;<SUB><FONT SIZE="-3">7</FONT></SUB>)<SUB><FONT SIZE="-3">5</FONT></SUB>)<SUB><FONT SIZE="-3">4</FONT></SUB>
+<B>BE'O</B>}<SUB><FONT SIZE="-3">3</FONT></SUB>
+<B>KU</B>
+<I> </I>)<SUB><FONT SIZE="-3">2</FONT></SUB>
+<B>cu</B>
+<I>is/does</I> &lt;&lt;<SUB><FONT SIZE="-3">10</FONT></SUB><B>viska</B>
+<I>see-ing</I>&gt;&gt;<SUB><FONT SIZE="-3">10</FONT></SUB>
+<B>VAU</B>
+<I> </I>]<SUB><FONT SIZE="-3">1</FONT></SUB></BODY>
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie 
+========================================
+STDIN :
+----------
+mi klama le zarci to ui
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+(0[mi CU {klama <(1le [zarci {<to ui> <> TOI}] KU)1 VAU>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie -t
+========================================
+STDIN :
+----------
+mi klama le zarci to ui
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+| +-CMAVO : mi [KOhA3]
+| +-CMAVO : CU [CU]
+| | +-BRIVLA : klama
+| | | | +-CMAVO : le [LE]
+| | | | | +-BRIVLA : zarci
+| | | | | | | +-CMAVO : to [TO]
+| | | | | | | +-CMAVO : ui [UI1]
+| | | | | | +-AUGMENTED
+| | | | | | +-TEXT
+| | | | | | +-CMAVO : TOI [TOI]
+| | | | | +-PARENTHETICAL
+| | | | +-TANRU_UNIT_2
+| | | | +-CMAVO : KU [KU]
+| | | +-SUMTI_6
+| | | +-CMAVO : VAU [VAU]
+| | +-TAIL_TERMS
+| +-BRIDI_TAIL_3
++-NO_CU_SENTENCE
+CHUNKS
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie -x -b
+========================================
+STDIN :
+----------
+mi klama le zarci to ui
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+[ ( mi                ) CU      << klama  >> ( le                      
+[ ( I, me             ) is/does << go-ing >> ( the                     
+[ ( klama1 (go-er(s)) )         <<        >> ( klama2 (destination(s)) 
+1 2                   2         3         3  4                         
+
+zarci            ( to .ui           TOI ) KU ) VAU ] 
+trading place(s) ( (  {happiness..} )   )    )     ] 
+                 (                      )    )     ] 
+                 5                      5    4     1 
+
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie -H
+========================================
+STDIN :
+----------
+mi klama le zarci to ui
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+<HTML>
+<HEAD>
+<TITLE>Lojban translation</TITLE>
+<BODY>
+[<SUB><FONT SIZE="-3">1</FONT></SUB>(<SUB><FONT SIZE="-3">2</FONT></SUB><U><FONT SIZE=-1>[klama1 (go-er(s))
+:] </FONT></U><B>mi</B>
+<I>I, me</I>)<SUB><FONT SIZE="-3">2</FONT></SUB>
+<B>CU</B>
+<I>is/does</I> &lt;&lt;<SUB><FONT SIZE="-3">3</FONT></SUB><B>klama</B>
+<I>go-ing</I>&gt;&gt;<SUB><FONT SIZE="-3">3</FONT></SUB> (<SUB><FONT SIZE="-3">4</FONT></SUB><U><FONT SIZE=-1>[klama2 (destination(s))
+:] </FONT></U><B>le</B>
+<I>the</I> <B>zarci</B>
+<I>trading place(s)</I> (<SUB><FONT SIZE="-3">5</FONT></SUB><B>to</B>
+<I>(</I>
+<B>.ui</B>
+<I>{happiness..}</I>  
+<B>TOI</B>
+<I>)</I>)<SUB><FONT SIZE="-3">5</FONT></SUB>
+<B>KU</B>
+<I> </I>)<SUB><FONT SIZE="-3">4</FONT></SUB>
+<B>VAU</B>
+<I> </I>]<SUB><FONT SIZE="-3">1</FONT></SUB></BODY>
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie 
+========================================
+STDIN :
+----------
+mi klama le zarci pu
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+(0[mi CU {klama <(1[le zarci KU] [pu KU])1 VAU>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie -t
+========================================
+STDIN :
+----------
+mi klama le zarci pu
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+| +-CMAVO : mi [KOhA3]
+| +-CMAVO : CU [CU]
+| | +-BRIVLA : klama
+| | | | | +-CMAVO : le [LE]
+| | | | | +-BRIVLA : zarci
+| | | | | +-CMAVO : KU [KU]
+| | | | +-SUMTI_6
+| | | | | +-CMAVO : pu [PU]
+| | | | | +-CMAVO : KU [KU]
+| | | | +-TERM_FLOATING_TENSE
+| | | +-TERMS
+| | | +-CMAVO : VAU [VAU]
+| | +-TAIL_TERMS
+| +-BRIDI_TAIL_3
++-NO_CU_SENTENCE
+CHUNKS
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie -x -b
+========================================
+STDIN :
+----------
+mi klama le zarci pu
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+[ ( mi                ) CU      << klama  >> ( le                      
+[ ( I, me             ) is/does << go-ing >> ( the                     
+[ ( klama1 (go-er(s)) )         <<        >> ( klama2 (destination(s)) 
+1 2                   2         3         3  4                         
+
+zarci            KU ) ( pu      KU ) VAU ] 
+trading place(s)    ) ( was/did    )     ] 
+                    ) (            )     ] 
+                    4 5            5     1 
+
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie -H
+========================================
+STDIN :
+----------
+mi klama le zarci pu
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+<HTML>
+<HEAD>
+<TITLE>Lojban translation</TITLE>
+<BODY>
+[<SUB><FONT SIZE="-3">1</FONT></SUB>(<SUB><FONT SIZE="-3">2</FONT></SUB><U><FONT SIZE=-1>[klama1 (go-er(s))
+:] </FONT></U><B>mi</B>
+<I>I, me</I>)<SUB><FONT SIZE="-3">2</FONT></SUB>
+<B>CU</B>
+<I>is/does</I> &lt;&lt;<SUB><FONT SIZE="-3">3</FONT></SUB><B>klama</B>
+<I>go-ing</I>&gt;&gt;<SUB><FONT SIZE="-3">3</FONT></SUB> (<SUB><FONT SIZE="-3">4</FONT></SUB><U><FONT SIZE=-1>[klama2 (destination(s))
+:] </FONT></U><B>le</B>
+<I>the</I> <B>zarci</B>
+<I>trading place(s)</I>
+<B>KU</B>
+<I> </I>)<SUB><FONT SIZE="-3">4</FONT></SUB> (<SUB><FONT SIZE="-3">5</FONT></SUB><B>pu</B>
+<I>was/did</I>
+<B>KU</B>
+<I> </I>)<SUB><FONT SIZE="-3">5</FONT></SUB>
+<B>VAU</B>
+<I> </I>]<SUB><FONT SIZE="-3">1</FONT></SUB></BODY>
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie 
+========================================
+STDIN :
+----------
+mi cusku lu coi
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+(0[mi CU {cusku <(1lu [coi DO'U] LI'U)1 VAU>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie -t
+========================================
+STDIN :
+----------
+mi cusku lu coi
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+| +-CMAVO : mi [KOhA3]
+| +-CMAVO : CU [CU]
+| | +-BRIVLA : cusku
+| | | | +-CMAVO : lu [LU]
+| | | | | +-CMAVO : coi [COI]
+| | | | | +-CMAVO : DO'U [DOhU]
+| | | | +-FREE_VOCATIVE
+| | | | +-CMAVO : LI'U [LIhU]
+| | | +-SUMTI_6
+| | | +-CMAVO : VAU [VAU]
+| | +-TAIL_TERMS
+| +-BRIDI_TAIL_3
++-NO_CU_SENTENCE
+CHUNKS
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie -x -b
+========================================
+STDIN :
+----------
+mi cusku lu coi
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+[ ( mi                 ) CU      << cusku   >> ( lu                     (  / 
+[ ( I, me              ) is/does << say-ing >> ( "                      ( |  
+[ ( cusku1 (say-er(s)) )         <<         >> ( cusku2 (said thing(s)) ( |  
+1 2                    2         3          3  4                        5 6  
+
+coi       DO'U \  ) LI'U ) VAU ] 
+greetings       | ) "    )     ] 
+                | )      )     ] 
+               6  5      4     1 
+
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie -H
+========================================
+STDIN :
+----------
+mi cusku lu coi
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+<HTML>
+<HEAD>
+<TITLE>Lojban translation</TITLE>
+<BODY>
+[<SUB><FONT SIZE="-3">1</FONT></SUB>(<SUB><FONT SIZE="-3">2</FONT></SUB><U><FONT SIZE=-1>[cusku1 (say-er(s))
+:] </FONT></U><B>mi</B>
+<I>I, me</I>)<SUB><FONT SIZE="-3">2</FONT></SUB>
+<B>CU</B>
+<I>is/does</I> &lt;&lt;<SUB><FONT SIZE="-3">3</FONT></SUB><B>cusku</B>
+<I>say-ing</I>&gt;&gt;<SUB><FONT SIZE="-3">3</FONT></SUB> (<SUB><FONT SIZE="-3">4</FONT></SUB><U><FONT SIZE=-1>[cusku2 (said thing(s))
+:] </FONT></U><B>lu</B>
+<FONT SIZE=+2>&quot;</FONT> (<SUB><FONT SIZE="-3">5</FONT></SUB>(<SUB><FONT SIZE="-3">6</FONT></SUB><B>coi</B>
+<I>greetings</I>
+<B>DO'U</B>
+<I> </I>)<SUB><FONT SIZE="-3">6</FONT></SUB>)<SUB><FONT SIZE="-3">5</FONT></SUB>
+<B>LI'U</B>
+<FONT SIZE=+2>&quot;</FONT>)<SUB><FONT SIZE="-3">4</FONT></SUB>
+<B>VAU</B>
+<I> </I>]<SUB><FONT SIZE="-3">1</FONT></SUB></BODY>
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie 
+========================================
+STDIN :
+----------
+le nu limna cu selnei
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+(0[{le <nu (1limna VAU)1 KEI> KU} cu {selnei VAU}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie -t
+========================================
+STDIN :
+----------
+le nu limna cu selnei
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+| | +-CMAVO : le [LE]
+| | | +-CMAVO : nu [NU]
+| | | | +-BRIVLA : limna
+| | | | +-CMAVO : VAU [VAU]
+| | | +-BRIDI_TAIL_3
+| | | +-CMAVO : KEI [KEI]
+| | +-ABSTRACTION
+| | +-CMAVO : KU [KU]
+| +-SUMTI_6
+| +-CMAVO : cu [CU]
+| | +-BRIVLA : selnei
+| | +-CMAVO : VAU [VAU]
+| +-BRIDI_TAIL_3
++-SENTENCE
+CHUNKS
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie -x -b
+========================================
+STDIN :
+----------
+le nu limna cu selnei
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+[ ( le              < nu          [ << limna    >> VAU ] KEI > KU ) cu      << 
+[ ( the             < event(s) of [ << swim-ing >>     ]     >    ) is/does << 
+[ ( selnei1 (liked) <             [ <<          >>     ]     >    )         << 
+1 2                 3             4 5           5      4     3    2         6  
+
+selnei >> VAU ] 
+liked  >>     ] 
+       >>     ] 
+       6      1 
+
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie -H
+========================================
+STDIN :
+----------
+le nu limna cu selnei
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+<HTML>
+<HEAD>
+<TITLE>Lojban translation</TITLE>
+<BODY>
+[<SUB><FONT SIZE="-3">1</FONT></SUB>(<SUB><FONT SIZE="-3">2</FONT></SUB><U><FONT SIZE=-1>[selnei1 (liked)
+:] </FONT></U><B>le</B>
+<I>the</I> &lt;<SUB><FONT SIZE="-3">3</FONT></SUB><B>nu</B>
+<I>event(s) of</I> [<SUB><FONT SIZE="-3">4</FONT></SUB>&lt;&lt;<SUB><FONT SIZE="-3">5</FONT></SUB><B>limna</B>
+<I>swim-ing</I>&gt;&gt;<SUB><FONT SIZE="-3">5</FONT></SUB>
+<B>VAU</B>
+<I> </I>]<SUB><FONT SIZE="-3">4</FONT></SUB>
+<B>KEI</B>
+<I> </I>&gt;<SUB><FONT SIZE="-3">3</FONT></SUB>
+<B>KU</B>
+<I> </I>)<SUB><FONT SIZE="-3">2</FONT></SUB>
+<B>cu</B>
+<I>is/does</I> &lt;&lt;<SUB><FONT SIZE="-3">6</FONT></SUB><B>selnei</B>
+<I>liked</I>&gt;&gt;<SUB><FONT SIZE="-3">6</FONT></SUB>
+<B>VAU</B>
+<I> </I>]<SUB><FONT SIZE="-3">1</FONT></SUB></BODY>
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie 
+========================================
+STDIN :
+----------
+le melbi cmalu ke nixli ckule cu diklo
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+(0[{le <(1melbi cmalu)1 (1ke [nixli ckule] KE'E)1> KU} cu {diklo VAU}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie -t
+========================================
+STDIN :
+----------
+le melbi cmalu ke nixli ckule cu diklo
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+| | +-CMAVO : le [LE]
+| | | | +-BRIVLA : melbi
+| | | | +-BRIVLA : cmalu
+| | | +-SELBRI_3
+| | | | +-CMAVO : ke [KE]
+| | | | | +-BRIVLA : nixli
+| | | | | +-BRIVLA : ckule
+| | | | +-SELBRI_3
+| | | | +-CMAVO : KE'E [KEhE]
+| | | +-KE_SELBRI3_TU2
+| | +-SELBRI_3
+| | +-CMAVO : KU [KU]
+| +-SUMTI_6
+| +-CMAVO : cu [CU]
+| | +-BRIVLA : diklo
+| | +-CMAVO : VAU [VAU]
+| +-BRIDI_TAIL_3
++-SENTENCE
+CHUNKS
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie -x -b
+========================================
+STDIN :
+----------
+le melbi cmalu ke nixli ckule cu diklo
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+[ ( le                      |  |  melbi               cmalu  |           ke |  
+[ ( the                     |  |  beautiful [type-of] small  | [type-of]    |  
+[ ( diklo1 (local thing(s))  \  \                           /                \ 
+1 2                         3  4                            4               5  
+
+nixli              ckule      | KE'E  | KU ) cu      << diklo       >> VAU ] 
+girl-ish [type-of] school(s)  |       |    ) is/does << being local >>     ] 
+                             /       /     )         <<             >>     ] 
+                             5       3     2         6              6      1 
+
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -ie -H
+========================================
+STDIN :
+----------
+le melbi cmalu ke nixli ckule cu diklo
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+<HTML>
+<HEAD>
+<TITLE>Lojban translation</TITLE>
+<BODY>
+[<SUB><FONT SIZE="-3">1</FONT></SUB>(<SUB><FONT SIZE="-3">2</FONT></SUB><U><FONT SIZE=-1>[diklo1 (local thing(s))
+:] </FONT></U><B>le</B>
+<I>the</I> (<SUB><FONT SIZE="-3">3</FONT></SUB>(<SUB><FONT SIZE="-3">4</FONT></SUB><B>melbi</B>
+<I>beautiful</I>
+<I>[type-of]</I> <B>cmalu</B>
+<I>small</I>)<SUB><FONT SIZE="-3">4</FONT></SUB>
+<I>[type-of]</I> <B>ke</B>
+<I> </I> (<SUB><FONT SIZE="-3">5</FONT></SUB><B>nixli</B>
+<I>girl-ish</I>
+<I>[type-of]</I> <B>ckule</B>
+<I>school(s)</I>)<SUB><FONT SIZE="-3">5</FONT></SUB>
+<B>KE'E</B>
+<I> </I>)<SUB><FONT SIZE="-3">3</FONT></SUB>
+<B>KU</B>
+<I> </I>)<SUB><FONT SIZE="-3">2</FONT></SUB>
+<B>cu</B>
+<I>is/does</I> &lt;&lt;<SUB><FONT SIZE="-3">6</FONT></SUB><B>diklo</B>
+<I>being local</I>&gt;&gt;<SUB><FONT SIZE="-3">6</FONT></SUB>
+<B>VAU</B>
+<I> </I>]<SUB><FONT SIZE="-3">1</FONT></SUB></BODY>
+-------------------------
+__STDERR
+----------
+-------------------------

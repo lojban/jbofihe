@@ -1,0 +1,66 @@
+############################################################
+PROGRAM : vlatai
+========================================
+STDIN :
+----------
+tosmabyrasta
+tosmabrasta
+tosmabybrasta
+tosymabyrasta
+tosymabrasta
+tosymabybrasta
+
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+tosmabyrasta              : lujvo :  to smabyrasta
+tosmabrasta               : lujvo :  to smabrasta
+tosmabybrasta             : lujvo :  to smabybrasta
+tosymabyrasta             : UNMATCHED : tosymabyrasta
+tosymabrasta              : lujvo :  tosymabrasta
+tosymabybrasta            : lujvo :  tosymabybrasta
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : vlatai
+========================================
+STDIN :
+----------
+aktraile
+akstraile
+akstsaile
+aktstraile
+akltraile
+aklstraile
+akltstraile
+akltstrtaile
+aktlstraile
+
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+aktraile                  : fu'ivla (stage-4) :  aktraile
+akstraile                 : UNMATCHED : akstraile
+akstsaile                 : UNMATCHED : akstsaile
+aktstraile                : UNMATCHED : aktstraile
+akltraile                 : fu'ivla (stage-4) :  akltraile
+aklstraile                : fu'ivla (stage-4) :  aklstraile
+akltstraile               : UNMATCHED : akltstraile
+akltstrtaile              : fu'ivla (stage-4) :  akltstrtaile
+aktlstraile               : fu'ivla (stage-4) :  aktlstraile
+-------------------------
+__STDERR
+----------
+-------------------------

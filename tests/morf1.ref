@@ -1,0 +1,213 @@
+############################################################
+PROGRAM : vlatai
+========================================
+STDIN :
+----------
+
+gismu
+bridi
+brivla
+cecmau
+ceccau
+cecycau
+le
+lebrivla
+cale
+calebrivla
+calenu
+calenulebrivla
+lelele
+abucydy
+abucydyca
+inta
+intai
+inrai
+bainta
+tobainta
+abainta
+tci'ile
+tci'ilybau
+tci'ilybangu
+straile
+iglu
+ktraile
+soirsai
+soinrai
+soinsai
+soisai
+sonsai
+fibcai
+fibycai
+raitru
+tosmabru
+tosymabru
+tonmabru
+tonymabru
+tosykaitru
+toskaitru
+slinku'i
+toslinku'i
+totoslinku'i
+cesprenrxapostolo
+prenrxapostolo
+cidjrbri
+tricrxaceru
+# Tests for triples
+pentystali
+pentysoi
+penytsali
+pentsali
+prenytsali
+prentsali
+blapentystali
+blapentysoi
+blapenytsali
+blapentsali
+blaprenytsali
+blaprentsali
+topyrenytsali
+toprenytsali
+topyrentsali
+toprentsali
+prenytsali
+prentsali
+tainta
+slinku'i
+iglu
+
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+                          : UNMATCHED : 
+gismu                     : gismu :  gismu
+bridi                     : gismu :  bridi
+brivla                    : lujvo :  brivla
+cecmau                    : lujvo :  cecmau
+ceccau                    : UNMATCHED : ceccau
+cecycau                   : lujvo :  cecycau
+le                        : cmavo(s) :  le
+lebrivla                  : lujvo :  le brivla
+cale                      : cmavo(s) :  ca le
+calebrivla                : lujvo :  ca le brivla
+calenu                    : cmavo(s) :  ca le nu
+calenulebrivla            : lujvo :  ca le nu le brivla
+lelele                    : cmavo(s) :  le le le
+abucydy                   : cmavo(s) :  a bu cy dy
+abucydyca                 : UNMATCHED : abucydyca
+inta                      : fu'ivla (stage-4) :  inta
+intai                     : fu'ivla (stage-4) :  intai
+inrai                     : fu'ivla (stage-4) :  inrai
+bainta                    : fu'ivla (stage-4) :  bainta
+tobainta                  : fu'ivla (stage-4) :  to bainta
+abainta                   : fu'ivla (stage-4) :  a bainta
+tci'ile                   : fu'ivla (stage-4) :  tci'ile
+tci'ilybau                : lujvo (with cultural rafsi) :  tci'ilybau
+tci'ilybangu              : lujvo (with cultural rafsi) :  tci'ilybangu
+straile                   : fu'ivla (stage-4) :  straile
+iglu                      : fu'ivla (stage-4) :  iglu
+ktraile                   : UNMATCHED : ktraile
+soirsai                   : lujvo :  soirsai
+soinrai                   : lujvo :  soinrai
+soinsai                   : fu'ivla (stage-4) :  soinsai
+soisai                    : cmavo(s) :  soi sai
+sonsai                    : lujvo :  sonsai
+fibcai                    : UNMATCHED : fibcai
+fibycai                   : lujvo :  fibycai
+raitru                    : lujvo :  raitru
+tosmabru                  : lujvo :  to smabru
+tosymabru                 : lujvo :  tosymabru
+tonmabru                  : lujvo :  tonmabru
+tonymabru                 : UNMATCHED : tonymabru
+tosykaitru                : Bad lujvo (y hyphen not required) :  tosykaitru
+toskaitru                 : lujvo :  toskaitru
+slinku'i                  : Bad fu'ivla (fails slinku'i test) :  slinku'i
+toslinku'i                : lujvo :  toslinku'i
+totoslinku'i              : lujvo :  to toslinku'i
+cesprenrxapostolo         : fu'ivla (stage-4) :  ce sprenrxapostolo
+prenrxapostolo            : fu'ivla (stage-3) :  pren/r/xapostolo
+cidjrbri                  : fu'ivla (stage-3) :  cidj/r/bri
+tricrxaceru               : fu'ivla (stage-3) :  tric/r/xaceru
+pentystali                : lujvo :  pentystali
+pentysoi                  : lujvo :  pentysoi
+penytsali                 : lujvo :  penytsali
+pentsali                  : UNMATCHED : pentsali
+prenytsali                : lujvo :  prenytsali
+prentsali                 : UNMATCHED : prentsali
+blapentystali             : lujvo :  blapentystali
+blapentysoi               : lujvo :  blapentysoi
+blapenytsali              : lujvo :  blapenytsali
+blapentsali               : UNMATCHED : blapentsali
+blaprenytsali             : lujvo :  blaprenytsali
+blaprentsali              : UNMATCHED : blaprentsali
+topyrenytsali             : lujvo :  topyrenytsali
+toprenytsali              : lujvo :  to prenytsali
+topyrentsali              : UNMATCHED : topyrentsali
+toprentsali               : UNMATCHED : toprentsali
+prenytsali                : lujvo :  prenytsali
+prentsali                 : UNMATCHED : prentsali
+tainta                    : fu'ivla (stage-4) :  tainta
+slinku'i                  : Bad fu'ivla (fails slinku'i test) :  slinku'i
+iglu                      : fu'ivla (stage-4) :  iglu
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : vlatai
+========================================
+STDIN :
+----------
+e'osaram
+faogle
+pastci'ile
+ban,r,kore,a
+uitoslinku'i
+uicaitoslinku'i
+uiciatoslinku'i
+uiciatroslinku'i
+baislinku'i
+se,otra
+se,,otra
+se,ot,ra
+se,ot,,ra
+,se,otra
+se,otra,
+,,se,otra
+se,otra,,
+natmrmo'avi
+
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+e'osaram                  : cmene :  e'osaram
+faogle                    : UNMATCHED : faogle
+pastci'ile                : fu'ivla (stage-4) :  pa stci'ile
+ban,r,kore,a              : fu'ivla (stage-3 short rafsi) :  ban,/r/,kore,a
+uitoslinku'i              : lujvo :  ui toslinku'i
+uicaitoslinku'i           : lujvo :  ui cai toslinku'i
+uiciatoslinku'i           : UNMATCHED : uiciatoslinku'i
+uiciatroslinku'i          : fu'ivla (stage-4) :  ui ciatroslinku'i
+baislinku'i               : fu'ivla (stage-4) :  baislinku'i
+se,otra                   : lujvo :  se,otra
+se,,otra                  : UNMATCHED : se,,otra
+se,ot,ra                  : lujvo :  se,ot,ra
+se,ot,,ra                 : UNMATCHED : se,ot,,ra
+,se,otra                  : Unrecognized : , se,o tra
+se,otra,                  : Unrecognized :  se,o tra,
+,,se,otra                 : UNMATCHED : ,,se,otra
+se,otra,,                 : Unrecognized :  se,o tra,,
+natmrmo'avi               : fu'ivla (stage-3) :  natm/r/mo'avi
+-------------------------
+__STDERR
+----------
+-------------------------

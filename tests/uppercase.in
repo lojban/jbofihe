@@ -1,0 +1,7 @@
+require "testpak.pl";
+
+@prog = ("prog", "jbofihe -x -b");
+&test(@prog, stdin => "la LONdon cu se nelci");
+&test(@prog, stdin => "LA LONdon cu se nelci");
+&test(@prog, stdin => "la lonDON cu se nElci");
+

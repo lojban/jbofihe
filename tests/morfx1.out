@@ -1,0 +1,44 @@
+############################################################
+PROGRAM : vlatai
+========================================
+STDIN :
+----------
+gerzdanyrotfaila
+rotfailybau
+rotfailygerbau
+rotfailygerkybau
+rostailygerkybau
+gerkyrotfaila
+gerkyrotfailybau
+geskyrotfailybau
+gerkacyrotfailybau
+geskacyrotfailybau
+zdanyrotfailybau
+xesyprenrapostolo
+xesyprenrxapostolo
+
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+gerzdanyrotfaila          : UNMATCHED : gerzdanyrotfaila
+rotfailybau               : UNMATCHED : rotfailybau
+rotfailygerbau            : UNMATCHED : rotfailygerbau
+rotfailygerkybau          : UNMATCHED : rotfailygerkybau
+rostailygerkybau          : lujvo (with cultural rafsi) :  ro stailygerkybau
+gerkyrotfaila             : UNMATCHED : gerkyrotfaila
+gerkyrotfailybau          : UNMATCHED : gerkyrotfailybau
+geskyrotfailybau          : UNMATCHED : geskyrotfailybau
+gerkacyrotfailybau        : UNMATCHED : gerkacyrotfailybau
+geskacyrotfailybau        : UNMATCHED : geskacyrotfailybau
+zdanyrotfailybau          : UNMATCHED : zdanyrotfailybau
+xesyprenrapostolo         : UNMATCHED : xesyprenrapostolo
+xesyprenrxapostolo        : UNMATCHED : xesyprenrxapostolo
+-------------------------
+__STDERR
+----------
+-------------------------

@@ -1,0 +1,17 @@
+require "testpak.pl";
+
+@in = (
+"le cevzda .ebazake la ter. cu nelci",
+"le cevzda .ebazabo la ter. cu nelci",
+"baza le crisa mi klama",
+"le baza crisa mi klama",
+"mi baza klama",
+"mi bazaku klama",
+"baza ku mi klama"
+);
+
+foreach $in (@in) {
+    &test(prog=>"jbofihe -x -b",
+          stdin=>$in);
+}
+

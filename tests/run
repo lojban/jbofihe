@@ -1,0 +1,4 @@
+#!/bin/sh
+
+perl ../testing/runtests.pl $*
+

@@ -1,0 +1,7 @@
+
+require "testpak.pl";
+
+&test (program => "cmafihe -b -w 80",
+       stdin => "clani pluta le kamxaucai ije noroi fanmo lenu klama le kampa'e");
+
+

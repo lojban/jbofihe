@@ -1,0 +1,20 @@
+require "testpak.pl";
+$prog = "jbofihe -sev";
+
+&test(stdin => "ko'a xi re boi paroi klama le zarci",
+      notes => "Cannot omit boi here, has free after");
+      
+&test(stdin => "mu boi to mi viska toi nanmu cu klama le zarci",
+      notes => "Can't omit boi here. Check boi+free keeps boi reqd");
+
+&test(stdin => "vei mu boi ve'o to mi viska toi nanmu cu klama le zarci",
+      notes => "Can omit boi here but not ve'o");
+
+&test(stdin => "mu boi xi re boi xi pa boi le nanmu cu zvati",
+      notes => "Can omit the 2nd and 3rd boi but not the first");
+
+&test(stdin => "mi xi re boi cu pa roi klama le zarci",
+      notes => "Either boi or cu is acceptable as minimal");
+
+&test(stdin => "mi poi nanca li cici boi vau ku'o mu zdani cu viska",
+      notes => "mu would shift between vau and ku'o");

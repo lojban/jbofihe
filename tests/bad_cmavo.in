@@ -1,0 +1,29 @@
+require "testpak.pl";
+
+@prog = ("prog", "jbofihe -x -b");
+
+&test(@prog, stdin => "ba'u", note => "Good cmavo for sanity check");
+&test(@prog, stdin => "bi'a", note => "Good cmavo but parse error for sanity check");
+&test(@prog, stdin => "ba'ua", expect => 2, note => "Bad cmavo, start looks like good one");
+&test(@prog, stdin => "bia");
+&test(@prog, stdin => "bya");
+&test(@prog, stdin => "byy");
+&test(@prog, stdin => "xia");
+&test(@prog, stdin => "xya");
+&test(@prog, stdin => "xyy");
+
+&test(@prog, stdin => "xa'i");
+&test(@prog, stdin => "xai'i");
+&test(@prog, stdin => "xa'ai");
+&test(@prog, stdin => "xai'ai");
+&test(@prog, stdin => "xai'a'i");
+
+&test(@prog, stdin => "b'ai");
+&test(@prog, stdin => "x'ai");
+&test(@prog, stdin => "b'a");
+&test(@prog, stdin => "x'a");
+
+&test(@prog, stdin => "BAI");
+&test(@prog, stdin => "BAIle");
+&test(@prog, stdin => "BAILE");
+&test(@prog, stdin => "baiLE");

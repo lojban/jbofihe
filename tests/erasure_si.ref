@@ -1,0 +1,1262 @@
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+le nanmu si ninmu cu xamgu
+-------------------------
+========================================
+NOTE : simple replace
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : si [erase word]
+BRV : ninmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : ninmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{le ninmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+le nanmu cu ninmu si xamgu
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : ninmu
+CMV : si [erase word]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{le nanmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+le nanmu cu xamgu toi si
+-------------------------
+========================================
+NOTE : del last word
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+CMV : toi [end parenthesis]
+CMV : si [erase word]
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{le nanmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+le nanmu cu xamgu ninmu toi si si
+-------------------------
+========================================
+NOTE : del 2 last words
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+BRV : ninmu
+CMV : toi [end parenthesis]
+CMV : si [erase word]
+CMV : si [erase word]
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{le nanmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+le nanmu cu xamgu ninmu toi sisi
+-------------------------
+========================================
+NOTE : check splitting
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+BRV : ninmu
+CMV : toi [end parenthesis]
+CMV : si [erase word]
+CMV : si [erase word]
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{le nanmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+le si lo nanmu cu xamgu
+-------------------------
+========================================
+NOTE : change 1st word
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : le [the described]
+CMV : si [erase word]
+CMV : lo [the really is]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+CMV : lo [the really is]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{lo nanmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+si lo nanmu cu xamgu
+-------------------------
+========================================
+NOTE : give warning
+========================================
+Exit status : 2
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : si [erase word]
+CMV : lo [the really is]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+CMV : si [erase word]
+CMV : lo [the really is]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+-------------------------
+__STDERR
+----------
+Unmatched SI at start of input, line 1 column 1
+--------------------
+SYNTAX ERROR IN TEXT
+--------------------
+Misparsed token :
+  si [SI] (line 1, col 1)
+Latest successfully parsed tokens :
+--------------------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+si si lo nanmu cu xamgu
+-------------------------
+========================================
+NOTE : warn + del both si's
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : lo [the really is]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+CMV : lo [the really is]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{lo nanmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+Unmatched SI at start of input, line 1 column 1
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+zo nanmu si si le nanmu cu xamgu
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : zo [1-word quote]
+BRV : nanmu
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{le nanmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+zoi gy. man gy. si si si si le nanmu cu xamgu
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+ZOI : man
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{le nanmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+lo'u nanmu le'u si si si le nanmu cu xamgu
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : lo'u [error quote]
+BRV : nanmu
+CMV : le'u [end error quote]
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{le nanmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+le nanmu cu xamgu zo ninmu si si
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+CMV : zo [1-word quote]
+BRV : ninmu
+CMV : si [erase word]
+CMV : si [erase word]
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{le nanmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+le nanmu cu xamgu zoi gy. man gy. si si si si
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+ZOI : man
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : si [erase word]
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{le nanmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+le nanmu cu xamgu lo'u nanmu le'u si si si
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+CMV : lo'u [error quote]
+BRV : nanmu
+CMV : le'u [end error quote]
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : si [erase word]
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{le nanmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+zo si .e le nanmu cu xamgu
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : zo [1-word quote]
+CMV : si [erase word]
+CMV : e [sumti and]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+ZO  : si
+MAR : PRIVATE_START_EK
+CMV : e [sumti and]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{zo si e <le nanmu>} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+zoi gy. si gy. .e le nanmu cu xamgu
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+ZOI : si
+CMV : e [sumti and]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+ZOI : si
+MAR : PRIVATE_START_EK
+CMV : e [sumti and]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{zoi gy si gy e <le nanmu>} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+zoi si. junk si. .e le nanmu cu xamgu
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+ZOI : junk
+CMV : e [sumti and]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+ZOI : junk
+MAR : PRIVATE_START_EK
+CMV : e [sumti and]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{zoi si junk si e <le nanmu>} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+lo'u si le'u le nanmu cu xamgu
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : lo'u [error quote]
+CMV : si [erase word]
+CMV : le'u [end error quote]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+LOhU  : si
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{(1lo'u si le'u)1 <le nanmu>} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+zo si si si le nanmu cu xamgu
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : zo [1-word quote]
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{le nanmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+zoi gy. si gy. sisisisi le nanmu cu xamgu
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+ZOI : si
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{le nanmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+zoi si. junk si. sisisisi le nanmu cu xamgu
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+ZOI : junk
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{le nanmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+lo'u si le'u sisisi le nanmu cu xamgu
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : lo'u [error quote]
+CMV : si [erase word]
+CMV : le'u [end error quote]
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{le nanmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+zo nanmu si .i le nanmu cu xamgu
+-------------------------
+========================================
+Exit status : 2
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : zo [1-word quote]
+BRV : nanmu
+CMV : si [erase word]
+CMV : i [sentence link]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+BKN : (broken erasure)
+CMV : i [sentence link]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+-------------------------
+__STDERR
+----------
+--------------------
+SYNTAX ERROR IN TEXT
+--------------------
+Misparsed token :
+  <Incomplete SI erasure> (line 1, col 1)
+Latest successfully parsed tokens :
+--------------------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+zoi gy. man gy. si si si .i le nanmu cu xamgu
+-------------------------
+========================================
+Exit status : 2
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+ZOI : man
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : i [sentence link]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+BKN : (broken erasure)
+CMV : i [sentence link]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+-------------------------
+__STDERR
+----------
+--------------------
+SYNTAX ERROR IN TEXT
+--------------------
+Misparsed token :
+  <Incomplete SI erasure> (line 1, col 1)
+Latest successfully parsed tokens :
+--------------------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+lo'u nanmu le'u si .i le nanmu cu xamgu
+-------------------------
+========================================
+Exit status : 2
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : lo'u [error quote]
+BRV : nanmu
+CMV : le'u [end error quote]
+CMV : si [erase word]
+CMV : i [sentence link]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+BKN : (broken erasure)
+CMV : i [sentence link]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+-------------------------
+__STDERR
+----------
+--------------------
+SYNTAX ERROR IN TEXT
+--------------------
+Misparsed token :
+  <Incomplete SI erasure> (line 1, col 1)
+Latest successfully parsed tokens :
+--------------------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+le nanmu cu xamgu zo ninmu si
+-------------------------
+========================================
+Exit status : 2
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+CMV : zo [1-word quote]
+BRV : ninmu
+CMV : si [erase word]
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+BKN : (broken erasure)
+------------------------------
+
+-------------------------
+__STDERR
+----------
+--------------------
+SYNTAX ERROR IN TEXT
+--------------------
+Misparsed token :
+  <Incomplete SI erasure> (line 1, col 19)
+Latest successfully parsed tokens :
+  xamgu [BRIVLA] (line 1, col 13)
+  cu [CU] (line 1, col 10)
+  nanmu [BRIVLA] (line 1, col 4)
+  le [LE] (line 1, col 1)
+--------------------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+le nanmu cu xamgu zoi gy. man gy. si si
+-------------------------
+========================================
+Exit status : 2
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+ZOI : man
+CMV : si [erase word]
+CMV : si [erase word]
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+BKN : (broken erasure)
+------------------------------
+
+-------------------------
+__STDERR
+----------
+--------------------
+SYNTAX ERROR IN TEXT
+--------------------
+Misparsed token :
+  <Incomplete SI erasure> (line 1, col 19)
+Latest successfully parsed tokens :
+  xamgu [BRIVLA] (line 1, col 13)
+  cu [CU] (line 1, col 10)
+  nanmu [BRIVLA] (line 1, col 4)
+  le [LE] (line 1, col 1)
+--------------------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+le nanmu cu xamgu lo'u nanmu le'u si si
+-------------------------
+========================================
+Exit status : 2
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+CMV : lo'u [error quote]
+BRV : nanmu
+CMV : le'u [end error quote]
+CMV : si [erase word]
+CMV : si [erase word]
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+BKN : (broken erasure)
+------------------------------
+
+-------------------------
+__STDERR
+----------
+--------------------
+SYNTAX ERROR IN TEXT
+--------------------
+Misparsed token :
+  <Incomplete SI erasure> (line 1, col 19)
+Latest successfully parsed tokens :
+  xamgu [BRIVLA] (line 1, col 13)
+  cu [CU] (line 1, col 10)
+  nanmu [BRIVLA] (line 1, col 4)
+  le [LE] (line 1, col 1)
+--------------------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+zoi gy. man gy. si si si ninmu si si le nanmu cu xamgu
+-------------------------
+========================================
+NOTE : Makes sense for extra si to clean off defective zoi
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+ZOI : man
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : si [erase word]
+BRV : ninmu
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{le nanmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+zoi gy. man gy. si si ninmu si si si le nanmu cu xamgu
+-------------------------
+========================================
+NOTE : Makes sense for extra si's to clean off defective zoi
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+ZOI : man
+CMV : si [erase word]
+CMV : si [erase word]
+BRV : ninmu
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : si [erase word]
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+BRV : nanmu
+CMV : cu [selbri separator]
+BRV : xamgu
+------------------------------
+
+(0[{le nanmu} cu xamgu])0
+-------------------------
+__STDERR
+----------
+-------------------------

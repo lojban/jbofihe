@@ -1,0 +1,34 @@
+############################################################
+PROGRAM : jbofihe -x -b
+========================================
+STDIN :
+----------
+da poi le brivla zo'u da brivla
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+[ (  /  / da \  < poi   ( le  brivla                               ) 
+[ ( |  |  X   | < which ( the predicate word (properly, selbrivla) ) 
+[ ( |  |      | <       (                                          ) 
+1 2 3  4     4  5       6                                          6 
+
+zo'u        [ ( da                                             )            << 
+({- as for) [ ( X                                              ) [is, does] << 
+            [ ( brivla1 (predicate word (properly, selbrivla)) )            << 
+            7 8                                                8            9  
+
+brivla                               >> ] > \  ) ] 
+predicate word (properly, selbrivla) >> ] >  | ) ] 
+                                     >> ] >  | ) ] 
+                                     9  7 5 3  2 1 
+
+-------------------------
+__STDERR
+----------
+Warning: Sentence may be missing selbri at line 1 column 1?
+-------------------------

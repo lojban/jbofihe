@@ -1,0 +1,29 @@
+# Tests on attitudinal scoping
+
+# Error conditions that need checking
+# 1. fu'e at end of an attitudinal block (no attitudinals applied to scope)
+# 2. fu'e / fu'o pairs not balanced at end of text
+# 3. fu'e / fu'o depth goes negative
+
+
+require "testpak.pl";
+
+&test (program => "jbofihe -x -b",
+       expect => 0,
+       stdin => "fu'e ianai mi klama le zdani");
+
+&test (program => "jbofihe -x -b",
+       expect => 2,
+       note => "fu'e isn't an indicator as far as grammar is concerned,
+so it's invalid amongst a string of indicators at the start of the text.",
+       stdin => "fu'e ianai fu'e uu mi fu'o klama le zdani");
+
+&test (program => "jbofihe -x -b",
+       expect => 0,
+       note => "fu'e is treated as grammar-free away from the start of the text.",
+       stdin => "ianai mi fu'e uu fu'e klama fu'o le zdani");
+
+&test (program => "jbofihe -x -b",
+       expect => 0,
+       stdin => "ianai mi fu'e ia klama fu'o le zdani");
+

@@ -1,0 +1,27 @@
+############################################################
+PROGRAM : cmafihe -b -w 80
+========================================
+STDIN :
+----------
+clani pluta le kamxaucai ije noroi fanmo lenu klama le kampa'e
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+clani  pluta  le  kamxaucai                      ije          noroi fanmo  
+BRIVLA BRIVLA LE  BRIVLA                         JA*          ROI*  BRIVLA 
+long   route  the property abstract-good-intense sentence and never end    
+
+lenu         klama  le  kampa'e                   
+LE NU        BRIVLA LE  BRIVLA                    
+the event of come   the property abstract-perfect 
+
+
+-------------------------
+__STDERR
+----------
+-------------------------

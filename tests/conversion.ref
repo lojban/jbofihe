@@ -1,0 +1,49 @@
+############################################################
+PROGRAM : jbofihe -x
+========================================
+STDIN :
+----------
+le xamgu blanu bloti
+i
+le se ke xamgu blanu ke'e bloti
+i
+le se ke ve xamgu te blanu ke'e bloti
+i
+le se xamgu te blanu bloti
+i
+le se ke te xamgu ve ke se blanu ke'e ke'e te bloti
+
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+[(le /the/ ^^xamgu /good/ /[type-of]/ blanu /blue/^ /[type-of]/ bloti /boat(s)/ship(s)/^)]
+
+.i /`.'/
+
+[(le /the/ ^se ke / / ^xamgu /good/ /[type-of]/ blanu /blue??/^ ke'e / / /[type-of]/ bloti /boat(s)/ship(s)/^)]
+
+.i /`.'/
+
+[(le /the/ ^se ke / / ^ve xamgu /good??/ /[type-of]/ te blanu /blue??/^ ke'e / / /[type-of]/ bloti /boat(s)/ship(s)/^)]
+
+.i /`.'/
+
+[(le /the/ ^^se xamgu /goodness beneficiary/ /[type-of]/ te blanu /blue??/^ /[type-of]/ bloti /boat(s)/ship(s)/^)]
+
+.i /`.'/
+
+[(le /the/ ^se ke / / ^te xamgu /goodness standard-ish/ /[type-of]/ ve ke / / se blanu /blue thing(s)/ ke'e / /^ ke'e / / /[type-of]/ te bloti /propel-er(s) of boat/ship/^)]
+-------------------------
+__STDERR
+----------
+Warning: Sentence may be missing selbri at line 1 column 1?
+Warning: Sentence may be missing selbri at line 3 column 1?
+Warning: Sentence may be missing selbri at line 5 column 1?
+Warning: Sentence may be missing selbri at line 7 column 1?
+Warning: Sentence may be missing selbri at line 9 column 1?
+-------------------------

@@ -1,0 +1,19 @@
+# Tests for -se switch
+
+require "testpak.pl";
+
+$prog = "jbofihe -se";
+
+&test(stdin => "mi cu klama le zdani ku vau");
+&test(stdin => "mi cu xire klama le zdani");
+&test(stdin => "le nanmu cu klama le zdani");
+&test(stdin => "le nanmu ku klama le zdani");
+&test(stdin => "le nanmu ku cu klama le zdani");
+&test(stdin => "le nanmu ku cu xire klama le zdani");
+&test(stdin => "le le nanmu ku zdani ku cu diklo");
+
+&test(stdin => "mi djuno le du'u do djuno le du'u mi limna vau kei ku vau kei ku le xamsi ku vau");
+&test(stdin => "le nu mi klama kei cu gleki");
+&test(stdin => "le se klama be la london. be'o cu se viska");
+
+

@@ -1,0 +1,57 @@
+
+# Tests on si, sa, su
+
+require "testpak.pl";
+@prog=("prog", "jbofihe -k");
+
+# Test basic SI functions + at limits of text
+
+&test(@prog, text=>"le nanmu si ninmu cu xamgu", note=>"simple replace");
+&test(@prog, text=>"le nanmu cu ninmu si xamgu");
+&test(@prog, text=>"le nanmu cu xamgu toi si", note=>"del last word");
+&test(@prog, text=>"le nanmu cu xamgu ninmu toi si si", note=>"del 2 last words");
+&test(@prog, text=>"le nanmu cu xamgu ninmu toi sisi", note=>"check splitting");
+&test(@prog, text=>"le si lo nanmu cu xamgu", note => "change 1st word");
+&test(@prog, text=>"si lo nanmu cu xamgu", note=>"give warning");
+&test(@prog, text=>"si si lo nanmu cu xamgu", note=>"warn + del both si's");
+
+# Tests for zo, zoi, lohu
+# OK cases
+
+&test(@prog, text=>"zo nanmu si si le nanmu cu xamgu");
+&test(@prog, text=>"zoi gy. man gy. si si si si le nanmu cu xamgu");
+&test(@prog, text=>"lo'u nanmu le'u si si si le nanmu cu xamgu");
+
+# OK cases at end of text
+&test(@prog, text=>"le nanmu cu xamgu zo ninmu si si");
+&test(@prog, text=>"le nanmu cu xamgu zoi gy. man gy. si si si si");
+&test(@prog, text=>"le nanmu cu xamgu lo'u nanmu le'u si si si");
+
+# si inside quotation
+&test(@prog, text=>"zo si .e le nanmu cu xamgu");
+&test(@prog, text=>"zoi gy. si gy. .e le nanmu cu xamgu");
+&test(@prog, text=>"zoi si. junk si. .e le nanmu cu xamgu");
+&test(@prog, text=>"lo'u si le'u le nanmu cu xamgu");
+
+# si inside quotation + erasure
+&test(@prog, text=>"zo si si si le nanmu cu xamgu");
+&test(@prog, text=>"zoi gy. si gy. sisisisi le nanmu cu xamgu");
+&test(@prog, text=>"zoi si. junk si. sisisisi le nanmu cu xamgu");
+&test(@prog, text=>"lo'u si le'u sisisi le nanmu cu xamgu");
+
+# inadequate erasure + recovery
+&test(@prog, text=>"zo nanmu si .i le nanmu cu xamgu");
+&test(@prog, text=>"zoi gy. man gy. si si si .i le nanmu cu xamgu");
+&test(@prog, text=>"lo'u nanmu le'u si .i le nanmu cu xamgu");
+
+# inadequate erasure at end of text
+&test(@prog, text=>"le nanmu cu xamgu zo ninmu si");
+&test(@prog, text=>"le nanmu cu xamgu zoi gy. man gy. si si");
+&test(@prog, text=>"le nanmu cu xamgu lo'u nanmu le'u si si");
+
+# Inadequate erasure, is it cleaned up by later erasure?
+&test(@prog, text=>"zoi gy. man gy. si si si ninmu si si le nanmu cu xamgu",
+      note => "Makes sense for extra si to clean off defective zoi");
+&test(@prog, text=>"zoi gy. man gy. si si ninmu si si si le nanmu cu xamgu",
+      note => "Makes sense for extra si's to clean off defective zoi");
+

@@ -1,0 +1,28 @@
+require "testpak.pl";
+
+$prog="jbofihe -x -b";
+
+&test(stdin => "mi klama zo fa'o le zarci",
+      note => "should have 3 sumti");
+
+&test(stdin => "mi klama lo'u fa'o le'u le zarci",
+      note => "should have 3 sumti");
+
+&test(stdin => "mi nelci la djan. djonz.",
+      note => "cmene should have 2 words");
+
+&test(stdin => "mi nelci la laplas.",
+      note => "should give parse error, cmene breaks up");
+
+&test(stdin => "mi nelci la .aplacanz",
+      note => "should parse OK");
+
+&test(stdin => "mi nelci la salal",
+      note => "should be a single cmene 'l'");
+      
+&test(stdin => "mi nelci la salad",
+      note => "should be a single cmene 'd'");
+
+&test(stdin => "mi nelci la salas",
+      note => "should be a single cmene 's'");
+

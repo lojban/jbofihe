@@ -1,0 +1,232 @@
+############################################################
+PROGRAM : jbofihe -se
+========================================
+STDIN :
+----------
+mi cu klama le zdani ku vau
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+You could omit the word 'cu' (at line 1 col 4)
+
+You could omit both the words 'ku vau'
+ (from line 1 col 22 to line 1 col 25)
+
+(0[mi cu {klama <(1le zdani ku)1 vau>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -se
+========================================
+STDIN :
+----------
+mi cu xire klama le zdani
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+(0[mi cu {xi re} {klama <le zdani>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -se
+========================================
+STDIN :
+----------
+le nanmu cu klama le zdani
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+(0[{le nanmu} cu {klama <le zdani>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -se
+========================================
+STDIN :
+----------
+le nanmu ku klama le zdani
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+(0[{le nanmu ku} {klama <le zdani>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -se
+========================================
+STDIN :
+----------
+le nanmu ku cu klama le zdani
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+The words 'ku cu'
+ (from line 1 col 10 to line 1 col 13)
+could be safely reduced to any of these minimal patterns:
+  Pattern 1 :  ku
+  Pattern 2 :  cu
+
+(0[{le nanmu ku} cu {klama <le zdani>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -se
+========================================
+STDIN :
+----------
+le nanmu ku cu xire klama le zdani
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+You could omit the word 'ku' (at line 1 col 10)
+
+(0[{le nanmu ku} cu {xi re} {klama <le zdani>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -se
+========================================
+STDIN :
+----------
+le le nanmu ku zdani ku cu diklo
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+The words 'ku cu'
+ (from line 1 col 22 to line 1 col 25)
+could be safely reduced to any of these minimal patterns:
+  Pattern 1 :  ku
+  Pattern 2 :  cu
+
+(0[{le <(1le nanmu ku)1 zdani> ku} cu diklo])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -se
+========================================
+STDIN :
+----------
+mi djuno le du'u do djuno le du'u mi limna vau kei ku vau kei ku le xamsi ku vau
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+The words 'vau kei ku vau kei ku'
+ (from line 1 col 44 to line 1 col 63)
+could be safely reduced to any of these minimal patterns:
+  Pattern 1 :  vau vau
+  Pattern 2 :  kei vau
+  Pattern 3 :  ku vau
+  Pattern 4 :  kei kei
+  Pattern 5 :  ku kei
+  Pattern 6 :  ku ku
+
+You could omit both the words 'ku vau'
+ (from line 1 col 75 to line 1 col 78)
+
+(0[mi {djuno <(1[le {du'u <do (2djuno [{le <du'u (3mi [limna vau])3 kei> ku} vau])2> kei} ku] [le xamsi ku])1 vau>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -se
+========================================
+STDIN :
+----------
+le nu mi klama kei cu gleki
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+The words 'kei cu'
+ (from line 1 col 16 to line 1 col 20)
+could be safely reduced to any of these minimal patterns:
+  Pattern 1 :  cu
+
+(0[{le <nu (1mi klama)1 kei>} cu gleki])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -se
+========================================
+STDIN :
+----------
+le se klama be la london. be'o cu se viska
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+The words 'be'o cu'
+ (from line 1 col 27 to line 1 col 32)
+could be safely reduced to any of these minimal patterns:
+  Pattern 1 :  cu
+
+(0[{le <(1se klama)1 (1be [la london] be'o)1>} cu {se viska}])0
+-------------------------
+__STDERR
+----------
+-------------------------

@@ -1,0 +1,16 @@
+require "testpak.pl";
+
+@cases = (
+"nu limna",
+"gerku zdani",
+"sonci sanmi",
+"co'a sipna",
+"coha sipna",
+"sonci mutce", # Detect forbidden n triple
+);
+
+
+foreach $case (@cases) {
+    &test(program => "jvocuhadju $case");
+}
+

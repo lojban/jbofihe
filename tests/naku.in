@@ -1,0 +1,7 @@
+require "testpak.pl";
+
+&test(prog=>"jbofihe -t", stdin=>"mi djica le nu le nu pensi na zekri");
+&test(prog=>"jbofihe -t", stdin=>"mi djica le nu le nu pensi na ku zekri",
+      note=>"remains parse error because (pensi na ku)(zekri) is like 2 selbri4's");
+&test(prog=>"jbofihe -t", stdin=>"mi djica le nu le nu pensi na ku zekri cu zekri");
+&test(prog=>"jbofihe -t", stdin=>"mi djica le nu le nu pensi na ui ku zekri cu zekri");

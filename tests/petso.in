@@ -1,0 +1,19 @@
+# vim:ft=perl
+require "testpak.pl";
+# Check for bad glossing of translation of 10**x
+&test(prog => "jbofihe -x -b",
+      stdin => "petso");
+&test(prog => "jbofihe -x -b",
+      stdin => "femti");
+&test(prog => "jbofihe -x -b",
+      stdin => "petso ciste");
+&test(prog => "jbofihe -x -b",
+      stdin => "femti ciste");
+&test(prog => "jbofihe -x -b",
+      stdin => "le petso cu xamgu");
+&test(prog => "jbofihe -x -b",
+      stdin => "le femti cu xamgu");
+&test(prog => "jbofihe -x -b",
+      stdin => "le petso ciste cu xamgu");
+&test(prog => "jbofihe -x -b",
+      stdin => "le femti ciste cu xamgu");

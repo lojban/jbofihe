@@ -1,0 +1,8 @@
+require "testpak.pl";
+$prog = "jbofihe -x -b";
+
+&test(stdin => "le crisa cu jai me la solstis");
+&test(stdin => "le crisa cu jai ca me la solstis");
+&test(stdin => "le crisa cu jai ca je vi me la solstis");
+&test(stdin => "le crisa cu jai ca je vi nu gleki");
+

@@ -1,0 +1,4 @@
+require "testpak.pl";
+$prog = "jbofihe -x -b";
+&test(stdin => "da poi le brivla zo'u da brivla");
+

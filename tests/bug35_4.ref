@@ -1,0 +1,195 @@
+############################################################
+PROGRAM : jbofihe -sev
+========================================
+STDIN :
+----------
+ca nu'i ge pu le crisa nu'u gi ba le vensa nu'u mi cu klama le xaskoi
+-------------------------
+========================================
+NOTE : Can omit first nu'u but not 2nd
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+Early shift hazards for words 'nu'u' (at line 1 col 24)
+   <- nu'u
+   | <- <NEXT WORD>
+
+You could omit the word 'nu'u' (at line 1 col 24)
+
+Early shift hazards for words 'nu'u' (at line 1 col 44)
+   <- nu'u
+  X| <- <NEXT WORD>
+
+Early shift hazards for words 'cu' (at line 1 col 52)
+   <- cu
+   | <- <NEXT WORD>
+
+You could omit the word 'cu' (at line 1 col 52)
+
+(0[{<ca (1nu'i ge [{pu <le crisa>} nu'u] gi [{ba <le vensa>} nu'u])1> mi} cu {klama <le xaskoi>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -sev
+========================================
+STDIN :
+----------
+nu'i ge mi do nu'u gi do mi nu'u viska
+-------------------------
+========================================
+NOTE : Can omit both nu'u
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+Early shift hazards for words 'nu'u' (at line 1 col 15)
+   <- nu'u
+   | <- <NEXT WORD>
+
+You could omit the word 'nu'u' (at line 1 col 15)
+
+Early shift hazards for words 'nu'u' (at line 1 col 29)
+   <- nu'u
+   | <- <NEXT WORD>
+
+You could omit the word 'nu'u' (at line 1 col 29)
+
+(0[{nu'i ge <(1mi do)1 nu'u> gi <(1do mi)1 nu'u>} viska])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -x -b
+========================================
+STDIN :
+----------
+nu'i ge mi do nu'u gi do mi nu'u viska
+-------------------------
+========================================
+NOTE : Should not core dump
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+[ ( nu'i          ge   ( mi    ) ( do  ) nu'u        gi  ( do  ) ( mi    ) 
+[ ( start termset both ( I, me ) ( you ) end termset and ( you ) ( I, me ) 
+[ (                    (       ) (     )                 (     ) (       ) 
+1 2                    3       3 4     4                 5     5 6       6 
+
+nu'u        )            << viska   >> ] 
+end termset ) [is, does] << see-ing >> ] 
+            )            <<         >> ] 
+            2            7          7  1 
+
+-------------------------
+__STDERR
+----------
+No place tagging for termset at line 1
+-------------------------
+############################################################
+PROGRAM : jbofihe -sev
+========================================
+STDIN :
+----------
+mi cu klama le zarci
+-------------------------
+========================================
+NOTE : cu is elidable
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+Early shift hazards for words 'cu' (at line 1 col 4)
+   <- cu
+   | <- <NEXT WORD>
+
+You could omit the word 'cu' (at line 1 col 4)
+
+(0[mi cu {klama <le zarci>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -sev
+========================================
+STDIN :
+----------
+le nu do klama tu kei cu rinka tu'a mi
+-------------------------
+========================================
+NOTE : cu is not elidable
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+Early shift hazards for words 'kei cu'
+ (from line 1 col 19 to line 1 col 23)
+   <- kei
+   | <- cu
+   |X| <- <NEXT WORD>
+
+The words 'kei cu'
+ (from line 1 col 19 to line 1 col 23)
+could be safely reduced to any of these minimal patterns:
+  Pattern 1 :  cu
+
+(0[{le <nu (1do [klama tu])1 kei>} cu {rinka <tu'a mi>}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -x -b
+========================================
+STDIN :
+----------
+do djuno ledu'u mi cu klama le zarci
+-------------------------
+========================================
+NOTE : 'mi' place should be tagged in abstraction
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+[ ( do                  )            << djuno    >> ( le                     < 
+[ ( you                 ) [is, does] << know-ing >> ( the                    < 
+[ ( djuno1 (know-er(s)) )            <<          >> ( djuno2 (fact(s) known) < 
+1 2                     2            3           3  4                        5 
+
+du'u      [ ( mi                ) cu      << klama  >> ( 
+fact that [ ( I, me             ) is/does << go-ing >> ( 
+          [ ( klama1 (go-er(s)) )         <<        >> ( 
+          6 7                   7         8         8  9 
+
+le                      zarci            ) ] > ) ] 
+the                     trading place(s) ) ] > ) ] 
+klama2 (destination(s))                  ) ] > ) ] 
+                                         9 6 5 4 1 
+
+-------------------------
+__STDERR
+----------
+-------------------------

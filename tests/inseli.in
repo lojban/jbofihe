@@ -1,0 +1,20 @@
+require "testpak.pl";
+
+@texts = (
+"mu klama be la london. poi nanmu cu viska",
+"mi klama le zarci to ui",
+"mi klama le zarci pu",
+"mi cusku lu coi",
+"le nu limna cu selnei",
+"le melbi cmalu ke nixli ckule cu diklo"
+);
+
+@options = ("", "-t", "-x -b", "-H");
+
+for $t (@texts) {
+    for $o (@options) {
+        &test(prog => "jbofihe -ie ".$o,
+              stdin => $t);
+    }
+}
+

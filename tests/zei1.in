@@ -1,0 +1,20 @@
+require "testpak.pl";
+@opt = ("-x -b", "-k", "-t");
+@text = ("zei",
+         "zei klama",
+         "zei zei",
+         "klama zei",
+         "o'o zei cinmo",
+         "o'o zei nai zei cinmo",
+         "zo o'o zei cinmo",
+         "o'o zei si cinmo",
+         "o'o ba'e zei cinmo",
+         "zo o'o si zei cinmo",
+         "zoi xy. o'o zei cinmo xy.");
+
+for $t (@text) {
+    for $o (@opt) {
+        &test(prog => "jbofihe $o", stdin => $t);
+    }
+}
+

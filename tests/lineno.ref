@@ -1,0 +1,46 @@
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+le jai
+(This is a comment with
+a line feed
+in it)
+zo rinka
+-------------------------
+========================================
+Exit status : 1
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : le [the described]
+CMV : jai [modal conversion]
+CMV : zo [1-word quote]
+BRV : rinka
+------------------------------
+Token list after preprocessing
+
+CMV : le [the described]
+CMV : jai [modal conversion]
+ZO  : rinka
+------------------------------
+
+-------------------------
+__STDERR
+----------
+--------------------
+SYNTAX ERROR IN TEXT
+--------------------
+Misparsed token :
+  zo rinka (line 5, col 1)
+Latest successfully parsed tokens :
+  jai [JAI] (line 1, col 4)
+  le [LE] (line 1, col 1)
+--------------------
+-------------------------

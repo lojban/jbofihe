@@ -1,0 +1,32 @@
+require "testpak.pl";
+
+$prog="vlatai";
+
+# Sound out bugs with spurious epsilon closure in tosmabru match logic (prior
+# to morf_nfa.in version 1.25)
+$in = <<EOF;
+tosmabyrasta
+tosmabrasta
+tosmabybrasta
+tosymabyrasta
+tosymabrasta
+tosymabybrasta
+EOF
+&test(stdin => $in);
+
+
+# Sound out bugs with length of fu'ivla consonant clusters being too long.
+$in = <<EOF;
+aktraile
+akstraile
+akstsaile
+aktstraile
+akltraile
+aklstraile
+akltstraile
+akltstrtaile
+aktlstraile
+EOF
+&test(stdin => $in);
+
+# vim:ft=perl
