@@ -10,6 +10,11 @@
 # 5. Run some basic sanity checks
 # 6. Reboot Linux and run doskit.be
 
+if [ ! -d /dosc/jbofihe ]; then
+    echo "You need to mount /dosc first!"
+    exit 1
+fi
+
 if [ ! -r Makefile ]; then
     echo "You need to perl config.pl first"
     echo "  e.g. perl config.pl"
@@ -30,7 +35,6 @@ make morf_lex.c
 make morfvlex.c
 make morf_dfa.c
 make morfnc_dfa.c
-make morf_enc.c
 make trctabs.c
 make trcftabs.c
 make elitabs.c

@@ -20,10 +20,10 @@ cp /dosc/djgpp/bin/cwsdpmi.doc .
 
 mv README.DOS README.DOS.tmp
 perl -pe 'chomp; print $_."\r\n";' < README.DOS.tmp > README.DOS
-perl -pe 'chomp; print $_."\r\n";' < COPYRIGHT > COPYRIGH.txt
+perl -pe 'chomp; print $_."\r\n";' < COPYING > COPYING.txt
 mv smujajgau.txt smujajga.txt
 mv jvocuhadju.txt jvocuhad.txt
-zip -9 jbofihe.zip COPYRIGH.txt
+zip -9 jbofihe.zip COPYING.txt
 zip -9 jbofihe.zip cwsdpmi.doc cwsdpmi.exe
 zip -9 jbofihe.zip cmafihe.exe jbofihe.exe jvocuhad.exe smujajga.exe vlatai.exe
 zip -9 jbofihe.zip jbofihe.txt cmafihe.txt smujajga.txt jvocuhad.txt vlatai.txt
