@@ -3,20 +3,37 @@
 vlatai \- Lojban word analyzer
 .SH SYNOPSIS
 .B vlatai
-[ -v ]
+[ -v ] [-cr] [ word ]
 .SH DESCRIPTION
 .I vlatai
-is a program that reads a list of Lojban words from standard input, one word per line.  In it's usual mode, it writes a single output line for each input line, advising of which kind of Lojban word the input line is.   If the input word has cmavo prefixed onto it, vlatai shows the individual cmavo and the base word itself.
+is a program that reads a list of Lojban words from standard input, one word
+per line.  In its usual mode, it writes a single output line for each input
+line, advising of which kind of Lojban word the input line is.   If the input
+word has cmavo prefixed onto it, vlatai shows the individual cmavo and the base
+word itself.
 .P
-In the verbose mode (obtained using -v), the workings of the internal state machines used for scanning the word are exposed.  This may give some insight into where an error lies on words that can't be parsed, especially if the output is used in conjuction with the report files built during the compilation process.
+In the verbose mode (obtained using -v), the workings of the internal state
+machines used for scanning the word are exposed.  This may give some insight
+into where an error lies on words that can't be parsed, especially if the
+output is used in conjuction with the report files built during the compilation
+process.
 .P
 Note that vlatai is primarily a testbench for the word categorizer/splitter
 inside jbofihe.  vlatai is not fully supported or documented as a stand-alone
 program.
 .SH OPTIONS
 .TP
+.B -cr
+Allow cultural rafsi within lujvo (defined in section 4.16 of the Reference
+Grammar).  This affects the recognition of lujvo and of fu'ivla (the latter
+since it affects which word forms fail the slinku'i test.)
+.TP
 .B -v
-Show the program version and exit.
+Verbose; show lots of information about the evolution of the internal state
+.TP
+.B word
+The word to check.  If no 'word' argument is supplied, the program reads words
+from standard input, one word per line (with \fBno\fP whitespace around it.)
 .SH REFERENCES
 .TP
 .B http://go.to/jbofihe

@@ -400,18 +400,28 @@ morf_scan(char *s, char ***buf_end)
 int main (int argc, char **argv) {
   char buffer[128];
   char *start[256], **pstart;
+  char *word = NULL;
   while (++argv, --argc) {
     if (!strncmp(*argv, "-v", 2)) {
       verbose = 1;
     } else if (!strncmp(*argv, "-cr", 2)) {
       allow_cultural_rafsi = 1;
+    } else if (!strncmp(*argv, "-", 1)) {
+      fprintf(stderr, "Unrecognized command line argument '%s'\n", *argv);
+    } else {
+      word = *argv;
     }
   }
-  while (fgets(buffer, sizeof(buffer), stdin)) {
-    buffer[strlen(buffer)-1] = 0;
-    if (buffer[0] == '#') continue; /* Allow comment lines in test source file */
+  if (word) {
     pstart = start;
-    morf_scan(buffer, &pstart);
+    morf_scan(word, &pstart);
+  } else {
+    while (fgets(buffer, sizeof(buffer), stdin)) {
+      buffer[strlen(buffer)-1] = 0;
+      if (buffer[0] == '#') continue; /* Allow comment lines in test source file */
+      pstart = start;
+      morf_scan(buffer, &pstart);
+    }
   }
   return 0;
 }
