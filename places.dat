@@ -12,12 +12,14 @@ bacru1:A;utter
 bacru2:D;uttered sound
 #
 # x1 is a banana/plantain [fruit/plant] of species/breed x2                                       
-#badna1:DSAP;
-#badna2:DSAP;
+badna1:D;banana
+badna2:S;banana species
+badna2t:species
 #
 # x1 is sad/depressed/dejected/[unhappy/feels sorrow/grief] about x2 (abstraction)                
-#badri1:DSAP;
-#badri2:DSAP;
+badri1:P;sad
+badri2:D;reason* for sadness
+badri2t:reason
 #
 # x1 runs on surface x2 using limbs x3 with gait x4                                               
 bajra1:A;run
@@ -26,60 +28,71 @@ bajra3:D;running limb
 bajra4:S;running gait
 #
 # x1 is a bundle/package/cluster/clump/pack [shape/form] containing x2, held together by x3       
-#bakfu1:DSAP;
-#bakfu2:DSAP;
-#bakfu3:DSAP;
+bakfu1:D;bundle
+bakfu2:R;in bundle
+bakfu3:A;hold* bundle
 #
 # x1 is a cow/cattle/kine/ox/[bull/steer/calf] [beef-producer/bovine] of species/breed x2         
-#bakni1:DSAP;
-#bakni2:DSAP;
+bakni1:D;cattle
+bakni2:S;cattle species
+bakni2t:species
 #
 # x1 is a quantity of/contains/is made of chalk from source x2 in form x3                         
-#bakri1:DSAP;
-#bakri2:DSAP;
-#bakri3:DSAP;
+bakri1:D;chalk
+bakri2:D;chalk source
+bakri2t:from source
+bakri3:D;chalk form
+bakri3t:in form
 #
 # x1 is a bucket/pail/can/deep, solid, wide-topped container of contents x2, made of material x3  
-#baktu1:DSAP;
-#baktu2:DSAP;
-#baktu3:DSAP;
+baktu1:D;bucket
+baktu2:S;bucket contents
+baktu2t:contents
+baktu3:S;bucket material
+baktu3t:of material
 #
 # x1 is a bulb [body-part] of plant/species x2; [metaphor: rounded, bulgy]                        
-#balji1:DSAP;
-#balji2:DSAP;
-#balji3:DSAP;
+balji1:D;bulb
+balji2:S;bulb species
+balji2t:species
 #
 # x1 is a balcony/overhang/ledge/shelf of building/structure x2                                   
-#balni1:DSAP;
-#balni2:DSAP;
+balni1:D;balcony
+balni2:D;building* with balcony
+balni2t:of building
 #
 # x1 is a blade of tool/weapon x2                                                                 
-#balre1:DSAP;
-#balre2:DSAP;
+balre1:D;blade
+balre2:D;bladed weapon
+balre2t:of weapon
 #
 # x1 is in the future of/later than/after x2 in time sequence; x1 is latter; x2 is former         
 balvi1:P;later
 balvi2:P;earlier
 #
 # x1 exceeds/is beyond limit/boundary x2 from x3 in property/amount x4 (ka/ni)                    
-#bancu1:DSAP;
-#bancu2:DSAP;
-#bancu3:DSAP;
-#bancu4:DSAP;
+bancu1:A;exceed
+bancu2:D;exceeded limit
+bancu3:S;reference point for excess
+bancu3t:by reference
+bancu4:D;excess property
+bancu4t:in property
 #
 # x1 (event) defends/protects x2 (object/state) from threat/peril/potential x3 (event)            
-#bandu1:DSAP;
-#bandu2:DSAP;
-#bandu3:DSAP;
+bandu1:A;protect
+bandu2:P;protected
+bandu3:D;threat
 #
 # x1 is an amphibian of species/breed x2                                                          
-#banfi1:DSAP;
-#banfi2:DSAP;
+banfi1:D;amphibian
+banfi2:S;amphibian species
+banfi2t:species
 #
 # x1 is a/the language/dialect used by x2 to express/communicate x3 (si'o/du'u, not quote)        
-#bangu1:DSAP;
-#bangu2:DSAP;
-#bangu3:DSAP;
+bangu1:D;language
+bangu2:A;use* language
+bangu3:R;communicated* by language
+bangu3t:to express
 #
 # x1 is great/grand in property x2 (ka) by standard x3                                            
 banli1:P;great
@@ -87,14 +100,18 @@ banli2:D;property* of greatness
 banli3:D;standard* of greatness
 #
 # x1 grows/expands [an increasing development] to size/into form x2 from x3                       
-#banro1:DSAP;
-#banro2:DSAP;
-#banro3:DSAP;
+banro1:A;expand
+banro2:D;size*/form* after expansion
+banro2t:into form
+banro3:D;size*/form* before expansion
+banro3t:from form
 #
 # x1 is a bank owned by/in banking system x2 for banking function(s) x3 (event)                   
-#banxa1:DSAP;
-#banxa2:DSAP;
-#banxa3:DSAP;
+banxa1:D;bank
+banxa2:D;banking system
+banxa2t:in system
+banxa3:D;banking function
+banxa3t:for function
 #
 # x1 (object) suffices/is enough/sufficient for purpose x2 under conditions x3                    
 banzu1:P;sufficient
@@ -102,8 +119,9 @@ banzu2:D;purpose* for which sufficient
 banzu3:D;condition* for sufficiency
 #
 # x1 [force] (ka) forces/compels event x2 to occur; x1 determines property x2 to manifest         
-#bapli1:DSAP;
-#bapli2:DSAP;
+bapli1:A;compel
+bapli2:R;compelled to occur
+bapli2t:compelled
 #
 # x1 is big/large in property/dimension(s) x2 (ka) as compared with standard/norm x3              
 barda1:P;large
@@ -113,44 +131,55 @@ barda3:D;largeness standard
 barda3t:standard
 #
 # x1 arches/curves over/around x2 and is made of x3; x1 is an arch over/around x2 of material x3  
-#bargu1:DSAP;
-#bargu2:DSAP;
-#bargu3:DSAP;
+bargu1:P;curved
+bargu2:P;surrounded by curve
+bargu2t:around
+bargu3:S;arch material
+bargu3t:of material
 #
 # x1 is a tavern/bar/pub serving x2 to audience/patrons x3                                        
-#barja1:DSAP;
-#barja2:DSAP;
-#barja3:DSAP;
+barja1:D;tavern
+barja2:R;served by tavern
+barja2t:serving
+barja3:D;patron* of tavern
+barja3t:to patrons
 #
 # x1(s) is a/are mark(s)/spot(s) on x2 of material x3                                             
-#barna1:DSAP;
-#barna2:DSAP;
-#barna3:DSAP;
+barna1:D;mark
+barna2:P;marked
+barna3:S;mark material
+barna3t:of material
 #
 # x1 is on the outside of x2; x1 is exterior to x2                                                
 bartu1:P;outside
 bartu2:D;non-container
 #
 # x1 emphasizes/accentuates/gives emphasis/stress/accent to x2 by (action) x3                     
-#basna1:DSAP;
-#basna2:DSAP;
-#basna3:DSAP;
+basna1:A;emphasize
+basna2:P;emphasized
+basna3:D;emphatic action
 #
 # x1 replaces/substitutes for/instead of x2 in circumstance x3; x1 is a replacement/substitute    
-#basti1:DSAP;
-#basti2:DSAP;
+basti1:D;substitute
+basti2:P;substituted
+basti3:S;substitution circumstances
+basti3t:in circumstances
 #
 # x1 bites/pinches x2 on/at specific locus x3 with x4                                             
-#batci1:DSAP;
-#batci2:DSAP;
-#batci3:DSAP;
-#batci4:DSAP;
+batci1:A;bite
+batci2:P;bitten
+batci3:S;locus of bite
+batci3t:at locus
+batci4:D;biting tool
+batci4t:with tool
 #
 # x1 is a button/knob/[handle] on/for item x2, with purpose x3, made of material x4               
-#batke1:DSAP;
-#batke2:DSAP;
-#batke3:DSAP;
-#batke4:DSAP;
+batke1:D;button
+batke2:R;having button
+batke3:D;purpose* of button
+batke3t:for purpose
+batke4:S;button material
+batke4t:of material
 #
 # x1 is a quantity of barley [grain] of species/strain x2                                         
 #bavmi1:DSAP;
@@ -178,11 +207,12 @@ bende4:D;team purpose
 #bengo2:DSAP;
 #
 # x1 transfers/sends/transmits x2 to receiver x3 from transmitter/origin x4 via means/medium x5   
-#benji1:DSAP;
-#benji2:DSAP;
-#benji3:DSAP;
-#benji4:DSAP;
-#benji5:DSAP;
+benji1:A;send
+benji2:P;sent
+benji3:D;receiver
+benji4:D;transmitter
+benji5:D;transmission means
+benji5t:by means
 #
 # x1 is a son of mother/father/parents x2 [not necessarily biological]                            
 bersa1:D;son
@@ -195,12 +225,14 @@ berti3:D;northness reference frame
 berti3t:reference frame
 #
 # x1 is a/the brain [body-part] of x2; [metaphor: intelligence, mental control]                   
-#besna1:DSAP;
-#besna2:DSAP;
+besna1:D;brain
+besna2:D;body* with brain
+besna2t:of body
 #
 # x1 is a/the abdomen/belly/lower trunk [body-part] of x2; [metaphor: midsection]                 
-#betfu1:DSAP;
-#betfu2:DSAP;
+betfu1:D;abdomen
+betfu2:D;body* with abdomen
+betfu2t:of body
 #
 # x1 is a tragedy/disaster/tragic for x2                                                          
 betri1:D;tragedy
@@ -238,19 +270,23 @@ bilma2:D;symptom
 bilma3:D;disease
 #
 # x1 is military/regimented/is strongly organized/prepared by system x2 for purpose x3            
-#bilni1:DSAP;
-#bilni2:DSAP;
-#bilni3:DSAP;
+bilni1:P;regimented
+bilni2:D;regimenting system
+bilni2t:by system
+bilni3:D;purpose* of regimentation
+bilni3t:for purpose
 #
 # x1 reflects Indonesian culture/nationality/language in aspect x2                                
 #bindo1:DSAP;
 #bindo2:DSAP;
 #
 # x1 insures/indemnifies x2 (person) against peril x3 (event) providing benefit(s) x4 (event)     
-#binra1:DSAP;
-#binra2:DSAP;
-#binra3:DSAP;
-#binra4:DSAP;
+binra1:A;indemnify
+binra2:P;indemnified
+binra3:D;indemnified peril
+binra3t:against peril
+binra4:D;benefit* from indemnity
+binra4t:providing benefit
 #
 # x1 becomes/changes/converts/transforms into x2 under conditions x3                              
 binxo1:A;become
@@ -258,26 +294,31 @@ binxo2:D;result* of becoming
 binxo3:D;becoming condition
 #
 # x1 is made of/contains/is a amount of beer/ale/brew brewed from x2                              
-#birje1:DSAP;
-#birje2:DSAP;
+birje1:S;beer
+birje2:R;brewed to make beer
+birje2t:brewed from
 #
 # x1 is a/the arm [body-part] of x2; [metaphor: branch with strength]                             
 birka1:D;arm
 birka2:D;body* having arm
 #
 # x1 is certain/sure/positive/convinced that x2 is true                                           
-#birti1:DSAP;
-#birti2:DSAP;
+birti1:P;convinced
+birti2:P;convincing
 #
 # x1 is a quantity of/is made of/contains ice [frozen crystal] of composition/material x2         
-#bisli1:DSAP;
-#bisli2:DSAP;
+bisli1:S;ice
+bisli2:S;ice material
+bisli2t:of material
 #
 # x1 is a wall/fence separating x2 and x3 (unordered) of/in structure x4                          
-#bitmu1:DSAP;
-#bitmu2:DSAP;
-#bitmu3:DSAP;
-#bitmu4:DSAP;
+bitmu1:D;wall*/fence*
+bitmu2:R;separated by wall
+bitmu2t:separated
+bitmu3:R;separated by wall
+bitmu3t:separated
+bitmu4:D;structure* with wall
+bitmu4t:in structure
 #
 # x1 is white/very-light colored [color adjective]                                                
 blabi1:P;white
@@ -290,9 +331,9 @@ blabi1:P;white
 blanu1:P;blue
 #
 # x1 is a block [3-dimensional shape/form] of material x2, surfaces/sides x3                      
-#bliku1:DSAP;
-#bliku2:DSAP;
-#bliku3:DSAP;
+bliku1:D;block
+bliku2:S;block material
+bliku3:D;block side
 #
 # x1 is a boat/ship/vessel [vehicle] for carrying x2, propelled by x3                             
 bloti1:D;boat*/ship*
@@ -300,37 +341,46 @@ bloti2:D;boat/ship cargo
 bloti3:A;propel* boat/ship
 #
 # x1 is a ball/sphere/orb/globe [shape/form] of material x2; x1 is a spherical object [made of x2]
-#bolci1:DSAP;
+bolci1:D;sphere
+bolci2:S;sphere material
+bolci2t:of material
 #
 # x1 is a/the bone/ivory [body-part], performing function x2 in body of x3; [metaphor: calcium]   
 #bongu1:DSAP;
 #bongu2:DSAP;
 #
 # x1 is a bottle/jar/urn/flask/closable container for x2, made of material x3 with lid x4         
-#botpi1:DSAP;
-#botpi2:DSAP;
-#botpi3:DSAP;
-#botpi4:DSAP;
+botpi1:D;flask
+botpi2:S;flask contents
+botpi2t:for contents
+botpi3:S;flask material
+botpi3t:of material
+botpi4:D;flask lid
+botpi4t:with lid
 #
 # x1 is a sheet/foil/blanket [2-dimensional shape/form flexible in 3 dimensions] of material x2   
-#boxfo1:DSAP;
-#boxfo2:DSAP;
+boxfo1:D;sheet
+boxfo2:S;sheet material
+boxfo2t:of material
 #
 # x1 is a wave [periodic pattern] in medium x2, wave-form x3, wave-length x4, frequency x5        
-#boxna1:DSAP;
-#boxna2:DSAP;
-#boxna3:DSAP;
-#boxna4:DSAP;
-#boxna5:DSAP;
+boxna1:D;wave
+boxna2:S;wave medium
+boxna2t:in medium
+boxna3:D;waveform
+boxna4:D;wavelength
+boxna5:D;frequency
 #
 # x1 is an enemy/opponent/adversary/foe of x2 in struggle x3                                      
-#bradi1:DSAP;
-#bradi2:DSAP;
-#bradi3:DSAP;
+bradi1:D;enemy
+bradi2:R;with enemy
+bradi3:D;struggle* involving enemies
+bradi3t:in struggle
 #
 # x1 is hail/sleet/freezing rain/solid precipitation of material/composition including x2         
-#bratu1:DSAP;
-#bratu2:DSAP;
+bratu1:S;solid precipitation
+bratu2:S;solid precipitation composition
+bratu2t:of composition
 #
 # x1 reflects Brazilian culture/nationality/language in aspect x2                                 
 #brazo1:DSAP;
@@ -341,9 +391,9 @@ bredi1:P;ready
 bredi2:P;prepared for
 #
 # x1 (text) is a predicate relationship with relation x2 among arguments (sequence/set) x3        
-#bridi1:DSAP;
-#bridi2:DSAP;
-#bridi3:DSAP;
+bridi1:D;predicate text
+bridi2:D;predicate relation
+bridi3:D;predicate argument
 #
 # x1 is a breeze/wind/gale from direction x2 with speed x3; x1 blows from x2                      
 brife1:D;wind
@@ -391,33 +441,38 @@ bruna3:D;bond* of brotherhood
 #budjo2:DSAP;
 #
 # x1 is an amount of cloth/fabric of type/material x2                                             
-#bukpu1:DSAP;
-#bukpu2:DSAP;
+bukpu1:S;cloth
+bukpu2:S;cloth material
+bukpu2t:of material
 #
 # x1 is foggy/misty/covered by a fog/mist/vapor of liquid x2                                      
-#bumru1:DSAP;
-#bumru2:DSAP;
+bumru1:P;foggy
+bumru2:S;fog liquid
+bumru2t:of liquid
 #
 # x1 is x2 (def. 1) local weight unit(s) [non-metric], standard x3, subunits [e.g. ounces] x4     
-#bunda1:DSAP;
-#bunda2:DSAP;
-#bunda3:DSAP;
-#bunda4:DSAP;
+bunda1:R;having non-metric weight
+bunda1t:weighed thing
+bunda2:S;number of non-metric weight units
+bunda2t:weight
+bunda3:S;non-metric weighing standard
+bunda3t:by standard
+bunda4:D;weight subunit
+bunda4t:with subunit
 #
 # x1 is brown/tan [color adjective]                                                               
-#bunre1:DSAP;
-#bunre2:DSAP;
-#bunre3:DSAP;
-#bunre4:DSAP;
+bunre1:P;brown
 #
 # x1 is a brush for purpose x2 (event) with bristles x3                                           
-#burcu1:DSAP;
-#burcu2:DSAP;
-#burcu3:DSAP;
+burcu1:D;brush
+burcu2:D;brush purpose
+burcu2t:for purpose
+burcu3:S;bristles
 #
 # x1 is embarrassed/disconcerted/flustered/ill-at-ease about/under conditions x2 (abstraction)    
-#burna1:DSAP;
-#burna2:DSAP;
+burna1:P;embarrassed
+burna2:S;conditions for embarrassment
+burna2t:under conditions
 #
 # x1 is current at/in the present of/during/concurrent/simultaneous with x2 in time               
 cabna1:P;current
@@ -429,27 +484,31 @@ cabra2:D;function* of apparatus
 cabra3:A;control* apparatus
 #
 # x1 is x2 hours in duration (default is 1 hour) by standard x3                                   
-#cacra1:DSAP;
-#cacra2:DSAP;
-#cacra3:DSAP;
+cacra1:R;measured in hours
+cacra2:S;number of hours
+cacra3:S;standard for hour
+cacra3t:by standard
 #
 # x1 walks/strides/paces on surface x2 using limbs x3                                             
-#cadzu1:DSAP;
-#cadzu2:DSAP;
-#cadzu3:DSAP;
+cadzu1:A;walk
+cadzu2:D;walking surface
+cadzu2t:on surface
+cadzu3:D;walking limbs
+cadzu3t:using limbs
 #
 # x1 (event) often/frequently/commonly/customarily occurs/recurs by standard x2                   
 cafne1:P;frequent
 cafne2:D;standard* for being frequent
 #
 # x1 is made of/contains/is a quantity of chocolate/cocoa                                         
-#cakla1:DSAP;
-#cakla2:DSAP;
+cakla1:S;chocolate
 #
 # x1 is a shell/husk [hard, protective covering] around x2 composed of x3                         
-#calku1:DSAP;
-#calku2:DSAP;
-#calku3:DSAP;
+calku1:D;shell
+calku2:R;enclosed by shell
+calku2t:enclosing
+calku3:S;shell composition
+calku3t:of composition
 #
 # x1 vanishes/disappears from location x2; x1 ceases to be observed at x2 using senses/sensor x3  
 canci1:A;vanish
@@ -459,44 +518,52 @@ canci3:D;sensor* no longer sensing
 canci3t:affected sensor
 #
 # x1 is idle/at rest/inactive                                                                     
-#cando1:DSAP;
-#cando2:DSAP;
-#cando3:DSAP;
+cando1:P;idle
 #
 # x1 is a farm/ranch at x2, farmed by x3, raising/producing x4; (adjective:) x1 is agrarian       
-#cange1:DSAP;
+cange1:D;farm
+cange1a:agrarian
+cange2:D;farm location
+cange2t:at location
+cange3:D;farmer
+cange4:S;farm produce
 #
 # x1 exchanges/trades/barters commodity x2 for x3 with x4; x1, x4 is a trader/merchant/businessman
-#canja1:DSAP;
-#canja2:DSAP;
-#canja3:DSAP;
-#canja4:DSAP;
+canja1:A;trade
+canja2:D;traded commodity
+canja3:S;remuneration for trade
+canja3t:in exchange for
+canja4:D;trading partner
+canja4t:trade with
 #
 # x1 is a window/portal/opening [portal] in wall/building/structure x2                            
-#canko1:DSAP;
-#canko2:DSAP;
+canko1:D;window
+canko2:D;windowed structure
+canko2t:in structure
 #
 # x1 is space/volume/region/room [at-least-3-dimensional area] occupied by x2                     
-#canlu1:DSAP;
-#canlu2:DSAP;
+canlu1:S;space
+canlu2:A;occupy space
 #
 # x1 is a shovel/spade [bladed digging implement] for digging x2                                  
-#canpa1:DSAP;
-#canpa2:DSAP;
+canpa1:D;shovel
+canpa2:R;dug by shovel
 #
 # x1 is a quantity of/contains/is made of sand/grit from source x2 of composition including x3    
-#canre1:DSAP;
-#canre2:DSAP;
-#canre3:DSAP;
+canre1:S;sand/grit
+canre2:D;sand/grit source
+canre3:S;sand/grit composition
 #
 # x1 is a/the gut(s)/entrails/intestines/viscera/innards/digestive system [body-part] of x2       
-#canti1:DSAP;
-#canti2:DSAP;
+canti1:S;guts
+canti2:D;body* with guts
+canti2t:of body
 #
 # x1 is a cart/carriage/wagon [wheeled vehicle] for carrying x2, propelled by x3                  
-#carce1:DSAP;
-#carce2:DSAP;
-#carce3:DSAP;
+carce1:D;carriage
+carce2:R;carried by carriage
+carce3:S;means of propelling carriage
+carce3t:propelled by
 #
 # x1 is intense/bright/saturated/brilliant in property (ka) x2 as received/measured by observer x3
 carmi1:P;intense
@@ -504,66 +571,76 @@ carmi2:D;intense property
 carmi3:A;observe* intensity
 #
 # x1 turns/rotates/revolves around axis x2 in direction x3                                        
-#carna1:DSAP;
-#carna2:DSAP;
-#carna3:DSAP;
+carna1:A;rotate
+carna2:D;rotation axis
+carna2t:about axis
+carna3:D;rotation direction
+carna3t:in direction
 #
 # x1 is a chart/diagram/map of/about x2 showing formation/data-points x3                          
-#cartu1:DSAP;
-#cartu2:DSAP;
-#cartu3:DSAP;
+cartu1:D;chart
+cartu2:D;chart topic
+cartu2t:about topic
+cartu3:S;chart data
 #
 # x1 rains/showers/[precipitates] to x2 from x3; x1 is precipitation [not limited to 'rain']      
-#carvi1:DSAP;
-#carvi2:DSAP;
+carvi1:S;precipitation
+carvi2:D;precipitation target
+carvi3:D;precipitation source
 #
 # x1(s) (mass normally, but 1 individual/jo'u possible) discuss(es)/talk(s) about topic/subject x2
-#casnu1:DSAP;
-#casnu2:DSAP;
+casnu1:A;discuss
+casnu2:D;discussion topic
 #
 # x1 [agent] shoves/pushes x2 at locus x3                                                         
-#catke1:DSAP;
-#catke2:DSAP;
-#catke3:DSAP;
+catke1:A;push
+catke2:P;pushed
+catke3:S;locus of pushing
 #
 # x1 looks at/examines/views/inspects/regards/watches/gazes at x2                                 
 catlu1:A;look* at
 catlu2:P;looked at
 #
 # x1 has authority/is an official in/on/over matter/sphere/persons x2 derived on basis x3         
-#catni1:DSAP;
-#catni2:DSAP;
-#catni3:DSAP;
+catni1:R;with authority
+catni2:R;under authority
+catni3:S;basis of authority
 #
 # x1 (agent) kills/slaughters/murders x2 by action/method x3                                      
-#catra1:DSAP;
-#catra2:DSAP;
-#catra3:DSAP;
+catra1:A;kill
+catra2:P;killed
+catra3:S;method of killing
 #
 # x1 is shallow in extent in direction/property x2 away from reference point x3 by standard x4    
-#caxno1:DSAP;
-#caxno2:DSAP;
-#caxno3:DSAP;
-#caxno4:DSAP;
+caxno1:P;shallow
+caxno2:S;shallow direction
+caxno3:D;reference point* for shallowness
+caxno3t:from reference point
+caxno4:S;standard of shallowness
+caxno4t:by standard
 #
 # x1 launches/fires/shoots projectile/missile x2, propelled by x3 [propellant/propulsion]         
-#cecla1:DSAP;
-#cecla2:DSAP;
-#cecla3:DSAP;
+cecla1:A;launch
+cecla2:D;projectile
+cecla3:S;propulsion means
 #
 # x1 is a community/colony of organisms x2                                                        
-#cecmu1:DSAP;
-#cecmu2:DSAP;
+cecmu1:D;community
+cecmu2:D;organism* in community
+cecmu2t:with organism
 #
 # x1 is an era/epoch/age characterized by x2 (event/property/interval/idea)                       
 cedra1:D;era
 cedra2:P;characterising an era
 #
 # x1 varies/changes in property/quantity x2 (ka/ni) in amount/degree x3 under conditions x4       
-#cenba1:DSAP;
-#cenba2:DSAP;
-#cenba3:DSAP;
-#cenba4:DSAP;
+cenba1:A;vary
+cenba2:D;variant property
+cenba2t:in property
+cenba3:D;degree* of variation
+cenba3t:in degree
+cenba4:S;conditions for variation
+cenba4t:under conditions
 #
 # x1 is holy/sacred to person/people/culture/religion/cult/group x2                               
 censa1:P;holy
@@ -575,10 +652,11 @@ censa2:A;consider* holy(ness)
 #centi3:DSAP;
 #
 # x1 is an heir to/is to inherit x2 (object/quality) from x3 according to rule x4                 
-#cerda1:DSAP;
-#cerda2:DSAP;
-#cerda3:DSAP;
-#cerda4:DSAP;
+cerda1:D;heir
+cerda2:R;inherited
+cerda3:R;having heir
+cerda4:D;rule* for inheritance
+cerda4t:by rule
 #
 # x1 is a morning [dawn until after typical start-of-work for locale] of day x2 at location x3    
 cerni1:D;morning
@@ -601,49 +679,50 @@ cevni3:D;sphere* of god
 cfari1:A;commence
 #
 # x1 is a work of fiction about plot/theme/subject x2/under convention x2 by author x3            
-#cfika1:DSAP;
-#cfika2:DSAP;
-#cfika3:DSAP;
+cfika1:S;fiction
+cfika2:D;fiction plot
+cfika3:D;author* of fiction
+cfika3t:by author
 #
 # x1 (property - ka) is a flaw/fault/defect in x2 causing x3                                      
-#cfila1:DSAP;
-#cfila2:DSAP;
-#cfila3:DSAP;
+cfila1:D;defect
+cfila2:P;defective
+cfila3:R;caused by defect
 #
 # x1 is a wedge [shape/form/tool] of material x2                                                  
-#cfine1:DSAP;
-#cfine2:DSAP;
+cfine1:D;wedge
+cfine2:S;wedge material
 #
 # x1 (event/state) confuses/baffles x2 [observer] due to [confusing] property x3 (ka)             
-#cfipu1:DSAP;
-#cfipu2:DSAP;
-#cfipu3:DSAP;
+cfipu1:A;confuse
+cfipu2:P;confused
+cfipu3:D;confusing property
 #
 # x1 is blood/vital fluid of organism x2                                                          
-#ciblu1:DSAP;
-#ciblu2:DSAP;
+ciblu1:D;vital fluid
+ciblu2:D;organism* with vital fluid
+ciblu2t:of organism
 #
 # x1 is cyan/turquoise/greenish-blue [color adjective]                                            
-#cicna1:DSAP;
-#cicna2:DSAP;
+cicna1:D;cyan
 #
 # x1 is food/feed/nutriment for x2; x1 is edible/gives nutrition to x2                            
 cidja1:S;food
 cidja2:P;fed
 #
 # x1 is a/the knee/elbow/knuckle [hinged joint, body-part] of limb x2 of body x3                  
-#cidni1:DSAP;
-#cidni2:DSAP;
-#cidni3:DSAP;
+cidni1:D;knee*/elbow*
+cidni2:D;hinged limb
+cidni3:D;body* with hinged limb
+cidni3t:of body
 #
 # x1 is a quantity of/contains/is made of hydrogen (H); [metaphor: light, flammable]              
-#cidro1:DSAP;
-#cidro2:DSAP;
-#cidro3:DSAP;
+cidro1:S;hydrogen
 #
 # x1 is an infant/baby [helpless through youth/incomplete development] of species x2              
-#cifnu1:DSAP;
-#cifnu2:DSAP;
+cifnu1:D;infant
+cifnu2:S;species of infant
+cifnu2t:of species
 #
 # x1 is a/the gland [body-part] secreting x2, of body x3; x2 is a secretion of x1                 
 #cigla1:DSAP;
@@ -658,17 +737,17 @@ cikre2:P;repaired
 cikre3:D;use* for repair
 #
 # x1 (person) explains x2 (event/state/property) to x3 with explanation x4 (du'u)                 
-#ciksi1:DSAP;
-#ciksi2:DSAP;
-#ciksi3:DSAP;
-#ciksi4:DSAP;
+ciksi1:A;explain
+ciksi2:P;explained
+ciksi3:A;receive* explanation
+ciksi4:D;explanation
 #
 # (adjective:) x1 is wild/untamed                                                                 
-#cilce1:DSAP;
+cilce1:P;wild
 #
 # x1 is moist/wet/damp with liquid x2                                                             
-#cilmo1:DSAP;
-#cilmo2:DSAP;
+cilmo1:DSAP;
+cilmo2:DSAP;
 #
 # x1 learns x2 (du'u) about subject x3 from source x4 (obj./event) by method x5 (event/process)   
 #cilre1:DSAP;
@@ -1109,11 +1188,11 @@ ctino3:D;light source* producing shadow
 ctino3t:light source
 #
 # x1 teaches audience x2 ideas/methods/lore x3 (du'u) about subject(s) x4 by method x5 (event)    
-#ctuca1:DSAP;
-#ctuca2:DSAP;
-#ctuca3:DSAP;
-#ctuca4:DSAP;
-#ctuca5:DSAP;
+ctuca1:A;teach
+ctuca2:D;audience* of teaching
+ctuca3:S;ideas taught
+ctuca4:S;subject taught
+ctuca5:D;method* of teaching
 #
 # x1 is round/circular [2-dimensional shape/form]; x1 is a disk/circle/ring                       
 #cukla1:DSAP;
@@ -2756,9 +2835,9 @@ karce3:D;car engine
 #katna3:DSAP;
 #
 # x1 captures/catches/apprehends/seizes/nabs x2 with trap/restraint x3                            
-#kavbu1:DSAP;
-#kavbu2:DSAP;
-#kavbu3:DSAP;
+kavbu1:A;capture
+kavbu2:P;captured
+kavbu3:D;trap* used for capture
 #
 # x1 (person) pities/feels sorry for x2 (person) about x3 (abstraction)                           
 #kecti1:DSAP;
@@ -5825,29 +5904,32 @@ vacri3:S;air composition
 #vamji4:DSAP;
 #
 # x1 vomits/regurgitates x2; x1 throws x2 up; [violent] digestive expulsion                       
-#vamtu1:DSAP;
-#vamtu2:DSAP;
+vamtu1:A;vomit
+vamtu2:S;vomit
 #
 # x1 (ind./mass) is part of an environment/surroundings/context/ambience of x2                    
-#vanbi1:DSAP;
-#vanbi2:DSAP;
+vanbi1:D;environment
+vanbi2:R;having environment
 #
 # x1 is an evening [from end-of-work until sleep typical for locale] of day x2 at location x3     
-#vanci1:DSAP;
-#vanci2:DSAP;
-#vanci3:DSAP;
+vanci1:D;evening
+vanci2:D;day* of evening
+vanci2t:of day
+vanci3:D;location* of evening
+vanci3t:at location
 #
 # x1 is made of/contains/is a quantity of wine from fruit/grapes x2                               
-#vanju1:DSAP;
-#vanju2:DSAP;
+vanju1:S;wine
+vanju2:D;wine fruit
+vanju2t:from fruit
 #
 # x1 contains/holds/encloses/includes contents x2 within; x1 is a vessel containing x2            
 vasru1:A;contain
 vasru2:S;contents
 #
 # x1 breathes/respires x2 [gas]                                                                   
-#vasxu1:DSAP;
-#vasxu2:DSAP;
+vasxu1:A;breathe
+vasxu2:D;breath
 #
 # x1 [seller] sells/vends x2 [goods/service/commodity] to buyer x3 for amount/cost/expense x4     
 vecnu1:A;sell
@@ -5856,14 +5938,21 @@ vecnu3:A;buy
 vecnu4:D;sale price
 #
 # x1 takes revenge on/retaliates against x2 (person) for wrong x3 (nu) with vengeance x4 (nu)     
-#venfu1:DSAP;
-#venfu2:DSAP;
-#venfu3:DSAP;
-#venfu4:DSAP;
+venfu1:A;take* revenge
+venfu2:D;victim* of revenge
+venfu2t:on victim
+venfu3:D;reason* for revenge
+venfu3t:for reason
+venfu4:D;act* of vengeance
+venfu4t:vengeance
 #
 # x1 is spring/springtime [warming season] of year x2 at location x3; (adjective:) x1 is vernal   
-#vensa1:DSAP;
-#vensa2:DSAP;
+vensa1:S;springtime
+vensa1a:vernal
+vensa2:D;year* of springtime
+vensa2t:of year
+vensa3:D;location* of spring
+vensa3t:at location
 #
 # x1 is a child/kid/juvenile [a young person] of age x2, immature by standard x3                  
 verba1:D;child
@@ -5882,28 +5971,33 @@ vidni2:D;function* of screen
 vidni2t:serving function
 #
 # x1 is a virus of species/breed/defining property x2 capable of infecting [at] x3                
-#vidru1:DSAP;
-#vidru2:DSAP;
-#vidru3:DSAP;
+vidru1:D;virus
+vidru2:S;virus species
+vidru2t:of species
+vidru3:R;susceptible to virus
+vidru3t:infecting
 #
 # (adjective:) x1 is fresh/unspoiled                                                              
 vifne1:P;fresh
 #
 # x1 [body] excretes waste x2 from source x3 via means/route x4                                   
-#vikmi1:DSAP;
-#vikmi2:DSAP;
-#vikmi3:DSAP;
-#vikmi4:DSAP;
+vikmi1:A;excrete* waste
+vikmi2:D;excreted waste
+vikmi3:D;source* of excreted waste
+vikmi3t:from source
+vikmi4:S;means of excretion
 #
 # x1 is thick/viscous under conditions x2                                                         
-#viknu1:DSAP;
-#viknu2:DSAP;
+viknu1:P;thick
+viknu2:S;viscosity conditions
+viknu2t:under conditions
 #
 # x1 removes/subtracts/deducts/takes away x2 from x3 with/leaving result/remnant/remainder x4     
-#vimcu1:DSAP;
-#vimcu2:DSAP;
-#vimcu3:DSAP;
-#vimcu4:DSAP;
+vimcu1:A;remove
+vimcu2:P;removed
+vimcu3:D;source* of removal
+vimcu3t:from source
+vimcu4:D;remainder
 #
 # x1 is poisonous/venomous/toxic/a toxin to x2                                                    
 vindu1:P;poisonous
@@ -5917,14 +6011,16 @@ vinji3:A;propel* aircraft
 vinji3t:with propulsion
 #
 # x1 is a deputy/vice/subordinate in aspect [or organization principle] x2 (ka) to principal x3   
-#vipsi1:DSAP;
-#vipsi2:DSAP;
-#vipsi3:DSAP;
+vipsi1:P;subordinate
+vipsi2:D;aspect* of being subordinate
+vipsi2t:in aspect
+vipsi3:P;superordinate
 #
 # x1 is brave/valiant/courageous in activity x2 (event) by standard x3                            
-#virnu1:DSAP;
-#virnu2:DSAP;
-#virnu3:DSAP;
+virnu1:P;brave
+virnu2:D;activity* requiring bravery
+virnu3:S;standard of bravery
+virnu3t:by standard
 #
 # x1 sees/views/perceives visually x2 under conditions x3                                         
 viska1:A;see
@@ -5932,8 +6028,9 @@ viska2:P;seen
 viska3:D;viewing condition
 #
 # x1 is irregular/occasional/intermittent in property/action/aspect x2                            
-#vitci1:DSAP;
-#vitci2:DSAP;
+vitci1:P;irregular
+vitci2:S;irregular property
+vitci2t:in property
 #
 # x1 is a guest/visitor of x2 at place/event x3; x1 visits x2/x3                                  
 vitke1:A;visit
@@ -5942,22 +6039,26 @@ vitke3:D;visited place*/event*
 vitke3t:place(s)/event(s)
 #
 # x1 is permanent/lasting/[eternal] in property x2 (ka) by standard x3 [time-span/expectant one]  
-#vitno1:DSAP;
-#vitno2:DSAP;
-#vitno3:DSAP;
+vitno1:P;permanent
+vitno2:S;permanent property
+vitno2t:in property
+vitno3:S;standard for permanence
+vitno3t:by standard
 #
 # x1 is a/the vulva [body-part] of x2                                                             
-#vlagi1:DSAP;
-#vlagi2:DSAP;
+vlagi1:D;vulva
+vlagi2:D;body* with vulva
+vlagi2t:of body
 #
 # x1 is an event/state/act of violence                                                            
-#vlile1:DSAP;
-#vlile2:DSAP;
+#vlile1:D;violent act*
 #
 # x1 is a logical alternation/disjunction, stating that x2 (du'u) and/or x3 (du'u) is/are true    
-#vlina1:DSAP;
-#vlina2:DSAP;
-#vlina3:DSAP;
+vlina1:D;logical disjunction
+vlina2:D;alternative* of disjunction
+vlina2t:alternative1
+vlina3:D;alternative* of disjunction
+vlina3t:alternative2
 #
 # x1 has the power to bring about x2 under conditions x3; x1 is powerful in aspect x2 under x3    
 vlipa1:P;powerful
@@ -5965,12 +6066,12 @@ vlipa2:P;brought about by power
 vlipa3:S;conditions for exerting power
 #
 # x1 flies [in air/atmosphere] using lifting/propulsion means x2                                  
-#vofli1:DSAP;
-#vofli2:DSAP;
+vofli1:A;fly
+vofli2:S;lifting means
 #
 # x1 is a voice/speech sound of individual x2                                                     
-#voksa1:DSAP;
-#voksa2:DSAP;
+voksa1:D;voice sound
+voksa2:R;having voice
 #
 # x1 is a doorway/gateway/access way between x2 and x3 of structure x4                            
 vorme1:D;doorway
@@ -5980,56 +6081,67 @@ vorme4:D;doorway structure
 vorme4t:structure
 #
 # x1 is a lever [tool] [of apparatus] for doing x2 [function/action], with fulcrum x3 and arm x4  
-#vraga1:DSAP;
-#vraga2:DSAP;
-#vraga3:DSAP;
-#vraga4:DSAP;
+vraga1:D;lever
+vraga2:D;purpose* of lever
+vraga3:D;fulcrum
+vraga4:D;lever arm
 #
 # x1 is a record of x2 (data/facts/du'u) about x3 (object/event) preserved in medium x4           
-#vreji1:DSAP;
-#vreji2:DSAP;
-#vreji3:DSAP;
-#vreji4:DSAP;
+vreji1:D;recording
+vreji2:D;recorded fact
+vreji3:D;recorded topic
+vreji3t:about topic
+vreji4:D;recording medium
+vreji4t:in medium
 #
 # x1 lies/rests/reclines/reposes on x2; x1 is reclining/recumbent/lying on x2                     
-#vreta1:DSAP;
-#vreta2:DSAP;
+vreta1:A;recline
+vreta2:D;surface for reclining on
+vreta2t:on surface
 #
 # x1 (set/mass/ind.) is miscellaneous/various/assorted in property x2 (ka)                        
 vrici1:P;miscellaneous
 vrici2:D;miscellaneous property
 #
 # x1 is virtuous/saintly/[fine/moral/nice/holy/morally good] by standard x2                       
-#vrude1:DSAP;
-#vrude2:DSAP;
+vrude1:P;virtuous
+vrude2:S;standard of virtue
+vrude2t:by standard
 #
 # x1 (ka) is a taste/flavor of/emitted by x2; x2 tastes of/like x1                                
-#vrusi1:DSAP;
-#vrusi2:DSAP;
+vrusi1:D;taste
+vrusi2:R;having taste
 #
 # x1 reflects Ukrainian language/culture/nationality in aspect x2                                 
 #vukro1:DSAP;
 #vukro2:DSAP;
 #
 # x1 dwells/lives/resides/abides at/inhabits/is a resident of location/habitat/nest/home/abode x2 
-#xabju1:DSAP;
-#xabju2:DSAP;
+xabju1:A;dwell
+xabju2:D;dwelling
 #
 # x1 is exactly/approximately half/semi-/demi-/hemi- of x2 by standard x3                         
-#xadba1:DSAP;
-#xadba2:DSAP;
-#xadba3:DSAP;
+xadba1:D;half
+xadba1n:half/halves
+xadba2:R;halved
+xadba3:S;standard for half
+xadba3t:by standard
 #
 # x1 is a/the body/corpus/corpse of x2; (adjective:) x1 is corporal/corporeal                     
-#xadni1:DSAP;
+xadni1:D;body
+xadni1a:corporal
+xadni2:R;having body
 #
 # x1 hungers for x2; x1 needs/wants food/fuel x2                                                  
-#xagji1:DSAP;
-#xagji2:DSAP;
+xagji1:P;hungry
+xagji2:D;subject* of hunger
+xagji2t:hungry for
 #
 # x1 is a oboe/clarinet/saxophone [reed musical instrument] with reed x2                          
-#xagri1:DSAP;
-#xagri2:DSAP;
+xagri1:D;reed instrument
+xagri1t:instrument
+xagri2:D;reed* of instrument
+xagri2t:reed
 #
 # x1 is funny/comical to x2 in property/aspect x3 (nu/ka); x3 is what is funny about x1 to x2     
 xajmi1:P;funny
@@ -6038,21 +6150,25 @@ xajmi3:D;aspect* of funniness
 xajmi3t:in aspect
 #
 # x1 (event) uses up/depletes/consumes/[wastes] x2 [resource]                                     
-#xaksu1:DSAP;
-#xaksu2:DSAP;
+xaksu1:A;consume
+xaksu2:P;consumed
 #
 # x1 uses levity/is non-serious/frivolous about x2 (abstraction)                                  
-#xalbo1:DSAP;
-#xalbo2:DSAP;
+xalbo1:P;flippant
+xalbo2:D;subject* of flippancy
+xalbo2t:about
 #
 # x1 is a quantity of/contains/is made of alcohol of type x2 from source/process x3               
-#xalka1:DSAP;
-#xalka2:DSAP;
-#xalka3:DSAP;
+xalka1:S;alcohol
+xalka2:S;type of alcohol
+xalka2t:of type
+xalka3:D;alcohol source
+xalka3t:from source
 #
 # x1 (person) is panicked by crisis x2 (event/state)                                              
-#xalni1:DSAP;
-#xalni2:DSAP;
+xalni1:P;panicked
+xalni2:D;crisis
+xalni2n:crisis(es)
 #
 # x1 (object/event) is good/beneficial/nice/[acceptable] for x2 by standard x3                    
 xamgu1:P;good
@@ -6060,9 +6176,12 @@ xamgu2:A;goodness beneficiary
 xamgu3:D;goodness standard
 #
 # x1 is x2 ampere(s) [metric unit] in current (default is 1) by standard x3                       
-#xampo1:DSAP;
-#xampo2:DSAP;
-#xampo3:DSAP;
+xampo1:R;measured in amperes
+xampo1t:measured
+xampo2:S;number of amperes
+xampo2t:number
+xampo3:S;standard for ampere
+xampo3t:by standard
 #
 # x1 is a sea/ocean/gulf/[atmosphere] of planet x2, of fluid x3; (adjective:) x1 is marine        
 xamsi1:D;sea*/ocean*
@@ -6071,7 +6190,9 @@ xamsi2:D;planet* with sea
 xamsi3:S;sea fluid
 #
 # x1 is a/the hand [body-part] of x2; [metaphor: manipulating tool, waldo]                        
-#xance1:DSAP;
+xance1:D;hand
+xance2:D;body* with hand
+xance2t:of body
 #
 # x1 is nervous/anxious about x2 (abstraction) under conditions x3                                
 xanka1:P;anxious
@@ -6081,41 +6202,50 @@ xanka3:S;conditions for anxiety
 xanka3t:under conditions
 #
 # x1 [concept] exists in the imagination of/is imagined by/is imaginary to x2                     
-#xanri1:DSAP;
-#xanri2:DSAP;
+xanri1:P;imagined
+xanri2:A;imagine
 #
 # x1 is an elephant of species/breed x2                                                           
-#xanto1:DSAP;
-#xanto2:DSAP;
+xanto1:D;elephant
+xanto2:S;elephant species
+xanto2t:of species
 #
 # x1 is a weapon/arms for use against x2 by x3                                                    
-#xarci1:DSAP;
-#xarci2:DSAP;
-#xarci3:DSAP;
+xarci1:D;weapon
+xarci2:R;attacked by weapon
+xarci2t:to attack
+xarci3:D;weapon user
 #
 # x1 is a pig/hog/swine/[boar] [pork/ham/bacon-producer] of species/breed x2                      
-#xarju1:DSAP;
-#xarju2:DSAP;
+xarju1:D;pig
+xarju2:S;pig species
+xarju2t:of species
 #
 # x1 is stubborn/willfully opposing/resisting x2 about x3 (event/state)                           
-#xarnu1:DSAP;
-#xarnu2:DSAP;
-#xarnu3:DSAP;
+xarnu1:P;stubborn
+xarnu2:P;wilfully resisted
+xarnu2t:thing resisted
+xarnu3:D;reason* for resistance
+xarnu3t:because
 #
 # x1 is a donkey/jackass of species/breed x2                                                      
-#xasli1:DSAP;
-#xasli2:DSAP;
+xasli1:D;donkey
+xasli2:S;donkey species
+xasli2t:of species
 #
 # x1 is a/the sweat/perspiration from body x2, excreted by gland(s)/organs x3                     
-#xasne1:DSAP;
-#xasne2:DSAP;
-#xasne3:DSAP;
+xasne1:S;sweat
+xasne2:D;sweating body
+xasne3:D;sweating gland
 #
 # x1 is a letter/missive/[note] to intended audience x2 from author/originator x3 with content x4 
-#xatra1:DSAP;
-#xatra2:DSAP;
-#xatra3:DSAP;
-#xatra4:DSAP;
+xatra1:D;letter
+xatra2:D;audience* for letter
+xatra2t:to audience
+xatra3:D;author* of letter
+xatra3t:with author
+xatra4:D;content* of letter
+xatra4t:with content
 #
 # x1 is 1x10**-18 of x2 in dimension/aspect x3 (default is units)                                 
 #xatsi1:DSAP;
@@ -6127,8 +6257,8 @@ xanka3t:under conditions
 #xazdo2:DSAP;
 #
 # x1 hates/despises x2 (object/abstraction); x1 is full of hate for x2; x2 is odious to x1        
-#xebni1:DSAP;
-#xebni2:DSAP;
+xebni1:A;hate
+xebni2:P;hated
 #
 # x1 reflects Hebrew/Jewish/Israeli culture/nationality/language in aspect x2                     
 #xebro1:DSAP;
@@ -6140,25 +6270,25 @@ xanka3t:under conditions
 #xecto3:DSAP;
 #
 # x1 is a/the jaw [body-part] of x2                                                               
-#xedja1:DSAP;
-#xedja2:DSAP;
+xedja1:D;jaw
+xedja2:D;body* with jaw
+xedja2t:of body
 #
 # x1 is black/extremely dark-colored [color adjective]                                            
-#xekri1:DSAP;
-#xekri2:DSAP;
+xekri1:P;black
 #
 # x1 reflects Greek/Hellenic culture/nationality/language in aspect x2                            
 #xelso1:DSAP;
 #xelso2:DSAP;
 #
 # x1 (person) is kind to x2 in actions/behavior x3                                                
-#xendo1:DSAP;
-#xendo2:DSAP;
-#xendo3:DSAP;
+xendo1:P;kind
+xendo2:A;receive* kindness
+xendo3:S;kind actions
 #
 # x1 regrets/rues (abstraction) x2; x1 is regretful/rueful/sorry/[remorseful] about x2            
-#xenru1:DSAP;
-#xenru2:DSAP;
+xenru1:A;regret
+xenru2:R;regretted
 #
 # x1 is 1x10**18 of x2 in dimension/aspect x3 (default is units)                                  
 #xexso1:DSAP;
@@ -6170,18 +6300,22 @@ xanka3t:under conditions
 #xindo2:DSAP;
 #
 # x1 is a quantity of ink of color/pigment x2 used by writing device x3                           
-#xinmo1:DSAP;
-#xinmo2:DSAP;
-#xinmo3:DSAP;
+xinmo1:S;ink
+xinmo2:S;ink color
+xinmo3:D;writing device* using ink
+xinmo3t:for writing device
 #
 # x1 is a horse/equine/[colt/mare/stallion/pony] of species/breed x2                              
-#xirma1:DSAP;
-#xirma2:DSAP;
+xirma1:D;horse
+xirma2:S;horse species
+xirma2t:of species
 #
 # x1 is a wheel [tool] of device/vehicle x2, made of materials/having properties x3               
-#xislu1:DSAP;
-#xislu2:DSAP;
-#xislu3:DSAP;
+xislu1:D;wheel
+xislu2:D;wheeled vehicle*/device*
+xislu2t:of vehicle/device
+xislu3:S;wheel material/properties
+xislu3t:of material/properties
 #
 # x1 reflects Hispano-American culture/nationalities in aspect x2                                 
 #xispo1:DSAP;
@@ -6200,9 +6334,11 @@ xlura3t:resulting action/state
 xlura4:D;temptation
 #
 # x1 is a hotel/inn/hostel at location x2 operated by x3                                          
-#xotli1:DSAP;
-#xotli2:DSAP;
-#xotli3:DSAP;
+xotli1:D;hotel
+xotli2:D;hotel location
+xotli2t:at location
+xotli3:D;hotel operator
+xotli3t:operated by
 #
 # x1 reflects Arabic-speaking culture/nationality in aspect x2                                    
 #xrabo1:DSAP;
@@ -6219,12 +6355,14 @@ xlura4:D;temptation
 #xriso2:DSAP;
 #
 # x1 is a quantity of buckwheat/rhubarb/sorrel grass of species/strain x2                         
-#xruba1:DSAP;
-#xruba2:DSAP;
+xruba1:S;buckwheat/rhubarb
+xruba2:S;buckwheat species
+xruba2t:of species
 #
 # x1 is a turkey [food/bird] of species/breed x2                                                  
-#xruki1:DSAP;
-#xruki2:DSAP;
+xruki1:D;turkey
+xruki2:S;turkey species
+xruki2t:of species
 #
 # x1 is a/the flower/blossom/bloom [body-part] of plant/species x2; (adjective:) x1 is floral     
 xrula1:D;flower
@@ -6255,8 +6393,7 @@ xusra1:A;assert
 xusra2:P;asserted
 #
 # x1 is smooth/even/[soft/silky] in texture/regularity                                            
-#xutla1:DSAP;
-#xutla2:DSAP;
+xutla1:P;smooth
 #
 # x1 is a favorable connotation/sense/way-of-looking-at x2 used by x3                             
 #zabna1:DSAP;
@@ -6264,13 +6401,14 @@ xusra2:P;asserted
 #zabna3:DSAP;
 #
 # x1 is a gymnast at/performs gymnastics feat x2                                                  
-#zajba1:DSAP;
-#zajba2:DSAP;
+zajba1:D;gymnast
+zajba2:D;gymnastic feat
 #
 # x1 [individual or mass of hard surfaces] grinds/pulverizes/crushes x2 into powder x3            
-#zalvi1:DSAP;
-#zalvi2:DSAP;
-#zalvi3:DSAP;
+zalvi1:A;grind
+zalvi2:P;ground
+zalvi3:S;powder produced by griding
+zalvi3t:into powder
 #
 # x1 approves of/gives favor to plan/action x2 (object/event)                                     
 zanru1:A;approver
@@ -6282,13 +6420,16 @@ zarci2:P;traded
 zarci3:A;trade
 #
 # x1 is a/the buttock(s)/arse/rear/seat [body-part] of x2; [metaphor: rounded surface, support]   
-#zargu1:DSAP;
-#zargu2:DSAP;
+zargu1:S;buttocks
+zargu2:D;body* with buttocks
+zargu2t:of body
 #
 # x1 is temporary/not permanent/expected to change in property x2 (ka) by standard/expectant x3   
-#zasni1:DSAP;
-#zasni2:DSAP;
-#zasni3:DSAP;
+zasni1:P;temporary
+zasni2:D;temporary property
+zasni2t:in property
+zasni3:S;standard for non-permanance
+zasni3t:by standard
 #
 # x1 exists/is real/actual/reality for x2 under metaphysics x3                                    
 zasti1:A;exist
@@ -6296,13 +6437,16 @@ zasti2:A;observe* existence
 zasti3:S;metaphysics of existence
 #
 # x1 is a quantity of/contains/is made of soap from source x2 of composition including x3         
-#zbabu1:DSAP;
-#zbabu2:DSAP;
-#zbabu3:DSAP;
+zbabu1:S;soap
+zbabu2:S;soap source
+zbabu2t:from source
+zbabu3:S;soap composition
+zbabu3t:of composition
 #
 # x1 is a bay in/of coast/shoreline x2                                                            
-#zbani1:DSAP;
-#zbani2:DSAP;
+zbani1:D;bay
+zbani2:D;shoreline* with bay
+zbani2t:in shoreline
 #
 # x1 makes/assembles/builds/manufactures/creates x2 out of materials/parts/components x3          
 zbasu1:A;make
@@ -6310,9 +6454,11 @@ zbasu2:P;made
 zbasu3:S;material/part(s)
 #
 # x1 is a pedestal/base/stand/pallet supporting x2 (object/event), of materials/properties x3     
-#zbepi1:DSAP;
-#zbepi2:DSAP;
-#zbepi3:DSAP;
+zbepi1:D;pedestal
+zbepi2:R;supported by pedestal
+zbepi2t:supported
+zbepi3:S;pedestal material
+zbepi3t:of material
 #
 # x1 is a nest/house/lair/den/[home] of/for x2                                                    
 zdani1:D;home
@@ -6324,8 +6470,9 @@ zdile2:P;amused
 zdile3:D;amusing property
 #
 # x1 (event/state) is a punishable crime/[taboo/sin] to people/culture/judges/jury x2             
-#zekri1:DSAP;
-#zekri2:DSAP;
+zekri1:D;crime*/sin*
+zekri2:A;consider* as crime
+zekri2t:to judge
 #
 # x1 (experiencer) increases/is incremented/augmented in property/quantity x2 by amount x3        
 zenba1:P;augmented
@@ -6335,14 +6482,18 @@ zenba3:D;amount* of increase
 zenba3t:by amount
 #
 # x1 is 1x10**-21 of x2 in dimension/aspect x3 (default is units)                                 
-#zepti1:DSAP;
-#zepti2:DSAP;
-#zepti3:DSAP;
+zepti1:S;10**-21
+zepti2:R;measured in 10**-21's
+zepti2t:of
+zepti3:D;units of 10**-21
+zepti3t:in units
 #
 # x1 is 1x10**21 of x2 in dimension/aspect x3 (default is units)                                  
-#zetro1:DSAP;
-#zetro2:DSAP;
-#zetro3:DSAP;
+zetro1:S;10**21
+zetro2:R;measured in 10**21's
+zetro2t:of
+zetro3:D;units of 10**21
+zetro3t:in units
 #
 # x1 observes/[notices]/watches/beholds x2 using senses/means x3 under conditions x4              
 zgana1:A;observe
@@ -6353,29 +6504,29 @@ zgana4:S;conditions for observation
 zgana4t:under conditions
 #
 # x1 is music performed/produced by x2 (event)                                                    
-#zgike1:DSAP;
-#zgike2:DSAP;
+zgike1:S;music
+zgike2:D;musical event
+zgike2t:produced by event
 #
 # x1 is free/at liberty to do/be x2 (event/state) under conditions x3                             
-#zifre1:DSAP;
-#zifre2:DSAP;
-#zifre3:DSAP;
+zifre1:R;at liberty
+zifre2:R;allowed by liberty
+zifre2t:to do/be
+zifre3:S;liberty conditions
+zifre3t:under conditions
 #
 # x1 is a quantity of/contains/is made of zinc (Zn); [metaphor: hard metal]                       
-#zinki1:DSAP;
-#zinki2:DSAP;
-#zinki3:DSAP;
+zinki1:S;zinc
 #
 # x1 is purple/violet [color adjective]                                                           
-#zirpu1:DSAP;
-#zirpu2:DSAP;
-#zirpu3:DSAP;
+zirpu1:P;purple
 #
 # x1 (agent) invests resources x2 in investment x3 expecting return/profit x4 (object(s)/event)   
-#zivle1:DSAP;
-#zivle2:DSAP;
-#zivle3:DSAP;
-#zivle4:DSAP;
+zivle1:A;invest
+zivle2:D;invested resource
+zivle2t:resource
+zivle3:D;investment
+zivle4:S;anticipated return
 #
 # x1 exceeds/is more than x2 in property/quantity x3 (ka/ni) by amount/excess x4                  
 zmadu1:A;exceed
@@ -6394,22 +6545,27 @@ zukte2:D;action
 zukte3:D;purpose* of action
 #
 # x1 is a quantity of maize/corn [grain] of species/strain x2                                     
-#zumri1:DSAP;
-#zumri2:DSAP;
+zumri1:S;maize
+zumri2:S;maize species
+zumri2t:of species
 #
 # x1 feels guilt/remorse about x2 (abstraction)                                                   
-#zungi1:DSAP;
-#zungi2:DSAP;
+zungi1:A;feel* guilt
+zungi2:D;cause* of guilt
+zungi2t:about
 #
 # x1 is to the left/left-hand side of x2 which faces/in-frame-of-reference x3                     
-#zunle1:DSAP;
-#zunle2:DSAP;
-#zunle3:DSAP;
+zunle1:R;at left
+zunle2:R;with left side
+zunle2t:of
+zunle3:S;reference for leftness
+zunle3t:facing/frame
 #
 # x1 (evt./state) interferes with/hinders/disrupts x2 (evt./state/process) due to quality x3 (ka) 
-#zunti1:DSAP;
-#zunti2:DSAP;
-#zunti3:DSAP;
+zunti1:A;hinder
+zunti2:P;hindered
+zunti3:D;nature of hindrance
+zunti3t:in way
 #
 # x1 sits [assumes sitting position] on surface x2                                                
 zutse1:A;sit
