@@ -449,7 +449,7 @@ handle_zei(void)
 
   for (x = toks.next;
        x != &toks;
-       x = nt) {
+       x = nt, first=0) {
 
     nt = x->next; /* As a default */
 
@@ -524,7 +524,6 @@ handle_zei(void)
     
 done_this_block:
 
-    first = 0;
   }
 
 }
@@ -624,10 +623,10 @@ handle_bu(void)
         case N_BU:
           {
             int len = strlen(y->data.bu.word);
-            len += 3;
+            len += 4;
             x->data.bu.word = new_array(char, len);
             strcpy(x->data.bu.word, y->data.bu.word);
-            strcat(x->data.bu.word, "bu");
+            strcat(x->data.bu.word, ".bu");
           }
           break;
 
