@@ -12,6 +12,8 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "version.h"
+
 static int is_consonant(char c) {
   if (strchr("bcdfgjklmnprstvxz", c)) {
     return 1;
@@ -1225,5 +1227,9 @@ static void makelujvo(char **tanru) {
 }
 
 int main (int argc, char **argv) {
+  if (argc > 1 && !strcmp(argv[1], "-v")) {
+    fprintf(stderr, "jvocuhadju version %s\n", version_string);
+    exit(0);
+  }
   makelujvo(argv+1);
 }

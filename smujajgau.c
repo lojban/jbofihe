@@ -29,6 +29,8 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "version.h"
+
 #define new_string(s) ((s) ? strcpy((char *) malloc(1+strlen(s)), (s)) : NULL)
 #define new(T) (T *) malloc(sizeof(T))
 #define new_array(T, n) (T *) malloc(sizeof(T) * (n))
@@ -484,6 +486,11 @@ main (int argc, char **argv) {
   FILE *in, *out;
 
   clear_histogram();
+  
+  if ((argc > 1) && (!strcmp(argv[1], "-v"))) {
+    fprintf(stderr, "jvocuhadju version %s\n", version_string);
+    exit(0);
+  }
 
   if (argc < 3) {
     fprintf(stderr, "Usage : %s <dbname> <source1> ... <sourceN>\n", argv[0]);
