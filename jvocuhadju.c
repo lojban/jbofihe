@@ -54,7 +54,7 @@ static int can_join(char *s1, char *s2) {
   if (is_consonant(s2[1])) {
     test2 = is_initialpairok(s2);
     if (e1 == 'n') {
-      test3 == (strncmp(s2, "dj", 2) &&
+      test3 = (strncmp(s2, "dj", 2) &&
                 strncmp(s2, "dz", 2) &&
                 strncmp(s2, "tc", 2) &&
                 strncmp(s2, "ts", 2));
