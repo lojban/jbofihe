@@ -33,7 +33,7 @@ compress_singletons(TreeNode *x)
       while ((child->type == N_NONTERM) &&
              (child->data.nonterm.nchildren == 1)) {
         grandchild = child->data.nonterm.children[0];
-        delete_node(child);
+        free_node(child);
         child = x->data.nonterm.children[i] = grandchild;
       }
       compress_singletons(child);
@@ -62,7 +62,7 @@ compress_singletons_but_preserve(TreeNode *x)
       while ((child->type == N_NONTERM) &&
              (child->data.nonterm.nchildren == 1)) {
         grandchild = child->data.nonterm.children[0];
-        delete_node(child);
+        free_node(child);
         child = x->data.nonterm.children[i] = grandchild;
       }
       compress_singletons(child);
