@@ -346,7 +346,11 @@ translate_unknown(char *w, int place)
     }
     *q = 0;
     ltrans = translate_lujvo(buf, place);
-    strcpy(buf, ltrans);
+    if (ltrans) {
+      strcpy(buf, ltrans);
+    } else {
+      strcpy(buf, "?");
+    }
     strcat(buf, "-[");
     strcat(buf, w + hyph + 1);
     strcat(buf, "]");
