@@ -106,7 +106,11 @@ dictionary : dictmake
 	perl rafsid.pl < rafsi > rafsid.dict
 	perl rafsig.pl < rafsi > rafsig.dict
 	perl raf4lg.pl < gismu > raf4lg.dict
-	./dictmake dictionary.dbm gismu.dict cmavo.dict lujvo.dict oblik.dict raf4l.dict rafobl.dict rafsid.dict rafsig.dict raf4lg.dict extradict places.dat
+	perl lujvop.pl < lujvo-list > lujvop.dict
+	./dictmake dictionary.dbm gismu.dict cmavo.dict lujvo.dict oblik.dict
+	./dictmake dictionary.dbm raf4l.dict rafobl.dict rafsid.dict rafsig.dict raf4lg.dict
+	./dictmake dictionary.dbm lujvop.dict
+	./dictmake dictionary.dbm extradict places.dat
 
 dictupdate : dictionary.dbm
 
@@ -127,13 +131,14 @@ FILES = lex1.c lex2.c categ.c \
 	nodes.h uncom.l tree.c translate.c latex.c properties.c \
 	conversion.c terms.c memory.c tenses.c output.c textout.c \
 	output.h htmlout.c connect.c latex.h latexblk.c relative.c \
+	subscript.c numeric.c prenex.c \
 	.depend TODO stag.y COPYRIGHT Makefile.in config.pl build_kit \
-	action.perl terminator.pl \
+	action.perl terminator.pl cmavocode.pl \
 	giscolon.pl cmacolon.pl lujvod.pl oblik.pl raf4l.pl rafobl.pl rafsid.pl \
-        rafsig.pl raf4lg.pl \
+        rafsig.pl raf4lg.pl lujvop.pl \
 	places.pl extradict places.dat \
 	dictmake.c dictclean.c makelujvo.c \
-	work_* home_* cardplayer summer_new assisi2 story sinderelwyd sinder
+	work_* home_* cardplayer summer_new assisi2 story sinderelwyd sinder eclipse
 
 kit:
 	tar czvf kit.tar.gz $(FILES)
