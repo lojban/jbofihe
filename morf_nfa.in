@@ -234,7 +234,7 @@ BLOCK TOS_AFTER1
         CNR -> exit
 
     STATE in_y
-        Y ; LCP|CN|     -> exit
+        Y ; LCP|CN      -> exit
         Y ; CP|CS ; BT  -> exit_to_after_cc
 
 ENDBLOCK
@@ -546,21 +546,12 @@ ENDBLOCK
 BLOCK FV_INITIAL_CLUSTER
 
     STATE in
-        C ; CI            -> exit
-        C ; CI ; CI       -> exit
-        C ; CSI           -> main
-        C ; CI ; CSI      -> main
-        C ; CI ; CI ; CSI -> main
-
-    STATE main
-                           -> exit
-        CSI                -> main
-        CI ; CSI           -> main
-        CI ; CI ; CSI      -> main
-        CI ; CI ; CI ; CSI -> main
-        CI                 -> exit
-        CI ; CI            -> exit
-        CI ; CI ; CI       -> exit
+        C ; CI                  -> exit
+        C ; CSI                 -> exit
+        C ; CI ; CI             -> exit
+        C ; CI ; CSI            -> exit
+        C ; CI ; CSI ; CSI      -> exit
+        C ; CI ; CI ; CSI ; CSI -> exit
 
 ENDBLOCK
 #}}}
@@ -576,26 +567,27 @@ BLOCK FV_INTERNAL_CONS_GROUP
         FC  -> c1
 
     STATE c1
-        FCS -> main
+        FCS -> cs
         FCP -> c2
             -> exit
 
     STATE c2
-        FCS -> main
+        FCS -> cs
         FCP -> c3
             -> exit
 
     STATE c3
-        FCS -> main
-            -> exit
+        FCS ; FCS -> cs
+        FCS ; FCP -> c1
+                  -> exit
 
-    STATE main
-        FCS -> main
+    STATE cs
+        FCS -> cs
         FCP -> c1
             -> exit
-        
+
     STATE in_req_clus
-        FC ; FCS -> main
+        FC ; FCS -> cs
         FC ; FCP -> c2
 
     # Coming in after seeing a stage 3 hyphenation triple
@@ -604,7 +596,7 @@ BLOCK FV_INTERNAL_CONS_GROUP
 
     # Coming in after seeing a stage 3 hyphenation triple
     # ending in a syllabic
-    STATE in_after_s -> main
+    STATE in_after_s -> cs
 
 ENDBLOCK
 #}}}
