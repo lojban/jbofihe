@@ -752,9 +752,6 @@ Result S_FUIVLA_1 &  TAG_STAGE3 -> R_STAGE3_1
 Result S_FUIVLA_0 & ~TAG_STAGE3 -> R_STAGE4_0
 Result S_FUIVLA_1 & ~TAG_STAGE3 -> R_STAGE4_1
 
-# Similarly if the LUJVO_TAIL_OK rule matches on its own
-Result ~* & TAG_LUJVO_TAIL_OK -> R_UNKNOWN
-
 # All of the following are disjoint with each other and with any
 # of the earlier ones
 
@@ -762,5 +759,6 @@ Result TAG_CMENE -> R_CMENE
 Result TAG_CMAVOS -> R_CMAVOS
 Result TAG_CMAVOS_END_CY -> R_CMAVOS_END_CY
 
-Result ~* -> R_UNKNOWN
+# The default case if nothing else matches
+DefResult R_UNKNOWN
 
