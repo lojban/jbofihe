@@ -1103,7 +1103,7 @@ subst_base_in_pattern(char *trans, char *base)
 {
   char *result = GETBUF();
   char *p, *q, *r;
-  char buffer[64], *localtrans;
+  char *localtrans;
   q = result;
   p = trans;
   fprintf(stderr, "subst tr=%s base=%s\n", trans, base);
@@ -1138,6 +1138,162 @@ subst_base_in_pattern(char *trans, char *base)
   return result;
 }
 
+/* ================================================== */
+
+typedef struct Component {
+  int start; /* 0 for 1st, pos of + for others (before conversions) */
+  int pure_start; /* likewise, but just the gismu/cmavo excl conversions) */
+  char text[6];
+  int places[6];
+} Component;
+
+
+/*++++++++++++++++++++++++++++++++++++++
+  Take a string a+b+c and split it into an array of components
+  separated by + signs.  If any components are se, te etc, bind them
+  as place exchanges to the following component.
+
+  char *canon
+
+  Component *comp
+
+  int *ncomp
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+split_into_comps(char *canon, Component *comp, int *ncomp)
+{
+  int i;
+  int nc = 0;
+  char buffer[256];
+  char *p, *q;
+  int place = 0;
+
+  strcpy(buffer, canon);
+  p = buffer;
+  while (*p) p++;
+  while (p > buffer) {
+    while (p > buffer && *p != '+') p--;
+    place = 0;
+    q = p + (*p == '+');
+    if (!strcmp(q, "se")) { place = 2; }
+    else if (!strcmp(q, "te")) { place = 3; }
+    else if (!strcmp(q, "ve")) { place = 4; }
+    else if (!strcmp(q, "xe")) { place = 5; }
+    if (place > 0) {
+      int t = comp[0].places[1];
+      comp[0].places[1] = comp[0].places[place];
+      comp[0].places[place] = t;
+      comp[0].start = (p - buffer);
+    } else {
+      for (i=nc-1; i>=0; i--) {
+        comp[i+1] = comp[i];
+      }
+      for (i=1; i<=5; i++) {
+        comp[0].places[i] = i;
+      }
+      nc++;
+      comp[0].pure_start = comp[0].start = (p - buffer);
+      strcpy(comp[0].text, q);
+    }
+    *p = 0;
+  }
+
+#if 0
+  for (i=0; i<nc; i++) {
+    fprintf(stderr, "Comp %d text %s places %d %d %d %d %d\n",
+            i, comp[i].text,
+            comp[i].places[1], comp[i].places[2], comp[i].places[3], comp[i].places[4], comp[i].places[5]);
+  }
+#endif
+
+  *ncomp = nc;
+
+}
+
+
+/*++++++++++++++++++++++++++++++++++++++
+  
+
+  static char * lookup_template_match
+
+  int prec
+
+  char *orig
+
+  Comp *comp
+
+  int ncomp
+
+  int place
+
+  TransContext ctx
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static char *
+lookup_template_match(int prec, int suffix, int gather, char *orig, Component *comp, int ncomp, int place, TransContext ctx)
+{
+  char generic[128]; /* the part that's found in the LHS of the dictionary pattern match */
+  char specific[256]; /* the other part of the string */
+  char buffer[256];
+  int cutg, cuts;
+  int new_place;
+  char *ctx_suf_as_string[4] = {"n", "v", "q", "t"};
+  char *trans;
+  int got_full_trans;
+  char * subst;
+
+  if (suffix) {
+    cutg = comp[ncomp-gather].pure_start;
+    cuts = comp[ncomp-gather].start;
+    strcpy(generic, orig + cutg);
+    strncpy(specific, orig, cuts);
+    specific[cuts] = 0;
+    new_place = comp[ncomp-gather].places[place];
+  } else {
+    cutg = comp[gather].start;
+    cuts = cutg;
+    strncpy(generic, orig, cutg);
+    generic[cutg] = 0;
+    strcpy(specific, orig + cuts);
+    new_place = comp[gather].places[place];
+  }
+
+  fprintf(stderr, "Generic = [%s] specific = [%s]\n", generic, specific);
+  sprintf(buffer, "*%1d%s%1d%s",
+          prec, generic, new_place, ctx_suf_as_string[(int) ctx]);
+  fprintf(stderr, "Trying full match for %s\n", buffer);
+  trans = translate(buffer);
+  if (trans) {
+    got_full_trans = 1;
+  } else {
+    got_full_trans = 0;
+    sprintf(buffer, "*%1d%s%1d",
+            prec, generic, new_place);
+    fprintf(stderr, "Trying part match for %s\n", buffer);
+    trans = translate(buffer);
+  }
+  
+  if (trans) {
+    fprintf(stderr, "Got trans [%s] for generic\n", trans);
+    if (trans[0] == '@') {
+      /* redirection to another form */
+      int redir_place = trans[1] - '0';
+      return adv_translate(specific, redir_place, ctx);
+    } else {
+      /* Need to substitute % stuff. */
+      subst = subst_base_in_pattern(trans, specific);
+      if (got_full_trans) {
+        return subst;
+      } else {
+        return fix_trans_in_context(buffer, subst, ctx, "", got_full_trans);
+      }
+    }
+  } else {
+    return NULL;
+  }
+}
+
 /*++++++++++++++++++++++++++++++++++++++
   Try to match the Lojban word with various standard forms which the
   dictionary provides.
@@ -1156,11 +1312,10 @@ static char *
 attempt_pattern_match(char *w, int place, TransContext ctx)
 {
   char *canon;
-  char first[64], last[64], *p, *q;
-  char first_rest[1024], last_rest[1024];
-  char buffer[64], *subst, *trans;
-  char *ctx_suf_as_string[4] = {"n", "v", "q", "t"};
-  int got_full_trans;
+  char *trans;
+
+  Component comp[32];
+  int ncomp;
 
   canon = canon_lujvo(w);
 
@@ -1172,63 +1327,49 @@ attempt_pattern_match(char *w, int place, TransContext ctx)
   /* If it's not got a '+' in it, give up too. */
   if (!strchr(canon, '+')) return NULL;
 
-  /* OK, pull off first and last components. */
-  p = canon, q=first;
-  while ((*q++ = *p++) != '+')
-    ;
-  *q = 0;
-  strcpy(first_rest, p);
+  /* Split components into array. Work from the right. */
+  split_into_comps(canon, comp, &ncomp);
 
-  p = canon;
-  while (*p) p++;
-  while (*p != '+') p--;
-  strcpy(last, p);
-  strncpy(last_rest, canon, p-canon);
-  last_rest[p-canon] = 0;
-
-  fprintf(stderr, "first=%s last=%s first_rest=%s last_rest=%s\n",
-          first, last, first_rest, last_rest);
-  
-  /* Now try for matches.  Attempt match at end of lujvo first. */
-  sprintf(buffer, "*%s%1d%s", last, place, ctx_suf_as_string[ctx]);
-  fprintf(stderr, "Trying full match for %s\n", buffer);
-  trans = translate(buffer);
-  if (trans) {
-    got_full_trans = 1;
-  } else {
-    got_full_trans = 0;
-    sprintf(buffer, "*%s%1d", last, place);
-    trans = translate(buffer);
-  }
-  if (trans) {
-    fprintf(stderr, "Got trans [%s] for last\n", trans);
-    if (trans[0] == '@') {
-      /* redirection to another form */
-      int place = trans[1] - '0';
-      return adv_translate(last_rest, place, ctx);
-    } else {
-      /* Need to substitute % stuff. */
-      subst = subst_base_in_pattern(trans, last_rest);
-      if (got_full_trans) {
-        return subst;
-      } else {
-        return fix_trans_in_context(buffer, subst, ctx, "", 0);
-      }
+#if 1
+  {
+    int i;
+    for (i=0; i<ncomp; i++) {
+      fprintf(stderr, "Comp %d text %s places %d %d %d %d %d start %d pure %d\n",
+              i, comp[i].text,
+              comp[i].places[1], comp[i].places[2], comp[i].places[3], comp[i].places[4], comp[i].places[5],
+              comp[i].start, comp[i].pure_start);
     }
-  } 
-  
-  /* Try match at start */
-  sprintf(buffer, "*%s%1d", first, place);
-  trans = translate(buffer);
-  if (trans) {
-    fprintf(stderr, "Got trans [%s] for first\n", trans);
-    if (trans[0] == '@') {
-      /* redirection to another form */
-      int place = trans[1] - '0';
-      return adv_translate(first_rest, place, ctx);
-    } else {
-      subst = subst_base_in_pattern(trans, first_rest);
-      return fix_trans_in_context(buffer, subst, ctx, "", 0);
+  }
+#endif
+
+  /* If there's only 1 component after conversions have been
+     mapped onto it, do a place switch */
+  if (ncomp == 1) {
+    int new_place = comp[0].places[place];
+    fprintf(stderr, "Single component, lookup place %d on %s\n", new_place, comp[0].text);
+    return adv_translate(comp[0].text, new_place, ctx);
+
+  } else {
+    /* Multiple components. Loop over precedence and try to match
+       suffix then prefix at each level. */
+    int prec;
+    int suffix;
+    int gather;
+
+    for (prec = 3; prec >= 0; prec--) {
+      for (suffix = 1; suffix >= 0; suffix--) {
+        for (gather = 1; gather <= 2; gather++) {
+          trans = lookup_template_match(prec, suffix, gather, canon, comp, ncomp, place, ctx);
+          if (trans) {
+            if (strcmp(trans, "+")) {
+              /* didn't match */
+              return trans;
+            }
+          } else {
+            break; /* out of gather loop */
+          }
+        }
+      }
     }
   }
 
@@ -1250,12 +1391,11 @@ char *
 adv_translate(char *w, int place, TransContext ctx)
 {
   char *trans, *trans1;
-  char w1[128], w1n[128];
+  char w1n[128];
   char buffer[1024];
   static char result[1024];
   char ctx_suffix[4] = "nvqt";
   char *ctx_suf_as_string[4] = {"n", "v", "q", "t"};
-  enum {CL_DISCRETE, CL_SUBSTANCE, CL_ACTOR, CL_PROPERTY, CL_REVERSE_PROPERTY, CL_IDIOMATIC} wordclass;
   int found_full_trans=0;
 
   /* Special case.  A request for place 0 is mapped to a request for
@@ -1320,6 +1460,7 @@ adv_translate(char *w, int place, TransContext ctx)
 
     strcpy(result, fix_trans_in_context(buffer, trans, ctx, w1n, found_full_trans));
 
+    return result;
 
   } else {
     /* If we can't get any place-dependent translation, don't bother -
@@ -1351,5 +1492,9 @@ adv_translate(char *w, int place, TransContext ctx)
       }
     }
   }
+
+#if 0
+  return NULL;
+#endif
 }
 
