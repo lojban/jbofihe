@@ -38,11 +38,12 @@
 static int last_eq_class; /* Next class to assign */
 static int Nt; /* Number of tokens; has to be made static to be visible to comparison fn. */
 
+/* To give 'general_compre' visibility of the current equiv. classes of the
+   destination states */
+static DFANode **local_dfas;
 
+static void calculate_signatures(DFANode **seq, DFANode **dfas, int ndfas)/*{{{*/
 /**** Determine state signatures based on transitions and current classes. ****/
-
-static void
-calculate_signatures(DFANode **seq, DFANode **dfas, int ndfas)
 {
   unsigned long sig;
   int i, t;
@@ -63,11 +64,9 @@ calculate_signatures(DFANode **seq, DFANode **dfas, int ndfas)
     s->signature = sig;
   }
 }
-
+/*}}}*/
+static int general_compare(const void *a, const void *b)/*{{{*/
 /************************* Do full compare on states *************************/
-
-static int
-general_compare(const void *a, const void *b)
 {
   Castderef (a, const DFANode *, aa);
   Castderef (b, const DFANode *, bb);
@@ -87,6 +86,11 @@ general_compare(const void *a, const void *b)
       int am = aa->map[i];
       int bm = bb->map[i];
       
+      /* Map transition destinations to the current equivalence class of the
+         destination state (otherwise compressor is very pessimistic). */
+      am = (am>=0) ? local_dfas[am]->eq_class: -1;
+      bm = (bm>=0) ? local_dfas[bm]->eq_class: -1;
+
       if      (am < bm) return -1;
       else if (am > bm) return +1;
     }
@@ -97,12 +101,9 @@ general_compare(const void *a, const void *b)
   return 0;
 
 }
-
-
+/*}}}*/
+static int split_classes(DFANode **seq, DFANode **dfas, int ndfas)/*{{{*/
 /*********************** Do one pass of class splitting ***********************/
-
-static int
-split_classes(DFANode **seq, DFANode **dfas, int ndfas)
 {
   int i;
   int had_to_split = 0;
@@ -140,15 +141,14 @@ split_classes(DFANode **seq, DFANode **dfas, int ndfas)
   return had_to_split;
 
 }
-
-
+/*}}}*/
+static int initial_compare(const void *a, const void *b)/*{{{*/
 /************************** Sort based on exit value **************************/
-
-static int
-initial_compare(const void *a, const void *b)
 {
   Castderef (a, const DFANode *, aa);
   Castderef (b, const DFANode *, bb);
+  int status;
+  int aok, bok;
 
   if (!aa->result && bb->result) {
     /* Put all non-accepting states first in sort order */
@@ -158,14 +158,27 @@ initial_compare(const void *a, const void *b)
   } else if (!aa->result && !bb->result) {
     return 0;
   } else {
-    return strcmp(aa->result, bb->result);
+    status = strcmp(aa->result, bb->result);
+    if      (status < 0) return -1;
+    else if (status > 0) return +1;
+    else {
+      aok = (aa->attribute != 0);
+      bok = (bb->attribute != 0);
+      if (!aok && bok) {
+        return -1;
+      } else if (aok && !bok) {
+        return +1;
+      } else if (!aok && !bok)  {
+        return 0;
+      } else {
+        return strcmp(aa->attribute, bb->attribute);
+      }
+    }
   }
 }
-  
+/*}}}*/
+static void assign_initial_classes(DFANode **seq, int ndfas)/*{{{*/
 /******************* Determine initial equivalence classes. *******************/
-
-static void
-assign_initial_classes(DFANode **seq, int ndfas)
 {
   int i;
   qsort(seq, ndfas, sizeof(DFANode *), initial_compare);
@@ -184,11 +197,9 @@ assign_initial_classes(DFANode **seq, int ndfas)
     }
   }
 }
-
+/*}}}*/
+static int compress_states(DFANode **dfas, int ndfas)/*{{{*/
 /***** Compress the DFA so there is precisely one state in each eq. class *****/
-
-static int
-compress_states(DFANode **dfas, int ndfas)
 {
   int *reps;
   int i, j, t;
@@ -254,11 +265,9 @@ compress_states(DFANode **dfas, int ndfas)
   free(reps);
   return neqc;
 }
-
+/*}}}*/
+static void discard_nfa_bitmaps(DFANode **dfas, int ndfas)/*{{{*/
 /********** Discard the (now inaccurate) NFA bitmaps from the states **********/
-
-static void
-discard_nfa_bitmaps(DFANode **dfas, int ndfas)
 {
   int i;
   for (i=0; i<ndfas; i++) {
@@ -267,11 +276,25 @@ discard_nfa_bitmaps(DFANode **dfas, int ndfas)
   }
   return;
 }
-
+/*}}}*/
+static void print_classes(DFANode **dfas, int ndfas)/*{{{*/
+{
+  int i;
+#if 1
+  /* Comment out to print this stuff for debug */
+  return;
+#endif
+  if (!report) return;
+  fprintf(report, "Equivalence classes are :\n");
+  for (i=0; i<ndfas; i++) {
+    fprintf(report, "State %d class %d\n", i, dfas[i]->eq_class);
+  }
+  fprintf(report, "\n");
+  return;
+}
+/*}}}*/
+int compress_dfa(DFANode **dfas, int ndfas, int ntokens)/*{{{*/
 /************************ The main callable interface. ************************/
-
-int
-compress_dfa(DFANode **dfas, int ndfas, int ntokens)
 {
   DFANode **seq; /* Storage for node sequence */
   int i;
@@ -282,6 +305,7 @@ compress_dfa(DFANode **dfas, int ndfas, int ntokens)
   /* Safety net */
   if (ndfas <= 0) return;
 
+  local_dfas = dfas;
   Nt = ntokens;
   
   seq = new_array(DFANode *, ndfas);
@@ -292,8 +316,11 @@ compress_dfa(DFANode **dfas, int ndfas, int ntokens)
   assign_initial_classes(seq, ndfas);
 
   do {
+    print_classes(dfas, ndfas);
     had_to_split = split_classes(seq, dfas, ndfas);
   } while (had_to_split);
+
+  print_classes(dfas, ndfas);
 
   new_ndfas = compress_states(dfas, ndfas);
   discard_nfa_bitmaps(dfas, new_ndfas);
@@ -302,5 +329,5 @@ compress_dfa(DFANode **dfas, int ndfas, int ntokens)
   return new_ndfas;
 
 }
-
+/*}}}*/
 
