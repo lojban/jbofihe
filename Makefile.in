@@ -29,12 +29,12 @@ CM_OBJS = cm_gather.o cm_output.o cm_main.o cm_translate.o cm_scan.o
 
 CM_SRCS = $(CM_OBJS:%.o=%.c)
 
-jbofihe : $(OBJS2)
-	$(CC) $(CFLAGS) -o jbofihe $(OBJS2)
+progs : jbofihe cmafihe jvocuhadju smujajgau vlatai
 
 all : dictionary progs
 
-progs : jbofihe cmafihe jvocuhadju smujajgau vlatai
+jbofihe : $(OBJS2)
+	$(CC) $(CFLAGS) -o jbofihe $(OBJS2)
 
 # Analyse shift/reduce conflicts in the grammar
 conflict :
