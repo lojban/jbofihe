@@ -28,6 +28,10 @@ xirzda2:stabled horse
 xirzda:stable
 ceirselzau:blessed
 
+gu'isko:optical fibre
+gu'isko1:D;optical fibre
+
+
 tisygau1:filler
 tisygau2:object filled
 tisygau3:material
@@ -151,6 +155,8 @@ zi'e:and
 jai:
 li'i:experience of
 me:amongst those that are
+ko:YOU!
+do'u::end vocative
 
 cai:extreme
 sai:strong
@@ -204,6 +210,20 @@ ba'o@SELBRI:has-been
 ba'o@LINK:after that,
 ba'o@CONNECT:after that
 ba'o@JAI:precursor of
+
+co'a@TERM:at the start of
+co'a@NOUN:still-to-start
+co'a@SELBRI:start to
+co'a@LINK:at the start of that,
+co'a@CONNECT:at the start of that
+co'a@JAI:thing starting at the time of
+
+co'u@TERM:at the end of
+co'u@NOUN:completed
+co'u@SELBRI:cease to
+co'u@LINK:at the end of that,
+co'u@CONNECT:at the end of that
+co'u@JAI:thing ending at the time of
 
 puzi@SELBRI:just before
 puza@SELBRI:somewhat before

@@ -4565,8 +4565,8 @@ rinka3:D;causal condition
 #sanga3:DSAP;
 #
 # x1 is conscious/aware of x2 (object/abstract); x1 discerns/recognizes x2 (object/abstract)      
-#sanji1:DSAP;
-#sanji2:DSAP;
+sanji1:P;conscious
+sanji2:P;noticed
 #
 # x1 stands [is vertically oriented] on surface x2 supported by limbs/support/pedestal x3         
 #sanli1:DSAP;
