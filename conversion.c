@@ -106,16 +106,8 @@ handle_brivla_conversion(TreeNode *briv)
     xx[i] = i;
   }
 
-#if 0
-  fprintf(stderr, "A : gp = %08lx, parent=%08lx, grandparent=%08lx\n", gp, gp->parent, gp->parent->parent);
-#endif
-
   while ((gp->type == N_NONTERM) &&
          (gp->data.nonterm.type == SE_TU2)) {
-
-#if 0
-    fprintf(stderr, "B : gp = %08lx, parent=%08lx, grandparent=%08lx\n", gp, gp->parent, gp->parent->parent);
-#endif
 
     converted = 1;
     
@@ -136,10 +128,6 @@ handle_brivla_conversion(TreeNode *briv)
     /* We won't be glossing this conversion tag */
     xdg = prop_dont_gloss(se_child, YES);
 
-#if 0
-    fprintf(stderr, "set dg %08lx\n", se_child);
-#endif
-
     /* Swap over the converted indices */
     t = xx[k];
     xx[k] = xx[1];
@@ -158,11 +146,81 @@ handle_brivla_conversion(TreeNode *briv)
 }
 
 
+/*++++++++++++++++++++++++++++++
+  Tag abstractions if they contain conversions before them.
+  ++++++++++++++++++++++++++++++*/
+
+static void
+handle_abstraction_conversion(TreeNode *abstr)
+{
+  int xx[6], t, k, i;
+  char *tok;
+  TreeNode *node, *se_child, *gp; /* grandparent node */
+  int converted;
+  XConversion *ext;
+  XDontGloss *xdg;
+
+  node = abstr;
+  gp = node->parent->parent;
+  converted = 0;
+
+  for (i=1; i<=5; i++) {
+    xx[i] = i;
+  }
+
+  while ((gp->type == N_NONTERM) &&
+         (gp->data.nonterm.type == SE_TU2)) {
+
+    converted = 1;
+    
+    se_child = gp->data.nonterm.children[0];
+    tok = cmavo_table[se_child->data.cmavo.code].cmavo;
+    if (!strcmp(tok, "se")) {
+      k = 2;
+    } else if (!strcmp(tok, "te")) {
+      k = 3;
+    } else if (!strcmp(tok, "ve")) {
+      k = 4;
+    } else if (!strcmp(tok, "xe")) {
+      k = 5;
+    } else {
+      assert(0);
+    }
+
+    /* We won't be glossing this conversion tag */
+    xdg = prop_dont_gloss(se_child, YES);
+
+    /* Swap over the converted indices */
+    t = xx[k];
+    xx[k] = xx[1];
+    xx[1] = t;
+
+    /* Double jump because there se_tu2 and tanru_unit_2 nodes in the
+       parse tree. */
+    gp = gp->parent->parent;
+
+  }
+
+  if (converted) {
+    /* Trace down into the nu_nai_seq */
+    TreeNode *nns;
+
+    nns = find_nth_child(abstr, 1, NU_NAI_SEQ);
+    while (nns) {
+      TreeNode *nu;
+      nu = find_nth_cmavo_child(nns, 1, NU);
+      ext = prop_conversion(nu, YES);
+      ext->conv = xx[1];
+      nns = find_nth_child(nns, 1, NU_NAI_SEQ);
+    }
+  }
+}
 
 /*++++++++++++++++++++++++++++++
   This looks through the parse for chains of SE cmavo before a BRIVLA,
   to work out which place of the BRIVLA ends up in the x1 place of the
   complete thing.  This can be used for printing out the meaning.
+  Also, look for abstractions (NU) as well as BRIVLA.
 
   Eventually this analysis will need to be souped up to do full case
   tagging of all terms in the text.
@@ -170,13 +228,17 @@ handle_brivla_conversion(TreeNode *briv)
   ++++++++++++++++++++++++++++++*/
 
 static void
-conv_tag_brivla(TreeNode *x)
+conv_tag_brivla_and_abstractions(TreeNode *x)
 {
   struct nonterm *nt;
   int nc, i;
   TreeNode *c;
 
   if (x->type == N_NONTERM) {
+
+    if (x->data.nonterm.type == ABSTRACTION) {
+      handle_abstraction_conversion(x);
+    }
 
     nt = &x->data.nonterm;
     nc = nt->nchildren;
@@ -187,17 +249,12 @@ conv_tag_brivla(TreeNode *x)
          Look into why later */
       assert(c->parent == x);
 #endif
-      conv_tag_brivla(c);
+      conv_tag_brivla_and_abstractions(c);
     }
   } else {
     /* Terminal token */
     if (x->type == N_BRIVLA) {
-
-#if 0
-      fprintf(stderr, "Seen brivla %s\n", x->data.brivla.word);
-#endif
       handle_brivla_conversion(x);
-
     }
   }
     
@@ -272,7 +329,9 @@ conv_mark_gloss_types(TreeNode *x, GlossState g)
     }
 
   } else {
-    if (x->type == N_BRIVLA) {
+    if ((x->type == N_BRIVLA) ||
+        ((x->type == N_CMAVO) &&
+         (x->data.cmavo.selmao == NU))) {
       if (g != GS_NONE) {
         gt = prop_glosstype(x, YES);
         /* In something like 'le jai ca cusku' we want to treat
@@ -303,7 +362,6 @@ selbri_scan(TreeNode *x, int is_tertau)
   struct nonterm *nt;
   int nc, i;
   TreeNode *c;
-  XGlosstype *gt;
 
   nt = &x->data.nonterm;
   nc = nt->nchildren;
@@ -431,12 +489,30 @@ selbri_scan(TreeNode *x, int is_tertau)
                     selbri_scan(cc, 1);
                   }
                   break;
+
+                case ABSTRACTION:
+                  {
+                    TreeNode *nns;
+                    TreeNode *nu;
+                    XGlosstype *gt;
+                    nns = child_ref(c, 0);
+                    while (nns) {
+                      nu = find_nth_cmavo_child(nns, 1, NU);
+                      gt = prop_glosstype(nu, YES);
+                      gt->is_tertau = 1;
+                      nns = find_nth_child(nns, 1, NU_NAI_SEQ);
+                    }
+                  }
+                break;
+                
                 default:
                   break;
               }
             }
           }
-          break;
+
+        break;
+
         default:
           break;
       }
@@ -477,15 +553,7 @@ selbri_scan(TreeNode *x, int is_tertau)
     }
 
   } else {
-
-    if (is_tertau) {
-      if (x->type == N_BRIVLA) {
-        assert(("Shouldn't get here now", 0));
-        gt = prop_glosstype(x, YES);
-        gt->is_tertau = 1;
-      }
-    }
-
+    /* Nothing to do */
   }
 
 
@@ -500,7 +568,7 @@ void
 do_conversions(TreeNode *top)
 {
   conv_tag_se_bai(top);
-  conv_tag_brivla(top);
+  conv_tag_brivla_and_abstractions(top);
   conv_mark_gloss_types(top, GS_NONE);
   selbri_scan(top, 0);
 }
