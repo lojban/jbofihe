@@ -33,7 +33,7 @@ jbofihe : $(OBJS2)
 
 all : dictionary progs
 
-progs : jbofihe cmafihe jvocuhadju
+progs : jbofihe cmafihe jvocuhadju smujajgau
 
 # Analyse shift/reduce conflicts in the grammar
 conflict :
