@@ -43,6 +43,17 @@ static char **toktable=NULL;
 static int ntokens = 0;
 static int maxtokens = 0;
 
+struct Define {
+  char *lhs; /* Defined name */
+  int *rhs; /* Token numbers */
+  int nrhs;
+  int maxrhs;
+};
+
+static struct Define *deftable=NULL;
+static int ndefs = 0;
+static int maxdefs = 0;
+
 /* ================================================================= */
 
 static void
@@ -103,6 +114,79 @@ lookup_token(char *name, int create)
   }
   
   return found;
+}
+
+/* ================================================================= */
+
+static void
+grow_defs(void)
+{
+  maxdefs += 32;
+  deftable = resize_array(struct Define, deftable, maxdefs);
+}
+
+/* ================================================================= */
+
+struct Define *
+create_def(char *name)
+{
+  struct Define *result;
+  if (ndefs == maxdefs) {
+    grow_defs();
+  }
+  result = deftable + (ndefs++);
+  result->lhs = new_string(name);
+  result->nrhs = result->maxrhs = 0;
+  result->rhs = 0;
+  return result;
+}
+
+/* ================================================================= */
+
+void
+add_tok_to_def(struct Define *def, char *tok)
+{
+  int tokval = lookup_token(tok, USE_OLD_MUST_EXIST);
+
+  if (def->nrhs == def->maxrhs) {
+    def->maxrhs += 8;
+    def->rhs = resize_array(int, def->rhs, def->maxrhs);
+  }
+
+  def->rhs[def->nrhs++] = tokval;
+}
+
+/* ================================================================= */
+
+static struct Define *
+lookup_def(char *name, int create)
+{
+  int found = -1;
+  int i;
+  struct Define *result = NULL;
+  for (i=0; i<ndefs; i++) {
+    if (!strcmp(deftable[i].lhs, name)) {
+      found = i;
+      result = deftable + found;
+      break;
+    }
+  }
+
+  switch (create) {
+    case CREATE_MUST_NOT_EXIST:
+      if (found >= 0) {
+        fprintf(stderr, "Definition '%s' already declared\n", name);
+        exit(1);
+      } else {
+        result = create_def(name);
+      }
+      break;
+    case CREATE_OR_USE_OLD:
+
+      break;
+  }
+  
+  return result;
 }
 
 /* ================================================================= */
@@ -253,16 +337,32 @@ void
 add_transitions(State *curstate, Stringlist *tokens, char *destination)
 {
   Stringlist *sl;
+  struct Define *def;
   if (tokens) {
     for (sl=tokens; sl; sl=sl->next) {
-      Translist *tl;
-      tl = new(Translist);
-      tl->next = curstate->transitions;
-      /* No problem with aliasing, these strings are read-only and have
-         lifetime = until end of program */
-      tl->token = lookup_token(sl->string, USE_OLD_MUST_EXIST);
-      tl->ds_name = destination;
-      curstate->transitions = tl;
+      def = lookup_def(sl->string, USE_OLD_MUST_EXIST);
+      if (def) {
+        int i;
+        for (i=0; i<def->nrhs; i++) {
+          Translist *tl;
+          tl = new(Translist);
+          tl->next = curstate->transitions;
+          /* No problem with aliasing, these strings are read-only and have
+             lifetime = until end of program */
+          tl->token = def->rhs[i];
+          tl->ds_name = destination;
+          curstate->transitions = tl;
+        }
+      } else {
+        Translist *tl;
+        tl = new(Translist);
+        tl->next = curstate->transitions;
+        /* No problem with aliasing, these strings are read-only and have
+           lifetime = until end of program */
+        tl->token = lookup_token(sl->string, USE_OLD_MUST_EXIST);
+        tl->ds_name = destination;
+        curstate->transitions = tl;
+      }
     }
   } else {
     /* Epsilon transition, handled by setting the associated token to NULL */

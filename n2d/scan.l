@@ -17,6 +17,7 @@ int lineno = 1;
 %%
 
 STATE|State|state           { return STATE; }
+DEFINE|Define|define        { return DEFINE; }
 TOKENS|Tokens|tokens        { return TOKENS; }
 PREFIX|Prefix|prefix        { return PREFIX; }
 BLOCK|Block|block           { return BLOCK; }

@@ -55,6 +55,10 @@ typedef struct Block {
 
 State *get_curstate(void);
 
+struct Define;
+extern struct Define * create_def(char *name);
+extern void add_tok_to_def(struct Define *def, char *tok);
+
 int lookup_token(char *name, int create);
 Block *lookup_block(char *name, int create);
 State *lookup_state(Block *in_block, char *name, int create);
