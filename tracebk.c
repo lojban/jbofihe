@@ -7,6 +7,8 @@
 /* COPYRIGHT */
 
 #include <stdio.h>
+#include <string.h>
+#include "functions.h"
 #include "trctabs.c"
 #include "trcftabs.c"
 
@@ -123,7 +125,6 @@ report_trace_error(short *yyss, short *yyssp)
   {
     int r1, r2;
     int r;
-    int x, x_start;
     int is_first;
     r1 = stateindex[*yyssp], r2 = stateindex[*yyssp+1];
     for (r=r1; r<r2; r++) {
