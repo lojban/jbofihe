@@ -162,6 +162,7 @@
 %token PRIVATE_START_GIHEK
 %token PRIVATE_START_GUHEK
 %token PRIVATE_START_JEK
+%token PRIVATE_END_JEK
 %token PRIVATE_START_JOIK
 %token PRIVATE_END_JOIK
 %token PRIVATE_START_GEK
@@ -320,9 +321,9 @@ text : NAI_seq CMENE_seq free_seq joik_opt_ke free_seq text_1
      |                             jek_opt_ke           text_1
      |                                                  text_1
 
-     | text_no_text_1
+     /* | text_no_text_1 */
 
-     | /* empty */
+     /* |  empty */
      ;
 
 text_no_text_1 : NAI_seq CMENE_seq free_seq joik_opt_ke free_seq
@@ -406,6 +407,7 @@ text-1<2> = [(I [jek | joik] [[stag] BO] #) ... | NIhO ... #] [paragraphs]
 text_1 : text_1A paragraphs
        | text_1A
        |         paragraphs
+       | /* Empty */
        ;
 
 text_1A : text_1B
@@ -1695,58 +1697,58 @@ gihek : PRIVATE_START_GIHEK NA SE GIhA NAI
 jek<805> = [NA] [SE] JA [NAI]
 */
 
-jek : PRIVATE_START_JEK NA SE JA NAI
-    | PRIVATE_START_JEK NA SE JA
-    | PRIVATE_START_JEK NA    JA NAI
-    | PRIVATE_START_JEK NA    JA
-    | PRIVATE_START_JEK    SE JA NAI
-    | PRIVATE_START_JEK    SE JA
-    | PRIVATE_START_JEK       JA NAI
-    | PRIVATE_START_JEK       JA
+jek : PRIVATE_START_JEK NA SE JA NAI PRIVATE_END_JEK
+    | PRIVATE_START_JEK NA SE JA     PRIVATE_END_JEK
+    | PRIVATE_START_JEK NA    JA NAI PRIVATE_END_JEK
+    | PRIVATE_START_JEK NA    JA     PRIVATE_END_JEK
+    | PRIVATE_START_JEK    SE JA NAI PRIVATE_END_JEK
+    | PRIVATE_START_JEK    SE JA     PRIVATE_END_JEK
+    | PRIVATE_START_JEK       JA NAI PRIVATE_END_JEK
+    | PRIVATE_START_JEK       JA     PRIVATE_END_JEK
     ;
 
-jek_opt_ke :        PRIVATE_START_JEK NA SE JA NAI
-           |        PRIVATE_START_JEK NA SE JA
-           |        PRIVATE_START_JEK NA    JA NAI
-           |        PRIVATE_START_JEK NA    JA
-           |        PRIVATE_START_JEK    SE JA NAI
-           |        PRIVATE_START_JEK    SE JA
-           |        PRIVATE_START_JEK       JA NAI
-           |        PRIVATE_START_JEK       JA
-           | PRIVATE_JEK_KE PRIVATE_START_JEK NA SE JA NAI
-           | PRIVATE_JEK_KE PRIVATE_START_JEK NA SE JA
-           | PRIVATE_JEK_KE PRIVATE_START_JEK NA    JA NAI
-           | PRIVATE_JEK_KE PRIVATE_START_JEK NA    JA
-           | PRIVATE_JEK_KE PRIVATE_START_JEK    SE JA NAI
-           | PRIVATE_JEK_KE PRIVATE_START_JEK    SE JA
-           | PRIVATE_JEK_KE PRIVATE_START_JEK       JA NAI
-           | PRIVATE_JEK_KE PRIVATE_START_JEK       JA
+jek_opt_ke :                PRIVATE_START_JEK NA SE JA NAI PRIVATE_END_JEK
+           |                PRIVATE_START_JEK NA SE JA     PRIVATE_END_JEK
+           |                PRIVATE_START_JEK NA    JA NAI PRIVATE_END_JEK
+           |                PRIVATE_START_JEK NA    JA     PRIVATE_END_JEK
+           |                PRIVATE_START_JEK    SE JA NAI PRIVATE_END_JEK
+           |                PRIVATE_START_JEK    SE JA     PRIVATE_END_JEK
+           |                PRIVATE_START_JEK       JA NAI PRIVATE_END_JEK
+           |                PRIVATE_START_JEK       JA     PRIVATE_END_JEK
+           | PRIVATE_JEK_KE PRIVATE_START_JEK NA SE JA NAI PRIVATE_END_JEK
+           | PRIVATE_JEK_KE PRIVATE_START_JEK NA SE JA     PRIVATE_END_JEK
+           | PRIVATE_JEK_KE PRIVATE_START_JEK NA    JA NAI PRIVATE_END_JEK
+           | PRIVATE_JEK_KE PRIVATE_START_JEK NA    JA     PRIVATE_END_JEK
+           | PRIVATE_JEK_KE PRIVATE_START_JEK    SE JA NAI PRIVATE_END_JEK
+           | PRIVATE_JEK_KE PRIVATE_START_JEK    SE JA     PRIVATE_END_JEK
+           | PRIVATE_JEK_KE PRIVATE_START_JEK       JA NAI PRIVATE_END_JEK
+           | PRIVATE_JEK_KE PRIVATE_START_JEK       JA     PRIVATE_END_JEK
            ;
 
-jek_opt_kebo :        PRIVATE_START_JEK NA SE JA NAI
-             |        PRIVATE_START_JEK NA SE JA
-             |        PRIVATE_START_JEK NA    JA NAI
-             |        PRIVATE_START_JEK NA    JA
-             |        PRIVATE_START_JEK    SE JA NAI
-             |        PRIVATE_START_JEK    SE JA
-             |        PRIVATE_START_JEK       JA NAI
-             |        PRIVATE_START_JEK       JA
-             | PRIVATE_JEK_KE PRIVATE_START_JEK NA SE JA NAI
-             | PRIVATE_JEK_KE PRIVATE_START_JEK NA SE JA
-             | PRIVATE_JEK_KE PRIVATE_START_JEK NA    JA NAI
-             | PRIVATE_JEK_KE PRIVATE_START_JEK NA    JA
-             | PRIVATE_JEK_KE PRIVATE_START_JEK    SE JA NAI
-             | PRIVATE_JEK_KE PRIVATE_START_JEK    SE JA
-             | PRIVATE_JEK_KE PRIVATE_START_JEK       JA NAI
-             | PRIVATE_JEK_KE PRIVATE_START_JEK       JA
-             | PRIVATE_JEK_BO PRIVATE_START_JEK NA SE JA NAI
-             | PRIVATE_JEK_BO PRIVATE_START_JEK NA SE JA
-             | PRIVATE_JEK_BO PRIVATE_START_JEK NA    JA NAI
-             | PRIVATE_JEK_BO PRIVATE_START_JEK NA    JA
-             | PRIVATE_JEK_BO PRIVATE_START_JEK    SE JA NAI
-             | PRIVATE_JEK_BO PRIVATE_START_JEK    SE JA
-             | PRIVATE_JEK_BO PRIVATE_START_JEK       JA NAI
-             | PRIVATE_JEK_BO PRIVATE_START_JEK       JA
+jek_opt_kebo :                PRIVATE_START_JEK NA SE JA NAI PRIVATE_END_JEK
+             |                PRIVATE_START_JEK NA SE JA     PRIVATE_END_JEK
+             |                PRIVATE_START_JEK NA    JA NAI PRIVATE_END_JEK
+             |                PRIVATE_START_JEK NA    JA     PRIVATE_END_JEK
+             |                PRIVATE_START_JEK    SE JA NAI PRIVATE_END_JEK
+             |                PRIVATE_START_JEK    SE JA     PRIVATE_END_JEK
+             |                PRIVATE_START_JEK       JA NAI PRIVATE_END_JEK
+             |                PRIVATE_START_JEK       JA     PRIVATE_END_JEK
+             | PRIVATE_JEK_KE PRIVATE_START_JEK NA SE JA NAI PRIVATE_END_JEK
+             | PRIVATE_JEK_KE PRIVATE_START_JEK NA SE JA     PRIVATE_END_JEK
+             | PRIVATE_JEK_KE PRIVATE_START_JEK NA    JA NAI PRIVATE_END_JEK
+             | PRIVATE_JEK_KE PRIVATE_START_JEK NA    JA     PRIVATE_END_JEK
+             | PRIVATE_JEK_KE PRIVATE_START_JEK    SE JA NAI PRIVATE_END_JEK
+             | PRIVATE_JEK_KE PRIVATE_START_JEK    SE JA     PRIVATE_END_JEK
+             | PRIVATE_JEK_KE PRIVATE_START_JEK       JA NAI PRIVATE_END_JEK
+             | PRIVATE_JEK_KE PRIVATE_START_JEK       JA     PRIVATE_END_JEK
+             | PRIVATE_JEK_BO PRIVATE_START_JEK NA SE JA NAI PRIVATE_END_JEK
+             | PRIVATE_JEK_BO PRIVATE_START_JEK NA SE JA     PRIVATE_END_JEK
+             | PRIVATE_JEK_BO PRIVATE_START_JEK NA    JA NAI PRIVATE_END_JEK
+             | PRIVATE_JEK_BO PRIVATE_START_JEK NA    JA     PRIVATE_END_JEK
+             | PRIVATE_JEK_BO PRIVATE_START_JEK    SE JA NAI PRIVATE_END_JEK
+             | PRIVATE_JEK_BO PRIVATE_START_JEK    SE JA     PRIVATE_END_JEK
+             | PRIVATE_JEK_BO PRIVATE_START_JEK       JA NAI PRIVATE_END_JEK
+             | PRIVATE_JEK_BO PRIVATE_START_JEK       JA     PRIVATE_END_JEK
              ;
 
 /*
