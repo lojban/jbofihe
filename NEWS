@@ -12,8 +12,20 @@ New in version 0.35
   onto a brivla.
 - Fix inability to parse pe'a.
 - Fix inability to parse fu'e.
+- Fix core dump illustrated by a text containing a single cmavo which causes a
+  parse error.
 - Return status from main() to the shell reflects whether there was a parse
   error or not.
+- Show misparsed token as well as previously parsed ones after a parse error is
+  found.
+- Fix line numbering across comments and when token follows whitespace or
+  comment.
+- Cope with multiple BAhE cmavo before a word (previously only the closest one
+  was shown in outputs)
+- Implement erasure processing described in the Refgram. (for 'su' as described
+  in grammar.300 file)
+- Deal properly with cmene which violate the rule about la/lai/doi appearing
+  internally.
 - Port to MSDOS environment (using DJGPP toolchain); binary release for MSDOS.
 - Allow whether to use fread or mmap to access dictionary to be specified at
   configure time.
@@ -21,6 +33,7 @@ New in version 0.35
 - Change name of default dictionary (support DJGPP port)
 - Make banners for jbofihe -k option go to stdout not stderr (so they now flow
   amongst the token list)
+- Given an advisory message when a core dump would previously have happened.
 - Update various details in manual pages
 - Allow carriage return characters at ends of lines (cmafihe)
 - Further fixes to translation of pre-hyphen part of type 3 fu'ivla
@@ -29,7 +42,8 @@ New in version 0.35
 - Support the cmavo va'e (mentioned in reference grammar yet not in word lists)
 - Allow directory containing word lists to be specified to configure script,
   rather than having to be searched for.  
-
+- Fix bug in jvocuhadju where the 4 forbidden triples starting with 'n' weren't
+  being detected.
   
 New in version 0.34
 ===================
