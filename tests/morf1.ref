@@ -180,6 +180,11 @@ se,otra,
 ,,se,otra
 se,otra,,
 natmrmo'avi
+ci,e
+jbofie
+skorpio
+skorpi,o
+skorpi'o
 
 -------------------------
 ========================================
@@ -198,15 +203,20 @@ uicaitoslinku'i           : lujvo :  ui cai toslinku'i
 uiciatoslinku'i           : UNMATCHED : uiciatoslinku'i
 uiciatroslinku'i          : fu'ivla (stage-4) :  ui ciatroslinku'i
 baislinku'i               : fu'ivla (stage-4) :  baislinku'i
-se,otra                   : lujvo :  se,otra
+se,otra                   : UNMATCHED : se,otra
 se,,otra                  : UNMATCHED : se,,otra
-se,ot,ra                  : lujvo :  se,ot,ra
+se,ot,ra                  : UNMATCHED : se,ot,ra
 se,ot,,ra                 : UNMATCHED : se,ot,,ra
-,se,otra                  : Unrecognized : , se,o tra
-se,otra,                  : Unrecognized :  se,o tra,
+,se,otra                  : UNMATCHED : ,se,otra
+se,otra,                  : UNMATCHED : se,otra,
 ,,se,otra                 : UNMATCHED : ,,se,otra
-se,otra,,                 : Unrecognized :  se,o tra,,
+se,otra,,                 : UNMATCHED : se,otra,,
 natmrmo'avi               : fu'ivla (stage-3) :  natm/r/mo'avi
+ci,e                      : UNMATCHED : ci,e
+jbofie                    : UNMATCHED : jbofie
+skorpio                   : fu'ivla (stage-4) :  skorpio
+skorpi,o                  : fu'ivla (stage-4) :  skorpi,o
+skorpi'o                  : Bad fu'ivla (fails slinku'i test) :  skorpi'o
 -------------------------
 __STDERR
 ----------
