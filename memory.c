@@ -37,6 +37,33 @@ void *Malloc(size_t n)
 
   return r;
 }
+/*++++++++++++++++++++++++++++++
+  Replacement for malloc()
+  ++++++++++++++++++++++++++++++*/
+
+void *Realloc(void *old, size_t n)
+{
+  char *s, *r;
+  unsigned long *x;
+  size_t nn;
+
+  s = (char *)old - 8;
+  x = (unsigned long *) s;
+
+  bytes_in_use -= *x;
+  bytes_in_use += n;
+  if (bytes_in_use > max_bytes_in_use) {
+    max_bytes_in_use = bytes_in_use;
+  }
+
+  nn = n + 8;
+  s = (char *) realloc(s, nn);
+  x = (unsigned long *) s;
+  *x = n;
+  r = (void *) (s + 8);
+
+  return r;
+}
 
 /*++++++++++++++++++++++++++++++
   Replacement for free()

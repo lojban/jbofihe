@@ -16,6 +16,7 @@
 #include "output.h"
 
 #define new_string(s) strcpy((char *) Malloc(1+strlen(s)), (s))
+#define extend_string(x,s) (strcat(Realloc(x, (strlen(x)+strlen(s)+1)), s))
 #define new(T) (T *) Malloc(sizeof(T))
 #define new_array(T, n) (T *) Malloc(sizeof(T) * (n))
 
@@ -158,6 +159,7 @@ extern void terms_processing(TreeNode *top);
 
 /* In memory.c */
 extern void *Malloc(size_t n);
+extern void *Realloc(void *old, size_t n);
 extern void Free(void *x);
 extern void print_memory_statistics(void);
 
