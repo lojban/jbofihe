@@ -2,6 +2,9 @@
 
 # $Header$
 
+# Copyright (C) Richard P. Curnow  1998-2001
+# LICENCE
+
 # Script used to 'groom' the distribution for release after doing the 'cvs export'.
 # (Although not really needed in the distribution, this is bundled for
 # completeness and for 'disaster-recovery' purposes.)
