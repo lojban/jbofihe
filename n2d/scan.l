@@ -31,6 +31,7 @@ Endblock|endblock           { return ENDBLOCK; }
 \|                          { return PIPE; }
 \:                          { return COLON; }
 \;                          { return SEMICOLON; }
+\,                          { return COMMA; }
 \n                          { lineno++; }
 [ \t]+                      { /* ignore */ }
 
