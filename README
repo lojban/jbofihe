@@ -43,8 +43,21 @@ Bundled with jbofihe are 4 other programs :
 COMPILING
 =========
 
-You need the following tools/libraries installed to have a hope of
-building the software :
+The build sequence looks like this (assuming you want to install under
+/usr/local)
+
+perl config.pl --prefix=/usr/local
+make all
+make install
+
+The config.pl script takes these additional (optional) arguments :
+--debug to compile with debug instead of optimisation
+--installprog=<name> to specify an alternative installation program.
+--nommap to use fread() rather than mmap() to access the dictionary
+                  (use this on non-Posix systems)
+
+There are some pre-requisites for compiling.  You need the following
+tools/libraries installed to have a hope of building the software :
 
 - bison (yacc probably OK, edit the makefile)
 - flex (lex probably OK, ditto)
@@ -52,17 +65,20 @@ building the software :
 - perl
 - make (GNU make recommended)
 
-I would guess a Unix (or maybe Win32) system is probably necessary, as
-I've hardly tried to be economical with the memory footprint.  I'd be
-quite surprised if this builds/runs on a bare DOS system.  It was
-developed on Linux on a 486/120 with 32Mb of RAM.
+It should be possible to compile and run the software on Unix and on Win32
+systems (cygwin).  For reference, the software was developed on Linux on a
+486/120 with 32Mb of RAM.  As of version 0.35, I have ported the software to
+MS-DOS, using the DJGCC compiler.  The DOS version should run in Windows DOS
+boxes too.  It requires some form of DPMI server; one is bundled for use on
+bare MS-DOS systems.
 
-The following tools are recommended but not essential
+The following tools are recommended but not essential to support some of the
+output formats:
 - LaTeX (to format the highest quality outputs from the s/w)
 - a web browser (to display the intermediate quality output)
 
-As from version 0.35, the minimal word-lists are bundled with the source.  You
-can download lujvo lists separately from
+As from version 0.35, minimal word-lists (gismu and cmavo) are bundled with the
+source.  You can download lujvo lists separately from
 ftp://xiron.pc.helsinki.fi/pub/lojban/wordlists.  If either (or both) of the
 files lujvo-list and/or NORALUJV.txt is found at build time, it/they will be
 included into the glossing dictionary that jbofihe and cmafihe use.  Otherwise,
@@ -78,19 +94,6 @@ and their md5 checksums are
 
 d750de398740a2ba701422a466ddbeab  NORALUJV.txt
 dbd82f42f4156a2a1801e2a5ec1e551e  lujvo-list
-
-The build sequence looks like this (assuming you want to install under
-/usr/local)
-
-perl config.pl --prefix=/usr/local
-make all
-make install
-
-The config.pl script takes these additional (optional) arguments :
---debug to compile with debug instead of optimisation
---installprog=<name> to specify an alternative installation program.
---nommap to use fread() rather than mmap() to access the dictionary
-                  (use this on non-Posix systems)
 
 =======
 RUNNING
@@ -164,12 +167,3 @@ cmafihe -b sample.txt gives :
       5878 gerzda
       6367 ge'uzda
 
-
-===
-FAQ
-===
-
-1. Why is it called 'jbofihe' (i.e. jbofi'e = Lojbanic fish)?
-
-The name is modelled on 'Babelfish', the Altavista translation page on
-the WWW.  Sorry, my creativity was limited at the time.

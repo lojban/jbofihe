@@ -46,14 +46,19 @@ Each of the tools is documented more fully in its companion .txt file.
 WHAT IS IN THE DOS BINARY DISTRIBUTION?
 =======================================
 
-This distribution contains a pre-compiled set of binaries for jbofihe.  No
-source code is included; if you want that, you need to visit my web-site
-(http://go.to/jbofihe) and find the jbofihe-v.vv.tar.gz file.
+This distribution contains a pre-compiled set of binaries for the jbofihe
+suite.  The tools have been compiled using DJGCC
+(http://www.delorie.com/djgpp/).  They are intended to run either under MSDOS
+or in a Windows DOS box.  Under plain MSDOS, they need access to DPMI services.
+The bundled cwsdpmi.exe supplies these if it is found on the path.
 
-The tools have been compiled using DJGPP (http://www.delorie.com/djgpp/).  They
-are intended to run either under MSDOS or in a Windows DOS box.  Under plain
-MSDOS, they need access to DPMI services.  The bundled cwsdpmi.exe supplies
-these if it is found on the path.
+No source code is included; if you want that, you need to visit my web-site
+(http://go.to/jbofihe) and find the jbofihe-v.vv.tar.gz file.  My compilation
+flow relies on running all the perl, flex and bison stages under Linux (see
+doskit.fe in the source kit), copying all the *.c and *.h files to my DOS
+partition, rebooting into DOS, and compiling/linking the executables.  If you
+have perl, flex and bison available in the DOS environment, you may be able to
+perform the whole build there after appropriate editing of the makefile.
 
 =======
 RUNNING

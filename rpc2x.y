@@ -1,14 +1,17 @@
 /** -*-Fundamental-*- *************************************
   $Header$
 
-  Bison parser generator input for lojban grammar.
+  Bison parser generator input for Lojban grammar.
 
-  This is developed directly from the bnf.300 file.  A number of extra
+  This is developed directly from the LLG's bnf.300 file.  A number of extra
   tokens are added (in categ.c) so that the parser developed from this
   is LALR(1).  bnf.300 has been extended in a few areas - for syntax
   error handling, and to make certain sub-categories of some rules
   directly recognizable in the back-end processing.  The same language
   should still be recognized as that defined in bnf.300.
+
+  The original BNF rules from bnf.300 are shown commented out in this file;
+  they are those with left-hand sides of the form non-terminal<number>.
 
   With acknowledgements to the Logical Language Group, as discussed at
   the top of bnf.300.
