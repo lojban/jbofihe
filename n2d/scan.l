@@ -15,6 +15,8 @@
 int lineno = 1;
 %}
 
+%x PASSTHRU
+
 %%
 
 STATE|State|state           { return STATE; }
@@ -63,4 +65,8 @@ earlysymresult              { return EARLYSYMRESULT; }
 \,                          { return COMMA; }
 \n                          { lineno++; }
 [ \t]+                      { /* ignore */ }
+^\%\{[ \t]*\n               { BEGIN PASSTHRU; }
+<PASSTHRU>^\%\}[ \t]*\n     { BEGIN INITIAL; }
+<PASSTHRU>\n                { fputs(yytext, yyout); lineno++; }
+<PASSTHRU>.+                { fputs(yytext, yyout); }
 
