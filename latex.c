@@ -390,7 +390,7 @@ start_tags(void)
 static void
 end_tags(void)
 {
-  printf("\\textsl{\\footnotesize{} :]}");
+  printf("\\textsl{\\footnotesize{}~:] }");
 }
 
 
