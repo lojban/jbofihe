@@ -270,6 +270,7 @@ set_eols(int eols)
 static void
 write_open_bracket(BracketType type, int subscript)
 {
+  char *brac;
 
   if (type == BR_NONE) return;
 
@@ -279,57 +280,39 @@ write_open_bracket(BracketType type, int subscript)
 
   clear_eols();
 
-#if 0  
-  switch (state) {
-    case ST_START:
-    case ST_OPEN:
-      break;
-
-    case ST_TEXT:
-    case ST_CLOSE:
-      printf(" ");
-      break;
-  }
-
   switch (type) {
     case BR_NONE:
+      brac = NULL;
       break;
     case BR_ROUND:
-      printf("(");
-      printf("%d", subscript);
+      brac = "(";
       break;
     case BR_SQUARE:
-      printf("[");
-      printf("%d$", subscript);
+      brac = "[";
       break;
     case BR_BRACE:
-      printf("\\{");
-      printf("{}$^{\\IS{%d}}$", subscript);
+      brac = "{";
       break;
     case BR_ANGLE:
-      printf("$\\langle$");
-      printf("{}$^{\\IS{%d}}$", subscript);
+      brac = "<";
       break;
     case BR_CEIL:
-      printf("$\\lceil$");
-      printf("{}$^{\\IS{%d}}$", subscript);
+      brac = "^";
       break;
     case BR_FLOOR:
-      printf("$\\lfloor$");
-      printf("{}$^{\\IS{%d}}$", subscript);
+      brac = "^";
       break;
-
     case BR_TRIANGLE:
-      printf("\\TL{}");
-      printf("{}$^{\\IS{%d}}$", subscript);
+      brac = "<<";
       break;
   }
 
-  if (type != BR_NONE) {
-    printf(" ");
+  if (brac) {
+    sprintf(loj_text, "%s ", brac);
+    sprintf(eng_text, "%s ", brac);
+    sprintf(tag_text[0], "%s%d ", brac, subscript);
+    tags_used++;
   }
-
-#endif
 
   state = ST_OPEN;
 
@@ -347,6 +330,7 @@ write_open_bracket(BracketType type, int subscript)
 static void
 write_close_bracket(BracketType type, int subscript)
 {
+  char *brac;
 
   if (type == BR_NONE) return;
 
@@ -354,58 +338,39 @@ write_close_bracket(BracketType type, int subscript)
     flush_block();
   }
 
-#if 0
-
-  switch (state) {
-    case ST_START:
-    case ST_CLOSE:
-    case ST_TEXT:
-      break;
-
-    case ST_OPEN:
-      printf(" ");
-      break;
-  }
-
   switch (type) {
     case BR_NONE:
+      brac = NULL;
       break;
     case BR_ROUND:
-      printf(")");
-      printf("{}$^{\\IS{%d}}$", subscript);
+      brac = ")";
       break;
     case BR_SQUARE:
-      printf("]");
-      printf("{}$^{\\IS{%d}}$", subscript);
+      brac = "]";
       break;
     case BR_BRACE:
-      printf("\\}");
-      printf("{}$^{\\IS{%d}}$", subscript);
+      brac = "}";
       break;
     case BR_ANGLE:
-      printf("$\\rangle$");
-      printf("{}$^{\\IS{%d}}$", subscript);
+      brac = ">";
       break;
     case BR_CEIL:
-      printf("$\\rceil$");
-      printf("{}$^{\\IS{%d}}$", subscript);
+      brac = "^";
       break;
     case BR_FLOOR:
-      printf("$\\rfloor$");
-      printf("{}$^{\\IS{%d}}$", subscript);
+      brac = "^";
       break;
-
     case BR_TRIANGLE:
-      printf("\\TR{}");
-      printf("{}$^{\\IS{%d}}$", subscript);
+      brac = ">>";
       break;
   }
 
-  if (type != BR_NONE) {
-    printf(" ");
+  if (brac) {
+    sprintf(loj_text, "%s ", brac);
+    sprintf(eng_text, "%s ", brac);
+    sprintf(tag_text[0], "%s%d ", brac, subscript);
+    tags_used++;
   }
-
-#endif
 
   state = ST_CLOSE;
 
