@@ -151,6 +151,11 @@ crisa3:D;location* of summer
 curve1:P;pure
 curve2:D;pure property
 
+cusku1:A;say
+cusku2:P;said
+cusku3:S;audience
+cusku4:S;medium of expression
+
 cutci1:D;shoe
 cutci2:D;shod foot
 cutci2n:shod foot/feet
@@ -496,7 +501,6 @@ xu:yes/no question
 zi'e:and
 jai:
 li'i:experience of
-du'u:fact that
 me:amongst those that are
 
 cai:extreme
@@ -601,3 +605,25 @@ TTTT@GI:[IMPOSSIBLE!]
 
 
 ka'a:with go-er
+
+nu1:D;event* of
+ka1:S;property of
+ni1:S;amount of
+ni2:D;scale* for measurement
+jei1:S;truth value of
+jei2:D;epistemology
+li'i1:D;experience* of
+li'i2:D;experiencer* of
+si'o1:D;idea* of
+si'o2:P;with idea
+si'o2n:person with idea
+si'o2v:having idea of
+si'o2t:person with idea
+si'o2a:with idea of
+du'u1:S;fact that
+du'u2:S;fact expressed by
+su'u1:S;abstract nature of
+za'i1:S;state of
+zu'o1:S;activity of
+pu'u1:S;process of
+mu'e1:D;point event* of
