@@ -133,7 +133,7 @@ morf_dfa.c : morf_nfa.in n2d/n2d
 n2d/n2d:
 	(cd n2d && make all)
 
-morf.o : morf.c morf.h morf_dfa.c morfnc_dfa.c morf_enc.c morf_lex.c morfvlex.c
+morf.o : morf.c morf.h morf_dfa.c morf_enc.c morf_lex.c morfvlex.c
 
 txtman: jbofihe.txt cmafihe.txt smujajgau.txt jvocuhadju.txt vlatai.txt
 
@@ -251,7 +251,7 @@ canonluj.o: canonluj.c canonluj.h canonluj.inc
 lujvofns.o: lujvofns.c lujvofns.h
 erasure.o: erasure.c nodes.h nonterm.h rpc_tab.h functions.h output.h
 rpc_full.o: rpc_full.c nodes.h nonterm.h functions.h output.h
-morf.o: morf.c morf.h morf_lex.c morfvlex.c morf_dfa.c morfnc_dfa.c \
+morf.o: morf.c morf.h morf_lex.c morfvlex.c morf_dfa.c \
  morf_enc.c
 tracebk.o: tracebk.c trctabs.c trcftabs.c
 elide.o: elide.c nodes.h nonterm.h rpc_tab.h cmavotab.h functions.h \
