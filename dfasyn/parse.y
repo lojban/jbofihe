@@ -84,7 +84,7 @@ string_pipe_seq : string_pipe_seq PIPE STRING { add_tok_to_abbrev(curabbrev, $3)
                 |                      STRING { add_tok_to_abbrev(curabbrev, $1); }
                 ;
 
-token : STRING { (void) lookup_token($1, CREATE_MUST_NOT_EXIST); }
+token : STRING { (void) lookup_token($1, CREATE_MUST_NOT_EXIST); } ;
 
 instance_decl_seq : /* empty */ | instance_decl_seq instance_decl ;
 
