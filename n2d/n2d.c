@@ -1070,7 +1070,7 @@ int main (int argc, char **argv)
   print_dfa(main_block);
   print_exitval_table(main_block);
   print_compressed_tables(main_block);
-#if 
+#if 0
   print_uncompressed_tables(main_block);
 #endif
   
