@@ -13,7 +13,7 @@ INCDIR=-I@@GDBM-INCLUDE@@
 OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc.tab.o functions.o \
         categ.o nonterm.o tree.o translate.o latex.o \
         properties.o conversion.o terms.o memory.o tenses.o \
-	output.o textout.o htmlout.o connect.o stag.o
+	output.o textout.o htmlout.o connect.o stag.o latexblk.o
 
 SRCS2 = $(OBJS2:%.o=%.c)
 
@@ -108,7 +108,8 @@ nonterm.o: nonterm.c
 tree.o: tree.c nonterm.h functions.h nodes.h output.h cmavotab.h \
  rpc.tab.h
 translate.o: translate.c functions.h nonterm.h nodes.h output.h
-latex.o: latex.c functions.h nonterm.h nodes.h output.h
+latex.o: latex.c functions.h nonterm.h nodes.h output.h latex.h
+latexblk.o: latexblk.c functions.h nonterm.h nodes.h output.h latex.h
 properties.o: properties.c nodes.h nonterm.h functions.h output.h
 conversion.o: conversion.c nodes.h nonterm.h functions.h output.h \
  rpc.tab.h cmavotab.h
