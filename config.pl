@@ -54,9 +54,15 @@ if (&check_wordlists(".")) {
 }
 
 $prefix="/usr/local";
+$install="ginstall";
+
 while ($_ = shift @ARGV) {
-    if (/^--prefix/ || /^-p/) {
-	$prefix=shift @ARGV;
+    if (/^--prefix=(.*)$/) {
+	$prefix = $1;
+    } elsif (/^-p/) {
+	$prefix = shift @ARGV;
+    } elsif (/^--installprog=(.*)$/) {
+	$install = $1;
     }
 }
 
@@ -65,6 +71,7 @@ open(OUT, ">Makefile");
 while (<IN>) {
     s/\@\@WORD-LISTS\@\@/$word_list_dir/eg;
     s/\@\@PREFIX\@\@/$prefix/eg;
+    s/\@\@INSTALLPROG\@\@/$install/eg;
     print OUT;
 }
 close(IN);
