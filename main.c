@@ -28,7 +28,14 @@ extern DriverVector latex_driver, latex_block_driver;
 extern DriverVector textout_driver, text_block_driver;
 extern DriverVector html_driver;
 
+/* Flag set by yyerror - i.e. there were syntax errors that were cleaned up so
+   didn't get reported by yyparse */
 static int had_syntax_error;
+
+/* Flag set in lexical analyser + morphology block, if there are invalid words
+   in the input stream.  This causes the run to be aborted before the parse
+   phase. */
+int had_bad_tokens;
 
 /* Optional parameters to be read by backends */
 int opt_output_width;
@@ -132,6 +139,8 @@ main (int argc, char **argv)
 
   show_dictionary_defects = 0;
 
+  had_bad_tokens = 0;
+
   while (++argv, --argc) {
     if (!strcmp(*argv, "-d")) {
       debug = 1;
@@ -207,6 +216,10 @@ main (int argc, char **argv)
   parse_file(in ? in : stdin);
 
   if (in) fclose(in);
+
+  if (had_bad_tokens) {
+    return 3;
+  }
 
   if (token_lists) {
     printf("\nToken list before preprocessing\n\n");
