@@ -76,6 +76,7 @@ for $f (@files) {
 unlink "build_kit";
 unlink "make_release.pl";
 unlink "LICINS";
+system "rm -rf tests";
 
 # Ensure configure can run out of the box in the expected way!
 chmod 0755, "configure";
