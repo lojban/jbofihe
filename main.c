@@ -45,6 +45,7 @@ main (int argc, char **argv)
   int latex;
   int textout;
   int htmlout;
+  int show_memory;
 
   debug = 0;
   token_lists = 0;
@@ -55,6 +56,7 @@ main (int argc, char **argv)
   textout = 0;
   htmlout = 0;
   block = 0;
+  show_memory = 0;
 
   while (++argv, --argc) {
     if (!strcmp(*argv, "-d")) {
@@ -76,6 +78,8 @@ main (int argc, char **argv)
       htmlout = 1;
     } else if (!strcmp(*argv, "-b")) {
       block = 1;
+    } else if (!strcmp(*argv, "-m")) {
+      show_memory = 1;
     }
   }
 
@@ -102,23 +106,23 @@ main (int argc, char **argv)
 
   if (result == 0 && !had_syntax_error) {
     expand_bahe_ui(top);
-    if (!full_tree && !(latex||textout||htmlout)) {
-      compress_singletons(top);
-    }
 
-    do_conversions(top);
+    if (show_tree) {
+      if (!full_tree) {
+        compress_singletons(top);
+      }
 
-    if (latex || textout || htmlout) {
+      print_parse_tree(top);
+
+    } else if (latex || textout || htmlout) { 
+      
+      do_conversions(top);
+
       terms_processing(top);
       tense_processing(top);
       connectives_processing(top);
-    }
+      relative_clause_processing(top);
 
-    if (show_tree) {
-      print_parse_tree(top);
-    }
-
-    if (latex || textout || htmlout) {
       add_bracketing_tags(top);
 
       if (latex) {
@@ -130,13 +134,18 @@ main (int argc, char **argv)
       }
 
     } else {
+
+      compress_singletons(top);
       print_bracketed_text(top, gloss);
+
     }
 
   }
 #endif
 
-  print_memory_statistics();
+  if (show_memory) {
+    print_memory_statistics();
+  }
   
   return 0;
 }
