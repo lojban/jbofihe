@@ -182,6 +182,7 @@
 %token NAhE_BO
 %token NAhE_time
 %token NAhE_space
+%token NAhE_CAhA
 
 %token NUMBER_MAI
 %token NUMBER_MOI
@@ -1984,6 +1985,9 @@ simple_tense_modal : START_BAI NAhE se_bai NAI KI
 
                    |                             CAhA KI
                    |                             CAhA
+
+                   | NAhE_CAhA  NAhE             CAhA KI
+                   | NAhE_CAhA  NAhE             CAhA
 
                    | KI
                    | CUhE
