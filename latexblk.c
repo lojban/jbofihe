@@ -61,6 +61,12 @@ write_prologue(void)
          "\\def\\rmdefault{phv}\n"
          "\\def\\mddefault{mc}\n"
          "\\def\\bfdefault{bc}\n"
+         "\\def\\IS#1{\\textit{\\scriptsize #1}}\n"
+         "\\def\\ISS{\\it\\scriptsize}\n"
+         "\\def\\BT{\\begin{tabular}}\n"
+         "\\def\\ET{\\end{tabular}~}\n"
+         "\\def\\TL{\\begingroup\\normalsize{}$\\triangleleft$\\endgroup}\n"
+         "\\def\\TR{\\begingroup\\normalsize{}$\\triangleright$\\endgroup}\n"
          "\\geometry{left=0.75in,top=0.5in,bottom=0.5in,right=0.75in,noheadfoot}\n"
          "\\pagestyle{empty}\n"
          "\\setlength{\\parindent}{0pt}\n"
@@ -116,17 +122,17 @@ static void
 flush_block(void)
 {
   char *p;
-  printf("\\begin{tabular}[t]{l}{\\bf %s}\\\\{\\it %s}\\\\[-3pt]",
+  printf("\\BT[t]{l}{\\bf %s}\\\\{\\it %s}\\\\[-3pt]",
          loj_text, eng_text);
-  printf("{\\it\\scriptsize{}");
+  printf("{\\ISS{}");
   for (p=tag_text; *p; p++) {
     if (*p == '\n') {
-      printf("}\\\\[-3pt]{\\it\\scriptsize{}");
+      printf("}\\\\[-3pt]{\\ISS{}");
     } else {
       putchar(*p);
     }
   }
-  printf("}\\end{tabular}\n");
+  printf("}\\ET\n");
 
   tag_text[0] = 0;
   loj_text[0] = 0;
@@ -181,32 +187,32 @@ write_open_bracket(BracketType type, int subscript)
       break;
     case BR_ROUND:
       printf("(");
-      printf("{}$^{\\textit{\\scriptsize %d}}$", subscript);
+      printf("{}$^{\\IS{%d}}$", subscript);
       break;
     case BR_SQUARE:
       printf("[");
-      printf("{}$^{\\textit{\\scriptsize %d}}$", subscript);
+      printf("{}$^{\\IS{%d}}$", subscript);
       break;
     case BR_BRACE:
       printf("\\{");
-      printf("{}$^{\\textit{\\scriptsize %d}}$", subscript);
+      printf("{}$^{\\IS{%d}}$", subscript);
       break;
     case BR_ANGLE:
       printf("$\\langle$");
-      printf("{}$^{\\textit{\\scriptsize %d}}$", subscript);
+      printf("{}$^{\\IS{%d}}$", subscript);
       break;
     case BR_CEIL:
       printf("$\\lceil$");
-      printf("{}$^{\\textit{\\scriptsize %d}}$", subscript);
+      printf("{}$^{\\IS{%d}}$", subscript);
       break;
     case BR_FLOOR:
       printf("$\\lfloor$");
-      printf("{}$^{\\textit{\\scriptsize %d}}$", subscript);
+      printf("{}$^{\\IS{%d}}$", subscript);
       break;
 
     case BR_TRIANGLE:
-      printf("{\\normalsize{} $\\triangleleft$}");
-      printf("{}$^{\\textit{\\scriptsize %d}}$", subscript);
+      printf("\\TL{}");
+      printf("{}$^{\\IS{%d}}$", subscript);
       break;
   }
 
@@ -253,32 +259,32 @@ write_close_bracket(BracketType type, int subscript)
       break;
     case BR_ROUND:
       printf(")");
-      printf("{}$^{\\textit{\\scriptsize %d}}$", subscript);
+      printf("{}$^{\\IS{%d}}$", subscript);
       break;
     case BR_SQUARE:
       printf("]");
-      printf("{}$^{\\textit{\\scriptsize %d}}$", subscript);
+      printf("{}$^{\\IS{%d}}$", subscript);
       break;
     case BR_BRACE:
       printf("\\}");
-      printf("{}$^{\\textit{\\scriptsize %d}}$", subscript);
+      printf("{}$^{\\IS{%d}}$", subscript);
       break;
     case BR_ANGLE:
       printf("$\\rangle$");
-      printf("{}$^{\\textit{\\scriptsize %d}}$", subscript);
+      printf("{}$^{\\IS{%d}}$", subscript);
       break;
     case BR_CEIL:
       printf("$\\rceil$");
-      printf("{}$^{\\textit{\\scriptsize %d}}$", subscript);
+      printf("{}$^{\\IS{%d}}$", subscript);
       break;
     case BR_FLOOR:
       printf("$\\rfloor$");
-      printf("{}$^{\\textit{\\scriptsize %d}}$", subscript);
+      printf("{}$^{\\IS{%d}}$", subscript);
       break;
 
     case BR_TRIANGLE:
-      printf("{\\normalsize{} $\\triangleright$}");
-      printf("{}$^{\\textit{\\scriptsize %d}}$", subscript);
+      printf("\\TR{}");
+      printf("{}$^{\\IS{%d}}$", subscript);
       break;
   }
 
@@ -411,6 +417,9 @@ write_tag_text(char *brivla, char *place, char *trans, int brac)
     sprintf(buffer, "%s%s\n(%s)", brivla, place, make_texsafe(trans));
   } else {
     sprintf(buffer, "%s%s\n%s", brivla, place, make_texsafe(trans));
+  }
+  if (tag_text[0]) {
+    strcat(tag_text, "\n");
   }
   strcat(tag_text, buffer);
 }
