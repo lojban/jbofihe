@@ -27,7 +27,7 @@ for $o (@oldver) {
     die "Can't find tarball for old version $o" unless (-r $tarball);
 }
 
-die "Bad format for new version number" unless ($newver =~ /[0-9]\.[0-9]+((-pre[0-9]+)|([a-z]+))/);
+die "Bad format for new version number" unless ($newver =~ /[0-9]\.[0-9]+((-pre[0-9]+)|([a-z]+))?/);
 
 $tag = $newver;
 $tag =~ s/\-/_/go;
