@@ -4,8 +4,9 @@
 #
 # COPYRIGHT
 
+$dir=$ARGV[0];
 %obl=();
-open(OBL, "<oblique.key");
+open(OBL, "<$dir/oblique.key");
 while (<OBL>) {
     chop;
     if (/^([^;]+);([^;]+)$/) {
@@ -23,7 +24,7 @@ while (<OBL>) {
 }
 close(OBL);
 
-open(GIS, "<gismu");
+open(GIS, "<$dir/gismu");
 $_=<GIS>;
 while (<GIS>) {
     $gis = substr($_,0,6);
