@@ -97,14 +97,14 @@ static unsigned char s2l[32] = {
 
 #if defined(TEST_MORF)
 /* Token names for -v mode */
-static unsigned char *toknam[] = {
+static char *toknam[] = {
   "UNK", "V", "APOS", "Y", "R", "N", "C",
   "NR", "CI", "CP", "CN", "H", "BT",
-  "VV", "VX", "VY"
+  "VV", "VX", "VY", "YY"
 };
 
 /* Front end state machine actions, printable for -v mode */
-static unsigned char *actnam[] = {
+static char *actnam[] = {
   "CLR", "SFT", "FRZ"
 };
 
@@ -268,7 +268,7 @@ morf_scan(char *s, char ***buf_end)
        commas.  (The normal consonant state machine doesn't bother about
        commas) */
 
-    vsm = ((vsm & 077) << 3) | vmapchar[c];
+    vsm = ((vsm & 077) << 3) | vmapchar[(unsigned char) c & 0xff];
     
     /* If char is a comma, just advance now. */
     if (c == ',') {
@@ -276,7 +276,7 @@ morf_scan(char *s, char ***buf_end)
       continue;
     }
     
-    G = (unsigned int) mapchar[c];
+    G = (unsigned int) mapchar[(unsigned char) c & 0xff];
     letter_uppercase = (G >> 7) & 1;
     had_uppercase |= letter_uppercase;
     G &= 0x1f;
@@ -425,7 +425,7 @@ morf_scan(char *s, char ***buf_end)
     char **x;
 
     printf("%-25s : ", s);
-    printf("[EV=%08lx] ", exival);
+    printf("[EV=%08x] ", exival);
 
 
     switch (result) {
