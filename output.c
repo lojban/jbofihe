@@ -762,7 +762,7 @@ translate_brivla (TreeNode *x, char *eng)
           strcat(eng, " (CONV?)");
         }
       } else {
-        trans = translate_unknown(x->data.brivla.word);
+        trans = translate_unknown(x->data.brivla.word, conv);
         if (trans) {
           strcpy(eng, trans);
         } else {
@@ -837,7 +837,7 @@ translate_abstraction (TreeNode *x, char *eng)
           strcat(eng, " (CONV?)");
         }
       } else {
-        trans = translate_unknown(cmavo);
+        trans = translate_unknown(cmavo, conv);
         if (trans) {
           strcpy(eng, trans);
         } else {

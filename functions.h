@@ -116,7 +116,7 @@ void expand_bahe_ui(TreeNode *top);
 
 /* In translate.c */
 char * translate(char *word);
-char *translate_unknown(char *w);
+char *translate_unknown(char *w, int place);
 typedef enum {
   TCX_NOUN = 0,
   TCX_VERB = 1,
