@@ -107,6 +107,10 @@ cabra3:A;control* apparatus
 cafne1:P;frequent
 cafne2:D;standard* for being frequent
 
+carmi1:P;intense
+carmi2:D;intense property
+carmi3:A;observe* intensity
+
 catlu1:A;look* at
 catlu2:P;looked at
 
@@ -185,6 +189,12 @@ fanmo2:D;ending process
 fanta1:A;prevent
 fanta2:D;prevented event
 
+fanva1:A;translate
+fanva2:D;source text* for translation
+fanva3:D;target language* for translation
+fanva4:D;source language* for translation
+fanva5:D;result* of translation
+
 fasnu1:D;occurrence
 fasnu1v:occurring
 
@@ -203,6 +213,9 @@ gerku2:D;dog breed
 gletu1:A;copulate
 gletu2:A;copulate
 
+glico1:P;English
+glico2:D;English aspect
+
 grana1:D;rod*/pole*
 grana2:S;rod material
 
@@ -213,6 +226,10 @@ gugde3:D;land*/territory*
 gusni1:S;light
 gusni2:P;illuminated
 gusni3:D;light source
+
+jarco1:A;show*/display*
+jarco2:D;shown property
+jarco3:S;audience of display
 
 jbena1:P;born
 jbena2:A;give* birth
@@ -280,6 +297,10 @@ limna2:S;fluid swum in
 
 morsi1:P;dead
 
+mulno1:P;complete
+mulno2:D;complete property
+mulno3:D;standard* for completeness
+
 munje1:D;universe
 munje2:D;domain* of universe
 munje3:D;rule* for universe
@@ -304,12 +325,22 @@ patfu1:D;father
 patfu2:P;with father
 patfu2v:having father
 
+pemci1:D;poem
+pemci2:D;poem subject
+pemci3:A;write* poem
+pemci4:S;poem audience
+
 penmi1:A;encounter
 penmi2:P;encountered
 penmi3:D;location* of encounter
 
 pensi1:A;consider
 pensi2:D;considered subject*
+
+pinka1:D;comment
+pinka2:D;subject* of comment
+pinka3:A;express* comment
+pinka4:D;audience* for comment
 
 prami1:A;love
 prami2:P;loved
@@ -364,6 +395,12 @@ tavla2:P;talked to
 tavla3:D;subject* of talk
 tavla4:D;language* of talk
 
+tcidu1:A;read
+tcidu2:D;read text*
+tcidu3:D;reading material
+
+
+
 terdi1:S;earth
 terdi2:D;race* with home planet
 
@@ -386,6 +423,10 @@ vindu2:D;poison victim
 viska1:A;see
 viska2:D;seen thing
 viska3:D;viewing condition
+
+vlipa1:P;powerful
+vlipa2:P;brought about by power
+vlipa3:S;conditions for exerting power
 
 xamgu1:P;good
 xamgu2:A;goodness beneficiary
