@@ -972,19 +972,21 @@ print_token_details(TreeNode *x)
       break;
 
     case N_ZOI:
-      fprintf(stderr,"%s %s. %s %s.\n", x->data.zoi.form, x->data.zoi.term, x->data.zoi.text, x->data.zoi.term);
+      fprintf(stderr,"%s %s. %s %s. (line %d, col %d)\n",
+              x->data.zoi.form, x->data.zoi.term, x->data.zoi.text, x->data.zoi.term,
+              x->start_line, x->start_column);
       break;
       
     case N_ZO:
-      fprintf(stderr,"zo %s\n", x->data.zo.text);
+      fprintf(stderr,"zo %s (line %d, col %d)\n", x->data.zo.text, x->start_line, x->start_column);
       break;
 
     case N_LOhU:
-      fprintf(stderr,"lo'u %s\n", x->data.lohu.text);
+      fprintf(stderr,"lo'u %s le'u (line %d, col %d)\n", x->data.lohu.text, x->start_line, x->start_column);
       break;
 
     case N_BU:
-      fprintf(stderr,"%s bu\n", x->data.bu.word);
+      fprintf(stderr,"%s bu (line %d, col %d)\n", x->data.bu.word, x->start_line, x->start_column);
       break;
       
     case N_BRIVLA:
