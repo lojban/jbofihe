@@ -38,20 +38,20 @@ sub check_wordlists {
 
 
 # Try to find the directory containing the files 'gismu', 'cmavo', 'oblique.key' etc
-try_wordlists:
-    if (&check_wordlists(".")) {
-	$word_list_dir = ".";
-    } else {
-	# Try all directories below the parent directory
-	@dirs = qx=find .. -type d -print=;
-	for $dir (@dirs) {
-	    if (&check_wordlists($dir)) {
-		$word_list_dir = $dir;
-		last try_wordlists;
-	    }
+if (&check_wordlists(".")) {
+    $word_list_dir = ".";
+} else {
+    # Try all directories below the parent directory
+    @dirs = qx=find .. -type d -print=;
+    for $dir (@dirs) {
+	if (&check_wordlists($dir)) {
+	    $word_list_dir = $dir;
+	    last;
 	}
+    }
 
-	# Otherwise, try everything below the user's home directory
+    # Otherwise, try everything below the user's home directory
+    unless ($word_list_dir) {
 	@dirs = qx=find ~ -type d -print=;
 	for $dir (@dirs) {
 	    if (&check_wordlists($dir)) {
@@ -59,9 +59,12 @@ try_wordlists:
 		last try_wordlists;
 	    }
 	}
+    }	
 
-	dir "Can't find word lists gismu, cmavo etc in your directory structure.\n";
+    unless ($word_list_dir) {
+	die "Can't find word lists gismu, cmavo etc in your directory structure.\n";
     }
+}
 
 
 
