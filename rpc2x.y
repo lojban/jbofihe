@@ -1940,22 +1940,22 @@ simple-tense-modal<972> = [NAhE] [SE] BAI [NAI] [KI] |
 
 */
 
-simple_tense_modal : START_BAI NAhE se_bai NAI KI
-                   | START_BAI NAhE se_bai NAI
-                   | START_BAI NAhE se_bai     KI
+simple_tense_modal : START_BAI NAhE se_bai  NAI KI
+                   | START_BAI NAhE se_bai  NAI
+                   | START_BAI NAhE se_bai      KI
                    | START_BAI NAhE se_bai
-                   | START_BAI NAhE    BAI NAI KI
-                   | START_BAI NAhE    BAI NAI
-                   | START_BAI NAhE    BAI     KI
-                   | START_BAI NAhE    BAI
-                   | START_BAI      se_bai NAI KI
-                   | START_BAI      se_bai NAI
-                   | START_BAI      se_bai     KI
+                   | START_BAI NAhE    bai1 NAI KI
+                   | START_BAI NAhE    bai1 NAI
+                   | START_BAI NAhE    bai1     KI
+                   | START_BAI NAhE    bai1
+                   | START_BAI      se_bai  NAI KI
+                   | START_BAI      se_bai  NAI
+                   | START_BAI      se_bai      KI
                    | START_BAI      se_bai
-                   | START_BAI         BAI NAI KI
-                   | START_BAI         BAI NAI
-                   | START_BAI         BAI     KI
-                   | START_BAI         BAI
+                   | START_BAI         bai1 NAI KI
+                   | START_BAI         bai1 NAI
+                   | START_BAI         bai1     KI
+                   | START_BAI         bai1
 
                    | NAhE_time NAhE time  space CAhA KI
                    | NAhE_time NAhE time  space CAhA
@@ -2007,6 +2007,9 @@ simple_tense_modal : START_BAI NAhE se_bai NAI KI
 
 se_bai : SE BAI
        ;
+
+bai1 : BAI
+     ;
 
 
 /*
