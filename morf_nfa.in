@@ -697,7 +697,6 @@ BLOCK SLINKUI
     # existing lujvo one at least gives code commonality so is easier to
     # maintain.
     t0 : SYL2N
-    t1 : SYL2N
 
     STATE in_after_c # First syl is CVC
         # Link to final syl
@@ -711,24 +710,8 @@ BLOCK SLINKUI
         -> t0.sn.in_main
         -> t0.in
 
-    STATE in_after_v # First syl is CVV
-        R -> cvvr
-        N -> cvvn
-        C|N|R -> t1.sn.in_to_ccv
-
-    STATE cvvr
-        CP -> t1.in
-        CP -> t1.sn.in_after_nr_hyphen 
-
-    STATE cvvn
-        NR -> t1.in
-        NR -> t1.sn.in_after_nr_hyphen 
-
     STATE t0.sn.exit
         = BIT_SLINKUI_0
-
-    STATE t1.sn.exit
-        = BIT_SLINKUI_1
 
 ENDBLOCK
 
@@ -851,9 +834,6 @@ BLOCK FUIVLA
     STATE in_prefixed
         -> start0.in
         -> start1.in_prefixed
-
-    STATE start1.one_v
-        -> slinkui.in_after_v
 
     STATE start0.c
         -> slinkui.in_after_c

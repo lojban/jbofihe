@@ -89,12 +89,11 @@ print "};\n\n";
 for $fv0 (0..1) {
 for $fv1 (0..1) {
 for $sl0 (0..1) {
-for $sl1 (0..1) {
 for $cmn (0..1) {
-    $addr = ($fv0) | ($fv1<<1) | ($sl0<<2) | ($sl1<<3) | ($cmn<<4);
+    $addr = ($fv0) | ($fv1<<1) | ($sl0<<2) | ($cmn<<3);
     $result = $W_UNKNOWN;
     $decrement = 0;
-    if (($cmn && ($fv0 || $fv1 || $sl0 || $sl1))) {
+    if (($cmn && ($fv0 || $fv1 || $sl0))) {
         $result = $W_BIZARRE;
     } elsif ($cmn) {
         $result = $W_CMENE;
@@ -102,7 +101,7 @@ for $cmn (0..1) {
         # If the shorter tail word is invalid due to slinku'i, yet the longer
         # word formed by leaving the previous syllable attached is OK, then
         # that is the correct result. (e.g baislinku'i is a valid fu'ivla as is)
-        if ($fv1 && !$sl1) {
+        if ($fv1) {
             $decrement = 1;
             $result = $W_FUIVLA;
         } else {
@@ -110,9 +109,6 @@ for $cmn (0..1) {
         }
     } elsif ($fv0) {
         $result = $W_FUIVLA;
-    } elsif ($fv1 && $sl1) {
-        $result = $W_BAD_SLINKUI;
-        $decrement = 1;
     } elsif ($fv1) {
         $result = $W_FUIVLA;
         $decrement = 1;
@@ -121,7 +117,6 @@ for $cmn (0..1) {
     }
     $table[$addr] = $result + ($decrement ? 0x80 : 0x0);
 
-}
 }
 }
 }

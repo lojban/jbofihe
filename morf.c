@@ -49,8 +49,7 @@ extern int allow_cultural_rafsi;
 #define BIT_FUIVLA_0      0x0100
 #define BIT_FUIVLA_1      0x0200
 #define BIT_SLINKUI_0     0x0400
-#define BIT_SLINKUI_1     0x0800
-#define BIT_CMENE         0x1000
+#define BIT_CMENE         0x0800
 
 /* Define the values returned by priority coding the bit patterns */
 #define W_UNKNOWN         0
@@ -376,7 +375,7 @@ morf_scan(char *s, char ***buf_end)
     decrement = result>>7;
     result &= 0x7f;
     if (!result) {
-      result = morf_enctab2[(exival >> 8) & 0x1f];
+      result = morf_enctab2[(exival >> 8) & 0x0f];
       decrement = result>>7;
       result &= 0x7f;
     }
