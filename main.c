@@ -8,6 +8,7 @@
 
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "nodes.h"
 #include "functions.h"
@@ -25,6 +26,9 @@ extern DriverVector textout_driver, text_block_driver;
 extern DriverVector html_driver;
 
 static int had_syntax_error;
+
+/* Optional parameters to be read by backends */
+int opt_output_width;
 
 void yyerror(char *s) {
   fprintf(stderr, "--------------------\n");
@@ -59,6 +63,7 @@ main (int argc, char **argv)
   htmlout = 0;
   block = 0;
   show_memory = 0;
+  opt_output_width = 80;
 
   while (++argv, --argc) {
     if (!strcmp(*argv, "-d")) {
@@ -82,6 +87,14 @@ main (int argc, char **argv)
       block = 1;
     } else if (!strcmp(*argv, "-m")) {
       show_memory = 1;
+    } else if (!strncmp(*argv, "-w", 2)) {
+      if (strlen(*argv) > 2) {
+        opt_output_width = atoi(*argv + 2);
+      } else {
+        /* Get next argument */
+        --argc, ++argv;
+        opt_output_width = atoi(*argv);
+      }
     }
   }
 
