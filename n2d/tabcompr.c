@@ -5,7 +5,8 @@
   states have a lot of transitions the same.
   ***************************************/
 
-/* COPYRIGHT */
+/* Copyright (C) Richard P. Curnow  2001 */
+/* LICENCE */
 
 #include "n2d.h"
 

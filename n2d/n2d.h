@@ -4,7 +4,8 @@
   Header file for NFA->DFA conversion utility.
   ***************************************/
 
-/* COPYRIGHT */
+/* Copyright (C) Richard P. Curnow  2000-2001 */
+/* LICENCE */
 
 #ifndef N2D_H
 #define N2D_H

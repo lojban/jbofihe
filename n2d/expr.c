@@ -4,7 +4,8 @@
   Routines for compressing the NFA by commoning-up equivalent states
   ***************************************/
 
-/* COPYRIGHT */
+/* Copyright (C) Richard P. Curnow  2001 */
+/* LICENCE */
 
 /*
   Handle boolean expressions used to determine the final scanner result

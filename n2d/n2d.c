@@ -4,7 +4,8 @@
   Main program for NFA to DFA table builder program.
   ***************************************/
 
-/* COPYRIGHT */
+/* Copyright (C) Richard P. Curnow  2000-2001 */
+/* LICENCE */
 
 /*
   Convert a nondeterminstic finite automaton (NFA) into a deterministic finite

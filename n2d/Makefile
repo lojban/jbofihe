@@ -2,7 +2,8 @@
 #
 # Makefile for NFA->DFA conversion utility
 #
-# COPYRIGHT
+# Copyright (C) Richard P. Curnow  2000-2001
+# LICENCE
 #
 
 CC=gcc
