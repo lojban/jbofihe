@@ -99,7 +99,15 @@ for $cmn (0..1) {
     } elsif ($cmn) {
         $result = $W_CMENE;
     } elsif ($fv0 && $sl0) {
-        $result = $W_BAD_SLINKUI;
+        # If the shorter tail word is invalid due to slinku'i, yet the longer
+        # word formed by leaving the previous syllable attached is OK, then
+        # that is the correct result. (e.g baislinku'i is a valid fu'ivla as is)
+        if ($fv1 && !$sl1) {
+            $decrement = 1;
+            $result = $W_FUIVLA;
+        } else {
+            $result = $W_BAD_SLINKUI;
+        }
     } elsif ($fv0) {
         $result = $W_FUIVLA;
     } elsif ($fv1 && $sl1) {
