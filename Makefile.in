@@ -133,7 +133,7 @@ morf_enc.c : mk_enctab.pl
 	perl mk_enctab.pl > morf_enc.c 2>morf_enc.err
 
 morf_dfa.c : morf_nfa.in dfasyn/dfasyn
-	dfasyn/dfasyn -v -r morf_dfa.report morf_nfa.in -o morf_dfa.c
+	dfasyn/dfasyn -v morf_nfa.in -o morf_dfa.c
 
 bctest : bccheck.c bctables.c
 	$(CC) $(CFLAGS) -o bctest -DTEST=1 bccheck.c
@@ -141,7 +141,7 @@ bctest : bccheck.c bctables.c
 bccheck.o : bccheck.c bctables.c
 
 bctables.c : bctables.in dfasyn/dfasyn
-	dfasyn/dfasyn -v -r bctables.report < bctables.in > bctables.c
+	dfasyn/dfasyn -v bctables.in -o bctables.c
     
 dfasyn/dfasyn:
 	(cd dfasyn && make all)
