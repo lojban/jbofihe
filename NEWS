@@ -2,11 +2,29 @@ New in version 0.35
 ===================
 
 - Add case tagging for selbri involving MOI, GOhA, NUhA
-- Fix bugs handling number/lerfu-string containing bu followed by
+- Fix bugs parsing number/lerfu-string containing bu followed by
   moi/mei/roi/re'u
+- Fix printing of 'bu' construction on token list following a parse error.
+- Fix output translation if a 'bu' construction occurs in a number/lerfu
+  sequence before MOI.
+- Attempt output translation of zo, zoi, bu etc. constructions.
 - Fix lexing bug if an all-vowels (emotional) cmavo with length > 1 is prefixed
   onto a brivla.
 - Fix inability to parse pe'a.
+- Port to MSDOS environment (using DJGPP toolchain); binary release for MSDOS.
+- Allow whether to use fread or mmap to access dictionary to be specified at
+  configure time.
+- Open files in binary mode instead of text (support DJGPP port)
+- Change name of default dictionary (support DJGPP port)
+- Make banners for jbofihe -k option go to stdout not stderr (so they now flow
+  amongst the token list)
+- Update various details in manual pages
+- Allow carriage return characters at ends of lines (cmafihe)
+- Further fixes to translation of pre-hyphen part of type 3 fu'ivla
+- Support the cmavo va'e (mentioned in reference grammar yet not in word lists)
+- Allow directory containing word lists to be specified to configure script,
+  rather than having to be searched for.  
+
   
 New in version 0.34
 ===================
