@@ -33,21 +33,8 @@ extern int allow_cultural_rafsi;
 #endif
 
 #include "morf.h"
+#include "morf_dfa.h"
 
-enum raw_category {/*{{{*/
-  R_UNKNOWN,
-  R_CMAVOS, R_CMAVOS_END_CY,
-  R_GISMU_0, R_GISMU_1,
-  R_LUJVO_0, R_LUJVO_1,
-  R_CULTURAL_LUJVO_0, R_CULTURAL_LUJVO_1,
-  R_STAGE3_0, R_STAGE3_1, R_STAGE3_1_CVC,
-  R_X_STAGE3_0, R_X_STAGE3_1, R_X_STAGE3_1_CVC,
-  R_STAGE4_0, R_STAGE4_1,
-  R_CMENE,
-  R_BAD_TOSMABRU, R_CULTURAL_BAD_TOSMABRU,
-  R_BAD_SLINKUI
-};
-/*}}}*/
 enum processed_category {/*{{{*/
   W_UNKNOWN,
   W_CMAVOS, W_CMAVOS_END_CY,
@@ -63,15 +50,6 @@ enum processed_category {/*{{{*/
   W_BIZARRE
 };
 /*}}}*/
-enum state_attribute {/*{{{*/
-  AT_UNKNOWN, /* nothing-to-do option */
-  AT_S3_3, /* after hyphen triplet for short-rafsi stage 3 */
-  AT_S3_4, /* after hyphen triplet for long-rafsi stage 3 */
-  AT_XS3_3, /* after hyphen triplet for short-rafsi extended stage 3 */
-  AT_XS3_4, /* after hyphen triplet for long-rafsi extended stage 3 */
-};
-/*}}}*/
-
 /* Include table for turning the letter stream into meta-classes (consonant,
  * vowel, permissible pair etc).  These 'meta-classes' are the tokens used by
  * the DFA.  These tables are built my mk_fetab.pl */
@@ -79,11 +57,6 @@ enum state_attribute {/*{{{*/
 
 /* Include file for checking vowel pairs/clusters within the input stream. */
 #include "morfvlex.c"
-
-/* Include the main DFA scanning tables (including cultural rafsi) built by
-   nfa2dfa.pl. */
-#include "morf_dfa.c"
-
 
 static unsigned char s2l[32] = /*{{{*/
 /* Map N->1, R->2, other C->3, else ->0.  Used to trim down the last-but-one
@@ -221,38 +194,6 @@ static unsigned char vmapchar[256] = {/*{{{*/
 
 /*********************************************************************/
 
-int find_next_state(int cs, unsigned char k)/*{{{*/
-/*********************************************************************/
-/* Given the current state and the 'token' read, find the next state */
-/*********************************************************************/
-{
-  int h, l, m;
-  unsigned char xm;
-  unsigned char *t = morf_token;
-  unsigned short *nstab = morf_nextstate;
-  unsigned int kk = k;
-
-  while (cs >= 0) {
-    l = morf_base[cs];
-    h = morf_base[cs+1];
-    while (h > l) {
-      m = (h + l) >> 1;
-      xm = t[m];
-      if (xm == kk) goto done;
-      if (m == l) break;
-      if (xm>kk) h = m;
-      else       l = m;
-    }
-    cs = morf_defstate[cs]; /* Move onto next subtable to check. */
-  }
-
-  /* Tried all tables without a match, fail */
-  return -1;
-
-done:
-  return (int)nstab[m];
-}
-/*}}}*/
 MorfType morf_scan(char *s, char ***buf_end)/*{{{*/
 /* The main scanning routine.  's' is the string to be scanned.  buf_end is a
    pointer to a table of pointers to characters (i.e. pass by reference so we
@@ -395,7 +336,8 @@ MorfType morf_scan(char *s, char ***buf_end)/*{{{*/
     p++;
     initial = 0;
 
-    next_state = find_next_state(state, tok);
+    /* next_state function from file built by dfa builder */
+    next_state = morf_next_state(state, tok);
 
 #ifdef TEST_MORF
     if (verbose) {

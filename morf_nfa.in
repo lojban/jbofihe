@@ -17,6 +17,11 @@
 # COPYRIGHT
 #
 ###########################################################
+# Stuff to pass through verbatim to C output file
+%{
+#include "morf_dfa.h"
+%}
+###########################################################
 
 # Declare all symbols in same order as lexer (lexer returns (0 .. whatever)
 # when it recognizes the corresponding token)
@@ -960,6 +965,12 @@ Result TAG_CMAVOS_END_CY -> R_CMAVOS_END_CY
 
 # The default case if nothing else matches
 DefResult R_UNKNOWN
+
+# C type of exit values
+Type "enum raw_category"
+
+# C type of attribute table
+Attr Type "enum state_attribute"
 
 # Attribute tags
 Attr Result AT_S3_3
