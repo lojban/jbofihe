@@ -13,12 +13,12 @@
 #define DEFAULT_DICTIONARY "smujmaji.dat"
 #endif
 
-#ifdef HAVE_MMAP
 #include <unistd.h>
-#include <sys/types.h>
 #include <sys/stat.h>
+
+#ifdef HAVE_MMAP
+#include <sys/types.h>
 #include <sys/mman.h>
-static char *mmap_base = NULL;
 #endif
 
 static int inited = 0;
@@ -70,6 +70,11 @@ read_database(FILE *in)
   Entry *entries;
   int i, len;
 
+  struct stat sb;
+  off_t offset;
+  int result;
+  char *dict_base = NULL;
+
   n_entries = get_long(in);
   entries = new_array(Entry, n_entries);
   dict = new_array(Keyval, n_entries);
@@ -81,19 +86,18 @@ read_database(FILE *in)
     entries[i].vlen = len;
   }
 
+
+  if (fstat(fileno(in), &sb) < 0) {
+    fprintf(stderr, "Could not stat the dictionary file\n");
+    exit(1);
+  }
+
+  offset = ftell(in);
+
 #ifdef HAVE_MMAP
 
   {
-    struct stat sb;
-    off_t offset;
-    int result;
-
-    if (fstat(fileno(in), &sb) < 0) {
-      fprintf(stderr, "Could not stat the dictionary file\n");
-      exit(1);
-    }
-
-    offset = ftell(in);
+    char *mmap_base = NULL;
     mmap_base = mmap(NULL, sb.st_size, PROT_READ, MAP_SHARED, fileno(in), 0);
     result = (int) mmap_base;
 
@@ -102,31 +106,33 @@ read_database(FILE *in)
       exit(1);
     }
 
-    /* Loop through to build pointer arrays */
-    for (i=0; i<n_entries; i++) {
-      if (i == 0) {
-        dict[i].key = mmap_base + offset;
-      } else {
-        dict[i].key = dict[i-1].val + entries[i-1].vlen + 1; /* Allow for null termination */
-      }
-      dict[i].val = dict[i].key + entries[i].klen + 1; /* Allow for null termination */
-    }
+    dict_base = mmap_base + offset;
   }
-  
+
 #else
 
   {
-    char key[1024], val[1024];
+    size_t dict_size = sb.st_size - offset;
 
-    for (i=0; i<n_entries; i++) {
-      fread(key, sizeof(char), entries[i].klen + 1, in);
-      fread(val, sizeof(char), entries[i].vlen + 1, in);
-      dict[i].key = new_string(key);
-      dict[i].val = new_string(val);
+    dict_base = new_array(char, dict_size);
+    result = fread(dict_base, sizeof(char), dict_size, in);
+    if (result != dict_size) {
+      perror("Could not read dictionary contents\n");
+      exit(1);
     }
   }
 
 #endif
+
+  /* Loop through to build pointer arrays */
+  for (i=0; i<n_entries; i++) {
+    if (i == 0) {
+      dict[i].key = dict_base;
+    } else {
+      dict[i].key = dict[i-1].val + entries[i-1].vlen + 1; /* Allow for null termination */
+    }
+    dict[i].val = dict[i].key + entries[i].klen + 1; /* Allow for null termination */
+  }
 
   free(entries);
 }
