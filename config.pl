@@ -53,12 +53,18 @@ if (&check_wordlists(".")) {
     }
 }
 
-
+$prefix="/usr/local";
+while ($_ = shift @ARGV) {
+    if (/^--prefix/ || /^-p/) {
+	$prefix=shift @ARGV;
+    }
+}
 
 open(IN, "<Makefile.in");
 open(OUT, ">Makefile");
 while (<IN>) {
     s/\@\@WORD-LISTS\@\@/$word_list_dir/eg;
+    s/\@\@PREFIX\@\@/$prefix/eg;
     print OUT;
 }
 close(IN);
