@@ -51,7 +51,7 @@ add_bracketing_internal(TreeNode *x, int *seq)
         y->number = ++*seq;
         y->brackets = BR_ROUND;
         break;
-      case SUMTI_1:
+
       case SUMTI_2:
       case SUMTI_3:
       case SUMTI_4:
@@ -71,6 +71,7 @@ add_bracketing_internal(TreeNode *x, int *seq)
         break;
 
       case SUMTI:
+      case SUMTI_1:
       case LAHE_SUMTI_6:
       case NAHE_BO_SUMTI_6:
       case NAME_SUMTI_6:
@@ -982,6 +983,13 @@ output_term(TreeNode *x, WhatToShow what)
             if (trans) {
               (drv->write_tag_text) ("", "", trans, NO);
             }
+            break;
+          case TTT_JAI:
+            trans = adv_translate(tag->brivla.x->data.brivla.word, tag->pos, TCX_TAG);
+            if (!trans) trans = "?";
+            sprintf(tp, "%d", tag->pos);
+            (drv->start_tag)();
+            (drv->write_tag_text)(tag->brivla.x->data.brivla.word, tp, trans, YES);
             break;
           case TTT_ABSTRACTION:
             {
