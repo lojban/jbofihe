@@ -4,7 +4,10 @@
   Output formatting functions
   ***************************************/
 
-/* COPYRIGHT */
+/* Copyright 1998-2001 Richard P. Curnow */
+/* Includes contributions from Björn Gohla to provide the GNUStep
+ * interface */
+/* LICENCE */
 
 #include "cm.h"
 
@@ -17,6 +20,10 @@ int width;
 /* ================================================== */
 
 #define BUFFER_SIZE 512
+
+#ifdef PLIST
+static proplist_t dictionary = NULL;
+#endif
 
 static char lines[3][BUFFER_SIZE];
 static int width_used;
@@ -104,6 +111,11 @@ start_output(void)
       lines[0][0] = lines[1][0] = lines[2][0] = 0;
       width_used = 0;
       break;
+#ifdef PLIST
+  case OF_PLIST:
+      dictionary = PLMakeDictionaryFromEntries(NULL, NULL, NULL);
+      break;
+#endif
   }
 
 }
@@ -122,6 +134,16 @@ end_output(void)
     case OF_TEXTBLK:
       block_newline();
       break;
+#ifdef PLIST
+    case OF_PLIST:
+
+      /* we could save the dictionary to a named file  */
+      /* 	dictionary = PLSetFilename(dictionary, PLMakeString("output.plist")); */
+      /* 	PLSave(dictionary, NO); */
+      /* but instead for now we just print to stdout */
+      printf(PLGetDescription(dictionary));
+      break;
+#endif //PLIST
   }
 }
 
@@ -130,22 +152,27 @@ end_output(void)
 void
 output(const char *lojban, const char *trans, const char *selmao)
 {
-  switch (ofmt) {
+  switch (ofmt) { 
     case OF_LATEX:
-    printf ("\\begin{tabular}[t]{l}"
-            "\\textbf{\\footnotesize %s}\\\\\n"
-            "\\textrm{\\footnotesize %s}\\\\\n"
-            "\\textit{\\footnotesize %s}\n"
-            "\\end{tabular}\n"
-            "\\rule{0in}{1.0\\baselineskip}",
-            lojban, selmao, trans);
+      printf ("\\begin{tabular}[t]{l}"
+          "\\textbf{\\footnotesize %s}\\\\\n"
+          "\\textrm{\\footnotesize %s}\\\\\n"
+          "\\textit{\\footnotesize %s}\n"
+          "\\end{tabular}\n"
+          "\\rule{0in}{1.0\\baselineskip}",
+          lojban, selmao, trans);
       break;
     case OF_TEXT:
-    printf ("%s <%s> [%s] ", lojban, selmao, trans);
+      printf ("%s <%s> [%s] ", lojban, selmao, trans);
       break;
     case OF_TEXTBLK:
       do_block(lojban, selmao, trans);
       break;
+#ifdef PLIST
+    case OF_PLIST:      
+      dictionary = PLInsertDictionaryEntry(dictionary, PLMakeString(lojban), PLMakeString(trans));
+      break;
+#endif //PLIST
   }
 }
 /* ================================================== */
@@ -174,10 +201,10 @@ output_paren(const char *text)
 {
   switch (ofmt) {
     case OF_LATEX:
-    printf ("\\textrm{\\footnotesize %s}", text);
+      printf ("\\textrm{\\footnotesize %s}", text);
       break;
     case OF_TEXT:
-    printf ("(%s) ", text);
+      printf ("(%s) ", text);
       break;
     case OF_TEXTBLK:
       do_block("(", "(", "(");

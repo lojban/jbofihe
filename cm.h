@@ -18,6 +18,10 @@
 #include <string.h>
 #include <ctype.h>
 
+#ifdef PLIST
+#include <proplist.h>
+#endif
+
 #define new_string(s) strcpy((char *) malloc(1+strlen(s)), (s))
 #define extend_string(s, x) strcat((char *) realloc(s, 1+strlen(s)+strlen(x)), x)
 #define new(T) (T *) malloc(sizeof(T))
@@ -29,7 +33,9 @@ typedef enum {
   OF_LATEX,
   OF_TEXT,
   OF_TEXTBLK
-
+#ifdef PLIST
+  ,OF_PLIST
+#endif
 } OutputFormat;
 
 /*+ Flag indicating whether to generate latex blocked output instead

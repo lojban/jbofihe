@@ -4,12 +4,15 @@
   Main routine for mini-translater
   ***************************************/
 
-/* COPYRIGHT */
+/* Copyright 1998-2001 Richard P. Curnow */
+/* Help options added by Björn Gohla */
+/* LICENCE */
 
 #include "cm.h"
 #include "version.h"
 
 extern FILE *yyin;
+extern int yylex(void);
 
 int
 yywrap(void)
@@ -31,11 +34,24 @@ main (int argc, char **argv)
       ofmt = OF_LATEX;
     } else if (!strcmp(*argv, "-b")) {
       ofmt = OF_TEXTBLK;
+#ifdef PLIST
+    } else if (!strcmp(*argv, "-p")) {
+      ofmt = OF_PLIST;
+#endif 
     } else if (!strcmp(*argv, "-w")) {
       ++argv, --argc;
       width = atoi(*argv);
     } else if (!strcmp(*argv, "-v")) {
       fprintf(stderr, "cmafihe version %s\n", version_string);
+      exit(0);
+    } else if ( !strcmp(*argv, "-h") || !strcmp(*argv, "--help") ) {
+      fprintf(stderr, "cmafihe, gloss lojban text without verifying\n"
+                      "usage: cmafihe [-b [-w WIDTH] | -p | -l | -v] [FILENAME]\n"
+                      "no options : output inline ascii\n"
+                      "-b         : output blocked ascii with optional WIDTH, default %i\n"
+                      "-l         : output blocked latex code\n"
+                      "-p         : output GNUStep property list with vocabulary\n"
+                      "-v         : version\n", width);
       exit(0);
     } else {
       filename = *argv;

@@ -13,7 +13,9 @@ $prefix="/usr/local";
 $debug=0;
 $profile=0;
 $mmap=1;
+$plist=0;
 $embed=0;
+$plist=0;
 
 while ($_ = shift @ARGV) {
     if (/^--help/ || /^-h/) {
@@ -25,6 +27,8 @@ while ($_ = shift @ARGV) {
         $prefix = shift @ARGV;
     } elsif (/^--profile$/) {
 		$profile = 1;
+    } elsif (/^--plist$/) {
+        $plist = 1;
     } elsif (/^--debug$/) {
 		$debug = 1;
 	} elsif (/^--nommap$/) {
@@ -34,6 +38,13 @@ while ($_ = shift @ARGV) {
     }
 }
 
+if ($plist) {
+    $defines .= " -DPLIST";
+    $cmafihe_ldopts="-lPropList";
+} else {
+    $cmafihe_ldopts="";
+}
+
 $optdebug = $debug ? "-g -Wall" : "-O2";
 if ($profile) {
     $optdebug .= " -pg";
@@ -41,6 +52,10 @@ if ($profile) {
 $mmap_flag = $mmap ? "-DHAVE_MMAP=1" : "";
 $defines = $mmap_flag;
 if ($debug) {
+if ($plist) {
+    $defines .= " -DPLIST";
+}
+
     $defines .= " -DEXPOSE_SIGNALS";
 }
 
@@ -54,9 +69,11 @@ if ($embed) {
 
 open(IN, "<Makefile.in");
 open(OUT, ">Makefile");
-while (<IN>) {
+while (<IN>) 
+{
     s/\@\@PREFIX\@\@/$prefix/eg;
-	s/\@\@OPTDEBUG\@\@/$optdebug/eg;
+    s/\@\@OPTDEBUG\@\@/$optdebug/eg;
+    s/\@\@CMAFIHE_LDOPTS\@\@/$cmafihe_ldopts/eg;
     s/\@\@DEFINES\@\@/$defines/eg;
     s/\@\@DICTDATA_C\@\@/$dictdata_c/eg;
     print OUT;
