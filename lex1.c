@@ -237,6 +237,7 @@ process_word(char *buf, int start_line, int start_column)
   char *word_starts[1024];
   char **pws, **pwe;
   MorfType morf_type;
+  extern int had_bad_tokens; /* in main.c */
 
   if (zoi_data) {
     if (!strcmp(buf, zoi_delim)) {
@@ -288,8 +289,14 @@ process_word(char *buf, int start_line, int start_column)
   morf_type = morf_scan(buf, &pwe);
   switch (morf_type) {
     case MT_BOGUS:
-      fprintf(stderr, "Unrecognizable word %s at line %d column %d, ignored\n",
+      fprintf(stderr, "Unrecognizable word '%s' at line %d column %d\n",
               buf, start_line, start_column);
+      had_bad_tokens = 1;
+      break;
+    case MT_BAD_UPPERCASE:
+      fprintf(stderr, "Invalid uppercase letters in word '%s' at line %d column %d\n",
+              buf, start_line, start_column);
+      had_bad_tokens = 1;
       break;
     case MT_BRIVLA:
       {
