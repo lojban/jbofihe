@@ -1,7 +1,7 @@
 Begin3
 Title:          jbofihe
-Version:        0.30
-Entered-date:   23APR00
+Version:        0.31
+Entered-date:   31APR00
 Description:    A parser for Lojban, a constructed human language
                 with a machine-parseable grammar (see www.lojban.org).
                 Also outputs rough English translations.  Several
