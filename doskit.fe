@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# $Header$
+
+# The flow for building the DOS binary-only release is
+# 1. Make usual Unix source release
+# 2. Unpack a copy of the Unix source kit
+# 3. Run this script
+# 4. Boot into DOS and make the executables
+# 5. Run some basic sanity checks
+# 6. Reboot Linux and run doskit.be
+
+if [ ! -r smujmaji.dat ]; then
+    # Don't do this twice if a failure occurs below (i.e. if /dosc isn't
+    # mounted!)
+    make dictionary
+fi
+
+make rpc_tab.c
+make stag.c
+make canonluj.inc
+make jbofihe.txt
+make cmafihe.txt
+make smujajgau.txt
+make jvocuhadju.txt
+
+cp *.c *.h smujmaji.dat canonluj.inc /dosc/jbofihe
+
+echo "Now reboot into DOS and do"
+echo "make -f makefile.dos progs"
+echo "Then reboot Linux"
+
+
