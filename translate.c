@@ -15,6 +15,17 @@
 
 #include "functions.h"
 
+/* Undefine this if you can't use mmap to read the data in */
+#define HAVE_MMAP 1
+
+#ifdef HAVE_MMAP
+#include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <sys/mman.h>
+static char *mmap_base = NULL;
+#endif
+
 static int inited = 0;
 
 typedef struct {
@@ -24,6 +35,7 @@ typedef struct {
 
 static Keyval *dict = NULL;
 static int n_entries = 0;
+
 
 /*++++++++++++++++++++++++++++++++++++++
   Read a 'long' integer from file avoiding endianness problems.
@@ -62,7 +74,6 @@ read_database(FILE *in)
 
   Entry *entries;
   int i, len;
-  char key[1024], val[1024];
 
   n_entries = get_long(in);
   entries = new_array(Entry, n_entries);
@@ -74,14 +85,55 @@ read_database(FILE *in)
     len = getc(in);
     entries[i].vlen = len;
   }
-  for (i=0; i<n_entries; i++) {
-    fread(key, sizeof(char), entries[i].klen, in);
-    fread(val, sizeof(char), entries[i].vlen, in);
-    key[entries[i].klen] = 0;
-    val[entries[i].vlen] = 0;
-    dict[i].key = new_string(key);
-    dict[i].val = new_string(val);
+
+#ifdef HAVE_MMAP
+
+  {
+    struct stat sb;
+    off_t offset;
+    int result;
+
+    if (fstat(fileno(in), &sb) < 0) {
+      fprintf(stderr, "Could not stat the dictionary file\n");
+      exit(1);
+    }
+
+    offset = ftell(in);
+    mmap_base = mmap(NULL, sb.st_size, PROT_READ, MAP_SHARED, fileno(in), 0);
+    result = (int) mmap_base;
+
+    if (result < 0) {
+      perror("Could not mmap the dictionary data\n");
+      exit(1);
+    }
+
+    /* Loop through to build pointer arrays */
+    for (i=0; i<n_entries; i++) {
+      if (i == 0) {
+        dict[i].key = mmap_base + offset;
+      } else {
+        dict[i].key = dict[i-1].val + entries[i-1].vlen + 1; /* Allow for null termination */
+      }
+      dict[i].val = dict[i].key + entries[i].klen + 1; /* Allow for null termination */
+    }
   }
+  
+#else
+
+  {
+    char key[1024], val[1024];
+
+    for (i=0; i<n_entries; i++) {
+      fread(key, sizeof(char), entries[i].klen, in);
+      fread(val, sizeof(char), entries[i].vlen, in);
+      key[entries[i].klen] = 0;
+      val[entries[i].vlen] = 0;
+      dict[i].key = new_string(key);
+      dict[i].val = new_string(val);
+    }
+  }
+
+#endif
 
   Free(entries);
 }
@@ -476,6 +528,8 @@ translate_unknown(char *w)
       e.g. badri (x1 is sad)
   (R) reverse property (adjective) [x1 is _ (adjective)]
       e.g. te ckana (x1 is supported by a bed)
+  (I) 'idiomatic' [x1 is X-ing], but where verb doesn't support -er
+      form e.g. kuspe (x1 is extending)
 
   (Perhaps some other classes will be defined later.)
 
@@ -501,6 +555,8 @@ CLASS   |     N(oun)       V(erb) (4)          Q(ualifier)        T(ag) (2)
   P     |    X thing(s)      being X                X            X thing(s)
         |
   R     |    thing(s) X      being X                X            thing(s) X
+        |
+  I     |  thing(s) X-ing    X-ing                X-ing        thing(s) X-ing
 
   Notes
   (1) a->an if X starts with a vowel.
@@ -859,7 +915,7 @@ adv_translate(char *w, int place, TransContext ctx)
   static char result[1024];
   char ctx_suffix[4] = "nvqt";
   char *ctx_suf_as_string[4] = {"n", "v", "q", "t"};
-  enum {CL_DISCRETE, CL_SUBSTANCE, CL_ACTOR, CL_PROPERTY, CL_REVERSE_PROPERTY} wordclass;
+  enum {CL_DISCRETE, CL_SUBSTANCE, CL_ACTOR, CL_PROPERTY, CL_REVERSE_PROPERTY, CL_IDIOMATIC} wordclass;
   int found_full_trans=0;
 
   /* Try looking up the explicit gloss asked for */
@@ -922,6 +978,9 @@ adv_translate(char *w, int place, TransContext ctx)
           break;
         case 'R':
           wordclass = CL_REVERSE_PROPERTY;
+          break;
+        case 'I':
+          wordclass = CL_IDIOMATIC;
           break;
         default:
           fprintf(stderr, "Dictionary contains bogus extended entry for [%s]\n", buffer);
@@ -1047,6 +1106,25 @@ adv_translate(char *w, int place, TransContext ctx)
               break;
           }
           break;
+
+        case CL_IDIOMATIC:
+          {
+            char tempbuf[1024];
+            strcpy(tempbuf, append_ing(w1));
+            
+            switch (ctx) {
+              case TCX_NOUN:
+              case TCX_TAG:
+                sprintf(result, "thing(s) %s", tempbuf);
+                break;
+              case TCX_VERB:
+              case TCX_QUAL:
+                strcpy(result, tempbuf);
+                break;
+            }
+          }
+        break;
+
       }
 
       return result;
