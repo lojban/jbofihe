@@ -2079,9 +2079,12 @@ space_interval : VEhA VIhA FAhA NAI space_int_props
 space-int-props<1049> = (FEhE interval-property) ...
 */
 
-space_int_props : space_int_props FEhE interval_property
-                |                 FEhE interval_property
+space_int_props : space_int_props space_int_prop
+                |                 space_int_prop
                 ;
+
+space_int_prop : FEhE interval_property
+               ;
 
 /*
 interval-property<1051> = number ROI [NAI] | TAhE [NAI] | ZAhO [NAI]
