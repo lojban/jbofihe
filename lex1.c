@@ -358,8 +358,10 @@ process_word(char *buf, int start_line, int start_column)
             break;
           case 4:
             /* Take care with CVCV+lujvo/gismu, rather than the obvious
-               CV'V+lujvo/gismu.  Also cope with CV+gismu, CV+CVCCVV, CV+CVCCCV */
-            if (is_cvc(b2)) {
+               CV'V+lujvo/gismu.  Also cope with CV+gismu, CV+CVCCVV,
+               CV+CVCCCV.  Also, take care with attitudinal cmavo starting with
+               a vowel appearing at the start.  */
+            if (is_vowel(*b2) || is_cvc(b2)) {
               if (!do_a_cmavo(&b2, start_line, start_column)) return 0;
               cluster_start = any_clusters(b2);
             } else if (is_cvv(b2)) {
