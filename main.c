@@ -116,9 +116,8 @@ main (int argc, char **argv)
 
     } else if (latex || textout || htmlout) { 
       
-      do_conversions(top);
-
       terms_processing(top);
+      do_conversions(top);
       tense_processing(top);
       connectives_processing(top);
       relative_clause_processing(top);
