@@ -1454,8 +1454,10 @@ int main (int argc, char **argv)
   if (verbose) fprintf(stderr, "Computing epsilon closure...\n");
   generate_epsilon_closure(main_block);
   print_nfa(main_block);
+#if 0
   if (verbose) fprintf(stderr, "Compressing NFA...\n");
   compress_nfa(main_block);
+#endif
   build_transmap(main_block);
   if (verbose) fprintf(stderr, "Building DFA...\n");
   build_dfa(main_block, start_state->index);
