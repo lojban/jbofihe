@@ -448,24 +448,9 @@ paragraphs :                              paragraph
 
 paragraph : statement
           | fragment
-          | error
-{
-  fprintf(stderr, "Syntax error in paragraph at line %d\n", last_tok_line);
-  error_advance(0);
-  yyclearin;
-  $$ = NULL;
-}
 
           | paragraph i_opt_free_seq statement
           | paragraph i_opt_free_seq fragment
-          | paragraph i_opt_free_seq error
-
-{
-  fprintf(stderr, "Syntax error in paragraph at line %d\n", last_tok_line);
-  error_advance(0);
-  yyclearin;
-  $$ = $1;
-}
 
           | paragraph i_opt_free_seq
 
@@ -584,10 +569,6 @@ sentence<40> = [terms [CU #]] bridi-tail
 
 sentence : terms CU free_seq bridi_tail
          | terms CU          bridi_tail
-         | terms CU error
-{ fprintf(stderr, "Syntax error following CU at line %d column %d\n",
-          @2.first_line, @2.first_column);
-  $$ = new_node_2(SENTENCE, $1, $2); }
          | no_cu_sentence
          | observative_sentence
 
