@@ -703,6 +703,8 @@ static void makelujvo(char **tanru) {
   int c[MAXT]; /* Counters over the rafsi forms for each argument
                   (implements an arbitrarily-nested for loop) */
 
+  int check1, check2, check3, check4;
+
   uselong = 0;
   i=0;
   while (*tanru) {
@@ -794,7 +796,11 @@ static void makelujvo(char **tanru) {
         printf("nt=%d test1=%d test2=%d\n", nt, is_cvv(r[0][c[0]]), is_ccv(r[1][c[1]]));
       }
 #endif
-      if ((nt == 2) && is_cvv(r[0][c[0]]) && !is_ccv(r[1][c[1]])) {
+      check1 = (nt == 2);
+      check2 = is_cvv(r[0][c[0]]);
+      check3 = is_ccv(r[1][c[1]]);
+      check4 = is_ccvcv(r[1][c[1]]);
+      if (check1 && check2 && (!check3 || check4)) {
         if (r[1][c[1]][0] == 'r') {
           g[0] = 'n';
         } else {
