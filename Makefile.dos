@@ -26,8 +26,7 @@ all : progs
 jbofihe : $(OBJS2)
 	$(CC) $(CFLAGS) -o jbofihe $(OBJS2)
 
-progs : jbofihe cmafihe jvocuhadju smujajgau
-
+progs : jbofihe cmafihe jvocuhadju smujajgau vlatai
 
 %.o : %.c
 	$(CC) $(CFLAGS) -c $<
@@ -44,7 +43,7 @@ smujajgau.o : smujajgau.c
 cmafihe : $(CM_OBJS)
 	$(CC) $(CFLAGS) -o cmafihe $(CM_OBJS)
 
-vlatai : morf.c morf.h morf_dfa.c morf_enc.c morf_lex.c
+vlatai : morf.c morf.h morf_dfa.c morf_enc.c morf_lex.c morfvlex.c
 	$(CC) -o vlatai -DTEST_MORF $(CFLAGS) morf.c
 
 jvocuhadju : jvocuhadju.o lujvofns.o
