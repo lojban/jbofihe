@@ -1,0 +1,121 @@
+#!/usr/bin/env perl
+
+# Primitive method for running some regression tests
+
+use strict;
+
+if (!-r "PROGRAM") {
+    die "No PROGRAM file to define the program!";
+}
+
+# Force it to use local dictionary (otherwise, can't test for new features
+# or fixes that involve additions to the dictionary, without installing
+# first).
+
+$ENV{"JBOFIHE_DICTIONARY"} = "/home/richard/cvswork/jbofihe/smujmaji.dat";
+
+open (IN, "<PROGRAM");
+my $line = <IN>;
+close (IN);
+chomp $line;
+
+my $cmd = $line;
+
+my @inputs = <*.in>;
+for my $in (@inputs) {
+    chomp $in;
+    my $a = $in;
+    $a =~ s/\.in$/\.arg/;
+    my @args = ();
+    if (-r $a) {
+	open (A, "<".$a);
+	@args = (<A>);
+	close (A);
+	foreach (@args) {
+	    chomp;
+	    s/^ +//;
+	    s/ +$//;
+	}
+    }
+    my $base = $in;
+    $base =~ s/\.in$//;
+    my $pid = fork;
+    unless ($pid) {
+	# child
+	open (STDIN, "<$in");
+	open (STDOUT, ">$base.out");
+	open (STDERR, ">$base.err");
+	exec $cmd, @args;
+	die "Could not exec program";
+    }
+    wait; # only in the parent
+    my $status = $?;
+    my $core = (($status & 128) != 0);
+    my $signal = ($status & 127);
+    my $exit = ($status >> 8);
+
+# Check exit status
+    open (OUT, ">$base.exi");
+    print OUT $status."\n";
+    close (OUT);
+    
+    my $diffx = &diff("$base.exi", "$base.exi.ref");
+    if (!$diffx) {
+	print "--------------------------------------------------------------------------------\n";
+	print "FAIL $in : ";
+	print "UNEXPECTED EXIT STATUS : ";
+	if ($signal) {
+	    print "Died on signal $signal ";
+	    print "(CORE DUMPED)\n" if ($core);
+	    next;
+	} else {
+	    print "Exit status $exit\n";
+	}
+	print "--------------------------------------------------------------------------------\n";
+	next;
+    }
+    
+    unlink "core" if ($core); # save disc space
+
+    # Need to check exit status
+    my $diff1 = &diff("$base.out", "$base.out.ref");
+    my $diff2 = &diff("$base.err", "$base.err.ref");
+    if ($diff1 && $diff2) {
+	print "pass $in\n";
+	unlink "$base.out";
+	unlink "$base.err";
+    } else {
+	print "--------------------------------------------------------------------------------\n";
+	print "FAIL $in\n";
+	if (-r "$base.out" && -r "$base.out.ref") {
+	    print "DIFF STDOUT\n";
+	    system ("diff $base.out $base.out.ref") if (!$diff1);
+	} else {
+	    print "One of $base.out & $base.out.ref is missing\n";
+	}
+	if (-r "$base.err" && -r "$base.err.ref") {
+	    print "----------\nDIFF STDERR\n";
+	    system ("diff $base.err $base.err.ref") if (!$diff2);
+	} else {
+	    print "One of $base.err & $base.err.ref is missing\n";
+	}
+	print "--------------------------------------------------------------------------------\n";
+    }
+}
+
+
+# zero if different, 1 if same
+sub diff {
+    my ($a, $b) = (@_);
+    open (A, "<$a") || return 0;
+    open (B, "<$b") || return 0;
+    my @a = (<A>);
+    my @b = (<B>);
+    close (A);
+    close (B);
+    return 0 if ($#a != $#b);
+    for my $i (0 .. $#a) {
+	return 0 if ($a[$i] cmp $b[$i]);
+    }
+    return 1;
+}

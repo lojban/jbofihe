@@ -1,0 +1,15 @@
+#!/usr/bin/env perl
+my $case = shift || die "Usage : approve <case>";
+$case =~ s/\.in$//;
+&move("$case.out");
+&move("$case.err");
+&move("$case.exi");
+
+sub move {
+    my ($nf) = @_;
+    if (-r $nf) {
+	rename $nf, $nf.".ref";
+    } else {
+	unlink $nf.".ref" if (-r $nf.".ref");
+    }
+}
