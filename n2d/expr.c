@@ -68,6 +68,7 @@ struct evaluator {
   /* Flag indicating whether any results evaluated so far have evaluated true.
      (Used for implementing wildcard expression).  */
   int any_results_so_far;
+  char *name;
   char *defresult;
   char *result_type;
 };
@@ -80,13 +81,14 @@ Evaluator *exit_evaluator;
  * that apply to its constituent NFA states. */
 Evaluator *attr_evaluator;
 
-Evaluator* create_evaluator(void)/*{{{*/
+Evaluator* create_evaluator(char *name)/*{{{*/
 {
   Evaluator *x = new(struct evaluator);
   x->symbols = NULL;
   x->results = NULL;
   x->n_results = x->max_results = 0;
   x->any_results_so_far = 0;
+  x->name = new_string(name);
   x->defresult = NULL;
   x->result_type = NULL;
   return x;
@@ -110,7 +112,12 @@ void define_type(Evaluator *x, char *text)/*{{{*/
 /*}}}*/
 char* get_defresult(Evaluator *x)/*{{{*/
 {
-  return x->defresult ? x->defresult : "0";
+  if (x->defresult) {
+    return x->defresult;
+  } else {
+    fprintf(stderr, "WARNING: Default %s used with no definition, \"0\" assumed\n", x->name);
+    return "0";
+  }
 }
 /*}}}*/
 char* get_result_type(Evaluator *x)/*{{{*/
@@ -363,7 +370,7 @@ int evaluate_result(Evaluator *x, char **result, int *result_early)/*{{{*/
 /* Initialisation */
 void eval_initialise(void)/*{{{*/
 {
-  exit_evaluator = create_evaluator();
-  attr_evaluator = create_evaluator();
+  exit_evaluator = create_evaluator("result");
+  attr_evaluator = create_evaluator("attribute");
 }
 /*}}}*/
