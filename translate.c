@@ -728,7 +728,15 @@ translate_pattern(char *w, int place, char *suffix)
       strcpy(result, trans);
       return result;
     } else {
-      return NULL;
+      sprintf(buffer, "%s%1d", new_start, place);
+      trans = translate(buffer);
+      if (trans) {
+        strcpy(result, trans);
+        strcat(result, "??");
+        return result;
+      } else {
+        return NULL;
+      }
     }
     
   } else {
@@ -769,8 +777,19 @@ adv_translate(char *w, int place, TransContext ctx)
   }
 
   if (trans) {
-    /* Full translation found. */
-    return trans;
+    
+    if (trans[0] == '@') {
+      strcpy(buffer, trans+1);
+      trans = translate(buffer);
+      if (trans) {
+        return trans;
+      }
+
+      /* Fall through to wn form bit if no translation matched */
+
+    } else {
+      return trans;
+    }
   }
 
   /* OK, no full translation found.  Lookup the wn form */
@@ -781,6 +800,26 @@ adv_translate(char *w, int place, TransContext ctx)
     trans = translate_pattern(w, place, "");
   }
   if (trans) {
+    if (trans[0] == '@') {
+      char *p, *q;
+      int pos;
+      p = buffer;
+      q = trans+1;
+      while (isalpha(*q)) {
+        *p++ = *q++;
+      }
+      *p = 0;
+      if (isdigit(*q)) {
+        pos = *q - '0';
+        return adv_translate(buffer, pos, ctx);
+      } else {
+        fprintf(stderr, "Error in dictionary entry for place %d of %s\n", place, w);
+        return "??";
+      }
+
+      /* Never get here */
+    }
+
     if (trans[1] == ';') {
       switch (trans[0]) {
         case 'D':
