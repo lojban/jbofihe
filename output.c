@@ -64,6 +64,7 @@ add_bracketing_internal(TreeNode *x, int *seq)
 
       case SUMTI_5A:
       case SUMTI_5B:
+      case NAME_SUMTI_6:
         if (prop_require_brac(x, NO)) {
           y->number = ++*seq;
           y->brackets = BR_CEIL;
@@ -74,7 +75,6 @@ add_bracketing_internal(TreeNode *x, int *seq)
       case SUMTI_1:
       case LAHE_SUMTI_6:
       case NAHE_BO_SUMTI_6:
-      case NAME_SUMTI_6:
       case FREE_VOCATIVE:
         if ((y->nchildren > 1) ||
             (prop_require_brac(x, NO))) {
@@ -1110,6 +1110,8 @@ output_sumti_tail(TreeNode *x, WhatToShow what)
       case SHOW_LOJBAN_AND_INDICATORS:
       case SHOW_BOTH:
         output_internal(c1, SHOW_LOJBAN);
+        (drv->translation)(" "); /* Force block out in blocked output
+                                    drivers */
         break;
       default:
         break;
