@@ -3936,6 +3936,7 @@ mutce3:D;extreme
 nandu1:P;difficulty
 nandu2:I;have* difficulty
 nandu3:S;conditions for difficulty
+nandu3t:under conditions
 #
 # x1 is a boy/lad [young male person] of age x2 immature by standard x3                           
 #nanla1:DSAP;
