@@ -3,7 +3,7 @@
 jbofihe \- Lojban parser / grammar checker / word glosser
 .SH SYNOPSIS
 .B jbofihe
-[ -k ] [ -g ] [ -t ] [-tf ] [ -l ] [ -b ] [ -x ] [ -h ] [ -m ] [ -w width ]
+[-v] [ -k ] [ -g ] [ -t ] [-tf ] [ -l ] [ -b ] [ -x ] [ -h ] [ -m ] [ -w width ]
 < file
 .SH DESCRIPTION
 .I jbofihe
@@ -13,6 +13,9 @@ nesting of the major grammatical constructs by means of bracketing.
 Also, words will have their approximate English translations shown.
 Some of these translations are context-dependent.
 .SH OPTIONS
+.TP
+.B -v
+Show the program version and exit.
 .TP
 .B -k
 Display lists of tokens after parse and after pseudo-token insertion
@@ -72,7 +75,7 @@ The executable.
 .TP
 .B JBOFIHE_DICTIONARY
 This should point to the name of the file containing the dictionary.
-The default is /usr/local/lib/jbofihe/dictionary.bin.
+The default is /usr/local/lib/jbofihe/jbosmujmaji
 \".SH CAVEATS
 .SH BUGS
 ju'oru'e so'imei (Surely there are many).
