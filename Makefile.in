@@ -83,6 +83,11 @@ smujajgau : smujajgau.o canonluj.o
 smujajgau.o : smujajgau.c
 	$(CC) $(CFLAGS) -c smujajgau.c
 
+txtman: jbofihe.txt cmafihe.txt smujajgau.txt jvocuhadju.txt
+
+%.txt:%.1
+	groff -Tascii -man $< | perl -pe 'chomp; s/.\x8//g; $$_ .= "\r\n";' > $@
+
 dictionary : smujajgau
 	perl giscolon.pl < @@WORD-LISTS@@/gismu > gismu.dict
 	perl cmacolon.pl < @@WORD-LISTS@@/cmavo > cmavo.dict

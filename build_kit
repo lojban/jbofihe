@@ -1,5 +1,9 @@
 #!/usr/local/bin/perl
 
+# Script used to 'groom' the distribution for release after doing the 'cvs export'.
+# (Although not really needed in the distribution, this is bundled for
+# completeness and for 'disaster-recovery' purposes.)
+
 @files = <*>;
 open(COPY, "<COPYRIGHT");
 @copy=<COPY>;
@@ -30,9 +34,3 @@ for $f (@files) {
     close(OUT);
     unlink "$f.tmp";
 }
-groff -Tascii -man cmafihe.1 | perl -pe 's/.\x8//g;' > cmafihe.txt
-groff -Tascii -man jbofihe.1 | perl -pe 's/.\x8//g;' > jbofihe.txt
-groff -Tascii -man jvocuhadju.1 | perl -pe 's/.\x8//g;' > jvocuhadju.txt
-groff -Tascii -man smujajgau.1 | perl -pe 's/.\x8//g;' > smujajgau.txt
-unlink 'COPYRIGHT'; # This is included into everything else
-unlink 'build_kit'; # Private
