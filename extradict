@@ -345,3 +345,16 @@ re'u:nth time
 +re'u:ROI
 +pe'a:UI
 +po'a:UI
+
+# Letters
+a.bu:"a"
+e.bu:"e"
+i.bu:"i"
+o.bu:"o"
+u.bu:"u"
+y'y.bu:"h"
+ky.bu:"q"
+vy.bu:"w"
+denpa.bu:"."
+slaku.bu:","
+
