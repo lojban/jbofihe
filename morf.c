@@ -490,8 +490,8 @@ morf_scan(char *s, char ***buf_end)
     char **x;
 
     printf("%-25s : ", s);
-    printf("[EV=%2d] ", exival);
 
+    if (verbose) printf("[EV=%2d] ", exival);
 
     switch (result) {
       case W_UNKNOWN:
