@@ -772,18 +772,10 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
   } else if (c1->type == N_BRIVLA) {
 
     XTermTag tt;
-    XGlosstype *gt;
 
     tt.type = TTT_BRIVLA;
     tt.brivla.x = c1;
     assign_places(pre, post, lc, &tt);
-
-    gt = prop_glosstype(c1, YES);
-#if 0
-    /* The traversal to look for this is now in conversion so it
-       handles sumti as well */
-    gt->is_tertau = 1;
-#endif
 
   } else if (c1->type == N_NONTERM) {
     switch (c1->data.nonterm.type) {
@@ -850,9 +842,36 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
         break;
 
       case ABSTRACTION:
-        fprintf(stderr, "Abstraction not handled yet for place tags at line %d column %d\n",
-                c1->start_line, c1->start_column);
+        {
+          TreeNode *nns, *c2, *nu, *nai;
+          XTermTag tt;
+
+          nns = child_ref(c1, 0);
+          type_check(nns, NU_NAI_SEQ);
+          c2 = child_ref(nns, 0);
+          if ((c2->type == N_CMAVO) &&
+              (c2->data.cmavo.selmao == NU)) {
+            /* A simple NU <subsentence> thing */
+            nu = c2;
+            /* Maybe null - not sure what to do with it as I haven't
+               seen any examples */
+            nai = find_nth_child(nns, 1, NAI);
+            if (nai) {
+              fprintf(stderr, "Don't know how to handle negated abstractor yet at line %d column %d - ignoring negation\n",
+                      c1->start_line, c1->start_column);
+            }
+
+            tt.type = TTT_ABSTRACTION;
+            tt.abstraction.nu = nu;
+            assign_places(pre, post, lc, &tt);
+            
+          } else {
+            fprintf(stderr, "Can't handle connected abstractors yet at line %d column %d\n",
+                    c1->start_line, c1->start_column);
+          }
+        }
         break;
+
       default:
         break;
 
