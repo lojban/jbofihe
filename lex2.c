@@ -861,6 +861,7 @@ yylex1(TokenType *res)
   static int returned_EOF = 0;
 
   if (returned_EOF) {
+    res->yylval = NULL;
     res->value = 0;
     return;
   }
@@ -869,6 +870,7 @@ yylex1(TokenType *res)
 
   if (next_tok == &toks) { /* End of file condition */
     returned_EOF = 1;
+    res->yylval = NULL;
     res->value = PRIVATE_EOF_MARK;
     return;
   } else {
@@ -897,6 +899,7 @@ yylex1(TokenType *res)
       case N_CMAVO:
         if (next_tok->data.cmavo.selmao == FAhO) {
           returned_EOF = 1;
+          res->yylval = NULL;
           res->value = PRIVATE_EOF_MARK;
           return;
         } else {
