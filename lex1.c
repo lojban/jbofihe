@@ -237,6 +237,7 @@ process_word(char *buf, int start_line, int start_column)
   char *word_starts[1024];
   char **pws, **pwe;
   MorfType morf_type;
+  int column, incr;
   extern int had_bad_tokens; /* in main.c */
 
   if (zoi_data) {
@@ -287,15 +288,16 @@ process_word(char *buf, int start_line, int start_column)
   
   pws = pwe = word_starts;
   morf_type = morf_scan(buf, &pwe);
+  column = start_column;
   switch (morf_type) {
     case MT_BOGUS:
       fprintf(stderr, "Unrecognizable word '%s' at line %d column %d\n",
-              buf, start_line, start_column);
+              buf, start_line, column);
       had_bad_tokens = 1;
       break;
     case MT_BAD_UPPERCASE:
       fprintf(stderr, "Invalid uppercase letters in word '%s' at line %d column %d\n",
-              buf, start_line, start_column);
+              buf, start_line, column);
       had_bad_tokens = 1;
       break;
     case MT_BRIVLA:
@@ -303,28 +305,34 @@ process_word(char *buf, int start_line, int start_column)
         char **pw;
         char *p, *q;
         for (pw=pws; pw<pwe; pw++) {
+          incr = 0;
           for (p=*pw, q=buf2; p<*(pw+1);) {
             *q++ = *p++;
+            incr++;
           }
           *q = 0;
-          process_cmavo(buf2, start_line, start_column);
+          process_cmavo(buf2, start_line, column);
+          column += incr;
         }
-        add_brivla_token(*pwe, start_line, start_column);
+        add_brivla_token(*pwe, start_line, column);
       }
       break;
     case MT_CMENE:
-      process_cmene(buf, start_line, start_column);
+      process_cmene(buf, start_line, column);
       break;
     case MT_CMAVOS:
       {
         char **pw;
         char *p, *q;
         for (pw=pws; pw<=pwe; pw++) {
+          incr = 0;
           for (p=*pw, q=buf2; ((pw<pwe)&&(p<*(pw+1)))||((pw==pwe)&&(*p));) {
             *q++ = *p++;
+            incr++;
           }
           *q = 0;
-          process_cmavo(buf2, start_line, start_column);
+          process_cmavo(buf2, start_line, column);
+          column += incr;
         }
       }
       break;
