@@ -32,6 +32,7 @@
 typedef enum {
   TRM_POS, /* positional, i.e. just bare sumti */
   TRM_FA,  /* a term with a FA in front */
+  TRM_FAhI,/* a term with a fa'i in front */
   TRM_TAG  /* a term with a modal tag in front */
 } TermType;
 
@@ -324,7 +325,9 @@ recover_fa_conv(TreeNode *x)
   /* Unfortunately, faxixa, faxize etc to access the 6th places
      onwards are just too much to handle for now!! */
   
-  if (!strcmp(fa_str, "fa")) {
+  if (!strcmp(fa_str, "fi'a")) {
+    return 0;
+  } else if (!strcmp(fa_str, "fa")) {
     return 1;
   } else if (!strcmp(fa_str, "fe")) {
     return 2;
@@ -414,12 +417,21 @@ tv_build(TermVector *r, TreeNode *x)
         vv.n_nodes++;
         break;
       case TERM_PLACED_SUMTI:
-        tcc = child_ref(tc, 0);
-        vv.nodes[vv.n_nodes].type = TRM_FA;
-        vv.nodes[vv.n_nodes].node = t;
-        vv.nodes[vv.n_nodes].pos = recover_fa_conv(tcc);
-        vv.n_nodes++;
-
+        {
+          int pos;
+          tcc = child_ref(tc, 0);
+          pos = recover_fa_conv(tcc);
+          if (pos == 0) {
+            vv.nodes[vv.n_nodes].type = TRM_FAhI;
+            vv.nodes[vv.n_nodes].node = t;
+            vv.nodes[vv.n_nodes].pos = 0;
+          } else {            
+            vv.nodes[vv.n_nodes].type = TRM_FA;
+            vv.nodes[vv.n_nodes].node = t;
+            vv.nodes[vv.n_nodes].pos = pos;
+          }
+          vv.n_nodes++;
+        }
         break;
       case TERM_TAGGED_SUMTI:
         vv.nodes[vv.n_nodes].type = TRM_TAG;
@@ -1880,11 +1892,21 @@ check_tu1_for_links(TreeNode *tu1)
           tv.n_nodes++;
           break;
         case TERM_PLACED_SUMTI:
-          tcc = child_ref(tc, 0);
-          tv.nodes[tv.n_nodes].type = TRM_FA;
-          tv.nodes[tv.n_nodes].node = tm;
-          tv.nodes[tv.n_nodes].pos = recover_fa_conv(tcc);
-          tv.n_nodes++;
+          {
+            int pos;
+            tcc = child_ref(tc, 0);
+            pos = recover_fa_conv(tcc);
+            if (pos == 0) {
+              tv.nodes[tv.n_nodes].type = TRM_FAhI;
+              tv.nodes[tv.n_nodes].node = tm;
+              tv.nodes[tv.n_nodes].pos = 0;
+            } else {
+              tv.nodes[tv.n_nodes].type = TRM_FA;
+              tv.nodes[tv.n_nodes].node = tm;
+              tv.nodes[tv.n_nodes].pos = pos;
+            }
+            tv.n_nodes++;
+          }
           break;
         case TERM_TAGGED_SUMTI:
           tv.nodes[tv.n_nodes].type = TRM_TAG;
