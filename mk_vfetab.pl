@@ -12,6 +12,7 @@ $VTOK_VV = 16; # ai/au/ei/oi valid anywhere
 $VTOK_VX = 17; # [iu][aeiou] - vowel extended
 $VTOK_VY = 18; # combinations involving y where valid [only in cmene]
 $VTOK_YY = 19; # two copies of y adjacent with no separation (only in hesitation string)
+$VTOK_YCY = 20; # two copies of y with a comma between
 $VTOK_UNK = 0;
 
 # Note, C encodes all consonants + apostrophe
@@ -40,6 +41,8 @@ if ($x =~ /..,/) {
     $r = $VTOK_Y;
 } elsif ($x =~ /[Cy]yy/) {
     $r = $VTOK_YY;
+} elsif ($x =~ /y,y/) {
+    $r = $VTOK_YCY;
 } elsif ($x =~ /.C[aeiou]/) {
     $r = $VTOK_V;
 } else {
