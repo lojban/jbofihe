@@ -1126,7 +1126,7 @@ CmavoCell cmavo_table[] = {
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1111 */
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1112 */
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1113 */
-  { "pe\'a" , PEhA   , CM_PEhA    , SSM_PEhA    , "start figurative"            }, /* 1114 */
+  { "pe\'a" , UI     , CM_PEhA    , SSM_UI6     , "start figurative"            }, /* 1114 */
   { "pe\'e" , PEhE   , CM_PEhE    , SSM_PEhE    , "termset conn mark"           }, /* 1115 */
   { "pe\'i" , UI     , CM_PEhI    , SSM_UI2     , "I opine"                     }, /* 1116 */
   { "pe\'o" , PEhO   , CM_PEhO    , SSM_PEhO    , "fore mex operator"           }, /* 1117 */
@@ -1154,7 +1154,7 @@ CmavoCell cmavo_table[] = {
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1139 */
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1140 */
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1141 */
-  { "po\'a" , POhA   , CM_POhA    , SSM_POhA    , "end figurative"              }, /* 1142 */
+  { "po\'a" , UI     , CM_POhA    , SSM_UI6     , "end figurative"              }, /* 1142 */
   { "po\'e" , GOI    , CM_POhE    , SSM_GOI     , "which belongs to"            }, /* 1143 */
   { "po\'i" , BAI    , CM_POhI    , SSM_BAI     , "in the sequence"             }, /* 1144 */
   { "po\'o" , UI     , CM_POhO    , SSM_UI3b    , "uniquely"                    }, /* 1145 */
