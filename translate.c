@@ -14,6 +14,7 @@
 
 #include "functions.h"
 #include "canonluj.h"
+#include "morf.h"
 
 #ifndef DEFAULT_DICTIONARY
 #define DEFAULT_DICTIONARY "smujmaji.dat"
@@ -282,24 +283,6 @@ translate_lujvo(char *word, int place)
 
 /* ================================================== */
 
-static int
-is_consonant(char c)
-{
-  return (strchr("bcdfgjklmnprstvxz", c) != 0);
-}
-
-/* ================================================== */
-
-static int
-is_consonant_not_r(char c)
-{
-  return (strchr("bcdfgjklmnpstvxz", c) != 0);
-}
-
-/* ================================================== */
-
-/* ================================================== */
-
 char *
 translate_fuivla_prefix(char *w, int place)
 {
@@ -328,70 +311,75 @@ translate_fuivla_prefix(char *w, int place)
 }
 
 /* ================================================== */
+/* In principle, it would be nice to pass the word type through from the
+   original parsing phase.  However, this isn't general enough, since the word
+   to translate may have come from an earlier dictionary lookup.  Hence, call
+   morf_scan again. */
+/* ================================================== */
 
 char *
 translate_unknown(char *w, int place)
 {
   static char buf[2048];
-  int len, i;
-  int hyph;
-  char *p, *q;
   char *ltrans;
+  MorfType morf_type;
+  char *word_starts[64], **pws, **pwe;
 
   init();
 
-  /* See whether the word is a fuivla.  If so, lookup the leading
-     portion as a lujvo/rafsi, otherwise lookup the whole thing as a
-     lujvo. */
-  
-  /* Stage 3 fuivla characterised by starting with a CVC or 4 letter
-     rafsi or lujvo, then a hyphen, then a lojbanised version of the
-     import */
-  
-  len = strlen(w);
-  hyph = 0;
-  /* Seek location of hyphen.  Import word must have at least 2 letters. */
-  for (i=1; i<len-2; i++) {
-    if (is_consonant_not_r(w[i-1]) && (w[i] == 'r') && is_consonant_not_r(w[i+1])) {
-      hyph = i;
-      break;
-    }
-    
-    if (is_consonant(w[i-1]) && is_consonant(w[i+1])) {
-      if ((w[i-1] == 'n') && (w[i+1] == 'r') && (w[i] == 'l')) {
-        hyph = i;
-        break;
-      } else if ((w[i-1] == 'r') && (w[i+1] == 'n') && (w[i] == 'l')) {
-        hyph = i;
-        break;
-      } else if (w[i] == 'n') {
-        hyph = i;
-        break;
+  pws = pwe = word_starts;
+  morf_type = morf_scan(w, &pwe);
+
+  switch (morf_type) {
+    case MT_BOGUS:
+    case MT_BAD_UPPERCASE:
+    case MT_CMAVOS:
+      /* Should never get these, other than from a broken redirecting dictionary
+         entry.  Give up. */
+      return "?";
+    case MT_FUIVLA4:
+      /* No way to automatically translate such a word if unknown */
+      return "?";
+    case MT_GISMU:
+      /* Unknown words having gismu word shape are equally intractable */
+      return "?";
+    case MT_LUJVO:
+      return translate_lujvo(w, place);
+    case MT_FUIVLA3:
+    case MT_FUIVLA3_CVC:
+      {
+        char *p, *q;
+        int count;
+        int hyphen_pos;
+        hyphen_pos = (morf_type == MT_FUIVLA3_CVC) ? 3 : 4;
+        for (p=w, q=buf, count=0; count<hyphen_pos; p++, q++) {
+          *q = *p;
+          if (*p != ',') count++;
+        }
+        /* Advance p over the hyphen */
+        for (count=0; count < 2; p++) {
+          if (*p != ',') count++;
+        }
+        p--; /* Back up to first real letter of tail portion */
+        
+        *q = 0;
+        ltrans = translate_fuivla_prefix(buf, place);
+        if (ltrans) {
+          strcpy(buf, ltrans);
+        } else {
+          strcpy(buf, "?");
+        }
+        
+        strcat(buf, "-[");
+        strcat(buf, p);
+        strcat(buf, "]");
+        return buf;
       }
-    }
+      
+    case MT_CMENE:
+      return "[NAME]";
   }
-
-  if (hyph) {
-    for (p=w, q=buf, i=0; i<hyph; p++, q++, i++) {
-      *q = *p;
-    }
-    *q = 0;
-    ltrans = translate_fuivla_prefix(buf, place);
-    if (ltrans) {
-      strcpy(buf, ltrans);
-    } else {
-      strcpy(buf, "?");
-    }
-    strcat(buf, "-[");
-    strcat(buf, w + hyph + 1);
-    strcat(buf, "]");
-    return buf;
-  } else {
-    /* Need to try for a stage 4 fuivla */
-
-    return translate_lujvo(w, place);
-  }
-
+  return "?";
 }
 
 /* ================================================== */
