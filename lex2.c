@@ -223,86 +223,6 @@ build_string_from_nodes(TreeNode *start, TreeNode *end)
 
 }
 
-
-/*++++++++++++++++++++++++++++++++++++++
-  Do the ZOI processing
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-handle_zoi(void)
-{
-  TreeNode *x, *delim, *start, *end, *cdelim, *node;
-
-  for (x=toks.next;
-       x!=&toks;
-       ) {
-
-    if ((x->type == N_CMAVO) &&
-        cmavo_table[x->data.cmavo.code].selmao == ZOI) {
-
-      /* Matched */
-      delim = x->next;
-      start = delim->next;
-      if (delim == &toks || start == &toks) {
-        fprintf(stderr, "EOF inside ZOI bracketing\n");
-        exit(1); /* Ought to clean up better */
-      }
-      end = start;
-      do {
-        if (end == &toks) {
-          fprintf(stderr, "EOF inside ZOI bracketing\n");
-          exit(1); /* Ought to clean up better */
-        }
-
-        /* Try to match delimiter */
-        if (((delim->type == N_CMAVO) &&
-             (end->type == N_CMAVO) && 
-             (end->data.cmavo.code == delim->data.cmavo.code)) ||
-            
-            ((delim->type == N_GARBAGE) &&
-             (end->type == N_GARBAGE) &&
-             (!strcmp(delim->data.garbage.word, end->data.garbage.word))) ||
-
-            ((delim->type == N_BRIVLA) &&
-             (end->type == N_BRIVLA) &&
-             (!strcmp(delim->data.brivla.word, end->data.brivla.word))) ||
-
-            ((delim->type == N_CMENE) &&
-             (end->type == N_CMENE) &&
-             (!strcmp(delim->data.cmene.word, end->data.cmene.word)))) {
-          cdelim = end;
-          end = end->prev;
-            
-
-          node = new_node();
-          node->type = N_ZOI;
-          node->data.zoi.term = new_string("'");
-          node->data.zoi.text = build_string_from_nodes(start, end);
-
-          /* Do list plumbing */
-          x->type = node->type;
-          x->data = node->data;
-          x->next = cdelim->next;
-          cdelim->next->prev = x;
-
-          /* Just lose all the intervening nodes */
-          break;
- 
-        } else {
-          end = end->next;
-        }
-
-      } while(1);
-
-    }
-
-    x = x->next;
-  }
-
-
-}
-
-
 /*++++++++++++++++++++++++++++++++++++++
   zo processing
   ++++++++++++++++++++++++++++++++++++++*/
@@ -760,15 +680,8 @@ void
 preprocess_tokens(void)
 {
 
-  /* 2a. Look for 'zoi'.  Following word becomes delimiter.  Search
-     for matching delimiter.  Intervening text becomes semantic value.
-     Remove intervening tokens from list.  Parser wants single token
-     of selma'o ZOI. */
-
-#if 0
-  handle_zoi();
-  /* Now done by lex1 */
-#endif
+  /* 2a. Look for 'zoi'.  This is done in lex1.c, before each word
+     gets split into tokens. */
 
   /* 2b. Look for 'zo' and group following word into it. */
   handle_zo();
@@ -866,7 +779,6 @@ error_advance(int code)
 
   int yylex
   ++++++++++++++++++++++++++++++++++++++*/
-
 
 int
 yylex(void)
