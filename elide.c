@@ -253,6 +253,7 @@ token_is_number_marker(TreeNode *x)
   if (x) {
     if (x->type == N_MARKER) {
       switch (x->data.marker.tok) {
+        case PRIVATE_START_TENSE:
         case PRIVATE_NUMBER_ROI:
         case PRIVATE_NUMBER_MAI:
         case PRIVATE_NUMBER_MOI:

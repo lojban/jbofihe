@@ -19,10 +19,10 @@ CFLAGS= @@OPTDEBUG@@ @@DEFINES@@ -DDEFAULT_DICTIONARY=\"$(DICTIONARY)\"
 OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc_tab.o functions.o \
         categ.o nonterm.o tree.o translate.o latex.o \
         properties.o conversion.o terms.o memory.o tenses.o \
-        output.o textout.o htmlout.o connect.o stag.o latexblk.o \
+        output.o textout.o htmlout.o connect.o latexblk.o \
         relative.o textblk.o errorscan.o canonluj.o lujvofns.o \
         erasure.o rpc_full.o morf.o morf_dfa.o bccheck.o \
-        tracebk.o elide.o dictaccs.o
+        tracebk.o elide.o dictaccs.o stag_dfa.o
 
 SRCS2 = $(OBJS2:%.o=%.c)
 
@@ -90,15 +90,6 @@ dictaccs.o : dictaccs.c @@DICTDATA_C@@
 dictdata.c: gismu_cmavo.dict
 	cat gismu_cmavo.dict places.dat extradict patterns | perl dict2inc.pl > dictdata.c
 
-stag.c : stag.tab.c
-	sed -e 's/YYSTYPE/STAG_YYSTYPE/g;' < stag.tab.c > stag.c
-
-stag.h : stag.tab.h
-	sed -e 's/YYSTYPE/STAG_YYSTYPE/g;' < stag.tab.h > stag.h
-
-stag.tab.c stag.tab.h : stag.y
-	bison -v -d -p stag_ stag.y
-
 uncom : uncom.o
 	$(CC) -o uncom uncom.o
 
@@ -142,7 +133,10 @@ bccheck.o : bccheck.c bctables.c
 
 bctables.c : bctables.in dfasyn/dfasyn
 	dfasyn/dfasyn -v bctables.in -o bctables.c
-    
+
+stag_dfa.c : stag_nfa.in dfasyn/dfasyn
+	dfasyn/dfasyn -v stag_nfa.in -o stag_dfa.c
+
 dfasyn/dfasyn:
 	(cd dfasyn && make all)
 
@@ -203,7 +197,6 @@ clean:
         *.dict uncom.c uncom.o uncom \
         morf_lex.c morfvlex.c morf_enc.c morf*_dfa.c \
         elitabs.c trcftabs.c trctabs.c \
-        stag.c stag.h stag.tab.c stag.tab.h \
         rpc2x_nc.y rpc2x_act.y rpc2x_full_nc.y rpc2x_full_act.y \
         canonluj.inc version.h \
         nonterm.c nonterm.h morf_dfa.report morf_lex.err
@@ -235,8 +228,7 @@ cmavotab.o: cmavotab.c cmavotab.h rpc_tab.h
 rpc_tab.o: rpc_tab.c nodes.h nonterm.h functions.h output.h
 functions.o: functions.c functions.h nonterm.h nodes.h output.h \
  rpc_tab.h
-categ.o: categ.c nodes.h nonterm.h rpc_tab.h functions.h output.h \
- stag.h
+categ.o: categ.c nodes.h nonterm.h rpc_tab.h functions.h output.h
 nonterm.o: nonterm.c
 tree.o: tree.c nonterm.h functions.h nodes.h output.h cmavotab.h \
  rpc_tab.h
@@ -256,7 +248,6 @@ textout.o: textout.c functions.h nonterm.h nodes.h output.h
 htmlout.o: htmlout.c functions.h nonterm.h nodes.h output.h
 connect.o: connect.c nodes.h nonterm.h functions.h output.h rpc_tab.h \
  cmavotab.h
-stag.o: stag.c
 latexblk.o: latexblk.c functions.h nonterm.h nodes.h output.h latex.h
 relative.o: relative.c nodes.h nonterm.h rpc_tab.h functions.h \
  output.h cmavotab.h

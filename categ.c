@@ -11,670 +11,448 @@
 
 /* COPYRIGHT */
 
+#include <assert.h>
 #include "nodes.h"
 #include "rpc_tab.h"
 #include "functions.h"
-#include "stag.h"
+#include "stag_dfa.h"
 
-/*++++++++++++++++++++++++++++++
-  Look for any cmavo of selma'o JA and back up to where the 'jek'
-  non-terminal will start.  Insert a PRIVATE_START_JEK token there.
-  ++++++++++++++++++++++++++++++*/
-
-static void
-categorize_jek(TreeNode *head)
+static void insert_marker_after(TreeNode *where, int toktype, char *tokname)/*{{{*/
 {
-  TreeNode *x, *y, *marker;
+  TreeNode *marker;
+  marker = new_node();
+  marker->type = N_MARKER;
+  marker->start_line = where->start_line;
+  marker->start_column = where->start_column;
+  marker->data.marker.tok = toktype;
+  marker->data.marker.text = new_string(tokname);
+  marker->prev = where;
+  marker->next = where->next;
+  where->next->prev = marker;
+  where->next = marker;
+}
+/*}}}*/
+static void insert_marker_before(TreeNode *where, int toktype, char *tokname)/*{{{*/
+{
+  TreeNode *marker;
+  marker = new_node();
+  marker->type = N_MARKER;
+  marker->start_line = where->start_line;
+  marker->start_column = where->start_column;
+  marker->data.marker.tok = toktype;
+  marker->data.marker.text = new_string(tokname);
+  marker->next = where;
+  marker->prev = where->prev;
+  where->prev->next = marker;
+  where->prev = marker;
+}
+/*}}}*/
+static int cmtest(TreeNode *x, int type)/*{{{*/
+{
+  if ((x->type == N_CMAVO) &&
+      (x->data.cmavo.selmao == type)) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+/*}}}*/
+static int mkrtest(TreeNode *x, int type)/*{{{*/
+{
+  if ((x->type == N_MARKER) &&
+      (x->data.marker.tok == type)) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+/*}}}*/
+
+static void categorize_jek(TreeNode *head)/*{{{*/
+{
+  TreeNode *x, *y;
 
   for (x = head->next; x!=head; x=x->next) {
-    if (x->type == N_CMAVO &&
-        x->data.cmavo.selmao == JA) {
+    if (cmtest(x, JA)) {
       /* Backup over any SE and NA preceding and insert PRIVATE_START_JEK */
       y = x->prev;
-      if (y->type == N_CMAVO &&
-          y->data.cmavo.selmao == SE) {
-        y = y->prev;
-      }
-      if (y->type == N_CMAVO &&
-          y->data.cmavo.selmao == NA) {
-        y = y->prev;
-      }
+      if (cmtest(y, SE)) y = y->prev;
+      if (cmtest(y, NA)) y = y->prev;
       /* Need to insert new token after y */
-      marker = new_node();
-      marker->type = N_MARKER;
-      marker->start_line = y->start_line;
-      marker->start_column = y->start_column;
-      marker->data.marker.tok = PRIVATE_START_JEK;
-      marker->data.marker.text = new_string("PRIVATE_START_JEK");
-      marker->prev = y;
-      marker->next = y->next;
-      y->next->prev = marker;
-      y->next = marker;
+      insert_marker_after(y, PRIVATE_START_JEK, "PRIVATE_START_JEK");
     }
 
   }
   
 }
-
-/*++++++++++++++++++++++++++++++
-  Look for any cmavo of selma'o GIhA and back up to where the 'gihek'
-  non-terminal will start.  Insert a PRIVATE_START_GIHEK token there.
-  ++++++++++++++++++++++++++++++*/
-
-static void
-categorize_gihek(TreeNode *head)
+/*}}}*/
+static void categorize_gihek(TreeNode *head)/*{{{*/
 {
-  TreeNode *x, *y, *marker;
+  TreeNode *x, *y;
 
   for (x = head->next; x!=head; x=x->next) {
-    if (x->type == N_CMAVO &&
-        x->data.cmavo.selmao == GIhA) {
+    if (cmtest(x, GIhA)) {
       /* Backup over any SE and NA preceding and insert PRIVATE_START_GIHEK */
       y = x->prev;
-      if (y->type == N_CMAVO &&
-          y->data.cmavo.selmao == SE) {
-        y = y->prev;
-      }
-      if (y->type == N_CMAVO &&
-          y->data.cmavo.selmao == NA) {
-        y = y->prev;
-      }
+      if (cmtest(y, SE)) y = y->prev;
+      if (cmtest(y, NA)) y = y->prev;
       /* Need to insert new token after y */
-      marker = new_node();
-      marker->type = N_MARKER;
-      marker->start_line = y->start_line;
-      marker->start_column = y->start_column;
-      marker->data.marker.tok = PRIVATE_START_GIHEK;
-      marker->data.marker.text = new_string("PRIVATE_START_GIHEK");
-      marker->prev = y;
-      marker->next = y->next;
-      y->next->prev = marker;
-      y->next = marker;
+      insert_marker_after(y, PRIVATE_START_GIHEK, "PRIVATE_START_GIHEK");
     }
 
   }
   
 }
-
-/*++++++++++++++++++++++++++++++
-  Look for any cmavo of selma'o A and back up to where the 'ek'
-  non-terminal will start.  Insert a PRIVATE_START_EK token there.
-  ++++++++++++++++++++++++++++++*/
-
-static void
-categorize_ek(TreeNode *head)
+/*}}}*/
+static void categorize_ek(TreeNode *head)/*{{{*/
 {
-  TreeNode *x, *y, *marker;
+  TreeNode *x, *y;
 
   for (x = head->next; x!=head; x=x->next) {
-    if (x->type == N_CMAVO &&
-        x->data.cmavo.selmao == A) {
+    if (cmtest(x, A)) {
       /* Backup over any SE and NA preceding and insert PRIVATE_START_EK */
       y = x->prev;
-      if (y->type == N_CMAVO &&
-          y->data.cmavo.selmao == SE) {
-        y = y->prev;
-      }
-      if (y->type == N_CMAVO &&
-          y->data.cmavo.selmao == NA) {
-        y = y->prev;
-      }
+      if (cmtest(y, SE)) y = y->prev;
+      if (cmtest(y, NA)) y = y->prev;
       /* Need to insert new token after y */
-      marker = new_node();
-      marker->type = N_MARKER;
-      marker->start_line = y->start_line;
-      marker->start_column = y->start_column;
-      marker->data.marker.tok = PRIVATE_START_EK;
-      marker->data.marker.text = new_string("PRIVATE_START_EK");
-      marker->prev = y;
-      marker->next = y->next;
-      y->next->prev = marker;
-      y->next = marker;
+      insert_marker_after(y, PRIVATE_START_EK, "PRIVATE_START_EK");
     }
 
   }
   
 }
-
-/*++++++++++++++++++++++++++++++
-  Look for any cmavo of selma'o GUhA and back up to where the 'guhek'
-  non-terminal will start.  Insert a PRIVATE_START_GUHEK token there.
-  ++++++++++++++++++++++++++++++*/
-
-static void
-categorize_guhek(TreeNode *head)
+/*}}}*/
+static void categorize_guhek(TreeNode *head)/*{{{*/
 {
-  TreeNode *x, *y, *marker;
+  TreeNode *x, *y;
 
   for (x = head->next; x!=head; x=x->next) {
-    if (x->type == N_CMAVO &&
-        x->data.cmavo.selmao == GUhA) {
+    if (cmtest(x, GUhA)) {
       /* Backup over any SE preceding and insert PRIVATE_START_GUHEK */
       y = x->prev;
-      if (y->type == N_CMAVO &&
-          y->data.cmavo.selmao == SE) {
-        y = y->prev;
-      }
+      if (cmtest(y, SE)) y = y->prev;
       /* Need to insert new token after y */
-      marker = new_node();
-      marker->type = N_MARKER; 
-      marker->start_line = y->start_line;
-      marker->start_column = y->start_column;
-      marker->data.marker.tok = PRIVATE_START_GUHEK;
-      marker->data.marker.text = new_string("PRIVATE_START_GUHEK");
-      marker->prev = y;
-      marker->next = y->next;
-      y->next->prev = marker;
-      y->next = marker;
+      insert_marker_after(y, PRIVATE_START_GUHEK, "PRIVATE_START_GUHEK");
     }
 
   }
   
 }
-
-/*++++++++++++++++++++++++++++++
-  Look for any cmavo of selma'o JOIK or BIhI and back up to where the
-  'joik' non-terminal will start.  Insert a PRIVATE_START_JOIK token there.
-  ++++++++++++++++++++++++++++++*/
-
-static void
-categorize_joik(TreeNode *head)
+/*}}}*/
+static void categorize_joik(TreeNode *head)/*{{{*/
 {
-  TreeNode *x, *y, *marker;
+  TreeNode *x, *y;
 
   for (x = head->next; x!=head; x=x->next) {
-    if (x->type == N_CMAVO &&
-        x->data.cmavo.selmao == JOI) {
-      /* Backup over any SE preceding and insert PRIVATE_START_GUHEK */
+    if (cmtest(x, JOI)) {
+      /* Backup over any SE preceding and insert PRIVATE_START_JOIK */
       y = x->prev;
-      if (y->type == N_CMAVO &&
-          y->data.cmavo.selmao == SE) {
-        y = y->prev;
-      }
-      /* Need to insert new token after y */
-      marker = new_node();
-      marker->type = N_MARKER;
-      marker->start_line = y->start_line;
-      marker->start_column = y->start_column;
-      marker->data.marker.tok = PRIVATE_START_JOIK;
-      marker->data.marker.text = new_string("PRIVATE_START_JOIK");
-      marker->prev = y;
-      marker->next = y->next;
-      y->next->prev = marker;
-      y->next = marker;
-    } else if (x->type == N_CMAVO &&
-        x->data.cmavo.selmao == BIhI) {
-      /* Backup over any SE preceding and insert PRIVATE_START_GUHEK */
+      if (cmtest(y, SE)) y = y->prev;
+      insert_marker_after(y, PRIVATE_START_JOIK, "PRIVATE_START_JOIK");
+
+      y = x->next;
+      if (cmtest(y, NAI)) y = y->next;
+      insert_marker_before(y, PRIVATE_END_JOIK, "PRIVATE_END_JOIK");
+
+    } else if (cmtest(x, BIhI)) {
+      /* Backup over any SE preceding and insert PRIVATE_START_JOIK */
       y = x->prev;
-      if (y->type == N_CMAVO &&
-          y->data.cmavo.selmao == SE) {
-        y = y->prev;
-      }
-      if (y->type == N_CMAVO &&
-          y->data.cmavo.selmao == GAhO) {
-        y = y->prev;
-      }
-      /* Need to insert new token after y */
-      marker = new_node();
-      marker->type = N_MARKER;
-      marker->start_line = y->start_line;
-      marker->start_column = y->start_column;
-      marker->data.marker.tok = PRIVATE_START_JOIK;
-      marker->data.marker.text = new_string("PRIVATE_START_JOIK");
-      marker->prev = y;
-      marker->next = y->next;
-      y->next->prev = marker;
-      y->next = marker;
-    }
-  }
-  
-}
-
-/*++++++++++++++++++++++++++++++
-  Look for cmavo of selma'o GI and GA and try to insert a PRIVATE_START_GEK at
-  the right place...
-  ++++++++++++++++++++++++++++++*/
-
-static void
-categorize_gek(TreeNode *head) {
-  TreeNode *x, *y, *marker;
-
-  for (x = head->next; x!=head; x=x->next) {
-
-    if (x->type == N_CMAVO &&
-        x->data.cmavo.selmao == GA) {
-      /* Backup over any SE preceding and insert PRIVATE_START_GEK */
-      y = x->prev;
-      if (y->type == N_CMAVO &&
-          y->data.cmavo.selmao == SE) {
-        y = y->prev;
-      }
-
-      /* Need to insert new token after y */
-      marker = new_node();
-      marker->type = N_MARKER;
-      marker->start_line = y->start_line;
-      marker->start_column = y->start_column;
-      marker->data.marker.tok = PRIVATE_START_GEK;
-      marker->data.marker.text = new_string("PRIVATE_START_GEK");
-      marker->prev = y;
-      marker->next = y->next;
-      y->next->prev = marker;
-      y->next = marker;
-
-    } else if (x->type == N_CMAVO &&
-        x->data.cmavo.selmao == GI) {
-
-      /* Try to back-up over 'joik' */
-      int state;
-      
-      enum Tokens
-      {T_OTHER=0, T_GAhO=1, T_NAI=2, T_JOI=3,
-       T_BIhI=4, T_SE=5, T_PRIVATE_START_JOIK=6} 
-      tok;
-            
-      static const int states[7][11] =
-      {{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-       { 5, -1, -1, -1, -1, -1, -1, -1,  6,  6,  6},
-       { 1, -1, -1, -1, -1,  7, -1, -1, -1, -1, -1},
-       { 2,  2, -1, -1, -1,  8, -1,  8, -1, -1, -1},
-       { 3,  3, -1, -1, -1,  9, -1,  9, -1, -1, -1},
-       {-1, -1,  4,  4, -1, -1, -1, -1, 10, 10, -1},
-       {-1, -1, -2, -2, -2, -1, -2, -1, -1, -1, -1}};
-
-      state = 0;
-      y = x->prev;
-      
-      do {
-
-        if (y->type == N_CMAVO) {
-          switch (y->data.cmavo.selmao) {
-            case GAhO: tok = T_GAhO; break;
-            case NAI: tok = T_NAI; break;
-            case BIhI: tok = T_BIhI; break;
-            case JOI: tok = T_JOI; break;
-            case SE: tok = T_SE; break;
-            default: tok = T_OTHER; break;
-          }
-        } else if (y->type == N_MARKER) {
-          if (y->data.marker.tok == PRIVATE_START_JOIK) {
-            tok = T_PRIVATE_START_JOIK;
-          } else {
-            tok = T_OTHER;
-          }
-        } else {
-          tok = T_OTHER;
-        }
-
-#if 0
-        printf("state=%d, token=%d\n", state, tok);
-#endif
-
-        state = states[tok][state];
-
-#if 0
-        printf("new state=%d\n", state);
-#endif
-
-        y = y->prev;
-
-        if (state == -1) {
-          y = NULL;
-          break;
-        }
-        if (state == -2) {
-          break;
-        }
-
-      } while (1);
-
-      if (y != NULL) {
-        marker = new_node();
-        marker->type = N_MARKER;
-        marker->start_line = y->start_line;
-        marker->start_column = y->start_column;
-        marker->data.marker.tok = PRIVATE_START_GEK;
-        marker->data.marker.text = new_string("PRIVATE_START_GEK");
-        marker->prev = y;
-        marker->next = y->next;
-        y->next->prev = marker;
-        y->next = marker;
-      }
-
-    }
-  }
-}
-
-
-/*++++++++++++++++++++++++++++++
-  Look for any cmavo of selma'o BAI and back up to where the 'stag'
-  non-terminal will start.  Insert a PRIVATE_START_BAI token there.
-  ++++++++++++++++++++++++++++++*/
-
-static void
-categorize_bai(TreeNode *head)
-{
-  TreeNode *x, *y, *marker;
-
-  for (x = head->next; x!=head; x=x->next) {
-    if (x->type == N_CMAVO &&
-        x->data.cmavo.selmao == BAI) {
-      /* Backup over any SE and NAhE preceding and insert PRIVATE_START_BAI */
-      y = x->prev;
-      if (y->type == N_CMAVO &&
-          y->data.cmavo.selmao == SE) {
-        y = y->prev;
-      }
-      if (y->type == N_CMAVO &&
-          y->data.cmavo.selmao == NAhE) {
-        y = y->prev;
-      }
-      /* Need to insert new token after y */
-      marker = new_node();
-      marker->type = N_MARKER;
-      marker->start_line = y->start_line;
-      marker->start_column = y->start_column;
-      marker->data.marker.tok = PRIVATE_START_BAI;
-      marker->data.marker.text = new_string("PRIVATE_START_BAI");
-      marker->prev = y;
-      marker->next = y->next;
-      y->next->prev = marker;
-      y->next = marker;
-    }
-
-  }
-  
-}
-
-/*++++++++++++++++++++++++++++++
-  Look for any cmavo of selma'o NAhE and see whether one of a set of
-  things follows it.  Insert marker before it appropriately.
-  ++++++++++++++++++++++++++++++*/
-
-static void
-categorize_nahe(TreeNode *head)
-{
-  TreeNode *x, *y, *marker;
-  enum {NEED_BO, NEED_TIME, NEED_SPACE, NEED_CAhA, NEED_NONE} result;
-
-  for (x = head->next; x!=head; x=x->next) {
-    if (x->type == N_CMAVO &&
-        x->data.cmavo.selmao == NAhE) {
+      if (cmtest(y, SE)) y = y->prev;
+      if (cmtest(y, GAhO)) y = y->prev;
+      insert_marker_after(y, PRIVATE_START_JOIK, "PRIVATE_START_JOIK");
       
       y = x->next;
+      if (cmtest(y, NAI)) y = y->next;
+      if (cmtest(y, GAhO)) y = y->next;
+      insert_marker_before(y, PRIVATE_END_JOIK, "PRIVATE_END_JOIK");
+    }
+  }
+  
+}
+/*}}}*/
+static void categorize_gek(TreeNode *head) {/*{{{*/
+  TreeNode *x, *y;
 
-      if (y->type == N_CMAVO) {
-        switch (y->data.cmavo.selmao) {
-          case BO:
-            result = NEED_BO;
-            break;
-            
-          case ZI:
-          case PU:
-          case ZEhA:
-          case TAhE:
-          case ZAhO:
-            result = NEED_TIME;
-            break;
+  for (x = head->next; x!=head; x=x->next) {
 
-          case VA:
-          case FAhA:
-          case VEhA:
-          case VIhA:
-          case FEhE:
-          case MOhI:
-            result = NEED_SPACE;
-            break;
+    if (cmtest(x, GA)) {
+      /* Backup over any SE preceding and insert PRIVATE_START_GEK */
+      y = x->prev;
+      if (cmtest(y, SE)) y = y->prev;
+      insert_marker_after(y, PRIVATE_START_GEK, "PRIVATE_START_GEK");
 
-          case CAhA:
-            result = NEED_CAhA;
+    } else if (cmtest(x, GI)) {
+      
+      if (mkrtest(x->prev, PRIVATE_END_TENSE)) {
+        TreeNode *z;
+        for (z=x->prev; z!=head; z=z->prev) {
+          if (mkrtest(z, PRIVATE_START_TENSE)) {
+            /* Insert START_GEK before z */
+            insert_marker_before(z, PRIVATE_START_GEK, "PRIVATE_START_GEK");
             break;
-
-          default:
-            result = NEED_NONE;
-            break;
+          }
         }
-      } else if (y->type == N_MARKER) {
-        if (y->data.marker.tok == PRIVATE_NUMBER_ROI) {
-          result = NEED_TIME;
-        } else {
-          result = NEED_NONE;
-        }
+
       } else {
-        result = NEED_NONE;
-      }
-
-      if (result != NEED_NONE) {
-        marker = new_node();
-        marker->start_line = x->start_line;
-        marker->start_column = x->start_column;
-        marker->type = N_MARKER;
-        switch (result) {
-          case NEED_BO:
-            marker->data.marker.tok = PRIVATE_NAhE_BO;
-            marker->data.marker.text = new_string("PRIVATE_NAhE_BO");
-            break;
-          case NEED_TIME:
-            marker->data.marker.tok = PRIVATE_NAhE_time;
-            marker->data.marker.text = new_string("PRIVATE_NAhE_time");
-            break;
-          case NEED_SPACE:
-            marker->data.marker.tok = PRIVATE_NAhE_space;
-            marker->data.marker.text = new_string("PRIVATE_NAhE_space");
-            break;
-          case NEED_CAhA:
-            marker->data.marker.tok = PRIVATE_NAhE_CAhA;
-            marker->data.marker.text = new_string("PRIVATE_NAhE_CAhA");
-            break;
-          case NEED_NONE:
-            /* If prevents us getting here, but we put the branch in
-               to shut the compiler up */
-            break;
+        /* categorize_joik is done before this, so just match the markers */
+        TreeNode *z;
+        z = x->prev;
+        if (mkrtest(z, PRIVATE_END_JOIK)) {
+          for (z=z->prev; z!=head; z=z->prev) {
+            if (mkrtest(z, PRIVATE_START_JOIK)) {
+              /* Insert START_GEK before z */
+              insert_marker_before(z, PRIVATE_START_GEK, "PRIVATE_START_GEK");
+              break;
+            }
+          }
         }
-        marker->next = x;
-        marker->prev = x->prev;
-        x->prev->next = marker;
-        x->prev = marker;
       }
     }
   }
 }
+/*}}}*/
+static void categorize_nahe(TreeNode *head)/*{{{*/
+{
+  TreeNode *x;
 
+  for (x = head->next; x!=head; x=x->next) {
+    if (cmtest(x, NAhE) && cmtest(x->next, BO)) {
+      insert_marker_before(x, PRIVATE_NAhE_BO, "PRIVATE_NAhE_BO");
+    }
+  }
+}
+/*}}}*/
 
-typedef enum {
+typedef enum BOKE_Lookahead {/*{{{*/
   FOUND_BO,
   FOUND_KE,
   FOUND_OTHER
 } BOKE_Lookahead;
-
-static TreeNode *stag_marker;
-static int stag_scan_complete;
-static BOKE_Lookahead boke_look;
-
-static int send_first_token;
-static int first_token;
-
-extern int stag_parse(void);
-
-/*++++++++++++++++++++++++++++++++++++++
-  Error printing function for stag parser
-
-  char *s
-  ++++++++++++++++++++++++++++++++++++++*/
-
-void
-stag_error(char *s)
+/*}}}*/
+enum StagTokens {/*{{{*/
+  /* **MUST** be sorted into same order as Tokens decl. in stag_nfa.in */
+  ST_BAI,
+  ST_BU,
+  ST_BY,
+  ST_CAhA,
+  ST_CUhE,
+  ST_FAhA,
+  ST_FEhE,
+  ST_FOI,
+  ST_KI,
+  ST_LAU,
+  ST_MOhI,
+  ST_NAhE,
+  ST_NAI,
+  ST_PA,
+  ST_PU,
+  ST_ROI,
+  ST_SE,
+  ST_TAhE,
+  ST_TEI,
+  ST_VA,
+  ST_VEhA,
+  ST_VIhA,
+  ST_ZAhO,
+  ST_ZEhA,
+  ST_ZI
+};
+/*}}}*/
+static int map_stag_token(int tok_in)/*{{{*/
 {
-#if 0
-  fprintf(stderr, "%s\n", s);
-  /* We're not interested in seeing errors from this, we expect there
-     to be many of them */
-#endif
+  /* Convert global selma'o token numbers into the ones used by the stag DFA */
+  switch(tok_in) {
+    case BAI: return (int) ST_BAI;
+    case BY: return (int) ST_BY;
+    case CAhA: return (int) ST_CAhA;
+    case CUhE: return (int) ST_CUhE;
+    case FAhA: return (int) ST_FAhA;
+    case FEhE: return (int) ST_FEhE;
+    case FOI: return (int) ST_FOI;
+    case KI: return (int) ST_KI;
+    case LAU: return (int) ST_LAU;
+    case MOhI: return (int) ST_MOhI;
+    case NAhE: return (int) ST_NAhE;
+    case NAI: return (int) ST_NAI;
+    case PA: return (int) ST_PA;
+    case PU: return (int) ST_PU;
+    case ROI: return (int) ST_ROI;
+    case SE: return (int) ST_SE;
+    case TAhE: return (int) ST_TAhE;
+    case TEI: return (int) ST_TEI;
+    case VA: return (int) ST_VA;
+    case VEhA: return (int) ST_VEhA;
+    case VIhA: return (int) ST_VIhA;
+    case ZAhO: return (int) ST_ZAhO;
+    case ZEhA: return (int) ST_ZEhA;
+    case ZI: return (int) ST_ZI;
+    default: return -1;
+  }
 }
-
-/*++++++++++++++++++++++++++++++++++++++
-  This is the 'yylex' function for the stag recognizer
-
-  int staglex
-  ++++++++++++++++++++++++++++++++++++++*/
-
-int
-stag_lex(void)
+/*}}}*/
+static void categorize_tenses(TreeNode *head)/*{{{*/
 {
-
-  int result;
-
-  if (stag_scan_complete) {
-    return 0;
-  }
-
-  if (send_first_token) {
-    send_first_token = 0;
-    return first_token;
-  }
-  
-  /* No checking yet for whether we get to the end of the token
-     list. */
-
-  while (stag_marker->type == N_MARKER) {
-    stag_marker = stag_marker->next;
-  }
-
-  switch (stag_marker->type) {
-    case N_CMAVO:
-      switch (stag_marker->data.cmavo.selmao) {
-        case BO: result = STAG_BO; break;
-        case KE: result = STAG_KE; break;
-        case BAI: result = STAG_BAI; break;
-        case BIhI: result = STAG_BIhI; break;
-        case BU: result = STAG_BU; break;
-        case BY: result = STAG_BY; break;
-        case CAhA: result = STAG_CAhA; break;
-        case CUhE: result = STAG_CUhE; break;
-        case FAhA: result = STAG_FAhA; break;
-        case FEhE: result = STAG_FEhE; break;
-        case FOI: result = STAG_FOI; break;
-        case GAhO: result = STAG_GAhO; break;
-        case JA: result = STAG_JA; break;
-        case JOI: result = STAG_JOI; break;
-        case LAU: result = STAG_LAU; break;
-        case KI: result = STAG_KI; break;
-        case MOhI: result = STAG_MOhI; break;
-        case NA: result = STAG_NA; break;
-        case NAhE: result = STAG_NAhE; break;
-        case NAI: result = STAG_NAI; break;
-        case PA: result = STAG_PA; break;
-        case PU: result = STAG_PU; break;
-        case ROI: result = STAG_ROI; break;
-        case SE: result = STAG_SE; break;
-        case TAhE: result = STAG_TAhE; break;
-        case TEI: result = STAG_TEI; break;
-        case VA: result = STAG_VA; break;
-        case VEhA: result = STAG_VEhA; break;
-        case VIhA: result = STAG_VIhA; break;
-        case ZAhO: result = STAG_ZAhO; break;
-        case ZEhA: result = STAG_ZEhA; break;
-        case ZI: result = STAG_ZI; break;
-        default: result = STAG_OTHER; break;
+  TreeNode *x, *next_tok, *y, *last_ok_token;
+  int curstate, nextstate, token;
+  for (x=head->next; x!=head; x=next_tok) {
+    curstate = 0;
+    last_ok_token = NULL;
+    for (y=x; y!= head; y=y->next) {
+      token = (y->type == N_CMAVO) ? map_stag_token(y->data.cmavo.selmao) : 
+              (y->type == N_BU) ? ST_BU : -1;
+      nextstate = stag_next_state(curstate, token);
+      if (nextstate >= 0) {
+        if (stag_exitval[nextstate]) {
+          last_ok_token = y;
+        }
+        curstate = nextstate;
+      } else {
+        if (last_ok_token) {
+          /* Insert markers */
+          insert_marker_before(x, PRIVATE_START_TENSE, "PRIVATE_START_TENSE");
+          insert_marker_after(last_ok_token, PRIVATE_END_TENSE, "PRIVATE_END_TENSE");
+          next_tok = last_ok_token->next->next; /* marker->next */
+        } else {
+          next_tok = x->next; /* Default case : failure */
+        }
+        goto next_outer_loop;
       }
-      break;
+    }
+    if (y == head) {
+      /* Run to end of text */
+      insert_marker_before(x, PRIVATE_START_TENSE, "PRIVATE_START_TENSE");
+      insert_marker_after(last_ok_token, PRIVATE_END_TENSE, "PRIVATE_END_TENSE");
+      next_tok = last_ok_token->next->next; /* marker->next */
+    }
 
-    default: /* BRIVLA, CMENE etc */
-      result = STAG_OTHER;
-      break;
+next_outer_loop:
+    (void) 0;
   }
-
-  stag_marker = stag_marker->next;
-
-  return result;
-  
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++++++++++*/
-
-void
-stag_lookahead_bo (void)
+/*}}}*/
+static TreeNode *straddle_ek(TreeNode *x) /*{{{*/
 {
-  boke_look = FOUND_BO;
-  stag_scan_complete = 1;
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++++++++++*/
-
-void
-stag_lookahead_ke (void)
-{
-  boke_look = FOUND_KE;
-  stag_scan_complete = 1;
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-
-  static BOKE_Lookahead stag_scan
-
-  TreeNode *x
-  ++++++++++++++++++++++++++++++++++++++*/
-
-
-static BOKE_Lookahead
-stag_scan (TreeNode *x, int scan_type)
-{
-  stag_marker = x;
-  stag_scan_complete = 0;
-  send_first_token = 1;
-  first_token = scan_type;
-  if (stag_parse()) {
-    return FOUND_OTHER;
+  /* Expect to be looking at the start of an ek, then scan over it */
+  if (mkrtest(x, PRIVATE_START_EK)) {
+    x = x->next;
+    if (cmtest(x, NA)) x = x->next;
+    if (cmtest(x, SE)) x = x->next;
+    assert(cmtest(x, A)); /* If this is wrong, categorize_ek is borked */
+    x = x->next;
+    if (cmtest(x, NAI)) return x->next;
+    else                return x;
   } else {
-    return boke_look;
+    return NULL;
   }
 }
-
-/*++++++++++++++++++++++++++++++
-  This function looks ahead across any intervening stag, to see
-  whether there is a BO or KE following before the next construct.
-  ++++++++++++++++++++++++++++++*/
-
-static BOKE_Lookahead
-lookahead(TreeNode *start, int scan_type)
+/*}}}*/
+static TreeNode *straddle_jek(TreeNode *x) /*{{{*/
 {
-  return stag_scan(start, scan_type);
+  /* Expect to be looking at the start of a jek, then scan over it */
+  if (mkrtest(x, PRIVATE_START_JEK)) {
+    x = x->next;
+    if (cmtest(x, NA)) x = x->next;
+    if (cmtest(x, SE)) x = x->next;
+    assert(cmtest(x, JA)); /* If this is wrong, categorize_jek is borked */
+    x = x->next;
+    if (cmtest(x, NAI)) return x->next;
+    else                return x;
+  } else {
+    return NULL;
+  }
 }
-
-/*++++++++++++++++++++++++++++++
-  Deal with inserting PRIVATE_I_BO
-  ++++++++++++++++++++++++++++++*/
-
-static void
-categorize_ibo(TreeNode *head)
+/*}}}*/
+static TreeNode *straddle_gihek(TreeNode *x) /*{{{*/
 {
-  TreeNode *x, *y, *marker;
+  /* Expect to be looking at the start of an gihek, then scan over it */
+  if (mkrtest(x, PRIVATE_START_GIHEK)) {
+    x = x->next;
+    if (cmtest(x, NA)) x = x->next;
+    if (cmtest(x, SE)) x = x->next;
+    assert(cmtest(x, GIhA)); /* If this is wrong, categorize_gihek is borked */
+    x = x->next;
+    if (cmtest(x, NAI)) return x->next;
+    else                return x;
+  } else {
+    return NULL;
+  }
+}
+/*}}}*/
+static TreeNode *straddle_joik(TreeNode *x)/*{{{*/
+{
+  /* It would be good to have some assertions in here.  Just rely on
+   * categorize_joik doing its job. */
+  if (mkrtest(x, PRIVATE_START_JOIK)) {
+    TreeNode *z;
+    for (z = x->next; ; z = z->next) {
+      if (mkrtest(z, PRIVATE_END_JOIK)) return z->next;
+    }
+  } else {
+    return NULL;
+  }
+}
+/*}}}*/
+static BOKE_Lookahead get_lookahead_result(TreeNode *x, TreeNode **end)/*{{{*/
+{
+  if (cmtest(x, BO)) {
+    *end = x;
+    return FOUND_BO;
+  } else if (cmtest(x, KE)) {
+    *end = x;
+    return FOUND_KE;
+  } else {
+    *end = x;
+    return FOUND_OTHER;
+  }
+}
+/*}}}*/
+static BOKE_Lookahead lookahead(TreeNode *start, TreeNode **end)/*{{{*/
+{
+  TreeNode *x, *y;
+  /* Assume the initial connective has already been skipped in the caller. */
+  x = start;
+  while (mkrtest(x, PRIVATE_START_TENSE)) {
+    do {
+      x = x->next;
+    } while (!mkrtest(x, PRIVATE_END_TENSE));
+    /* Advance over jek or joik.  If not looking at connective, we've
+     * fallen off the end of the construction and can check for BO or KE */
+    x = x->next;
+    if (mkrtest(x, PRIVATE_START_JEK)) y = straddle_jek(x);
+    else if (mkrtest(x, PRIVATE_START_JOIK)) y = straddle_joik(x);
+    else return get_lookahead_result(x, end);
+    
+    assert(y); /* We pre-checked the connective types before the straddle calls,
+                  so y must be defined. */
+    if (!mkrtest(y, PRIVATE_START_TENSE)) {
+      /* the stag construct ran out at 'x'.  If we got here, 'x' must have started
+       * a connective, so it's going to be a syntax error later, but certainly not
+       * BO or KE */
+      *end = x;
+      return FOUND_OTHER;
+    } else {
+      /* Otherwise, set x to be start of next tense and iterate again. */
+      x = y;
+    }
+  }
+  /* Did not get a tense at the start of the scan */
+  return get_lookahead_result(x, end);
+}
+/*}}}*/
+static void categorize_ibo(TreeNode *head)/*{{{*/
+{
+  TreeNode *x, *y, *z, *nx;
 
-  for (x = head->next; x!=head; x=x->next) {
-    if (x->type == N_CMAVO &&
-        x->data.cmavo.selmao == I) {
+  for (x = head->next; x!=head; ) {
+    if (cmtest(x, I)) {
+      /* Checking for I [jek|joik] [stag] BO */
       y = x->next;
-      switch (lookahead(y, JJ_STAG)) {
+      z = straddle_jek(y);
+      if (!z) z = straddle_joik(y);
+      
+      switch (lookahead(z?z:y, &nx)) {
         case FOUND_BO:
-          marker = new_node();
-          marker->type = N_MARKER;
-          marker->start_line = x->start_line;
-          marker->start_column = x->start_column;
-          marker->data.marker.tok = PRIVATE_I_BO;
-          marker->data.marker.text = new_string("PRIVATE_I_BO");
-          /* Insert before x */
-          marker->prev = x->prev;
-          marker->next = x;
-          x->prev->next = marker;
-          x->prev = marker;
+          insert_marker_before(x, PRIVATE_I_BO, "PRIVATE_I_BO");
           break;
         case FOUND_KE:
           /* Fall through - in this case we're not interested in whether KE follows */
@@ -682,293 +460,150 @@ categorize_ibo(TreeNode *head)
           break;
       }
 
+      x = nx;
+
+    } else {
+      x = x->next;
     }
   }  
 }
-
-/*++++++++++++++++++++++++++++++
-  Deal with inserting PRIVATE_I_BO
-  ++++++++++++++++++++++++++++++*/
-
-static void
-categorize_ijekjoik(TreeNode *head)
+/*}}}*/
+static void categorize_ijekjoik(TreeNode *head)/*{{{*/
 {
-  TreeNode *x, *marker;
+  TreeNode *x;
 
   for (x = head->next; x!=head; x=x->next) {
-    if ((x->type == N_CMAVO) &&
-        (x->data.cmavo.selmao == I)) {
+    if (cmtest(x, I)) {
 
-      if ((x->prev->type == N_MARKER) &&
-          (x->prev->data.marker.tok == PRIVATE_I_BO)) {
+      if (mkrtest(x->prev, PRIVATE_I_BO)) {
         /* Nothing to do  */
       } else {
-        if ((x->next->type == N_MARKER) &&
-            ((x->next->data.marker.tok == PRIVATE_START_JEK) ||
-             (x->next->data.marker.tok == PRIVATE_START_JOIK))) {
-          marker = new_node();
-          marker->type = N_MARKER;
-          marker->start_line = x->start_line;
-          marker->start_column = x->start_column;
-          marker->data.marker.tok = PRIVATE_I_JEKJOIK;
-          marker->data.marker.text = new_string("PRIVATE_I_JEKJOIK");
-          /* Insert before x */
-          marker->prev = x->prev;
-          marker->next = x;
-          x->prev->next = marker;
-          x->prev = marker;
+        if (mkrtest(x->next, PRIVATE_START_JEK) ||
+            mkrtest(x->next, PRIVATE_START_JOIK)) {
+          insert_marker_before(x, PRIVATE_I_JEKJOIK, "PRIVATE_I_JEKJOIK");
         }
       }
     }
   }  
 }
-
-/*++++++++++++++++++++++++++++++
-  Deal with inserting PRIVATE_JEK_BO and PRIVATE_JEK_KE
-  ++++++++++++++++++++++++++++++*/
-
-static void
-categorize_jek_kebo(TreeNode *head)
+/*}}}*/
+static void categorize_jek_kebo(TreeNode *head)/*{{{*/
 {
-  TreeNode *x, *y, *marker;
+  TreeNode *x, *y, *nx;
 
-  for (x = head->next; x!=head; x=x->next) {
-    if (x->type == N_MARKER &&
-        x->data.marker.tok == PRIVATE_START_JEK) {
+  for (x = head->next; x!=head; ) {
+    if (mkrtest(x, PRIVATE_START_JEK)) {
 
-      if (x->prev->type == N_CMAVO &&
-          x->prev->data.cmavo.selmao == I) {
+      if (cmtest(x->prev, I) || mkrtest(x->prev, PRIVATE_END_TENSE)) {
         /* Don't do anything , it's I je or I joik etc and inserting
            PRIVATE_JEK_KE tokens will screw up parsing of I construct */
+        x = x->next;
       } else {
-        y = x->next;
-        while (y->type != N_CMAVO ||
-               y->data.cmavo.selmao != JA) {
-          y = y->next;
-        }
-        y = y->next;
-        if (y->type == N_CMAVO &&
-            y->data.cmavo.selmao == NAI) {
-          y = y->next;
-        }
-        switch (lookahead(y, JUST_STAG)) {
+        y = straddle_jek(x);
+        switch (lookahead(y, &nx)) {
           case FOUND_BO:
-            marker = new_node();
-            marker->type = N_MARKER;
-            marker->start_line = x->start_line;
-            marker->start_column = x->start_column;
-            marker->data.marker.tok = PRIVATE_JEK_BO;
-            marker->data.marker.text = new_string("PRIVATE_JEK_BO");
-            /* Insert before x */
-            marker->prev = x->prev;
-            marker->next = x;
-            x->prev->next = marker;
-            x->prev = marker;
+            insert_marker_before(x, PRIVATE_JEK_BO, "PRIVATE_JEK_BO");
             break;
           case FOUND_KE:
-            marker = new_node();
-            marker->type = N_MARKER;
-            marker->start_line = x->start_line;
-            marker->start_column = x->start_column;
-            marker->data.marker.tok = PRIVATE_JEK_KE;
-            marker->data.marker.text = new_string("PRIVATE_JEK_KE");
-            /* Insert before x */
-            marker->prev = x->prev;
-            marker->next = x;
-            x->prev->next = marker;
-            x->prev = marker;
+            insert_marker_before(x, PRIVATE_JEK_KE, "PRIVATE_JEK_KE");
             break;
           case FOUND_OTHER:
             break;
         }
+        x = nx;
       }
+    } else {
+      x = x->next;
     }
   }  
 }
-
-
-/*++++++++++++++++++++++++++++++
-  Deal with inserting PRIVATE_EK_BO and PRIVATE_EK_KE
-  ++++++++++++++++++++++++++++++*/
-
-static void
-categorize_ek_kebo(TreeNode *head)
+/*}}}*/
+static void categorize_ek_kebo(TreeNode *head)/*{{{*/
 {
-  TreeNode *x, *y, *z, *marker;
+  TreeNode *x, *y, *nx;
 
-  for (x = head->next; x!=head; x=x->next) {
-    if (x->type == N_CMAVO &&
-        x->data.cmavo.selmao == A) {
-
-      y = x->next;
-      if (y->type == N_CMAVO &&
-          y->data.cmavo.selmao == NAI) {
-        y = y->next;
-      }
-      z = x->prev;
-      while (z->type != N_MARKER ||
-             z->data.marker.tok != PRIVATE_START_EK) {
-        z = z->prev;
-      }
-      switch (lookahead(y, JUST_STAG)) {
+  for (x = head->next; x!=head; ) {
+    if (mkrtest(x, PRIVATE_START_EK)) {
+      y = straddle_ek(x);
+      switch (lookahead(y, &nx)) {
         case FOUND_BO:
-          marker = new_node();
-          marker->type = N_MARKER;
-          marker->start_line = z->start_line;
-          marker->start_column = z->start_column;
-          marker->data.marker.tok = PRIVATE_EK_BO;
-          marker->data.marker.text = new_string("PRIVATE_EK_BO");
-          /* Insert before z */
-          marker->prev = z->prev;
-          marker->next = z;
-          z->prev->next = marker;
-          z->prev = marker;
+          insert_marker_before(x, PRIVATE_EK_BO, "PRIVATE_EK_BO");
           break;
         case FOUND_KE:
-          marker = new_node();
-          marker->type = N_MARKER;
-          marker->start_line = z->start_line;
-          marker->start_column = z->start_column;
-          marker->data.marker.tok = PRIVATE_EK_KE;
-          marker->data.marker.text = new_string("PRIVATE_EK_KE");
-          /* Insert before z */
-          marker->prev = z->prev;
-          marker->next = z;
-          z->prev->next = marker;
-          z->prev = marker;
+          insert_marker_before(x, PRIVATE_EK_KE, "PRIVATE_EK_KE");
           break;
         case FOUND_OTHER:
           break;
       }
+      x = nx;
+    } else {
+      x = x->next;
     }
   }
 }  
-
-/*++++++++++++++++++++++++++++++
-  Deal with inserting PRIVATE_JOIK_BO and PRIVATE_JOIK_KE
-  ++++++++++++++++++++++++++++++*/
-
-static void
-categorize_joik_kebo(TreeNode *head)
+/*}}}*/
+static void categorize_joik_kebo(TreeNode *head)/*{{{*/
 {
-  TreeNode *x, *y, *marker;
+  TreeNode *x, *y, *nx;
 
-  for (x = head->next; x!=head; x=x->next) {
-    if (x->type == N_MARKER &&
-        x->data.marker.tok == PRIVATE_START_JOIK) {
-
-      if (x->prev->type == N_CMAVO &&
-          x->prev->data.cmavo.selmao == I) {
+  for (x = head->next; x!=head; ) {
+    if (mkrtest(x, PRIVATE_START_JOIK)) {
+      if (cmtest(x->prev, I) || mkrtest(x->prev, PRIVATE_END_TENSE)) {
         /* Don't do anything - this will screw up the parsing of the I
            construct */
+        x = x->next;
       } else {
-        y = x->next;
-        switch (lookahead(y, JOIK_STAG)) {
+        y = straddle_joik(x);
+        switch (lookahead(y, &nx)) {
           case FOUND_BO:
-            marker = new_node();
-            marker->type = N_MARKER;
-            marker->start_line = x->start_line;
-            marker->start_column = x->start_column;
-            marker->data.marker.tok = PRIVATE_JOIK_BO;
-            marker->data.marker.text = new_string("PRIVATE_JOIK_BO");
-            /* Insert before x */
-            marker->prev = x->prev;
-            marker->next = x;
-            x->prev->next = marker;
-            x->prev = marker;
+            insert_marker_before(x, PRIVATE_JOIK_BO, "PRIVATE_JOIK_BO");
             break;
           case FOUND_KE:
-            marker = new_node();
-            marker->type = N_MARKER;
-            marker->start_line = x->start_line;
-            marker->start_column = x->start_column;
-            marker->data.marker.tok = PRIVATE_JOIK_KE;
-            marker->data.marker.text = new_string("PRIVATE_JOIK_KE");
-            /* Insert before x */
-            marker->prev = x->prev;
-            marker->next = x;
-            x->prev->next = marker;
-            x->prev = marker;
+            insert_marker_before(x, PRIVATE_JOIK_KE, "PRIVATE_JOIK_KE");
             break;
           case FOUND_OTHER:
             break;
         }
+        x = nx;
       }
+    } else {
+      x = x->next;
     }
   }
 }  
-
-/*++++++++++++++++++++++++++++++
-  Deal with inserting PRIVATE_GIHEK_BO and PRIVATE_GIHEK_KE
-  ++++++++++++++++++++++++++++++*/
-
-static void
-categorize_gihek_kebo(TreeNode *head)
+/*}}}*/
+static void categorize_gihek_kebo(TreeNode *head)/*{{{*/
 {
-  TreeNode *x, *y, *z, *marker;
+  TreeNode *x, *y, *nx;
 
-  for (x = head->next; x!=head; x=x->next) {
-    if (x->type == N_CMAVO &&
-        x->data.cmavo.selmao == GIhA) {
+  for (x = head->next; x!=head;) {
+    if (mkrtest(x, PRIVATE_START_GIHEK)) {
+      y = straddle_gihek(x);
 
-      y = x->next;
-      if (y->type == N_CMAVO &&
-          y->data.cmavo.selmao == NAI) {
-        y = y->next;
-      }
-      z = x->prev;
-      while (z->type != N_MARKER ||
-             z->data.marker.tok != PRIVATE_START_GIHEK) {
-        z = z->prev;
-      }
-
-      switch (lookahead(y, JUST_STAG)) {
+      switch (lookahead(y, &nx)) {
         case FOUND_BO:
-          marker = new_node();
-          marker->type = N_MARKER;
-          marker->start_line = z->start_line;
-          marker->start_column = z->start_column;
-          marker->data.marker.tok = PRIVATE_GIHEK_BO;
-          marker->data.marker.text = new_string("PRIVATE_GIHEK_BO");
-          /* Insert before z */
-          marker->prev = z->prev;
-          marker->next = z;
-          z->prev->next = marker;
-          z->prev = marker;
+          insert_marker_before(x, PRIVATE_GIHEK_BO, "PRIVATE_GIHEK_BO");
           break;
         case FOUND_KE:
-          marker = new_node();
-          marker->type = N_MARKER;
-          marker->start_line = z->start_line;
-          marker->start_column = z->start_column;
-          marker->data.marker.tok = PRIVATE_GIHEK_KE;
-          marker->data.marker.text = new_string("PRIVATE_GIHEK_KE");
-          /* Insert before z */
-          marker->prev = z->prev;
-          marker->next = z;
-          z->prev->next = marker;
-          z->prev = marker;
+          insert_marker_before(x, PRIVATE_GIHEK_KE, "PRIVATE_GIHEK_KE");
           break;
         case FOUND_OTHER:
           break;
       }
+      x = nx;
+    } else {
+      x = x->next;
     }
   }
 }  
+/*}}}*/
+void categorize_number_mai(TreeNode *head) {/*{{{*/
 
-/*++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++*/
-
-void
-categorize_number_mai(TreeNode *head) {
-
-  TreeNode *x, *y, *marker;
+  TreeNode *x, *y;
   int count;
 
   for (x = head->next; x!=head; x=x->next) {
-    if (x->type == N_CMAVO &&
-        x->data.cmavo.selmao == MAI) {
+    if (cmtest(x, MAI)) {
       y = x->prev;
       count = 0;
       while (1) {
@@ -999,39 +634,71 @@ categorize_number_mai(TreeNode *head) {
         }
       }
 
-        done:
+    done:
 
       if (count > 0) {
-        marker = new_node();
-        marker->type = N_MARKER;
-        marker->start_line = y->start_line;
-        marker->start_column = y->start_column;
-        marker->data.marker.tok = PRIVATE_NUMBER_MAI;
-        marker->data.marker.text = new_string("PRIVATE_NUMBER_MAI");
-        marker->prev = y;
-        marker->next = y->next;
-        y->next->prev = marker;
-        y->next = marker;
+        insert_marker_after(y, PRIVATE_NUMBER_MAI, "PRIVATE_NUMBER_MAI");
       }
     }
   }
 }
+/*}}}*/
+void categorize_number_roi(TreeNode *head) {/*{{{*/
 
-/*++++++++++++++++++++++++++++++
-  Find each ROI with at least one lerfu_word or PA before it.
-  Backtrack over the sequence of such tokens and insert PRIVATE_NUMBER_ROI at
-  the start.
-  ++++++++++++++++++++++++++++++*/
-
-void
-categorize_number_roi(TreeNode *head) {
-
-  TreeNode *x, *y, *marker;
+  TreeNode *x, *y;
   int count;
 
   for (x = head->next; x!=head; x=x->next) {
-    if (x->type == N_CMAVO &&
-        x->data.cmavo.selmao == ROI) {
+    if (cmtest(x, ROI)) {
+      y = x->prev;
+      count = 0;
+      while (1) {
+        if (y == head) goto done;
+
+        if (y->type == N_MARKER) {
+          goto done;
+#if 0
+          y = y->prev;
+#endif
+        } else if (y->type == N_CMAVO) {
+          switch (y->data.cmavo.selmao) {
+            case PA:
+            case BU:
+            case BY:
+            case LAU:
+            case TEI:
+            case FOI:
+              count++;
+              y = y->prev;
+              break;
+              
+            default:
+              goto done;
+          }
+        } else if (y->type == N_BU) {
+          count++;
+          y = y->prev;
+        } else {
+          goto done;
+        }
+      }
+
+    done:
+
+      if (count > 0) {
+        insert_marker_after(y, PRIVATE_NUMBER_ROI, "PRIVATE_NUMBER_ROI");
+      }
+    }
+  }
+}
+/*}}}*/
+void categorize_number_moi(TreeNode *head) {/*{{{*/
+
+  TreeNode *x, *y;
+  int count;
+
+  for (x = head->next; x!=head; x=x->next) {
+    if (cmtest(x, MOI)) {
       y = x->prev;
       count = 0;
       while (1) {
@@ -1062,94 +729,16 @@ categorize_number_roi(TreeNode *head) {
         }
       }
 
-        done:
+    done:
 
       if (count > 0) {
-        marker = new_node();
-        marker->type = N_MARKER;
-        marker->start_line = y->start_line;
-        marker->start_column = y->start_column;
-        marker->data.marker.tok = PRIVATE_NUMBER_ROI;
-        marker->data.marker.text = new_string("PRIVATE_NUMBER_ROI");
-        marker->prev = y;
-        marker->next = y->next;
-        y->next->prev = marker;
-        y->next = marker;
+        insert_marker_after(y, PRIVATE_NUMBER_MOI, "PRIVATE_NUMBER_MOI");
       }
     }
   }
 }
-
-/*++++++++++++++++++++++++++++++
-  Find each instance of MOI which has at least one lerfu_word or PA
-  token before it.  Backtrack over the sequence of such tokens and
-  insert PRIVATE_NUMBER_MOI at the start.
-  ++++++++++++++++++++++++++++++*/
-
-void
-categorize_number_moi(TreeNode *head) {
-
-  TreeNode *x, *y, *marker;
-  int count;
-
-  for (x = head->next; x!=head; x=x->next) {
-    if (x->type == N_CMAVO &&
-        x->data.cmavo.selmao == MOI) {
-      y = x->prev;
-      count = 0;
-      while (1) {
-        if (y == head) goto done;
-
-        if (y->type == N_MARKER) {
-          y = y->prev;
-        } else if (y->type == N_CMAVO) {
-          switch (y->data.cmavo.selmao) {
-            case PA:
-            case BU:
-            case BY:
-            case LAU:
-            case TEI:
-            case FOI:
-              count++;
-              y = y->prev;
-              break;
-              
-            default:
-              goto done;
-          }
-        } else if (y->type == N_BU) {
-          count++;
-          y = y->prev;
-        } else {
-          goto done;
-        }
-      }
-
-        done:
-
-      if (count > 0) {
-        marker = new_node();
-        marker->type = N_MARKER;
-        marker->start_line = y->start_line;
-        marker->start_column = y->start_column;
-        marker->data.marker.tok = PRIVATE_NUMBER_MOI;
-        marker->data.marker.text = new_string("PRIVATE_NUMBER_MOI");
-        marker->prev = y;
-        marker->next = y->next;
-        y->next->prev = marker;
-        y->next = marker;
-      }
-    }
-  }
-}
-
-/*++++++++++++++++++++++++++++++++++++++
-  Mark each cmavo with a flag indicating whether it is followed by one of the
-  cmavo that starts a 'free' grammar item.
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-mark_cmavo_before_free(TreeNode *head)
+/*}}}*/
+static void mark_cmavo_before_free(TreeNode *head)/*{{{*/
 {
   TreeNode *x, *y;
 
@@ -1179,15 +768,10 @@ mark_cmavo_before_free(TreeNode *head)
   return;
 
 }
-
-/*++++++++++++++++++++++++++++++
-  Deal with inserting PRIVATE_NA_KU
-  ++++++++++++++++++++++++++++++*/
-
-static void
-categorize_naku(TreeNode *head)
+/*}}}*/
+static void categorize_naku(TreeNode *head)/*{{{*/
 {
-  TreeNode *x, *y, *marker;
+  TreeNode *x, *y;
 
   for (x = head->next; x!=head; x=x->next) {
     if (x->type == N_CMAVO &&
@@ -1196,30 +780,16 @@ categorize_naku(TreeNode *head)
       if (y->type == N_CMAVO &&
           y->data.cmavo.selmao == KU) {
         
-        marker = new_node();
-        marker->type = N_MARKER;
-        marker->start_line = x->start_line;
-        marker->start_column = x->start_column;
-        marker->data.marker.tok = PRIVATE_NA_KU;
-        marker->data.marker.text = new_string("PRIVATE_NA_KU");
-        /* Insert before x */
-        marker->prev = x->prev;
-        marker->next = x;
-        x->prev->next = marker;
-        x->prev = marker;
+        insert_marker_before(x, PRIVATE_NA_KU, "PRIVATE_NA_KU");
       }
     }
   }  
 }
+/*}}}*/
 
-/*++++++++++++++++++++++++++++++++++++++
-  This function looks at particular types of token and makes them more
-  specific depending on what comes further on in the token stream.
-  ++++++++++++++++++++++++++++++++++++++*/
-
-void
-categorize_tokens(TreeNode *head)
+void categorize_tokens(TreeNode *head)/*{{{*/
 {
+  categorize_tenses(head);
   categorize_jek(head);
   categorize_gihek(head);
   categorize_ek(head);
@@ -1235,8 +805,9 @@ categorize_tokens(TreeNode *head)
   categorize_number_mai(head);
   categorize_number_roi(head);
   categorize_number_moi(head);
-  categorize_bai(head);
   categorize_nahe(head);
   categorize_naku(head);
   mark_cmavo_before_free(head);
 }
+/*}}}*/
+

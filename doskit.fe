@@ -29,11 +29,11 @@ fi
 
 make rpc_tab.c
 make rpc_full.c
-make stag.c
 make canonluj.inc
 make morf_lex.c
 make morfvlex.c
 make morf_dfa.c
+make stag_dfa.c
 make bctables.c
 make trctabs.c
 make trcftabs.c

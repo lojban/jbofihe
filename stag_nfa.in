@@ -1,0 +1,135 @@
+###########################################################
+# NFA definition for scanning a simple_tense_modal.
+#
+#
+# $Header$
+#
+# COPYRIGHT
+#
+###########################################################
+
+%{
+#define SUCCESS 1
+#define FAILURE 0
+#include "stag_dfa.h"
+%}
+
+Tokens BAI BU BY CAhA CUhE FAhA FEhE FOI KI LAU MOhI NAhE NAI PA PU ROI SE TAhE TEI VA VEhA VIhA ZAhO ZEhA ZI
+
+PREFIX stag
+
+BLOCK time_offset_seq
+    STATE in
+        PU ; NAI| ; ZI| -> in, out
+ENDBLOCK
+
+BLOCK zeha_pu_nai
+    STATE in
+        ZEhA ; PU ; NAI -> out
+        ZEhA ; PU       -> out
+        ZEhA            -> out
+ENDBLOCK
+
+BLOCK number
+# This block can't be completely accurate; the TEI lerfu_string FOI construction
+# requires a push-down state machine.  I'm sure that any extra case that this
+# lexer recognizes will be thrown out by bison later on.
+    STATE in
+        PA -> out
+
+    STATE out
+        PA -> out
+        BY -> out
+        BU -> out
+        LAU -> out
+        FOI -> out
+        TEI -> out
+
+ENDBLOCK
+
+BLOCK interval_property
+    STATE in
+        TAhE ; NAI| -> out
+        ZAhO ; NAI| -> out
+        <number:in->out> ; ROI ; NAI| -> out
+ENDBLOCK
+
+BLOCK interval_property_seq
+    STATE in
+        <interval_property:in->out> -> in, out
+ENDBLOCK
+
+BLOCK time
+    STATE in
+        ZI| ; <time_offset_seq:in->out>| ; <zeha_pu_nai:in->out>| ; <interval_property_seq:in->out> -> out
+        ZI| ; <time_offset_seq:in->out>| ; <zeha_pu_nai:in->out>                                    -> out
+        ZI| ; <time_offset_seq:in->out>                                                             -> out
+        ZI                                                                                          -> out
+ENDBLOCK
+
+BLOCK space_offset_seq
+    STATE in
+        FAhA ; NAI| ; VA| -> in, out
+ENDBLOCK
+
+BLOCK vvfn
+    STATE in
+        VEhA ; VIhA ; FAhA ; NAI| -> out
+        VEhA ; VIhA               -> out
+        VEhA        ; FAhA ; NAI| -> out
+        VEhA                      -> out
+               VIhA ; FAhA ; NAI| -> out
+               VIhA               -> out
+ENDBLOCK
+
+BLOCK space_int_props
+    STATE in
+        FEhE ; <interval_property:in->out> -> in, out
+ENDBLOCK
+
+BLOCK space_interval
+    STATE in
+        <vvfn:in->out>| ; <space_int_props:in->out> -> out
+        <vvfn:in->out>                              -> out
+ENDBLOCK
+
+BLOCK mohi_space_offset
+    STATE in
+        MOhI ; FAhA ; NAI| ; VA| -> out
+ENDBLOCK
+
+BLOCK space
+    STATE in
+        VA| ; <space_offset_seq:in->out>| ; <space_interval:in->out>| ; <mohi_space_offset:in->out> -> out
+        VA| ; <space_offset_seq:in->out>| ; <space_interval:in->out>                                -> out
+        VA| ; <space_offset_seq:in->out>                                                            -> out
+        VA                                                                                          -> out
+ENDBLOCK
+
+BLOCK ntsst
+    STATE in
+        NAhE| ; <time:in->out>  ; <space:in->out>| -> out
+        NAhE| ; <space:in->out> ; <time:in->out> | -> out
+ENDBLOCK
+
+BLOCK simple_tense_modal
+    STATE in
+        NAhE| ; SE| ; BAI ; NAI| ; KI| -> out
+        <ntsst:in->out>| ; CAhA ; KI|  -> out
+        <ntsst:in->out>         ; KI|  -> out
+        KI                             -> out
+        CUhE                           -> out
+ENDBLOCK
+
+BLOCK main
+    STATE in
+        <simple_tense_modal:in->out> = SUCCESS
+ENDBLOCK
+
+RESULT SUCCESS
+DEFRESULT FAILURE
+TYPE "int"
+ATTR TYPE int
+ATTR DEFRESULT 0
+
+
