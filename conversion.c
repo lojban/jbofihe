@@ -81,6 +81,12 @@ conv_tag_se_bai(TreeNode *x)
 
         break;
 
+      case BAI1:
+        c1 = nt->children[0];
+        ext = prop_bai_conversion(c1, YES);
+        ext->conv = 1;
+        break;
+        
       default:
         /* Traverse down through children */
         nc = nt->nchildren;
@@ -97,6 +103,7 @@ conv_tag_se_bai(TreeNode *x)
        non-terminal */
   }
 }
+
 
 /*++++++++++++++++++++++++++++++
 
@@ -119,6 +126,8 @@ compute_tu2_conv(TreeNode *tu2, TreeNode *apply_to) {
   if (prop_conversion(apply_to, NO)) {
     return;
   } else {
+    /* places[1] is which place of the base word the x1 of the bridi
+       corresponds to.  zero means x1 is a jai construction. */
     int places[6];
     int i;
     TreeNode *x = tu2;
@@ -159,11 +168,13 @@ compute_tu2_conv(TreeNode *tu2, TreeNode *apply_to) {
           x = x->parent;
           break;
           
-          /* This block need some clever stuff which we don't do yet */
         case JAI_TU2:
         case JAI_TAG_TU2:
-          fprintf(stderr, "Can't handle conversion with JAI on seltau\n");
-          assert(0);
+          /* current x1 of the bridi lost into the fai place, no way
+             to recover this later (no SE which exchanges fai with a
+             normal place!). */
+          places[1] = 0;
+          x = x->parent;
           break;
           
         case SELBRI_4:
