@@ -212,6 +212,42 @@ static unsigned char vmapchar[256] = {
 };
 
 
+struct StateTransTable {
+  unsigned short *ns;
+  unsigned char *tok;
+  unsigned short *base;
+};
+
+static struct StateTransTable morf_stt = {morf_nextstate, morf_token, morf_base};
+static struct StateTransTable morfnc_stt = {morfnc_nextstate, morfnc_token, morfnc_base};
+
+/*********************************************************************/
+/* Given the current state and the 'token' read, find the next state */
+/*********************************************************************/
+
+int find_next_state(struct StateTransTable *tab, int cs, unsigned char k)
+{
+  int h, l, m;
+  unsigned char xm;
+  unsigned char *t = tab->tok;
+  unsigned short *nstab = tab->ns;
+  unsigned int kk = k;
+
+  l = tab->base[cs];
+  h = tab->base[cs+1];
+  while (h > l) {
+    m = (h + l) >> 1;
+    xm = t[m];
+    if (xm == kk) goto done;
+    if (m == l) break;
+    if (xm>kk) h = m;
+    else       l = m;
+  }
+  return -1;
+done:
+  return (int)nstab[m];
+}
+
 /* The main scanning routine.  's' is the string to be scanned.  buf_end is a
  * pointer to a table of pointers to characters (i.e. pass by reference so we
  * can pass a result back.)  This table is filled in with the positions in 's'
@@ -236,12 +272,15 @@ morf_scan(char *s, char ***buf_end)
   int started_with_comma=0;
   MorfType ext_result;
   unsigned long *exitval_table;
+  struct StateTransTable *stt;
 
   typedef enum {
     ACT_CLEAR=0, ACT_SHIFT=1, ACT_FREEZE=2
   } Action;
 
   Action act, last_act;
+  
+  stt = allow_cultural_rafsi ? &morf_stt : &morfnc_stt;
   
   start = *buf_end;
   pstart = start;
@@ -325,8 +364,8 @@ morf_scan(char *s, char ***buf_end)
 
     p++;
     initial = 0;
-    next_state = allow_cultural_rafsi ? NEXT_MORF_STATE(state, tok) :
-                                        NEXT_MORFNC_STATE(state, tok) ;
+
+    next_state = find_next_state(stt, state, tok);
 
 #ifdef TEST_MORF
     if (verbose) {
