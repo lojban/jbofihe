@@ -21,7 +21,7 @@
 # Declare all symbols in same order as lexer (lexer returns (0 .. whatever)
 # when it recognizes the corresponding token)
 
-TOKENS UNK V APOS Y R N C NR CI CP CN H BT VV VX VY YY
+Tokens UNK V APOS Y R N C NR CI CSI CP CS CN H HS BT VV VX VY YY
 
 # Token meanings are as follows
 # UNK   : Unknown character
@@ -33,10 +33,12 @@ TOKENS UNK V APOS Y R N C NR CI CP CN H BT VV VX VY YY
 # C     : consonant other than r or n after vowel
 # NR    : r in the pair nr (or triple nyr)
 # CI    : 2nd letter of permissible initial consonant pair
+# CSI   : 2nd letter of permissible initial pair which is syllabic (l,m,n,r)
 # CP    : 2nd letter of permissible consonant pair (except nr)
+# CS    : 2nd letter of permissible pair which is syllabic (l,m,n,r)
 # CN    : 2nd letter of impermissible consonant pair
-# H     : rln,nlr,rnC,Cnr,CrC (hyphen occuring in type III fu'ivla)
-#         (note, recognition of type III's not done yet)
+# H     : rnC,CrC (hyphen occuring in stage III fu'ivla)
+# HS    : rln,nlr,Cnr (H with syllabic 3rd letter)
 # BT    : 3rd letter of one of the banned triples (ntc,nts,ndj,ndz)
 # VV    : 2nd vowel of ai|au|ei|oi (allowed in any word type), or 2nd vowel
 #         of v,v pattern. [Comma treated the same as apostrophe between vowels]
@@ -66,10 +68,12 @@ TOKENS UNK V APOS Y R N C NR CI CP CN H BT VV VX VY YY
 # (If building the version including the cultural (section 4.16) rafsi, the
 # prefix will be morf.  If building the version without this, the prefix will
 # be morfnc
-PREFIX morfnc
-PREFIX morf ## CULTURAL
+Prefix morfnc
+Prefix morf ## CULTURAL
 
-ABBREV CNR = C|N|R
+Abbrev CNR = C|N|R
+Abbrev LCI = CI|CSI
+Abbrev LCP = CI|CSI|CP|CS|NR
 
 ###########################################################
 # Subcomponents for lujvo matching
@@ -77,14 +81,14 @@ ABBREV CNR = C|N|R
 BLOCK SYL1
 
     STATE in
-        CNR ; V  ; APOS ; V              -> ex_nr  # Requires nr hyphen after or just final CCV
-        CNR ; V  ; VV                    -> ex_nr  # Requires nr hyphen after or just final CCV
-        C   ; CI ; V                     -> ex_cln # No special binding to next syl
-        CNR ; V  ; CNR                   -> ex_cvc # Starts CVC, may require tosmabru check
-        CNR ; V  ; CNR ; CI|CP|NR        -> ex_cvy # Ditto, starts CV
-        C   ; CI ; V   ; CNR             -> ex_y   # Requires y before next syl
-        C   ; CI ; V          ; VV ; CNR -> ex_y                  ## CULTURAL
-        C   ; CI ; V   ; APOS ; V  ; CNR -> ex_y                  ## CULTURAL
+        CNR ; V   ; APOS ; V              -> ex_nr  # Requires nr hyphen after or just final CCV
+        CNR ; V   ; VV                    -> ex_nr  # Requires nr hyphen after or just final CCV
+        C   ; LCI ; V                     -> ex_cln # No special binding to next syl
+        CNR ; V   ; CNR                   -> ex_cvc # Starts CVC, may require tosmabru check
+        CNR ; V   ; CNR ; LCP             -> ex_cvy # Ditto, starts CV
+        C   ; LCI ; V   ; CNR             -> ex_y   # Requires y before next syl
+        C   ; LCI ; V          ; VV ; CNR -> ex_y                  ## CULTURAL
+        C   ; LCI ; V   ; APOS ; V  ; CNR -> ex_y                  ## CULTURAL
     
 ENDBLOCK
 
@@ -94,7 +98,7 @@ ENDBLOCK
 BLOCK AFTER1
 
     STATE in_nr
-        R ; CP -> to_lujvo1, to_after_nr_hyphen
+        R ; CP|CS -> to_lujvo1, to_after_nr_hyphen
         N ; NR -> to_lujvo1, to_after_nr_hyphen
         CNR    -> to_final_ccv
 
@@ -102,17 +106,17 @@ BLOCK AFTER1
         CNR -> to_lujvo0, to_pair0
 
     STATE in_y
-        Y ; CI|CP|CN|NR -> to_lujvo0, to_pair0
+        Y ; LCP|CN|     -> to_lujvo0, to_pair0
         Y ; CP ; BT     -> to_in_after_cc0
 
     STATE in_cvy
-        Y ; CI|CP|CN|NR|H|BT -> to_lujvo1, to_pair1
+        Y ; LCP|CN|HS|H|BT -> to_lujvo1, to_pair1
 
     STATE in_cvc
-        CI|CP|NR    -> to_lujvo1, to_pair1
+        LCP         -> to_lujvo1, to_pair1
         Y ; CN      -> to_lujvo1, to_pair1
-        Y ; CI      -> to_lujvo1t, to_pair1t, to_tosmabru
-        Y ; CP ; BT -> to_in_after_cc1
+        Y ; LCI     -> to_lujvo1t, to_pair1t, to_tosmabru
+        Y ; CP|CS ; BT -> to_in_after_cc1
         
 ENDBLOCK
 
@@ -120,14 +124,14 @@ ENDBLOCK
 
 BLOCK SYL2 # Lujvo syllables (i.e. rafsi) 2 .. (N-1)
     STATE in
-        V  ; VV                 -> ex_cln
-        V  ; APOS ; V           -> ex_cln
-        CI ; V                  -> ex_cln
-        V  ; CNR                -> ex_cvc
-        V  ; CNR  ; CI|CP|NR    -> ex_y
-        CI ; V    ; CNR         -> ex_y
-        CI ; V ; APOS ; V ; CNR -> ex_y  ## CULTURAL
-        CI ; V ; VV   ;     CNR -> ex_y  ## CULTURAL
+        V   ; VV                 -> ex_cln
+        V   ; APOS ; V           -> ex_cln
+        LCI ; V                  -> ex_cln
+        V   ; CNR                -> ex_cvc
+        V   ; CNR  ; LCP         -> ex_y
+        LCI ; V    ; CNR         -> ex_y
+        LCI ; V ; APOS ; V ; CNR -> ex_y  ## CULTURAL
+        LCI ; V ; VV   ;     CNR -> ex_y  ## CULTURAL
         
 
     STATE in_after_cc # get here if last syl. ends in c, which when combined
@@ -150,12 +154,12 @@ BLOCK AFTER2
         
     STATE in_cvc
         Y ; CN               -> exit
-        Y ; CP ; BT          -> exit_after_cc
-        CI|CP|NR             -> exit
+        Y ; CP|CS ; BT       -> exit_after_cc
+        LCP                  -> exit
 
     STATE in_y
-        Y ; CI|CP|NR|CN|H|BT -> exit
-        Y ; CP ; BT          -> exit_after_cc
+        Y ; LCP|CN|HS|H|BT   -> exit
+        Y ; CP|CS ; BT       -> exit_after_cc
     
 ENDBLOCK
 
@@ -165,20 +169,20 @@ ENDBLOCK
 
 BLOCK SYLN
     STATE in_main
-        V ; APOS ; V            -> exit  # final CV'V
-        V ; VV                  -> exit  # final CVV
-        CI ; V                  -> exit  # final CCV
-        CI ; V ; CNR ; V        -> exit  # final CCVCV
-        V  ; CNR ; CI|CP|NR ; V -> exit  # final CVCCV
+        V   ; APOS ; V          -> exit  # final CV'V
+        V   ; VV                -> exit  # final CVV
+        LCI ; V                 -> exit  # final CCV
+        LCI ; V ; CNR ; V       -> exit  # final CCVCV
+        V   ; CNR ; LCP ; V     -> exit  # final CVCCV
 
     STATE in_after_nr_hyphen
-        V ; APOS ; V            -> exit  # final CV'V
-        V ; VV                  -> exit  # final CVV
-        CI ; V ; CNR ; V        -> exit  # final CCVCV
-        V  ; CNR ; CI|CP|NR ; V -> exit  # final CVCCV
+        V   ; APOS ; V          -> exit  # final CV'V
+        V   ; VV                -> exit  # final CVV
+        LCI ; V    ; CNR  ; V   -> exit  # final CCVCV
+        V   ; CNR  ; LCP  ; V   -> exit  # final CVCCV
 
     STATE in_to_ccv
-        CI ; V                  -> exit  # final CCV
+        LCI ; V                 -> exit  # final CCV
 
     # Used to support bad triples with n at end of previous syllable
     STATE in_after_cc
@@ -239,8 +243,8 @@ BLOCK TOS_AFTER1
         CNR -> exit
 
     STATE in_y
-        Y ; CI|CP|CN|NR -> exit
-        Y ; CP ; BT     -> exit_to_after_cc
+        Y ; LCP|CN|     -> exit
+        Y ; CP|CS ; BT  -> exit_to_after_cc
 
 ENDBLOCK
 
@@ -360,7 +364,7 @@ BLOCK CMAVOSEQ
         Y -> cy2
     STATE cy2
         -> exit_standalone
-        CI|CP|CN|NR|H|BT -> cy1
+        CI|CSI|CP|CS|CN|NR|H|HS|BT -> cy1
 
     STATE y
         YY -> yy
@@ -387,8 +391,8 @@ ENDBLOCK
 BLOCK GISMU
 
     STATE in
-        C     ; CI ; V     ; C|N|R    ; V = TAG_GISMU_0
-        C|N|R ; V  ; C|N|R ; CI|CP|NR ; V = TAG_GISMU_1
+        C     ; LCI ; V     ; CNR ; V = TAG_GISMU_0
+        CNR   ; V   ; CNR   ; LCP ; V = TAG_GISMU_1
         
 ENDBLOCK
 
@@ -421,151 +425,238 @@ BLOCK SLINKUI
         # Initial C => fu'ivla has init. cons. cluster, so fu'ivla_0
         # will match if anything.  Hence need SLINKUI_0 result
 
-        CI|CP|NR -> t0.sn.in_main, t0.in
+        LCP -> t0.sn.in_main, t0.in
 
     STATE t0.sn.exit = TAG_SLINKUI_0
 
 ENDBLOCK
 
 ###########################################################
-# Tail syllables of fu'ivla, once early cluster & 2
-# syllable requirements are met.  All this forces is exit
-# on a vowel.
+# Fu'ivla matching blocks (including syllabic consonant rules)
 
-BLOCK FV_TAIL
+# This describes a valid sequence of vowels within a fu'ivla
+
+BLOCK FV_VOWELS
+
     STATE in
-        C|N|R -> c
-    STATE c
-        CI|CP|NR|H -> c
-        V -> v
-    STATE v
-        VV|VX -> v
-        APOS -> a
-        -> exit
-        -> in
-    STATE a
-        V -> v
+        V                    -> ex_single
+        V ; VV|VX            -> ex_single
+        V ; VV|VX ; VV|VX    -> main
+        V ; APOS  ; V        -> main
+        V ; VV|VX ; APOS ; V -> main
 
-    STATE exit
-   
+    STATE main
+        APOS ; V  -> main
+        VV|VX     -> main
+                  -> ex_multi
+
 ENDBLOCK
 
 ###########################################################
-# First part of fu'ivla, starting with init cluster
 
-BLOCK FV_START0
+BLOCK FV_INITIAL_CLUSTER
+
+    STATE in
+        C ; CI            -> exit
+        C ; CI ; CI       -> exit
+        C ; CSI           -> main
+        C ; CI ; CSI      -> main
+        C ; CI ; CI ; CSI -> main
+
+    STATE main
+                           -> exit
+        CSI                -> main
+        CI ; CSI           -> main
+        CI ; CI ; CSI      -> main
+        CI ; CI ; CI ; CSI -> main
+        CI                 -> exit
+        CI ; CI            -> exit
+        CI ; CI ; CI       -> exit
+
+ENDBLOCK
+
+###########################################################
+
+Abbrev FC = C|N|R
+Abbrev FCP = CI|CP|H
+Abbrev FCS = CSI|CS|HS|NR
+
+BLOCK FV_INTERNAL_CONS_GROUP
+
+    STATE in
+        FC  -> c1
+
+    STATE c1
+        FCS -> main
+        FCP -> c2
+            -> exit
+
+    STATE c2
+        FCS -> main
+        FCP -> c3
+            -> exit
+
+    STATE c3
+        FCS -> main
+            -> exit
+
+    STATE main
+        FCS -> main
+        FCP -> c1
+            -> exit
+        
+    STATE in_req_clus
+        FC ; FCS -> main
+        FC ; FCP -> c2
+
+    # Coming in after seeing a stage 3 hyphenation triple
+    # ending in a non-syllabic
+    STATE in_after_c -> c1
+
+
+    # Coming in after seeing a stage 3 hyphenation triple
+    # ending in a syllabic
+    STATE in_after_s -> main
+        
+        
+
+ENDBLOCK
+
+###########################################################
+# fu'ivla starting with up to 3 vowels, maybe with apostrophes
+# between them, then a cluster.
+
+BLOCK FUIVLA_START_V
+
+    cons    : FV_INTERNAL_CONS_GROUP
+    later_v : FV_VOWELS
+
+    STATE in
+        V        -> v1
+
+    STATE v1
+        VV|VX    -> v2
+        APOS ; V -> v2
+                 -> cons.in_req_clus
+
+    STATE v2
+        VV|VX    -> v3
+        APOS ; V -> v3
+                 -> cons.in_req_clus
+
+    STATE v3     -> cons.in_req_clus
+
+    STATE cons.exit -> later_v.in
+    
+    STATE later_v.ex_single
+        -> exit, cons.in
+    
+    STATE later_v.ex_multi
+        -> exit, cons.in
+
+ENDBLOCK
+
+###########################################################
+# fu'ivla starting with a single consonant and up to 2
+# vowels, maybe with apostrophes between, then a cluster.
+
+BLOCK FUIVLA_START_CV
+    cons    : FV_INTERNAL_CONS_GROUP
+    later_v : FV_VOWELS
+
     STATE in
         C -> c
+
     STATE c
-        CI -> cc
-    STATE cc
-        CI -> cc
-        V -> v
-    STATE v
-        VV|VX -> v #VX since "these 10 can be used in .. borrowings (secn. 3.4)"
-        APOS -> a
-        -> exit_need_syl
-    STATE a
-        V -> v1
+        V        -> v1
+
     STATE v1
-        VV|VX -> v1
-        -> exit
-        APOS -> a1
-    STATE a1
-        V -> v1
-
-    STATE exit
-    STATE exit_need_syl
-    
-ENDBLOCK
-
-###########################################################
-# First part of fu'ivla, starting with vowels or single cons.  The case of
-# vowels preceding a single cons. can be discarded, because that would just
-# break into cmavo + shorter fu'ivla.
-
-BLOCK FV_START1
-    STATE in_prefixed
-        C|N|R -> s1
+        VV|VX    -> v2
+        APOS ; V -> v2
+                 -> cons.in_req_clus
+                 
+    STATE v2     -> cons.in_req_clus
         
-    STATE in_no_prefix
-        V -> one_v
-        V -> s1
-        V -> v1
-    STATE one_v
-        -> s2
-    STATE v1
-        APOS -> s1
-    STATE s1
-        # Vowel could follow ' so need bare V as well as vowel compounds
-        V|VV|VX -> v2
-        V|VV|VX -> s2
-    STATE v2
-        APOS -> a2
-        VV|VX -> s2
-    STATE a2
-        V -> s2
+    STATE cons.exit -> later_v.in
+    
+    STATE later_v.ex_single
+        -> exit, cons.in
+    
+    STATE later_v.ex_multi
+        -> exit, cons.in
 
-    STATE s2
-        C|N|R -> c
-    STATE c
-        CI|CP|NR -> cc
-    STATE cc
-        CI|CP|NR|H -> cc
-        V -> v3
-    STATE v3
-        VV|VX -> v3
-        APOS -> a3
-        -> exit
-    STATE a3
-        V -> v3
-
-    STATE exit
 ENDBLOCK
 
+###########################################################
+
+BLOCK FUIVLA_START_CC
+    init_cc : FV_INITIAL_CLUSTER
+    early_v : FV_VOWELS
+    later_c : FV_INTERNAL_CONS_GROUP
+    later_v : FV_VOWELS
+
+    STATE in
+        C  -> goto_slinkui
+           -> init_cc.in
+
+    STATE init_cc.exit -> early_v.in
+    STATE early_v.ex_multi -> exit, later_c.in
+    STATE early_v.ex_single -> later_c.in
+    STATE later_c.exit -> later_v.in
+    STATE later_v.ex_multi -> exit, later_c.in
+    STATE later_v.ex_single -> exit, later_c.in
+
+ENDBLOCK
 
 ###########################################################
-# Tentatively recognize a fuivla (the slinku'i test is separate)
+# Recognize a stage-3 fu'ivla
+
+BLOCK STAGE3
+
+    later_c : FV_INTERNAL_CONS_GROUP
+    later_v : FV_VOWELS
+
+    STATE in
+        C   ; LCI ; V ; CNR   -> before_hyph
+        CNR ; V   ; CNR ; LCP -> before_hyph
+        CNR ; V   ; CNR       -> before_hyph
+
+    # Central letter of hyphen (l,n or r) is always syllabic
+    STATE before_hyph
+        CSI|CS|HS|NR -> after_hyph
+
+    STATE after_hyph
+        H  -> later_c.in_after_c
+        HS -> later_c.in_after_s
+
+    STATE later_c.exit -> later_v.in
+    STATE later_v.ex_multi -> exit, later_c.in
+    STATE later_v.ex_single -> exit, later_c.in
+
+    STATE exit
+
+ENDBLOCK
+
+###########################################################
+# Recognize a fuivla
 
 BLOCK FUIVLA
-    start0 : FV_START0
-    start1 : FV_START1
-    tail0 : FV_TAIL
-    tail1 : FV_TAIL
-    slinkui : SLINKUI
 
-    # In state if there aren't any cmavo in front (i.e. fu'ivla starting with a
-    # vowel makes sense)
-    STATE in_no_prefix
-        -> start0.in
-        -> start1.in_prefixed
-        -> start1.in_no_prefix
+    start_cc : FUIVLA_START_CC
+    start_cv : FUIVLA_START_CV
+    start_v  : FUIVLA_START_V
+    slinkui  : SLINKUI
+    stage3 : STAGE3
 
-    # In state if there are cmavo in front (i.e. fu'ivla starting with a
-    # vowel doesn't make sense)
-    STATE in_prefixed
-        -> start0.in
-        -> start1.in_prefixed
+    STATE in_no_prefix -> start_cc.in, start_cv.in, start_v.in, stage3.in
+    STATE in_prefixed  -> start_cc.in, start_cv.in,             stage3.in
 
-    STATE start0.c
-        -> slinkui.in_after_c
+    STATE start_cc.goto_slinkui -> slinkui.in_after_c
 
-    STATE start1.exit
-        -> tail1.in
-        = TAG_FUIVLA_1
-
-    STATE start0.exit
-        -> tail0.in
-        = TAG_FUIVLA_0
-
-    STATE start0.exit_need_syl
-        -> tail0.in
-
-    STATE tail1.exit
-        = TAG_FUIVLA_1
-
-    STATE tail0.exit
-        = TAG_FUIVLA_0
+    STATE start_cc.exit = TAG_FUIVLA_0
+    STATE start_cv.exit = TAG_FUIVLA_1
+    STATE start_v.exit  = TAG_FUIVLA_1
+    STATE stage3.exit = TAG_STAGE3
 
 ENDBLOCK
 
@@ -586,17 +677,17 @@ ENDBLOCK
 
 BLOCK CMENE
     STATE in
-        C|N|R -> c
+        CNR -> c
         Y|V -> v
 
     STATE c
-        CI|CP|NR|H -> c
+        LCP|HS|H -> c
         -> exit
         V|Y -> v
 
     STATE v
         VV|VX|VY -> v
-        C|N|R|CI|CP|NR|H|CN|BT -> c
+        CNR|LCP|HS|H|CN|BT -> c
         APOS -> a
 
     STATE a
@@ -640,10 +731,16 @@ Symbol S_LUJVO_1T = TAG_LUJVO_1T & TAG_LUJVO_TAIL_OK
 Result S_LUJVO_1T -> R_LUJVO_1
 Symbol VALID_LUJVO = S_LUJVO_1T | R_LUJVO_1 | R_LUJVO_0
 Symbol VALID_GISMU = TAG_GISMU_0 | TAG_GISMU_1
-Result ~VALID_LUJVO & ~VALID_GISMU &  TAG_FUIVLA_0 &  TAG_SLINKUI_0 &  TAG_FUIVLA_1 -> R_FUIVLA_1
-Result ~VALID_LUJVO & ~VALID_GISMU &  TAG_FUIVLA_0 &  TAG_SLINKUI_0 & ~TAG_FUIVLA_1 -> R_BAD_SLINKUI
-Result ~VALID_LUJVO & ~VALID_GISMU &  TAG_FUIVLA_0 & ~TAG_SLINKUI_0                 -> R_FUIVLA_0
-Result ~VALID_LUJVO & ~VALID_GISMU & ~TAG_FUIVLA_0 &                   TAG_FUIVLA_1 -> R_FUIVLA_1
+Symbol VLG = VALID_LUJVO | VALID_GISMU
+Result               ~VLG &  TAG_FUIVLA_0 &  TAG_SLINKUI_0 & ~TAG_FUIVLA_1 -> R_BAD_SLINKUI
+Symbol S_FUIVLA_0  = ~VLG &  TAG_FUIVLA_0 & ~TAG_SLINKUI_0
+Symbol S_FUIVLA_1A = ~VLG &  TAG_FUIVLA_0 &  TAG_SLINKUI_0 &  TAG_FUIVLA_1
+Symbol S_FUIVLA_1B = ~VLG & ~TAG_FUIVLA_0 &                   TAG_FUIVLA_1
+Symbol S_FUIVLA_1  = S_FUIVLA_1A | S_FUIVLA_1B
+Result S_FUIVLA_0 &  TAG_STAGE3 -> R_STAGE3_0
+Result S_FUIVLA_1 &  TAG_STAGE3 -> R_STAGE3_1
+Result S_FUIVLA_0 & ~TAG_STAGE3 -> R_STAGE4_0
+Result S_FUIVLA_1 & ~TAG_STAGE3 -> R_STAGE4_1
 
 # Similarly if the LUJVO_TAIL_OK rule matches on its own
 Result ~* & TAG_LUJVO_TAIL_OK -> R_UNKNOWN
