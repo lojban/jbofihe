@@ -1144,6 +1144,43 @@ categorize_number_moi(TreeNode *head) {
 }
 
 /*++++++++++++++++++++++++++++++++++++++
+  Mark each cmavo with a flag indicating whether it is followed by one of the
+  cmavo that starts a 'free' grammar item.
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+mark_cmavo_before_free(TreeNode *head)
+{
+  TreeNode *x, *y;
+
+  for (x = head->next; x!=head; x=x->next) {
+    if (x->type == N_CMAVO) {
+      y = x->next;
+      if (y->type == N_CMAVO) {
+        switch (y->data.cmavo.selmao) {
+          case SEI:
+          case SOI:
+          case COI:
+          case DOI:
+          case PRIVATE_NUMBER_MAI:
+          case TO:
+          case XI:
+            x->data.cmavo.followed_by_free = 1;
+            break;
+          default:
+            x->data.cmavo.followed_by_free = 0;
+            break;
+        }
+      } else {
+        x->data.cmavo.followed_by_free = 0;
+      }
+    }
+  }
+  return;
+
+}
+
+/*++++++++++++++++++++++++++++++++++++++
   This function looks at particular types of token and makes them more
   specific depending on what comes further on in the token stream.
   ++++++++++++++++++++++++++++++++++++++*/
@@ -1168,4 +1205,5 @@ categorize_tokens(TreeNode *head)
   categorize_number_moi(head);
   categorize_bai(head);
   categorize_nahe(head);
+  mark_cmavo_before_free(head);
 }
