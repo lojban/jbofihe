@@ -56,7 +56,7 @@ is_uppercase_consonant(char c) {
 
 int
 is_vowel(char c) {
-  if (strchr("aeiouy", c)) {
+  if (strchr("aeiou", c)) {
     return 1;
   } else {
     return 0;
