@@ -53,10 +53,7 @@ int show_dictionary_defects;
 /* Error routine invoked from the parser */
 
 void yyerror(char *s) {
-  fprintf(stderr, "--------------------\n");
-  fprintf(stderr, "%s\n", s);
-  print_last_toks();
-  fprintf(stderr, "--------------------\n");
+  /* Printing out the token dump is now done in tracebk.c */
   had_syntax_error = 1;
 }
 
