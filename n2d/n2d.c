@@ -965,7 +965,7 @@ static void
 print_compressed_tables(Block *b)
 {
   int N = b->nstates;
-  int *basetab = new_array(int, N+1);
+  int *basetab = new_array(int, ndfa+1);
   int Nt = ntokens;
   int n, i, j;
   extern char *prefix;
