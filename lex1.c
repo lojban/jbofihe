@@ -16,6 +16,7 @@
 #include "functions.h"
 #include "lujvofns.h"
 #include "morf.h"
+#include "bccheck.h"
 
 static char zoi_form[8]; /* la'o or zoi */
 static int  zoi_delim_next;
@@ -315,7 +316,9 @@ process_word(char *buf, int start_line, int start_column)
   /* Analyse word type */
   
   pws = pwe = word_starts;
-  morf_type = morf_scan(buf, &pwe);
+  /* FIXME: Need to get morf_xtra info back here, to help with splitting bad
+   * cmene */
+  morf_type = morf_scan(buf, &pwe, NULL);
   column = start_column;
   switch (morf_type) {
     case MT_BOGUS:

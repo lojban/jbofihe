@@ -34,6 +34,7 @@ extern int allow_cultural_rafsi;
 
 #include "morf.h"
 #include "morf_dfa.h"
+#include "bccheck.h"
 
 enum processed_category {/*{{{*/
   W_UNKNOWN,
@@ -194,7 +195,7 @@ static unsigned char vmapchar[256] = {/*{{{*/
 
 /*********************************************************************/
 
-MorfType morf_scan(char *s, char ***buf_end)/*{{{*/
+MorfType morf_scan(char *s, char ***buf_end, struct morf_xtra *arg_xtra)/*{{{*/
 /* The main scanning routine.  's' is the string to be scanned.  buf_end is a
    pointer to a table of pointers to characters (i.e. pass by reference so we
    can pass a result back.)  This table is filled in with the positions in 's'
@@ -224,6 +225,13 @@ MorfType morf_scan(char *s, char ***buf_end)/*{{{*/
   int ended_with_comma=0;
   int started_with_comma=0;
   MorfType ext_result;
+
+  /* Gather info in a local copy, in case client doesn't want it.
+   * (We have to gather it anyway, to support the outputs in test
+   * mode.). */
+
+  struct morf_xtra xtra;
+  int split_cmene = 0;
 
   typedef enum {
     ACT_CLEAR=0, ACT_SHIFT=1, ACT_FREEZE=2
@@ -469,6 +477,8 @@ MorfType morf_scan(char *s, char ***buf_end)/*{{{*/
         /* Cmene are allowed to have uppercase letters in them. */
         ext_result = MT_CMENE;
         pstart = start+1;
+        xtra.u.cmene.is_bad = is_bad_cmene(s, &xtra.u.cmene.can_split,
+          &xtra.u.cmene.ladoi, &xtra.u.cmene.tail);
         break;
       default:
         ext_result = MT_BOGUS;
@@ -524,7 +534,14 @@ MorfType morf_scan(char *s, char ***buf_end)/*{{{*/
         printf("fu'ivla (stage-4)");
         break;
       case W_CMENE:
-        printf("cmene");
+        if (xtra.u.cmene.is_bad && xtra.u.cmene.can_split) {
+          printf("bad cmene (breaks up)");
+        } else if (xtra.u.cmene.is_bad && !xtra.u.cmene.can_split) {
+          printf("bad cmene (doesn't break up)");
+        } else if (!xtra.u.cmene.is_bad) {
+          printf("cmene");
+        }
+        split_cmene = xtra.u.cmene.is_bad && xtra.u.cmene.can_split;
         break;
       case W_BAD_TOSMABRU:
         printf("Bad lujvo (y hyphen not required)");
@@ -606,6 +623,16 @@ MorfType morf_scan(char *s, char ***buf_end)/*{{{*/
         case W_FUIVLA3X_CVC:
           if (a == hyph3_2) putchar('/');
           break;
+        case W_CMENE:
+          if (split_cmene) {
+            /* Show divisions between parts of the split, but omit the first
+             * marker if la or doi occurs at the very start of the word. */
+            if (((a == xtra.u.cmene.ladoi) && (a != s)) ||
+                (a == xtra.u.cmene.tail)) {
+              putchar ('+');
+            }
+          }
+          break;
         default:
           break;
       }
@@ -637,6 +664,8 @@ MorfType morf_scan(char *s, char ***buf_end)/*{{{*/
 #endif
 
   *buf_end = pstart - 1;
+  /* Allow arg_xtra to be NULL, as the data isn't always needed */
+  if (arg_xtra) *arg_xtra = xtra;
   return ext_result;
 }
 /*}}}*/
@@ -657,13 +686,13 @@ int main (int argc, char **argv) {/*{{{*/
   }
   if (word) {
     pstart = start;
-    morf_scan(word, &pstart);
+    morf_scan(word, &pstart, NULL);
   } else {
     while (fgets(buffer, sizeof(buffer), stdin)) {
       buffer[strlen(buffer)-1] = 0;
       if (buffer[0] == '#') continue; /* Allow comment lines in test source file */
       pstart = start;
-      morf_scan(buffer, &pstart);
+      morf_scan(buffer, &pstart, NULL);
     }
   }
   return 0;

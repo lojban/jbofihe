@@ -137,7 +137,10 @@ char * translate_unknown(char *w, int place)/*{{{*/
   }
 
   pws = pwe = word_starts;
-  morf_type = morf_scan(w, &pwe);
+
+  /* FIXME: Need to get morf_xtra information back here, to help in
+   * glossing stage 3's */
+  morf_type = morf_scan(w, &pwe, NULL);
 
   switch (morf_type) {
     case MT_BOGUS:

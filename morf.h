@@ -26,8 +26,25 @@ typedef enum {
   MT_BAD_UPPERCASE
 } MorfType;
 
+/* Structure for returning extra information about some of the
+ * word types */
+
+struct morf_xtra {
+  union {
+    struct {
+      int is_bad;
+      int can_split;
+      char *ladoi;
+      char *tail;
+    } cmene;
+    struct {
+      int pad;
+    } stage_3;
+  } u;
+};
+
 /* Prototypes for fns */
-extern MorfType morf_scan(char *s, char ***buf_end);
+extern MorfType morf_scan(char *s, char ***buf_end, struct morf_xtra *);
 
 #endif /* MORF_H */
 
