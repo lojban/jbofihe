@@ -187,6 +187,8 @@
 %token PRIVATE_NAhE_space
 %token PRIVATE_NAhE_CAhA
 
+%token PRIVATE_NA_KU
+
 %token PRIVATE_NUMBER_MAI
 %token PRIVATE_NUMBER_MOI
 %token PRIVATE_NUMBER_ROI
@@ -826,8 +828,8 @@ term_floating_tense : tag KU free_seq
                     | tag /* ET KU */
                     ;
 
-term_floating_negate : NA KU free_seq
-                     | NA KU
+term_floating_negate : PRIVATE_NA_KU NA KU free_seq
+                     | PRIVATE_NA_KU NA KU
                      ;
 
 /* Where on earth do these arise?  'FA' on its own can be in a fragment as an answer to a fa'i question,

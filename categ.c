@@ -1180,6 +1180,38 @@ mark_cmavo_before_free(TreeNode *head)
 
 }
 
+/*++++++++++++++++++++++++++++++
+  Deal with inserting PRIVATE_NA_KU
+  ++++++++++++++++++++++++++++++*/
+
+static void
+categorize_naku(TreeNode *head)
+{
+  TreeNode *x, *y, *marker;
+
+  for (x = head->next; x!=head; x=x->next) {
+    if (x->type == N_CMAVO &&
+        x->data.cmavo.selmao == NA) {
+      y = x->next;
+      if (y->type == N_CMAVO &&
+          y->data.cmavo.selmao == KU) {
+        
+        marker = new_node();
+        marker->type = N_MARKER;
+        marker->start_line = x->start_line;
+        marker->start_column = x->start_column;
+        marker->data.marker.tok = PRIVATE_NA_KU;
+        marker->data.marker.text = new_string("PRIVATE_NA_KU");
+        /* Insert before x */
+        marker->prev = x->prev;
+        marker->next = x;
+        x->prev->next = marker;
+        x->prev = marker;
+      }
+    }
+  }  
+}
+
 /*++++++++++++++++++++++++++++++++++++++
   This function looks at particular types of token and makes them more
   specific depending on what comes further on in the token stream.
@@ -1205,5 +1237,6 @@ categorize_tokens(TreeNode *head)
   categorize_number_moi(head);
   categorize_bai(head);
   categorize_nahe(head);
+  categorize_naku(head);
   mark_cmavo_before_free(head);
 }
