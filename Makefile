@@ -10,7 +10,8 @@ CFLAGS= -g -Wall
 OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc.tab.o functions.o \
         categ.o nonterm.o tree.o translate.o latex.o latexblk.o \
         properties.o conversion.o terms.o memory.o tenses.o \
-	output.o textout.o htmlout.o connect.o stag.o relative.o
+	output.o textout.o htmlout.o connect.o stag.o relative.o \
+	textblk.o
 
 SRCS2 = $(OBJS2:%.o=%.c)
 
@@ -105,13 +106,14 @@ dictionary : dictmake
 	perl rafsig.pl < rafsi > rafsig.dict
 	perl raf4lg.pl < gismu > raf4lg.dict
 	perl lujvop.pl < lujvo-list > lujvop.dict
-	./dictmake dictionary.bin gismu.dict cmavo.dict lujvo.dict oblik.dict
-	./dictmake dictionary.bin raf4l.dict rafobl.dict rafsid.dict rafsig.dict raf4lg.dict
-	./dictmake dictionary.bin lujvop.dict
-	./dictmake dictionary.bin extradict places.dat richard.lujvo extralujvo
+	./dictmake dictionary.bin gismu.dict cmavo.dict lujvo.dict \
+                                  oblik.dict raf4l.dict rafobl.dict \
+                                  rafsid.dict rafsig.dict raf4lg.dict \
+	                          lujvop.dict \
+	                          extradict places.dat richard.lujvo extralujvo
 
-dictupdate : dictionary.dbm
-	./dictmake dictionary.dbm extradict places.dat richard.lujvo extralujvo
+dictupdate : dictionary.bin
+	./dictmake dictionary.bin extradict places.dat richard.lujvo extralujvo
 
 depend:
 	gcc -MM $(INCDIR) $(SRCS2) > .depend
@@ -124,7 +126,7 @@ FILES = lex1.c lex2.c categ.c \
 	nodes.h uncom.l tree.c translate.c latex.c properties.c \
 	conversion.c terms.c memory.c tenses.c output.c textout.c \
 	output.h htmlout.c connect.c latex.h latexblk.c relative.c \
-	subscript.c numeric.c prenex.c \
+	subscript.c numeric.c prenex.c textblk.c \
 	.depend TODO stag.y COPYRIGHT Makefile.in config.pl build_kit \
 	action.perl terminator.pl cmavocode.pl \
 	giscolon.pl cmacolon.pl lujvod.pl oblik.pl raf4l.pl rafobl.pl rafsid.pl \
