@@ -10,8 +10,9 @@
 #include "n2d.h"
 
 /* ================================================================= */
-/* ================================================================= */
-/* ================================================================= */
+/* Treat 'x' as a set of 16 bit pairs, with field (0..15) specifying
+   which.  Increment the field'th bit pair as a gray code, in the
+   pattern 00->01->11->10->00 */
 
 unsigned long increment(unsigned long x, int field)
 {
@@ -23,6 +24,7 @@ unsigned long increment(unsigned long x, int field)
 }
 
 /* ================================================================= */
+/* Calculate the number of bits set in an unsigned long. */
 
 unsigned long count_bits_set(unsigned long x)
 {
@@ -41,6 +43,11 @@ unsigned long count_bits_set(unsigned long x)
 }
 
 /* ================================================================= */
+/* Compute 'signatures' of the transitions out of a particular state.
+   The signature is given by considering the destination state numbers mod 16,
+   and counting how many transitions there are in each resulting equivalence
+   class.  The number is encoded using the gray code implied by the increment
+   fn. */
 
 static void
 compute_transition_sigs(DFANode **dfas, int ndfas, int ntokens)
@@ -54,11 +61,7 @@ compute_transition_sigs(DFANode **dfas, int ndfas, int ntokens)
       ts = increment(ts, dest);
     }
     dfas[i]->transition_sig = ts;
-#if 0
-    fprintf(stderr, "%4d %08lx\n", i, ts);
-#endif
   }
-
 }
 
 
@@ -74,10 +77,6 @@ find_default_states(DFANode **dfas, int ndfas, int ntokens)
   int best_diff;
   int trans_count; /* Number of transitions in working state */
   unsigned long tsi;
-
-#if 0
-  fprintf(stderr, "Default states:\n");
-#endif
 
   for (i=0; i<ndfas; i++) {
     trans_count = 0;
@@ -96,12 +95,22 @@ find_default_states(DFANode **dfas, int ndfas, int ntokens)
 
       if (dfas[j]->defstate >= 0) continue; /* Avoid chains of defstates */
       tsj = dfas[j]->transition_sig;
+
+      /* This is the heart of the technique : if we xor two vectors of bit
+         pairs encoded with the gray code above, and count the number of bits
+         set in the result, we get the sum of absolute differences of the bit
+         pairs.   The number of outgoing transitions that differ between the
+         states must be _at_least_ this value.  It may in fact be much greater
+         (i.e. we may get 'false matches').  However, this algorithm is a quick
+         way of filtering most of the useless potential default states out. */
+      
       sigdiff = tsi ^ tsj;
       diffsize = count_bits_set(sigdiff);
       if (diffsize >= best_diff) continue;
       if (diffsize >= trans_count) continue; /* Else pointless! */
 
-      /* Otherwise, do an exact check. */
+      /* Otherwise, do an exact check (i.e. see how much false matching we
+         suffered). */
       diffsize = 0;
       for (t=0; t<ntokens; t++) {
         if (dfas[i]->map[t] != dfas[j]->map[t]) {
@@ -119,12 +128,7 @@ find_default_states(DFANode **dfas, int ndfas, int ntokens)
 
     dfas[i]->defstate = best_index;
     dfas[i]->best_diff = best_diff;
-#if 0
-    fprintf(stderr, "%4d   %4d  %3d\n", i, best_index, best_diff);
-#endif
-    
   }
-
 }
 
 /* ================================================================= */

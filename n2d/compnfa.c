@@ -15,7 +15,16 @@
   go into it, and repointing them to the equivalent one.  It is fairly obvious
   that after eliminating some states this way, other states may become
   equivalent, so the process has to be repeated until no further eliminations
-  occur. */
+  occur.
+  
+  Note, later on there is a compression pass done on the resulting DFA, which
+  would (I think) subsume what this block does in terms of the final DFA size.
+  However, having NFA compression reduces the runtime of the subset
+  construction, which is useful as that is a major proportion of the total
+  execution time.  Also, this block was written before the DFA compressor came
+  to be, and it's a shame to remove it.
+  
+  */
 
 #include "n2d.h"
 
