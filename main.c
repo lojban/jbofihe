@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <signal.h>
 #include "nodes.h"
 #include "functions.h"
 #include "version.h"
@@ -34,6 +35,8 @@ int opt_output_width;
 /* Flag to show dictionary defects */
 int show_dictionary_defects;
 
+/* Error routine invoked from the parser */
+
 void yyerror(char *s) {
   fprintf(stderr, "--------------------\n");
   fprintf(stderr, "%s\n", s);
@@ -41,6 +44,24 @@ void yyerror(char *s) {
   fprintf(stderr, "--------------------\n");
   had_syntax_error = 1;
 }
+
+/* Handle signals */
+
+void
+handle_signal(int x)
+{
+  fprintf(stderr,"\n"
+                 "--------------------------------------------------------------------------\n"
+                 "An unexpected error has occurred whilst running jbofihe.\n\n"
+                 "Please submit a report to <jbofihe@go.to>, with at least this information:\n"
+                 "  Version of jbofihe (jbofihe -v)\n"
+                 "  Command line options\n"
+                 "  The input text\n"
+                 "--------------------------------------------------------------------------\n");
+  exit(1);
+}
+
+/* Main routine */
 
 int
 main (int argc, char **argv)
@@ -116,6 +137,10 @@ main (int argc, char **argv)
       filename = *argv;
     }
   }
+
+  signal(SIGABRT, handle_signal);
+  signal(SIGBUS, handle_signal);
+  signal(SIGSEGV, handle_signal);
 
   lex2_initialise();
 
