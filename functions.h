@@ -100,12 +100,15 @@ void lex2_initialise(void);
 void add_token(TreeNode *tok);
 void mark_eol(void);
 void delete_node(TreeNode *x);
+void free_node(TreeNode *x);
 void show_tokens(void);
 void preprocess_tokens(void);
 void error_advance(int code);
 int yylex(void);
 void print_last_toks(void);
 
+/* In erasure.c */
+void do_erasures(TreeNode *toks);
 
 /* In lex1.c */
 void parse_file(FILE *f);
