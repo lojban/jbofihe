@@ -40,6 +40,10 @@ xaskoi3:P;by coast
 jacpi'egau1:A;splash
 #FIXME
 
+tolga'e1:A;overlook
+tolga'e2:P;overlooked
+tolga'e3:S;conditions for overlooking
+
 cticru1:A;allow* to eat
 cticru2:P;allowed to eat
 cticru3:P;allowed to be eaten
@@ -71,414 +75,12 @@ seltivypoi1n:television series
 viska'e1:P;able to see
 viska'e2:D;condition* for being able to see
 
-bacru1:A;utter
-bacru2:D;uttered sound
-
-balvi1:P;later
-balvi2:P;earlier
-
-banli1:P;great
-banli2:D;property* of greatness
-
-banzu1:P;sufficient
-banzu2:D;purpose* for which sufficient
-banzu3:D;condition* for sufficiency
-
-bersa1:D;son
-bersa2:D;parent* of son
-
-binxo1:A;become
-binxo2:D;result* of becoming
-binxo3:D;becoming condition
-
-blanu1:P;blue
-
-bloti1:D;boat*/ship*
-bloti2:D;boat/ship cargo
-bloti3:A;propel* boat/ship
-
-cabna1:P;current
-cabna2:D;reference* for being current
-
-cabra1:S;apparatus
-cabra2:D;function* of apparatus
-cabra3:A;control* apparatus
-
-cafne1:P;frequent
-cafne2:D;standard* for being frequent
-
-carmi1:P;intense
-carmi2:D;intense property
-carmi3:A;observe* intensity
-
-catlu1:A;look* at
-catlu2:P;looked at
-
-cedra1:D;era
-cedra2:P;characterising an era
-
-censa1:P;holy
-censa2:A;consider* holy(ness)
-
-cevni1:D;god
-cevni2:D;people* having god
-cevni3:D;sphere* of god
-
-cidja1:S;food
-#ANIMAL
-cidja2:P;fed
-
-ciska1:A;write
-ciska2:P;written
-ciska3:D;writing medium
-ciska4:D;writing implement
-
-citno1:P;young
-citno2:D;standard* for youth
-
-ckunu1:D;conifer*/pine*
-ckunu2:D;conifer species
-ckunu2n:conifer species:Prevent extra plural
-ckunu3:D;pine cone
-
-cmene1:D;name
-cmene2:P;named
-cmene3:A;name
-
-cortu1:A;feel* pain
-cortu2:D;locus* of pain
-
-crisa1:D;summer
-crisa2:D;year* of summer
-crisa3:D;location* of summer
-
-curve1:P;pure
-curve2:D;pure property
-
-cusku1:A;say
-cusku2:P;said
-cusku3:S;audience
-cusku4:S;medium of expression
-
-cutci1:D;shoe
-cutci2:D;shod foot
-cutci2n:shod foot/feet
-cutci3:S;shoe material
-
-denpa1:A;wait
-denpa2:P;waited for
-denpa3:D;waiting state
-denpa4:D;paused activity
-
-djedi1:D;full day
-djedi2:S;number of full days
-djedi3:D;standard* defining full day
-
-djuno1:A;know
-djuno2:D;fact* known
-djuno3:D;known subject*
-djuno4:D;epistemology for knowing
-
-drata1:P;different
-drata2:D;reference* for being different
-drata3:D;standard* for being different
-
-fanmo1:P;final
-fanmo2:D;ending process
-
-fanta1:A;prevent
-fanta2:D;prevented event
-
-fanva1:A;translate
-fanva2:D;source text* for translation
-fanva3:D;target language* for translation
-fanva4:D;source language* for translation
-fanva5:D;result* of translation
-
-fasnu1:D;occurrence
-fasnu1v:occurring
-
-fatci1:D;fact
-
-fenki1:P;crazy
-fenki2:D;standard* for craziness
-
-frili1:P;easy
-frili2:D;person* for whom easy
-frili3:D;condition* for ease
-
-gerku1:D;dog
-gerku2:D;dog breed
-
-gletu1:A;copulate
-gletu2:A;copulate
-
-glico1:P;English
-glico2:D;English aspect
-
-grana1:D;rod*/pole*
-grana2:S;rod material
-
-gugde1:D;country
-gugde2:D;people* of country
-gugde3:D;land*/territory*
-
-gusni1:S;light
-gusni2:P;illuminated
-gusni3:D;light source
-
-jarco1:A;show*/display*
-jarco2:D;shown property
-jarco3:S;audience of display
-
-jbena1:P;born
-jbena2:A;give* birth
-jbena3:D;time* of birth
-jbena4:D;place* of birth
-
-jetnu1:P;true
-jetnu2:D;standard* for truth
-
-jimpe1:A;understand
-jimpe2:D;understood fact
-jimpe3:D;understood subject
-
-jinvi1:A;have* opinion
-jinvi2:D;opinion
-jinvi3:D;subject* of opinion
-jinvi4:S;grounds for opinion
-
-jitro1:A;control
-jitro2:P;under control
-jitro3:D;controlled activity
-
-jmive1:A;live
-jmive2:D;standard* of living
-
-kanla1:D;eye
-kanla2:D;body* with eye
-
-kansa1:A;accompany
-kansa2:P;accompanied
-kansa3:D;circumstance* of accompaniment
-
-karce1:D;car
-karce2:D;car passenger
-karce3:D;car engine
-
-klama1:A;go
-klama2:D;destination
-klama3:D;origin
-klama4:D;route
-klama5:D;vehicle
-
-krasi1:D;origin
-krasi2:D;object*/process* with origin
-
-krefu1:D;recurrence
-krefu2:A;recur
-krefu2v:happening again
-krefu3:S;number of recurrence
-
-krici1:A;believe
-krici2:D;belief
-krici3:D;subject* of belief
-
-lidne1:A;precede
-lidne2:P;preceded
-lidne3:D;sequence
-
-lifri1:A;experience
-lifri2:P;experienced
-lifri2v:happening
-
-limna1:A;swim
-limna2:S;fluid swum in
-
-morsi1:P;dead
-
-mulno1:P;complete
-mulno2:D;complete property
-mulno3:D;standard* for completeness
-
-munje1:D;universe
-munje2:D;domain* of universe
-munje3:D;rule* for universe
-
-mutce1:P;extreme
-mutce2:D;extreme property
-mutce3:D;extreme
-
-nanmu1:D;man
-nanmu1n:man/men
-
-nelci1:A;like
-nelci2:P;liked
-
-nenri1:P;inside
-nenri2:D;container
-
-pajni1:A;judge
-pajni2:D;judged matter
-
-patfu1:D;father
-patfu2:P;with father
-patfu2v:having father
-
-pemci1:D;poem
-pemci2:D;poem subject
-pemci3:A;write* poem
-pemci4:S;poem audience
-
-penmi1:A;encounter
-penmi2:P;encountered
-penmi3:D;location* of encounter
-
-pensi1:A;consider
-pensi2:D;considered subject*
-
-pinka1:D;comment
-pinka2:D;subject* of comment
-pinka3:A;express* comment
-pinka4:D;audience* for comment
-
-prami1:A;love
-prami2:P;loved
-
-pritu1:P;at the right
-pritu2:P;with something at the right
-pritu3:D;frame* of reference for right
-
-pruxi1:P;spiritual
-
-remna1:D;human
-
-rinka1:E;cause
-rinka2:E;caused
-rinka3:D;causal condition
-
-sarji1:A;support
-sarji2:P;supported
-sarji3:P;supported against
-sarji4:S;means for support
-
-since1:D;snake
-since2:D;snake breed
-
-skicu1:A;describe
-skicu2:P;described
-skicu3:D;audience* for describing
-skicu4:D;description
-
-smoka1:D;sock
-smoka2:S;sock material
-
-smuni1:D;meaning
-smuni2:P;interpreted
-smuni3:A;accept* meaning
-
-snura1:P;safe
-snura2:D;threat
-
-sutra1:P;swift
-sutra2:E;event/state* achieved swiftly
-
-tanxe1:D;box
-tanxe2:D;box content
-tanxe3:S;box material
-
-tarmi1:D;shape*/form*
-tarmi2:P;shaped
-
-tavla1:A;talk
-tavla2:P;talked to
-tavla3:D;subject* of talk
-tavla4:D;language* of talk
-
-tcidu1:A;read
-tcidu2:D;read text*
-tcidu3:D;reading material
-
-
-
-terdi1:S;earth
-terdi2:D;race* with home planet
-
-tsani1:D;sky
-tsani2:D;place* with sky
-
-turni1:A;govern
-turni2:P;governed
-
-vecnu1:A;sell
-vecnu2:S;goods/commodity
-vecnu3:A;buy
-vecnu4:D;sale price
-
-vifne1:P;fresh
-
-vindu1:P;poisonous
-vindu2:D;poison victim
-
-viska1:A;see
-viska2:D;seen thing
-viska3:D;viewing condition
-
-vlipa1:P;powerful
-vlipa2:P;brought about by power
-vlipa3:S;conditions for exerting power
-
-xamgu1:P;good
-xamgu2:A;goodness beneficiary
-xamgu3:D;goodness standard
-
-xamsi1:D;sea*/ocean*
-xamsi1a:marine
-xamsi2:D;planet* with sea
-xamsi3:S;sea fluid
-
-xrula1:D;flower
-xrula2:D;flowering plant
-
-xunre1:P;red
-
-xusra1:A;assert
-xusra2:P;asserted
-
-zanru1:A;approver
-zanru2:D;approved plan
-
-zarci1:D;trading place
-zarci2:P;traded
-zarci3:A;trade
-
-zasti1:A;exist
-zasti2:A;observe* existence
-zasti3:S;metaphysics of existence
-
-zbasu1:A;make
-zbasu2:P;made
-zbasu3:S;material/part(s)
-
-zdani1:D;home
-zdani2:A;reside
-
-zmadu1:A;exceed
-zmadu2:P;exceeded
-zmadu3:D;property* of exceeding
-zmadu4:D;amount* of exceeding
-
-zmiku1:P;automatic
-zmiku2:D;automatic function
-zmiku3:D;condition* for automation
-
-zutse1:A;sit
-zutse2:D;sitting surface
 
 # Changes to common cmavo etc
 a:or
 be'o:
 be:with
+bei:and
 bo:
 cai:intense
 co:of-type
@@ -561,20 +163,41 @@ jai:[modal]
 
 pu@TERM:before
 pu@NOUN:earlier
-pu@SELBRI:was/did (past)
+pu@SELBRI:was/did
 pu@LINK:earlier,
-pu@CONNECT:and earlier,
+pu@CONNECT:earlier
 ca@TERM:during
 ca@NOUN:current
-ca@SELBRI:is/does (present)
+ca@SELBRI:is/does
 ca@LINK:at the same time,
 ca@CONNECT:when
 ca@JAI:time of
 ba@TERM:after
 ba@NOUN:later
-ba@SELBRI:will be (future)
+ba@SELBRI:will be
 ba@LINK:later,
-ba@CONNECT:and later,
+ba@CONNECT:later
+
+ca'o@TERM:during
+ca'o@NOUN:ongoing
+ca'o@SELBRI:in progress
+ca'o@LINK:during that,
+ca'o@CONNECT:during that
+ca'o@JAI:time of
+
+pu'o@TERM:prior to
+pu'o@NOUN:yet-to-be
+pu'o@SELBRI:yet-to-be
+pu'o@LINK:prior to that,
+pu'o@CONNECT:prior to that
+pu'o@JAI:aftermath of
+
+ba'o@TERM:after
+ba'o@NOUN:has-been
+ba'o@SELBRI:has-been
+ba'o@LINK:after that,
+ba'o@CONNECT:after that
+ba'o@JAI:precursor of
 
 puzi@SELBRI:just before
 puza@SELBRI:somewhat before
@@ -587,10 +210,19 @@ vi@LINK:nearby,
 vi@CONNECT:where
 vi@JAI:location of
 
-pu'o@TERM:prior to
-pu'o@NOUN:yet-to-be
-pu'o@SELBRI:yet-to-be
-pu'o@LINK:prior to that,
+ga'u@TERM:above
+ga'u@NOUN:(upwards)-
+ga'u@SELBRI:upwards
+ga'u@LINK:above,
+ga'u@CONNECT:above
+ga'u@JAI:below
+
+zu'a@TERM:to the left of
+zu'a@NOUN:(to the left)-
+zu'a@SELBRI:to the left
+zu'a@LINK:to the left,
+zu'a@CONNECT:to the left
+zu'a@JAI:to the right of
 
 # Afterthought connectives
 FFFF@AFTER:[IMPOSSIBLE!]
