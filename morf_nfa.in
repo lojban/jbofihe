@@ -566,7 +566,7 @@ BLOCK FUIVLA_START_CV
     later_v : FV_VOWELS
 
     STATE in
-        C -> c
+        FC -> c
 
     STATE c
         V        -> v1
@@ -597,7 +597,7 @@ BLOCK FUIVLA_START_CC
     later_v : FV_VOWELS
 
     STATE in
-        C  -> goto_slinkui
+        FC -> goto_slinkui
            -> init_cc.in
 
     STATE init_cc.exit -> early_v.in
