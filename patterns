@@ -1,0 +1,168 @@
+# $Id$
+#
+# Pattern matching dictionary
+
+# Precedences :
+
+
+*2+gasnu1:I;bring* about %1v
+*2+gasnu2:@1
+*2+gasnu3:@2
+*2+gasnu4:@3
+*2+gasnu5:@4
+*2+gasnu6:@5
+*2+rinka1:I;cause* %1v
+*2+rinka2:@1
+*2+rinka3:@2
+*2+rinka4:@3
+*2+rinka5:@4
+*2+rinka6:@5
+*2+zmadu1:R;more %1q
+*2+zmadu2:R;less %1q
+*2+zmadu2t:than
+*2+zmadu3:@2
+*2+zmadu4:@3
+*2+zmadu5:@4
+*2+zmadu6:@5
+*2+mleca1:R;less %1q
+*2+mleca2:R;more %1q
+*2+mleca2t:than
+*2+mleca3:@2
+*2+mleca4:@3
+*2+mleca5:@4
+*2+mleca6:@5
+*2+traji1:R;most %1q
+*2+traji2:S;set with superlative
+*2+traji2t:amongst
+*2+traji3:@2
+*2+traji4:@3
+*2+traji5:@4
+*2+traji6:@5
+*2+zenba1:I;increase* in %1v
+*2+zenba2:@2
+*2+zenba3:@3
+*2+zenba4:@4
+*2+zenba5:@5
+*2+jdika1:I;decrease* in %1v
+*2+jdika2:@2
+*2+jdika3:@3
+*2+jdika4:@4
+*2+jdika5:@5
+*2+ckaji1:P;%1q
+*2+ckaji2:@2
+*2+ckaji2:@3
+*2+ckaji2:@4
+*2+ckaji2:@5
+*2+simxu1:R;respectively %1v
+*2+simxu2:R;respectively %1v
+*2+simxu3:@2
+*2+simxu4:@3
+*2+simxu5:@4
+*2+simxu6:@5
+*1cmalu+1:D;small %1n
+*1cmalu+2:@2
+*1cmalu+3:@3
+*1cmalu+4:@4
+*1cmalu+5:@5
+*1barda+1:D;big %1n
+*1barda+2:@2
+*1barda+3:@3
+*1barda+4:@4
+*1barda+5:@5
+*2+stuzi1:D;place* for %1v
+*2+stuzi2:@2
+*2+stuzi3:@3
+*2+stuzi4:@4
+*2+stuzi5:@5
+*2+zdani1:D;home* for %1v
+*2+zdani2:@2
+*2+zdani3:@3
+*2+zdani4:@4
+*2+zdani5:@5
+*2+carmi1:P;intensely %1q
+*2+carmi2:@2
+*2+carmi3:@3
+*2+carmi4:@4
+*2+carmi5:@5
+*2+milxe1:P;mildly %1q
+*2+milxe2:@2
+*2+milxe3:@3
+*2+milxe4:@4
+*2+milxe5:@5
+# jai+ something just raises a sumti in X1,
+# i.e. the translation is basically the same.
+*3jai+1:@1
+*3jai+2:@2
+*3jai+3:@3
+*3jai+4:@4
+*3jai+5:@5
+*3jai+6:@6
+# Abstractions have high priority and bind first.
+*4nu+1:D;event* of %1v
+*4nu+2:@1
+*4nu+3:@2
+*4nu+4:@3
+*4nu+5:@4
+*4nu+6:@5
+*4ka+1:D;quality* of %1v
+*4ka+2:@1
+*4ka+3:@2
+*4ka+4:@3
+*4ka+5:@4
+*4ka+6:@5
+*4ni+1:S;amount of %1v
+*4ni+2:@1
+*4ni+3:@2
+*4ni+4:@3
+*4ni+5:@4
+*4ni+6:@5
+*4jei+1:S;truth of %1v
+*4jei+2:@1
+*4jei+3:@2
+*4jei+4:@3
+*4jei+5:@4
+*4jei+6:@5
+*4li'i+1:D;experience* of %1v
+*4li'i+2:@1
+*4li'i+3:@2
+*4li'i+4:@3
+*4li'i+5:@4
+*4li'i+6:@5
+*4si'o+1:D;concept* of %1v
+*4si'o+2:@1
+*4si'o+3:@2
+*4si'o+4:@3
+*4si'o+5:@4
+*4si'o+6:@5
+# zil+X is used to delete a place, the next component must be
+# read to determine which one.
+*4zi'o+1:-
+*4zi'o+2:-
+*4zi'o+3:-
+*4zi'o+4:-
+*4zi'o+5:-
+*4zi'o+pa+1:@2
+*4zi'o+pa+2:@3
+*4zi'o+pa+3:@4
+*4zi'o+pa+4:@5
+*4zi'o+pa+5:@6
+*4zi'o+re+1:@1
+*4zi'o+re+2:@3
+*4zi'o+re+3:@4
+*4zi'o+re+4:@5
+*4zi'o+re+5:@6
+*4zi'o+ci+1:@1
+*4zi'o+ci+2:@2
+*4zi'o+ci+3:@4
+*4zi'o+ci+4:@5
+*4zi'o+ci+5:@6
+*4zi'o+vo+1:@1
+*4zi'o+vo+2:@2
+*4zi'o+vo+3:@3
+*4zi'o+vo+4:@5
+*4zi'o+vo+5:@6
+*4zi'o+mu+1:@1
+*4zi'o+mu+2:@2
+*4zi'o+mu+3:@3
+*4zi'o+mu+4:@4
+*4zi'o+mu+5:@6
