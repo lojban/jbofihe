@@ -390,7 +390,7 @@ tv_build(TermVector *r, TreeNode *x)
 
     if (ntc > 1) {
       /* aaaargh!! termset land */
-      fprintf(stderr, "Termset at line %d ignored, place tagging will be faulty\n", t1->start_line);
+      fprintf(stderr, "No place tagging for termset at line %d\n", t1->start_line);
       continue;
     }
 
@@ -401,7 +401,7 @@ tv_build(TermVector *r, TreeNode *x)
 
     if (ntc > 1) {
       /* aaaargh!! termset land */
-      fprintf(stderr, "Termset at line %d ignored, place tagging will be faulty\n", t2->start_line);
+      fprintf(stderr, "No place tagging for termset at line %d\n", t2->start_line);
       continue;
     }
 
@@ -441,7 +441,7 @@ tv_build(TermVector *r, TreeNode *x)
         vv.n_nodes++;
         break;
       case TERMSET:
-        fprintf(stderr, "Termset at line %d ignored, place tagging will be faulty\n", t->start_line);
+        fprintf(stderr, "No place tagging for termset at line %d\n", t->start_line);
         break;
       case TERM_FLOATING_TENSE:
       case TERM_FLOATING_NEGATE:
