@@ -13,6 +13,7 @@
 
 #include "functions.h"
 #include "output.h"
+#include "latex.h"
 
 typedef enum {
   ST_OPEN,
@@ -70,8 +71,8 @@ write_prologue(void)
   
   ++++++++++++++++++++++++++++++++++++++*/
 
-static void
-write_epilog(void)
+void
+latex_write_epilog(void)
 {
   printf("\\end{document}\n");
 }
@@ -122,8 +123,8 @@ set_eols(int eols)
   int subscript
   ++++++++++++++++++++++++++++++++++++++*/
 
-static void
-write_open_bracket(BracketType type, int subscript)
+void
+latex_write_open_bracket(BracketType type, int subscript)
 {
   clear_eols();
   
@@ -189,8 +190,8 @@ write_open_bracket(BracketType type, int subscript)
   int subscript
   ++++++++++++++++++++++++++++++++++++++*/
 
-static void
-write_close_bracket(BracketType type, int subscript)
+void
+latex_write_close_bracket(BracketType type, int subscript)
 {
 
   switch (state) {
@@ -255,7 +256,7 @@ write_close_bracket(BracketType type, int subscript)
   char *s
   ++++++++++++++++++++++++++++++*/
 
-static char *
+char *
 make_texsafe(char *s)
 {
   static char buf[2048];
@@ -433,9 +434,9 @@ write_tag_text(char *brivla, char *place, char *trans, int brac)
 DriverVector latex_driver = {
   initialise,
   write_prologue,
-  write_epilog,
-  write_open_bracket,
-  write_close_bracket,
+  latex_write_epilog,
+  latex_write_open_bracket,
+  latex_write_close_bracket,
   set_eols,
   write_lojban_text,
   write_translation,
