@@ -150,7 +150,10 @@ typedef enum {
   TTT_BRIVLA,
   TTT_JAITAG,
   TTT_JAI,
-  TTT_ABSTRACTION
+  TTT_ABSTRACTION,
+  TTT_ME,
+  TTT_GAhO,
+  TTT_NUhA
 } XTermTagType;
 
 typedef struct {
@@ -169,6 +172,18 @@ typedef struct {
   struct treenode *nu;
 } XTT_Abstraction;
 
+typedef struct {
+  struct treenode *sumti;
+} XTT_Me;
+
+typedef struct {
+  int pad;
+} XTT_Gaho;
+
+typedef struct {
+  int pad;
+} XTT_Nuha;
+  
 typedef struct x_termtag {
   XTermTagType type;
   int pos; /* Needs extending to do JAI etc */
@@ -179,6 +194,9 @@ typedef struct x_termtag {
   XTT_JaiTag jaitag;
   XTT_Jai    jai;
   XTT_Abstraction abstraction;
+  XTT_Me     me;
+  XTT_Gaho   gaho;
+  XTT_Nuha   nuha;
 } XTermTag;
 
 typedef struct x_termtags {
