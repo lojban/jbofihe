@@ -126,29 +126,14 @@ process_any_rel_clause (TreeNode *x)
     case SUMTI_5:
       antecedent = child_ref(encl, 0); /* The sumti_5a or sumti_5b node */
       break;
-    case SUMTI_6:
-      /* 
-         This is what I think the requirement is :
-
-         LAhE : presumably the sumti (or actually LAhE sumti) is the
-         antecedent
-
-         NAhE BO form : again, the sumti (or NAhE BO sumti in effect)
-
-         LA CMENE_seq : it's LA CMENE that is
-         
-
-         Most of these, the relative clause could equally go after the
-         thing at the level of the next rule outwards, so what's the
-         point?  If you get both forms, are the strings of clauses
-         treated as though joined with zi'e?
-
-         Or is there a completely different interpretation of all
-         this?
-
-         */
-
-      antecedent = NULL;
+    case LAHE_SUMTI_6:
+      antecedent = find_nth_child(encl, 1, SUMTI);
+      break;
+    case NAHE_BO_SUMTI_6:
+      antecedent = find_nth_child(encl, 1, SUMTI);
+      break;
+    case NAME_SUMTI_6:
+      antecedent = encl;
       break;
 
     case SUMTI_TAIL:
@@ -162,11 +147,12 @@ process_any_rel_clause (TreeNode *x)
       antecedent = child_ref(encl, 0); /* the sumti_tail_1A */
       break;
 
-    case FREE:
-      /* Have to think further about how to deal with this.  In
-         particular, what does the relative clause between the
-         vocative and the selbri denote? */
-      antecedent = NULL;
+    case FREE_VOCATIVE:
+      /* The relative clause applies to the whole thing (see text
+         around example 9.6 in the reference manual.  (Strictly it
+         applies to the selbri or CMENE_seq, but ignore that nicety
+         for now.) */
+      antecedent = encl;
       break;
 
     default:
