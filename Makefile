@@ -120,7 +120,8 @@ FILES = lex1.c lex2.c categ.c \
 	output.h htmlout.c connect.c \
 	.depend TODO stag.y COPYRIGHT Makefile.in config.pl build_kit \
 	action.perl terminator.pl \
-	giscolon.pl cmacolon.pl lujvod.pl oblik.pl raf4l.pl rafobl.pl rafsid.pl extradict \
+	giscolon.pl cmacolon.pl lujvod.pl oblik.pl raf4l.pl rafobl.pl rafsid.pl \
+	places.pl extradict \
 	dictmake.c dictclean.c \
 	work_* home_* cardplayer summer_new
 
