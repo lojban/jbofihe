@@ -163,10 +163,12 @@ grow_buffer(void)
 static int
 token_is_elidable(YYSTYPE tok, int *is_boiveho)
 {
+  /* Do this first, o/w is_boiveho is undefined for the null token at the end
+   * of the input */
+  *is_boiveho = 0;
+  
   if (!tok) return 0; /* end of string */
   if (tok->type != N_CMAVO) return 0;
-
-  *is_boiveho = 0;
   
   switch (cmavo_table[tok->data.cmavo.code].code) {
     case CM_BEhO:
@@ -453,7 +455,8 @@ elide_trace_shift(int yystate, int yychar)
     printf("\n");
 #endif
     
-    if (tokbuf.flags[nn-2].boiveho &&
+    if ((nn > 1) &&
+        tokbuf.flags[nn-2].boiveho &&
         !tokbuf.flags[nn-1].subscript_before &&
         tokbuf.buf[nn-2].yylval->data.cmavo.followed_by_free) {
       /* BOI/VEhO occurred at the end of a quantifier; if it was at the end
