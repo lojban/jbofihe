@@ -39,6 +39,12 @@ typedef struct State {
   struct Block *parent;
   Translist *transitions;
   Stringlist *exitvals;
+
+  /* Pointers to the nodes in the 'transitions' list, sorted into canonical order */
+  Translist **ordered_trans;
+  int n_transitions;
+
+  unsigned char removed; /* Flag indicating state has been pruned by compression stage */
 } State;
 
 typedef struct Block {
@@ -70,5 +76,6 @@ void add_exit_value(State *curstate, char *value);
 void instantiate_block(Block *curblock, char *block_name, char *instance_name);
 void fixup_state_refs(Block *b);
 
+void compress_nfa(Block *b);
 #endif /* N2D_H */
 

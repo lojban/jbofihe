@@ -282,6 +282,9 @@ create_state(Block *b, char *name)
   result->index = b->nstates - 1;
   result->transitions = NULL;
   result->exitvals = NULL;
+  result->ordered_trans = NULL;
+  result->n_transitions = 0;
+  result->removed = 0;
   return result;
 }
 
@@ -1065,6 +1068,7 @@ int main (int argc, char **argv)
   main_block = start_state->parent;
   generate_epsilon_closure(main_block);
   print_nfa(main_block);
+  compress_nfa(main_block);
   build_transmap(main_block);
   build_dfa(main_block, start_state->index);
   print_dfa(main_block);

@@ -7,7 +7,7 @@
 
 CC=gcc
 CFLAGS=-O2
-OBJ = parse.o scan.o n2d.o
+OBJ = parse.o scan.o n2d.o compnfa.o
 
 all : n2d
 
