@@ -935,18 +935,20 @@ sumti-5<95> = [quantifier] sumti-6 [relative-clauses] |
         quantifier selbri /KU#/ [relative-clauses]
         */
 
-sumti_5 : quantifier sumti_6            relative_clauses
-        |            sumti_6            relative_clauses
-        | quantifier sumti_6
-        |            sumti_6
-        | quantifier selbri KU free_seq relative_clauses
-        | quantifier selbri KU          relative_clauses
-        | quantifier selbri             relative_clauses /* ET */
-        | quantifier selbri KU free_seq
-        | quantifier selbri KU
-        | quantifier selbri /* ET */
+sumti_5 : sumti_5a relative_clauses
+        | sumti_5a
+        | sumti_5b relative_clauses
+        | sumti_5b
         ;
 
+sumti_5a : quantifier sumti_6
+         |            sumti_6
+         ;
+
+sumti_5b : quantifier selbri KU free_seq
+         | quantifier selbri KU
+         | quantifier selbri /* ET */
+         ;
 
 /*
 sumti-6<97> = (LAhE # | NAhE BO #) [relative-clauses] sumti /LUhU#/ |
@@ -1051,12 +1053,17 @@ sumti_tail : sumti_6 relative_clauses sumti_tail_1
 sumti-tail-1<112> = [quantifier] selbri [relative-clauses] | quantifier sumti
 */
 
-sumti_tail_1 : quantifier selbri relative_clauses
-             | quantifier selbri
-             |            selbri relative_clauses
-             |            selbri
+
+/* 1A split off so that there is a single antecedent node for the relative clauses case */
+
+sumti_tail_1 : sumti_tail_1A relative_clauses
+             | sumti_tail_1A
              | quantifier sumti
              ;
+
+sumti_tail_1A : quantifier selbri
+              |            selbri
+              ;
 
 /*
 relative-clauses<121> = relative-clause [ZIhE # relative-clause] ...
@@ -1074,20 +1081,25 @@ relative_clause_seq : relative_clause
 relative-clause<122> = GOI # term /GEhU#/ | NOI # subsentence /KUhO#/
 */
 
-relative_clause : GOI free_seq term GEhU free_seq
-                | GOI free_seq term GEhU
-                | GOI free_seq term /* ET */
-                | GOI          term GEhU free_seq
-                | GOI          term GEhU
-                | GOI          term /* ET */
-
-                | NOI free_seq subsentence KUhO free_seq
-                | NOI free_seq subsentence KUhO
-                | NOI free_seq subsentence /* ET */
-                | NOI          subsentence KUhO free_seq
-                | NOI          subsentence KUhO
-                | NOI          subsentence /* ET */
+relative_clause : term_relative_clause
+                | full_relative_clause
                 ;
+
+term_relative_clause : GOI free_seq term GEhU free_seq
+                     | GOI free_seq term GEhU
+                     | GOI free_seq term /* ET */
+                     | GOI          term GEhU free_seq
+                     | GOI          term GEhU
+                     | GOI          term /* ET */
+                     ;
+
+full_relative_clause : NOI free_seq subsentence KUhO free_seq
+                     | NOI free_seq subsentence KUhO
+                     | NOI free_seq subsentence /* ET */
+                     | NOI          subsentence KUhO free_seq
+                     | NOI          subsentence KUhO
+                     | NOI          subsentence /* ET */
+                     ;
 
 /*
 selbri<130> = [tag] selbri-1
