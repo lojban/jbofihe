@@ -304,14 +304,16 @@ compress_nfa(Block *b)
   struct StateRec *recs = new_array(struct StateRec, N);
   int pass, any_removed;
 
-  compress_accepting_states(b);
-
   canonicalise_transitions(b);
+  compress_accepting_states(b);
   pass = 1;
 
   do {
     fprintf(stderr, "\nPass %d removing NFA states\n", pass);
     any_removed = try_removals(b, recs);
+    if (!any_removed) {
+      fprintf(stderr, "- none removed on this pass\n\n");
+    }
     pass++;
   } while (any_removed);
 
