@@ -9,6 +9,8 @@
 #include "cm.h"
 #include "version.h"
 
+extern FILE *yyin;
+
 int
 yywrap(void)
 {
@@ -18,6 +20,9 @@ yywrap(void)
 int
 main (int argc, char **argv)
 {
+  char *filename = NULL;
+  FILE *in = NULL;
+  
   ofmt = OF_TEXT;
   width = 80;
 
@@ -32,10 +37,28 @@ main (int argc, char **argv)
     } else if (!strcmp(*argv, "-v")) {
       fprintf(stderr, "cmafihe version %s\n", version_string);
       exit(0);
-    }      
+    } else {
+      filename = *argv;
+    }
   }
 
+  if (filename) {
+    in = fopen(filename, "r");
+    if (!in) {
+      fprintf(stderr, "Could not open %s for input\n", filename);
+      exit(1);
+    }
+  }
+
+  if (in) {
+    yyin = in;
+  }
+  
   yylex();
+
+  if (in) {
+    fclose(in);
+  }
 
   do_trans();
 

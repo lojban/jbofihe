@@ -45,6 +45,9 @@ void yyerror(char *s) {
 int
 main (int argc, char **argv)
 {
+  char *filename = NULL;
+  FILE *in = NULL;
+  
   int result;
   int debug;
   int token_lists;
@@ -106,12 +109,28 @@ main (int argc, char **argv)
         --argc, ++argv;
         opt_output_width = atoi(*argv);
       }
+    } else if (!strncmp(*argv, "-", 1)) {
+      fprintf(stderr, "Unrecognized command line option %s\n", *argv);
+      exit(1);
+    } else {
+      filename = *argv;
     }
   }
 
   lex2_initialise();
-  parse_file(stdin);
-  
+
+  if (filename) {
+    in = fopen(filename, "r");
+    if (!in) {
+      fprintf(stderr, "Could not open %s for input\n", filename);
+      exit(1);
+    }
+  }
+
+  parse_file(in ? in : stdin);
+
+  if (in) fclose(in);
+
   if (token_lists) {
     fprintf(stderr, "\nToken list before preprocessing\n\n");
     show_tokens();
