@@ -36,8 +36,22 @@ typedef struct {
 static Keyval *dict = NULL;
 static int n_entries = 0;
 
+static char buffers[64][512];
+static int bufptr=0;
+#define GETBUF() (&buffers[bufptr=(bufptr+1)&0x3f][0])
+
+/* ================================================== */
+
+typedef struct Component {
+  int start; /* 0 for 1st, pos of + for others (before conversions) */
+  int pure_start; /* likewise, but just the gismu/cmavo excl conversions) */
+  char text[6];
+  int places[6];
+} Component;
+
 /*+ Forward prototype for place/context translater. +*/
 extern char *adv_translate(char *w, int place, TransContext ctx);
+static void split_into_comps(char *canon, Component *comp, int *ncomp);
 
 /*++++++++++++++++++++++++++++++++++++++
   Read a 'long' integer from file avoiding endianness problems.
@@ -198,9 +212,11 @@ lookup(char *key)
 char *
 translate(char *word)
 {
-  static char buf[1024];
+  char *buf;
   char *res;
 
+  buf = GETBUF();
+  
   init();
   
   res = lookup(word);
@@ -215,207 +231,39 @@ translate(char *word)
 
 /* ================================================== */
 
-static void
-append_trans(char *trans, char *result, int initial)
-{
-  if (trans) {
-    if (initial) {
-      strcpy(result, trans);
-    } else {
-      strcat(result, "-");
-      strcat(result, trans);
-    }
-  } else {
-    if (initial) {
-      strcpy(result, "?");
-    } else {
-      strcat(result, "-?");
-    }
-  }
-}
-
-
-/* ================================================== */
-
-static char *
-translate_comp(char *w, int *conversion)
-{
-  char buf[64], buf2[4];
-  static char result[256];
-  char *trans;
-  strcpy(buf, w);
-  if (*conversion) {
-    buf2[0] = '0' + *conversion;
-    buf2[1] = 0;
-    strcat(buf, buf2);
-    trans = translate(buf);
-    if (!trans) {
-      result[0] = 0;
-      switch (*conversion) {
-        case 2:
-          strcpy(result, "2nd conv-");
-          break;
-        case 3:
-          strcpy(result, "3rd conv-");
-          break;
-        case 4:
-          strcpy(result, "4th conv-");
-          break;
-        case 5:
-          strcpy(result, "5th conv-");
-          break;
-      }
-      trans = translate(w);
-      if (trans) {
-        strcat (result, trans);
-      } else {
-        strcat (result, "??");
-      }
-      return result;
-    }
-  } else {
-    trans = translate(w);
-  }
-  *conversion = 0;
-  return trans;
-}
-
-/* ================================================== */
-
 /* Lookup a lujvo that isn't matched in the ordinary dictionary, by
    smashing it into consituent rafsi and glueing these together. */
 static char *
-translate_lujvo(char *word)
+translate_lujvo(char *word, int place)
 {
-  static char result[4096];
-  char buf[64];
-  char *w, *trans;
-  int initial;
-  char *yy;
-  int ypos=0;
-  int conversion=0;
-
-  w = word;
+  Component comp[32];
+  int ncomp;
+  char *canon;
+  char *result;
+  char *trans;
+  int i;
+  int xplace;
+  
+  canon = canon_lujvo(word);
+  if (!canon) return "?";
+  
+  split_into_comps(canon, comp, &ncomp);
+  result = GETBUF();
   result[0] = 0;
-  initial = 1;
-
-  do {
-    if (strlen(w) == 5) {
-      /* trailing gismu */
-      trans = translate_comp(w, &conversion);
-      append_trans(trans, result, initial);
-      break;
+  for (i=0; i<ncomp; i++) {
+    int last = (i == (ncomp - 1));
+    xplace = comp[i].places[last ? place : 1];
+    trans = adv_translate(comp[i].text, xplace, last ? TCX_NOUN : TCX_QUAL);
+    if (i > 0) { strcat(result, "-"); }
+    if (trans) {
+      strcat(result, trans);
     } else {
-      /* Not 5 letter, see what else */
-      if (strlen(w) < 5) {
-        /* Don't bother about whether this is initial or not, we need to be able to lookup
-           single rafsi for breaking fuivla up. */
-        
-        strcpy(buf,"%");
-        strcat(buf,w);
-        trans = translate_comp(buf, &conversion);
-        if (trans) {
-          if (!initial) {
-            strcat(result, "-");
-          }
-          strcat(result, trans);
-        } else {
-          if (!initial) {
-            strcat(result, "-");
-          }
-          strcat(result, "?");
-        }
-        break;
-      } else {
-        /* Try to pull off leading rafsi component and process remainder */
-        yy = strchr(w, 'y');
-        if (yy) {
-          ypos = yy - w;
-        }
-        if (yy && ypos == 3) {
-          /* 3 letter rafsi with y after */
-          if (!strncmp(w, "sel", 3)) {
-            conversion = 2;
-          } else if (!strncmp(w, "ter", 3)) {
-            conversion = 3;
-          } else if (!strncmp(w, "vel", 3)) {
-            conversion = 4;
-          } else if (!strncmp(w, "xel", 3)) {
-            conversion = 5;
-          } else {
-            buf[0] = '%';
-            strncpy(buf+1,w,3);
-            buf[4] = 0;
-            trans = translate_comp(buf, &conversion);
-            append_trans(trans, result, initial);
-          }
-          w += 4; /* and go around again */
-        } else if (yy && ypos == 4) {
-          /* 4 letter rafsi with y after */
-          buf[0] = '%';
-          strncpy(buf+1,w,4);
-          buf[5] = 0;
-          trans = translate_comp(buf, &conversion);
-          append_trans(trans, result, initial);
-          w += 5; /* and go around again */
-
-        } else {
-          /* 'y' does not terminate leading rafsi, or there is no 'y'
-             in the word at all.  Try to pull off 3 letter rafsi, or 4
-             letter one of form CV'V.  Remember to remove following
-             glue character if necessary, can only apply to first
-             rafsi. */
-          buf[0] = '%';
-          if (w[2] == '\'') {
-            strncpy(buf+1,w,4);
-            buf[5] = 0;
-            trans = translate_comp(buf, &conversion);
-            append_trans(trans, result, initial);
-
-            if (strchr("aeiou", w[1]) &&
-                strchr("aeiou", w[3]) &&
-                initial &&
-                w[4] &&
-                (w[4] == 'r' ||
-                 (w[4] == 'n' && w[5] == 'r'))) {
-              w += 5;
-            } else {
-              w += 4;
-            }
-          } else {
-            if (!strncmp(w, "sel", 3)) {
-              conversion = 2;
-            } else if (!strncmp(w, "ter", 3)) {
-              conversion = 3;
-            } else if (!strncmp(w, "vel", 3)) {
-              conversion = 4;
-            } else if (!strncmp(w, "xel", 3)) {
-              conversion = 5;
-            } else {
-              strncpy(buf+1,w,3);
-              buf[4] = 0;
-              trans = translate_comp(buf, &conversion);
-              append_trans(trans, result, initial);
-            }
-            if (strchr("aeiou", w[1]) &&
-                strchr("aeiou", w[2]) &&
-                initial &&
-                w[3] &&
-                (w[3] == 'r' ||
-                 (w[3] == 'n' && w[4] == 'r'))) {
-              w += 4;
-            } else {
-              w += 3;
-            }
-          }          
-        }
-      }
+      strcat(result, "?");
     }
+  }
 
-    initial = 0;
-
-  } while (*w);
   return result;
+
 }
 
 /* ================================================== */
@@ -441,7 +289,7 @@ is_consonant_not_r(char c)
 /* ================================================== */
 
 char *
-translate_unknown(char *w)
+translate_unknown(char *w, int place)
 {
   static char buf[2048];
   int len, i;
@@ -487,7 +335,7 @@ translate_unknown(char *w)
       *q = *p;
     }
     *q = 0;
-    ltrans = translate_lujvo(buf);
+    ltrans = translate_lujvo(buf, place);
     strcpy(buf, ltrans);
     strcat(buf, "-[");
     strcat(buf, w + hyph + 1);
@@ -496,7 +344,7 @@ translate_unknown(char *w)
   } else {
     /* Need to try for a stage 4 fuivla */
 
-    return translate_lujvo(w);
+    return translate_lujvo(w, place);
   }
 
 }
@@ -600,10 +448,6 @@ CLASS   |     N(oun)       V(erb) (4)          Q(ualifier)        T(ag) (2)
 
 static char consonants[] = "bcdfghjklmnpqrstvwxz";
 static char vowels[] = "aeiou";
-
-static char buffers[32][1024];
-static int bufptr=0;
-#define GETBUF() (&buffers[bufptr=(bufptr+1)&0x1f][0])
 
 static int
 starts_with_preposition(char *x)
@@ -1078,7 +922,7 @@ fix_trans_in_context(char *src, char *trans, TransContext ctx, char *w1n, int fo
 
   } else {
     if (!found_full_trans) {
-      fprintf(stderr, "No advanced entry for [%s]\n", src);
+      fprintf(stderr, "No advanced entry (2) for [%s]\n", src);
     }
     /* Either it's not an advanced entry, we have to just return the
        word as-is, OR the word1n form matched. */
@@ -1138,16 +982,6 @@ subst_base_in_pattern(char *trans, char *base)
   return result;
 }
 
-/* ================================================== */
-
-typedef struct Component {
-  int start; /* 0 for 1st, pos of + for others (before conversions) */
-  int pure_start; /* likewise, but just the gismu/cmavo excl conversions) */
-  char text[6];
-  int places[6];
-} Component;
-
-
 /*++++++++++++++++++++++++++++++++++++++
   Take a string a+b+c and split it into an array of components
   separated by + signs.  If any components are se, te etc, bind them
@@ -1198,14 +1032,6 @@ split_into_comps(char *canon, Component *comp, int *ncomp)
     }
     *p = 0;
   }
-
-#if 0
-  for (i=0; i<nc; i++) {
-    fprintf(stderr, "Comp %d text %s places %d %d %d %d %d\n",
-            i, comp[i].text,
-            comp[i].places[1], comp[i].places[2], comp[i].places[3], comp[i].places[4], comp[i].places[5]);
-  }
-#endif
 
   *ncomp = nc;
 
@@ -1259,10 +1085,8 @@ lookup_template_match(int prec, int suffix, int gather, char *orig, Component *c
     new_place = comp[gather].places[place];
   }
 
-  fprintf(stderr, "Generic = [%s] specific = [%s]\n", generic, specific);
   sprintf(buffer, "*%1d%s%1d%s",
           prec, generic, new_place, ctx_suf_as_string[(int) ctx]);
-  fprintf(stderr, "Trying full match for %s\n", buffer);
   trans = translate(buffer);
   if (trans) {
     got_full_trans = 1;
@@ -1270,12 +1094,10 @@ lookup_template_match(int prec, int suffix, int gather, char *orig, Component *c
     got_full_trans = 0;
     sprintf(buffer, "*%1d%s%1d",
             prec, generic, new_place);
-    fprintf(stderr, "Trying part match for %s\n", buffer);
     trans = translate(buffer);
   }
   
   if (trans) {
-    fprintf(stderr, "Got trans [%s] for generic\n", trans);
     if (trans[0] == '@') {
       /* redirection to another form */
       int redir_place = trans[1] - '0';
@@ -1319,8 +1141,6 @@ attempt_pattern_match(char *w, int place, TransContext ctx)
 
   canon = canon_lujvo(w);
 
-  fprintf(stderr, "Try pattern match for place %d of %s, canon=[%s]\n", place, w, canon);
-
   /* Bail out now if it's not a lujvo that can be split up. */
   if (!canon) return NULL;
 
@@ -1330,7 +1150,7 @@ attempt_pattern_match(char *w, int place, TransContext ctx)
   /* Split components into array. Work from the right. */
   split_into_comps(canon, comp, &ncomp);
 
-#if 1
+#if 0
   {
     int i;
     for (i=0; i<ncomp; i++) {
@@ -1392,7 +1212,7 @@ adv_translate(char *w, int place, TransContext ctx)
 {
   char *trans, *trans1;
   char w1n[128];
-  char buffer[1024];
+  char buffer[1024], buffer1[1024];
   static char result[1024];
   char ctx_suffix[4] = "nvqt";
   char *ctx_suf_as_string[4] = {"n", "v", "q", "t"};
@@ -1450,8 +1270,8 @@ adv_translate(char *w, int place, TransContext ctx)
       /* Never get here */
     }
 
-    sprintf(buffer, "%s%1dn", w, place);
-    trans1 = translate(buffer);
+    sprintf(buffer1, "%s%1dn", w, place);
+    trans1 = translate(buffer1);
     if (trans1) {
       strcpy(w1n, trans1);
     } else {
@@ -1466,7 +1286,7 @@ adv_translate(char *w, int place, TransContext ctx)
     /* If we can't get any place-dependent translation, don't bother -
        the gismu headword entry is probably misleading and does more
        harm than good. */
-    fprintf(stderr, "No advanced entry for [%s]\n", buffer);
+    fprintf(stderr, "No advanced entry (1) for [%s]\n", buffer);
     trans = translate(w);
     if (trans) {
       strcpy(result, trans);
@@ -1481,7 +1301,7 @@ adv_translate(char *w, int place, TransContext ctx)
       }
 
       fprintf(stderr, "No dictionary entry for [%s], attempting to break up as lujvo\n", w);
-      trans = translate_unknown(w);
+      trans = translate_unknown(w, place);
       if (trans) {
         strcpy(result, trans);
         strcat(result, "??");
@@ -1493,8 +1313,5 @@ adv_translate(char *w, int place, TransContext ctx)
     }
   }
 
-#if 0
-  return NULL;
-#endif
 }
 
