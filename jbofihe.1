@@ -3,7 +3,7 @@
 jbofihe \- Lojban parser / grammar checker / word glosser
 .SH SYNOPSIS
 .B jbofihe
-[-v] [ -k ] [ -g ] [ -t ] [-tf ] [ -l ] [ -b ] [ -x ] [ -h ] [ -m ] [ -w width ] [filename]
+[-v] [ -h | --help | -? ] [ -k ] [ -g ] [ -t ] [-tf ] [ -l ] [ -b ] [ -x ] [ -H ] [ -m ] [ -w width ] [filename]
 .SH DESCRIPTION
 .I jbofihe
 is a program that reads a piece of Lojban text and checks it for
@@ -15,6 +15,15 @@ Some of these translations are context-dependent.
 .TP
 .B -v
 Show the program version and exit.
+.TP
+.B -h
+Show help page
+.TP
+.B --help
+Show help page
+.TP
+.B -?
+Show help page
 .TP
 .B -k
 Display lists of tokens after parse and after pseudo-token insertion
@@ -40,8 +49,9 @@ Produce plain text output.
 .B  -w width
 Set the width of the screen (in characters) for the -x option.
 .TP
-.B -h.
-TP
+.B -H
+Produce HTML output
+.TP
 .B -b
 Produce output in 'block' mode, where each block shows the Lojban, the
 English gloss and a term tag where applicable. The default is

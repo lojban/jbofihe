@@ -61,6 +61,34 @@ handle_signal(int x)
   exit(1);
 }
 
+/* Print out usage information */
+
+static void
+show_usage(void)
+{
+  fprintf(stderr, "jbofihe version %s\n", version_string);
+  fprintf(stderr, "Copyright 1998-2000 Richard P. Curnow <rpc@myself.com>\n\n"
+                  "-k           Show token lists before and after preprocessing\n"
+                  "-t           Show edited parse tree\n"
+                  "-tf          Show full parse tree\n"
+                  "\n"
+                  "These options produce formatted Lojban + partial English translation\n"
+                  "-l           Produce LaTeX output\n"
+                  "-x           Produce plain text output\n"
+                  "-H           Produce HTML output\n"
+                  "-b           Produce 'blocked' output (LaTeX & plain text only)\n"
+                  "-w <width>   Set output width (plain text)\n"
+                  "\n"
+                  "These options relate to help & debug\n"
+                  "-v           Show version number and exit\n"
+                  "-h           Show this help information\n"
+                  "-?           Show this help information\n"
+                  "-m           Show memory usage statistics\n"
+                  "-d           Show debug information\n"
+                  "-dd          Report missing dictionary entries to stderr\n"
+                  );
+}
+
 /* Main routine */
 
 int
@@ -114,7 +142,7 @@ main (int argc, char **argv)
       latex = 1;
     } else if (!strcmp(*argv, "-x")) {
       textout = 1;
-    } else if (!strcmp(*argv, "-h")) {
+    } else if (!strcmp(*argv, "-H")) {
       htmlout = 1;
     } else if (!strcmp(*argv, "-b")) {
       block = 1;
@@ -130,6 +158,15 @@ main (int argc, char **argv)
         --argc, ++argv;
         opt_output_width = atoi(*argv);
       }
+    } else if (!strcmp(*argv, "--help")) {
+      show_usage();
+      exit(0);
+    } else if (!strcmp(*argv, "-h")) {
+      show_usage();
+      exit(0);
+    } else if (!strcmp(*argv, "-?")) {
+      show_usage();
+      exit(0);
     } else if (!strncmp(*argv, "-", 1)) {
       fprintf(stderr, "Unrecognized command line option %s\n", *argv);
       exit(1);
