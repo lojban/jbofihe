@@ -7,8 +7,6 @@
 
 CC=gcc
 CFLAGS= -g -Wall
-LIBDIR=-L/opt/free/lib
-INCDIR=-I/opt/free/include
 OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc.tab.o functions.o \
         categ.o nonterm.o tree.o translate.o latex.o latexblk.o \
         properties.o conversion.o terms.o memory.o tenses.o \
@@ -19,7 +17,7 @@ SRCS2 = $(OBJS2:%.o=%.c)
 all : jbofihe dictupdate
 
 jbofihe : $(OBJS2)
-	$(CC) $(CFLAGS) -o jbofihe $(OBJS2) $(LIBDIR) -lgdbm
+	$(CC) $(CFLAGS) -o jbofihe $(OBJS2)
 
 clean:
 	@rm *.dvi *.aux *.tex *.out *.log *~ *.ps *.pdf *.html
@@ -107,21 +105,13 @@ dictionary : dictmake
 	perl rafsig.pl < rafsi > rafsig.dict
 	perl raf4lg.pl < gismu > raf4lg.dict
 	perl lujvop.pl < lujvo-list > lujvop.dict
-	./dictmake dictionary.dbm gismu.dict cmavo.dict lujvo.dict oblik.dict
-	./dictmake dictionary.dbm raf4l.dict rafobl.dict rafsid.dict rafsig.dict raf4lg.dict
-	./dictmake dictionary.dbm lujvop.dict
-	./dictmake dictionary.dbm extradict places.dat richard.lujvo
+	./dictmake dictionary.bin gismu.dict cmavo.dict lujvo.dict oblik.dict
+	./dictmake dictionary.bin raf4l.dict rafobl.dict rafsid.dict rafsig.dict raf4lg.dict
+	./dictmake dictionary.bin lujvop.dict
+	./dictmake dictionary.bin extradict places.dat richard.lujvo extralujvo
 
 dictupdate : dictionary.dbm
-
-dictionary.dbm :: extradict dictmake
-	./dictmake dictionary.dbm extradict
-
-dictionary.dbm :: places.dat dictmake
-	./dictmake dictionary.dbm places.dat
-
-dictionary.dbm :: richard.lujvo dictmake
-	./dictmake dictionary.dbm richard.lujvo
+	./dictmake dictionary.dbm extradict places.dat richard.lujvo extralujvo
 
 depend:
 	gcc -MM $(INCDIR) $(SRCS2) > .depend
@@ -139,9 +129,9 @@ FILES = lex1.c lex2.c categ.c \
 	action.perl terminator.pl cmavocode.pl \
 	giscolon.pl cmacolon.pl lujvod.pl oblik.pl raf4l.pl rafobl.pl rafsid.pl \
         rafsig.pl raf4lg.pl lujvop.pl \
-	places.pl extradict places.dat richard.lujvo \
+	places.pl extradict places.dat richard.lujvo extralujvo\
 	dictmake.c dictclean.c makelujvo.c \
-	work_* home_* cardplayer summer_new assisi2 story sinderelwyd sinder eclipse
+	work_* home_* cardplayer summer_new assisi2 story sinderelwyd sinder eclipse gerald
 
 kit:
 	tar czvf kit.tar.gz $(FILES)

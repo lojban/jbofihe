@@ -7,8 +7,6 @@
 
 CC=gcc
 CFLAGS= -O2
-LIBDIR=-L@@GDBM-LIBRARY@@
-INCDIR=-I@@GDBM-INCLUDE@@
 
 OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc.tab.o functions.o \
         categ.o nonterm.o tree.o translate.o latex.o \
@@ -21,7 +19,7 @@ SRCS2 = $(OBJS2:%.o=%.c)
 all : jbofihe dictupdate
 
 jbofihe : $(OBJS2)
-	$(CC) $(CFLAGS) -o jbofihe $(OBJS2) $(LIBDIR) -lgdbm
+	$(CC) $(CFLAGS) -o jbofihe $(OBJS2) $(LIBDIR)
 
 # Analyse shift/reduce conflicts in the grammar
 conflict :
@@ -63,19 +61,13 @@ uncom.c : uncom.l
 	flex -t uncom.l > uncom.c
 
 translate.o : translate.c
-	$(CC) $(CFLAGS) -c translate.c $(INCDIR)
+	$(CC) $(CFLAGS) -c translate.c
 
 dictmake : dictmake.o
-	$(CC) $(CFLAGS) -o dictmake dictmake.o $(LIBDIR) -lgdbm
+	$(CC) $(CFLAGS) -o dictmake dictmake.o
 
 dictmake.o : dictmake.c
-	$(CC) $(CFLAGS) -c dictmake.c $(INCDIR)
-
-dictclean : dictclean.o
-	$(CC) $(CFLAGS) -o dictclean dictclean.o $(LIBDIR) -lgdbm
-
-dictclean.o : dictclean.c
-	$(CC) $(CFLAGS) -c dictclean.c $(INCDIR)
+	$(CC) $(CFLAGS) -c dictmake.c
 
 makelujvo : makelujvo.o
 	$(CC) $(CFLAGS) -o makelujvo makelujvo.o
@@ -94,17 +86,13 @@ dictionary : dictmake
 	perl rafsig.pl < @@WORD-LISTS@@/rafsi > rafsig.dict
 	perl raf4lg.pl < @@WORD-LISTS@@/gismu > raf4lg.dict
 	perl lujvop.pl "@@WORD-LISTS@@/" < @@WORD-LISTS@@/lujvo-list > lujvop.dict
-	./dictmake dictionary.dbm gismu.dict cmavo.dict lujvo.dict oblik.dict
-	./dictmake dictionary.dbm raf4l.dict rafobl.dict rafsid.dict rafsig.dict raf4lg.dict
-	./dictmake dictionary.dbm extradict
-	./dictmake dictionary.dbm places.dat
+	./dictmake dictionary.bin gismu.dict cmavo.dict lujvo.dict oblik.dict
+	./dictmake dictionary.bin raf4l.dict rafobl.dict rafsid.dict rafsig.dict raf4lg.dict
+	./dictmake dictionary.bin extradict
+	./dictmake dictionary.din places.dat
 
 dictupdate : dictionary.dbm
-
-dictionary.dbm :: extradict dictmake
 	./dictmake dictionary.dbm extradict
-
-dictionary.dbm :: places.dat dictmake
 	./dictmake dictionary.dbm places.dat
 
 ## Include the dependency info below.
