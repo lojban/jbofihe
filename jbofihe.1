@@ -3,8 +3,7 @@
 jbofihe \- Lojban parser / grammar checker / word glosser
 .SH SYNOPSIS
 .B jbofihe
-[-v] [ -k ] [ -g ] [ -t ] [-tf ] [ -l ] [ -b ] [ -x ] [ -h ] [ -m ] [ -w width ]
-< file
+[-v] [ -k ] [ -g ] [ -t ] [-tf ] [ -l ] [ -b ] [ -x ] [ -h ] [ -m ] [ -w width ] [filename]
 .SH DESCRIPTION
 .I jbofihe
 is a program that reads a piece of Lojban text and checks it for
@@ -51,6 +50,10 @@ the same line.  Only applicable to -l and -x (not to -h).
 .TP
 .B -m
 Show the amount of memory used by the processing.
+.TP
+.B filename
+The name of the file containing text to be parsed.  If omitted, the text is
+read from standard input.
 .SH SEE ALSO
 .PP
 .TP
@@ -64,7 +67,7 @@ grammatical errors.
 A program for compiling binary dictionaries for use by jbofihe
 .SH FILES
 .TP
-.B /usr/local/lib/jbofihe/dictionary.bin
+.B /usr/local/lib/jbofihe/smujmaji.dat
 This file contains all the dictionary data compiled (using
 .I smujajgau
 ) into a binary format to facilitate lookup and search.
@@ -75,17 +78,20 @@ The executable.
 .TP
 .B JBOFIHE_DICTIONARY
 This should point to the name of the file containing the dictionary.
-The default is /usr/local/lib/jbofihe/jbosmujmaji
+The default is /usr/local/lib/jbofihe/smujmaji.dat
 \".SH CAVEATS
 .SH BUGS
 ju'oru'e so'imei (Surely there are many).
 .SH REFERENCES
 .TP
-.B http://www.lojban.org/
-Home page of the Lojban community
+.B http://go.to/jbofihe
+Home page for the jbofihe project
 .TP
 .B http://www.rrbcurnow.freeuk.com/lojban/
 My Lojban page.
+.TP
+.B http://www.lojban.org/
+Home page of the Lojban community
 .SH AUTHOR
 Richard Curnow
 .B <rpc@myself.com>

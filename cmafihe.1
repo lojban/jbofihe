@@ -3,8 +3,7 @@
 cmafihe \- Lojban word glosser
 .SH SYNOPSIS
 .B cmafihe
-[ -l ] [ -b ] [ -w width ] [ -v ]
-< file
+[ -l ] [ -b ] [ -w width ] [ -v ] [filename]
 .SH DESCRIPTION
 .I cmafihe
 is a program that reads a piece of Lojban text.  It writes out the
@@ -30,6 +29,10 @@ Set the line width for the -b option (default 80).
 The default is to write text to stdout.  The Lojban words are shown
 without brackets.  The selma'o information is in angle brackets.  The
 English translation is in square brackets.
+.TP
+.B filename
+The name of the file containing text to be parsed.  If omitted, the text is
+read from standard input.
 .SH SEE ALSO
 .PP
 .TP
@@ -40,7 +43,7 @@ A much more sophisticated program which includes grammar checking.
 A program for compiling binary dictionaries for use by jbofihe
 .SH FILES
 .TP
-.B /usr/local/lib/jbofihe/dictionary.bin
+.B /usr/local/lib/jbofihe/smujmaji.dat
 This file contains all the dictionary data compiled (using
 .I smujajgau
 ) into a binary format to facilitate lookup and search.
@@ -51,11 +54,14 @@ The executable.
 .TP
 .B JBOFIHE_DICTIONARY
 This should point to the name of the file containing the dictionary.
-The default is /usr/local/lib/jbofihe/jbosmujmaji
+The default is /usr/local/lib/jbofihe/smujmaji.dat
 \".SH CAVEATS
 .SH BUGS
 ju'oru'e so'imei (Surely there are many)
 .SH REFERENCES
+.TP
+.B http://go.to/jbofihe
+Home page for the jbofihe project (of which cmafihe is part)
 .TP
 .B http://www.lojban.org/
 Home page of the Lojban community
