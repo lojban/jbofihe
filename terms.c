@@ -881,8 +881,14 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
   if (c1->type == N_CMAVO) {
     switch (c1->data.cmavo.selmao) {
       case GOhA:
-        fprintf(stderr, "GOhA not handled yet for place tags at line %d column %d\n",
-                c1->start_line, c1->start_column);
+        {
+          XTermTag tt;
+
+          tt.type = TTT_GOhA;
+          tt.goha.goha = c1;
+          assign_places(pre, post, lc, &tt);
+          assign_conversion(lc, c1);
+        }
         break;
       case ME:
         {
@@ -900,8 +906,16 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
         }
       break;
       case NUhA:
-        fprintf(stderr, "NUhA not handled yet for place tags at line %d column %d\n",
-                c1->start_line, c1->start_column);
+        {
+          XTermTag tt;
+          XRequireBrac *xrb;
+
+          tt.type = TTT_NUhA;
+          tt.nuha.mex_operator = find_nth_child(tu2, 1, MEX_OPERATOR);
+          assign_places(pre, post, lc, &tt);
+          assign_conversion(lc, c1);
+          xrb = prop_require_brac (tt.nuha.mex_operator, YES);
+        }
         break;
     }
 

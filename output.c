@@ -146,6 +146,7 @@ add_bracketing_internal(TreeNode *x, int *seq)
 
       case NUMBER:
       case LERFU_STRING:
+      case MEX_OPERATOR:
         if (prop_require_brac(x, NO)) {
           y->number = ++*seq;
           y->brackets = BR_ROUND;
@@ -1045,15 +1046,39 @@ output_term(TreeNode *x, WhatToShow what)
               norl_code = tag->numbermoi.number_or_lerfu->data.nonterm.number;
               (drv->start_tag)();
               trans = adv_translate(cmavo, tag->pos, TCX_TAG);
-              sprintf(transbuf, trans, norl_code);
+              if (trans) {
+                sprintf(transbuf, trans, norl_code);
+              } else {
+                transbuf[0] = 0;
+              }
               sprintf(lojbuf, "#%d-%s%d", norl_code, cmavo, tag->pos);
               (drv->write_tag_text)(lojbuf, "", transbuf, YES);
             }
             break;
             
-          case TTT_GAhO:
+          case TTT_GOhA:
+            {
+              int code;
+              char *cmavo;
+              char lojbuf[32];
+
+              code = tag->goha.goha->data.cmavo.code;
+              cmavo = cmavo_table[code].cmavo;
+              (drv->start_tag)();
+              sprintf(lojbuf, "%s%d", cmavo, tag->pos);
+              (drv->write_tag_text)(lojbuf, "", "", YES);
+            }
+            break;
+          
           case TTT_NUhA:
-            abort();
+            {
+              TreeNode *mex_operator = tag->nuha.mex_operator;
+              int number = mex_operator->data.nonterm.number;
+              char lojbuf[64];
+              sprintf(lojbuf, "#%d-%d", number, tag->pos);
+              (drv->start_tag)();
+              (drv->write_tag_text)(lojbuf, "", "", YES);
+            }
             break;
 
           default:
