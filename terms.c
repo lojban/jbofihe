@@ -917,8 +917,20 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
   } else if (c1->type == N_NONTERM) {
     switch (c1->data.nonterm.type) {
       case NUMBER_MOI_TU2:
-        fprintf(stderr, "number moi not handled yet for place tags at line %d column %d\n",
-                c1->start_line, c1->start_column);
+        {
+          TreeNode *norl, *moi;
+          XRequireBrac *xrb;
+          XTermTag tt;
+          /* Remember : The NUMBER_MOI marker that's in the bison file is NOT
+             built into the parse tree!! */
+          norl = child_ref(c1, 0);
+          moi = find_nth_cmavo_child(c1, 1, MOI);
+          tt.type = TTT_NUMBERMOI;
+          tt.numbermoi.number_or_lerfu = norl;
+          tt.numbermoi.moi = moi;
+          assign_places(pre, post, lc, &tt);
+          xrb = prop_require_brac (norl, YES);
+        }
         break;
 
       case KE_SELBRI3_TU2:

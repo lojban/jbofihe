@@ -144,6 +144,14 @@ add_bracketing_internal(TreeNode *x, int *seq)
         y->brackets = BR_ROUND;
         break;
 
+      case NUMBER:
+      case LERFU_STRING:
+        if (prop_require_brac(x, NO)) {
+          y->number = ++*seq;
+          y->brackets = BR_ROUND;
+        }
+        break;
+
       default:
         y->number = 0;
         y->brackets = BR_NONE;
@@ -1026,6 +1034,23 @@ output_term(TreeNode *x, WhatToShow what)
               (drv->write_tag_text)("me...", "", transbuf, YES);
             }
           break;
+          case TTT_NUMBERMOI:
+            {
+              char *trans, lojbuf[128], transbuf[1024];
+              int code;
+              int norl_code;
+              char *cmavo;
+              code = tag->numbermoi.moi->data.cmavo.code;
+              cmavo = cmavo_table[code].cmavo;
+              norl_code = tag->numbermoi.number_or_lerfu->data.nonterm.number;
+              (drv->start_tag)();
+              trans = adv_translate(cmavo, tag->pos, TCX_TAG);
+              sprintf(transbuf, trans, norl_code);
+              sprintf(lojbuf, "#%d-%s%d", norl_code, cmavo, tag->pos);
+              (drv->write_tag_text)(lojbuf, "", transbuf, YES);
+            }
+            break;
+            
           case TTT_GAhO:
           case TTT_NUhA:
             abort();

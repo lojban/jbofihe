@@ -305,6 +305,23 @@ mu'e1:D;point event* of
 
 me1:S;referent of #%d
 
+mei1:D;#%d-some
+mei2:D;set* with #%d members
+mei2t:formed from set
+mei3:D;property* of subset
+mei3t:with property
+
+moi1:P;#%dth
+moi2:D;ordered set
+moi3:D;ordering rules
+
+si'e1:D;#%dth portion
+si'e2:P;portioned
+
+cu'o1:D;event with prob. #%d
+cu'o2:S;event conditions
+co'o2t:under conditions
+
 bau@JAI:language of
 
 bi'e:hi priority
