@@ -9,22 +9,6 @@
 #
 # COPYRIGHT
 
-@dirs=split(/:/, $ENV{"PATH"});
-try_dirs:
-    for $dir (@dirs) {
-	if ($dir =~ m,^(.*)\/bin$,) {
-	    $base = $1;
-	    $incl = $base."/include";
-	    if (-r $incl."/gdbm.h") {
-		$incl_dir = $incl;
-		$lib_dir = $base."/lib";
-		print "Found gdbm.h in ".$incl.", using that.\n";
-		last try_dirs;
-	    }
-	}
-    }
-
-die "Can't find gdbm.h.  You need to install the GNU gdbm library\n" unless ($incl_dir);
 
 sub check_wordlists {
     my ($dir) = @_;
@@ -74,8 +58,6 @@ if (&check_wordlists(".")) {
 open(IN, "<Makefile.in");
 open(OUT, ">Makefile");
 while (<IN>) {
-    s/\@\@GDBM-LIBRARY\@\@/$lib_dir/e;
-    s/\@\@GDBM-INCLUDE\@\@/$incl_dir/e;
     s/\@\@WORD-LISTS\@\@/$word_list_dir/eg;
     print OUT;
 }
