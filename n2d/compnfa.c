@@ -205,9 +205,9 @@ try_removals(Block *b, struct StateRec *recs)
   }
   
   here = base + 1;
-  here_state = b->states[recs[here].idx];
   
   while (here < n) {
+    here_state = b->states[recs[here].idx];
     if (recs[base].hash == recs[here].hash) {
       if (!(here_state->exitvals) &&
           check_same_transitions(base_state, here_state)) {
@@ -222,7 +222,6 @@ try_removals(Block *b, struct StateRec *recs)
       }
 
       here++;
-      here_state = b->states[recs[here].idx];
     } else {
       base = here;
       base_state = here_state;
@@ -231,7 +230,6 @@ try_removals(Block *b, struct StateRec *recs)
         base_state = b->states[recs[base].idx];
       }
       here = base + 1;
-      here_state = b->states[recs[here].idx];
     }
   }
 
