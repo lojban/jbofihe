@@ -943,7 +943,10 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
           tt.numbermoi.number_or_lerfu = norl;
           tt.numbermoi.moi = moi;
           assign_places(pre, post, lc, &tt);
-          xrb = prop_require_brac (norl, YES);
+          if ((pre->n_nodes > 0) ||
+              (post->n_nodes > 0)) {
+            xrb = prop_require_brac (norl, YES);
+          }
         }
         break;
 
