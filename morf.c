@@ -405,6 +405,7 @@ MorfType morf_scan(char *s, char ***buf_end, struct morf_xtra *arg_xtra)/*{{{*/
       case R_STAGE3_1: result = W_FUIVLA3; decrement = 1; break;
       case R_STAGE3_1_CVC: result = W_FUIVLA3_CVC; decrement = 1; break;
       case R_X_STAGE3_0: result = W_FUIVLA3X; decrement = 0; break;
+      case R_X_STAGE3_0_CVC: result = W_FUIVLA3X_CVC; decrement = 0; break;
       case R_X_STAGE3_1: result = W_FUIVLA3X; decrement = 1; break;
       case R_X_STAGE3_1_CVC: result = W_FUIVLA3X_CVC; decrement = 1; break;
       case R_STAGE4_0: result = W_FUIVLA4; decrement = 0; break;
