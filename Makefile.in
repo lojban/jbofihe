@@ -155,7 +155,8 @@ lex2.o: lex2.c functions.h nonterm.h nodes.h output.h cmavotab.h \
  rpc.tab.h
 cmavotab.o: cmavotab.c cmavotab.h rpc.tab.h
 rpc.tab.o: rpc.tab.c nodes.h nonterm.h functions.h output.h
-functions.o: functions.c functions.h nonterm.h nodes.h output.h
+functions.o: functions.c functions.h nonterm.h nodes.h output.h \
+ rpc.tab.h
 categ.o: categ.c nodes.h nonterm.h rpc.tab.h functions.h output.h \
  stag.h
 nonterm.o: nonterm.c
