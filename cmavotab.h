@@ -572,6 +572,7 @@ typedef enum {
   CM_VUhU = 1552,
   CM_VY = 1554,
   CM_XA = 1582,
+  CM_XAhO = 1593,
   CM_XE = 1596,
   CM_XI = 1610,
   CM_XO = 1624,

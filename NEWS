@@ -25,6 +25,7 @@ jbofihe
 - Deprecate -g command option from man page.
 - Fix glossing of the words for 10**X (the asterisks were treated as
   meta-characters by the glosser)
+- Add support for experimental cmavo "xa'o" (selma'o ZAhO, opposite of "za'o")
 
 vlatai
 ======

@@ -1605,7 +1605,7 @@ CmavoCell cmavo_table[] = {
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1590 */
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1591 */
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1592 */
-  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1593 */
+  { "xa\'o" , ZAhO   , CM_XAhO    , SSM_ZAhO    , "infrafective"                }, /* 1593 */
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1594 */
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1595 */
   { "xe"    , SE     , CM_XE      , SSM_SE      , "5th conversion"              }, /* 1596 */
