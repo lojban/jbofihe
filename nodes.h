@@ -108,7 +108,11 @@ typedef enum extension_type {
   EX_TENSECTX,
   EX_NEGINDICATOR,
   EX_CAIINDICATOR,
-  EX_CONNECTIVE
+  EX_CONNECTIVE,
+  EX_ANTECEDENT,
+  EX_REQUIREBRAC,
+  EX_RELCLAUSELINK,
+  EX_CONTAINSKEHA
 } ExtensionType;
 
 typedef struct x_conversion {
@@ -238,6 +242,22 @@ typedef struct x_connective {
   int neg2; /* true if second half has NAI applied */
 } XConnective;
 
+typedef struct {
+  struct treenode *node;
+} XAntecedent;
+
+typedef struct {
+  int pad;
+} XRequireBrac;
+
+typedef struct {
+  struct treenode *rel;
+} XRelClauseLink;
+
+typedef struct {
+  int pad;
+} XContainsKeha;
+
 typedef union {
   XConversion conversion;
   XBaiConversion bai_conversion;
@@ -252,6 +272,10 @@ typedef union {
   XNegIndicator neg_indicator;
   XCaiIndicator cai_indicator;
   XConnective connective;
+  XAntecedent antecedent;
+  XRequireBrac require_brac;
+  XRelClauseLink rel_clause_link;
+  XContainsKeha contains_keha;
 } ExtensionData;
 
 typedef struct extension {

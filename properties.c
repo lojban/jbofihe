@@ -211,3 +211,45 @@ prop_connective(TreeNode *x, int create)
 {
   return (XConnective *) fetch_conversion(x, create, EX_CONNECTIVE);
 }
+
+/*++++++++++++++++++++++++++++++
+  Get the antecedent extension for a treenode
+  ++++++++++++++++++++++++++++++*/
+
+XAntecedent *
+prop_antecedent(TreeNode *x, int create)
+{
+  return (XAntecedent *) fetch_conversion(x, create, EX_ANTECEDENT);
+}
+
+
+/*++++++++++++++++++++++++++++++
+  Get the require_brac extension for a treenode
+  ++++++++++++++++++++++++++++++*/
+
+XRequireBrac *
+prop_require_brac(TreeNode *x, int create)
+{
+  return (XRequireBrac *) fetch_conversion(x, create, EX_REQUIREBRAC);
+}
+
+/*++++++++++++++++++++++++++++++
+  Get the rel_clause_link extension for a treenode
+  ++++++++++++++++++++++++++++++*/
+
+XRelClauseLink *
+prop_rel_clause_link(TreeNode *x, int create)
+{
+  return (XRelClauseLink *) fetch_conversion(x, create, EX_RELCLAUSELINK);
+}
+
+/*++++++++++++++++++++++++++++++
+  Get the contains_keha extension for a treenode
+  ++++++++++++++++++++++++++++++*/
+
+XContainsKeha *
+prop_contains_keha(TreeNode *x, int create)
+{
+  return (XContainsKeha *) fetch_conversion(x, create, EX_CONTAINSKEHA);
+}
+
