@@ -21,7 +21,7 @@ OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc_tab.o functions.o \
         properties.o conversion.o terms.o memory.o tenses.o \
         output.o textout.o htmlout.o connect.o stag.o latexblk.o \
         relative.o textblk.o errorscan.o canonluj.o lujvofns.o \
-        erasure.o rpc_full.o morf.o tracebk.o elide.o
+        erasure.o rpc_full.o morf.o tracebk.o elide.o dictaccs.o
 
 SRCS2 = $(OBJS2:%.o=%.c)
 
@@ -84,6 +84,11 @@ elitabs.c : output2elide.pl rpc2x_act.output
 
 elide.o : elide.c elitabs.c
 
+dictaccs.o : dictaccs.c @@DICTDATA_C@@
+
+dictdata.c: gismu_cmavo.dict
+	cat gismu_cmavo.dict places.dat extradict patterns | perl dict2inc.pl > dictdata.c
+
 stag.c : stag.tab.c
 	sed -e 's/YYSTYPE/STAG_YYSTYPE/g;' < stag.tab.c > stag.c
 
@@ -139,9 +144,12 @@ txtman: jbofihe.txt cmafihe.txt smujajgau.txt jvocuhadju.txt vlatai.txt
 %.txt:%.1
 	groff -Tascii -man $< | perl -pe 'chomp; s/.\x8//g; $$_ .= "\r\n";' > $@
 
-dictionary : smujajgau
-	rm -f $(DICTNAME)
+gismu_cmavo.dict: mkdict.pl
 	perl mkdict.pl > gismu_cmavo.dict
+    
+
+dictionary : smujajgau gismu_cmavo.dict
+	rm -f $(DICTNAME)
 	./smujajgau $(DICTNAME) gismu_cmavo.dict
 	if [ -r lujvo-list ]; then \
         perl lujvod.pl < ./lujvo-list > lujvo.dict ;\

@@ -14,6 +14,7 @@ $install="ginstall";
 $debug=0;
 $profile=0;
 $mmap=1;
+$embed=0;
 
 while ($_ = shift @ARGV) {
     if (/^--prefix=(.*)$/) {
@@ -28,6 +29,8 @@ while ($_ = shift @ARGV) {
 		$debug = 1;
 	} elsif (/^--nommap$/) {
         $mmap = 0;
+    } elsif (/^--embed$/) {
+        $embed = 1;
     }
 }
 
@@ -41,6 +44,14 @@ if ($debug) {
     $defines .= " -DEXPOSE_SIGNALS";
 }
 
+if ($embed) {
+    $dictdata_c = "dictdata.c";
+    $defines .= " -DEMBEDDED_DICTIONARY";
+} else {
+    $dictdata_c = "";
+}
+    
+
 open(IN, "<Makefile.in");
 open(OUT, ">Makefile");
 while (<IN>) {
@@ -48,6 +59,7 @@ while (<IN>) {
     s/\@\@INSTALLPROG\@\@/$install/eg;
 	s/\@\@OPTDEBUG\@\@/$optdebug/eg;
     s/\@\@DEFINES\@\@/$defines/eg;
+    s/\@\@DICTDATA_C\@\@/$dictdata_c/eg;
     print OUT;
 }
 close(IN);
