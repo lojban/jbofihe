@@ -7,7 +7,7 @@
 
 CC=gcc
 CFLAGS=-O2
-OBJ = parse.o scan.o n2d.o compnfa.o
+OBJ = parse.o scan.o n2d.o compnfa.o expr.o
 
 all : n2d
 
@@ -22,7 +22,7 @@ parse.c parse.h : parse.y
 parse.o : parse.c n2d.h
 
 scan.c : scan.l
-	flex -t scan.l > scan.c
+	flex -t -s scan.l > scan.c
 
 scan.o : scan.c parse.h n2d.h
 
