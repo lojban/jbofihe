@@ -746,8 +746,9 @@ ciksi4:D;explanation
 cilce1:P;wild
 #
 # x1 is moist/wet/damp with liquid x2                                                             
-cilmo1:DSAP;
-cilmo2:DSAP;
+cilmo1:P;moist
+cilmo2:D;moistening liquid
+cilmo2t:with liquid
 #
 # x1 learns x2 (du'u) about subject x3 from source x4 (obj./event) by method x5 (event/process)   
 cilre1:A;learn
@@ -5887,7 +5888,7 @@ tinsa1:P;rigid
 tinsa2:D;rigid direction
 tinsa2t:in direction
 tinsa3:D;force* rigidly resisted
-tinsa3t;against force
+tinsa3t:against force
 tinsa4:S;rigidity conditions
 tinsa4t:under conditions
 #
@@ -5977,7 +5978,7 @@ trene1:D;train
 trene2:S;train cars
 trene3:D;railway
 trene4:S;train propulsion
-trene4t;propelled by
+trene4t:propelled by
 #
 # x1 is a tree of species/cultivar x2                                                             
 tricu1:D;tree
