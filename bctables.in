@@ -1,0 +1,75 @@
+Tokens A E I O U Y D L OCONS APOS COMMA
+# OCONS = consonant other than D or L
+
+Prefix bad_cmene
+
+Abbrev VOWEL = A|E|I|O|U
+Abbrev CONS  = D|L|OCONS
+Abbrev ANY   = VOWEL|Y|CONS|APOS|COMMA
+
+Block LA_DOI
+# Detect LA/LAI/DOI
+    State in
+        L -> l
+        D -> d
+
+    State l (ATTR_SEEN_LD)
+        A ;     APOS|COMMA|CONS -> blocked
+        A ; I ; APOS|COMMA|CONS -> blocked
+
+    State d (ATTR_SEEN_LD)
+        O ; I ; APOS|COMMA|CONS -> blocked
+
+    State blocked
+
+EndBlock
+
+Block MAIN
+
+    split : LA_DOI
+    nosplit : LA_DOI
+
+    State split.blocked   = TAG_SPLIT
+    State nosplit.blocked = TAG_NOSPLIT
+
+    State v
+        VOWEL|Y -> v
+        APOS|COMMA -> a
+        CONS -> c
+        -> split.in
+
+    State a
+        VOWEL|Y -> v
+
+    State c
+        CONS -> c
+        COMMA ; CONS -> c
+        Y -> y
+        VOWEL -> v
+        = TAG_OK
+
+    State y
+        APOS -> a
+        COMMA ; VOWEL|Y -> v
+        CONS -> c
+        -> nosplit.in
+
+    State in
+        CONS -> c
+        Y -> y
+        VOWEL -> v
+        -> split.in
+
+EndBlock
+
+EarlyResult TAG_SPLIT -> BC_CMENE_BAD_SPLIT
+EarlyResult TAG_NOSPLIT -> BC_CMENE_BAD_NOSPLIT
+Result TAG_OK & ~(TAG_SPLIT | TAG_NOSPLIT) -> BC_CMENE_OK
+DefResult BC_NOT_COMPLETE
+
+Attr Result ATTR_SEEN_LD
+Attr DefResult ATTR_NONE
+
+Type "enum result"
+Attr Type "enum attribute"
+
