@@ -70,11 +70,25 @@ mark_eol(void)
 }
 
 /*++++++++++++++++++++++++++++++++++++++
-  Delete a token
+  Delete a token, include fix up of pointers in neighbours
   ++++++++++++++++++++++++++++++++++++++*/
 
 void
 delete_node(TreeNode *x)
+{
+  x->next->prev = x->prev;
+  x->prev->next = x->next;
+  /* Ought to release memory inside the node depending on type. */
+  Free(x);
+
+}
+
+/*++++++++++++++++++++++++++++++++++++++
+  Delete a token
+  ++++++++++++++++++++++++++++++++++++++*/
+
+void
+free_node(TreeNode *x)
 {
   /* Ought to release memory inside the node depending on type. */
   Free(x);
@@ -134,6 +148,10 @@ show_tokens(void)
         printf("CMN : %s\n", x->data.cmene.word);
         break;
         
+      case N_BROKEN_ERASURE:
+        printf("BKN : (broken erasure)\n");
+        break;
+
       case N_NONTERM:
         assert(0);
         break;
@@ -355,51 +373,6 @@ handle_lohu(void)
   }
 }
 
-
-/*++++++++++++++++++++++++++++++++++++++
-  SI processing
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-handle_si(void)
-{
-  TreeNode *x, *y, *nt;
-  TreeNode *a;
-
-  for (x = toks.next;
-       x != &toks;
-       x = nt) {
-
-    nt = x->next;
-
-    if (x->type == N_CMAVO &&
-        x->data.cmavo.selmao == SI) {
-
-      y = x->prev;
-
-      if (y != &toks) {
-        a = y->prev;
-        a->next = nt;
-        nt->prev = a;
-        delete_node(x);
-        delete_node(y);
-      }
-    }        
-  }
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  SU processing
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-handle_su(void)
-{
-  /* Do later */
-
-}
-
 /*++++++++++++++++++++++++++++++
   ZEI processing.
   ++++++++++++++++++++++++++++++*/
@@ -531,7 +504,7 @@ handle_bu(void)
       /* Unlink y from the chain */
       y->prev->next = x;
       x->prev = y->prev;
-      delete_node(y);
+      free_node(y);
       
     }
   }
@@ -796,12 +769,9 @@ preprocess_tokens(void)
   /* 2d. Done. */
 
   /* 2e. Remove any token followed by SI and the SI itself. */
-  handle_si();
-
   /* 2f. SA - too vague, don't implement */
-
   /* 2g. Remove anything from SU backwards up to NIhO, LU, TUhE, TO inclusive */
-  handle_su();
+  do_erasures(&toks);
 
   handle_zei();
 
@@ -914,6 +884,7 @@ yylex(void)
         break;
 
       case N_GARBAGE:
+      case N_BROKEN_ERASURE:
         /* Needs its own parser token value */
         return GARBAGE;
         break;
@@ -972,6 +943,69 @@ yylex(void)
 
 
 /*++++++++++++++++++++++++++++++++++++++
+  Print a single token's details
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+print_token_details(TreeNode *x)
+{
+  int code;
+
+  fprintf(stderr, "  ");
+  switch (x->type) {
+
+    case N_GARBAGE:
+      fprintf(stderr,"%s (line %d, col %d)\n", x->data.garbage.word, x->start_line, x->start_column);
+      break;
+
+    case N_MARKER:
+      fprintf(stderr,"MARKER : %s\n", x->data.marker.text);
+      break;
+
+    case N_CMAVO:
+      code = x->data.cmavo.code;
+      fprintf(stderr,"%s [%s] (line %d, col %d)\n",
+              cmavo_table[code].cmavo,
+              selmao_names[cmavo_table[code].ssm_code],
+              x->start_line,
+              x->start_column);
+      break;
+
+    case N_ZOI:
+      fprintf(stderr,"%s %s. %s %s.\n", x->data.zoi.form, x->data.zoi.term, x->data.zoi.text, x->data.zoi.term);
+      break;
+      
+    case N_ZO:
+      fprintf(stderr,"zo %s\n", x->data.zo.text);
+      break;
+
+    case N_LOhU:
+      fprintf(stderr,"lo'u %s\n", x->data.lohu.text);
+      break;
+
+    case N_BU:
+      fprintf(stderr,"%s bu\n", x->data.bu.word);
+      break;
+      
+    case N_BRIVLA:
+      fprintf(stderr,"%s [BRIVLA] (line %d, col %d)\n", x->data.brivla.word, x->start_line, x->start_column);
+      break;
+
+    case N_CMENE:
+      fprintf(stderr,"%s [CMENE] (line %d, col %d)\n", x->data.cmene.word, x->start_line, x->start_column);
+      break;
+
+    case N_BROKEN_ERASURE:
+      fprintf(stderr,"<Incomplete SI erasure> (line %d, col %d)\n", x->start_line, x->start_column);
+      break;
+
+    case N_NONTERM:
+      assert(0);
+      break;
+  }
+}
+
+/*++++++++++++++++++++++++++++++++++++++
   Print the last N tokens parsed
   ++++++++++++++++++++++++++++++++++++++*/
 
@@ -979,60 +1013,18 @@ void
 print_last_toks(void)
 {
   TreeNode *x;
-  int i, code;
+  int i;
 
-  fprintf(stderr, "Last tokens parsed :\n");
+  fprintf(stderr, "Misparsed token :\n");
+  print_token_details(next_tok);
+
+  fprintf(stderr, "Latest successfully parsed tokens :\n");
   for (x = next_tok->prev, i = 0;
        i < 8 && x != &toks;
        i++, x = x->prev) {
-    switch (x->type) {
 
-      case N_GARBAGE:
-        fprintf(stderr,"%s (line %d, col %d)\n", x->data.garbage.word, x->start_line, x->start_column);
-        break;
+    print_token_details(x);
 
-      case N_MARKER:
-        fprintf(stderr,"MARKER : %s\n", x->data.marker.text);
-        break;
-
-      case N_CMAVO:
-        code = x->data.cmavo.code;
-        fprintf(stderr,"%s [%s] (line %d, col %d)\n",
-                cmavo_table[code].cmavo,
-                selmao_names[cmavo_table[code].ssm_code],
-                x->start_line,
-                x->start_column);
-        break;
-
-      case N_ZOI:
-        fprintf(stderr,"%s %s. %s %s.\n", x->data.zoi.form, x->data.zoi.term, x->data.zoi.text, x->data.zoi.term);
-        break;
-        
-      case N_ZO:
-        fprintf(stderr,"zo %s\n", x->data.zo.text);
-        break;
-
-      case N_LOhU:
-        fprintf(stderr,"lo'u %s\n", x->data.lohu.text);
-        break;
-
-      case N_BU:
-        fprintf(stderr,"%s bu\n", x->data.bu.word);
-        break;
-        
-      case N_BRIVLA:
-        fprintf(stderr,"%s [BRIVLA] (line %d, col %d)\n", x->data.brivla.word, x->start_line, x->start_column);
-        break;
-
-      case N_CMENE:
-        fprintf(stderr,"%s [CMENE] (line %d, col %d)\n", x->data.cmene.word, x->start_line, x->start_column);
-        break;
-
-      case N_NONTERM:
-        assert(0);
-        break;
-
-    }
   }
 
 }
