@@ -5761,9 +5761,10 @@ taxfu3:D;garment purpose
 taxfu3t:purpose
 #
 # x1 is a custom/habit/[ritual/rut] of x2 under conditions x3                                     
-#tcaci1:DSAP;
-#tcaci2:DSAP;
-#tcaci3:DSAP;
+tcaci1:D;custom
+tcaci2:R;having custom
+tcaci3:S;conditions for custom
+tcaci3t:under conditions
 #
 # x1 is a town/city of metropolitan area x2, in political unit x3, serving hinterland/region x4   
 tcadu1:D;town
@@ -5775,23 +5776,27 @@ tcadu4:D;region* served by town
 tcadu4t:serving
 #
 # x1 is a station/node of/in/on transport/communication/distribution system/network x2            
-#tcana1:DSAP;
-#tcana2:DSAP;
+tcana1:D;node
+tcana2:D;network
+tcana2t:in network
 #
 # x1 is made of/contains/is a quantity of tea brewed from leaves x2                               
-#tcati1:DSAP;
-#tcati2:DSAP;
+tcati1:S;tea
+tcati2:S;tea leaves
 #
 # x1 stretches/extends to range x2 [interval/extent] in dimension x3 from relaxed range x4        
-#tcena1:DSAP;
-#tcena2:DSAP;
-#tcena3:DSAP;
-#tcena4:DSAP;
+tcena1:P;stretchy
+tcena2:D;stretched range
+tcena2t:to range
+tcena3:D;stretch dimension
+tcena4:D;unstretched range
+tcena4t:from
 #
 # x1 (event/experience) misleads/deceives/dupes/fools/cheats/tricks x2 into x3 (event/state)      
-#tcica1:DSAP;
-#tcica2:DSAP;
-#tcica3:DSAP;
+tcica1:P;deceptive
+tcica2:P;deceived
+tcica3:D;result* of deception
+tcica3t:into
 #
 # x1 [agent] reads x2 [text] from surface/document/reading material x3; x1 is a reader            
 tcidu1:A;read
@@ -5807,21 +5812,22 @@ tcika4:D;location* of time
 tcika4t:location
 #
 # x1 is a detail/feature/particular of x2                                                         
-#tcila1:DSAP;
-#tcila2:DSAP;
+tcila1:D;detail
+tcila2:P;detailed
 #
 # x1 is weather at place/region x2; (adjective:) x1 is meteorological                             
 tcima1:S;weather
 tcima2:D;location* of weather
 #
 # x1 [state/property] is a situation/condition/state/position/are conditions/circumstances of x2  
-#tcini1:DSAP;
-#tcini2:DSAP;
+tcini1:S;circumstances
+tcini2:R;having circumstances
+tcini2t:of
 #
 # x1 is a label/tag of x2 showing information x3                                                  
-#tcita1:DSAP;
-#tcita2:DSAP;
-#tcita3:DSAP;
+tcita1:D;tag
+tcita2:R;having tag
+tcita3:S;tag information
 #
 # x1 is the time-duration/interval/period/[elapsed time] from time/event x2 to time/event x3      
 #temci1:DSAP;
@@ -5834,16 +5840,16 @@ tcima2:D;location* of weather
 #tenfa3:DSAP;
 #
 # x1 (property-ka) is a texture of x2                                                             
-#tengu1:DSAP;
-#tengu2:DSAP;
+tengu1:D;texture
+tengu2:P;textured
 #
 # x1 is the Earth/the home planet of race x2; (adjective:) x1 is terrestrial/earthbound           
 terdi1:S;earth
 terdi2:D;race* with home planet
 #
 # x1 fears x2; x1 is afraid/scared/frightened by/fearful of x2 (event/tu'a object)                
-#terpa1:DSAP;
-#terpa2:DSAP;
+terpa1:P;fearful
+terpa2:R;causing fear
 #
 # x1 is a trillion [1x10**12] of x2 in dimension/aspect x3 (default is units)                     
 #terto1:DSAP;
@@ -5869,18 +5875,21 @@ tilju1:P;heavy
 tilju2:S;standard of heaviness
 #
 # x1 obeys/follows the command/rule x2 made by x3; (adjective:) x1 is obedient                    
-#tinbe1:DSAP;
-#tinbe2:DSAP;
+tinbe1:R;obeying
+tinbe2:D;rule
+tinbe3:A;rule
 #
 # x1 is a quantity of/contains/is made of tin (Sn); [metaphor: cheap or base metal]               
-#tinci1:DSAP;
-#tinci2:DSAP;
+tinci1:S;tin
 #
 # x1 is stiff/rigid/inflexible/resistant in direction x2 against force x3 under conditions x4     
-#tinsa1:DSAP;
-#tinsa2:DSAP;
-#tinsa3:DSAP;
-#tinsa4:DSAP;
+tinsa1:P;rigid
+tinsa2:D;rigid direction
+tinsa2t:in direction
+tinsa3:D;force* rigidly resisted
+tinsa3t;against force
+tinsa4:S;rigidity conditions
+tinsa4t:under conditions
 #
 # x1 hears x2 against background/noise x3; x2 is audible; (adjective:) x1 is aural                
 tirna1:A;hear
@@ -5888,21 +5897,24 @@ tirna2:R;heard
 tirna3:S;background noise
 #
 # x1 is a quantity of/contains/is made of iron (Fe); [metaphor: strong, durable, tarnishing]      
-#tirse1:DSAP;
-#tirse2:DSAP;
+tirse1:S;iron
 #
 # x1 is a tiger/leopard/jaguar/[tigress] of species/breed x2 with coat markings x3                
-#tirxu1:DSAP;
-#tirxu2:DSAP;
-#tirxu3:DSAP;
+tirxu1:D;tiger
+tirxu2:S;tiger species
+tirxu2t:of species
+tirxu3:D;tiger markings
+tirxu3t:with markings
 #
 # x1 (object) fills/becomes stuffed [up]/inflates/blows up with material x2; x2 pours into x1     
-#tisna1:DSAP;
-#tisna2:DSAP;
+tisna1:R;becoming full
+tisna2:S;filler material
+tisna2t:with material
 #
 # x1 is sweet/sugary/saccharine to observer x2                                                    
-#titla1:DSAP;
-#titla2:DSAP;
+titla1:P;sweet
+titla2:A;observe* sweetness
+titla2t:to observer
 #
 # x1 broadcasts/televises programming x2 via medium/channel x3 to television receiver x4          
 tivni1:A;broadcast
@@ -5916,26 +5928,32 @@ tixnu2:D;parent* of daughter
 tixnu2t:parent
 #
 # x1 is an oven [enclosure that heats its contents] for baking/heating/drying x2                  
-#toknu1:DSAP;
-#toknu2:DSAP;
+toknu1:D;oven
+toknu2:P;baked
 #
 # x1 is a butterfly/moth of species/breed x2                                                      
-#toldi1:DSAP;
-#toldi2:DSAP;
+toldi1:D;moth
+toldi2:S;moth species
+toldi2t:of species
 #
 # x1 is a tone/note of frequency/pitch x2 from source x3                                          
-#tonga1:DSAP;
-#tonga2:DSAP;
-#tonga3:DSAP;
+tonga1:D;tone
+tonga2:D;tone pitch
+tonga2t:of pitch
+tonga3:D;tone source
+tonga3t:from source
 #
 # x1 is short in dimension/direction x2 (default longest dimension) by measurement standard x3    
-#tordu1:DSAP;
-#tordu2:DSAP;
-#tordu3:DSAP;
+tordu1:P;short
+tordu2:D;short dimension
+tordu2t:in dimension
+tordu3:S;shortness standard
+tordu3t:by standard
 #
 # x1 twists under load/force/torsion x2                                                           
-#torni1:DSAP;
-#torni2:DSAP;
+torni1:A;twist
+torni2:D;twisting force
+torni2t:under force
 #
 # x1 is superlative in property x2 (ka), the x3 extreme (ka; default ka zmadu) among set/range x4 
 traji1:P;superlative
@@ -5947,20 +5965,19 @@ traji4:D;set* having superlative
 traji4t:amongst set
 #
 # x1 is a quantity of/contains/is made of nitrogen/ammonia/nitrates                               
-#trano1:DSAP;
-#trano2:DSAP;
-#trano3:DSAP;
-#trano4:DSAP;
+trano1:S;nitrogen
 #
 # x1 is taut/tense/strained tight in direction x2                                                 
-#trati1:DSAP;
-#trati2:DSAP;
+trati1:P;taut
+trati2:D;taut direction
+trati2t:in direction
 #
 # x1 is a train [vehicle] of cars/units x2 (mass) for rails/system/railroad x3, propelled by x4   
-#trene1:DSAP;
-#trene2:DSAP;
-#trene3:DSAP;
-#trene4:DSAP;
+trene1:D;train
+trene2:S;train cars
+trene3:D;railway
+trene4:S;train propulsion
+trene4t;propelled by
 #
 # x1 is a tree of species/cultivar x2                                                             
 tricu1:D;tree
@@ -5968,9 +5985,10 @@ tricu2:D;tree species
 tricu2t:of species
 #
 # x1 attracts/appeals to/lures x2 (person/event) with property/quality x3 (ka)                    
-#trina1:DSAP;
-#trina2:DSAP;
-#trina3:DSAP;
+trina1:P;attractive
+trina2:P;attracted
+trina3:D;attractive property
+trina3t:with property
 #
 # x1 is posterior/behind/back/in the rear of x2 which faces/in-frame-of-reference x3              
 trixe1:P;at the back of
@@ -5994,25 +6012,30 @@ tsani1:D;sky
 tsani2:D;place* with sky
 #
 # x1 is a seasoning/condiment/spice causing flavor/effect x2 (event/property)                     
-#tsapi1:DSAP;
-#tsapi2:DSAP;
+tsapi1:S;seasoning
+tsapi2:D;seasoning flavour
 #
 # x1(s) is/are (a) seed(s)/spore(s) [body-part] of organism x2 for producing offspring x3         
-#tsiju1:DSAP;
-#tsiju2:DSAP;
-#tsiju3:DSAP;
+tsiju1:D;seed
+tsiju2:D;organism* with seed
+tsiju2t:of organism
+tsiju3:S;offspring from seed
+tsiju3t:offspring produced
 #
 # x1 is a stage/platform/dais/[scaffold] at/in x2 supporting x3, made of material x4              
-#tsina1:DSAP;
-#tsina2:DSAP;
-#tsina3:DSAP;
-#tsina4:DSAP;
+tsina1:D;platform
+tsina2:D;platform location
+tsina2t:at location
+tsina3:R;supported by platform
+tsina3t:supporting
+tsina4:S;platform material
+tsina4t:of material
 #
 # x1 is a length of tubing/pipe/hollow cylinder [shape/form] of material x2, hollow of material x3
-#tubnu1:DSAP;
-#tubnu2:DSAP;
-#tubnu3:DSAP;
-#tubnu4:DSAP;
+tubnu1:D;tube
+tubnu2:S;tube material
+tubnu2t:of material
+tubnu3:S;tube contents
 #
 # x1 [person] agrees with person(s)/position/side x2 that x3 (du'u) is true about matter x4       
 tugni1:A;agree
