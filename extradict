@@ -92,6 +92,30 @@ nolraitru1:D;king*/queen*
 nolraitru2:@turni2
 nolraitru3:@nobli2
 
+# Lujvo  : selviska'e
+# Basis  : se+viska+kakne
+# Expn   : 2nd conversion+see+able
+# Defn   : visible
+# Places : $viska2 $viska1 $=kakne1 $kakne3 $=viska3
+
+selviska'e1:P;visible
+selviska'e2:P;able to see
+selviska'e2t:visible to
+selviska'e3:S;conditions for visibility
+selviska'e3t:under conditions
+
+# Lujvo  : nuncanci
+# Basis  : nu+canci
+# Expn   : event abstract+vanish
+# Defn   : disappearance
+# Places : $nu1 $canci1 $canci2 $canci3
+#
+ 
+nuncanci1:D;disappearance
+nuncanci2:P;vanished
+nuncanci3:@canci2
+nuncanci4:@canci3
+
 # Changes to common cmavo etc
 a:or
 be'o:
@@ -101,6 +125,9 @@ bo: :
 cai:intense
 co:of-type
 cu:is/does
+da:X
+de:Y
+di:Z
 di'a:resume
 doi:O!
 e:and
@@ -128,7 +155,7 @@ ja:or
 je:and
 ka:property of
 ke'a:it
-ke'e:
+ke'e: :
 ke: :
 kei:
 ko'a:he/she/it
@@ -143,7 +170,7 @@ lai:between them
 le:the
 lei:between them the
 li'u:$CLOSEQUOTE
-lo:a, any
+lo:any/some
 loi:the mass of all
 lu:$OPENQUOTE
 mei:-some
@@ -158,18 +185,26 @@ nu:event of
 pe:associated with
 po:of
 poi:which
+ro:every
 roi:-times
 to'e:opposite of
-to'i:[editorial]
-toi: :left blank, should indicate via bracketing
+to'i:editor-(
+toi:):left blank, should indicate via bracketing
 xu:yes/no?
 zi'e:and
 jai: :
 li'i:experience of
 me:amongst those that are
 ko:YOU!
-do'u::end vocative
-
+do'u: :end vocative
+se'u: :end discursive
+sei:discursive
+ri:the latter
+ra:the former:A bit shaky!
+li:No.:
+pi'e:-
+to:(:
+pi:.
 cai:extreme
 sai:strong
 ru'e:weak
@@ -179,6 +214,8 @@ cu'i:neutral
 ru'enai:not weak
 sainai:not strong
 cainai:not extreme
+
+pimei:partial
 
 jai_v:being the
 jai_n: :
@@ -190,7 +227,7 @@ pu@NOUN:earlier
 pu@SELBRI:was/did
 pu@LINK:earlier,
 pu@CONNECT:earlier
-ca@TERM:during
+ca@TERM:when
 ca@NOUN:current
 ca@SELBRI:is/does
 ca@LINK:at the same time,
@@ -252,9 +289,23 @@ bazu@SELBRI:a long time after
 vi@TERM:near to
 vi@NOUN:nearby
 vi@SELBRI:nearby
-vi@LINK:nearby,
-vi@CONNECT:where
+vi@LINK:there,
+vi@CONNECT:there
 vi@JAI:location of
+
+va@TERM:some distance from
+va@NOUN:somewhat distant
+va@SELBRI:some distance away
+va@LINK:some distance away,
+va@CONNECT:some distance away
+va@JAI:middle distance from
+
+vu@TERM:a long way from
+vu@NOUN:distant
+vu@SELBRI:remotely
+vu@LINK:in the distance,
+vu@CONNECT:in the distance
+vu@JAI:long distance from
 
 ga'u@TERM:above
 ga'u@NOUN:(upwards)-
