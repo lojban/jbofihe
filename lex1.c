@@ -21,6 +21,8 @@ static char zoi_delim[64];
 static int zoi_start_line, zoi_start_col;
 static char *zoi_data;
 
+static int process_word(char *buf, int start_line, int start_column);
+
 /*++++++++++++++++++++++++++++++++++++++
   Are there any consonant clusters in the buffer?
 
@@ -233,6 +235,59 @@ add_brivla_token(char *x, int start_line, int start_column)
 
 }
 
+/*++++++++++++++++++++++++++++++++++++++
+  Handle a single token that has a consonant at the end.  This is basically a
+  cmene, except that checks have to be done for embedded la, lai, doi.
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+process_cmene(char *buf, int start_line, int start_column)
+{
+  TreeNode *tok;
+  char *p;
+
+  /* Check for invalid construct within name. */
+  p = buf;
+  while (*p) {
+    if ((!strncmp(p, "la",  2) && is_consonant(p[2])) ||
+        (!strncmp(p, "lai", 3) && is_consonant(p[3])) ||
+        (!strncmp(p, "doi", 3) && is_consonant(p[3]))) {
+      if ((p == buf) || is_vowel(*(p-1))) {
+        char temp[128], *q;
+        int len;
+
+        /* Deal with what comes before la, lai, doi */
+        len = p - buf;
+        strncpy(temp, buf, len);
+        if (len > 0) {
+          temp[len] = 0;
+          process_word(temp, start_line, start_column);
+        }
+        
+        /* Deal with la, lai, doi */
+        temp[0] = *p++;
+        q = temp + 1;
+        while (is_vowel(*p)) {
+          *q++ = *p++;
+        }
+        *q = 0;
+        process_word(temp, start_line, start_column+len);
+
+        /* Deal with the tail */
+        process_cmene(p, start_line, start_column + (p-buf));
+        return;
+      }
+    }
+    p++;
+  }
+
+  tok = new_node();
+  tok->start_line = start_line;
+  tok->start_column = start_column;
+  tok->type = N_CMENE;
+  tok->data.cmene.word = new_string(buf);
+  add_token(tok);
+}
 
 /*++++++++++++++++++++++++++++++++++++++
   Handle a single word delimited by whitespace or periods.  Break it
@@ -293,20 +348,13 @@ process_word(char *buf, int start_line, int start_column)
     return 1;
   }
 
-
-
   /* Analyse word type */
   /* Does word end in consonant (leave commas etc in for this)? */
   p = buf;
   while (*p) p++;
   p--;
   if (is_consonant(*p) || is_uppercase_consonant(*p)) {
-    tok = new_node();
-    tok->start_line = start_line;
-    tok->start_column = start_column;
-    tok->type = N_CMENE;
-    tok->data.cmene.word = new_string(buf);
-    add_token(tok);
+    process_cmene(buf, start_line, start_column);
   } else {
     int cluster_start;
     char *b2;
