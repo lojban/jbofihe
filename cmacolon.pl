@@ -10,8 +10,15 @@ while(<>) {
     $cma =~ s/([^ ])[ ]*$/$1/;
     $cma =~ s/^[ ]*([^ ])/$1/;
     $cma =~ s/^\.//;
+    $sma = substr($_,10,6);
     $eng = substr($_,20,40);
     $eng =~ s/([^ ])[ ]*$/$1/;
-    print $cma.":".$eng."\n";
+    if ($cma =~ /^[aeiou]\'?[aeiou]/) {
+	print $cma.":{..".$eng."}\n";
+    } elsif ($sma =~ /^[ ]*UI/) {
+	print $cma.":{..".$eng."}\n";
+    } else {
+	print $cma.":".$eng."\n";
+    }
 }
 
