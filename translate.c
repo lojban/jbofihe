@@ -430,13 +430,7 @@ append_er(char *x)
     return result2;
   } else {
     n = strlen(x);
-    if (n > 1 && strchr(vowels, x[n-2]) && strchr(consonants, x[n-1])) {
-      if (n > 2 && strchr(vowels, x[n-3])) {
-        sprintf(result, "%s-er(s)", x);
-      } else {
-        sprintf(result, "%s-%cer(s)", x, x[n-1]);
-      }
-    } else if (n > 0 && x[n-1] == 'e') {
+    if (n > 0 && x[n-1] == 'e') {
       sprintf(result, "%s-r(s)", x);
     } else {
       sprintf(result, "%s-er(s)", x);
@@ -481,13 +475,7 @@ append_ing(char *x)
   } else {
 
     n = strlen(x);
-    if (n > 1 && strchr(vowels, x[n-2]) && strchr(consonants, x[n-1])) {
-      if (n > 2 && strchr(vowels, x[n-3])) {
-        sprintf(result, "%s-ing", x);
-      } else {
-        sprintf(result, "%s-%cing", x, x[n-1]);
-      }
-    } else if (n > 1 && x[n-1] == 'e' && !strchr(vowels, x[n-2])) {
+    if (n > 1 && x[n-1] == 'e' && !strchr(vowels, x[n-2])) {
       strncpy(result, x, n-1);
       result[n-1] = 0;
       strcat(result, "-ing");
