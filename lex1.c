@@ -81,21 +81,21 @@ static int
 any_clusters(char *buf)
 {
   char *p;
-  int last_was_cons = 0;
+  int last_was_cons = -1;
   for (p = buf;
        *p;
        p++) {
     if (is_consonant(*p)) {
-      if (last_was_cons) {
-        return 1;
+      if (last_was_cons >= 0) {
+        return last_was_cons;
       }
-      last_was_cons = 1;
+      last_was_cons = p - buf;
     } else if (is_vowel(*p)) {
-      last_was_cons = 0;
+      last_was_cons = -1;
     }
   }
    
-  return 0;
+  return -1;
   
 }
 
@@ -215,6 +215,45 @@ process_cmavo(char *buf, int start_line, int start_column)
 
 
 /*++++++++++++++++++++++++++++++++++++++
+  Take 1 cmavo off the front of a buffer and update the buffer pointer.
+
+  char **bb Pointer to the buffer pointer.
+
+  int start_line
+
+  int start_column
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static int
+do_a_cmavo(char **bb, int start_line, int start_column) {
+  char *b = *bb;
+  char buf3[1024];
+  char *p, *q;
+
+  q = buf3;
+  for (p = b;
+       *p;
+       p++) {
+    *q++ = *p;
+    if (is_consonant(p[1]) || !p[1]) {
+      *q = 0;
+      process_cmavo(buf3, start_line, start_column);
+      if (!strcmp(buf3, "fa'o")) {
+        /* End of stream token */
+        return 0;
+      }
+      b = p + 1;
+      break;
+    }
+  }
+
+  *bb = b;
+  return 1;
+}
+
+
+
+/*++++++++++++++++++++++++++++++++++++++
   Handle a single word delimited by whitespace or periods.  Break it
   into single words if necessary and handle each in turn.  Return 1 if
   not EOF, or 0 if fa'o detected.
@@ -225,7 +264,7 @@ process_cmavo(char *buf, int start_line, int start_column)
 static int
 process_word(char *buf, int start_line, int start_column)
 {
-  char buf2[1024], buf3[1024];
+  char buf2[1024];
   char *p, *q;
   TreeNode *tok;
 
@@ -288,6 +327,8 @@ process_word(char *buf, int start_line, int start_column)
     tok->data.cmene.word = new_string(buf);
     add_token(tok);
   } else {
+    int cluster_start;
+    char *b2;
 
     /* Take out commas and other spurious characters and canonicalise to
        LC */
@@ -300,33 +341,29 @@ process_word(char *buf, int start_line, int start_column)
     }
 
     *q = 0;
+    b2 = buf2;
     
-    /* Any clusters? */
-    
-    if (any_clusters(buf2)) {
-      tok = new_node();
-      tok->start_line = start_line;
-      tok->start_column = start_column;
-      tok->type = N_BRIVLA;
-      /* Leave commas etc in for BRIVLA - you can use them in a
-         fu'ivla? */
-      tok->data.brivla.word = new_string(buf);
-      add_token(tok);
+    /* If no clusters, or first one is too far in, strip a cmavo off the front. */
+    cluster_start = any_clusters(buf2);
+    if (cluster_start < 0) {
+      while (*b2) {
+        if (!do_a_cmavo(&b2, start_line, start_column)) return 0;
+      }
     } else {
-      /* Break into individual cmavo */
-      q = buf3;
-      for (p = buf2;
-           *p;
-           p++) {
-        *q++ = *p;
-        if (is_consonant(p[1]) || !p[1]) {
-          *q = 0;
-          process_cmavo(buf3, start_line, start_column);
-          if (!strcmp(buf3, "fa'o")) {
-            /* End of stream token */
-            return 0;
-          }
-          q = buf3;
+      while (1) {
+        if (cluster_start >= 4) {
+          if (!do_a_cmavo(&b2, start_line, start_column)) return 0;
+          cluster_start = any_clusters(b2);
+        } else {
+          tok = new_node();
+          tok->start_line = start_line;
+          tok->start_column = start_column;
+          tok->type = N_BRIVLA;
+          /* Leave commas etc in for BRIVLA - you can use them in a
+             fu'ivla? */
+          tok->data.brivla.word = new_string(b2);
+          add_token(tok);
+          break;
         }
       }
     }
