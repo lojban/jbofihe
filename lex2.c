@@ -970,7 +970,7 @@ print_last_toks(void)
         break;
 
       case N_BU:
-        fprintf(stderr,"bu %s\n", x->data.bu.word);
+        fprintf(stderr,"%s bu\n", x->data.bu.word);
         break;
         
       case N_BRIVLA:
