@@ -476,9 +476,9 @@ translate_indicator (TreeNode *x, char *loj, char *eng)
   trans = translate(loj);
   if (trans) {
     strcat(buffer, trans);
-    strcpy(eng, "{.. ");
+    strcpy(eng, "{");
     strcat(eng, buffer);
-    strcat(eng, "}");
+    strcat(eng, "..}");
   } else {
     eng[0] = 0;
   }
