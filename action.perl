@@ -72,7 +72,7 @@ while (<>) {
             if ($nchildren < 0) { $nchildren = 0; }
             $n_live_children = 0;
             for ($i=1; $i<=$nchildren; $i++) {
-                if ($children[$i] =~ /START_EK|START_GIHEK|START_GUHEK|START_JEK|START_JOIK|END_JOIK|START_GEK|START_BAI|EK_KE|EK_BO|JEK_KE|JEK_BO|JOIK_KE|JOIK_BO|I_JEKJOIK|I_BO|GIHEK_KE|GIHEK_BO|NAhE_BO|NAhE_time|NAhE_space|NAhE_CAhA|NA_KU|NUMBER_MAI|NUMBER_MOI|NUMBER_ROI|START_TENSE|END_TENSE|EOF_MARK/o) {
+                if ($children[$i] =~ /START_EK|START_GIHEK|START_GUHEK|START_JEK|END_JEK|START_JOIK|END_JOIK|START_GEK|START_BAI|EK_KE|EK_BO|JEK_KE|JEK_BO|JOIK_KE|JOIK_BO|I_JEKJOIK|I_BO|GIHEK_KE|GIHEK_BO|NAhE_BO|NAhE_time|NAhE_space|NAhE_CAhA|NA_KU|NUMBER_MAI|NUMBER_MOI|NUMBER_ROI|START_TENSE|END_TENSE|EOF_MARK/o) {
                     $flags[$i] = 0;
                 } else {
                     $flags[$i] = 1;
@@ -106,7 +106,7 @@ while (<>) {
         if ($nchildren < 0) { $nchildren = 0; }
         $n_live_children = 0;
         for ($i=1; $i<=$nchildren; $i++) {
-            if ($children[$i] =~ /START_EK|START_GIHEK|START_GUHEK|START_JEK|START_JOIK|END_JOIK|START_GEK|START_BAI|EK_KE|EK_BO|JEK_KE|JEK_BO|JOIK_KE|JOIK_BO|I_JEKJOIK|I_BO|GIHEK_KE|GIHEK_BO|NAhE_BO|NAhE_time|NAhE_space|NAhE_CAhA|NA_KU|NUMBER_MAI|NUMBER_MOI|NUMBER_ROI|START_TENSE|END_TENSE|EOF_MARK/o) {
+            if ($children[$i] =~ /START_EK|START_GIHEK|START_GUHEK|START_JEK|END_JEK|START_JOIK|END_JOIK|START_GEK|START_BAI|EK_KE|EK_BO|JEK_KE|JEK_BO|JOIK_KE|JOIK_BO|I_JEKJOIK|I_BO|GIHEK_KE|GIHEK_BO|NAhE_BO|NAhE_time|NAhE_space|NAhE_CAhA|NA_KU|NUMBER_MAI|NUMBER_MOI|NUMBER_ROI|START_TENSE|END_TENSE|EOF_MARK/o) {
                 $flags[$i] = 0;
             } elsif ($children[$i] =~ m{\?([A-Zh]+)}) {
                 $flags[$i] = 2;
