@@ -128,13 +128,13 @@ void expand_bahe_ui(TreeNode *top);
 
 /* In translate.c */
 char * translate(char *word);
-char *translate_unknown(char *w, int place);
 typedef enum {
   TCX_NOUN = 0,
   TCX_VERB = 1,
   TCX_QUAL = 2,
   TCX_TAG = 3
 } TransContext;
+char *translate_unknown(char *w, int place, TransContext ctx);
 char *adv_translate(char *w, int place, TransContext ctx);
 
 /* In output.c */
