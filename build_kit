@@ -6,11 +6,12 @@
 # (Although not really needed in the distribution, this is bundled for
 # completeness and for 'disaster-recovery' purposes.)
 
-@files = <*>;
+@files = qx|find . -type f -print|;
 open(COPY, "<COPYRIGHT");
 @copy=<COPY>;
 close(COPY);
 for $f (@files) {
+    chomp $f;
     print "doing $f\n";
     rename "$f","$f.tmp";
     open (IN, "<$f.tmp");

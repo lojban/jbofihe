@@ -12,7 +12,7 @@
 
 if [ ! -r Makefile ]; then
     echo "You need to perl config.pl first"
-    echo "  e.g. perl config.pl --wordsdir=/home/richard/cvswork/lojdict"
+    echo "  e.g. perl config.pl"
     exit 1
 fi
 

@@ -173,7 +173,7 @@ smujajgau.o : smujajgau.c version.h
 canonluj.o : canonluj.inc
 
 canonluj.inc:
-	perl canonluj.pl < @@WORD-LISTS@@/gismu > canonluj.inc
+	perl canonluj.pl < reduced_gismu > canonluj.inc
 
 clean:
 	-rm *.output \
