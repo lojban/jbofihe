@@ -405,6 +405,7 @@ process_word(char *buf, int start_line, int start_column)
     p = buffer; \
   }
 
+#define SET_START if (new_tok) { new_tok = 0; start_line = line; start_column = column; }
 
 /*++++++++++++++++++++++++++++++++++++++
   Parse an entire file through to the end.
@@ -439,24 +440,26 @@ parse_file(FILE *f)
     if (paren_depth > 0) {
       if (c == ')') {
         paren_depth--;
+        new_tok = 1;
       } else if (c == '(') {
         paren_depth++;
+      } else if (c == '\n') {
+        line++;
+        column=0;
       }
+      
     } else {
       
-      if (new_tok) {
-        new_tok = 0;
-        start_line = line;
-        start_column = column;
-      }
       if (c>='0' && c<='9') {
         static char *numbers[] = {"no", "pa", "re", "ci", "vo",
                                   "mu", "xa", "ze", "bi", "so"};
         CLOSE_TOKEN;
+        SET_START;
         strcpy(buffer, numbers[(int)(c-'0')]);
         process_word(buffer, start_line, start_column);
       } else if (c == ':') {
         CLOSE_TOKEN;
+        SET_START;
         strcpy(buffer, "pi'e");
         process_word(buffer, start_line, start_column);
       } else {               
@@ -477,6 +480,7 @@ parse_file(FILE *f)
             if (c == EOF) goto done;
             break;
           default:
+            SET_START;
             *p++ = c;
             break;
         }
