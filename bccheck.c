@@ -82,18 +82,25 @@ static unsigned char mapchar[256] =/*{{{*/
 int is_bad_cmene(char *word, int *split, char **ladoi, char **tail)/*{{{*/
 {
   char *p;
+  char *ladoi_1;
   int cs = 0, ns;
   enum result res;
 
   for (p=word; *p; p++) {
     ns = bad_cmene_next_state(cs, mapchar[(unsigned int) *p & 0xff]);
-    if ((bad_cmene_attribute[ns] == ATTR_SEEN_LD) && ladoi) *ladoi = p;
     res = bad_cmene_exitval[ns];
     /* Deal with early exit conditions */
     if (res == BC_CMENE_BAD_NOSPLIT || res == BC_CMENE_BAD_SPLIT) {
+      if (ladoi) *ladoi = ladoi_1;
       if (tail) *tail = p;
       break;
     }
+    
+    /* By doing this here, we protect against problem words like "salad",
+       where the position of "d" would need to be remembered in case it starts
+       "doi", but that would overwrite th stored position of "l" */
+    if (bad_cmene_attribute[ns] == ATTR_SEEN_LD) ladoi_1 = p;
+    
     cs = ns;
   }
 
