@@ -256,6 +256,7 @@ static Block * create_block(char *name)/*{{{*/
   result->nstates = result->maxstates = 0;
 
   result->subcount = 1;
+  result->subblockcount = 1;
   return result;
 }
 /*}}}*/
@@ -466,6 +467,64 @@ void set_state_attribute(State *curstate, char *name)/*{{{*/
 }
 /*}}}*/
 /* ================================================================= */
+InlineBlock *create_inline_block(char *type, char *in, char *out)/*{{{*/
+{
+  InlineBlock *result;
+  result = new(InlineBlock);
+  result->type = new_string(type);
+  result->in = new_string(in);
+  result->out = new_string(out);
+  return result;
+}
+/*}}}*/
+InlineBlockList *add_inline_block(InlineBlockList *existing, InlineBlock *nib)/*{{{*/
+{
+  InlineBlockList *result;
+  result = new(InlineBlockList);
+  result->next = existing;
+  result->ib = nib;
+  return result;
+}
+/*}}}*/
+State * add_inline_block_transitions(Block *curblock, State *addtostate, InlineBlockList *ibl)/*{{{*/
+{
+  char result_name[1024];
+  State *result_state;
+
+  /* Construct output state */
+  sprintf(result_name, "#%d", curblock->subcount++);
+  result_state = lookup_state(curblock, result_name, CREATE_MUST_NOT_EXIST);
+  
+  while (ibl) {
+    InlineBlock *ib;
+    char block_name[1024];
+    char input_name[1024];
+    char output_name[1024];
+    State *output_state;
+    
+    ib = ibl->ib;
+    if (ib) {
+      sprintf(block_name, "%s#%d", ib->type, curblock->subblockcount++);
+      instantiate_block(curblock, ib->type, block_name);
+      sprintf(input_name, "%s.%s", block_name, ib->in);
+      sprintf(output_name, "%s.%s", block_name, ib->out);
+      output_state = lookup_state(curblock, output_name, CREATE_OR_USE_OLD);
+
+      /* Now plumb in the input and output transitions */
+      add_transition(addtostate, NULL, new_string(input_name));
+      add_transition(output_state, NULL, new_string(result_name));
+    } else {
+      /* Epsilon transition between input and output */
+      add_transition(addtostate, NULL, new_string(result_name));
+    }
+
+    ibl = ibl->next;
+  }
+
+  return result_state;
+}
+/*}}}*/
+/* ================================================================= */
 void instantiate_block(Block *curblock, char *block_name, char *instance_name)/*{{{*/
 {
   Block *master = lookup_block(block_name, USE_OLD_MUST_EXIST);
@@ -558,55 +617,54 @@ static inline int is_set(unsigned long *x, int n)/*{{{*/
 }
 /*}}}*/
 /* ================================================================= */
-/* During the algorithm to transitively close the epsilon closure table,
-   maintain a stack of indices that have to be rescanned.  This avoids the slow
-   approach of repeatedly rescanning the whole table until no changes are
-   found. */
-
-typedef struct IntPair {
-  struct IntPair *next;
-  int i;
-  int j;
-} IntPair;
-
-static IntPair *freelist=NULL;
-static IntPair *stack=NULL;
-
-/* ================================================================= */
-static void push_pair(int i, int j)/*{{{*/
+static void transitively_close_eclo(int N)/*{{{*/
 {
-  static const int grow_by = 32;
-  IntPair *np;
-  
-  if (!freelist) {
-    IntPair *ip = new_array(IntPair, grow_by);
-    int x;
-    for (x=1; x<grow_by; x++) {
-      ip[x].next = &ip[x-1];
+  int from;
+  unsigned long *from_row;
+  unsigned long *todo, this_todo;
+  int Nru;
+  int i, i32, j, k, merge_idx;
+  int j_limit;
+  int any_changes;
+
+  Nru = round_up(N);
+  todo = new_array(unsigned long, Nru);
+
+  for (from=0; from<N; from++) {
+    from_row = eclo[from];
+    for (i=0; i<Nru; i++) {
+      todo[i] = from_row[i];
     }
-    ip[0].next = NULL;
-    freelist = &ip[grow_by-1];
-  }
-  np = freelist;
-  freelist = freelist->next;
-  np->next = stack;
-  stack = np;
-  np->i = i;
-  np->j = j;
-}
-/*}}}*/
-static int pop_pair(int *i, int *j) {/*{{{*/
-  IntPair *ip;
-  if (!stack) {
-    return 0;
-  } else {
-    ip = stack;
-    *i = ip->i;
-    *j = ip->j;
-    stack = ip->next;
-    ip->next = freelist;
-    freelist = ip;
-    return 1;
+    any_changes = 1;
+    while (any_changes) {
+      any_changes = 0;
+      for (i=0; i<Nru; i++) { /* loop over words in bitvector */
+        i32 = i<<5;
+        this_todo = todo[i];
+        todo[i] = 0UL; /* reset to avoid oo-loop */
+        if (!this_todo) continue; /* none to do in this block */
+        j_limit = N - i32;
+        if (j_limit > 32) j_limit = 32;
+
+        for (j=0; j<j_limit;) { /* loop over bits in this word */
+          if (this_todo & 1) {
+            /* Merge in */
+            merge_idx = i32 + j;
+            for (k=0; k<Nru; k++) {
+              unsigned long to_merge = eclo[merge_idx][k];
+              unsigned long orig = from_row[k];
+              unsigned long diffs = to_merge & (~orig);
+              from_row[k] |= to_merge;
+              if (diffs) any_changes = 1;
+              todo[k] |= diffs;
+            }
+          }
+          this_todo >>= 1;
+          if (!this_todo) break; /* Workload reduction at end */
+          j++;
+        }
+      }
+    }
   }
 }
 /*}}}*/
@@ -634,21 +692,12 @@ static void generate_epsilon_closure(Block *b)/*{{{*/
       if (tl->token < 0) { /* epsilon trans */
         int to_state = tl->ds_ref->index;
         set_bit(eclo[from_state], to_state);
-        push_pair(from_state, to_state);
       }
     }
   }
 
-  /* Now keep on processing until the table is transitively closed */
-  while (pop_pair(&i, &j)) {
-    int k;
-    for (k=0; k<N; k++) {
-      if (is_set(eclo[j], k) && !is_set(eclo[i], k)) {
-        set_bit(eclo[i], k);
-        push_pair(i,k);
-      }
-    }
-  }
+  transitively_close_eclo(N);
+
 }
 /*}}}*/
 static void print_nfa(Block *b)/*{{{*/
