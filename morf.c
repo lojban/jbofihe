@@ -218,7 +218,7 @@ morf_scan(char *s, char ***buf_end)
 
     p++;
     initial = 0;
-    next_state = NEXT_STATE(state, tok);
+    next_state = NEXT_MORF_STATE(state, tok);
 
 #ifdef TEST_MORF
     if (verbose) {
