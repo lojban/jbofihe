@@ -12,6 +12,7 @@
 #include <string.h>
 #include "nodes.h"
 #include "functions.h"
+#include "version.h"
 
 /* The node into which the parser inserts the top node of the parse
    tree */
@@ -68,6 +69,9 @@ main (int argc, char **argv)
   while (++argv, --argc) {
     if (!strcmp(*argv, "-d")) {
       debug = 1;
+    } else if (!strcmp(*argv, "-v")) {
+      fprintf(stderr, "jbofihe version %s\n", version_string);
+      exit(0);
     } else if (!strcmp(*argv, "-k")) {
       token_lists = 1;
     } else if (!strcmp(*argv, "-g")) {

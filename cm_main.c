@@ -7,6 +7,7 @@
 /* COPYRIGHT */
 
 #include "cm.h"
+#include "version.h"
 
 int
 yywrap(void)
@@ -20,7 +21,10 @@ main (int argc, char **argv)
   while (++argv,--argc) {
     if (!strcmp(*argv, "-l")) {
       do_latex = 1;
-    }
+    } else if (!strcmp(*argv, "-v")) {
+      fprintf(stderr, "cmafihe version %s\n", version_string);
+      exit(0);
+    }      
   }
 
   yylex();
