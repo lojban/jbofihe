@@ -1,4 +1,3 @@
-
 /***************************************
   $Header$
 
@@ -30,9 +29,9 @@ static const short *yytranslate = NULL;
 static const short *yycheck = NULL;
 static const short *yytable = NULL;
 
-/* Command line option -se */
+/* Command line options -se & -sev */
 extern int show_elisions;
-
+extern int show_elisions_verbose;
 
 /* Structure + single instance for buffering a sequence of zero or more
    potentially elidable separators/terminators followed by a single
@@ -316,6 +315,28 @@ show_minimal_elidables(int tok_idx, int *later_indices, int next_index, int prev
 }
 
 /*++++++++++++++++++++++++++++++++++++++
+  Generate report for verbose mode
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+produce_verbose_report(void)
+{
+  int i, j;
+  for (i=0; i<tokbuf.n; i++) {
+    putchar(' ');
+    putchar(' ');
+    for (j=0; j<=i; j++) {
+      if (j == i) {
+        TreeNode *tok = tokbuf.buf[j].yylval;
+        printf(" <- %s\n", (j < tokbuf.n - 1) ? cmavo_table[tok->data.cmavo.code].cmavo : "<NEXT WORD>");
+      } else {
+        printf("%s|", is_set(i, j) ? "X" : " ");
+      }
+    }
+  }
+}
+
+/*++++++++++++++++++++++++++++++++++++++
   Trace shifts by the parser.  When an elidable is shifted, we can cease
   checking for whether anything coming after it could have been shifted in
   a state where a reduction took place
@@ -334,10 +355,15 @@ elide_trace_shift(int yystate, int yychar)
 
   if (tokbuf.sp == tokbuf.n) {
     /* do reporting - the non-elidable has been shifted */
-    /* For now, just see if the final token is safe, i.e, the full seq. could
-      have been dropped */
     int i, j, any_set=0;
     TreeNode *tok;
+
+    if (show_elisions_verbose && (tokbuf.n > 1)) {
+      printf("Early shift hazards for words ");
+      emit_elidable_sequence();
+      produce_verbose_report();
+      putchar('\n');
+    }
 
 #ifdef TRACE_SR
   printf("Got here, shift sp=n\n");
