@@ -44,6 +44,10 @@ int insert_elidables;
 /* Flag to allow cultural rafsi within lujvo (and as part of slinku'i test) */
 int allow_cultural_rafsi;
 
+/* Flag to use parser that requires all elidable separators and terminators to
+   be present */
+int require_elidables;
+
 /* Flag to display backtrace when a syntax error arises */
 int show_backtrace;
 
@@ -128,7 +132,6 @@ main (int argc, char **argv)
   int textout;
   int htmlout;
   int show_memory;
-  int require_elidables;
 
   debug = 0;
   token_lists = 0;
