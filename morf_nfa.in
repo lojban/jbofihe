@@ -311,17 +311,17 @@ BLOCK LUJVO
     STATE a1.to_lujvo1t -> t1t.in
 
     # Set exit states on t0
-    STATE t0.sn.exit = BIT_LUJVO_0
+    STATE t0.sn.exit = TAG_LUJVO_0
     
     # Set exit states on t1
-    STATE t1.sn.exit = BIT_LUJVO_1
+    STATE t1.sn.exit = TAG_LUJVO_1
         
     # Set exit states on t1t
-    STATE t1t.sn.exit = BIT_LUJVO_1T
+    STATE t1t.sn.exit = TAG_LUJVO_1T
 
     # Set exit status when potentially shorter word is of valid lujvo form
     # (e.g. the smabru in tosmabru)
-    STATE tos.exit = BIT_LUJVO_TAIL_OK
+    STATE tos.exit = TAG_LUJVO_TAIL_OK
 
 ENDBLOCK
 
@@ -374,8 +374,8 @@ BLOCK CMAVOSEQ
     STATE ya
         Y -> exit_standalone
 
-    STATE exit_prefixable = BIT_CMAVOS    
-    STATE exit_standalone = BIT_CMAVOS_END_CY
+    STATE exit_prefixable = TAG_CMAVOS    
+    STATE exit_standalone = TAG_CMAVOS_END_CY
 
 ENDBLOCK
 
@@ -387,8 +387,8 @@ ENDBLOCK
 BLOCK GISMU
 
     STATE in
-        C     ; CI ; V     ; C|N|R    ; V = BIT_GISMU_0
-        C|N|R ; V  ; C|N|R ; CI|CP|NR ; V = BIT_GISMU_1
+        C     ; CI ; V     ; C|N|R    ; V = TAG_GISMU_0
+        C|N|R ; V  ; C|N|R ; CI|CP|NR ; V = TAG_GISMU_1
         
 ENDBLOCK
 
@@ -423,7 +423,7 @@ BLOCK SLINKUI
 
         CI|CP|NR -> t0.sn.in_main, t0.in
 
-    STATE t0.sn.exit = BIT_SLINKUI_0
+    STATE t0.sn.exit = TAG_SLINKUI_0
 
 ENDBLOCK
 
@@ -552,20 +552,20 @@ BLOCK FUIVLA
 
     STATE start1.exit
         -> tail1.in
-        = BIT_FUIVLA_1
+        = TAG_FUIVLA_1
 
     STATE start0.exit
         -> tail0.in
-        = BIT_FUIVLA_0
+        = TAG_FUIVLA_0
 
     STATE start0.exit_need_syl
         -> tail0.in
 
     STATE tail1.exit
-        = BIT_FUIVLA_1
+        = TAG_FUIVLA_1
 
     STATE tail0.exit
-        = BIT_FUIVLA_0
+        = TAG_FUIVLA_0
 
 ENDBLOCK
 
@@ -603,7 +603,7 @@ BLOCK CMENE
         V|Y -> v
 
     STATE exit
-        = BIT_CMENE
+        = TAG_CMENE
 ENDBLOCK
 
 ###########################################################
@@ -623,4 +623,37 @@ BLOCK WORD
     STATE in     # ENTRY STATE NAMED LAST IN FILE
 
 ENDBLOCK
+
+###########################################################
+# Results definition section
+# This is the priority encoding logic to determine
+# the final word type
+
+Result TAG_GISMU_0 -> R_GISMU_0
+Result TAG_GISMU_1 -> R_GISMU_1
+SymResult TAG_LUJVO_0 -> R_LUJVO_0
+SymResult TAG_LUJVO_1 & ~TAG_LUJVO_0 -> R_LUJVO_1
+Result TAG_LUJVO_1T & ~TAG_LUJVO_TAIL_OK -> R_BAD_TOSMABRU
+# Can't do this in a single stage, because the name conflicts with
+# R_LUJVO_1 above.
+Symbol S_LUJVO_1T = TAG_LUJVO_1T & TAG_LUJVO_TAIL_OK
+Result S_LUJVO_1T -> R_LUJVO_1
+Symbol VALID_LUJVO = S_LUJVO_1T | R_LUJVO_1 | R_LUJVO_0
+Symbol VALID_GISMU = TAG_GISMU_0 | TAG_GISMU_1
+Result ~VALID_LUJVO & ~VALID_GISMU &  TAG_FUIVLA_0 &  TAG_SLINKUI_0 &  TAG_FUIVLA_1 -> R_FUIVLA_1
+Result ~VALID_LUJVO & ~VALID_GISMU &  TAG_FUIVLA_0 &  TAG_SLINKUI_0 & ~TAG_FUIVLA_1 -> R_BAD_SLINKUI
+Result ~VALID_LUJVO & ~VALID_GISMU &  TAG_FUIVLA_0 & ~TAG_SLINKUI_0                 -> R_FUIVLA_0
+Result ~VALID_LUJVO & ~VALID_GISMU & ~TAG_FUIVLA_0 &                   TAG_FUIVLA_1 -> R_FUIVLA_1
+
+# Similarly if the LUJVO_TAIL_OK rule matches on its own
+Result ~* & TAG_LUJVO_TAIL_OK -> R_UNKNOWN
+
+# All of the following are disjoint with each other and with any
+# of the earlier ones
+
+Result TAG_CMENE -> R_CMENE
+Result TAG_CMAVOS -> R_CMAVOS
+Result TAG_CMAVOS_END_CY -> R_CMAVOS_END_CY
+
+Result ~* -> R_UNKNOWN
 

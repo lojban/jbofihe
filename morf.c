@@ -31,25 +31,18 @@ extern int allow_cultural_rafsi;
 
 #include "morf.h"
 
-/*
-  Define exit values used in the NFA/DFA.  These are separate bits to allow
-  them to be or'd together.  The _0 versions are the cases where the consonant
-  cluster occurs at the start, the _1 versions are those where it occurs a bit
-  later (i.e. the list of prefix cmavo has to be backed up by 1 to avoid
-  counting the start of the brivla as a prefix cmavo.)
-   */
-#define BIT_CMAVOS        0x0001
-#define BIT_CMAVOS_END_CY 0x0002
-#define BIT_GISMU_0       0x0004
-#define BIT_GISMU_1       0x0008
-#define BIT_LUJVO_0       0x0010
-#define BIT_LUJVO_1       0x0020
-#define BIT_LUJVO_1T      0x0040
-#define BIT_LUJVO_TAIL_OK 0x0080
-#define BIT_FUIVLA_0      0x0100
-#define BIT_FUIVLA_1      0x0200
-#define BIT_SLINKUI_0     0x0400
-#define BIT_CMENE         0x0800
+#define R_UNKNOWN       0
+#define R_CMAVOS        1
+#define R_CMAVOS_END_CY 2
+#define R_GISMU_0       3
+#define R_GISMU_1       4
+#define R_LUJVO_0       5
+#define R_LUJVO_1       6
+#define R_FUIVLA_0      7
+#define R_FUIVLA_1      8
+#define R_CMENE         9
+#define R_BAD_TOSMABRU 10
+#define R_BAD_SLINKUI  11
 
 /* Define the values returned by priority coding the bit patterns */
 #define W_UNKNOWN         0
@@ -271,7 +264,7 @@ morf_scan(char *s, char ***buf_end)
   int ended_with_comma=0;
   int started_with_comma=0;
   MorfType ext_result;
-  unsigned long *exitval_table;
+  short *exitval_table;
   struct StateTransTable *stt;
 
   typedef enum {
@@ -410,13 +403,21 @@ morf_scan(char *s, char ***buf_end)
     decrement = 0;
   } else {
     exival = exitval_table[state];
-    result = morf_enctab1[exival & 0xff];
-    decrement = result>>7;
-    result &= 0x7f;
-    if (!result) {
-      result = morf_enctab2[(exival >> 8) & 0x0f];
-      decrement = result>>7;
-      result &= 0x7f;
+    switch (exival) {
+      case R_CMAVOS: result = W_CMAVOS; decrement = 0; break;
+      case R_CMAVOS_END_CY: result = W_CMAVOS_END_CY; decrement = 0; break;
+      case R_GISMU_0: result = W_GISMU; decrement = 0; break;
+      case R_GISMU_1: result = W_GISMU; decrement = 1; break;
+      case R_LUJVO_0: result = W_LUJVO; decrement = 0; break;
+      case R_LUJVO_1: result = W_LUJVO; decrement = 1; break;
+      case R_FUIVLA_0: result = W_FUIVLA; decrement = 0; break;
+      case R_FUIVLA_1: result = W_FUIVLA; decrement = 1; break;
+      case R_CMENE: result = W_CMENE; decrement = 0; break;
+      case R_BAD_TOSMABRU: result = W_BAD_TOSMABRU; decrement = 1; break;
+      case R_BAD_SLINKUI: result = W_BAD_SLINKUI; decrement = 0; break;
+      case R_UNKNOWN:
+      default:
+        result = W_UNKNOWN; decrement = 0; break;
     }
     switch (result) {
       case W_CMAVOS_END_CY:
