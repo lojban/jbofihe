@@ -171,11 +171,17 @@ build_string_from_nodes(TreeNode *start, TreeNode *end)
       case N_CMENE:
         len += strlen(y->data.cmene.word);
         break;
+      
+      case N_ZOI:
+        len += 6 + strlen(y->data.zoi.text);
+        break;
         
+      case N_ZO:
+        len += 3 + strlen(y->data.zo.text);
+        break;
+      
       case N_NONTERM:
       case N_MARKER:
-      case N_ZOI:
-      case N_ZO:
       case N_LOhU:
       case N_BU:
         assert(0);
@@ -183,7 +189,11 @@ build_string_from_nodes(TreeNode *start, TreeNode *end)
         
     }
 
-    if (y == end) break;
+    if (y == end) {
+      break;
+    } else {
+      len++; /* allow for a space between intermediate terms */
+    }
     
   }
 
@@ -204,10 +214,19 @@ build_string_from_nodes(TreeNode *start, TreeNode *end)
         strcat(result, y->data.cmene.word);
         break;
         
+      case N_ZOI:
+        strcat(result, "zoi+\"");
+        strcat(result, y->data.zoi.text);
+        strcat(result, "\"");
+        break;
+        
+      case N_ZO:
+        strcat(result, "zo+");
+        strcat(result, y->data.zo.text);
+        break;
+
       case N_NONTERM:
       case N_MARKER:
-      case N_ZOI:
-      case N_ZO:
       case N_LOhU:
       case N_BU:
         assert(0);
@@ -215,7 +234,11 @@ build_string_from_nodes(TreeNode *start, TreeNode *end)
         
     }
     
-    if (y == end) break;
+    if (y == end) {
+      break;
+    } else {
+      strcat(result, " ");
+    }
     
   }
   
@@ -487,8 +510,19 @@ handle_bu(void)
           }
           break;
 
-        case N_NONTERM:
         case N_LOhU:
+          {
+            int len = strlen(y->data.lohu.text);
+            len += 11;
+            x->data.bu.word = new_array(char, len);
+            strcpy(x->data.bu.word, "lo'u-");
+            strcat(x->data.bu.word, y->data.lohu.text);
+            strcat(x->data.bu.word, "-le'u");
+          }
+          break;
+        
+
+        case N_NONTERM:
         case N_MARKER:
           assert(0);
           break;
