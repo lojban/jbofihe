@@ -1149,6 +1149,20 @@ static void print_attribute_table(void)/*{{{*/
 
 }
 /*}}}*/
+static void write_next_state_function_uncompressed(int Nt)/*{{{*/
+{
+  extern char *prefix;
+  if (prefix) {
+    fprintf(output, "int %s_next_state(int current_state, int next_token) {\n", prefix);
+    fprintf(output, "  return %s_trans[%d*current_state + next_token];\n", prefix, Nt); 
+    fprintf(output, "}\n");
+  } else {
+    fprintf(output, "int next_state(int current_state, int token) {\n");
+    fprintf(output, "  return trans[%d*current_state + next_token];\n", Nt); 
+    fprintf(output, "}\n");
+  }
+}
+/*}}}*/
 static void print_uncompressed_tables(Block *b)/*{{{*/
 /* Print out the state/transition table uncompressed, i.e. every
    token has an array entry in every state.  This is fast to access
@@ -1181,17 +1195,8 @@ static void print_uncompressed_tables(Block *b)/*{{{*/
 
   fprintf(output, "\n};\n\n");
 
-  if (prefix) {
-    char *p;
-    strcpy(ucprefix, prefix);
-    for (p=ucprefix; *p; p++) {
-      *p = toupper(*p);
-    }
-    fprintf(output, "#define NEXT_%s_STATE(s,t) %s_trans[%d*(s)+(t)]\n",
-           ucprefix, prefix, Nt);
-  } else {
-    fprintf(output, "#define NEXT_STATE(s,t) trans[%d*(s)+(t)]\n", Nt);
-  }
+  write_next_state_function_uncompressed(Nt);
+  
 }
 /*}}}*/
 static int check_include_char(int this_state, int token)/*{{{*/
@@ -1204,7 +1209,7 @@ static int check_include_char(int this_state, int token)/*{{{*/
   }
 }
 /*}}}*/
-static void write_next_state_function(void)/*{{{*/
+static void write_next_state_function_compressed(void)/*{{{*/
 /* Write the next_state function for traversing compressed tables into the
    output file. */
 {
@@ -1221,7 +1226,7 @@ static void write_next_state_function(void)/*{{{*/
     fprintf(output, "    if (xm > next_token) h = m;\n");
     fprintf(output, "    else                 l = m;\n");
     fprintf(output, "  }\n");
-    fprintf(output, "  current_state = %s_defstate[current_state]\n", prefix);
+    fprintf(output, "  current_state = %s_defstate[current_state];\n", prefix);
     fprintf(output, "}\n");
     fprintf(output, "return -1;\n");
     fprintf(output, "done:\n");
@@ -1239,7 +1244,7 @@ static void write_next_state_function(void)/*{{{*/
     fprintf(output, "    if (xm > next_token) h = m;\n");
     fprintf(output, "    else                 l = m;\n");
     fprintf(output, "  }\n");
-    fprintf(output, "  current_state = defstate[current_state]\n");
+    fprintf(output, "  current_state = defstate[current_state];\n");
     fprintf(output, "}\n");
     fprintf(output, "return -1;\n");
     fprintf(output, "done:\n");
@@ -1346,7 +1351,7 @@ static void print_compressed_tables(Block *b)/*{{{*/
   
   free(basetab);
 
-  write_next_state_function();
+  write_next_state_function_compressed();
 }
 /*}}}*/
 /* ================================================================= */
