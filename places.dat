@@ -1607,8 +1607,8 @@ fanva4:D;source language* for translation
 fanva5:D;result* of translation
 #
 # x1 (event) annoys/irritates/bothers/distracts x2                                                
-#fanza1:DSAP;
-#fanza2:DSAP;
+fanza1:A;annoy
+fanza2:P;annoyed
 #
 # x1 opposes/balances/contends against opponent(s) x2 (person/force ind./mass) about x3 (abstract)
 #fapro1:DSAP;
