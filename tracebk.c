@@ -129,7 +129,7 @@ report_trace_error(short *yyss, short *yyssp)
     }
   
     /* Print out which tokens would have been possible */
-    fprintf(stderr,"\nTypes of word that would have been valid here :\n  ");
+    fprintf(stderr,"\nNext word class could be :\n  ");
     r1 = shift_in_state_index[*yyssp], r2 = shift_in_state_index[*yyssp+1];
     is_first = 1;
     for (r=r1; r<r2; r++) {
