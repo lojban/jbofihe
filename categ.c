@@ -80,6 +80,9 @@ static void categorize_jek(TreeNode *head)/*{{{*/
       if (cmtest(y, NA)) y = y->prev;
       /* Need to insert new token after y */
       insert_marker_after(y, PRIVATE_START_JEK, "PRIVATE_START_JEK");
+      y = x->next;
+      if (cmtest(y, NAI)) y = y->next;
+      insert_marker_before(y, PRIVATE_END_JEK, "PRIVATE_END_JEK");
     }
 
   }
@@ -170,6 +173,45 @@ static void categorize_joik(TreeNode *head)/*{{{*/
   
 }
 /*}}}*/
+static int backup_over_jek_joik(TreeNode **xx, TreeNode *head)/*{{{*/
+{
+  TreeNode *x;
+  x = *xx;
+  if (x != head) {
+    if (mkrtest(x, PRIVATE_END_JOIK)) {
+      while (1) {
+        x = x->prev;
+        assert (x != head);
+        if (mkrtest(x, PRIVATE_START_JOIK)) {
+          *xx = x->prev;
+          if (*xx == head) {
+            return 0;
+          } else {
+            return 1;
+          }
+        }
+      }
+    } else if (mkrtest(x, PRIVATE_END_JEK)) {
+      while (1) {
+        x = x->prev;
+        assert (x != head);
+        if (mkrtest(x, PRIVATE_START_JEK)) {
+          *xx = x->prev;
+          if (*xx == head) {
+            return 0;
+          } else {
+            return 1;
+          }
+        }
+      }
+    } else {
+      return 0;
+    }
+  } else {
+    return 0;
+  }
+}
+/*}}}*/
 static void categorize_gek(TreeNode *head) {/*{{{*/
   TreeNode *x, *y;
 
@@ -185,14 +227,30 @@ static void categorize_gek(TreeNode *head) {/*{{{*/
       
       if (mkrtest(x->prev, PRIVATE_END_TENSE)) {
         TreeNode *z;
-        for (z=x->prev; z!=head; z=z->prev) {
+        z = x->prev;
+    seek_start_tense:
+        for (; ; z=z->prev) {
+          assert (z != head);
           if (mkrtest(z, PRIVATE_START_TENSE)) {
-            /* Insert START_GEK before z */
-            insert_marker_before(z, PRIVATE_START_GEK, "PRIVATE_START_GEK");
-            break;
+            TreeNode *y;
+            y = z->prev;
+            if (backup_over_jek_joik(&y, head)) {
+              if (mkrtest(y, PRIVATE_END_TENSE)) {
+                z = y->prev;
+                goto seek_start_tense;
+              } else {
+                /* Not sure if this would ever happen, when else would jek or
+                 * joik precede a stag?  Anyway, the gek starts before the last
+                 * stag we found. */
+                insert_marker_before(z, PRIVATE_START_GEK, "PRIVATE_START_GEK");
+                break;
+              }
+            } else {
+              insert_marker_before(z, PRIVATE_START_GEK, "PRIVATE_START_GEK");
+              break;
+            }
           }
         }
-
       } else {
         /* categorize_joik is done before this, so just match the markers */
         TreeNode *z;
@@ -350,13 +408,12 @@ static TreeNode *straddle_jek(TreeNode *x) /*{{{*/
 {
   /* Expect to be looking at the start of a jek, then scan over it */
   if (mkrtest(x, PRIVATE_START_JEK)) {
-    x = x->next;
-    if (cmtest(x, NA)) x = x->next;
-    if (cmtest(x, SE)) x = x->next;
-    assert(cmtest(x, JA)); /* If this is wrong, categorize_jek is borked */
-    x = x->next;
-    if (cmtest(x, NAI)) return x->next;
-    else                return x;
+    while (1) {
+      x = x->next;
+      if (mkrtest(x, PRIVATE_END_JEK)) {
+        return x->next;
+      }
+    }
   } else {
     return NULL;
   }
