@@ -968,15 +968,19 @@ ckunu3:D;pine cone
 #clani3:DSAP;
 #
 # x1 is without/lacking/free of/lacks x2; x1 is x2-less                                           
-#claxu1:DSAP;
+claxu1:A;lack
+claxu2:P;lacked
 #
 # x1 is a moss/lichen of species/strain x2 growing on x3; (adjective:) x1 is mossy                
-#clika1:DSAP;
-#clika2:DSAP;
+clika1:S;lichen
+clika1a:mossy
+clika2:S;lichen species
+clika3:R;grown on by lichen
 #
 # x1 (event) is early by standard x2                                                              
-#clira1:DSAP;
-#clira2:DSAP;
+clira1:P;early
+clira2:S;standard of earliness
+clira2t:by standard
 #
 # x1 is polite/courteous/civil in matter x2 according to standard/custom x3                       
 #clite1:DSAP;
@@ -2474,8 +2478,8 @@ jgari4t:held at
 #jibni3:DSAP;
 #
 # x1 is a job/occupation/employment/vocation (a type of work regularly done for pay) of person x2 
-#jibri1:DSAP;
-#jibri2:DSAP;
+jibri1:D;occupation
+jibri2:D;employed person
 #
 # x1 (object, or event: force) stirs/mixes/[roils/agitates] fluid (gas/liquid) x2                 
 #jicla1:DSAP;
@@ -2560,8 +2564,8 @@ jinvi3:D;subject* of opinion
 jinvi4:S;grounds for opinion
 #
 # x1 (property - ka) is an innate/inherent/intrinsic/natural property/quality/aspect of x2        
-#jinzi1:DSAP;
-#jinzi2:DSAP;
+jinzi1:P;innate
+jinzi2:R;with innate property
 #
 # x1 is a chicken/[hen/cock/rooster]/small fowl [a type of bird] of species/breed x2              
 #jipci1:DSAP;
@@ -2587,7 +2591,7 @@ jinvi4:S;grounds for opinion
 #
 # x1 has control over/harnesses/manages/directs/conducts x2 in x3 (activity/event/performance)    
 jitro1:A;control
-jitro2:P;under control
+jitro2:R;under control
 jitro3:D;controlled activity
 #
 # x1 weaves x2 from material/[yarn] x3                                                            
@@ -3672,10 +3676,10 @@ mentu3t:by standard
 #mifra3:DSAP;
 #
 # x1 doctors/treats/nurses/[cures]/is physician/midwife to x2 for ailment x3 by treatment/cure x4 
-#mikce1:DSAP;
-#mikce2:DSAP;
-#mikce3:DSAP;
-#mikce4:DSAP;
+mikce1:D;doctor
+mikce2:R;treated
+mikce3:D;ailment
+mikce4:D;treatment
 #
 # x1 is a millionth [1x10**-6] of x2 in dimension/aspect x3 (default is units)                    
 #mikri1:DSAP;
@@ -3718,7 +3722,7 @@ minra4:D;form* of reflection
 minra4t:form
 #
 # x1 is the same/identical thing as x2 by standard x3; (x1 and x2 interchangeable)                
-mintu1:P;indentical
+mintu1:P;identical
 mintu2:D;identical reference
 mintu2t:identical to
 mintu3:standard for being identical
@@ -4025,9 +4029,10 @@ nirna1:D;nerve
 nirna2:D;body* having nerve
 #
 # x1 needs/requires/is dependent on/[wants] necessity x2 for purpose/action/stage of process x3   
-#nitcu1:DSAP;
-#nitcu2:DSAP;
-#nitcu3:DSAP;
+nitcu1:R;with need
+nitcu2:R;needed
+nitcu3:D;purpose* of need
+nitcu3t:for purpose
 #
 # x1 (agent) knits x2 [cloth/object] from yarn/thread x3                                          
 #nivji1:DSAP;
@@ -4792,9 +4797,9 @@ rinsa3t:manner
 #rutni1:DSAP;
 #
 # x1 [source] provides/supplies/furnishes x2 [supply/commodity] to x3 [recipient]                 
-#sabji1:DSAP;
-#sabji2:DSAP;
-#sabji3:DSAP;
+sabji1:A;provide
+sabji2:R;provided
+sabji3:D;recipient
 #
 # x1 is a cabin of vehicle x2                                                                     
 #sabnu1:DSAP;
@@ -5242,9 +5247,10 @@ smuni2:P;interpreted
 smuni3:A;accept* meaning
 #
 # x1 [agent] succeeds in/achieves/completes/accomplishes x2 as a result of effort/attempt/try x3  
-#snada1:DSAP;
-#snada2:DSAP;
-#snada3:DSAP;
+snada1:A;succeed
+snada2:D;accomplishment
+snada3:D;successful effort
+snada3t:by effort
 #
 # x1 is to the south/southern side of x2 according to frame of reference x3                       
 snanu1:P;to the south
@@ -5455,9 +5461,10 @@ stali2t:at place(s)
 #steba2:DSAP;
 #
 # x1 (ka) is specific/particular/specialized/[special]/a defining property of x2 among x3 (set)   
-#steci1:DSAP;
-#steci2:DSAP;
-#steci3:DSAP;
+steci1:P;specific
+steci2:P;special
+steci3:D;set* with special member
+steci3t:amongst
 #
 # x1 is a/the head [body-part] of x2; [metaphor: uppermost portion]                               
 #stedu1:DSAP;
