@@ -8,7 +8,7 @@
 /* COPYRIGHT */
 
 /* Define to get lots of extra debug info */
-/* #define TRACE_SR 1 */
+#define TRACE_SR 0
 
 #define YYSTYPE TreeNode *
 
@@ -327,7 +327,7 @@ elide_trace_shift(int yystate, int yychar)
 {
   if (!show_elisions) return;
 
-#ifdef TRACE_SR
+#if TRACE_SR
   printf("Shift called in state %d\n", yystate);
 #endif
 
@@ -345,7 +345,7 @@ elide_trace_shift(int yystate, int yychar)
       putchar('\n');
     }
 
-#ifdef TRACE_SR
+#if TRACE_SR
   printf("Got here, shift sp=n\n");
 #endif
     
@@ -377,7 +377,7 @@ elide_trace_shift(int yystate, int yychar)
     }
   } else {
     int i;
-#ifdef TRACE_SR
+#if TRACE_SR
   printf("Got here, shift sp!=n, state=%d\n", yystate);
 #endif
     for (i=tokbuf.rp; i<tokbuf.n; i++) {
@@ -385,7 +385,7 @@ elide_trace_shift(int yystate, int yychar)
         /* Because it's a separator rather than a terminator, CU needs
            special treatment, because there will be a state where it conflicts
            with the following token for shifting. */
-#ifdef TRACE_SR
+#if TRACE_SR
         int t1, t2, t3;
         t1 = (i == tokbuf.n - 1);
         t2 = (tokbuf.sp == tokbuf.n - 1);
@@ -399,8 +399,8 @@ elide_trace_shift(int yystate, int yychar)
           /* Default case, set hazard flag.
              Beware, use old value of tokbuf.sp (reverse effect of earlier
              increment). */
-#ifdef TRACE_SR
-        printf("Got here 2, setting [%d,%d]\n", i, tokbuf.sp-1);
+#if TRACE_SR
+        printf("Got here 2, setting [%d,%d] in state %d\n", i, tokbuf.sp-1, yystate);
 #endif
           set_flag(i, tokbuf.sp-1);
 
@@ -430,7 +430,7 @@ elide_trace_reduce(int yystate, int yyn)
        shift based on the lookahead token type.  Consequently, there is no
        option of shifting a token further on in the chain. */
 
-#ifdef TRACE_SR
+#if TRACE_SR
     printf("Reduce called in state %d, no check\n", yystate);
 #endif
     return;
@@ -439,13 +439,13 @@ elide_trace_reduce(int yystate, int yyn)
   /* Otherwise, check which later tokens could have shifted in the state being
      reduced.  Any that can shift will imply the need for an earlier token to
      be present to guard against the shift happening */
-#ifdef TRACE_SR
+#if TRACE_SR
   printf("Reduce called in state %d\n", yystate);
 #endif
   for (i=tokbuf.rp; i<tokbuf.n; i++) {
     if (can_shift_in_state(yystate, tokbuf.buf[i].value)) {
-#ifdef TRACE_SR
-        printf("Got here 3, setting [%d,%d]\n", i, tokbuf.sp);
+#if TRACE_SR
+        printf("Got here 3, setting [%d,%d] in state %d\n", i, tokbuf.sp, yystate);
 #endif
       set_flag(i, tokbuf.sp);
     }
