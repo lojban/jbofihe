@@ -51,8 +51,8 @@ BM  {BM1}|{BM2}|{BM3}
 (\.?{LC}*{C})\.?    { gather_cmene(yytext); }
 {L}+                { gather_fallthru(yytext); }
 [ \t]+              { /* discard */ }
-\n                  { /* discard */ }
-\n\n+               { gather_newline(); }
+\r?\n               { /* discard */ }
+\r?\n(\r?\n)+       { gather_newline(); }
 [([]                { pdepth++; BEGIN PAREN; gather_paren(yytext); }
 
 <PAREN>[[(]         { ++pdepth; gather_paren(yytext); }
