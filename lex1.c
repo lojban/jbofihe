@@ -192,7 +192,8 @@ process_cmene(char *buf, int start_line, int start_column,
     *q = 0;
     for (p=ladoi, q=labuf, len2=0; p!=tail; len2++) *q++ = *p++;
     *q = 0;
-    process_word(prefix, start_line, start_column);
+
+    if (prefix[0]) process_word(prefix, start_line, start_column);
     process_word(labuf, start_line, start_column+len1);
     process_word(tail, start_line, start_column+len1+len2);
   } else {
