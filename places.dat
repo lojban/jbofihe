@@ -168,10 +168,10 @@ bebna1:P;foolish
 #bemro2:DSAP;
 #
 # x1 is a crew/team/gang/squad/band of persons x2 directed/led by x3 organized for purpose x4     
-#bende1:DSAP;
-#bende2:DSAP;
-#bende3:DSAP;
-#bende4:DSAP;
+bende1:D;team
+bende2:D;team member
+bende3:D;team leader
+bende4:D;team purpose
 #
 # x1 reflects Bengali/Bangladesh culture/nationality/language in aspect x2                        
 #bengo1:DSAP;
@@ -203,8 +203,9 @@ berti3t:reference frame
 #betfu2:DSAP;
 #
 # x1 is a tragedy/disaster/tragic for x2                                                          
-#betri1:DSAP;
-#betri2:DSAP;
+betri1:D;tragedy
+betri2:A;suffer* tragedy
+betri2t:sufferer
 #
 # x1 carries/hauls/bears/transports cargo x2 to x3 from x4 over path x5; x1 is a carrier/[porter] 
 bevri1:A;carry
