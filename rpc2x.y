@@ -99,7 +99,6 @@
 %token ME
 %token MEhU
 %token MOhE
-%token MOhE
 %token MOhI
 %token MOI
 %token NA
@@ -2143,96 +2142,116 @@ free<32> = SEI # [terms [CU #]] selbri /SEhU/ | SOI # sumti [sumti] /SEhU/ |
         XI # VEI # mex /VEhO/
 */
 
-free : SEI free_seq terms CU free_seq selbri SEhU
-     | SEI free_seq terms CU free_seq selbri /* ET */
-     | SEI free_seq terms CU          selbri SEhU
-     | SEI free_seq terms CU          selbri /* ET */
-     | SEI free_seq terms             selbri SEhU
-     | SEI free_seq terms             selbri /* ET */
-     | SEI free_seq                   selbri SEhU
-     | SEI free_seq                   selbri /* ET */
-
-     | SEI          terms CU free_seq selbri SEhU
-     | SEI          terms CU free_seq selbri /* ET */
-     | SEI          terms CU          selbri SEhU
-     | SEI          terms CU          selbri /* ET */
-     | SEI          terms             selbri SEhU
-     | SEI          terms             selbri /* ET */
-     | SEI                            selbri SEhU
-     | SEI                            selbri /* ET */
-
-     | SOI free_seq sumti sumti SEhU
-     | SOI free_seq sumti sumti /* ET */
-     | SOI free_seq sumti       SEhU
-     | SOI free_seq sumti /* ET */
-     | SOI          sumti sumti SEhU
-     | SOI          sumti sumti /* ET */
-     | SOI          sumti       SEhU
-     | SOI          sumti /* ET */
-
-     | vocative relative_clauses selbri relative_clauses DOhU
-     | vocative relative_clauses selbri relative_clauses /* ET */
-     | vocative relative_clauses selbri                  DOhU
-     | vocative relative_clauses selbri /* ET */
-     | vocative                  selbri relative_clauses DOhU
-     | vocative                  selbri relative_clauses /* ET */
-     | vocative                  selbri                  DOhU
-     | vocative                  selbri /* ET */
-
-     | vocative relative_clauses CMENE_seq free_seq relative_clauses DOhU
-     | vocative relative_clauses CMENE_seq free_seq relative_clauses /* ET */
-     | vocative relative_clauses CMENE_seq free_seq                  DOhU
-     | vocative relative_clauses CMENE_seq free_seq /* ET */
-
-     | vocative                  CMENE_seq free_seq relative_clauses DOhU
-     | vocative                  CMENE_seq free_seq relative_clauses /* ET */
-     | vocative                  CMENE_seq free_seq                  DOhU
-     | vocative                  CMENE_seq free_seq /* ET */
-
-     | vocative relative_clauses CMENE_seq          relative_clauses DOhU
-     | vocative relative_clauses CMENE_seq          relative_clauses /* ET */
-     | vocative relative_clauses CMENE_seq                           DOhU
-     | vocative relative_clauses CMENE_seq          /* ET */
-
-     | vocative                  CMENE_seq          relative_clauses DOhU
-     | vocative                  CMENE_seq          relative_clauses /* ET */
-     | vocative                  CMENE_seq                           DOhU
-     | vocative                  CMENE_seq          /* ET */
-
-     | vocative sumti DOhU
-     | vocative sumti /* ET */
-     | vocative       DOhU
-     | vocative /* ET */
-
-     | NUMBER_MAI number       MAI
-     | NUMBER_MAI lerfu_string MAI
-
-     | TO text TOI
-     | TO text /* ET */
-
-     | XI free_seq number       BOI
-     | XI free_seq number /* ET */
-     | XI          number       BOI
-     | XI          number /* ET */
-     | XI free_seq lerfu_string BOI
-     | XI free_seq lerfu_string /* ET */
-     | XI          lerfu_string BOI
-     | XI          lerfu_string /* ET */
-
-     | XI free_seq VEI free_seq mex VEhO
-     | XI free_seq VEI free_seq mex /* ET */
-     | XI free_seq VEI          mex VEhO
-     | XI free_seq VEI          mex /* ET */
-     | XI          VEI free_seq mex VEhO
-     | XI          VEI free_seq mex /* ET */
-     | XI          VEI          mex VEhO
-     | XI          VEI          mex /* ET */
-
-     ;
-
 free_seq : free_seq free
          |          free
          ;
+
+free : metalinguistic
+     | reciprocity
+     | free_vocative
+     | utterance_ordinal
+     | parenthetical
+     | subscript
+     ;
+
+
+metalinguistic : SEI free_seq terms CU free_seq metalinguistic_main_selbri SEhU
+               | SEI free_seq terms CU free_seq metalinguistic_main_selbri /* ET */
+               | SEI free_seq terms CU          metalinguistic_main_selbri SEhU
+               | SEI free_seq terms CU          metalinguistic_main_selbri /* ET */
+               | SEI free_seq terms             metalinguistic_main_selbri SEhU
+               | SEI free_seq terms             metalinguistic_main_selbri /* ET */
+               | SEI free_seq                   metalinguistic_main_selbri SEhU
+               | SEI free_seq                   metalinguistic_main_selbri /* ET */
+
+               | SEI          terms CU free_seq metalinguistic_main_selbri SEhU
+               | SEI          terms CU free_seq metalinguistic_main_selbri /* ET */
+               | SEI          terms CU          metalinguistic_main_selbri SEhU
+               | SEI          terms CU          metalinguistic_main_selbri /* ET */
+               | SEI          terms             metalinguistic_main_selbri SEhU
+               | SEI          terms             metalinguistic_main_selbri /* ET */
+               | SEI                            metalinguistic_main_selbri SEhU
+               | SEI                            metalinguistic_main_selbri /* ET */
+               ;
+
+metalinguistic_main_selbri : selbri
+                           ;
+
+reciprocity : SOI free_seq sumti sumti SEhU
+            | SOI free_seq sumti sumti /* ET */
+            | SOI free_seq sumti       SEhU
+            | SOI free_seq sumti /* ET */
+            | SOI          sumti sumti SEhU
+            | SOI          sumti sumti /* ET */
+            | SOI          sumti       SEhU
+            | SOI          sumti /* ET */
+            ;
+
+
+free_vocative : vocative relative_clauses selbri relative_clauses DOhU
+              | vocative relative_clauses selbri relative_clauses /* ET */
+              | vocative relative_clauses selbri                  DOhU
+              | vocative relative_clauses selbri /* ET */
+              | vocative                  selbri relative_clauses DOhU
+              | vocative                  selbri relative_clauses /* ET */
+              | vocative                  selbri                  DOhU
+              | vocative                  selbri /* ET */
+
+              | vocative relative_clauses CMENE_seq free_seq relative_clauses DOhU
+              | vocative relative_clauses CMENE_seq free_seq relative_clauses /* ET */
+              | vocative relative_clauses CMENE_seq free_seq                  DOhU
+              | vocative relative_clauses CMENE_seq free_seq /* ET */
+
+              | vocative                  CMENE_seq free_seq relative_clauses DOhU
+              | vocative                  CMENE_seq free_seq relative_clauses /* ET */
+              | vocative                  CMENE_seq free_seq                  DOhU
+              | vocative                  CMENE_seq free_seq /* ET */
+
+              | vocative relative_clauses CMENE_seq          relative_clauses DOhU
+              | vocative relative_clauses CMENE_seq          relative_clauses /* ET */
+              | vocative relative_clauses CMENE_seq                           DOhU
+              | vocative relative_clauses CMENE_seq          /* ET */
+
+              | vocative                  CMENE_seq          relative_clauses DOhU
+              | vocative                  CMENE_seq          relative_clauses /* ET */
+              | vocative                  CMENE_seq                           DOhU
+              | vocative                  CMENE_seq          /* ET */
+
+              | vocative sumti DOhU
+              | vocative sumti /* ET */
+              | vocative       DOhU
+              | vocative /* ET */
+              ;
+
+utterance_ordinal : NUMBER_MAI number       MAI
+                  | NUMBER_MAI lerfu_string MAI
+                  ;
+
+parenthetical : TO text TOI
+              | TO text /* ET */
+              ;
+
+subscript : XI free_seq number       BOI
+          | XI free_seq number /* ET */
+          | XI          number       BOI
+          | XI          number /* ET */
+          | XI free_seq lerfu_string BOI
+          | XI free_seq lerfu_string /* ET */
+          | XI          lerfu_string BOI
+          | XI          lerfu_string /* ET */
+
+          | XI free_seq VEI free_seq mex VEhO
+          | XI free_seq VEI free_seq mex /* ET */
+          | XI free_seq VEI          mex VEhO
+          | XI free_seq VEI          mex /* ET */
+          | XI          VEI free_seq mex VEhO
+          | XI          VEI free_seq mex /* ET */
+          | XI          VEI          mex VEhO
+          | XI          VEI          mex /* ET */
+          ;
+
+
+
 
 /*
 vocative<415> = (COI [NAI]) ... & DOI
