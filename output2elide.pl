@@ -8,6 +8,18 @@
 # COPYRIGHT
 
 while (<>) {
+    last if (/^Grammar/);
+}
+
+$losubscript = $hisubscript = undef;
+
+while (<>) {
+    # Read rules
+    if (/^rule\s+([0-9]+)\s+subscript/) {
+        $losubscript = $1 unless (defined $losubscript);
+        $hisubscript = $1;
+    }
+
     if (/^Terminals, with rules/) {
         $_ = <STDIN>;
         last;
@@ -84,6 +96,9 @@ for $s (0 .. $state) {
     print "/* state $s */\n";
 }
 print "};\n\n";
+# Write the highest and lowest rules defining subscripts
+print "#define LO_SUBSCRIPT $losubscript\n";
+print "#define HI_SUBSCRIPT $hisubscript\n";
 
     
 
