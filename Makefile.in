@@ -184,7 +184,7 @@ clean:
         *.dict uncom.c uncom.o uncom \
         morf_lex.c morfvlex.c morf_enc.c morf*_dfa.c \
         elitabs.c trcftabs.c trctabs.c \
-        stag.c stag.h \
+        stag.c stag.h stag.tab.c stag.tab.h \
         rpc2x_nc.y rpc2x_act.y rpc_full_nc.y rpc_full_act.y \
         canonluj.inc version.h \
         nonterm.*
@@ -207,11 +207,11 @@ install : jbofihe smujajgau cmafihe jvocuhadju $(DICTNAME)
 
 main.o: main.c nodes.h nonterm.h functions.h output.h version.h
 lex1.o: lex1.c cmavotab.h nodes.h nonterm.h functions.h output.h \
- lujvofns.h
+ lujvofns.h morf.h
 lex2.o: lex2.c functions.h nonterm.h nodes.h output.h cmavotab.h \
- rpc_tab.h
+ rpc_tab.h elide.h
 cmavotab.o: cmavotab.c cmavotab.h rpc_tab.h
-rpc.tab.o: rpc.tab.c nodes.h nonterm.h functions.h output.h
+rpc_tab.o: rpc_tab.c nodes.h nonterm.h functions.h output.h
 functions.o: functions.c functions.h nonterm.h nodes.h output.h \
  rpc_tab.h
 categ.o: categ.c nodes.h nonterm.h rpc_tab.h functions.h output.h \
@@ -243,6 +243,13 @@ textblk.o: textblk.c functions.h nonterm.h nodes.h output.h
 errorscan.o: errorscan.c functions.h nonterm.h nodes.h output.h
 canonluj.o: canonluj.c canonluj.h canonluj.inc
 lujvofns.o: lujvofns.c lujvofns.h
+erasure.o: erasure.c nodes.h nonterm.h rpc_tab.h functions.h output.h
+rpc_full.o: rpc_full.c nodes.h nonterm.h functions.h output.h
+morf.o: morf.c morf.h morf_lex.c morfvlex.c morf_dfa.c morfnc_dfa.c \
+ morf_enc.c
+tracebk.o: tracebk.c trctabs.c trcftabs.c
+elide.o: elide.c nodes.h nonterm.h rpc_tab.h cmavotab.h functions.h \
+ output.h elide.h elitabs.c
 cm_gather.o: cm_gather.c cm.h
 cm_output.o: cm_output.c cm.h
 cm_main.o: cm_main.c cm.h version.h
