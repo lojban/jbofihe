@@ -1148,16 +1148,58 @@ output_clustered(TreeNode *x, WhatToShow what)
 {
   char *cluster, *trans;
   char localtrans[256];
+  char lojbuf[256];
   int i, n;
   TreeNode *c;
   struct nonterm *nt;
+  XTenseCtx *ctx;
+
+  ctx = prop_tense_ctx(x, NO);
 
   cluster = get_cmavo_text_inside_node(x);
+  strcpy(lojbuf, cluster);
 
   /* May eventually want context dependence here since many of the
      cases are tag/tense sorts of thing */
 
-  trans = translate(cluster);
+  /* Letting X be the cmavo to be looked up are, the cases addressed
+     are :
+
+     TERM    : X le Y
+     NOUN    : le X Y
+     SELBRI  : le Z cu X Y
+     LINK    : i X bo Y
+     CONNECT : Y gi'e X bo Z
+     JAI     : le jai X Y
+
+     */
+
+  if (ctx) {
+    switch (ctx->ctx) {
+      case TSC_OTHER:
+        break;
+      case TSC_TERM:
+        strcat(lojbuf, "@TERM");
+        break;
+      case TSC_NOUN:
+        strcat(lojbuf, "@NOUN");
+        break;
+      case TSC_SELBRI:
+        strcat(lojbuf, "@SELBRI");
+        break;
+      case TSC_LINK:
+        strcat(lojbuf, "@LINK");
+        break;
+      case TSC_CONNECT:
+        strcat(lojbuf, "@CONNECT");
+        break;
+      case TSC_JAITAG:
+        strcat(lojbuf, "@JAI");
+        break;
+    }
+  }
+
+  trans = translate(lojbuf);
 
   if (trans) {
     strcpy(localtrans, trans);
