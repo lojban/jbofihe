@@ -44,6 +44,9 @@ int insert_elidables;
 /* Flag to allow cultural rafsi within lujvo (and as part of slinku'i test) */
 int allow_cultural_rafsi;
 
+/* Flag to display backtrace when a syntax error arises */
+int show_backtrace;
+
 /* Flag to show dictionary defects */
 int show_dictionary_defects;
 
@@ -105,6 +108,7 @@ show_usage(void)
                   "-m           Show memory usage statistics\n"
                   "-d           Show debug information\n"
                   "-dd          Report missing dictionary entries to stderr\n"
+                  "-bt          Show parser state backtrace when a syntax error occurs\n"
                   );
 }
 
@@ -143,6 +147,7 @@ main (int argc, char **argv)
   insert_elidables = 0;
   require_elidables = 0;
   allow_cultural_rafsi = 0;
+  show_backtrace = 0;
 
   show_dictionary_defects = 0;
 
@@ -179,6 +184,8 @@ main (int argc, char **argv)
       require_elidables = 1;
     } else if (!strcmp(*argv, "-cr")) {
       allow_cultural_rafsi = 1;
+    } else if (!strcmp(*argv, "-bt")) {
+      show_backtrace = 1;
     } else if (!strcmp(*argv, "-dd")) {
       show_dictionary_defects = 1;
     } else if (!strncmp(*argv, "-w", 2)) {
