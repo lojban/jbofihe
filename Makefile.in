@@ -136,22 +136,18 @@ txtman: jbofihe.txt cmafihe.txt smujajgau.txt jvocuhadju.txt vlatai.txt
 	groff -Tascii -man $< | perl -pe 'chomp; s/.\x8//g; $$_ .= "\r\n";' > $@
 
 dictionary : smujajgau
-	perl giscolon.pl < @@WORD-LISTS@@/gismu > gismu.dict
-	perl cmacolon.pl < @@WORD-LISTS@@/cmavo > cmavo.dict
-	perl lujvod.pl < @@WORD-LISTS@@/lujvo-list > lujvo.dict
-	perl oblik.pl < @@WORD-LISTS@@/oblique.key > oblik.dict
-	perl raf4l.pl < @@WORD-LISTS@@/gismu > raf4l.dict
-	perl rafobl.pl "@@WORD-LISTS@@/" > rafobl.dict
-	perl rafsid.pl < @@WORD-LISTS@@/rafsi > rafsid.dict
-	perl rafsig.pl < @@WORD-LISTS@@/rafsi > rafsig.dict
-	perl raf4lg.pl < @@WORD-LISTS@@/gismu > raf4lg.dict
-	perl selmao.pl < @@WORD-LISTS@@/cmavo > selmao.dict
-	perl lujvop.pl "@@WORD-LISTS@@/" < @@WORD-LISTS@@/lujvo-list > lujvop.dict
-	perl noralujv.pl "@@WORD-LISTS@@/" > noralujv.dict
-	./smujajgau $(DICTNAME) gismu.dict cmavo.dict lujvo.dict oblik.dict \
-		raf4l.dict rafobl.dict rafsid.dict rafsig.dict raf4lg.dict \
-		noralujv.dict selmao.dict \
-		extradict places.dat patterns
+	rm -f $(DICTNAME)
+	perl mkdict.pl > gismu_cmavo.dict
+	./smujajgau $(DICTNAME) gismu_cmavo.dict
+	if [ -r lujvo-list ]; then \
+        perl lujvod.pl < ./lujvo-list > lujvo.dict ;\
+        ./smujajgau $(DICTNAME) lujvo.dict ;\
+    fi
+	if [ -r NORALUJV.txt ]; then \
+        perl noralujv.pl > noralujv.dict ;\
+        ./smujajgau $(DICTNAME) noralujv.dict ;\
+    fi
+	./smujajgau $(DICTNAME) extradict places.dat patterns
 
 dictupdate : $(DICTNAME)
 
