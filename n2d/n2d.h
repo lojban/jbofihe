@@ -50,6 +50,7 @@ typedef struct State {
   struct Block *parent;
   Translist *transitions;
   Stringlist *exitvals;
+  Stringlist *attributes;
 
   /* Pointers to the nodes in the 'transitions' list, sorted into canonical order */
   Translist **ordered_trans;
@@ -89,8 +90,10 @@ typedef struct {
   unsigned long signature; /* All the longwords in the nfas array xor'ed together */
   int index; /* Entry's own index in the array */
   int *map; /* index by token code */
-  Stringlist *nfa_sl; /* NFA exit values */
-  char *result; /* Result token, computed by boolean expressions defined in input text */
+  Stringlist *nfa_exit_sl; /* NFA exit values */
+  Stringlist *nfa_attr_sl; /* NFA exit values */
+  char *result;    /* Result token, computed by boolean expressions defined in input text */
+  char *attribute; /* Attribute token, computed by boolean expressions defined in input text */
 
   /* Fields calculated in compdfa.c */
   
@@ -109,12 +112,13 @@ typedef struct {
   
   unsigned long transition_sig;
 
-  /* Default state, i.e. the one that supplies transitions for tokens not explicitly listed for this one. */
+  /* Default state, i.e. the one that supplies transitions for tokens not
+     explicitly listed for this one. */
   int defstate; 
-  /* Number of transitions that this state has different to those in the default state. */
-  int best_diff; 
-  
 
+  /* Number of transitions that this state has different to those in the
+     default state. */
+  int best_diff; 
 
 } DFANode;
 
@@ -137,12 +141,19 @@ Stringlist * add_token(Stringlist *existing, char *token);
 void add_transitions(State *curstate, Stringlist *tokens, char *destination);
 State * add_transitions_to_internal(Block *curblock, State *addtostate, Stringlist *tokens);
 void add_exit_value(State *curstate, char *value);
+void set_state_attribute(State *curstate, char *name);
 void instantiate_block(Block *curblock, char *block_name, char *instance_name);
 void fixup_state_refs(Block *b);
 
 void compress_nfa(Block *b);
 
+/* In expr.c */
 typedef struct Expr Expr;
+
+typedef struct evaluator Evaluator;
+extern Evaluator *exit_evaluator;
+extern Evaluator *attr_evaluator;
+
 Expr * new_wild_expr(void);
 Expr * new_not_expr(Expr *c);
 Expr * new_and_expr(Expr *c1, Expr *c2);
@@ -150,13 +161,16 @@ Expr * new_or_expr(Expr *c1, Expr *c2);
 Expr * new_xor_expr(Expr *c1, Expr *c2);
 Expr * new_cond_expr(Expr *c1, Expr *c2, Expr *c3);
 Expr * new_sym_expr(char *sym_name);
-void define_symbol(char *name, Expr *e);
-void define_result(char *string, Expr *e);
-void define_symresult(char *string, Expr *e);
-void define_defresult(char *string);
-void clear_symbol_values(void);
-void set_symbol_value(char *sym_name);
-int evaluate_result(char **);
+void define_symbol(Evaluator *x, char *name, Expr *e);
+void define_result(Evaluator *x, char *string, Expr *e);
+void define_symresult(Evaluator *x, char *string, Expr *e);
+void define_defresult(Evaluator *x, char *string);
+void clear_symbol_values(Evaluator *x);
+void set_symbol_value(Evaluator *x, char *sym_name);
+int evaluate_result(Evaluator *x, char **);
+void define_defresult(Evaluator *x, char *text);
+char* get_defresult(Evaluator *x);
+void eval_initialise(void);
 
 void compress_transition_table(DFANode **dfas, int ndfas, int ntokens);
 unsigned long increment(unsigned long x, int field);
