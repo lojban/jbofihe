@@ -1,17 +1,15 @@
 /***************************************
   $Header$
 
-  Routines for compressing the NFA by commoning-up equivalent states
+  Routines for merging and prioritising exit tags and attribute tags
   ***************************************/
 
 /* Copyright (C) Richard P. Curnow  2001 */
 /* LICENCE */
 
-/*
-  Handle boolean expressions used to determine the final scanner result
-  from the set of NFA accepting states that are simultaneously active
-  at the end of the scan.
-*/
+/* Handle boolean expressions used to determine the final scanner result from
+   the set of NFA accepting states that are simultaneously active at the end of
+   the scan.  */
 
 #include "n2d.h"
 
@@ -30,7 +28,7 @@ struct Expr {
     struct { struct Expr *c1, *c2, *c3; } cond; 
     struct { struct Expr *c1; } not; 
     struct { int pad; } wild; 
-    struct { struct Symbol *s; } symbol;
+    struct { char *name; struct Symbol *s; } symbol;
   } data;
 };
 
@@ -156,18 +154,16 @@ static Symbol *  find_symbol_or_create(char *sym_name)/*{{{*/
 /*}}}*/
 
 Expr * new_sym_expr(char *sym_name)/*{{{*/
-/*****************************************************************/
-/* Return expr for symbol name if it already exist, else create. */
-/*****************************************************************/
+/* Return expr for symbol name if it already exist, else create.  Don't bind to
+   actual symbol instance yet.  At the stage of parsing where this function is
+   used, we don't know yet which symbol table the symbol has to exist in.  */
 {
   Expr *r;
-  Symbol *s;
 
-  s = find_symbol_or_create(sym_name);
-  
   r = new(Expr);
   r->type = E_SYMBOL;
-  r->data.symbol.s = s;
+  r->data.symbol.name = new_string(sym_name);
+  r->data.symbol.s = NULL; /* Force binding at first use */
   return r; 
 }
 /*}}}*/
@@ -263,6 +259,10 @@ static int eval(Expr *e)/*{{{*/
     case E_SYMBOL:
       {
         Symbol *s = e->data.symbol.s;
+        if (!s) {
+          /* Not bound yet */
+          e->data.symbol.s = s = find_symbol_or_create(e->data.symbol.name);
+        }
         if (s->is_expr) {
           return eval(s->data.e);
         } else {
