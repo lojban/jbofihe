@@ -582,7 +582,7 @@ main (int argc, char **argv) {
   argv += 2;
 
   /* Try to read input database */
-  in = fopen(dbname, "r");
+  in = fopen(dbname, "rb");
   if (in) {
     fprintf(stderr, "Reading existing database ...\n");
     read_database(in);
@@ -595,7 +595,7 @@ main (int argc, char **argv) {
   if (*argv) {
     while (*argv) {
       fprintf(stderr, "Reading file %s ... \n", *argv);
-      in = fopen(*argv, "r");
+      in = fopen(*argv, "rb");
       if (!in) {
         fprintf(stderr, "Could not open %s\n", *argv);
       } else {
@@ -619,7 +619,7 @@ main (int argc, char **argv) {
   
   fprintf(stderr, "Write database ...\n");
 
-  out = fopen(dbname, "w");
+  out = fopen(dbname, "wb");
   if (!out) {
     fprintf(stderr, "Cannot open database file to write to\n");
     exit(1);
