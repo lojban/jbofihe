@@ -6,8 +6,15 @@
 # (Although not really needed in the distribution, this is bundled for
 # completeness and for 'disaster-recovery' purposes.)
 
+# This is set here rather than computed as runtime so that it is
+# version-controlled.  Otherwise, there is no way to guarantee being able to
+# recreate an old version if the year has incremented since the kit was last
+# built
+
+$year = 2001;
+
 @files = qx|find . -type f -print|;
-open(COPY, "<COPYRIGHT");
+open(COPY, "<LICINS");
 @copy=<COPY>;
 close(COPY);
 for $f (@files) {
@@ -18,17 +25,33 @@ for $f (@files) {
     open (OUT, ">$f");
     while (<IN>) {
 	if (m,\/\* COPYRIGHT \*\/,) {
+        # When the copyright string is not locally in the source file.  This is the default
+        # for most of the parts Richard wrote.
 	    print OUT "/**********************************************************************\n";
+        print OUT " * Copyright (C) Richard P. Curnow  1998-$year\n";
 	    for (@copy) {
-		print OUT " * ".$_;
+            print OUT " * ".$_;
 	    }
 	    print OUT " *********************************************************************/\n";
 	} elsif (m,\# COPYRIGHT,) {
 	    print OUT "#\n";
+        print OUT "# Copyright (C) Richard P. Curnow  1998-$year\n";
 	    for (@copy) {
-		print OUT "# ".$_;
+            print OUT "# ".$_;
 	    }
 	    print OUT "#\n";
+	} elsif (m,\/\* LICENCE \*\/,) {
+        # For the case where the copyright strings are in the file itself.  This may be
+        # the case with multiple contributors.
+	    for (@copy) {
+            print OUT " * ".$_;
+	    }
+	} elsif (m,\# LICENCE,) {
+        # For the case where the copyright strings are in the file itself.  This may be
+        # the case with multiple contributors.
+	    for (@copy) {
+            print OUT "# ".$_;
+	    }
 	} else {
 	    print OUT;
 	}
