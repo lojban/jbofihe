@@ -273,7 +273,7 @@ static void
 print_bracketed(TreeNode *x, int depth, State *state, Conversion conv)
 {
   int i, n;
-  TreeNode *y, *c1, *c2;
+  TreeNode *c1, *c2;
   Conversion child_conv;
   char *english;
   char buffer[2048];

@@ -601,7 +601,6 @@ find_nth_cmavo_child(TreeNode *x, int n, int selmao)
 TreeNode *
 strip_attitudinal(TreeNode *x)
 {
-  TreeNode *y;
   if (x->type == N_CMAVO) {
     return x;
   } else if (x->type == N_NONTERM) {

@@ -22,7 +22,6 @@ handle_si(TreeNode *toks)
 {
   TreeNode *x, *y, *nt, *z;
   TreeNode *ntt, *t;
-  TreeNode *a;
   int require, si_got;
 
   for (x = toks->next;

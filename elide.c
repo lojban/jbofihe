@@ -126,8 +126,7 @@ can_shift_in_state(int state, int value)
 static void
 clear_conflicts(void)
 {
-  int k, j, bank;
-  unsigned long mask;
+  int k, j;
   for (k = 0; k < tokbuf.n; k++) {
     for (j = 0; j <= (k>>5); j++) {
       tokbuf.conflicts[k][j] = 0UL;
@@ -309,7 +308,6 @@ emit_elidable_sequence(void)
 static void
 show_banner_for_minimal_paterns(void)
 {
-  int i;
   printf("The words ");
   emit_elidable_sequence();
   printf("could be safely reduced to any of these minimal patterns:\n");
@@ -430,8 +428,7 @@ elide_trace_shift(int yystate, int yychar)
 
   if (tokbuf.sp == tokbuf.n) {
     /* do reporting - the non-elidable has been shifted */
-    int i, j, any_set=0;
-    TreeNode *tok;
+    int i, any_set=0;
     int nn;
 
     /* Fix-up code for BOI & VEhO.  If one of these is followed by something
@@ -522,7 +519,6 @@ elide_trace_shift(int yystate, int yychar)
     } else if (any_set) {
       /* array of indices for elidables that must be kept */
       int *idxs = new_array(int, tokbuf.n); /* sized for worst case */
-      int i;
       int patcount = 1;
       show_minimal_elidables(tokbuf.n - 1, idxs, 0, tokbuf.n, &patcount);
       if (patcount > 1) printf("\n");
@@ -538,7 +534,7 @@ elide_trace_shift(int yystate, int yychar)
         /* Because it's a separator rather than a terminator, CU needs
            special treatment, because there will be a state where it conflicts
            with the following token for shifting. */
-        int offset, priv, t1, t2, t3;
+        int offset, t1, t2, t3;
         offset =  1;
         t1 = (i == tokbuf.n - offset);
         t2 = (tokbuf.sp == tokbuf.n - offset);
@@ -631,7 +627,6 @@ yylex(void)
   int old_n;
   int is_elidable;
   int is_boiveho;
-  int is_private;
 
   if (!show_elisions) {
     /* Minimalist approach, no need for the fancy buffering */
