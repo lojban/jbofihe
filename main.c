@@ -20,13 +20,15 @@ extern int yydebug;
 
 extern int yyparse(void);
 
-extern DriverVector latex_driver, textout_driver, html_driver;
+extern DriverVector latex_driver, latex_block_driver, textout_driver, html_driver;
 
 static int had_syntax_error;
 
 void yyerror(char *s) {
+  fprintf(stderr, "--------------------\n");
   fprintf(stderr, "%s\n", s);
   print_last_toks();
+  fprintf(stderr, "--------------------\n");
   had_syntax_error = 1;
 }
 
@@ -39,6 +41,7 @@ main (int argc, char **argv)
   int show_tree;
   int full_tree;
   int gloss;
+  int block;
   int latex;
   int textout;
   int htmlout;
@@ -51,6 +54,7 @@ main (int argc, char **argv)
   latex = 0;
   textout = 0;
   htmlout = 0;
+  block = 0;
 
   while (++argv, --argc) {
     if (!strcmp(*argv, "-d")) {
@@ -70,6 +74,8 @@ main (int argc, char **argv)
       textout = 1;
     } else if (!strcmp(*argv, "-h")) {
       htmlout = 1;
+    } else if (!strcmp(*argv, "-b")) {
+      block = 1;
     }
   }
 
@@ -116,7 +122,7 @@ main (int argc, char **argv)
       add_bracketing_tags(top);
 
       if (latex) {
-        do_output(top, &latex_driver);
+        do_output(top, block ? &latex_block_driver : &latex_driver);
       } else if (textout) {
         do_output(top, &textout_driver);
       } else if (htmlout) {
