@@ -335,8 +335,9 @@ bloti3:A;propel* boat/ship
 #bridi3:DSAP;
 #
 # x1 is a breeze/wind/gale from direction x2 with speed x3; x1 blows from x2                      
-#brife1:DSAP;
-#brife2:DSAP;
+brife1:D;wind
+brife2:D;wind direction
+brife3:D;wind speed
 #
 # x1 is an office/bureau/work-place of worker x2 at location x3                                   
 #briju1:DSAP;
@@ -368,8 +369,9 @@ bloti3:A;propel* boat/ship
 #brodu2:DSAP;
 #
 # x1 is brother of/fraternal to x2 by bond/tie/standard/parent(s) x3; [not necess. biological]    
-#bruna1:DSAP;
-#bruna2:DSAP;
+bruna1:D;brother
+bruna2:P;having brother
+bruna3:D;bond* of brotherhood
 #
 # x1 pertains to the Buddhist culture/religion/ethos in aspect x2                                 
 #budjo1:DSAP;
@@ -797,8 +799,8 @@ citno2:D;standard* for youth
 #ckafi2:DSAP;
 #
 # x1 has/is characterized by property/feature/trait/aspect/dimension x2 (ka); x2 is manifest in x1
-#ckaji1:DSAP;
-#ckaji2:DSAP;
+ckaji1:P;having property
+ckaji2:D;property
 #
 # x1 is a bed/pallet of material x2 for holding/supporting x3 (person/object/event)               
 #ckana1:DSAP;
@@ -1118,13 +1120,14 @@ cumla2:D;subject* of modesty
 #cuntu2:DSAP;
 #
 # x1 produces x2 [product] by process x3                                                          
-#cupra1:DSAP;
-#cupra2:DSAP;
-#cupra3:DSAP;
+cupra1:A;produce
+cupra2:D;product
+cupra3:D;production process
 #
 # x1 (agent) lets/permits/allows x2 (event) under conditions x3; x1 grants privilege x2           
-#curmi1:DSAP;
-#curmi2:DSAP;
+curmi1:A;allow
+curmi2:P;allowed
+curmi3:S;conditions for allowing
 #
 # x1 is a worm/invertebrate animal of species/breed x2                                            
 #curnu1:DSAP;
@@ -1369,10 +1372,10 @@ denpa4:D;paused activity
 #dilcu4:DSAP;
 #
 # x1 is a cloud of material x2 in air mass x3 at floor/base elevation x4                          
-#dilnu1:DSAP;
-#dilnu2:DSAP;
-#dilnu3:DSAP;
-#dilnu4:DSAP;
+dilnu1:D;cloud
+dilnu2:D;cloud material
+dilnu3:D;air mass* containing cloud
+dilnu4:D;cloud base
 #
 # x1 is a fate/destiny of x2; [doom, curse are mabla-forms]; x2 is fated/predestined/doomed to x1 
 #dimna1:DSAP;
@@ -1387,13 +1390,13 @@ denpa4:D;paused activity
 #dinko2:DSAP;
 #
 # x1 is dear/precious/darling to x2; x1 is emotionally valued by x2                               
-#dirba1:DSAP;
-#dirba2:DSAP;
+dirba1:P;precious
+dirba2:A;hold* something dear
 #
 # x1 radiates/emits x2 under conditions x3                                                        
-#dirce1:DSAP;
-#dirce2:DSAP;
-#dirce3:DSAP;
+dirce1:A;radiate
+dirce2:P;radiated
+dirce3:S;conditions for radiation
 #
 # x1 is a drop [small, cohesive shape] of material [liquid/vapor] x2 in surrounding material x3   
 #dirgo1:DSAP;
@@ -1406,7 +1409,7 @@ denpa4:D;paused activity
 #dizlo3:DSAP;
 #
 # x1 is made of/contains/is a quantity/expanse of water; (adjective:) x1 is aqueous/[aquatic]     
-#djacu1:DSAP;
+djacu1:S;water
 #
 # x1 is x2 full days in duration (default is 1 day) by standard x3; (adjective:) x1 is diurnal    
 djedi1:D;full day
@@ -1430,8 +1433,9 @@ djuno3:D;known subject*
 djuno4:D;epistemology for knowing
 #
 # x1 is the daytime of day x2 at location x3; (adjective:) x1 is diurnal (vs. nocturnal)          
-#donri1:DSAP;
-#donri2:DSAP;
+donri1:D;day-time
+donri2:D;day* having daytime
+donri3:D;location* of daytime
 #
 # x1 reflects German/Germanic culture/nationality/language in aspect x2                           
 #dotco1:DSAP;
@@ -1517,9 +1521,9 @@ drata3:D;standard* for being different
 #fadni3:DSAP;
 #
 # x1 is a fire/flame in fuel x2 burning-in/reacting-with oxidizer x3 (default air/oxygen)         
-#fagri1:DSAP;
-#fagri2:DSAP;
-#fagri3:DSAP;
+fagri1:S;fire
+fagri2:D;fuel
+fagri3:D;oxidizer
 #
 # x1 is a sail for gathering propelling material x2 on vehicle/motor x3                           
 #falnu1:DSAP;
@@ -1648,7 +1652,8 @@ fenki2:D;standard* for craziness
 #fepri3:DSAP;
 #
 # x1 is fertile/conducive for supporting the growth/development of x2; x1 is fruitful/prolific    
-#ferti1:DSAP;
+ferti1:P;fertile
+ferti2:P;having growth encouraged
 #
 # x1(s) is/are waste product(s) [left to waste] by x2 (event/activity)                            
 #festi1:DSAP;
@@ -1672,10 +1677,10 @@ fenki2:D;standard* for craziness
 #finpe2:DSAP;
 #
 # x1 invents/creates/composes/authors x2 for function/purpose x3 from existing elements/ideas x4  
-#finti1:DSAP;
-#finti2:DSAP;
-#finti3:DSAP;
-#finti4:DSAP;
+finti1:A;create
+finti2:D;creation
+finti3:S;purpose of creation
+finti4:S;elements in creation
 #
 # x1 is a law specifying x2 (state/event) for community x3 under conditions x4 by lawgiver(s) x5  
 #flalu1:DSAP;
@@ -1975,8 +1980,8 @@ grana2:S;rod material
 #grusi2:DSAP;
 #
 # x1 is a fruit [body-part] of species x2                                                         
-#grute1:DSAP;
-#grute2:DSAP;
+grute1:D;fruit
+grute2:S;fruit species
 #
 # x1 is public/un-hidden/open/jointly available to/owned by all among community x2 (mass)         
 #gubni1:DSAP;
@@ -3186,8 +3191,8 @@ limna2:S;fluid swum in
 #lunbe1:DSAP;
 #
 # x1 is Earth's moon (default); x1 is a major natural satellite/moon of planet x2                 
-#lunra1:DSAP;
-#lunra2:DSAP;
+lunra1:D;moon
+lunra2:D;planet* with moon
 #
 # x1 condenses/liquefies on/into x2 at temperature x3, pressure x4; x1 is dew/condensate on x2    
 #lunsa1:DSAP;
@@ -3226,7 +3231,8 @@ limna2:S;fluid swum in
 #malsi3:DSAP;
 #
 # x1 is a mother of x2; x1 bears/mothers/acts maternally toward x2; [not necessarily biological]  
-#mamta1:DSAP;
+mamta1:D;mother
+mamta2:P;having mother
 #
 # x1 feels wonder/awe/marvels about x2                                                            
 #manci1:DSAP;
@@ -3349,10 +3355,10 @@ limna2:S;fluid swum in
 #mekso2:DSAP;
 #
 # x1 is beautiful/pleasant to x2 in aspect x3 (ka) by aesthetic standard x4                       
-#melbi1:DSAP;
-#melbi2:DSAP;
-#melbi3:DSAP;
-#melbi4:DSAP;
+melbi1:P;beautiful
+melbi2:D;observer* of beauty
+melbi3:D;aspect* of beauty
+melbi4:S;standard of beauty
 #
 # x1 reflects Malaysian/Malay culture/nationality/language in aspect x2                           
 #meljo1:DSAP;
@@ -3707,8 +3713,9 @@ nenri2:D;container
 #nibli3:DSAP;
 #
 # x1 is a nighttime of day x2 at location x3; (adjective:) x1 is at night/nocturnal               
-#nicte1:DSAP;
-#nicte2:DSAP;
+nicte1:D;night-time
+nicte2:D;day* having night
+nicte3:D;location* of night
 #
 # x1 is made of/contains/is a quantity of nickel/other metal resistant to oxidation               
 #nikle1:DSAP;
@@ -3747,8 +3754,8 @@ nirna2:D;body* having nerve
 #nixli3:DSAP;
 #
 # x1 is noble/aristocratic/elite/high-born/titled in/under culture/society/standard x2            
-#nobli1:DSAP;
-#nobli2:DSAP;
+nobli1:P;noble
+nobli2:S;culture defining nobility
 #
 # x1 is a message/notice/memorandum about subject x2 from author x3 to intended audience x4       
 #notci1:DSAP;
@@ -3980,9 +3987,9 @@ pensi2:D;considered subject*
 #pilka2:DSAP;
 #
 # x1 uses/employs x2 [tool, apparatus, machine, agent, acting entity, material] for purpose x3    
-#pilno1:DSAP;
-#pilno2:DSAP;
-#pilno3:DSAP;
+pilno1:A;use
+pilno2:D;tool
+pilno3:D;purpose
 #
 # x1 is a/the feather/plume(s)/plumage [body-part] of animal/species x2                           
 #pimlu1:DSAP;
@@ -4757,9 +4764,9 @@ since2:D;snake breed
 #sinso2:DSAP;
 #
 # x1 is a sign/symbol/signal representing/referring/signifying/meaning x2 to observer x3          
-#sinxa1:DSAP;
-#sinxa2:DSAP;
-#sinxa3:DSAP;
+sinxa1:D;sign
+sinxa2:D;meaning* of sign
+sinxa3:D;observer* of sign
 #
 # x1 is asleep (adjective); x1 sleeps/is sleeping                                                 
 #sipna1:DSAP;
@@ -4973,8 +4980,8 @@ snura2:D;threat
 #solji2:DSAP;
 #
 # x1 is the sun of home planet x2 (default Earth) of race x3; (adjective:) x1 is solar            
-#solri1:DSAP;
-#solri2:DSAP;
+solri1:D;sun
+solri2:D;planet* with sun
 #
 # x1 sows/plants x2 [crop/plants] at/in x3                                                        
 #sombo1:DSAP;
@@ -5066,8 +5073,8 @@ snura2:D;threat
 #srana2:DSAP;
 #
 # x1 is a blade/expanse of grass of species x2                                                    
-#srasu1:DSAP;
-#srasu2:DSAP;
+srasu1:S;grass
+srasu2:S;grass species
 #
 # x1 errs in doing/being/making mistake x2 (event), an error under conditions x3 by standard x4   
 #srera1:DSAP;
@@ -5315,8 +5322,8 @@ tanxe3:S;box material
 #tarbi3:DSAP;
 #
 # x1 is a star/sun with stellar properties x2                                                     
-#tarci1:DSAP;
-#tarci2:DSAP;
+tarci1:D;star
+tarci2:D;stellar property
 #
 # x1 is a quantity of/contains/is made of tar/asphalt from source x2                              
 #tarla1:DSAP;
@@ -5400,7 +5407,8 @@ tcidu3:D;reading material
 #tcila2:DSAP;
 #
 # x1 is weather at place/region x2; (adjective:) x1 is meteorological                             
-#tcima1:DSAP;
+tcima1:S;weather
+tcima2:D;location* of weather
 #
 # x1 [state/property] is a situation/condition/state/position/are conditions/circumstances of x2  
 #tcini1:DSAP;
@@ -5564,9 +5572,9 @@ tilju2:S;standard of heaviness
 #troci3:DSAP;
 #
 # x1 is strong/powerful/[tough] in property/quality x2 (ka) by standard x3                        
-#tsali1:DSAP;
-#tsali2:DSAP;
-#tsali3:DSAP;
+tsali1:P;strong
+tsali2:S;strong property
+tsali3:S;standard of strength
 #
 # x1 is an expanse of sky/the heavens at place x2; [celestial]                                    
 tsani1:D;sky
@@ -5642,9 +5650,9 @@ turni2:P;governed
 #tutra2:DSAP;
 #
 # x1 is a quantity of air/normally-gaseous atmosphere of planet x2, of composition including x3   
-#vacri1:DSAP;
-#vacri2:DSAP;
-#vacri3:DSAP;
+vacri1:S;air
+vacri2:D;planet* with air
+vacri3:S;air composition
 #
 # x1 (object/event) is important/significant to x2 (person/event) in aspect/for reason x3 (nu/ka) 
 #vajni1:DSAP;
@@ -5825,8 +5833,8 @@ vlipa3:S;conditions for exerting power
 #vreta2:DSAP;
 #
 # x1 (set/mass/ind.) is miscellaneous/various/assorted in property x2 (ka)                        
-#vrici1:DSAP;
-#vrici2:DSAP;
+vrici1:P;miscellaneous
+vrici2:D;miscellaneous property
 #
 # x1 is virtuous/saintly/[fine/moral/nice/holy/morally good] by standard x2                       
 #vrude1:DSAP;
