@@ -46,6 +46,7 @@ typedef struct Block {
   State **states;
   int nstates;
   int maxstates;
+  int subcount; /* Number for generating substates */
 } Block;
 
 /* Constants for 'create' args */  
@@ -55,15 +56,16 @@ typedef struct Block {
 
 State *get_curstate(void);
 
-struct Define;
-extern struct Define * create_def(char *name);
-extern void add_tok_to_def(struct Define *def, char *tok);
+struct Abbrev;
+extern struct Abbrev * create_abbrev(char *name);
+extern void add_tok_to_abbrev(struct Abbrev *abbrev, char *tok);
 
 int lookup_token(char *name, int create);
 Block *lookup_block(char *name, int create);
 State *lookup_state(Block *in_block, char *name, int create);
 Stringlist * add_token(Stringlist *existing, char *token);
 void add_transitions(State *curstate, Stringlist *tokens, char *destination);
+State * add_transitions_to_internal(Block *curblock, State *addtostate, Stringlist *tokens);
 void add_exit_value(State *curstate, char *value);
 void instantiate_block(Block *curblock, char *block_name, char *instance_name);
 void fixup_state_refs(Block *b);

@@ -43,16 +43,16 @@ static char **toktable=NULL;
 static int ntokens = 0;
 static int maxtokens = 0;
 
-struct Define {
+struct Abbrev {
   char *lhs; /* Defined name */
-  int *rhs; /* Token numbers */
+  char **rhs; /* Token/define */
   int nrhs;
   int maxrhs;
 };
 
-static struct Define *deftable=NULL;
-static int ndefs = 0;
-static int maxdefs = 0;
+static struct Abbrev *abbrevtable=NULL;
+static int nabbrevs = 0;
+static int maxabbrevs = 0;
 
 /* ================================================================= */
 
@@ -119,22 +119,22 @@ lookup_token(char *name, int create)
 /* ================================================================= */
 
 static void
-grow_defs(void)
+grow_abbrevs(void)
 {
-  maxdefs += 32;
-  deftable = resize_array(struct Define, deftable, maxdefs);
+  maxabbrevs += 32;
+  abbrevtable = resize_array(struct Abbrev, abbrevtable, maxabbrevs);
 }
 
 /* ================================================================= */
 
-struct Define *
-create_def(char *name)
+struct Abbrev *
+create_abbrev(char *name)
 {
-  struct Define *result;
-  if (ndefs == maxdefs) {
-    grow_defs();
+  struct Abbrev *result;
+  if (nabbrevs == maxabbrevs) {
+    grow_abbrevs();
   }
-  result = deftable + (ndefs++);
+  result = abbrevtable + (nabbrevs++);
   result->lhs = new_string(name);
   result->nrhs = result->maxrhs = 0;
   result->rhs = 0;
@@ -144,30 +144,30 @@ create_def(char *name)
 /* ================================================================= */
 
 void
-add_tok_to_def(struct Define *def, char *tok)
+add_tok_to_abbrev(struct Abbrev *abbrev, char *tok)
 {
-  int tokval = lookup_token(tok, USE_OLD_MUST_EXIST);
-
-  if (def->nrhs == def->maxrhs) {
-    def->maxrhs += 8;
-    def->rhs = resize_array(int, def->rhs, def->maxrhs);
+  if (abbrev->nrhs == abbrev->maxrhs) {
+    abbrev->maxrhs += 8;
+    abbrev->rhs = resize_array(char *, abbrev->rhs, abbrev->maxrhs);
   }
 
-  def->rhs[def->nrhs++] = tokval;
+  abbrev->rhs[abbrev->nrhs++] = new_string(tok);
 }
 
 /* ================================================================= */
 
-static struct Define *
-lookup_def(char *name, int create)
+static struct Abbrev *
+lookup_abbrev(char *name, int create)
 {
   int found = -1;
   int i;
-  struct Define *result = NULL;
-  for (i=0; i<ndefs; i++) {
-    if (!strcmp(deftable[i].lhs, name)) {
+  struct Abbrev *result = NULL;
+  /* Scan table in reverse order.  If a name has been redefined,
+     make sure the most recent definition is picked up. */
+  for (i=nabbrevs-1; i>=0; i--) {
+    if (!strcmp(abbrevtable[i].lhs, name)) {
       found = i;
-      result = deftable + found;
+      result = abbrevtable + found;
       break;
     }
   }
@@ -175,14 +175,16 @@ lookup_def(char *name, int create)
   switch (create) {
     case CREATE_MUST_NOT_EXIST:
       if (found >= 0) {
-        fprintf(stderr, "Definition '%s' already declared\n", name);
+        fprintf(stderr, "Abbreviation '%s' already declared\n", name);
         exit(1);
       } else {
-        result = create_def(name);
+        result = create_abbrev(name);
       }
       break;
     case CREATE_OR_USE_OLD:
-
+      if (found < 0) {
+        result = create_abbrev(name);
+      }
       break;
   }
   
@@ -212,6 +214,7 @@ create_block(char *name)
   result->states = NULL;
   result->nstates = 0;
   result->maxstates = 0;
+  result->subcount = 1;
   return result;
 }
 
@@ -326,9 +329,39 @@ Stringlist *
 add_token(Stringlist *existing, char *token)
 {
   Stringlist *result = new(Stringlist);
-  result->string = new_string(token);
+  if (token) {
+    result->string = new_string(token);
+  } else {
+    result->string = NULL;
+  }
   result->next = existing;
   return result;
+}
+
+/* ================================================================= */
+/* Add a single transition to the state.  Allow definitions to be
+   recursive */
+
+static void
+add_transition(State *curstate, char *str, char *destination)
+{
+  struct Abbrev *abbrev;
+  abbrev = (str) ? lookup_abbrev(str, USE_OLD_MUST_EXIST) : NULL;
+  if (abbrev) {
+    int i;
+    for (i=0; i<abbrev->nrhs; i++) {
+      add_transition(curstate, abbrev->rhs[i], destination);
+    }
+  } else {
+    Translist *tl;
+    tl = new(Translist);
+    tl->next = curstate->transitions;
+    /* No problem with aliasing, these strings are read-only and have
+       lifetime = until end of program */
+    tl->token = (str) ? lookup_token(str, USE_OLD_MUST_EXIST) : -1;
+    tl->ds_name = destination;
+    curstate->transitions = tl;
+  }
 }
 
 /* ================================================================= */
@@ -337,43 +370,25 @@ void
 add_transitions(State *curstate, Stringlist *tokens, char *destination)
 {
   Stringlist *sl;
-  struct Define *def;
-  if (tokens) {
-    for (sl=tokens; sl; sl=sl->next) {
-      def = lookup_def(sl->string, USE_OLD_MUST_EXIST);
-      if (def) {
-        int i;
-        for (i=0; i<def->nrhs; i++) {
-          Translist *tl;
-          tl = new(Translist);
-          tl->next = curstate->transitions;
-          /* No problem with aliasing, these strings are read-only and have
-             lifetime = until end of program */
-          tl->token = def->rhs[i];
-          tl->ds_name = destination;
-          curstate->transitions = tl;
-        }
-      } else {
-        Translist *tl;
-        tl = new(Translist);
-        tl->next = curstate->transitions;
-        /* No problem with aliasing, these strings are read-only and have
-           lifetime = until end of program */
-        tl->token = lookup_token(sl->string, USE_OLD_MUST_EXIST);
-        tl->ds_name = destination;
-        curstate->transitions = tl;
-      }
-    }
-  } else {
-    /* Epsilon transition, handled by setting the associated token to NULL */
-    Translist *tl;
-    tl = new(Translist);
-    tl->next = curstate->transitions;
-    tl->token = -1;
-    tl->ds_name = destination;
-    curstate->transitions = tl;
+  struct Abbrev *abbrev;
+  for (sl=tokens; sl; sl=sl->next) {
+    add_transition(curstate, sl->string, destination);
   }
 }
+
+/* ================================================================= */
+
+State *
+add_transitions_to_internal(Block *curblock, State *addtostate, Stringlist *tokens)
+{
+  char buffer[1024];
+  State *result;
+  sprintf(buffer, "#%d", curblock->subcount++);
+  result = lookup_state(curblock, buffer, CREATE_MUST_NOT_EXIST);
+  add_transitions(addtostate, tokens, result->name);
+  return result;
+}
+
 
 /* ================================================================= */
 
@@ -443,7 +458,7 @@ fixup_state_refs(Block *b)
     State *s = b->states[i];
     Translist *tl;
     for (tl=s->transitions; tl; tl=tl->next) {
-      tl->ds_ref = lookup_state(b, tl->ds_name, USE_OLD_MUST_EXIST);
+      tl->ds_ref = lookup_state(b, tl->ds_name, CREATE_OR_USE_OLD);
     }
   }
 }
@@ -864,9 +879,10 @@ print_dfa(Block *b)
 }
 
 /* ================================================================= */
+/* Emit the exit value table. */
 
 static void
-print_tables(Block *b)
+print_exitval_table(Block *b)
 {
   int N = b->nstates;
   int Nt = ntokens;
@@ -890,6 +906,21 @@ print_tables(Block *b)
     printf(" /* State %d */\n", i);
   }
   printf("};\n\n");
+}
+
+/* ================================================================= */
+/* Print out the state/transition table uncompressed, i.e. every
+   token has an array entry in every state.  This is fast to access
+   but quite wasteful on memory with many states and many tokens. */
+
+static void
+print_uncompressed_tables(Block *b)
+{
+  int N = b->nstates;
+  int Nt = ntokens;
+  int n, i, j;
+  extern char *prefix;
+  char ucprefix[1024];
 
   n = 0;
   if (prefix) {
@@ -926,6 +957,89 @@ print_tables(Block *b)
 }
 
 /* ================================================================= */
+/* Print state/transition table in compressed form.  This is more
+   economical on storage, but requires a bisection search to find
+   the next state for a given current state & token */
+
+static void
+print_compressed_tables(Block *b)
+{
+  int N = b->nstates;
+  int *basetab = new_array(int, N+1);
+  int Nt = ntokens;
+  int n, i, j;
+  extern char *prefix;
+
+
+  n = 0;
+  if (prefix) {
+    printf("static unsigned char %s_token[] = {", prefix);
+  } else {
+    printf("static unsigned char token[] = {");
+  }
+  for (i=0; i<ndfa; i++) {
+    for (j=0; j<Nt; j++) {
+      if (dfas[i]->map[j] >= 0) {
+        if (n>0) putchar (',');
+        if (n%8 == 0) {
+          printf("\n  ");
+        } else {
+          putchar(' ');
+        }
+        n++;
+        printf("%3d", j);
+      }
+    }
+  }
+  printf("\n};\n\n");
+
+  n = 0;
+  if (prefix) {
+    printf("static unsigned short %s_nextstate[] = {", prefix);
+  } else {
+    printf("static unsigned short nextstate[] = {");
+  }
+  for (i=0; i<ndfa; i++) {
+    basetab[i] = n;
+    for (j=0; j<Nt; j++) {
+      if (dfas[i]->map[j] >= 0) {
+        if (n>0) putchar (',');
+        if (n%8 == 0) {
+          printf("\n  ");
+        } else {
+          putchar(' ');
+        }
+        n++;
+        printf("%5d", dfas[i]->map[j]);
+      }
+    }
+  }
+  printf("\n};\n\n");
+  basetab[ndfa] = n;
+
+  n = 0;
+  if (prefix) {
+    printf("static unsigned short %s_base[] = {", prefix);
+  } else {
+    printf("static unsigned short base[] = {");
+  }
+  for (i=0; i<=ndfa; i++) {
+    if (n>0) putchar (',');
+    if (n%8 == 0) {
+      printf("\n  ");
+    } else {
+      putchar(' ');
+    }
+    n++;
+    printf("%5d", basetab[i]);
+  }
+  printf("\n};\n\n");
+  
+  
+  free(basetab);
+}
+
+/* ================================================================= */
 
 void yyerror (char *s)
 {
@@ -943,14 +1057,22 @@ int main (int argc, char **argv)
 {
   int result;
   State *start_state;
+  Block *main_block;
   result = yyparse();
+  if (result > 0) exit(1);
+
   start_state = get_curstate(); /* The last state to be current in the input file is the entry state of the NFA */
-  generate_epsilon_closure(start_state->parent);
-  print_nfa(start_state->parent);
-  build_transmap(start_state->parent);
-  build_dfa(start_state->parent, start_state->index);
-  print_dfa(start_state->parent);
-  print_tables(start_state->parent);
+  main_block = start_state->parent;
+  generate_epsilon_closure(main_block);
+  print_nfa(main_block);
+  build_transmap(main_block);
+  build_dfa(main_block, start_state->index);
+  print_dfa(main_block);
+  print_exitval_table(main_block);
+  print_compressed_tables(main_block);
+#if 
+  print_uncompressed_tables(main_block);
+#endif
   
   return result;
 }

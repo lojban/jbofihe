@@ -17,6 +17,7 @@ int lineno = 1;
 %%
 
 STATE|State|state           { return STATE; }
+ABBREV|Abbrev|abbrev        { return ABBREV; }
 DEFINE|Define|define        { return DEFINE; }
 TOKENS|Tokens|tokens        { return TOKENS; }
 PREFIX|Prefix|prefix        { return PREFIX; }
@@ -29,6 +30,7 @@ Endblock|endblock           { return ENDBLOCK; }
 =                           { return EQUAL; }
 \|                          { return PIPE; }
 \:                          { return COLON; }
+\;                          { return SEMICOLON; }
 \n                          { lineno++; }
 [ \t]+                      { /* ignore */ }
 
