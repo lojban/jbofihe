@@ -9,6 +9,11 @@ New in version 0.39
   it was primarily written to stress-test the preparser rewrite)
 - (dfasyn) add inline block instantiation facility
 - (dfasyn) speed improvements.
+- (dfasyn) don't needlessly emit attributes table if this feature is not used
+  by the input file.
+- (vlatai) allow spaces at ends of lines when reading words from a file.
+- (cmafihe) share dictionary access code with jbofihe (so embedded dictionary
+  now works for cmafihe)
 
 New in version 0.38.1
 =====================
