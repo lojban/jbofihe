@@ -20,6 +20,13 @@
 #include <stdio.h>
 #include <string.h>
 static int verbose=0;
+static int allow_cultural_rafsi = 0;
+#else
+
+/* When linked into the main program, get this option from the command line
+   in main.c */
+extern int allow_cultural_rafsi;
+
 #endif
 
 #include "morf.h"
@@ -62,8 +69,13 @@ static int verbose=0;
  * the DFA.  These tables are built my mk_fetab.pl */
 #include "morf_lex.c"
 
-/* Include the main DFA scanning tables built by nfa2dfa.pl. */
+/* Include the main DFA scanning tables (including cultural rafsi) built by
+   nfa2dfa.pl. */
 #include "morf_dfa.c"
+
+/* Include the main DFA scanning tables (excluding cultural rafsi) built by
+   nfa2dfa.pl. */
+#include "morfnc_dfa.c"
 
 /* Include the tables used to encode the or'd together bit patterns into a
  * single output decision as to the type of word.  These tables are built by
@@ -159,6 +171,7 @@ morf_scan(char *s, char ***buf_end)
   int had_uppercase=0;
   int letter_uppercase;
   MorfType ext_result;
+  unsigned long *exitval_table;
 
   typedef enum {
     ACT_CLEAR=0, ACT_SHIFT=1, ACT_FREEZE=2
@@ -218,7 +231,8 @@ morf_scan(char *s, char ***buf_end)
 
     p++;
     initial = 0;
-    next_state = NEXT_MORF_STATE(state, tok);
+    next_state = allow_cultural_rafsi ? NEXT_MORF_STATE(state, tok) :
+                                        NEXT_MORFNC_STATE(state, tok) ;
 
 #ifdef TEST_MORF
     if (verbose) {
@@ -249,11 +263,14 @@ morf_scan(char *s, char ***buf_end)
     
   }
   
-  if ((state < 0) || (morf_exitval[state] == 0)) {
+  exitval_table = allow_cultural_rafsi ? morf_exitval : morfnc_exitval;
+
+  
+  if ((state < 0) || (exitval_table[state] == 0)) {
     result = W_UNKNOWN;
     decrement = 0;
   } else {
-    exival = morf_exitval[state];
+    exival = exitval_table[state];
     result = morf_enctab1[exival & 0xff];
     decrement = result>>7;
     result &= 0x7f;
@@ -301,7 +318,7 @@ morf_scan(char *s, char ***buf_end)
   }
 
 #ifdef TEST_MORF
-  if ((state < 0) || (morf_exitval[state] == 0)) {
+  if ((state < 0) || (exitval_table[state] == 0)) {
     printf("%-25s : UNMATCHED!\n", s);
   } else {
     char *a;
@@ -386,6 +403,8 @@ int main (int argc, char **argv) {
   while (++argv, --argc) {
     if (!strncmp(*argv, "-v", 2)) {
       verbose = 1;
+    } else if (!strncmp(*argv, "-cr", 2)) {
+      allow_cultural_rafsi = 1;
     }
   }
   while (fgets(buffer, sizeof(buffer), stdin)) {

@@ -95,7 +95,7 @@ smujajgau : smujajgau.o canonluj.o
 smujajgau.o : smujajgau.c
 	$(CC) $(CFLAGS) -c smujajgau.c
 
-vlatai : morf.c morf.h morf_dfa.c morf_enc.c morf_lex.c
+vlatai : morf.c morf.h morf_dfa.c morfnc_dfa.c morf_enc.c morf_lex.c
 	$(CC) -o vlatai -DTEST_MORF $(CFLAGS) morf.c
 
 morf_lex.c : mk_fetab.pl
@@ -107,7 +107,10 @@ morf_enc.c : mk_enctab.pl
 morf_dfa.c : morf_nfa.in nfa2dfa.pl
 	perl nfa2dfa.pl < morf_nfa.in > morf_dfa.c 2>morf_dfa.err
 
-morf.o : morf.c morf.h morf_dfa.c morf_enc.c morf_lex.c
+morfnc_dfa.c : morf_nfa.in nfa2dfa.pl
+	grep -v 'CULTURAL' < morf_nfa.in | perl nfa2dfa.pl > morfnc_dfa.c 2>morfnc_dfa.err
+
+morf.o : morf.c morf.h morf_dfa.c morfnc_dfa.c morf_enc.c morf_lex.c
 
 txtman: jbofihe.txt cmafihe.txt smujajgau.txt jvocuhadju.txt
 

@@ -41,6 +41,9 @@ int had_bad_tokens;
 int opt_output_width;
 int insert_elidables;
 
+/* Flag to allow cultural rafsi within lujvo (and as part of slinku'i test) */
+int allow_cultural_rafsi;
+
 /* Flag to show dictionary defects */
 int show_dictionary_defects;
 
@@ -92,6 +95,9 @@ show_usage(void)
                   "-ie          Display elided separators and terminators\n"
                   "-re          Require elidable separators and terminators to be present\n"
                   "\n"
+                  "These options relate to grammar options\n"
+                  "-cr          Allow cultural rafsi in lujvo (Reference Grammar section 4.16)\n"
+                  "\n"
                   "These options relate to help & debug\n"
                   "-v           Show version number and exit\n"
                   "-h           Show this help information\n"
@@ -136,6 +142,7 @@ main (int argc, char **argv)
   opt_output_width = 79;
   insert_elidables = 0;
   require_elidables = 0;
+  allow_cultural_rafsi = 0;
 
   show_dictionary_defects = 0;
 
@@ -170,6 +177,8 @@ main (int argc, char **argv)
       insert_elidables = 1;
     } else if (!strcmp(*argv, "-re")) {
       require_elidables = 1;
+    } else if (!strcmp(*argv, "-cr")) {
+      allow_cultural_rafsi = 1;
     } else if (!strcmp(*argv, "-dd")) {
       show_dictionary_defects = 1;
     } else if (!strncmp(*argv, "-w", 2)) {

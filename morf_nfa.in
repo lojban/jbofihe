@@ -51,10 +51,16 @@ TOKENS UNK V APOS Y R N C NR CI CP CN H BT
 #   letter may or may not be part of an initial cluster.  It's too tedious to
 #   optimise away all such cases.  The net result is that the resuting DFA is
 #   larger than it needs to be and has unreachable states in it.
+# - Support for the cultural rafsi (section 4.16 of the Reference Grammar) has
+#   been made optional.  To disable them, pass the file through 'grep -v
+#   CULTURAL' first.
 
-# Prefix applied to the tables written out for inclusion into
-# the C program.
-PREFIX morf
+# Prefix applied to the tables written out for inclusion into the C program.
+# (If building the version including the cultural (section 4.16) rafsi, the
+# prefix will be morf.  If building the version without this, the prefix will
+# be morfnc
+PREFIX morfnc
+PREFIX morf ## CULTURAL
 
 ###########################################################
 # Subcomponents for lujvo matching
@@ -67,7 +73,7 @@ BLOCK SYL1
         C     -> ccv1
         C|N|R -> cvcc1
         C     -> ccvc1
-        C     -> ccvvc1
+        C     -> ccvvc1 ## CULTURAL
 
     # Stages for CVV initial rafsi
     STATE cvv1
@@ -205,12 +211,12 @@ BLOCK SYL2 # syllables 2 .. (N-1)
         -> cvc1
         -> cvcc1
         -> ccvc1
-        -> ccvvc1
+        -> ccvvc1 ## CULTURAL
 
     STATE in_after_cc
         -> ccv2
         -> ccvc2
-        -> ccvvc2
+        -> ccvvc2 ## CULTURAL
 
     STATE cvv1
         V -> cvv2
@@ -305,12 +311,12 @@ BLOCK SYLN
         -> ccv1
         -> ccvcv1
         -> cvccv1
-        -> ccvvcv1
+        -> ccvvcv1 ## CULTURAL
     STATE in_after_nr_hyphen
         -> cvv1
         -> ccvcv1
         -> cvccv1
-        -> ccvvcv1
+        -> ccvvcv1 ## CULTURAL
     STATE in_to_ccv
         -> ccv1
 
@@ -318,7 +324,7 @@ BLOCK SYLN
     STATE in_after_cc
         -> ccv2
         -> ccvcv2
-        -> ccvvcv2
+        -> ccvvcv2 ## CULTURAL
 
     STATE cvv1
         V -> cvv2
@@ -419,7 +425,7 @@ BLOCK TOS_SYL1
     STATE in
         -> ccv1
         -> ccvc1
-        -> ccvvcv1
+        -> ccvvcv1 ## CULTURAL
 
     STATE ccv1
         V -> ex_cln
