@@ -1596,10 +1596,13 @@ draci5:D;drama actor
 draci5t:actors
 #
 # x1 is correct/proper/right/perfect in property/aspect x2 (ka) in situation x3 by standard x4    
-#drani1:DSAP;
-#drani2:DSAP;
-#drani3:DSAP;
-#drani4:DSAP;
+drani1:P;correct
+drani2:D;correct property
+drani2t:in property
+drani3:D;correct situation
+drani3t:in situation
+drani4:D;correctness standard
+drani4t:by standard
 #
 # x1 isn't the-same-thing-as/is different-from/other-than x2 by standard x3; x1 is something else 
 drata1:P;different
@@ -4486,10 +4489,13 @@ pritu3:D;frame* of reference for right
 #prosa4:DSAP;
 #
 # x1 is a process with inputs x2, outputs/results x3, passing through steps/stages x4             
-#pruce1:DSAP;
-#pruce2:DSAP;
-#pruce3:DSAP;
-#pruce4:DSAP;
+pruce1:D;process
+pruce2:D;process input
+pruce2t:with input
+pruce3:D;process output
+pruce3t:with output
+pruce4:D;process stage
+pruce4t:passing through stage
 #
 # (adjective:) x1 is elastic/springy                                                              
 #pruni1:DSAP;
@@ -6286,7 +6292,7 @@ xalni2n:crisis(es)
 #
 # x1 (object/event) is good/beneficial/nice/[acceptable] for x2 by standard x3                    
 xamgu1:P;good
-xamgu2:A;goodness beneficiary
+xamgu2:P;goodness beneficiary
 xamgu3:D;goodness standard
 #
 # x1 is x2 ampere(s) [metric unit] in current (default is 1) by standard x3                       
