@@ -47,8 +47,9 @@ struct cmavo {
 };
 
 struct zoi {
-  char *term;
-  char *text;
+  char *form; /* zoi or la'o */
+  char *term; /* delimiter */
+  char *text; /* body text */
 };
 
 struct zo {

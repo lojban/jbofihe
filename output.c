@@ -905,7 +905,7 @@ get_lojban_word_and_translation (TreeNode *x, char *loj, char *eng)
       break;
 
     case N_ZOI:
-      sprintf(loj, "zoi %s %s %s", x->data.zoi.term, x->data.zoi.text, x->data.zoi.term);
+      sprintf(loj, "%s %s %s %s", x->data.zoi.form, x->data.zoi.term, x->data.zoi.text, x->data.zoi.term);
       eng[0] = 0;
       break;
       

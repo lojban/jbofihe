@@ -765,7 +765,10 @@ preprocess_tokens(void)
      Remove intervening tokens from list.  Parser wants single token
      of selma'o ZOI. */
 
+#if 0
   handle_zoi();
+  /* Now done by lex1 */
+#endif
 
   /* 2b. Look for 'zo' and group following word into it. */
   handle_zo();
@@ -986,7 +989,7 @@ print_last_toks(void)
         break;
 
       case N_ZOI:
-        fprintf(stderr,"zoi %s\n", x->data.zoi.text);
+        fprintf(stderr,"%s %s. %s %s.\n", x->data.zoi.form, x->data.zoi.term, x->data.zoi.text, x->data.zoi.term);
         break;
         
       case N_ZO:

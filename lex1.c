@@ -14,6 +14,12 @@
 #include "nodes.h"
 #include "functions.h"
 
+static char zoi_form[8]; /* la'o or zoi */
+static int  zoi_delim_next;
+static char zoi_delim[64];
+static int zoi_start_line, zoi_start_col;
+static char *zoi_data;
+
 /*++++++++++++++++++++++++++++++++++++++
   Check whether a character is a consonant.
 
@@ -223,6 +229,51 @@ process_word(char *buf, int start_line, int start_column)
   char *p, *q;
   TreeNode *tok;
 
+  if (zoi_data) {
+    if (!strcmp(buf, zoi_delim)) {
+      tok = new_node();
+      tok->start_line = zoi_start_line;
+      tok->start_column = zoi_start_col;
+      tok->type = N_ZOI;
+      tok->data.zoi.form = new_string(zoi_form);
+      tok->data.zoi.term = new_string(zoi_delim);
+      tok->data.zoi.text = zoi_data;
+      add_token(tok);
+      zoi_data = NULL;
+      zoi_delim[0] = 0;
+    } else {
+      if (zoi_data[0]) {
+        zoi_data = extend_string(zoi_data, " ");
+      }
+      zoi_data = extend_string(zoi_data, buf);
+    }
+    return 1;
+  }
+
+  if (zoi_delim_next) {
+    strcpy(zoi_delim, buf);
+    zoi_data = new_string("");
+    zoi_delim_next = 0;
+    return 1;
+  }
+
+  if (!strcmp(buf, "zoi")) {
+    strcpy(zoi_form, "zoi");
+    zoi_delim_next = 1;
+    zoi_start_line = start_line;
+    zoi_start_col = start_column;
+    return 1;
+  }
+
+  if (!strcmp(buf, "la'o")) {
+    strcpy(zoi_form, "la'o");
+    zoi_delim_next = 1;
+    zoi_start_line = start_line;
+    zoi_start_col = start_column;
+    return 1;
+  }
+
+
 
   /* Analyse word type */
   /* Does word end in consonant (leave commas etc in for this)? */
@@ -310,6 +361,9 @@ parse_file(FILE *f)
                                        shut up the compiler */
   int new_tok;
   int paren_depth = 0;
+
+  zoi_delim[0] = 0;
+  zoi_delim_next = 0;
 
   line = 1;
   column = 0;
