@@ -94,12 +94,14 @@ hash_cmavo(char *buf) {
 
   val = 0;
   p = buf;
+  if (*p == '\'') return -1;
   v = tab1[*p - 'a'];
   if (v > 0) {
     val = v * 98;
     p++;
   }
 
+  if (*p == '\'') return -1;
   v = tab2[*p - 'a'];
   val += v * 14;
   p++;
@@ -111,6 +113,7 @@ hash_cmavo(char *buf) {
     p++;
   }
 
+  if (*p == '\'') return -1;
   v = tab2[*p - 'a'];
   val += v;
   return val;
@@ -147,19 +150,17 @@ process_cmavo(char *buf, int start_line, int start_column)
     
   hash = hash_cmavo(buf);
 
-  if (hash < 0 || hash > 1750) {
-    fprintf(stderr, "Bad cmavo [%s]\n", buf);
-    return;
-  }
-
   node = new_node();
-  if (!strcmp(buf, cmavo_table[hash].cmavo)) {
+
+  if (hash >= 0 && hash <= 1750 && !strcmp(buf, cmavo_table[hash].cmavo)) {
     node->data.cmavo.code = hash;
     node->type = N_CMAVO;
     node->start_line = start_line;
     node->start_column = start_column;
     node->data.cmavo.selmao = cmavo_table[hash].selmao;
   } else {
+    fprintf(stderr, "Bad cmavo [%s] at line %d column %d\n",
+            buf, start_line, start_column);
     node->data.garbage.word = new_string(buf);
     node->type = N_GARBAGE;
     node->start_line = start_line;
