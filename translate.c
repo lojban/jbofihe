@@ -23,9 +23,15 @@ static GDBM_FILE db;
 static void
 init(void) 
 {
+  char *dname;
+
   if (!inited) {
     inited = 1;
-    db = gdbm_open("./dictionary.dbm", 0, GDBM_READER, 0, NULL);
+    dname = getenv("JBOFIHE_DICTIONARY");
+    if (!dname) {
+      dname = "./dictionary.dbm";
+    }
+    db = gdbm_open(dname, 0, GDBM_READER, 0, NULL);
   }
 }
 
@@ -558,8 +564,9 @@ append_er(char *x)
   star_pos = strchr(x, '*');
   if (star_pos) {
     char head[1024];
-    static char result2[1024];
+    char *result2;
     char *p, *q;
+    result2 = GETBUF();
     p = x, q = head;
     while (p < star_pos) *q++ = *p++;
     *q = 0;
@@ -568,7 +575,11 @@ append_er(char *x)
     if (!starts_with_preposition(p)) {
       strcat(result2, " of");
     }
-    strcat(result2, p);
+    if (strchr(p, '*')) {
+      strcat(result2, append_er(p));
+    } else {
+      strcat(result2, p);
+    }
     return result2;
   } else {
     n = strlen(x);
@@ -606,14 +617,19 @@ append_ing(char *x)
   star_pos = strchr(x, '*');
   if (star_pos) {
     char head[1024];
-    static char result2[1024];
+    char *result2;
     char *p, *q;
+    result2 = GETBUF();
     p = x, q = head;
     while (p < star_pos) *q++ = *p++;
     *q = 0;
     p++;
     strcpy(result2, append_ing(head));
-    strcat(result2, p);
+    if (strchr(p, '*')) {
+      strcat(result2, append_ing(p));
+    } else {
+      strcat(result2, p);
+    }
     return result2;
   } else {
 
