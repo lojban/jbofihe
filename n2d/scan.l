@@ -25,6 +25,8 @@ BLOCK|Block|block           { return BLOCK; }
 ENDBLOCK|EndBlock           { return ENDBLOCK; }
 Endblock|endblock           { return ENDBLOCK; }
 RESULT|Result|result        { return RESULT; }
+DEFRESULT|DefResult         { return DEFRESULT; }
+Defresult|defresult         { return DEFRESULT; }
 SYMBOL|Symbol|symbol        { return SYMBOL; }
 SYMRESULT|SymResult         { return SYMRESULT; }
 Symresult|symresult         { return SYMRESULT; }

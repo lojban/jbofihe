@@ -89,9 +89,10 @@ Expr * new_sym_expr(char *sym_name);
 void define_symbol(char *name, Expr *e);
 void define_result(char *string, Expr *e);
 void define_symresult(char *string, Expr *e);
+void define_defresult(char *string);
 void clear_symbol_values(void);
 void set_symbol_value(char *sym_name);
-char * evaluate_result(void);
+int evaluate_result(char **);
 
 #endif /* N2D_H */
 

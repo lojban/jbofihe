@@ -36,7 +36,7 @@ State *get_curstate(void) { return curstate; }
 %type<sl> option_seq transition_seq
 %type<e> expr
 
-%token RESULT SYMBOL SYMRESULT
+%token RESULT SYMBOL SYMRESULT DEFRESULT
 %token STAR
 %right QUERY COLON
 %left PIPE
@@ -114,6 +114,7 @@ result_decl : RESULT STRING               { define_result($2, NULL); }
             | RESULT    expr ARROW STRING { define_result($4, $2); }
             | SYMRESULT expr ARROW STRING { define_symresult($4, $2); }
             | SYMBOL STRING EQUAL expr    { define_symbol($2, $4); }
+            | DEFRESULT STRING            { define_defresult($2); }
             ;
 
 expr : NOT expr { $$ = new_not_expr($2); }

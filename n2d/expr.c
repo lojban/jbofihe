@@ -335,15 +335,16 @@ eval(Expr *e)
   Evaluate the result which holds given the symbols that are set
   ++++++++++++++++++++*/
 
-char *
-evaluate_result(void)
+int
+evaluate_result(char **result)
 {
   int i;
   int matched = -1;
   for (i=0; i<n_results; i++) {
     if (eval(results[i].e)) {
       if (any_results_so_far) {
-        return NULL; /* Multiple match */
+        *result = NULL;
+        return 0;
       } else {
         any_results_so_far = 1;
         matched = i;
@@ -351,6 +352,12 @@ evaluate_result(void)
     }
   }
 
-  return (matched >= 0) ? results[matched].result : NULL;
+  if (matched < 0) {
+    *result = NULL;
+    return 1;
+  } else {
+    *result = results[matched].result;
+    return 1;
+  }
 }
 

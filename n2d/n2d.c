@@ -54,6 +54,16 @@ static struct Abbrev *abbrevtable=NULL;
 static int nabbrevs = 0;
 static int maxabbrevs = 0;
 
+static char *defresult = "0";
+
+/* ================================================================= */
+
+void
+define_defresult(char *string)
+{
+  defresult = string;
+}
+
 /* ================================================================= */
 
 static void
@@ -796,6 +806,8 @@ add_dfa(Block *b, unsigned long *nfas, int N, int Nt)
   int j;
   int result = ndfa;
   int had_exitvals;
+  int this_result_unambiguous;
+  
   Stringlist *ex;
   unsigned long signature = 0UL, folded_signature;
   struct DFAList *dfal;
@@ -845,10 +857,10 @@ add_dfa(Block *b, unsigned long *nfas, int N, int Nt)
     }
   }
   
-  dfas[ndfa]->result = evaluate_result();
+  this_result_unambiguous = evaluate_result(&dfas[ndfa]->result);
   dfas[ndfa]->nfa_sl = ex;
 
-  if (had_exitvals && !dfas[ndfa]->result) {
+  if (!this_result_unambiguous) {
     Stringlist *sl;
     fprintf(stderr, "WARNING : Ambiguous exit state abandoned for DFA state %d\n", ndfa);
     fprintf(stderr, "NFA exit tags applying in this stage :\n");
@@ -1034,7 +1046,7 @@ print_exitval_table(Block *b)
     printf("static short exitval[] = {\n");
   }
   for (i=0; i<ndfa; i++) {
-    printf("%s", (dfas[i]->result) ? dfas[i]->result : "0UL");
+    printf("%s", (dfas[i]->result) ? dfas[i]->result : defresult);
     putchar ((i<(ndfa-1)) ? ',' : ' ');
     printf(" /* State %d */\n", i);
   }
