@@ -432,6 +432,7 @@ parse_file(FILE *f)
           case '\n':
           case '.':
           case '(':
+          case '>':
           case EOF:
             CLOSE_TOKEN;
             if (c == '\n') {
