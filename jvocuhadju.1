@@ -4,9 +4,7 @@ jvocuhadju \- Lujvo picker (based on the rules in the reference grammar.)
 .SH SYNOPSIS
 .PP
 .B jvocuhadju
-[-v]
-.PP
-.B jvocuhadju
+[-v] [-a] [-l]
 .I tanru-component-1
 [
 .BR "" ...
@@ -20,10 +18,21 @@ corresponding to those components in sequence.  The possible lujvo are
 displayed ranked in order of desirability, with their scores shown
 based on the algorithm in the reference grammar.  The lowest score is
 best.
+.PP
+Where a tanru-component is a cmavo containing an apostrophe, the apostrophe may
+be replaced by the letter "h" on the command line.  This is a convenience to
+avoid having to backslash-escape the apostrophe to hide it from the shell.
 .SH OPTIONS
 .TP
 .B -v
 Show the program version and exit.
+.TP
+.B -a
+List all possible lujvo for the input tanru (default is just the best 8).
+.TP
+.B -l
+Allow 4/5 letter rafsi to be picked even if a 3 letter form is available for
+any particular tanru component.
 .TP
 .B tanru-component-k
 This is a gismu or cmavo which is one component of the word.  Cmavo
