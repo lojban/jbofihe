@@ -79,6 +79,11 @@ trctabs.c : output2table.pl rpc2x_act.output
 trcftabs.c : output2table.pl rpc2x_full_act.output
 	perl output2table.pl full < rpc2x_full_act.output > trcftabs.c
 
+elitabs.c : output2elide.pl rpc2x_act.output
+	perl output2elide.pl < rpc2x_act.output > elitabs.c
+
+elide.o : elide.c elitabs.c
+
 stag.c : stag.tab.c
 	sed -e 's/YYSTYPE/STAG_YYSTYPE/g;' < stag.tab.c > stag.c
 
@@ -125,7 +130,7 @@ morfnc_dfa.c : morf_nfa.in nfa2dfa.pl
 
 morf.o : morf.c morf.h morf_dfa.c morfnc_dfa.c morf_enc.c morf_lex.c morfvlex.c
 
-txtman: jbofihe.txt cmafihe.txt smujajgau.txt jvocuhadju.txt
+txtman: jbofihe.txt cmafihe.txt smujajgau.txt jvocuhadju.txt vlatai.txt
 
 %.txt:%.1
 	groff -Tascii -man $< | perl -pe 'chomp; s/.\x8//g; $$_ .= "\r\n";' > $@
@@ -171,7 +176,17 @@ canonluj.inc:
 	perl canonluj.pl < @@WORD-LISTS@@/gismu > canonluj.inc
 
 clean:
-	-rm *.output *.tab.* *.o jbofihe uncom smujajgau *.dict rpc2x_nc.y rpc2x_act.y nonterm.*
+	-rm *.output \
+        *.tab.c *.tab.o *_tab.c *_tab.o rpc_full.c \
+        *.o \
+        jbofihe cmafihe smujajgau vlatai jvocuhadju \
+        *.dict uncom.c uncom.o uncom \
+        morf_lex.c morfvlex.c morf_enc.c morf*_dfa.c \
+        elitabs.c trcftabs.c trctabs.c \
+        stag.c stag.h \
+        rpc2x_nc.y rpc2x_act.y rpc_full_nc.y rpc_full_act.y \
+        canonluj.inc version.h \
+        nonterm.*
 
 # Specify in this perverse way so that the $-Name construction doesn't get replaced on checkout!
 
