@@ -353,7 +353,9 @@ morf_scan(char *s, char ***buf_end)
       case W_FUIVLA:
       case W_BAD_TOSMABRU:
       case W_BAD_SLINKUI:
-        printf(" (contains invalid uppercase)");
+        if (had_uppercase) {
+          printf(" (contains invalid uppercase)");
+        }
         break;
     }
 
