@@ -5,11 +5,12 @@
 $output = "";
 
 # Set probabilities for various optional things.
-($plo, $pmed, $phi, $piter) = (0.05, 0.1, 0.4, 0.3);
+#($plo, $pmed, $phi, $piter) = (0.0005, 0.001, 0.004, 0.003);
+($plo, $pmed, $phi, $piter) = (0.01, 0.05, 0.25, 0.1);
 
 # Number of times the expansion can recurse back to a higher level construct
 # (prevent infinite recursion)
-$recur = 0;
+$recur = 10;
 
 # {{{ %p : Associative array defining probabilities for taking various optional constructs
 %p = (
@@ -17,8 +18,19 @@ $recur = 0;
 );
 #}}}
 
+$seeding = shift @ARGV;
+if (!defined $seeding) { $seeding = time(); }
+$usseeding = $seeding;
+
+print "Seed [$seeding]\n";
+
+open (RND, "../mymt $seeding|");
+$to_unit = 65536.0 * 65536.0;
+
 sub rnd {#{{{
-    return rand;
+  read RND, $x, 4;
+  $y = unpack("N", $x);
+  return $y / $to_unit;
 }
 #}}}
 sub getnum1 {#{{{
@@ -41,8 +53,50 @@ sub pickx {#{{{
 }
 #}}}
 $llen = 0;
+#
+######
+# Implement stack of where we are in the grammar
+
+sub clear_stack {#{{{
+  @names = ();
+  @number = ();
+  $next_number = 0;
+  @trace = ();
+}
+#}}}
+sub in {#{{{
+  my ($name) = @_;
+  push(@names, $name);
+  push(@number, $next_number);
+  my $result = $next_number;
+  ++$next_number;
+  my $trace = sprintf("%s { (%3d:%05d)", $name, $#number, $result);
+  push(@trace, $trace);
+  return $result;
+}
+#}}}
+sub out {#{{{
+  my ($n) = @_; # Allow multiple popping
+    if (defined $n) {
+      while ($#number >= 0) {
+        my $x = pop(@number);
+        my $name = pop(@names);
+        if ($x != $n) {
+          my $trace = sprintf("} (%3d:%05d) %s", $#number+1, $x, $name);
+          push(@trace, $trace);
+          print STDERR "Auto clear of $name from stack ($x, closing $n)\n";
+        } else {
+          my $trace = sprintf("} %3d:%05d %s (->%s)", $#number+1, $x, $name, $names[$#$names]);
+          push(@trace, $trace);
+          return;
+        }
+      }
+    }
+}
+#}}}
+
 sub emit {#{{{
-  my ($x) = @_;
+  my ($x, $selmao) = @_;
   $output .= $x;
   $llen += length($x);
   if ($llen > 72) {
@@ -52,11 +106,17 @@ sub emit {#{{{
     $output .= " ";
     $llen++;
   }
+  push(@trace, "   ".$x." [".$selmao."]");
+}
+#}}}
+sub clear_output {#{{{
+  $output = "";
+  $llen = 0;
 }
 #}}}
 
 sub A {#{{{
-  &emit(&pickx("a", "e", "o", "u", "ji"));
+  &emit(&pickx("a", "e", "o", "u", "ji"), "A");
 }
 #}}}
 @BAI = (#{{{
@@ -130,36 +190,42 @@ sub A {#{{{
 sub BAI {#{{{
   $n = 1+$#BAI;
   $r = int($n * &rnd);
-  emit($BAI[$r]);
+  &emit($BAI[$r], "BAI");
 }
 #}}}
 sub BE {#{{{
-  &emit("be");
+  &emit("be", "BE");
 }
 #}}}
 sub BEhO {#{{{
-  &emit("be'o");
+  &emit("be'o", "BEhO");
 }
 #}}}
 sub BEI {#{{{
-  &emit("bei");
+  &emit("bei", "BEI");
 }
 #}}}
 sub BIhI {#{{{
-  &emit(&pickx("bi'i", "bi'o", "mi'i"));
+  &emit(&pickx("bi'i", "bi'o", "mi'i"), "BIhI");
 }
 #}}}
 sub BO {#{{{
-  emit("bo");
+  emit("bo", "BO");
 }
 #}}}
 sub BOI {#{{{
-  &emit("boi");
+  &emit("boi", "BOI");
 }
+#}}}
+@BRIVLA = (#{{{
+  # Obviously this is a bit limited.  Eventually I want to do a random word
+  # generator.
+  "zdani", "zarci", "klama", "nanmu", "bevri"
+);
 #}}}
 sub BRIVLA {#{{{
 # FIXME
-  &emit("zdani");
+  &emit(&pick(\@BRIVLA), "BRIVLA");
 }
 #}}}
 @CAhA = (#{{{
@@ -172,27 +238,31 @@ sub BRIVLA {#{{{
 sub CAhA {#{{{
   $n = 1+$#CAhA;
   $r = int($n * &rnd);
-  emit($CAhA[$r]);
+  &emit($CAhA[$r], "CAhA");
+}
+#}}}
+sub CEhE {#{{{
+  &emit("ce'e", "CEhE");
 }
 #}}}
 sub CEI {#{{{
-  emit("cei");
+  &emit("cei", "CEI");
 }
 #}}}
 sub CMENE {#{{{
-  &emit("london.");
+  &emit("london.", "CMENE");
 }
 #}}}
 sub CO {#{{{
-  &emit("co");
+  &emit("co", "CO");
 }
 #}}}
 sub CU {#{{{
-  &emit("cu");
+  &emit("cu", "CU");
 }
 #}}}
 sub CUhE {#{{{
-  emit("cu'e");
+  &emit("cu'e", "CUhE");
 }
 #}}}
 @FA = (#{{{
@@ -200,7 +270,7 @@ sub CUhE {#{{{
 );
 #}}}
 sub FA {#{{{
-  &emit(&pick(\@FA));
+  &emit(&pick(\@FA), "FA");
 }
 #}}}
 @FAhA = (#{{{
@@ -229,39 +299,39 @@ sub FA {#{{{
 );
 #}}}
 sub FAhA {#{{{
-  &emit (&pick(\@FAhA));
+  &emit (&pick(\@FAhA), "FAhA");
 };
 #}}}
 sub FEhE {#{{{
-  &emit("fe'e");
+  &emit("fe'e", "FEhE");
 }
 #}}}
 sub FEhU {#{{{
-  &emit("fe'u");
+  &emit("fe'u", "FEhU");
 }
 #}}}
 sub FIhO {#{{{
-  &emit("fi'o");
+  &emit("fi'o", "FIhO");
 }
 #}}}
 sub GA {#{{{
-  &emit(&pickx("ga", "ge", "ge'i", "go", "gu"));
+  &emit(&pickx("ga", "ge", "ge'i", "go", "gu"), "GA");
 }
 #}}}
 sub GAhO {#{{{
-  &emit(&pickx("ga'o", "ke'i"));
+  &emit(&pickx("ga'o", "ke'i"), "GAhO");
 }
 #}}}
 sub GEhU {#{{{
-  &emit("ge'u");
+  &emit("ge'u", "GEhU");
 }
 #}}}
 sub GI {#{{{
-  &emit("gi");
+  &emit("gi", "GI");
 }
 #}}}
 sub GIhA {#{{{
-  &emit(&pickx("gi'a", "gi'e", "gi'i", "gi'o", "gi'u"));
+  &emit(&pickx("gi'a", "gi'e", "gi'i", "gi'o", "gi'u"), "GIhA");
 }
 #}}}
 @GOhA = (#{{{
@@ -271,7 +341,7 @@ sub GIhA {#{{{
 );
 #}}}
 sub GOhA {#{{{
-  &emit(&pick(\@GOhA));
+  &emit(&pick(\@GOhA), "GOhA");
 }
 #}}}
 @GOI = (#{{{
@@ -280,23 +350,23 @@ sub GOhA {#{{{
 );
 #}}}
 sub GOI {#{{{
-  &emit(&pick(\@GOI));
+  &emit(&pick(\@GOI), "GOI");
 }
 #}}}
 sub GUhA {#{{{
-  &emit(&pickx("gu'a", "gu'e", "gu'i", "gu'o", "gu'u"));
+  &emit(&pickx("gu'a", "gu'e", "gu'i", "gu'o", "gu'u"), "GUhA");
 }
 #}}}
 sub I {#{{{
-  emit("i");
+  &emit("i", "I");
 }
 #}}}
 sub JA {#{{{
-  &emit(&pickx("ja", "je", "je'i", "jo", "ju"));
+  &emit(&pickx("ja", "je", "je'i", "jo", "ju"), "JA");
 }
 #}}}
 sub JAI {#{{{
-  &emit("jai");
+  &emit("jai", "JAI");
 }
 #}}}
 @JOI = (#{{{
@@ -305,23 +375,23 @@ sub JAI {#{{{
 );
 #}}}
 sub JOI {#{{{
-  &emit(&pick(\@JOI));
+  &emit(&pick(\@JOI), "JOI");
 }
 #}}}
 sub KE {#{{{
-  &emit("ke");
+  &emit("ke", "KE");
 }
 #}}}
 sub KEhE {#{{{
-  &emit("ke'e");
+  &emit("ke'e", "KEhE");
 }
 #}}}
 sub KEI {#{{{
-  &emit("kei");
+  &emit("kei", "KEI");
 }
 #}}}
 sub KI {#{{{
-  emit("ki");
+  emit("ki", "KI");
 }
 #}}}
 @KOhA = (#{{{
@@ -337,15 +407,15 @@ sub KI {#{{{
 );
 #}}}
 sub KOhA {#{{{
-  &emit(&pick(\@KOhA));
+  &emit(&pick(\@KOhA), "KOhA");
 }
 #}}}
 sub KU {#{{{
-  emit("ku");
+  &emit("ku", "KU");
 }
 #}}}
 sub KUhO {#{{{
-  &emit("ku'o");
+  &emit("ku'o", "KUhO");
 }
 #}}}
 @LAhE = (#{{{
@@ -354,11 +424,11 @@ sub KUhO {#{{{
 );
 #}}}
 sub LAhE {#{{{
-  &emit(&pick(\@LAhE));
+  &emit(&pick(\@LAhE), "LAhE");
 }
 #}}}
 sub LA {#{{{
-  &emit(&pickx("la", "lai", "la'i"));
+  &emit(&pickx("la", "lai", "la'i"), "LA");
 }
 #}}}
 @LE = (#{{{
@@ -367,31 +437,31 @@ sub LA {#{{{
 );
 #}}}
 sub LE {#{{{
-  &emit(&pick(\@LE));
+  &emit(&pick(\@LE), "LE");
 }
 #}}}
 sub LIhU {#{{{
-  emit("li'u");
+  &emit("li'u", "LIhU");
 }
 #}}}
 sub LU {#{{{
-  emit("lu");
+  emit("lu", "LU");
 }
 #}}}
 sub LUhU {#{{{
-  &emit("lu'u");
+  &emit("lu'u", "LUhU");
 }
 #}}}
 sub ME {#{{{
-  &emit("me");
+  &emit("me", "ME");
 }
 #}}}
 sub MEhU {#{{{
-  &emit("me'u");
+  &emit("me'u", "MEhU");
 }
 #}}}
 sub MOhI {#{{{
-  emit ("mo'i");
+  &emit ("mo'i", "MOhI");
 }
 #}}}
 @MOI = (#{{{
@@ -399,27 +469,27 @@ sub MOhI {#{{{
 );
 #}}}
 sub MOI {#{{{
-  &emit(&pick(\@MOI));
+  &emit(&pick(\@MOI), "MOI");
 }
 #}}}
 sub NA {#{{{
-  emit("na");
+  &emit("na", "NA");
 }
 #}}}
 sub NAhE {#{{{
-  emit("na'e");
+  &emit("na'e", "NAhE");
 }
 #}}}
 sub NAI {#{{{
-  emit("nai");
+  &emit("nai", "NAI");
 }
 #}}}
 sub NIhO {#{{{
-  &emit(&pickx("ni'o", "no'i"));
+  &emit(&pickx("ni'o", "no'i"), "NIhO");
 }
   #}}}
 sub NOI {#{{{
-  &emit(&pickx("noi", "poi", "voi"));
+  &emit(&pickx("noi", "poi", "voi"), "NOI");
 }
 #}}}
 @NU = (#{{{
@@ -428,7 +498,7 @@ sub NOI {#{{{
 );
 #}}}
 sub NU {#{{{
-  &emit(&pick(\@NU));
+  &emit(&pick(\@NU), "NU");
 }
 #}}}
 @PA = (#{{{
@@ -445,30 +515,32 @@ sub NU {#{{{
 );
 #}}}
 sub PA {#{{{
-  &emit(&pick(\@PA));
+  &emit(&pick(\@PA), "PA");
+}
+#}}}
+sub PEhE {#{{{
+  &emit("pe'e", "PEhE");
 }
 #}}}
 sub PU {#{{{
   $r = &rnd;
-  if ($r < 0.333) { emit("pu"); }
-  elsif ($r < 0.667) { emit("ca"); }
-  else { emit("ba"); }
+  &emit(&pickx("pu", "ca", "ba"), "PU");
 }
 #}}}
 sub RAhO {#{{{
-  &emit("ra'o");
+  &emit("ra'o", "RAhO");
 }
 #}}}
 sub ROI {#{{{
-  &emit("roi");
+  &emit("roi", "ROI");
 }
 #}}}
+@SE = (#{{{
+  "se", "te", "ve", "xe"
+);
+#}}}
 sub SE {#{{{
-  my $r = &rnd;
-  if ($r < 0.25) { emit("se"); }
-  elsif ($r < 0.5) { emit("te"); }
-  elsif ($r < 0.75) { emit("ve"); }
-  else { emit("xe"); }
+  &emit(&pick(\@SE), "SE");  
 }
 #}}}
 @TAhE = (#{{{
@@ -476,26 +548,23 @@ sub SE {#{{{
 );
   #}}}
 sub TAhE {#{{{
-  emit (&pick(\@TAhE));
+  &emit (&pick(\@TAhE), "TAhE");
 }
 #}}}
 sub TUhE {#{{{
-  emit("tu'e");
+  &emit("tu'e", "TUhE");
 }
   #}}}
 sub TUhU {#{{{
-  emit("tu'u");
+  &emit("tu'u", "TUhU");
 }
   #}}}
 sub VA {#{{{
-  my $r = &rnd;
-  if ($r < 0.333) { emit ("va"); }
-  elsif ($r < 0.667) { emit ("vi"); }
-  else { emit ("vu"); }
+  &emit(&pickx("va", "vi", "vu"), "VA");
 }
 #}}}
 sub VAU {#{{{
-  emit("vau");
+  &emit("vau", "VAU");
 }
 #}}}
 @VEhA = (#{{{
@@ -503,7 +572,7 @@ sub VAU {#{{{
 );
 #}}}
 sub VEhA {#{{{
-  emit (&pick(\@VEhA));
+  &emit (&pick(\@VEhA), "VEhA");
 }
 #}}}
 @VIhA = (#{{{
@@ -511,7 +580,11 @@ sub VEhA {#{{{
 );
 #}}}
 sub VIhA {#{{{
-  emit (&pick(\@VIhA));
+  &emit (&pick(\@VIhA), "VIhA");
+}
+#}}}
+sub VUhO {#{{{
+  &emit ("vu'o", "VUhO");
 }
 #}}}
 @ZAhO = (#{{{
@@ -528,37 +601,36 @@ sub VIhA {#{{{
 );
 #}}}
 sub ZAhO {#{{{
-  emit (&pick(\@ZAhO));
+  &emit (&pick(\@ZAhO), "ZAhO");
 }
 #}}}
+@ZEhA = (#{{{
+  "ze'a", "ze'e", "ze'i", "ze'u"
+);
+#}}}
 sub ZEhA {#{{{
-  my $r = &rnd;
-  if ($r < 0.25) { emit("ze'a"); }
-  elsif ($r < 0.5) { emit("ze'e"); }
-  elsif ($r < 0.75) { emit("ze'i"); }
-  else { emit("ze'u"); }
+  &emit(&pick(\@ZEhA), "ZEhA");
 }
 #}}}
 sub ZI {#{{{
-  $r = &rnd;
-  if ($r < 0.333) { emit("zi"); }
-  elsif ($r < 0.667) { emit("za"); }
-  else { emit("zu"); }
+  &emit(&pickx("zi", "za", "zu"), "ZI");
 }
 #}}}
 sub ZIhE {#{{{
-  emit("zi'e");
+  &emit("zi'e", "ZIhE");
 }
 #}}}
 sub ZOhU {#{{{
-  emit("zo'u");
+  &emit("zo'u", "ZOhU");
 }
 #}}}
 #
 sub number {#{{{
 ## FIXME
   $n = &getnum1;
-  &emit("pa");
+  for (1..$n) {
+    &PA;
+  }
 };
 #}}}
 sub interval_property {#{{{
@@ -726,12 +798,39 @@ sub simple_tense_modal {#{{{
 #}}}
 
 sub text {#{{{
-  ##FIXME
+  while (&rnd < $piter) { &NAI; }
+  my $r = &rnd;
+  if ($r < $pmed) {
+    &CMENE;
+    while (&rnd < $piter) { &CMENE; }
+    &opt_free_seq;
+  } elsif ($r < $pmed+$pmed) {
+    ## FIXME
+  }
+  if (&rnd < $pmed) { &joik_jek; }
   &text_1;
 }
 #}}}
 sub text_1 {#{{{
-  ##FIXME
+  if (&rnd < $phi) {
+    if (&rnd < 0.8) {
+      my $n = &getnum1;
+      for (1 .. $n) {
+        &I;
+        my $r = &rnd;
+        if ($r < 0.333) { &jek; }
+        elsif ($r < 0.667) { &joik; }
+        if (&rnd < $phi) {
+          if (&rnd < $phi) { &stag; }
+          &BO;
+        }
+        &opt_free_seq;
+      }
+    } else {
+      &NIhO;
+      while (&rnd < $piter) { &NIhO; }
+    }
+  }
   if (&rnd < 0.95) { &paragraphs; }
 }
 #}}}
@@ -746,7 +845,7 @@ sub paragraphs {#{{{
 }
 #}}}
 sub paragraph {#{{{
-  if (1 || &rnd < 0.95) { # FIXME
+  if (&rnd < 0.95) {
     &statement;
   } else {
     &fragment;
@@ -767,12 +866,16 @@ sub paragraph {#{{{
 }
 #}}}
 sub statement {#{{{
+  my $z;
   if (&rnd > $piter) {
+    $z = &in("statement_s1");
     &statement_1;
   } else {
+    $z = &in("statement_pnx_stmt");
     &prenex;
     &statement;
   }
+  &out($z);
 }
 #}}}
 sub statement_1 {#{{{
@@ -817,8 +920,18 @@ sub statement_3 {#{{{
 }
 #}}}
 sub fragment {#{{{
-##FIXME
-  die;
+  my $r = &rnd;
+  my $z;
+  if    ($r < 0.1) { $z = &in("fragment_ek"); &ek; &opt_free_seq; }
+  elsif ($r < 0.2) { $z = &in("fragment_gihek"); &gihek; &opt_free_seq; }
+  elsif ($r < 0.3) { $z = &in("fragment_quantifier"); &quantifier; }
+  elsif ($r < 0.4) { $z = &in("fragment_na"); &NA; &opt_free_seq; }
+  elsif ($r < 0.55) { $z = &in("fragment_terms"); &terms; &VAU; &opt_free_seq; }
+  elsif ($r < 0.65) { $z = &in("fragment_prenex"); &prenex; }
+  elsif ($r < 0.8) { $z = &in("fragment_relative_clauses"); &relative_clauses; }
+  elsif ($r < 0.9) { $z = &in("fragment_links"); &links; }
+  else             { $z = &in("fragment_linkargs"); &linkargs; }
+  &out($z);
 }
 #}}}
 sub prenex {#{{{
@@ -828,12 +941,14 @@ sub prenex {#{{{
 }
 #}}}
 sub sentence {#{{{
+  my $z = &in("sentence");
   if (&rnd < 0.5) {
     &terms;
     &CU;
     &opt_free_seq;
   }
   &bridi_tail;
+  &out($z);
 }
 #}}}
 sub subsentence {#{{{
@@ -846,55 +961,117 @@ sub subsentence {#{{{
 }
 #}}}
 sub bridi_tail {#{{{
-  ## FIXME
+  my $zz = &in("bridi_tail");
   &bridi_tail_1;
+  if (&rnd < $piter) {
+    my $z = &in("bridi_tail_iter");
+    &gihek;
+    if (&rnd < $phi) { &stag; }
+    &KE;
+    &opt_free_seq;
+    &bridi_tail;
+    &KEhE;
+    &opt_free_seq;
+    &tail_terms;
+    &out($z);
+  }
+  &out($zz);
 }
 #}}}
 sub bridi_tail_1 {#{{{
-  ## FIXME
   &bridi_tail_2;
-}
-#}}}
-sub bridi_tail_2 {#{{{
-  ## FIXME
-  &bridi_tail_3;
-}
-#}}}
-sub bridi_tail_3 {#{{{
-  if (0 && &rnd < 0.33) { # FIXME
-    &gek_sentence;
-  } else {
-    &selbri;
+  while (&rnd < $piter) {
+    &gihek;
+    &opt_free_seq;
+    &bridi_tail_2;
     &tail_terms;
   }
 }
 #}}}
+sub bridi_tail_2 {#{{{
+  &bridi_tail_3;
+  while (&rnd < $piter) {
+    my $z = &in("bridi_tail_2_iter");
+    &gihek;
+    if (&rnd < $phi) { &stag; }
+    &BO;
+    &opt_free_seq;
+    &bridi_tail_2;
+    &tail_terms;
+    &out($z);
+  }
+}
+#}}}
+sub bridi_tail_3 {#{{{
+  my $z;
+  if ($recur >0 && &rnd < 0.33) {
+    --$recur;
+    $z = &in("bridi_tail_3_gek");
+    &gek_sentence;
+  } else {
+    $z = &in("bridi_tail_3_selbri");
+    &selbri;
+    &tail_terms;
+  }
+  &out($z);
+}
+#}}}
 sub gek_sentence {#{{{
-  ##FIXME
-  die;
+  my $r = &rnd;
+  if ($r < 0.8) {
+    &gek;
+    &subsentence;
+    &gik;
+    &subsentence;
+    &tail_terms;
+  } elsif ($r < 0.9) {
+    if (&rnd < $phi) { &tag; }
+    &KE;
+    &opt_free_seq;
+    &gek_sentence;
+    &KEhE;
+    &opt_free_seq;
+  } else {
+    &NA;
+    &opt_free_seq;
+    &gek_sentence;
+  }
 }
 #}}}
 sub tail_terms {#{{{
+  my $z = &in("tail_terms");
   if (&rnd < 0.667) {
     &terms;
   }
   &VAU;
   &opt_free_seq;
+  &out($z);
 }
 #}}}
 sub terms {#{{{
   my $n = &getnum1;
+  my $z = &in("terms");
   for (1..$n) { &terms_1; }
+  &out($z);
 }
 #}}}
 sub terms_1 {#{{{
-  ##FIXME
   &terms_2;
+  while (&rnd < $piter) {
+    &PEhE;
+    &opt_free_seq;
+    &joik_jek;
+    &terms_2;
+  }
 }
 #}}}
 sub terms_2 {#{{{
-  ## FIXME
   &term;
+  while (&rnd < $piter) {
+    &CEhE;
+    &opt_free_seq;
+    &term;
+  }
 }
 #}}}
 sub term {#{{{
@@ -919,26 +1096,66 @@ sub term {#{{{
 }
 #}}}
 sub termset {#{{{
-  ##FIXME
-  die;
+  my $z;
+  if (&rnd < 0.5) {
+    $z = &in("termset_gek");
+    &NUhI;
+    &opt_free_seq;
+    &gek;
+    &terms;
+    &NUhU;
+    &opt_free_seq;
+    &gik;
+    &terms;
+    &NUhU;
+    &opt_free_seq;
+  } else {
+    $z = &in("termset_terms");
+    &NUhI;
+    &opt_free_seq;
+    &terms;
+    &NUhU;
+    &opt_free_seq;
+  }
+  &out($z);
 }
 #}}}
 sub sumti {#{{{
-  #FIXME
   &sumti_1;
+  if ($recur>0 && &rnd < $pmed) {
+    --$recur;
+    &VUhO;
+    &relative_clauses;
+  }
 }
 #}}}
 sub sumti_1 {#{{{
-  #FIXME
   &sumti_2;
+  if ($recur>0 && &rnd<$pmed) {
+    my $z = &in("sumti_1_iter");
+    --$recur;
+    if (&rnd < 0.5) { &ek; }
+    else            { &joik; }
+    if (&rnd < $phi) { &stag; }
+    &KE;
+    &opt_free_seq;
+    &sumti;
+    &KEhE;
+    &opt_free_seq;
+    &out($z);
+  }
 }
 #}}}
 sub sumti_2 {#{{{
-##FIXME
   &sumti_3;
+  while (&rnd < $piter) {
+    &joik_ek;
+    &sumti_3;
+  }
 }
 #}}}
 sub sumti_3 {#{{{
+  my $z = &in("sumti_3");
   &sumti_4;
   if (&rnd < 0.05) {
     if (&rnd < 0.5) { &ek; }
@@ -948,6 +1165,7 @@ sub sumti_3 {#{{{
     &opt_free_seq;
     &sumti_3;
   }
+  &out($z);
 }
 #}}}
 sub sumti_4 {#{{{
@@ -963,20 +1181,25 @@ sub sumti_4 {#{{{
 }
 #}}}
 sub sumti_5 {#{{{
+  my $z;
   if (&rnd < 0.5) {
+    $z = &in("sumti_5_qs6");
     if (&rnd < $pmed) { &quantifier; }
     &sumti_6;
   } else {
+    $z = &in("sumti_5_selbri");
     &quantifier;
     &selbri;
     &KU;
     &opt_free_seq;
   }
   if (&rnd < $p{relative_clauses}) { &relative_clauses; }
+  &out($z);
 }
 #}}}
 sub sumti_6 {#{{{
   my $r = &rnd;
+  my $z = &in("sumti_6");
   ## FIXME -not all cases done
   if ($recur>0 && $r<0.05) {
     --$recur;
@@ -1014,13 +1237,14 @@ sub sumti_6 {#{{{
       &opt_free_seq;
     }
   }
+  &out($z);
 }
 #}}}
 sub sumti_tail {#{{{
   if ($recur>0 && &rnd<0.25) {
     --$recur;
-    $relative_clauses;
-    $sumti_tail_1;
+    &relative_clauses;
+    &sumti_tail_1;
   } else {
     if ($recur>0 && &rnd<$pmed) {
       --$recur;
@@ -1075,6 +1299,7 @@ sub relative_clause {#{{{
 }
 #}}}
 sub selbri {#{{{
+  my $z = &in("selbri");
   while (&rnd < $piter) {
     if (&rnd < $phi) { &tag; }
     &NA;
@@ -1082,15 +1307,18 @@ sub selbri {#{{{
   }
   if (&rnd < $phi) { &tag; }
   &selbri_2;
+  &out($z);
 }
 #}}}
 sub selbri_2 {#{{{
+  my $z = &in("selbri_2");
   &selbri_3;
   if (&rnd < $pmed) {
     &CO;
     &opt_free_seq;
     &selbri_2;
   }
+  &out($z);
 }
 #}}}
 sub selbri_3 {#{{{
@@ -1132,14 +1360,17 @@ sub selbri_5 {#{{{
 }
 #}}}
 sub selbri_6 {#{{{
+  my $z;
   if ($recur>0 && &rnd<0.02) {
     --$recur;
+    $z = &in("selbri_6_guhek");
     if (&rnd < $phi) { &NAhE; &opt_free_seq; }
     &guhek;
     &selbri;
     &gik;
     &selbri_6;
   } else {
+    $z = &in("selbri_6_tu_bo_s6");
     &tanru_unit;
     if (&rnd < $piter) {
       &BO;
@@ -1147,6 +1378,7 @@ sub selbri_6 {#{{{
       &selbri_6;
     }
   }
+  &out($z);
 }
 #}}}
 sub tanru_unit {#{{{
@@ -1169,8 +1401,10 @@ sub tanru_unit_1 {#{{{
 #}}}
 sub tanru_unit_2 {#{{{
   my $r = &rnd;
+  my $z = undef;
   if ($recur>0 && $r<0.01) {
     --$recur;
+    $z = &in("tanru_unit_2_ke_s3");
     &KE;
     &opt_free_seq;
     &selbri_3;
@@ -1178,6 +1412,7 @@ sub tanru_unit_2 {#{{{
     &opt_free_seq;
   } elsif ($recur>0 && $r<0.02) {
     --$recur;
+    $z = &in("tanru_unit_2_me");
     &ME;
     &opt_free_seq;
     &sumti;
@@ -1185,6 +1420,7 @@ sub tanru_unit_2 {#{{{
     &opt_free_seq;
     if (&rnd < $pmed) { &MOI; &opt_free_seq; }
   } elsif ($recur>0 && $r<0.05) {
+    $z = &in("tanru_unit_2_nu");
     &NU;
     if (&rnd < $pmed) { &NAI; }
     &opt_free_seq;
@@ -1217,6 +1453,7 @@ sub tanru_unit_2 {#{{{
       &opt_free_seq;
     } elsif ($r < 0.8) {
 ## FIXME
+      $z = &in("tanru_unit_2_moi");
       &number;
       &MOI;
       &opt_free_seq;
@@ -1226,6 +1463,7 @@ sub tanru_unit_2 {#{{{
       &opt_free_seq;
     }
   }
+  &out($z) if (defined $z);
 }
 #}}}
 sub linkargs {#{{{
@@ -1311,7 +1549,7 @@ sub gek {#{{{
   my $r = &rnd;
   if ($r < 0.2) {
     if (&rnd < $phi) { &SE; }
-    &JA;
+    &GA;
     if (&rnd < $phi) { &NAI; }
     &opt_free_seq;
   } elsif ($r < 0.5) {
@@ -1360,12 +1598,14 @@ sub tense_modal {#{{{
 }
 #}}}
 sub stag {#{{{
+  my $z = &in("stag");
   &simple_tense_modal;
   while (&rnd < $piter) {
     if (&rnd < 0.5) { &jek; }
     else            { &joik; }
     &simple_tense_modal;
   }
+  &out($z);
 }
 #}}}
 
@@ -1374,18 +1614,36 @@ sub opt_free_seq {#{{{
 }
 #}}}
 
+$failures = 0;
+$case = 0;
 $| = 1;
-for (1..50) {
-  $output = "";
-  $llen = 0;
+while ($failures < 5) {
+  &clear_output;
+  &clear_stack;
   &text;
   $output .= "\n";
 
-  print $output;
-  open(OUT, "|../jbofihe");
+  open(OUT, "|../../jbofihe > jbofihe.out 2>jbofihe.err");
   print OUT $output;
   close (OUT);
-  print "------------------------------\n";
+
+  $case++;
+  if ($case%250 == 0) { print STDERR "$case\n"; }
+  $result = $?;
+  if ($result != 0) {
+    $failures++;
+    print STDERR "Failure $failures at case_$case\n";
+    open (TEXT, ">case_$usseeding_$case.txt");
+    print TEXT $output;
+    close (TEXT);
+    open (TRACE, ">case_$usseeding_$case.gen");
+    for my $t (@trace) {
+      print TRACE $t."\n";
+    }
+    close(TRACE);
+    if (-r "jbofihe.out") { rename "jbofihe.out", "jbofihe_$usseeding_$case.out"; }
+    if (-r "jbofihe.err") { rename "jbofihe.err", "jbofihe_$usseeding_$case.err"; }
+  }
 }
 
 # vimsw=2:ts=2:et:syntax=OFF
