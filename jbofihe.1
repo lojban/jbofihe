@@ -74,6 +74,20 @@ input text more carefully when debugging parse errors.)
 .B filename
 The name of the file containing text to be parsed.  If omitted, the text is
 read from standard input.
+.SH EXIT STATUS
+.TP
+.B 0
+The text was scanned and parsed successfully - the text was grammatically valid
+Lojban.
+.TP
+.B "1/2"
+The text had grammatical errors that were detected by the main parsing
+algorithm.
+.TP
+.B 3
+The text contained words whose structure was not valid Lojban.  No grammatical
+checking of the text was performed; the grammatical function of the erroneous
+word(s) could not be determined.
 .SH SEE ALSO
 .PP
 .TP
