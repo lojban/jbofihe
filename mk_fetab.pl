@@ -29,11 +29,14 @@
 # C : cons following non-cons
 # APOS : apostrophe
 # CI : init pair (=> permissible too)
+# CSI : init pair with 2nd letter syllabic (l,m,n,r)
 # CP : permissible non-init pair
+# CS : CP with 2nd letter syllabic (l,m,n,r)
 # CN : non-permissible pair (maybe with 'y' between)
 # Y : 'y'
 # H : 3 letter hyphens that occur in F-III's (may be returned when DFA expects a
 #     CP, watch out!)
+# HS : like H with added requirement that 3rd letter is syllabic (l,m,n,r)
 # BT : Bad triple (ntc,nts,ndj,ndz)
 # 
 # (The next 3 are needed to properly check CVV[rn](>=2syl or CVV) forms
@@ -126,10 +129,15 @@ $TOK_N = 5;
 $TOK_C = 6;
 $TOK_NR = 7;
 $TOK_CI = 8;
-$TOK_CP = 9;
-$TOK_CN = 10;
-$TOK_H  = 11;
-$TOK_BT = 12; # bad triples
+$TOK_CSI = 9;
+$TOK_CP = 10;
+$TOK_CS = 11;
+$TOK_CN = 12;
+$TOK_H  = 13;
+$TOK_HS = 14;
+$TOK_BT = 15; # bad triples
+# WARNING : If token values ever go above 15, the encoding scheme
+# has to be changed, as 4 bits are allowed.
 
 $AC_CLR = 0;
 $AC_SFT = 1;
@@ -152,22 +160,30 @@ for ($i=0; $i<4; $i++) {
 
             if ($a =~ /^(rln|nlr)$/) {
                 $act = $AC_SFT;
-                $tok = $TOK_H;
+                $tok = $TOK_HS;
                 $set = 0;
                 $inh = 1;
-            } elsif ($a =~ /^([bcdfgjklmnpstvxz]r[bcdfgjklmnpstvxz])$/) {
+            } elsif ($a =~ /^([Cn]r[bcdfgjklmnpstvxz])$/) {
                 $act = $AC_SFT;
-                $tok = $TOK_H;
+                if ($a =~ /..[lmnr]/) {
+                    $tok = $TOK_HS;
+                } else {
+                    $tok = $TOK_H;
+                }
                 $set = 0;
                 $inh = 1;
             } elsif ($a =~ /^(rn[bcdfgjklmprstvxz])$/) {
                 $act = $AC_SFT;
-                $tok = $TOK_H;
+                if ($a =~ /..[lmnr]/) {
+                    $tok = $TOK_HS;
+                } else {
+                    $tok = $TOK_H;
+                }
                 $set = 0;
                 $inh = 1;
-            } elsif ($a =~ /^([bcdfgjklmprstvxz]nr)$/) {
+            } elsif ($a =~ /^(Cnr)$/) {
                 $act = $AC_SFT;
-                $tok = $TOK_H;
+                $tok = $TOK_HS;
                 $set = 0;
                 $inh = 1;
             } elsif ($a =~ /[aeiou]$/) {
@@ -237,12 +253,20 @@ for ($i=0; $i<4; $i++) {
                 $inh = 1;
             } elsif ($a =~ /^.(pl|pr|fl|fr|bl|br|vl|vr|cp|cf|ct|ck|cm|cn|cl|cr|jb|jv|jd|jg|jm|sp|sf|st|sk|sm|sn|sl|sr|zb|zv|zd|zg|zm|tc|tr|ts|kl|kr|dj|dr|dz|gl|gr|ml|mr|xl|xr)$/) { # specific initial pairs
                 $act = $AC_SFT;
-                $tok = $TOK_CI;
+                if ($a =~ /..[lmnr]/) {
+                    $tok = $TOK_CSI;
+                } else {
+                    $tok = $TOK_CI;
+                }
                 $set = 0;
                 $inh = 1;
             } elsif ($a =~ /[bcdfgjklmnprstvxz]{2}$/) {
                 $act = $AC_SFT;
-                $tok = $TOK_CP;
+                if ($a =~ /..[lmnr]/) {
+                    $tok = $TOK_CS;
+                } else {
+                    $tok = $TOK_CP;
+                }
                 $set = 0;
                 $inh = 1;
             } else {

@@ -8,10 +8,10 @@
 
 $VTOK_V = 1; # must agree with coding for V in consonant FSM
 $VTOK_Y = 3; # must agree with coding for y in consonant FSM
-$VTOK_VV = 13; # ai/au/ei/oi valid anywhere
-$VTOK_VX = 14; # [iu][aeiou] - vowel extended
-$VTOK_VY = 15; # combinations involving y where valid [only in cmene]
-$VTOK_YY = 16; # two copies of y adjacent with no separation (only in hesitation string)
+$VTOK_VV = 16; # ai/au/ei/oi valid anywhere
+$VTOK_VX = 17; # [iu][aeiou] - vowel extended
+$VTOK_VY = 18; # combinations involving y where valid [only in cmene]
+$VTOK_YY = 19; # two copies of y adjacent with no separation (only in hesitation string)
 $VTOK_UNK = 0;
 
 # Note, C encodes all consonants + apostrophe

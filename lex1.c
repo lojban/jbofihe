@@ -303,7 +303,10 @@ process_word(char *buf, int start_line, int start_column)
               buf, start_line, column);
       had_bad_tokens = 1;
       break;
-    case MT_BRIVLA:
+    case MT_GISMU:
+    case MT_LUJVO:
+    case MT_FUIVLA3:
+    case MT_FUIVLA4:
       {
         char **pw;
         char *p, *q;

@@ -13,7 +13,10 @@
  * information. */
 typedef enum {
   MT_BOGUS,
-  MT_BRIVLA, /* gismu/lujvo/fu'ivla */
+  MT_GISMU,
+  MT_LUJVO,
+  MT_FUIVLA3, /* stage 3 */
+  MT_FUIVLA4, /* stage 4 */
   MT_CMAVOS,
   MT_CMENE,
   MT_BAD_UPPERCASE

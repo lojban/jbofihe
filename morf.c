@@ -38,11 +38,13 @@ extern int allow_cultural_rafsi;
 #define R_GISMU_1       4
 #define R_LUJVO_0       5
 #define R_LUJVO_1       6
-#define R_FUIVLA_0      7
-#define R_FUIVLA_1      8
-#define R_CMENE         9
-#define R_BAD_TOSMABRU 10
-#define R_BAD_SLINKUI  11
+#define R_STAGE3_0      7
+#define R_STAGE3_1      8
+#define R_STAGE4_0      9
+#define R_STAGE4_1     10
+#define R_CMENE        11
+#define R_BAD_TOSMABRU 12
+#define R_BAD_SLINKUI  13
 
 /* Define the values returned by priority coding the bit patterns */
 #define W_UNKNOWN         0
@@ -50,8 +52,9 @@ extern int allow_cultural_rafsi;
 #define W_CMAVOS_END_CY   2
 #define W_GISMU           3
 #define W_LUJVO           4
-#define W_FUIVLA          5
-#define W_CMENE           6
+#define W_FUIVLA3         5
+#define W_FUIVLA4         6
+#define W_CMENE           7
 #define W_BAD_TOSMABRU    8
 #define W_BAD_SLINKUI     9
 #define W_BIZARRE        10
@@ -92,8 +95,8 @@ static unsigned char s2l[32] = {
 /* Token names for -v mode */
 static char *toknam[] = {
   "UNK", "V", "APOS", "Y", "R", "N", "C",
-  "NR", "CI", "CP", "CN", "H", "BT",
-  "VV", "VX", "VY", "YY"
+  "NR", "CI", "CSI", "CP", "CS", "CN",
+  "H", "HS", "BT", "VV", "VX", "VY", "YY"
 };
 
 /* Front end state machine actions, printable for -v mode */
@@ -410,8 +413,10 @@ morf_scan(char *s, char ***buf_end)
       case R_GISMU_1: result = W_GISMU; decrement = 1; break;
       case R_LUJVO_0: result = W_LUJVO; decrement = 0; break;
       case R_LUJVO_1: result = W_LUJVO; decrement = 1; break;
-      case R_FUIVLA_0: result = W_FUIVLA; decrement = 0; break;
-      case R_FUIVLA_1: result = W_FUIVLA; decrement = 1; break;
+      case R_STAGE3_0: result = W_FUIVLA3; decrement = 0; break;
+      case R_STAGE3_1: result = W_FUIVLA3; decrement = 1; break;
+      case R_STAGE4_0: result = W_FUIVLA4; decrement = 0; break;
+      case R_STAGE4_1: result = W_FUIVLA4; decrement = 1; break;
       case R_CMENE: result = W_CMENE; decrement = 0; break;
       case R_BAD_TOSMABRU: result = W_BAD_TOSMABRU; decrement = 1; break;
       case R_BAD_SLINKUI: result = W_BAD_SLINKUI; decrement = 0; break;
@@ -435,9 +440,19 @@ morf_scan(char *s, char ***buf_end)
         ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_CMAVOS;
         break;
       case W_GISMU:
+        ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_GISMU;
+        if (decrement) pstart--;
+        break;
       case W_LUJVO:
-      case W_FUIVLA:
-        ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_BRIVLA;
+        ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_LUJVO;
+        if (decrement) pstart--;
+        break;
+      case W_FUIVLA3:
+        ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_FUIVLA3;
+        if (decrement) pstart--;
+        break;
+      case W_FUIVLA4:
+        ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_FUIVLA4;
         if (decrement) pstart--;
         break;
       case W_BAD_TOSMABRU:
@@ -465,7 +480,7 @@ morf_scan(char *s, char ***buf_end)
     char **x;
 
     printf("%-25s : ", s);
-    printf("[EV=%08x] ", exival);
+    printf("[EV=%2d] ", exival);
 
 
     switch (result) {
@@ -484,8 +499,11 @@ morf_scan(char *s, char ***buf_end)
       case W_LUJVO:
         printf("lujvo");
         break;
-      case W_FUIVLA:
-        printf("fu'ivla");
+      case W_FUIVLA3:
+        printf("fu'ivla (stage-3)");
+        break;
+      case W_FUIVLA4:
+        printf("fu'ivla (stage-4)");
         break;
       case W_CMENE:
         printf("cmene");
@@ -507,7 +525,8 @@ morf_scan(char *s, char ***buf_end)
       case W_CMAVOS_END_CY:
       case W_GISMU:
       case W_LUJVO:
-      case W_FUIVLA:
+      case W_FUIVLA3:
+      case W_FUIVLA4:
       case W_BAD_TOSMABRU:
       case W_BAD_SLINKUI:
         if (had_uppercase) {
@@ -517,6 +536,7 @@ morf_scan(char *s, char ***buf_end)
     }
 
     putchar(' ');
+    putchar(':');
     putchar(' ');
 
     for (a=s, x=start; *a; a++) {
