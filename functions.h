@@ -19,6 +19,7 @@
 #define extend_string(x,s) (strcat(Realloc(x, (strlen(x)+strlen(s)+1)), s))
 #define new(T) (T *) Malloc(sizeof(T))
 #define new_array(T, n) (T *) Malloc(sizeof(T) * (n))
+#define grow_array(T, n, oldX) (T *) ((oldX) ? Realloc(oldX, (sizeof(T) * (n))) : Malloc(sizeof(T) * (n)))
 
 /* In functions.c */
 TreeNode *new_node(void);
