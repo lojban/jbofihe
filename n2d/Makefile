@@ -28,3 +28,6 @@ scan.c : scan.l
 
 scan.o : scan.c parse.h n2d.h
 
+clean:
+	rm n2d *.o scan.c parse.c parse.h
+
