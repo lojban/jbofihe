@@ -20,7 +20,8 @@ OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc_tab.o functions.o \
         categ.o nonterm.o tree.o translate.o latex.o \
         properties.o conversion.o terms.o memory.o tenses.o \
 	output.o textout.o htmlout.o connect.o stag.o latexblk.o \
-        relative.o textblk.o errorscan.o canonluj.o lujvofns.o
+        relative.o textblk.o errorscan.o canonluj.o lujvofns.o \
+        erasure.o
 
 SRCS2 = $(OBJS2:%.o=%.c)
 

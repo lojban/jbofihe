@@ -25,7 +25,8 @@ typedef enum {
   N_BU,
   N_BRIVLA,
   N_CMENE,
-  N_NONTERM
+  N_NONTERM,
+  N_BROKEN_ERASURE /* ZOI, ZO or LOhU with insufficient SI after => parse error */
 } NodeTypes;
 
 struct marker {
@@ -70,6 +71,12 @@ struct cmene {
 
 struct bu {
   char *word;
+};
+
+/* When zoi, zo, lo'u..le'u has been erased with too few si cmavo,
+   how many matches are still required to clear it. */
+struct erasure {
+  int defects;
 };
 
 typedef enum {
@@ -344,6 +351,7 @@ typedef struct treenode {
     struct brivla  brivla;
     struct cmene   cmene;
     struct nonterm nonterm;
+    struct erasure erasure;
   } data;
 } TreeNode;
 
