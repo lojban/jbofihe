@@ -1114,6 +1114,9 @@ categorize_number_moi(TreeNode *head) {
             default:
               goto done;
           }
+        } else if (y->type == N_BU) {
+          count++;
+          y = y->prev;
         } else {
           goto done;
         }
