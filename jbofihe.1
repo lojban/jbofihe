@@ -3,7 +3,7 @@
 jbofihe \- Lojban parser / grammar checker / word glosser
 .SH SYNOPSIS
 .B jbofihe
-[-v] [ -h | --help | -? ] [ -k ] [ -g ] [ -t ] [-tf ] [ -l ] [ -b ] [ -x ] [ -H ] [ -m ] [ -w width ] [-ie] [-re] [-cr] [filename]
+[-v] [ -h | --help | -? ] [ -k ] [ -g ] [ -t ] [-tf ] [ -l ] [ -b ] [ -x ] [ -H ] [ -m ] [ -w width ] [-ie] [-re] [-cr] [-bt] [filename]
 .SH DESCRIPTION
 .I jbofihe
 is a program that reads a piece of Lojban text and checks it for
@@ -76,6 +76,11 @@ Allow lujvo to contain the cultural rafsi forms CCVVCy (CCVVCV at end of word)
 described in section 4.16 of the Reference Grammar.  This affects recognition
 of valid lujvo and fu'ivla forms (the latter since it affects the recognition
 of slinku'i failures).
+.TP
+.B -bt
+Show backtrace through the pending parser states when a syntax error occurs.
+This may give some insight into what the parser was expecting to see next, to
+help in fixing the error.
 .TP
 .B filename
 The name of the file containing text to be parsed.  If omitted, the text is
