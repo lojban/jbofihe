@@ -197,7 +197,10 @@ morf_scan(char *s, char ***buf_end)
   p = s;
   while (*p) {
     c = *p;
-    if (c == ',') continue;
+    if (c == ',') {
+      p++;
+      continue;
+    }
     G = (unsigned int) mapchar[c];
     letter_uppercase = (G >> 7) & 1;
     had_uppercase |= letter_uppercase;
