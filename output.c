@@ -377,6 +377,9 @@ get_cmavo_text_inside_node_internal(TreeNode *x, char *sofar)
         break;
     }
 
+  } else if (x->type == N_BU) {
+    strcat(sofar, x->data.bu.word);
+  
   }
 
   return;
@@ -874,6 +877,22 @@ translate_abstraction (TreeNode *x, char *eng)
   ++++++++++++++++++++++++++++++*/
 
 static void
+attempt_translation(char *loj, char *eng)
+{
+  char *trans;
+  trans = translate(loj);
+  if (trans) {
+    strcpy(eng, trans);
+  } else {
+    strcpy(eng, "?");
+  }
+}
+
+/*++++++++++++++++++++++++++++++
+  
+  ++++++++++++++++++++++++++++++*/
+
+static void
 get_lojban_word_and_translation (TreeNode *x, char *loj, char *eng)
 {
 
@@ -927,22 +946,22 @@ get_lojban_word_and_translation (TreeNode *x, char *loj, char *eng)
 
     case N_ZOI:
       sprintf(loj, "%s %s %s %s", x->data.zoi.form, x->data.zoi.term, x->data.zoi.text, x->data.zoi.term);
-      eng[0] = 0;
+      attempt_translation(x->data.zoi.text, eng);
       break;
       
     case N_ZO:
       sprintf(loj, "zo %s", x->data.zo.text);
-      eng[0] = 0;
+      attempt_translation(x->data.zo.text, eng);
       break;
       
     case N_LOhU:
       sprintf(loj, "lo'u %s le'u", x->data.lohu.text);
-      eng[0] = 0;
+      attempt_translation(x->data.lohu.text, eng);
       break;
 
     case N_BU:
-      sprintf(loj, "%s bu", x->data.bu.word);
-      eng[0] = 0;
+      sprintf(loj, "%sbu", x->data.bu.word);
+      attempt_translation(loj, eng);
       break;
         
     case N_BRIVLA:
