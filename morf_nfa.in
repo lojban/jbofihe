@@ -380,6 +380,14 @@ BLOCK CULTURAL_LUJVO
         V ; APOS ; V ; CNR -> body.tos.s1.ex_y
         V ; VV       ; CNR -> body.tos.s1.ex_y
 
+    STATE body.tos.tail.s2.in
+        LCI ; V ; APOS ; V ; CNR -> body.tos.tail.s2.ex_y
+        LCI ; V ; VV   ;     CNR -> body.tos.tail.s2.ex_y
+
+    STATE body.tos.tail.s2.in_after_cc
+        V ; APOS ; V ; CNR -> body.tos.tail.s2.ex_y
+        V ; VV       ; CNR -> body.tos.tail.s2.ex_y
+        
     ##############
 
     # Set exit states on t0
@@ -919,8 +927,7 @@ Symbol S_CULTURAL_0 = TAG_CULTURAL_LUJVO_0 & ~TAG_LUJVO_0
 Symbol S_CULTURAL_1 = TAG_CULTURAL_LUJVO_1 & ~TAG_LUJVO_1
 Symbol S_CULTURAL_1T = TAG_CULTURAL_LUJVO_1T & ~TAG_LUJVO_1T
 
-# This should be OK , might want to review what comes after the '&' here
-Symbol S_CULTURAL_TAIL_OK = TAG_CULTURAL_LUJVO_TAIL_OK & ~TAG_LUJVO_1T
+Symbol S_CULTURAL_TAIL_OK = TAG_CULTURAL_LUJVO_TAIL_OK
 
 Result S_CULTURAL_0                        -> R_CULTURAL_LUJVO_0
 Result S_CULTURAL_1  & ~S_CULTURAL_0       -> R_CULTURAL_LUJVO_1
