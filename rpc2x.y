@@ -570,6 +570,19 @@ prenex : terms ZOhU free_seq
 sentence<40> = [terms [CU #]] bridi-tail
 */
 
+/* It would be nice to rearrange this so that CU occurs at the end of a rule,
+   so that the support for the 'show_elidables' option works the same way as
+   for all other elidables.  Unfortunately, if [terms [CU#]] is broken off as a
+   rule on its own, a reduce/reduce conflict is introduced between reducing the
+   terms on its own versus reducing terms on its own in the fragment rule.
+   Although this can be accommodated with care, there is a worse problem.  In a
+   sentence like "mi pu klama le zarci", the "pu" gets treated as being a term
+   in the terms before the missing CU, i.e. effectively "mi puku cu klama le
+   zarci".  This is incorrect, it should be reduced as part of the bridi_tail.
+   This is pretty-much a showstopper problem for proceeding that way, so CU
+   just has to have special treatment in elide.c. */
+
+
 sentence : terms CU free_seq bridi_tail
          | terms CU          bridi_tail
          | no_cu_sentence
@@ -832,38 +845,22 @@ termset<85> = NUhI # gek terms /NUhU#/ gik terms /NUhU#/ |
         NUhI # terms /NUhU#/
         */
 
-termset : NUhI free_seq gek terms NUhU free_seq gik terms NUhU free_seq
-        | NUhI free_seq gek terms NUhU free_seq gik terms NUhU
-        | NUhI free_seq gek terms NUhU free_seq gik terms /* ET NUhU */
+/* Termset is broken up this way so that the intermediate /NUhU#/ occurs
+   at the end of a rule.  This makes the support for the
+   'show_elidables_verbose' option easier to do. */
 
-        | NUhI free_seq gek terms NUhU          gik terms NUhU free_seq
-        | NUhI free_seq gek terms NUhU          gik terms NUhU
-        | NUhI free_seq gek terms NUhU          gik terms /* ET NUhU */
-
-        | NUhI free_seq gek terms /* ET NUhU */ gik terms NUhU free_seq
-        | NUhI free_seq gek terms /* ET NUhU */ gik terms NUhU
-        | NUhI free_seq gek terms /* ET NUhU */ gik terms /* ET NUhU */
- 
-        | NUhI          gek terms NUhU free_seq gik terms NUhU free_seq
-        | NUhI          gek terms NUhU free_seq gik terms NUhU
-        | NUhI          gek terms NUhU free_seq gik terms /* ET NUhU */
-
-        | NUhI          gek terms NUhU          gik terms NUhU free_seq
-        | NUhI          gek terms NUhU          gik terms NUhU
-        | NUhI          gek terms NUhU          gik terms /* ET NUhU */
-
-        | NUhI          gek terms /* ET NUhU */ gik terms NUhU free_seq
-        | NUhI          gek terms /* ET NUhU */ gik terms NUhU
-        | NUhI          gek terms /* ET NUhU */ gik terms /* ET NUhU */
-
-        | NUhI free_seq     terms NUhU free_seq
-        | NUhI free_seq     terms NUhU
-        | NUhI free_seq     terms /* ET NUhU */
-
-        | NUhI              terms NUhU free_seq
-        | NUhI              terms NUhU
-        | NUhI              terms /* ET NUhU */
+termset : termset_start gek termset_body gik termset_body
+        | termset_start termset_body
         ;
+
+termset_start : NUhI free_seq
+              | NUhI
+              ;
+
+termset_body : terms NUhU free_seq
+             | terms NUhU
+             | terms /* ET NUhU */
+             ;
 
 /*
 sumti<90> = sumti-1 [VUhO # relative-clauses]
