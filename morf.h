@@ -15,7 +15,8 @@ typedef enum {
   MT_BOGUS,
   MT_BRIVLA, /* gismu/lujvo/fu'ivla */
   MT_CMAVOS,
-  MT_CMENE
+  MT_CMENE,
+  MT_BAD_UPPERCASE
 } MorfType;
 
 /* Prototypes for fns */

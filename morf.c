@@ -107,10 +107,10 @@ static unsigned char mapchar[256] = {
   0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
   0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
 
-  0x1f, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
-  0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
-  0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
-  0x18, 0x19, 0x1a, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
+  0x1f, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87,
+  0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f,
+  0x90, 0x91, 0x92, 0x93, 0x94, 0x95, 0x96, 0x97,
+  0x98, 0x99, 0x9a, 0x1f, 0x1f, 0x1f, 0x1f, 0x1f,
 
   0x1f, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
   0x08, 0x09, 0x0a, 0x0b, 0x0c, 0x0d, 0x0e, 0x0f,
@@ -156,6 +156,8 @@ morf_scan(char *s, char ***buf_end)
   int exival;
   int decrement = 0;
   int result;
+  int had_uppercase=0;
+  int letter_uppercase;
   MorfType ext_result;
 
   typedef enum {
@@ -184,6 +186,9 @@ morf_scan(char *s, char ***buf_end)
     c = *p;
     if (c == ',') continue;
     G = (unsigned int) mapchar[c];
+    letter_uppercase = (G >> 7) & 1;
+    had_uppercase |= letter_uppercase;
+    G &= 0x1f;
 
     ent = (L<<10) + (S<<5) + G;
     tent = inact[ent];
@@ -267,23 +272,25 @@ morf_scan(char *s, char ***buf_end)
             *pstart++ = *x++;
           }
         }
-        ext_result = MT_CMAVOS;
+        ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_CMAVOS;
         break;
       case W_CMAVOS:
-        ext_result = MT_CMAVOS;
+        ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_CMAVOS;
         break;
       case W_GISMU:
       case W_LUJVO:
       case W_FUIVLA:
-        ext_result = MT_BRIVLA;
+        ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_BRIVLA;
         if (decrement) pstart--;
         break;
       case W_BAD_TOSMABRU:
       case W_BAD_SLINKUI:
+        /* Don't care about uppercase/lowercase status */
         ext_result = MT_BOGUS;
         if (decrement) pstart--;
         break;
       case W_CMENE:
+        /* Cmene are allowed to have uppercase letters in them. */
         ext_result = MT_CMENE;
         pstart = start+1;
         break;
@@ -334,6 +341,19 @@ morf_scan(char *s, char ***buf_end)
         break;
       case W_BIZARRE:
         printf("Internal program bug");
+        break;
+    }
+
+    switch (result) {
+      case W_UNKNOWN:
+      case W_CMAVOS:
+      case W_CMAVOS_END_CY:
+      case W_GISMU:
+      case W_LUJVO:
+      case W_FUIVLA:
+      case W_BAD_TOSMABRU:
+      case W_BAD_SLINKUI:
+        printf(" (contains invalid uppercase)");
         break;
     }
 
