@@ -16,6 +16,7 @@
 #include "output.h"
 
 #define MAX_WIDTH 120
+extern int opt_output_width; /* Defined in main.c */
 static int max_width = MAX_WIDTH;
 
 #define BUFFER_SIZE 512
@@ -85,6 +86,8 @@ initialise(void)
   tags_used = 0;
 
   clear_line_buffer();
+
+  max_width = opt_output_width;
 }
 
 /*++++++++++++++++++++++++++++++++++++++
@@ -119,19 +122,6 @@ flush_line(void)
   fputs("\n", stdout);
   clear_line_buffer();
 }
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static void
-write_epilog(void)
-{
-  flush_line();
-  return;
-}
-
 
 
 /*++++++++++++++++++++++++++++++++++++++
@@ -258,6 +248,17 @@ set_eols(int eols)
   pending_eols += eols;
 }
 
+/*++++++++++++++++++++++++++++++++++++++
+  Do final acts of writing to output file.
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+write_epilog(void)
+{
+  flush_block();
+  flush_line();
+  return;
+}
 
 /*++++++++++++++++++++++++++++++++++++++
   
@@ -271,14 +272,17 @@ static void
 write_open_bracket(BracketType type, int subscript)
 {
   char *brac;
+  char *brac1, *brac2, *brac3;
 
   if (type == BR_NONE) return;
 
-  if (loj_text[0] || eng_text[0]) {
+  if (loj_text[0] || eng_text[0] || tags_used > 0) {
     flush_block();
   }
 
   clear_eols();
+
+  brac = brac1 = brac2 = brac3 = NULL;
 
   switch (type) {
     case BR_NONE:
@@ -297,10 +301,14 @@ write_open_bracket(BracketType type, int subscript)
       brac = "<";
       break;
     case BR_CEIL:
-      brac = "^";
+      brac1 = " /";
+      brac2 = "|";
+      brac3 = "|";
       break;
     case BR_FLOOR:
-      brac = "^";
+      brac1 = "|";
+      brac2 = "|";
+      brac3 = " \\";
       break;
     case BR_TRIANGLE:
       brac = "<<";
@@ -310,8 +318,15 @@ write_open_bracket(BracketType type, int subscript)
   if (brac) {
     sprintf(loj_text, "%s ", brac);
     sprintf(eng_text, "%s ", brac);
-    sprintf(tag_text[0], "%s%d ", brac, subscript);
-    tags_used++;
+    sprintf(tag_text[0], "%s ", brac);
+    sprintf(tag_text[1], "%d ", subscript);
+    tags_used = 2;
+  } else if (brac1) {
+    sprintf(loj_text, "%s ", brac1);
+    sprintf(eng_text, "%s ", brac2);
+    sprintf(tag_text[0], "%s ", brac3);
+    sprintf(tag_text[1], "%d ", subscript);
+    tags_used = 2;
   }
 
   state = ST_OPEN;
@@ -331,12 +346,15 @@ static void
 write_close_bracket(BracketType type, int subscript)
 {
   char *brac;
+  char *brac1, *brac2, *brac3;
 
   if (type == BR_NONE) return;
 
   if (loj_text[0] || eng_text[0]) {
     flush_block();
   }
+
+  brac = brac1 = brac2 = brac3 = NULL;
 
   switch (type) {
     case BR_NONE:
@@ -355,10 +373,14 @@ write_close_bracket(BracketType type, int subscript)
       brac = ">";
       break;
     case BR_CEIL:
-      brac = "^";
+      brac1 = "\\";
+      brac2 = " |";
+      brac3 = " |";
       break;
     case BR_FLOOR:
-      brac = "^";
+      brac1 = " |";
+      brac2 = " |";
+      brac3 = "/";
       break;
     case BR_TRIANGLE:
       brac = ">>";
@@ -368,8 +390,15 @@ write_close_bracket(BracketType type, int subscript)
   if (brac) {
     sprintf(loj_text, "%s ", brac);
     sprintf(eng_text, "%s ", brac);
-    sprintf(tag_text[0], "%s%d ", brac, subscript);
-    tags_used++;
+    sprintf(tag_text[0], "%s ", brac);
+    sprintf(tag_text[1], "%d ", subscript);
+    tags_used = 2;
+  } else if (brac1) {
+    sprintf(loj_text, "%s ", brac1);
+    sprintf(eng_text, "%s ", brac2);
+    sprintf(tag_text[0], "%s ", brac3);
+    sprintf(tag_text[1], "%d ", subscript);
+    tags_used = 2;
   }
 
   state = ST_CLOSE;
@@ -491,14 +520,16 @@ start_tag(void)
 static void
 write_tag_text(char *brivla, char *place, char *trans, int brac)
 {
-  char buffer[1024];
+  char buffer1[256], buffer2[256];
 
+  sprintf(buffer1, "%s%s ", brivla, place);
   if (brac) {
-    sprintf(buffer, "%s%s (%s) ", brivla, place, trans);
+    sprintf(buffer2, "(%s) ", trans);
   } else {
-    sprintf(buffer, "%s%s %s ", brivla, place, trans);
+    sprintf(buffer2, "%s ", trans);
   }
-  strcat(tag_text[tags_used], buffer);
+  strcat(tag_text[tags_used], buffer1);
+  strcat(tag_text[tags_used], buffer2);
 }
 
 
