@@ -121,7 +121,9 @@ sub test {
     open (STDOUT, ">__STDOUT");
     open (STDERR, ">__STDERR");
 
-    system ("/bin/sh -c '$prog'");
+    $prog =~ s/\'/\\'/go;
+    my $cmd = "/bin/sh -c \"$prog\"";
+    system ($cmd);
 
     my $status = $? >> 8;
     my $dumped_core = $? & 128;
