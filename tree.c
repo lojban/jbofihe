@@ -334,26 +334,6 @@ print_bracketed(TreeNode *x, int depth, State *state, Conversion conv)
 
     clear_eols(state);
 
-    if (x->bahe ||
-        (x->ui_next != (TreeNode *) &x->ui_next)) {
-
-      if (*state == B_TEXT || *state == B_CLOSE) {
-        printf(" ");
-      }
-      switch (depth % 4) {
-        case 0: printf("(%d",depth/4); break;
-        case 1: printf("["); break;
-        case 2: printf("{"); break;
-        case 3: printf("<"); break;
-      }
-      *state = B_OPEN;
-    }
-
-    if (x->bahe) {
-      printf("%s", cmavo_table[x->bahe->data.cmavo.code].cmavo);
-      *state = B_TEXT;
-    }
-
     switch (x->type) {
 
       case N_CMAVO:
@@ -361,7 +341,32 @@ print_bracketed(TreeNode *x, int depth, State *state, Conversion conv)
         if (prop_elidable(x, NO)) {
           printf("%s", make_uppercase(cmavo_table[x->data.cmavo.code].cmavo));
         } else {
-          printf("%s", cmavo_table[x->data.cmavo.code].cmavo);
+          int code = x->data.cmavo.code;
+          printf("%s", cmavo_table[code].cmavo);
+          if (cmavo_table[code].selmao == UI) {
+            XCaiIndicator *xci;
+            if (prop_neg_indicator(x, NO)) {
+              printf(" nai");
+            }
+            xci = prop_cai_indicator(x, NO);
+            if (xci) {
+              switch (xci->code) {
+                case CC_CAI: printf(" cai"); break;
+                case CC_SAI: printf(" sai"); break;
+                case CC_RUhE: printf(" ru'e"); break;
+                case CC_CUhI: printf(" cu'i"); break;
+                case CC_PEI: printf(" pei"); break;
+                case CC_CAINAI: printf(" cai nai"); break;
+                case CC_SAINAI: printf(" sai nai"); break;
+                case CC_RUhENAI: printf(" ru'e nai"); break;
+                case CC_PEINAI: printf(" pei"); break;
+              }
+            }
+          } else if (cmavo_table[code].selmao == CAI) {
+            if (prop_neg_indicator(x, NO)) {
+              printf(" nai");
+            }
+          }
         }
         if (do_glossing) {
           if (x->data.cmavo.selmao == BAI) {
@@ -504,26 +509,6 @@ print_bracketed(TreeNode *x, int depth, State *state, Conversion conv)
         
       default:
         break;
-    }
-    
-    if (x->ui_next != (TreeNode *) &x->ui_next) {
-      for (y=x->ui_next; y != (TreeNode *) &x->ui_next; y=y->next) {
-        SPACE_B4_TEXT;
-        printf("%s", cmavo_table[y->data.cmavo.code].cmavo);
-      }
-      *state = B_TEXT;
-    }
-
-    if (x->bahe ||
-        (x->ui_next != (TreeNode *) &x->ui_next)) {
-
-      switch (depth % 4) {
-        case 0: printf(")%d",depth/4); break;
-        case 1: printf("]"); break;
-        case 2: printf("}"); break;
-        case 3: printf(">"); break;
-      }
-      *state = B_CLOSE;
     }
 
     pending_eols = x->eols;
