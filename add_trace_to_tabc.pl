@@ -17,7 +17,6 @@
 print <<EOF;
 extern elide_trace_reduce(int, int);
 extern elide_trace_shift(int,int);
-extern elide_trace_register(const short*, const short*, const short*, const short*);
 extern report_trace_shift(int);
 extern report_trace_reduce(int, int);
 extern report_trace_error(short *yyss, short *yyssp);
@@ -43,9 +42,6 @@ while (<>) {
         print;
         print "report_trace_error(yyss, yyssp);";
 
-    } elsif (m{/\* Initialize stack pointers}o) {
-        print "elide_trace_register(yypact, yytranslate, yycheck, yytable);\n";
-        print;
     } else {
         print;
     }

@@ -23,12 +23,6 @@
    tokens are shiftable in which states */
 #include "elitabs.c"
 
-/* Pointers grabbed from registration function */
-static const short *yypact = NULL;
-static const short *yytranslate = NULL;
-static const short *yycheck = NULL;
-static const short *yytable = NULL;
-
 /* Command line options -se & -sev */
 extern int show_elisions;
 extern int show_elisions_verbose;
@@ -138,20 +132,6 @@ grow_buffer(void)
   for (i=first; i < tokbuf.max; i++) {
     tokbuf.flags[i] = (unsigned long *) Malloc(sizeof(unsigned long) * nblocks);
   }
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  Called by modified yyparse to register the addresses of the parser tables
-  ++++++++++++++++++++++++++++++++++++++*/
-
-void
-elide_trace_register(const short *pact, const short *translate, const short *check, const short *table)
-{
-  yypact = pact;
-  yytranslate = translate;
-  yycheck = check;
-  yytable = table;
 }
 
 /*++++++++++++++++++++++++++++++++++++++
