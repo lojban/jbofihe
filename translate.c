@@ -1093,7 +1093,7 @@ lookup_template_match(int prec, int suffix, int gather, char *orig, Component *c
     strncpy(generic, orig, cutg);
     generic[cutg] = 0;
     strcpy(specific, orig + cuts);
-    new_place = comp[gather].places[place];
+    new_place = comp[gather-1].places[place];
   }
 
   sprintf(buffer, "*%1d%s%1d%s",
