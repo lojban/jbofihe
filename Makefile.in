@@ -77,13 +77,13 @@ dictclean.o : dictclean.c
 	$(CC) $(CFLAGS) -c dictclean.c $(INCDIR)
 
 dictionary : dictmake
-	perl giscolon.pl < gismu > gismu.dict
-	perl cmacolon.pl < cmavo > cmavo.dict
-	perl lujvod.pl < lujvo-list > lujvo.dict
-	perl oblik.pl < oblique.key > oblik.dict
-	perl raf4l.pl < gismu > raf4l.dict
-	perl rafobl.pl > rafobl.dict
-	perl rafsid.pl < rafsi > rafsid.dict
+	perl giscolon.pl < @@WORD-LISTS@@/gismu > gismu.dict
+	perl cmacolon.pl < @@WORD-LISTS@@/cmavo > cmavo.dict
+	perl lujvod.pl < @@WORD-LISTS@@/lujvo-list > lujvo.dict
+	perl oblik.pl < @@WORD-LISTS@@/oblique.key > oblik.dict
+	perl raf4l.pl < @@WORD-LISTS@@/gismu > raf4l.dict
+	perl rafobl.pl "@@WORD-LISTS@@/" > rafobl.dict
+	perl rafsid.pl < @@WORD-LISTS@@/rafsi > rafsid.dict
 	./dictmake dictionary.dbm gismu.dict cmavo.dict lujvo.dict oblik.dict raf4l.dict rafobl.dict rafsid.dict extradict
 
 dictupdate : dictionary.dbm
