@@ -479,6 +479,17 @@ selbri_scan(TreeNode *x, int is_tertau)
               gt->is_tertau = 1;
             } else if (c->type == N_NONTERM) {
               switch (c->data.nonterm.type) {
+                case AUGMENTED:
+                  {
+                    TreeNode *cc;
+                    cc = strip_attitudinal(c);
+                    if (cc->type == N_BRIVLA) {
+                      XGlosstype *gt;
+                      gt = prop_glosstype(cc, YES);
+                      gt->is_tertau = 1;
+                    }
+                  }
+                  break;
                 case SE_TU2:
                 case JAI_TU2:
                 case NAHE_TU2:
