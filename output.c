@@ -960,12 +960,10 @@ get_lojban_word_and_translation (TreeNode *x, char *loj, char *eng)
         } else {
           /* A word at a time */
           eng[0] = 0;
-        fprintf(stderr, "Got here 3\n");
           for (i=0; i<N; i++) {
             char *temp;
             if (i > 0) strcat(eng, " type-of ");
             temp = build_string_from_node(x->data.zei.children[i]);
-            fprintf(stderr, "Comp [%s]\n", temp);
             trans = translate(temp);
             Free(temp);
             if (trans) strcat(eng, trans);
