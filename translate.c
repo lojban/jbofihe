@@ -1105,7 +1105,12 @@ lookup_template_match(int prec, int suffix, int gather, char *orig, Component *c
       if (got_full_trans) {
         return subst;
       } else {
-        return fix_trans_in_context(buffer, subst, ctx, "", got_full_trans);
+        char buffer1[256], *trans1, w1n[256];
+        sprintf(buffer1, "*%1d%s%1dn", prec, generic, new_place);
+        trans1 = translate(buffer1);
+        if (trans1) { strcpy(w1n, trans1); }
+        else { w1n[0] = 0; }
+        return fix_trans_in_context(buffer, subst, ctx, w1n, got_full_trans);
       }
     }
   } else {
@@ -1172,12 +1177,12 @@ attempt_pattern_match(char *w, int place, TransContext ctx)
     int suffix;
     int gather;
 
-    for (prec = 3; prec >= 0; prec--) {
+    for (prec = 5; prec >= 0; prec--) {
       for (suffix = 1; suffix >= 0; suffix--) {
         for (gather = 1; gather <= 2; gather++) {
           trans = lookup_template_match(prec, suffix, gather, canon, comp, ncomp, place, ctx);
           if (trans) {
-            if (strcmp(trans, "+")) {
+            if (strcmp(trans, "-")) {
               /* didn't match */
               return trans;
             }
