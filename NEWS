@@ -1,0 +1,41 @@
+New in version 0.34
+===================
+
+- Add support + translations for the cmavo that were missing from the original
+  cmavo list
+- Fix bugs in handling certain cmavo when followed by an indicator (e.g. mi se
+  cai zdile)
+- Fix bugs in cases when constructions involving lu, bu, lo'u...le'u, zo, zoi
+  etc are nested.
+
+
+New in version 0.33
+===================
+
+- Support for the 'term ::= tag termset' rule discussed on the Egroups list
+  around the start of June 2000.
+- Fix bug splitting cmavo from front of brivla
+- Fix bug translating fu'ivla when the 'Lojbanic' part before the hyphen can't
+  be translated.
+
+New in version 0.32a
+====================
+
+- Fix major bugs in the lexical analysis for cmafi'e (brivla mis-scanned as
+  sequences of cmavo joined together.)
+
+New in version 0.32
+===================
+
+- Add capability to jbofi'e to parse texts where cmavo have been prefixed onto
+  the following brivla.
+- Fix bug with pei not being handled properly.
+
+New in version 0.31
+===================
+
+- Add pattern matching scheme to jbofi'e translater, which recognizes and
+  provides default translations for standard lujvo forms, e.g. -mau, -gau, nun-
+  etc.
+
+
