@@ -13,5 +13,9 @@ while (<>) {
 
 while (<>) {
     s,/\* SG \*/,START_GEK,;
-    print unless (m~/\* ET ~);
+    print unless (m~/\* ET [A-Za-z]+~);
+    if (m~/\* ET ~ && !m~/\* ET [A-Za-z]+~) {
+        chomp;
+        print STDERR "Line with odd ET construction [$_]\n";
+    }
 }
