@@ -483,6 +483,9 @@ static TreeNode *stag_marker;
 static int stag_scan_complete;
 static BOKE_Lookahead boke_look;
 
+static int send_first_token;
+static int first_token;
+
 extern int stag_parse(void);
 
 /*++++++++++++++++++++++++++++++++++++++
@@ -517,6 +520,11 @@ stag_lex(void)
     return 0;
   }
 
+  if (send_first_token) {
+    send_first_token = 0;
+    return first_token;
+  }
+  
   /* No checking yet for whether we get to the end of the token
      list. */
 
@@ -601,10 +609,12 @@ stag_lookahead_ke (void)
 
 
 static BOKE_Lookahead
-stag_scan (TreeNode *x)
+stag_scan (TreeNode *x, int scan_type)
 {
   stag_marker = x;
   stag_scan_complete = 0;
+  send_first_token = 1;
+  first_token = scan_type;
   if (stag_parse()) {
     return FOUND_OTHER;
   } else {
@@ -618,10 +628,10 @@ stag_scan (TreeNode *x)
   ++++++++++++++++++++++++++++++*/
 
 static BOKE_Lookahead
-lookahead(TreeNode *start)
+lookahead(TreeNode *start, int scan_type)
 {
 
-  return stag_scan(start);
+  return stag_scan(start, scan_type);
 
 #if 0
   do {
@@ -709,7 +719,7 @@ categorize_ibo(TreeNode *head)
     if (x->type == N_CMAVO &&
         x->data.cmavo.selmao == I) {
       y = x->next;
-      switch (lookahead(y)) {
+      switch (lookahead(y, JJ_STAG)) {
         case FOUND_BO:
           marker = new_node();
           marker->type = N_MARKER;
@@ -798,7 +808,7 @@ categorize_jek_kebo(TreeNode *head)
             y->data.cmavo.selmao == NAI) {
           y = y->next;
         }
-        switch (lookahead(y)) {
+        switch (lookahead(y, JUST_STAG)) {
           case FOUND_BO:
             marker = new_node();
             marker->type = N_MARKER;
@@ -857,7 +867,7 @@ categorize_ek_kebo(TreeNode *head)
              z->data.marker.tok != START_EK) {
         z = z->prev;
       }
-      switch (lookahead(y)) {
+      switch (lookahead(y, JUST_STAG)) {
         case FOUND_BO:
           marker = new_node();
           marker->type = N_MARKER;
@@ -904,46 +914,42 @@ categorize_joik_kebo(TreeNode *head)
     if (x->type == N_MARKER &&
         x->data.marker.tok == START_JOIK) {
 
-      y = x->next;
-      while (y->type != N_CMAVO ||
-             y->data.cmavo.selmao != JOI) {
-        /* FIXME - This won't work for BIhI etc */
-        y = y->next;
-      }
-      y = y->next;
-      if (y->type == N_CMAVO &&
-          y->data.cmavo.selmao == NAI) {
-        y = y->next;
-      }
-      switch (lookahead(y)) {
-        case FOUND_BO:
-          marker = new_node();
-          marker->type = N_MARKER;
-          marker->start_line = x->start_line;
-          marker->start_column = x->start_column;
-          marker->data.marker.tok = JOIK_BO;
-          marker->data.marker.text = new_string("JOIK_BO");
-          /* Insert before x */
-          marker->prev = x->prev;
-          marker->next = x;
-          x->prev->next = marker;
-          x->prev = marker;
-          break;
-        case FOUND_KE:
-          marker = new_node();
-          marker->type = N_MARKER;
-          marker->start_line = x->start_line;
-          marker->start_column = x->start_column;
-          marker->data.marker.tok = JOIK_KE;
-          marker->data.marker.text = new_string("JOIK_KE");
-          /* Insert before x */
-          marker->prev = x->prev;
-          marker->next = x;
-          x->prev->next = marker;
-          x->prev = marker;
-          break;
-        case FOUND_OTHER:
-          break;
+      if (x->prev->type == N_CMAVO &&
+          x->prev->data.cmavo.selmao == I) {
+        /* Don't do anything - this will screw up the parsing of the I
+           construct */
+      } else {
+        y = x->next;
+        switch (lookahead(y, JOIK_STAG)) {
+          case FOUND_BO:
+            marker = new_node();
+            marker->type = N_MARKER;
+            marker->start_line = x->start_line;
+            marker->start_column = x->start_column;
+            marker->data.marker.tok = JOIK_BO;
+            marker->data.marker.text = new_string("JOIK_BO");
+            /* Insert before x */
+            marker->prev = x->prev;
+            marker->next = x;
+            x->prev->next = marker;
+            x->prev = marker;
+            break;
+          case FOUND_KE:
+            marker = new_node();
+            marker->type = N_MARKER;
+            marker->start_line = x->start_line;
+            marker->start_column = x->start_column;
+            marker->data.marker.tok = JOIK_KE;
+            marker->data.marker.text = new_string("JOIK_KE");
+            /* Insert before x */
+            marker->prev = x->prev;
+            marker->next = x;
+            x->prev->next = marker;
+            x->prev = marker;
+            break;
+          case FOUND_OTHER:
+            break;
+        }
       }
     }
   }
@@ -973,7 +979,7 @@ categorize_gihek_kebo(TreeNode *head)
         z = z->prev;
       }
 
-      switch (lookahead(y)) {
+      switch (lookahead(y, JUST_STAG)) {
         case FOUND_BO:
           marker = new_node();
           marker->type = N_MARKER;
