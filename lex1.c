@@ -4,6 +4,7 @@
   Read the input file and perform low-level lexing functions.
   ***************************************/
 
+/* COPYRIGHT */
 
 #include <stdio.h>
 #include <ctype.h>
