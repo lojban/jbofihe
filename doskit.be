@@ -14,6 +14,7 @@ cp /dosc/jbofihe/jbofihe.exe .
 cp /dosc/jbofihe/cmafihe.exe .
 cp /dosc/jbofihe/jvocuhad.exe ./jvocuhad.exe
 cp /dosc/jbofihe/smujajga.exe ./smujajga.exe
+cp /dosc/jbofihe/vlatai.exe .
 cp /dosc/djgpp/bin/cwsdpmi.exe .
 cp /dosc/djgpp/bin/cwsdpmi.doc .
 
@@ -22,10 +23,10 @@ perl -pe 'chomp; print $_."\r\n";' < README.DOS.tmp > README.DOS
 perl -pe 'chomp; print $_."\r\n";' < COPYRIGHT > COPYRIGH.txt
 mv smujajgau.txt smujajga.txt
 mv jvocuhadju.txt jvocuhad.txt
-zip -9 jbofihe.zip COPYRIGHT.txt
+zip -9 jbofihe.zip COPYRIGH.txt
 zip -9 jbofihe.zip cwsdpmi.doc cwsdpmi.exe
 zip -9 jbofihe.zip cmafihe.exe jbofihe.exe jvocuhad.exe smujajga.exe vlatai.exe
-zip -9 jbofihe.zip jbofihe.txt cmafihe.txt smujajgau.txt jvocuhadju.txt vlatai.txt
+zip -9 jbofihe.zip jbofihe.txt cmafihe.txt smujajga.txt jvocuhad.txt vlatai.txt
 zip -9 jbofihe.zip smujmaji.dat
 
 echo "Now copy jbofihe.zip to jbofv_vv.zip"
