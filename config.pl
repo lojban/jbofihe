@@ -76,7 +76,7 @@ open(OUT, ">Makefile");
 while (<IN>) {
     s/\@\@GDBM-LIBRARY\@\@/$lib_dir/e;
     s/\@\@GDBM-INCLUDE\@\@/$incl_dir/e;
-    s/\@\@WORD-LISTS\@\@/$word_list_dir/e;
+    s/\@\@WORD-LISTS\@\@/$word_list_dir/eg;
     print OUT;
 }
 close(IN);
