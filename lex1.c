@@ -30,6 +30,22 @@ static int is_consonant(char c) {
   }
 }
 
+/*++++++++++++++++++++++++++++++++++++++
+  Check whether a character is a consonant.
+
+  static int is_consonant
+
+  char c
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static int is_uppercase_consonant(char c) {
+  if (strchr("BCDFGJKLMNPRSTVXZ", c)) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
+
 
 /*++++++++++++++++++++++++++++++++++++++
   Check whether a character is a vowel.
@@ -213,7 +229,7 @@ process_word(char *buf, int start_line, int start_column)
   p = buf;
   while (*p) p++;
   p--;
-  if (is_consonant(*p)) {
+  if (is_consonant(*p) || is_uppercase_consonant(*p)) {
     tok = new_node();
     tok->start_line = start_line;
     tok->start_column = start_column;
