@@ -13,7 +13,7 @@
 #include "nonterm.h"
 #include "functions.h"
 #include "cmavotab.h"
-#include "rpc.tab.h"
+#include "rpc_tab.h"
 
 /*++++++++++++++++++++++++++++++
   Work through the tree and eliminate any nodes that only have single

@@ -13,7 +13,7 @@
 #include <string.h>
 
 #include "functions.h"
-#include "rpc.tab.h"
+#include "rpc_tab.h"
 #include "nodes.h"
 #include "cmavotab.h"
 

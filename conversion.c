@@ -17,7 +17,7 @@
 #include <assert.h>
 #include "nodes.h"
 #include "functions.h"
-#include "rpc.tab.h"
+#include "rpc_tab.h"
 #include "cmavotab.h"
 
 /*++++++++++++++++++++++++++++++

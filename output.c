@@ -14,7 +14,7 @@
 #include "nodes.h"
 #include "functions.h"
 #include "cmavotab.h"
-#include "rpc.tab.h"
+#include "rpc_tab.h"
 #include "output.h"
 
 static DriverVector *drv;

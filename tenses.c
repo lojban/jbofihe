@@ -18,7 +18,7 @@
 #include <string.h>
 #include <assert.h>
 
-#include "rpc.tab.h"
+#include "rpc_tab.h"
 #include "nonterm.h"
 #include "functions.h"
 

@@ -24,7 +24,7 @@
 
 #define YYSTYPE TreeNode *
 
-#include "rpc.tab.h"
+#include "rpc_tab.h"
 
 int last_tok_line;
 int last_tok_column;

@@ -17,7 +17,7 @@
 #include "nodes.h"
 #include "nonterm.h"
 #include "functions.h"
-#include "rpc.tab.h"
+#include "rpc_tab.h"
 #include "cmavotab.h"
 
 static char *truth_ex[] = {

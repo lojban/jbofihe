@@ -12,7 +12,7 @@
 /* COPYRIGHT */
 
 #include "nodes.h"
-#include "rpc.tab.h"
+#include "rpc_tab.h"
 #include "functions.h"
 #include "stag.h"
 

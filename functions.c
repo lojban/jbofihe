@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include "functions.h"
 #include "nonterm.h"
-#include "rpc.tab.h"
+#include "rpc_tab.h"
 
 /*++++++++++++++++++++++++++++++
   Go through children in a node and chain them onto that parent.
