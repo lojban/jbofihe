@@ -71,5 +71,12 @@ for $f (@files) {
     unlink "$f.tmp";
 }
 
+# Remove files that are not relevant in the .tar.gz distribution
+# (they can be obtained via CVS for people who want them.)
+unlink "build_kit";
+unlink "make_release.pl";
+unlink "LICINS";
+
+# Ensure configure can run out of the box in the expected way!
 chmod 0755, "configure";
 
