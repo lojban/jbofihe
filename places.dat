@@ -106,9 +106,11 @@ banzu3:D;condition* for sufficiency
 #bapli2:DSAP;
 #
 # x1 is big/large in property/dimension(s) x2 (ka) as compared with standard/norm x3              
-#barda1:DSAP;
-#barda2:DSAP;
-#barda3:DSAP;
+barda1:P;large
+barda2:D;large dimension
+barda2t:dimension
+barda3:D;largeness standard
+barda3t:standard
 #
 # x1 arches/curves over/around x2 and is made of x3; x1 is an arch over/around x2 of material x3  
 #bargu1:DSAP;
@@ -126,8 +128,8 @@ banzu3:D;condition* for sufficiency
 #barna3:DSAP;
 #
 # x1 is on the outside of x2; x1 is exterior to x2                                                
-#bartu1:DSAP;
-#bartu2:DSAP;
+bartu1:P;outside
+bartu2:D;non-container
 #
 # x1 emphasizes/accentuates/gives emphasis/stress/accent to x2 by (action) x3                     
 #basna1:DSAP;
@@ -159,7 +161,7 @@ banzu3:D;condition* for sufficiency
 #baxso2:DSAP;
 #
 # x1 is foolish/silly in event/action/property [folly] (ka) x2; x1 is a boob                      
-#bebna1:DSAP;
+bebna1:P;foolish
 #
 # x1 reflects North American culture/nationality/geography in aspect x2                           
 #bemro1:DSAP;
@@ -187,8 +189,10 @@ bersa1:D;son
 bersa2:D;parent* of son
 #
 # x1 is to the north/northern side [right-hand-rule pole] of x2 according to frame of reference x3
-#berti1:DSAP;
-#berti2:DSAP;
+berti1:P;to the north
+berti2:P;to the south
+berti3:D;northness reference frame
+berti3t:reference frame
 #
 # x1 is a/the brain [body-part] of x2; [metaphor: intelligence, mental control]                   
 #besna1:DSAP;
@@ -210,8 +214,9 @@ bevri4:D;origin* of carrying
 bevri5:D;route* of carrying
 #
 # x1 is a bead/pebble [shape/form] of material x2                                                 
-#bidju1:DSAP;
-#bidju2:DSAP;
+bidju1:D;bead
+bidju2:D;bead material
+bidju2t:material
 #
 # x1 is a bee/wasp/hornet of species/breed x2                                                     
 #bifce1:DSAP;
@@ -274,10 +279,7 @@ birka2:D;body* having arm
 #bitmu4:DSAP;
 #
 # x1 is white/very-light colored [color adjective]                                                
-#blabi1:DSAP;
-#blabi2:DSAP;
-#blabi3:DSAP;
-#blabi4:DSAP;
+blabi1:P;white
 #
 # x1 is a quantity of/is made of/contains glass of composition including x2                       
 #blaci1:DSAP;
@@ -348,13 +350,15 @@ brife2:D;wind direction
 brife3:D;wind speed
 #
 # x1 is an office/bureau/work-place of worker x2 at location x3                                   
-#briju1:DSAP;
-#briju2:DSAP;
-#briju3:DSAP;
+briju1:D;office
+briju2:D;office worker
+briju2t:worker
+briju3:D;office location
+briju3t:location
 #
 # x1 reflects British/United Kingdom culture/nationality in aspect x2                             
-#brito1:DSAP;
-#brito2:DSAP;
+brito1:P;British
+brito2:D;aspect* of Britishness
 #
 # 1st assignable variable predicate (context determines place structure)                          
 #broda1:DSAP;
@@ -447,9 +451,11 @@ cafne2:D;standard* for being frequent
 #calku3:DSAP;
 #
 # x1 vanishes/disappears from location x2; x1 ceases to be observed at x2 using senses/sensor x3  
-#canci1:DSAP;
-#canci2:DSAP;
-#canci3:DSAP;
+canci1:A;vanish
+canci2:D;location* vanished from
+canci2t:from location
+canci3:D;sensor* no longer sensing
+canci3t:affected sensor
 #
 # x1 is idle/at rest/inactive                                                                     
 #cando1:DSAP;
@@ -574,9 +580,11 @@ censa2:A;consider* holy(ness)
 #cerda4:DSAP;
 #
 # x1 is a morning [dawn until after typical start-of-work for locale] of day x2 at location x3    
-#cerni1:DSAP;
-#cerni2:DSAP;
-#cerni3:DSAP;
+cerni1:D;morning
+cerni2:D;day* of morning
+cerni2t:day
+cerni3:D;location* of morning
+cerni3t:location
 #
 # x1 is an expert/pro/has prowess in/is skilled at x2 (event/activity) by standard x3             
 certu1:P;skilled
@@ -589,9 +597,7 @@ cevni2:D;people* having god
 cevni3:D;sphere* of god
 #
 # x1 [state/event/process] commences/initiates/starts/begins to occur; (intransitive verb)        
-#cfari1:DSAP;
-#cfari2:DSAP;
-#cfari3:DSAP;
+cfari1:A;commence
 #
 # x1 is a work of fiction about plot/theme/subject x2/under convention x2 by author x3            
 #cfika1:DSAP;
@@ -706,8 +712,11 @@ cikre3:D;use* for repair
 #cinki2:DSAP;
 #
 # x1 is thin in direction/dimension x2 by standard x3; [relatively short in smallest dimension]   
-#cinla1:DSAP;
-#cinla2:DSAP;
+cinla1:P;thin
+cinla2:D;direction* of thinness
+cinla2t:thin direction
+cinla3:D;standard* of thinness
+cinla3t:by standard
 #
 # x1 feels emotion x2 (ka) about x3                                                               
 #cinmo1:DSAP;
@@ -793,9 +802,9 @@ citno2:D;standard* for youth
 #civla3:DSAP;
 #
 # x1 is strange/weird/deviant/bizarre/odd to x2 in property x3 (ka)                               
-#cizra1:DSAP;
-#cizra2:DSAP;
-#cizra3:DSAP;
+cizra1:P;strange
+cizra2:A;consider* strange
+cizra3:D;strange property
 #
 # x1 is a quantity of/contains/is made of rubber/latex from source x2 of composition including x3 
 #ckabu1:DSAP;
@@ -902,9 +911,10 @@ cliva3:D;departure route
 #cmaci2:DSAP;
 #
 # x1 is small in property/dimension(s) x2 (ka) as compared with standard/norm x3                  
-#cmalu1:DSAP;
-#cmalu2:DSAP;
-#cmalu3:DSAP;
+cmalu1:P;small
+cmalu2:D;small dimension
+cmalu3:D;smallness standard
+cmalu3t:by standard
 #
 # x1 is a mountain/hill/mound/[rise]/[peak]/[summit]/[highlands] projecting from land mass x2     
 #cmana1:DSAP;
@@ -927,8 +937,9 @@ cmene3:A;name
 #cmila3:DSAP;
 #
 # x1 is a member/element of set x2; x1 belongs to group x2; x1 is amid/among/amongst group x2     
-#cmima1:DSAP;
-#cmima2:DSAP;
+cmima1:D;member
+cmima2:D;group* with members
+cmima2t:group
 #
 # x1 utters moan/groan/howl/scream [non-linguistic utterance] x2 expressing x3 (property)         
 #cmoni1:DSAP;
@@ -1016,10 +1027,10 @@ cpedu4:S;manner of request
 #cpina2:DSAP;
 #
 # x1 broadcasts/transmits [using radio waves] x2 via station/frequency x3 to [radio] receiver x4  
-#cradi1:DSAP;
-#cradi2:DSAP;
-#cradi3:DSAP;
-#cradi4:DSAP;
+cradi1:A;broadcast
+cradi2:P;broadcasted
+cradi3:D;broadcasting station
+cradi4:D;broadcast receiver
 #
 # x1 is anterior/ahead/forward/(in/on) the front of x2 which faces/in-frame-of-reference x3       
 #crane1:DSAP;
@@ -1084,9 +1095,11 @@ crisa3:D;location* of summer
 #ctile2:DSAP;
 #
 # x1 is a shadow/the shade of object x2, made by light/energy source x3                           
-#ctino1:DSAP;
-#ctino2:DSAP;
-#ctino3:DSAP;
+ctino1:D;shadow
+ctino2:D;object* of shadow
+ctino2t:object
+ctino3:D;light source* producing shadow
+ctino3t:light source
 #
 # x1 teaches audience x2 ideas/methods/lore x3 (du'u) about subject(s) x4 by method x5 (event)    
 #ctuca1:DSAP;
@@ -1229,8 +1242,11 @@ dansu2:D;dance accompaniment
 #danti2:DSAP;
 #
 # x1 is an island/atoll/key of [material/properties] x2 in surroundings/body x3; x1 is insular    
-#daplu1:DSAP;
-#daplu2:DSAP;
+daplu1:D;island
+daplu2:D;island material
+daplu2t:material
+daplu3:S;island surroundings
+daplu3t:surroundings
 #
 # x1 curses/damns/condemns x2 to fate (event) x3                                                  
 #dapma1:DSAP;
@@ -1248,9 +1264,11 @@ dansu2:D;dance accompaniment
 #darlu2:DSAP;
 #
 # x1 is far/distant from x2 in property x3 (ka)                                                   
-#darno1:DSAP;
-#darno2:DSAP;
-#darno3:DSAP;
+darno1:P;distant
+darno2:D;distant reference
+darno2t:reference
+darno3:D;distant property
+darno3t:property
 #
 # x1 shows audacity/chutzpah in behavior x2 (event/activity); x1 dares to do/be x2 (event/ka)     
 #darsi1:DSAP;
@@ -1278,8 +1296,9 @@ dasni3:D;type* of worn garment
 #daspo1:DSAP;
 #
 # x1 is a ribbon/tape/strip/band/stripe of material x2                                            
-#dasri1:DSAP;
-#dasri2:DSAP;
+dasri1:D;ribbon
+dasri2:D;ribbon material
+dasri2t:material
 #
 # x1 is a duck/[drake] of species/breed x2                                                        
 #datka1:DSAP;
@@ -1340,9 +1359,10 @@ denpa3:D;waiting state
 denpa4:D;paused activity
 #
 # x1 is a quantity of/contains/is made of dirt/soil/earth/ground from source x2 of composition x3 
-#dertu1:DSAP;
-#dertu2:DSAP;
-#dertu3:DSAP;
+dertu1:S;earth
+dertu2:D;earth source
+dertu3:S;earth composition
+dertu3t:composition
 #
 # x1 is a heap/pile/stack/mound/hill of materials x2 at location x3                               
 #derxi1:DSAP;
@@ -1534,9 +1554,11 @@ dunda3:D;recipient
 #facki3:DSAP;
 #
 # x1 [member] is ordinary/common/typical/usual in property x2 (ka) among members of x3 (set)      
-#fadni1:DSAP;
-#fadni2:DSAP;
-#fadni3:DSAP;
+fadni1:P;typical
+fadni2:D;typical property
+fadni2t:in property
+fadni3:D;group* of typical things
+fadni3t:in group
 #
 # x1 is a fire/flame in fuel x2 burning-in/reacting-with oxidizer x3 (default air/oxygen)         
 fagri1:S;fire
@@ -1568,9 +1590,10 @@ fanmo1:P;final
 fanmo2:D;ending process
 #
 # x1 is a factory/foundry/industrial plant/mill producing x2 from materials x3                    
-#fanri1:DSAP;
-#fanri2:DSAP;
-#fanri3:DSAP;
+fanri1:D;factory
+fanri2:D;factory product
+fanri2t:product
+fanri3:D;raw material
 #
 # x1 prevents/keeps/stops/restrains/constrains event x2 from occurring                            
 fanta1:A;prevent
@@ -1620,8 +1643,9 @@ fasnu1v:occurring
 fatci1:D;fact
 #
 # x1 [sequence] is in reverse order from x2 [sequence]; x1 (object) is inverted from x2 (object)  
-#fatne1:DSAP;
-#fatne2:DSAP;
+fatne1:P;reversed
+fatne2:D;original sequence
+fatne2t:original
 #
 # x1 is distributed/allotted/allocated/shared among x2 with shares/portions x3; (x2/x3 fa'u)      
 #fatri1:DSAP;
@@ -2058,9 +2082,11 @@ gusni2:P;illuminated
 gusni3:D;light source
 #
 # x1 is a restaurant/cafe/diner serving type-of-food x2 to audience x3                            
-#gusta1:DSAP;
-#gusta2:DSAP;
-#gusta3:DSAP;
+gusta1:D;restaurant
+gusta2:S;restaurant food
+gusta2t:food
+gusta3:D;restaurant customer
+gusta3t:customer
 #
 # x1 is x2 (default 1) short local distance unit(s) [non-metric], standard x3, x4 subunits        
 #gutci1:DSAP;
@@ -2205,9 +2231,11 @@ jdice3:D;matter* of decision
 jdice3t:matter
 #
 # x1 (experiencer) decreases/contracts/is reduced/diminished in property/quantity x2 by amount x3 
-#jdika1:DSAP;
-#jdika2:DSAP;
-#jdika3:DSAP;
+jdika1:A;decrease
+jdika2:D;decreasing property
+jdika2t:property
+jdika3:D;decrease amount
+jdika3t:amount
 #
 # x1 [amount] is the price of x2 to purchaser/consumer x3 set by vendor x4                        
 #jdima1:DSAP;
@@ -2551,9 +2579,9 @@ junla4t:mechanism
 #juxre2:DSAP;
 #
 # x1 is the view/scene/panorama/sight/prospect of x2 (object/location) from point-of-view x3      
-#jvinu1:DSAP;
-#jvinu2:DSAP;
-#jvinu3:DSAP;
+jvinu1:D;view
+jvinu2:P;viewed
+jvinu3:D;viewpoint
 #
 # x1 is a cup/glass/tumbler/mug/vessel/[bowl] containing contents x2, and of material x3          
 #kabri1:DSAP;
@@ -2561,9 +2589,10 @@ junla4t:mechanism
 #kabri3:DSAP;
 #
 # x1 is a camera/photographic equipment recording illumination type x2 images to medium x3        
-#kacma1:DSAP;
-#kacma2:DSAP;
-#kacma3:DSAP;
+kacma1:D;camera
+kacma2:D;image type
+kacma3:D;photographic medium
+kacma3t:medium
 #
 # x1 reflects Canadian culture/nationality in aspect x2                                           
 #kadno1:DSAP;
@@ -2575,9 +2604,11 @@ junla4t:mechanism
 #kafke3:DSAP;
 #
 # x1 is a company/corporation/firm/partnership chartered by authority x2 for purpose x3           
-#kagni1:DSAP;
-#kagni2:DSAP;
-#kagni3:DSAP;
+kagni1:D;corporation
+kagni2:D;authority* chartering corporation
+kagni2t:by authority of
+kagni3:D;corporation purpose
+kagni3t:exists for purpose
 #
 # x1 (event/experience) warns/cautions x2 (person) of/about danger x3 (event/state/property)      
 kajde1:A;warn
@@ -2760,8 +2791,8 @@ kerfa3t:location
 #ketco2:DSAP;
 #
 # x1 is a cavity/hole/hollow/cavern in x2; x1 is concave within x2; x2 is hollow at locus x1      
-#kevna1:DSAP;
-#kevna2:DSAP;
+kevna1:D;cavity
+kevna2:P;with cavity
 #
 # x1 cushions x2 with material x3; x1 is a cushion/pillow/pad [for x2] of padding material x3     
 #kicne1:DSAP;
@@ -2814,8 +2845,9 @@ klama5:D;vehicle
 #klesi3:DSAP;
 #
 # x1 (object/medium) is clear/transparent/without obstacle to in-the-clear x2 [transmission]      
-#klina1:DSAP;
-#klina2:DSAP;
+klina1:P;transparent
+klina2:D;unhindered transmission
+klina2t:transmission
 #
 # x1 is a quantity of/contains/is made of halogen of type x2 [chlorine, fluorine, iodine, etc.]   
 #kliru1:DSAP;
@@ -2839,9 +2871,10 @@ klama5:D;vehicle
 #kobli2:DSAP;
 #
 # x1 is a corner/point/at-least-3-dimensional [solid] angle [shape/form] in/on x2, of material x3 
-#kojna1:DSAP;
-#kojna2:DSAP;
-#kojna3:DSAP;
+kojna1:D;corner
+kojna2:P;with corner
+kojna3:D;corner material
+kojna3t:material
 #
 # x1 is a quantity of/contains/is made of coal/peat/anthracite/bituminous from source x2          
 #kolme1:DSAP;
@@ -2921,10 +2954,13 @@ krixa2:D;yelled sound
 #kruji2:DSAP;
 #
 # x1 is a curve/turn/bend in x2, at locus x3, and defined by set of points/properties x4          
-#kruvi1:DSAP;
-#kruvi2:DSAP;
-#kruvi3:DSAP;
-#kruvi4:DSAP;
+kruvi1:D;curve
+kruvi2:P;with curve
+kruvi3:D;curve locus
+kruvi3n:curve locus/i
+kruvi3t:at locus/i
+kruvi4:D;property* defining curve
+kruvi4t:defined by
 #
 # x1 is a cube/regular polyhedron/polygon of dimensions x2 (def. 3), surfaces/sides x3 (def. 6)   
 #kubli1:DSAP;
@@ -3107,8 +3143,9 @@ lanzu3t:by standard
 #lenjo4:DSAP;
 #
 # x1 is cold/cool by standard x2                                                                  
-#lenku1:DSAP;
-#lenku2:DSAP;
+lenku1:P;cold
+lenku2:D;coldness standard
+lenku2t:by standard
 #
 # x1 (event) is late by standard x2                                                               
 #lerci1:DSAP;
@@ -3185,8 +3222,11 @@ lisri4t:audience
 #litki3:DSAP;
 #
 # x1 travels/journeys/goes/moves via route x2 using means/vehicle x3; x1 is a traveller           
-#litru1:DSAP;
-#litru2:DSAP;
+litru1:A;travel
+litru2:D;route* of travel
+litru2t:by route
+litru3:D;vehicle for travel
+litru3t:by vehicle
 #
 # x1 is a/the liver [body-part] of x2                                                             
 #livga1:DSAP;
@@ -3223,10 +3263,11 @@ loldi2:P;having floor
 #lujvo4:DSAP;
 #
 # x1 (agent) washes/cleanses x2 of soil/contaminant x3 in/with cleaning material(s) x4            
-#lumci1:DSAP;
-#lumci2:DSAP;
-#lumci3:DSAP;
-#lumci4:DSAP;
+lumci1:A;wash
+lumci2:P;washed
+lumci3:D;contaminant* removed by washing
+lumci3t:contaminant
+lumci4:D;cleaning material
 #
 # x1 is bare/naked/nude; x1 is without cover/clothes/[protection]                                 
 #lunbe1:DSAP;
@@ -3284,8 +3325,7 @@ manci2:P;marvelled at
 #manfo2:DSAP;
 #
 # x1 is dark/lacking in illumination                                                              
-#manku1:DSAP;
-#manku2:DSAP;
+manku1:P;dark
 #
 # x1 is a frame of reference/standard for observing/measuring/determining x2, with/by rules x3    
 #manri1:DSAP;
@@ -3416,9 +3456,11 @@ mensi1:D;sister
 mensi2:P;having sister
 #
 # x1 is x2 minutes in duration (default is 1 minute) by standard x3                               
-#mentu1:DSAP;
-#mentu2:DSAP;
-#mentu3:DSAP;
+mentu1:P;with duration in minutes
+mentu1t:has duration
+mentu2:S;number of minutes
+mentu3:D;minutes standard
+mentu3t:by standard
 #
 # x1 pertains to USA/American culture/nationality/dialect in aspect x2                            
 #merko1:DSAP;
@@ -3460,8 +3502,9 @@ mensi2:P;having sister
 #milti3:DSAP;
 #
 # x1 is mild/non-extreme/gentle/middling/somewhat in property x2 (ka); x1 is not very x2          
-#milxe1:DSAP;
-#milxe2:DSAP;
+milxe1:P;mild
+milxe2:D;mild property
+milxe2t:in property
 #
 # x1 issues commands/orders to x2 for result x3 (event/state) to happen; x3 is commanded to occur 
 minde1:A;command
@@ -3489,8 +3532,11 @@ minra4:D;form* of reflection
 minra4t:form
 #
 # x1 is the same/identical thing as x2 by standard x3; (x1 and x2 interchangeable)                
-#mintu1:DSAP;
-#mintu2:DSAP;
+mintu1:P;indentical
+mintu2:D;identical reference
+mintu2t:identical to
+mintu3:standard for being identical
+mintu3t:by standard
 #
 # x1 keeps x2 secret/hidden from x3 by method x4; x2 is a secret; x1 hides/conceals x2            
 mipri1:A;conceal
@@ -3522,10 +3568,12 @@ mipri4t:method(s)
 #mixre2:DSAP;
 #
 # x1 is to the side of/lateral to x2 and facing x3 from point of view/in-frame-of-reference x4    
-#mlana1:DSAP;
-#mlana2:DSAP;
-#mlana3:DSAP;
-#mlana4:DSAP;
+mlana1:D;side
+mlana2:P;with side
+mlana3:P;faced by side
+mlana3t:facing
+mlana4:D;reference frame* defining side
+mlana4t:in reference frame
 #
 # x1 is a cat/[puss/pussy/kitten] [feline animal] of species/breed x2; (adjective:) x1 is feline  
 #mlatu1:DSAP;
@@ -3548,8 +3596,9 @@ mipri4t:method(s)
 #mluni4:DSAP;
 #
 # x1 is a point/instant/moment [0-dimensional shape/form] in/on/at time/place x2                  
-#mokca1:DSAP;
-#mokca2:DSAP;
+mokca1:D;instant
+mokca2:D;place* with instant
+mokca2t:at place
 #
 # x1 is a/the mouth/oral cavity [body-part] of x2; (metaphor: entrance/intake for consumption)    
 #moklu1:DSAP;
@@ -3846,13 +3895,17 @@ pacna2:P;hoped for
 pacna3:S;likelihood for hope
 #
 # x1 is a part/component/piece/portion/segment of x2 [where x2 is a whole/mass]; x2 is partly x1  
-#pagbu1:DSAP;
-#pagbu2:DSAP;
+pagbu1:D;part
+pagbu2:P;with part
+pagbu2t:part of
 #
 # x1 passes through/penetrates barrier/medium/portal x2 to destination side x3 from origin side x4
-#pagre1:DSAP;
-#pagre2:DSAP;
-#pagre3:DSAP;
+pagre1:A;penetrate
+pagre2:P;penetrated
+pagre3:D;destination* of penetration
+pagre3t:destination
+pagre4:D;origin* or penetration
+pagre4t:D;origin
 #
 # x1 judges/referees/arbitrates/is a judge determining/deciding matter x2 (abstract)              
 pajni1:A;judge
@@ -4007,8 +4060,10 @@ pensi2:D;considered subject*
 #petso3:DSAP;
 #
 # x1 is a leaf of plant x2; x1 is foliage of x2                                                   
-#pezli1:DSAP;
-#pezli2:DSAP;
+pezli1:D;leaf
+pezli1n:leaf/leaves
+pezli2:D;plant* with leaf
+pezli2t:of plant
 #
 # x1 is a trillionth [1x10**-12] of x2 in dimension/aspect x3 (default is units)                  
 #picti1:DSAP;
@@ -4092,10 +4147,10 @@ pinka4:D;audience* for comment
 pipno1:D;keyboard instrument
 #
 # x1 is a picture/illustration representing/showing x2, made by artist x3 in medium x4            
-#pixra1:DSAP;
-#pixra2:DSAP;
-#pixra3:DSAP;
-#pixra4:DSAP;
+pixra1:D;picture
+pixra2:P;shown by picture
+pixra3:D;artist
+pixra4:S;art medium
 #
 # x1 is plump/fat/obese [excessively thick/bulbous/swollen] by standard x2                        
 #plana1:DSAP;
@@ -4182,9 +4237,9 @@ ponse3:D;custom* defining possession
 #porpi2:DSAP;
 #
 # x1 [ordered set] is sequenced/ordered/listed by comparison/rules x2 on unordered set x3         
-#porsi1:DSAP;
-#porsi2:DSAP;
-#porsi3:DSAP;
+porsi1:P;ordered
+porsi2:D;ordering rule
+porsi3:D;unordered set
 #
 # x1 reflects Portuguese culture/nationality/language in aspect x2                                
 #porto1:DSAP;
@@ -4669,9 +4724,11 @@ sarji4:S;means for support
 #saske3:DSAP;
 #
 # x1 [measurement/match] is exact/precise to precision x2 in property/quantity x3 (ka/ni)         
-#satci1:DSAP;
-#satci2:DSAP;
-#satci3:DSAP;
+satci1:P;exact
+satci2:D;precision
+satci2t:to precision
+satci3:D;exact property
+satci3t:in property
 #
 # x1 (agent) strokes/rubs/pets x2 with x3                                                         
 satre1:A;stroke
@@ -5003,9 +5060,10 @@ smuni3:A;accept* meaning
 #snada3:DSAP;
 #
 # x1 is to the south/southern side of x2 according to frame of reference x3                       
-#snanu1:DSAP;
-#snanu2:DSAP;
-#snanu3:DSAP;
+snanu1:P;to the south
+snanu2:P;to the north
+snanu3:D;southness reference frame
+snanu3t:reference frame
 #
 # x1 is x2 seconds in duration (default is 1 second) by standard x3                               
 #snidu1:DSAP;
@@ -5230,14 +5288,17 @@ stali2t:at place(s)
 #stero3:DSAP;
 #
 # x1 is to the west/western side of x2 according to frame of reference x3                         
-#stici1:DSAP;
-#stici2:DSAP;
-#stici3:DSAP;
+stici1:P;to the west
+stici2:P;to the east
+stici3:D;westness reference frame
+stici3t:reference frame
 #
 # x1 (agent) suggests/proposes idea/action x2 to audience x3; x1 (event) inspires x2 in/among x3  
-#stidi1:DSAP;
-#stidi2:DSAP;
-#stidi3:DSAP;
+stidi1:A;suggest
+stidi2:D;suggested idea
+stidi2t:idea
+stidi3:D;audience* of suggestion
+stidi3t:to audience
 #
 # x1 (event) adjusts/regulates/changes x2 (ka/ni) in amount/degree x3                             
 #stika1:DSAP;
@@ -5255,9 +5316,10 @@ stali2t:at place(s)
 #stodi3:DSAP;
 #
 # x1 is to the east/eastern side of x2 according to frame of reference x3                         
-#stuna1:DSAP;
-#stuna2:DSAP;
-#stuna3:DSAP;
+stuna1:P;to the east
+stuna2:P;to the west
+stuna3:D;eastness reference frame
+stuna3t:reference frame
 #
 # x1 is a structure/arrangement/organization of x2 [set/system/complexity]                        
 #stura1:DSAP;
@@ -5578,10 +5640,10 @@ tilju2:S;standard of heaviness
 #titla2:DSAP;
 #
 # x1 broadcasts/televises programming x2 via medium/channel x3 to television receiver x4          
-#tivni1:DSAP;
-#tivni2:DSAP;
-#tivni3:DSAP;
-#tivni4:DSAP;
+tivni1:A;broadcast
+tivni2:D;TV programme
+tivni3:D;TV channel
+tivni4:D;TV receiver
 #
 # x1 is a daughter of mother/father/parents x2; [not necessarily biological]                      
 tixnu1:D;daughter
@@ -5611,10 +5673,13 @@ tixnu2t:parent
 #torni2:DSAP;
 #
 # x1 is superlative in property x2 (ka), the x3 extreme (ka; default ka zmadu) among set/range x4 
-#traji1:DSAP;
-#traji2:DSAP;
-#traji3:DSAP;
-#traji4:DSAP;
+traji1:P;superlative
+traji2:D;superlative property
+traji2t:in property
+traji3:D;superlative extreme
+traji3t:at extreme
+traji4:D;set* having superlative
+traji4t:amongst set
 #
 # x1 is a quantity of/contains/is made of nitrogen/ammonia/nitrates                               
 #trano1:DSAP;
@@ -5633,8 +5698,9 @@ tixnu2t:parent
 #trene4:DSAP;
 #
 # x1 is a tree of species/cultivar x2                                                             
-#tricu1:DSAP;
-#tricu2:DSAP;
+tricu1:D;tree
+tricu2:D;tree species
+tricu2t:of species
 #
 # x1 attracts/appeals to/lures x2 (person/event) with property/quality x3 (ka)                    
 #trina1:DSAP;
@@ -5802,8 +5868,9 @@ vecnu4:D;sale price
 #vibna2:DSAP;
 #
 # x1 is a video monitor/CRT/screen [machine] serving function x2                                  
-#vidni1:DSAP;
-#vidni2:DSAP;
+vidni1:D;screen
+vidni2:D;function* of screen
+vidni2t:serving function
 #
 # x1 is a virus of species/breed/defining property x2 capable of infecting [at] x3                
 #vidru1:DSAP;
@@ -5834,9 +5901,11 @@ vindu1:P;poisonous
 vindu2:D;poison victim
 #
 # x1 is an airplane/aircraft [flying vehicle] for carrying passengers/cargo x2, propelled by x3   
-#vinji1:DSAP;
-#vinji2:DSAP;
-#vinji3:DSAP;
+vinji1:D;aircraft
+vinji2:D;aircraft cargo
+vinji2t:with cargo
+vinji3:A;propel* aircraft
+vinji3t:with propulsion
 #
 # x1 is a deputy/vice/subordinate in aspect [or organization principle] x2 (ka) to principal x3   
 #vipsi1:DSAP;
@@ -6153,10 +6222,12 @@ xrula1:D;flower
 xrula2:D;flowering plant
 #
 # x1 (agent) returns x2 to origin/earlier state x3 from x4; x1 moves/gives x2 back to x3 from x4  
-#xruti1:DSAP;
-#xruti2:DSAP;
-#xruti3:DSAP;
-#xruti4:DSAP;
+xruti1:A;return
+xruti2:P;returned
+xruti3:D;original state
+xruti3t:to
+xruti4:D;later state
+xruti4t:from
 #
 # x1 is an instance of substance/chemical/drug x2 (individual or mass) with purity x3             
 #xukmi1:DSAP;
@@ -6239,9 +6310,9 @@ zdani1:D;home
 zdani2:A;reside
 #
 # x1 (abstract) is amusing/entertaining to x2 in property/aspect x3; x3 is what amuses x2 about x1
-#zdile1:DSAP;
-#zdile2:DSAP;
-#zdile3:DSAP;
+zdile1:P;amusing
+zdile2:P;amused
+zdile3:D;amusing property
 #
 # x1 (event/state) is a punishable crime/[taboo/sin] to people/culture/judges/jury x2             
 #zekri1:DSAP;
@@ -6336,5 +6407,6 @@ zutse1:A;sit
 zutse2:D;sitting surface
 #
 # x1 (object/event) is at/attending/present at x2 (event/location)                                
-zvati1:A;be* at
-zvati2:D;location
+zvati1:P;present
+zvati2:D;location* of presence
+zvati2t:location
