@@ -482,15 +482,15 @@ process_subsentence(TreeNode *ss, TermVector *pre, TermVector *post)
   do {
     type_check(ss, SUBSENTENCE);
 
-    nt = &ss->data.nonterm;
+    nt = &sss->data.nonterm;
     nc = nt->nchildren;
 
     if (nc == 2) {
       /* Pick the 'subsentence' following the 'prenex' out of the 2 child version */
-      sss = child_ref(ss, 1);
+      sss = child_ref(sss, 1);
     } else {
       /* Pick 'sentence' out of the 1 child version */
-      sss = child_ref(ss, 0);
+      sss = child_ref(sss, 0);
     }
   } while (nc == 2);
 
