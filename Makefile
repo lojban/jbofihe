@@ -98,6 +98,8 @@ dictionary : dictmake
 	perl raf4l.pl < gismu > raf4l.dict
 	perl rafobl.pl > rafobl.dict
 	perl rafsid.pl < rafsi > rafsid.dict
+	perl rafsig.pl < rafsi > rafsig.dict
+	perl raf4lg.pl < gismu > raf4lg.dict
 	./dictmake dictionary.dbm gismu.dict cmavo.dict lujvo.dict oblik.dict raf4l.dict rafobl.dict rafsid.dict extradict
 
 dictupdate : dictionary.dbm
