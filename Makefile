@@ -74,19 +74,19 @@ uncom.c : uncom.l
 	flex -t uncom.l > uncom.c
 
 translate.o : translate.c
-	$(CC) $(CFLAGS) -c translate.c $(INCDIR)
+	$(CC) $(CFLAGS) -c translate.c
 
 dictmake : dictmake.o
-	$(CC) $(CFLAGS) -o dictmake dictmake.o $(LIBDIR) -lgdbm
+	$(CC) $(CFLAGS) -o dictmake dictmake.o
 
 dictmake.o : dictmake.c
-	$(CC) $(CFLAGS) -c dictmake.c $(INCDIR)
+	$(CC) $(CFLAGS) -c dictmake.c
 
 dictclean : dictclean.o
-	$(CC) $(CFLAGS) -o dictclean dictclean.o $(LIBDIR) -lgdbm
+	$(CC) $(CFLAGS) -o dictclean dictclean.o
 
 dictclean.o : dictclean.c
-	$(CC) $(CFLAGS) -c dictclean.c $(INCDIR)
+	$(CC) $(CFLAGS) -c dictclean.c
 
 makelujvo : makelujvo.o
 	$(CC) $(CFLAGS) -o makelujvo makelujvo.o
