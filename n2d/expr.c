@@ -55,32 +55,70 @@ typedef struct Result Result;
 typedef struct Symbol Symbol;
 typedef struct SymbolList SymbolList;
 
-static SymbolList *symbols = NULL;
+struct evaluator {
+  SymbolList *symbols;
+  Result *results;
+  int n_results;
+  int max_results;
+  /* Flag indicating whether any results evaluated so far have evaluated true.
+     (Used for implementing wildcard expression).  */
+  int any_results_so_far;
+  char *defresult;
+};
 
-static Result *results = NULL;
-static int n_results = 0;
-static int max_results = 0;
+/* Evaluator used to determine exit value of automaton, if the last input
+ * char appears in a particular state */
+Evaluator *exit_evaluator;
 
-/* Flag indicating whether any results evaluated so far have evaluated true.
-   (Used for implementing wildcard expression).  */
-static int any_results_so_far;
+/* Evaluator used to determine attribute to apply to a DFA state, given those
+ * that apply to its constituent NFA states. */
+Evaluator *attr_evaluator;
 
-static void add_new_symbol(Symbol *s)/*{{{*/
+Evaluator* create_evaluator(void)/*{{{*/
+{
+  Evaluator *x = new(struct evaluator);
+  x->symbols = NULL;
+  x->results = NULL;
+  x->n_results = x->max_results = 0;
+  x->any_results_so_far = 0;
+  x->defresult = NULL;
+  return x;
+}
+/*}}}*/
+void destroy_evaluator(Evaluator *x)/*{{{*/
+{
+  /* Just leak memory for now, no need to clean up. */
+  return;
+}
+/*}}}*/
+void define_defresult(Evaluator *x, char *text)/*{{{*/
+{
+  x->defresult = new_string(text);
+}
+/*}}}*/
+char* get_defresult(Evaluator *x)/*{{{*/
+{
+  return x->defresult ? x->defresult : "0";
+}
+/*}}}*/
+
+static void add_new_symbol(Evaluator *x, Symbol *s)/*{{{*/
 {
   SymbolList *nsl = new(SymbolList);
   nsl->sym = s;
-  nsl->next = symbols;
-  symbols = nsl;
+  nsl->next = x->symbols;
+  x->symbols = nsl;
 }
   /*}}}*/
-static void grow_results(void)/*{{{*/
+static void grow_results(Evaluator *x)/*{{{*/
 {
-  if (n_results == max_results) {
-    max_results += 32;
-    results = resize_array(Result, results, max_results);
+  if (x->n_results == x->max_results) {
+    x->max_results += 32;
+    x->results = resize_array(Result, x->results, x->max_results);
   }
 }
 /*}}}*/
+
 Expr * new_wild_expr(void)/*{{{*/
 {
   Expr *r = new(Expr);
@@ -133,12 +171,12 @@ Expr * new_cond_expr(Expr *c1, Expr *c2, Expr *c3)/*{{{*/
   return r; 
 }
 /*}}}*/
-static Symbol *  find_symbol_or_create(char *sym_name)/*{{{*/
+static Symbol *  find_symbol_or_create(Evaluator *x, char *sym_name)/*{{{*/
 {
   int i;
   Symbol *s;
   SymbolList *sl;
-  for (sl=symbols; sl; sl=sl->next) {
+  for (sl=x->symbols; sl; sl=sl->next) {
     s = sl->sym;
     if (!strcmp(s->name, sym_name)) {
       return s;
@@ -146,7 +184,7 @@ static Symbol *  find_symbol_or_create(char *sym_name)/*{{{*/
   }
   
   s = new(Symbol);
-  add_new_symbol(s);
+  add_new_symbol(x,s);
   s->is_expr = 0; /* Until proven otherwise */
   s->name = new_string(sym_name);
   return s;
@@ -167,7 +205,7 @@ Expr * new_sym_expr(char *sym_name)/*{{{*/
   return r; 
 }
 /*}}}*/
-void define_result(char *string, Expr *e)/*{{{*/
+void define_result(Evaluator *x, char *string, Expr *e)/*{{{*/
 /*++++++++++++++++++++
   Add a result defn.  If the expr is null, it means build a single expr corr.
   to the value of the symbol with the same name as the result string.
@@ -176,8 +214,8 @@ void define_result(char *string, Expr *e)/*{{{*/
   int i;
   Result *r;
 
-  grow_results();
-  r = &results[n_results++];
+  grow_results(x);
+  r = &(x->results[x->n_results++]);
   r->result = new_string(string);
   if (e) {
     r->e = e;
@@ -190,46 +228,46 @@ void define_result(char *string, Expr *e)/*{{{*/
   return;
 }
 /*}}}*/
-void define_symbol(char *name, Expr *e)/*{{{*/
+void define_symbol(Evaluator *x, char *name, Expr *e)/*{{{*/
 /*++++++++++++++++++++
   Define an entry in the symbol table.
   ++++++++++++++++++++*/
 {
   Symbol *s;
-  s = find_symbol_or_create(name);
+  s = find_symbol_or_create(x, name);
   s->data.e = e;
   s->is_expr = 1;
   return;
 }
 /*}}}*/
   
-void define_symresult(char *name, Expr *e)/*{{{*/
+void define_symresult(Evaluator *x, char *name, Expr *e)/*{{{*/
 /*++++++++++++++++++++
   Define an entry in the symbol table, and a result with the same name.
   ++++++++++++++++++++*/
 {
-  define_symbol(name, e);
-  define_result(name, e);
+  define_symbol(x, name, e);
+  define_result(x, name, e);
   return;
 }
 /*}}}*/
-void clear_symbol_values(void)/*{{{*/
+void clear_symbol_values(Evaluator *x)/*{{{*/
 {
   SymbolList *sl;
-  for (sl=symbols; sl; sl=sl->next) {
+  for (sl=x->symbols; sl; sl=sl->next) {
     Symbol *s = sl->sym;
     if (0 == s->is_expr) {
       s->data.val = 0;
     }
   }
-  any_results_so_far = 0;
+  x->any_results_so_far = 0;
 }
 /*}}}*/
-void set_symbol_value(char *sym_name)/*{{{*/
+void set_symbol_value(Evaluator *x, char *sym_name)/*{{{*/
 {
   Symbol *s;
 
-  s = find_symbol_or_create(sym_name);
+  s = find_symbol_or_create(x, sym_name);
   if (s->is_expr) {
     fprintf(stderr, "Cannot set value for symbol '%s', it is defined by an expression\n");
     exit(2);
@@ -238,33 +276,33 @@ void set_symbol_value(char *sym_name)/*{{{*/
   }
 }
 /*}}}*/
-static int eval(Expr *e)/*{{{*/
+static int eval(Evaluator *x, Expr *e)/*{{{*/
 /*++++++++++++++++++++
   Evaluate the value of an expr
   ++++++++++++++++++++*/
 {
   switch (e->type) {
     case E_AND:
-      return eval(e->data.and.c1) && eval(e->data.and.c2);
+      return eval(x, e->data.and.c1) && eval(x, e->data.and.c2);
     case E_OR:
-      return eval(e->data.or.c1) || eval(e->data.or.c2);
+      return eval(x, e->data.or.c1) || eval(x, e->data.or.c2);
     case E_XOR:
-      return eval(e->data.xor.c1) ^ eval(e->data.xor.c2);
+      return eval(x, e->data.xor.c1) ^ eval(x, e->data.xor.c2);
     case E_COND:
-      return eval(e->data.cond.c1) ? eval(e->data.cond.c2) : eval(e->data.cond.c3);
+      return eval(x, e->data.cond.c1) ? eval(x, e->data.cond.c2) : eval(x, e->data.cond.c3);
     case E_NOT:
-      return !eval(e->data.not.c1);
+      return !eval(x, e->data.not.c1);
     case E_WILD:
-      return any_results_so_far;
+      return x->any_results_so_far;
     case E_SYMBOL:
       {
         Symbol *s = e->data.symbol.s;
         if (!s) {
           /* Not bound yet */
-          e->data.symbol.s = s = find_symbol_or_create(e->data.symbol.name);
+          e->data.symbol.s = s = find_symbol_or_create(x, e->data.symbol.name);
         }
         if (s->is_expr) {
-          return eval(s->data.e);
+          return eval(x, s->data.e);
         } else {
           return s->data.val;
         }
@@ -275,20 +313,20 @@ static int eval(Expr *e)/*{{{*/
   }
 }
 /*}}}*/
-int evaluate_result(char **result)/*{{{*/
+int evaluate_result(Evaluator *x, char **result)/*{{{*/
 /*++++++++++++++++++++
   Evaluate the result which holds given the symbols that are set
   ++++++++++++++++++++*/
 {
   int i;
   int matched = -1;
-  for (i=0; i<n_results; i++) {
-    if (eval(results[i].e)) {
-      if (any_results_so_far) {
+  for (i=0; i<x->n_results; i++) {
+    if (eval(x, x->results[i].e)) {
+      if (x->any_results_so_far) {
         *result = NULL;
         return 0;
       } else {
-        any_results_so_far = 1;
+        x->any_results_so_far = 1;
         matched = i;
       }
     }
@@ -298,8 +336,15 @@ int evaluate_result(char **result)/*{{{*/
     *result = NULL;
     return 1;
   } else {
-    *result = results[matched].result;
+    *result = x->results[matched].result;
     return 1;
   }
+}
+/*}}}*/
+/* Initialisation */
+void eval_initialise(void)/*{{{*/
+{
+  exit_evaluator = create_evaluator();
+  attr_evaluator = create_evaluator();
 }
 /*}}}*/
