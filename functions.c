@@ -540,7 +540,7 @@ find_nth_cmavo_child(TreeNode *x, int n, int selmao)
   ++++++++++++++++++++++++++++++++++++++*/
 
 TreeNode *
-strip_attitudinal_from_cmavo(TreeNode *x)
+strip_attitudinal(TreeNode *x)
 {
   TreeNode *y;
   if (x->type == N_CMAVO) {
@@ -552,12 +552,12 @@ strip_attitudinal_from_cmavo(TreeNode *x)
     nt = &(x->data.nonterm);
     assert(nt->type == AUGMENTED);
     c0 = nt->children[0];
-    assert (c0->type == N_CMAVO);
-    if (c0->data.cmavo.selmao != BAhE) {
+    /* Can't safely assert N_CMAVO because this routine will get called
+       in cases like BRIVLA UI at the start of a tanru_unit_2 */
+    if ((c0->type == N_CMAVO) && (c0->data.cmavo.selmao != BAhE)) {
       return c0;
     } else {
       c1 = nt->children[1];
-      assert (c1->type == N_CMAVO);
       return c1;
     }
   }
@@ -568,10 +568,10 @@ strip_attitudinal_from_cmavo(TreeNode *x)
   ++++++++++++++++++++++++++++++++++++++*/
 
 TreeNode *
-maybe_strip_attitudinal_from_cmavo(TreeNode *x)
+maybe_strip_attitudinal(TreeNode *x)
 {
   if ((x->type == N_NONTERM) && (x->data.nonterm.type == AUGMENTED)) {
-    return strip_attitudinal_from_cmavo(x);
+    return strip_attitudinal(x);
   } else {
     return x;
   }

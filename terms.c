@@ -277,7 +277,7 @@ recover_se_conv(TreeNode *x)
   char *se_str;
   TreeNode *se;
 
-  se = strip_attitudinal_from_cmavo(x);
+  se = strip_attitudinal(x);
   assert (se->data.cmavo.selmao == SE);
 
   se_code = se->data.cmavo.code;
@@ -317,7 +317,7 @@ recover_fa_conv(TreeNode *x)
   int fa_code;
   char *fa_str;
 
-  x = strip_attitudinal_from_cmavo(x);
+  x = strip_attitudinal(x);
   assert (x->data.cmavo.selmao == FA);
 
   fa_code = x->data.cmavo.code;
@@ -876,7 +876,7 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
   TreeNode *c1;
 
   type_check(tu2, TANRU_UNIT_2);
-  c1 = maybe_strip_attitudinal_from_cmavo(child_ref(tu2, 0));
+  c1 = maybe_strip_attitudinal(child_ref(tu2, 0));
 
   if (c1->type == N_CMAVO) {
     switch (c1->data.cmavo.selmao) {
@@ -997,7 +997,7 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
 
           nns = child_ref(c1, 0);
           type_check(nns, NU_NAI_SEQ);
-          c2 = maybe_strip_attitudinal_from_cmavo(child_ref(nns, 0));
+          c2 = maybe_strip_attitudinal(child_ref(nns, 0));
           if ((c2->type == N_CMAVO) &&
               (c2->data.cmavo.selmao == NU)) {
             /* A simple NU <subsentence> thing */
