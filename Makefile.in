@@ -14,7 +14,7 @@ MANDIR=$(PREFIX)/man/man1
 
 INSTALL=@@INSTALLPROG@@
 CC=gcc
-CFLAGS= @@OPTDEBUG@@ -DHAVE_MMAP=1 -DDEFAULT_DICTIONARY=\"$(DICTIONARY)\"
+CFLAGS= @@OPTDEBUG@@ @@DEFINES@@ -DDEFAULT_DICTIONARY=\"$(DICTIONARY)\"
 
 OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc_tab.o functions.o \
         categ.o nonterm.o tree.o translate.o latex.o \

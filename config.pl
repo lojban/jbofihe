@@ -9,6 +9,27 @@
 #
 # COPYRIGHT
 
+$prefix="/usr/local";
+$install="ginstall";
+$debug=0;
+$mmap=1;
+$word_list_dir=undef;
+
+while ($_ = shift @ARGV) {
+    if (/^--prefix=(.*)$/) {
+        $prefix = $1;
+    } elsif (/^-p/) {
+        $prefix = shift @ARGV;
+    } elsif (/^--installprog=(.*)$/) {
+        $install = $1;
+    } elsif (/^--debug$/) {
+		$debug = 1;
+	} elsif (/^--nommap$/) {
+        $mmap = 0;
+    } elsif (/^--wordsdir=(.*)$/) {
+        $word_list_dir = $1;
+    }
+}
 
 sub check_wordlists {
     my ($dir) = @_;
@@ -22,23 +43,14 @@ sub check_wordlists {
 
 
 # Try to find the directory containing the files 'gismu', 'cmavo', 'oblique.key' etc
-if (&check_wordlists(".")) {
-    $word_list_dir = ".";
-} else {
-    # Try all directories below the parent directory
-    print "Searching to find directory containing wordlists ...\n";
-    @dirs = qx=find .. -type d -print=;
-    for $dir (@dirs) {
-        chop $dir;
-        if (&check_wordlists($dir)) {
-            $word_list_dir = $dir;
-            last;
-        }
-    }
+unless (defined $word_list_dir) {
 
-    # Otherwise, try everything below the user's home directory
-    unless ($word_list_dir) {
-        @dirs = qx=find ~ -type d -print=;
+    if (&check_wordlists(".")) {
+        $word_list_dir = ".";
+    } else {
+        # Try all directories below the parent directory
+        print "Searching to find directory containing wordlists ...\n";
+        @dirs = qx=find .. -type d -print=;
         for $dir (@dirs) {
             chop $dir;
             if (&check_wordlists($dir)) {
@@ -46,30 +58,28 @@ if (&check_wordlists(".")) {
                 last;
             }
         }
-    }   
 
-    unless ($word_list_dir) {
-        die "Can't find word lists gismu, cmavo etc in your directory structure.\n";
+        # Otherwise, try everything below the user's home directory
+        unless ($word_list_dir) {
+            @dirs = qx=find ~ -type d -print=;
+            for $dir (@dirs) {
+                chop $dir;
+                if (&check_wordlists($dir)) {
+                    $word_list_dir = $dir;
+                    last;
+                }
+            }
+        }   
+
+        unless ($word_list_dir) {
+            die "Can't find word lists gismu, cmavo etc in your directory structure.\n";
+        }
     }
 }
 
-$prefix="/usr/local";
-$install="ginstall";
-$debug=0;
-
-while ($_ = shift @ARGV) {
-    if (/^--prefix=(.*)$/) {
-        $prefix = $1;
-    } elsif (/^-p/) {
-        $prefix = shift @ARGV;
-    } elsif (/^--installprog=(.*)$/) {
-        $install = $1;
-    } elsif (/^--debug$/) {
-		$debug = 1;
-	}
-}
-
 $optdebug = $debug ? "-g" : "-O2";
+$mmap_flag = $mmap ? "-DHAVE_MMAP=1" : "";
+$defines = $mmap_flag;
 
 open(IN, "<Makefile.in");
 open(OUT, ">Makefile");
@@ -78,6 +88,7 @@ while (<IN>) {
     s/\@\@PREFIX\@\@/$prefix/eg;
     s/\@\@INSTALLPROG\@\@/$install/eg;
 	s/\@\@OPTDEBUG\@\@/$optdebug/eg;
+    s/\@\@DEFINES\@\@/$defines/eg;
     print OUT;
 }
 close(IN);

@@ -59,9 +59,13 @@ perl config.pl --prefix=/usr/local
 make all
 make install
 
-The config.pl script takes two additional arguments :
+The config.pl script takes these additional (optional) arguments :
 --debug to compile with debug instead of optimisation
---installprog <name> to specify an alternative installation program.
+--installprog=<name> to specify an alternative installation program.
+--wordsdir=<name> to specify the directory containing the 
+                  files gismu, cmavo, rafsi etc.
+--nommap to use fread() rather than mmap() to access the dictionary
+                  (use this on non-Posix systems)
 
 RUNNING
 
