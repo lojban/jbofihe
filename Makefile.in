@@ -16,10 +16,11 @@ OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc.tab.o functions.o \
 
 SRCS2 = $(OBJS2:%.o=%.c)
 
-all : dictionary jbofihe
-
 jbofihe : $(OBJS2)
 	$(CC) $(CFLAGS) -o jbofihe $(OBJS2) $(LIBDIR)
+
+all : dictionary jbofihe
+
 
 # Analyse shift/reduce conflicts in the grammar
 conflict :
@@ -86,8 +87,10 @@ dictionary : dictmake
 	perl rafsig.pl < @@WORD-LISTS@@/rafsi > rafsig.dict
 	perl raf4lg.pl < @@WORD-LISTS@@/gismu > raf4lg.dict
 	perl lujvop.pl "@@WORD-LISTS@@/" < @@WORD-LISTS@@/lujvo-list > lujvop.dict
+	perl noralujv.pl "@@WORD-LISTS@@/" > noralujv.dict
 	./dictmake dictionary.bin gismu.dict cmavo.dict lujvo.dict oblik.dict \
 		raf4l.dict rafobl.dict rafsid.dict rafsig.dict raf4lg.dict \
+		noralujv.dict \
 		extradict places.dat
 
 dictupdate : dictionary.bin
