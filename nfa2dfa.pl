@@ -232,15 +232,15 @@ for $i (0 .. $nnfa) {
     $st = $nfa_states[$i];
     # Clear vector (not sure this does what I want it to, but doesn't affect
     # operation of script since the vector is initially undef anyway)
-    vec($st->{eps}, 0, $nnfa1) = 0;
-    vec($st->{eps}, $i, 1) = 1; # Reflexive
+    $st->{eps} = { };
+    $st->{eps}->{$i} = 1;
     my $tok = $st->{tok};
     my $sref = $st->{sref};
     for $j (0 .. $#$tok) {
         if (!defined $$tok[$j]) { # epsilon transition
             $ss = $$sref[$j];
             $sn = $ss->{number};
-            vec($st->{eps}, $sn, 1) = 1;
+            $st->{eps}->{$sn} = 1;
             push (@queue, [$i, $sn]);
         }
     }
@@ -252,9 +252,9 @@ while ($job = shift(@queue)) {
     my $st1 = $nfa_states[$x];
     my $st2 = $nfa_states[$y];
     for $i (0 .. $nnfa) {
-        if ((vec($st2->{eps}, $i, 1) == 1) &&
-            (vec($st1->{eps}, $i, 1) == 0)) {
-            vec($st1->{eps}, $i, 1) = 1;
+        if ((defined $st2->{eps}->{$i}) &&
+            !(defined $st1->{eps}->{$i})) {
+            $st1->{eps}->{$i} = 1;
             push (@queue, [$x, $i]);
         }
     }
@@ -265,7 +265,7 @@ for my $i (0 .. $nnfa) {
     $st = $nfa_states[$i];
     print STDERR "State $i has eps. closure :";
     for my $j (0 .. $nnfa) {
-        if (vec($st->{eps}, $j, 1) == 1) {
+        if (defined $st->{eps}->{$j}) {
             print STDERR " $j";
         }
     }
@@ -284,16 +284,22 @@ for my $i (0 .. $nnfa) {
     for $i (0 .. $#$tok) {
         $t = $tok->[$i];
         $targ_num = $sref->[$i]->{number};
-        vec($dmap->{$t}, $targ_num, 1) = 1;
+        $dmap->{$t}->{$targ_num} = 1;
     }
 }
 
 # Now start to build the DFA.
 $dfa_states = ();
 
+# Map from (list of nfa states joined with :) -> dfa state number
+# to speed up searching
+%find_dfa = ();
+
 # Build initial DFA state
 $dfa_states[0] = { };
-$dfa_states[0]->{nfa} = $laststate->{eps};
+@temp = sort {$a <=> $b} (keys %{$laststate->{eps}});
+$dfa_states[0]->{nfa} = [ @temp ];
+$find_dfa{join(':',@temp)} = 0;
 
 # Loop to construct DFA
 $dd = 0;
@@ -310,12 +316,10 @@ while ($dd <= $#dfa_states) {
     # a transition into a defined set of exit states.
 
     @exit_val = ();
-    for $i (0 .. $nnfa) {
-    	if (vec($dx->{nfa}, $i, 1) == 1) {
-            $nex = $nfa_states[$i]->{exival};
-            if (defined $nex) {
-                push (@exit_val, $nex);
-            }
+    for $i (@{$dx->{nfa}}) {
+        $nex = $nfa_states[$i]->{exival};
+        if (defined $nex) {
+            push (@exit_val, $nex);
         }
     }
 
@@ -327,40 +331,39 @@ while ($dd <= $#dfa_states) {
 
     for $t (keys %tokens) {
         $hit = 0;
-        for $xx (0 .. $nnfa) {
-            vec($ovec, $xx, 1) = 0;
-        }
-        for $n (0 .. $nnfa) {
-            if (vec($dx->{nfa}, $n, 1) == 1) {
-                # This NFA state is present in the src DFA state
-                $st = $nfa_states[$n];
-                $tok = $st->{tok};
-                $sref = $st->{sref};
-                for $i (0 .. $#$tok) {
-                    if ($tok->[$i] eq $t) {
-                        $targ = $sref->[$i]; # Target state
-                        $e = $targ->{eps};
-                        $ovec |= $e; # Merge destn states onto existing
-                        $hit = 1;
+        %ovec = ();
+        for $n (@{$dx->{nfa}}) {
+            # This NFA state is present in the src DFA state
+            $st = $nfa_states[$n];
+            $tok = $st->{tok};
+            $sref = $st->{sref};
+            for $i (0 .. $#$tok) {
+                if ($tok->[$i] eq $t) {
+                    $targ = $sref->[$i]; # Target state
+                    $e = $targ->{eps};
+                    for $ee (keys %$e) {
+                        $ovec{$ee} = 1; # Merge destn states onto existing
+                        $hit = 1; # Only hit if at least one iteration
                     }
                 }
             }
         }
-        # Now have $ovec being a bit vector of which NFA states token $t can take
-        # us to from this DFA state.  See if we know of this one
+
+        # Now the keys of %ovec are the states to which this transition
+        # may go.
+
+        @ovec = sort { $a <=> $b } (keys %ovec);
+        $ovecstr = join(':', @ovec);
 
         if ($hit) {
             $done = undef;
-            for $i (0 .. $#dfa_states) {
-                if ($ovec eq $dfa_states[$i]->{nfa}) {
-                    $dx->{map}->{$t} = $i;
-                    $done = 1;
-                    last;
-                }
-            }
-            if (!$done) {
+            $targ_state = $find_dfa{$ovecstr};
+            if (defined $targ_state) {
+                $dx->{map}->{$t} = $targ_state;
+            } else {
                 # Add a new DFA state
-                push (@dfa_states, { nfa=>$ovec, org=>$dd } );
+                push (@dfa_states, { nfa=>[@ovec], org=>$dd } );
+                $find_dfa{$ovecstr} = $#dfa_states;
                 $dx->{map}->{$t} = $#dfa_states;
             }
         } else {
@@ -374,12 +377,8 @@ while ($dd <= $#dfa_states) {
 for $i (0 .. $#dfa_states) {
     $dx = $dfa_states[$i];
     print STDERR "------------------------------------\n";
-    print STDERR "DFA state $i, corr. NFA states :\n  ";
-    for $j (0 .. $#nfa_states) {
-        if (vec($dx->{nfa}, $j, 1) == 1) {
-            print STDERR " $j";
-        }
-    }
+    print STDERR "DFA state $i, corr. NFA states :\n   ";
+    print STDERR join(' ', @{$dx->{nfa}});
     print STDERR "\n";
     print STDERR "Route :\n";
     @route=();
@@ -453,5 +452,27 @@ for $i (0 .. $#dfa_states) {
 }
 print "\n};\n";
 $n = 1+$#tokset;
-print "#define NEXT_STATE(s,t) ".$prefix."_trans[".$n."*(s)+(t)]\n";
+$ucprefix = $prefix;
+$ucprefix =~ y/a-z/A-Z/;
+print "#define NEXT_".$ucprefix."_STATE(s,t) ".$prefix."_trans[".$n."*(s)+(t)]\n";
 
+#######################################################################
+
+sub array_compare {
+    my ($x, $y) = @_;
+    if ($#$x != $#$y) {
+        return 0;
+    } else {
+        $ok = 1;
+        for $i (0 .. $#$x) {
+            if ($x->[$i] != $y->[$i]) {
+                $ok = 0;
+                last;
+            }
+        }
+        return $ok;
+    }
+}
+
+#######################################################################
+            
