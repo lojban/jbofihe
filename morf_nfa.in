@@ -69,218 +69,74 @@ TOKENS UNK V APOS Y R N C NR CI CP CN H BT VV VX VY YY
 PREFIX morfnc
 PREFIX morf ## CULTURAL
 
+ABBREV CNR = C|N|R
+
 ###########################################################
 # Subcomponents for lujvo matching
 
 BLOCK SYL1
 
     STATE in
-        C|N|R -> cvv1
-        C|N|R -> cvc1
-        C     -> ccv1
-        C|N|R -> cvcc1
-        C     -> ccvc1
-        C     -> ccvvc1 ## CULTURAL
-
-    # Stages for CVV initial rafsi
-    STATE cvv1
-        V -> cvv2
-        V -> cvv1a
-    STATE cvv1a
-        APOS -> cvv1b
-    STATE cvv1b
-        V -> ex_nr
-    STATE cvv2
-        VV -> ex_nr
-
-    # Stages for CCV initial rafsi
-    STATE ccv1
-        CI -> ccv2
-    STATE ccv2
-        V -> ex_cln
-
-    # CVC initial rafsi
-    STATE cvc1
-        V -> cvc2
-    STATE cvc2
-        C|N|R -> ex_cvc
-
-    # CVCCy initial rafsi
-    STATE cvcc1
-        V -> cvcc2
-    STATE cvcc2
-        C|N|R -> cvcc3
-    STATE cvcc3
-        CI|CP|NR -> ex_cvy
-
-    # CCVCy initial rafsi
-    STATE ccvc1
-        CI -> ccvc2
-    STATE ccvc2
-        V -> ccvc3
-    STATE ccvc3
-        C|N|R -> ex_y
-
-    # CCVVCy (cultural, section 4.16) initial rafsi
-    STATE ccvvc1
-        CI -> ccvvc2
-    STATE ccvvc2
-        V -> ccvvc3
-        V -> ccvvc2a
-    STATE ccvvc2a
-        APOS -> ccvvc2b
-    STATE ccvvc2b
-        V -> ccvvc4
-    STATE ccvvc3
-        VV -> ccvvc4
-    STATE ccvvc4
-        C|N|R -> ex_y
+        CNR ; V  ; APOS ; V              -> ex_nr  # Requires nr hyphen after or just final CCV
+        CNR ; V  ; VV                    -> ex_nr  # Requires nr hyphen after or just final CCV
+        C   ; CI ; V                     -> ex_cln # No special binding to next syl
+        CNR ; V  ; CNR                   -> ex_cvc # Starts CVC, may require tosmabru check
+        CNR ; V  ; CNR ; CI|CP|NR        -> ex_cvy # Ditto, starts CV
+        C   ; CI ; V   ; CNR             -> ex_y   # Requires y before next syl
+        C   ; CI ; V          ; VV ; CNR -> ex_y                  ## CULTURAL
+        C   ; CI ; V   ; APOS ; V  ; CNR -> ex_y                  ## CULTURAL
     
-    # Exit states
-    STATE ex_nr # Requires nr hyphen after or just final CCV
-    STATE ex_cln # No special binding to next syl
-    STATE ex_y # Requires y before next syl
-    STATE ex_cvy # Ditto, starts CV
-    STATE ex_cvc # Starts CVC, may require tosmabru check
-
 ENDBLOCK
 
 ###########################################################
-# Glue coming between first syllable and what follows
+# Glue coming between first syllable (i.e. rafsi) and what follows
 
 BLOCK AFTER1
+
     STATE in_nr
-        R -> cvvr
-        N -> cvvn
-        C|N|R -> to_final_ccv
+        R ; CP -> to_lujvo1, to_after_nr_hyphen
+        N ; NR -> to_lujvo1, to_after_nr_hyphen
+        CNR    -> to_final_ccv
+
     STATE in_cln
-        C|N|R -> to_lujvo0
-        C|N|R -> to_pair0
+        CNR -> to_lujvo0, to_pair0
+
     STATE in_y
-        Y -> xy
+        Y ; CI|CP|CN|NR -> to_lujvo0, to_pair0
+        Y ; CP ; BT     -> to_in_after_cc0
+
     STATE in_cvy
-        Y -> cvy1
+        Y ; CI|CP|CN|NR|H|BT -> to_lujvo1, to_pair1
+
     STATE in_cvc
-        CI|CP|NR -> to_lujvo1
-        CI|CP|NR -> to_pair1
-        Y -> cvc1
-
-    STATE cvvr
-        CP -> to_lujvo1
-        CP -> to_after_nr_hyphen
-    STATE cvvn
-        NR -> to_lujvo1
-        NR -> to_after_nr_hyphen
-
-    STATE xy
-        CI|CP|CN|NR -> to_lujvo0
-        CI|CP|CN|NR -> to_pair0
-        CP -> xybt
-
-    STATE xybt
-        BT -> to_in_after_cc0
-
-    STATE cvy1
-        CI|CP|CN|NR|H|BT -> to_lujvo1
-        CI|CP|CN|NR|H|BT -> to_pair1
-
-    STATE cvc1
-        CN -> to_lujvo1
-        CN -> to_pair1
-        # Can't have CP|NR at start of a lujvo, therefore they
-        # can't be valid as the transition pair in the tosmabru
-        # check case.
-        CI -> to_lujvo1t
-        CI -> to_pair1t
-        CI -> to_tosmabru
-        CP -> cvc1bt
-
-    STATE cvc1bt
-        BT -> to_in_after_cc1
-
-    # Exit states
-    STATE to_lujvo0 # lujvo starting CC
-    STATE to_lujvo1 # lujvo starting CV
-    STATE to_lujvo1t # starting CV, requires tosmabru check
-    STATE to_final_ccv # CVV+CCV form
-    STATE to_tosmabru # tosmabru checking block
-    STATE to_pair0
-    STATE to_pair1
-    STATE to_pair1t
-    STATE to_after_nr_hyphen
-    STATE to_in_after_cc0
-    STATE to_in_after_cc1
+        CI|CP|NR    -> to_lujvo1, to_pair1
+        Y ; CN      -> to_lujvo1, to_pair1
+        Y ; CI      -> to_lujvo1t, to_pair1t, to_tosmabru
+        Y ; CP ; BT -> to_in_after_cc1
         
 ENDBLOCK
 
 ###########################################################
 
-BLOCK SYL2 # syllables 2 .. (N-1)
+BLOCK SYL2 # Lujvo syllables (i.e. rafsi) 2 .. (N-1)
     STATE in
-        -> cvv1
-        -> ccv1
-        -> cvc1
-        -> cvcc1
-        -> ccvc1
-        -> ccvvc1 ## CULTURAL
+        V  ; VV                 -> ex_cln
+        V  ; APOS ; V           -> ex_cln
+        CI ; V                  -> ex_cln
+        V  ; CNR                -> ex_cvc
+        V  ; CNR  ; CI|CP|NR    -> ex_y
+        CI ; V    ; CNR         -> ex_y
+        CI ; V ; APOS ; V ; CNR -> ex_y  ## CULTURAL
+        CI ; V ; VV   ;     CNR -> ex_y  ## CULTURAL
+        
 
-    STATE in_after_cc
-        -> ccv2
-        -> ccvc2
-        -> ccvvc2 ## CULTURAL
+    STATE in_after_cc # get here if last syl. ends in c, which when combined
+                      # with 1st & 2nd letters of this syl. forms a bad consonant triple
 
-    STATE cvv1
-        V -> cvv2
-        V -> cvv1a
-    STATE cvv1a
-        APOS -> cvv1b
-    STATE cvv1b
-        V -> ex_cln
-    STATE cvv2
-        VV -> ex_cln
-
-    STATE ccv1
-        CI -> ccv2
-    STATE ccv2
-        V -> ex_cln
-
-    STATE cvc1
-        V -> cvc2
-    STATE cvc2
-        C|N|R -> ex_cvc
-
-    STATE cvcc1
-        V -> cvcc2
-    STATE cvcc2
-        C|N|R -> cvcc3
-    STATE cvcc3
-        CI|CP|NR -> ex_y
-
-    STATE ccvc1
-        CI -> ccvc2
-    STATE ccvc2
-        V -> ccvc3
-    STATE ccvc3
-        C|N|R -> ex_y
-
-    STATE ccvvc1
-        CI -> ccvvc2
-    STATE ccvvc2
-        V -> ccvvc3
-        V -> ccvvc2a
-    STATE ccvvc2a
-        APOS -> ccvvc2b
-    STATE ccvvc2b
-        V -> ccvvc4
-    STATE ccvvc3
-        VV -> ccvvc4
-    STATE ccvvc4
-        C|N|R -> ex_y
-
-    # Exit states
-    STATE ex_cln
-    STATE ex_cvc
-    STATE ex_y
+        V                  -> ex_cln            # from ccv form
+        V ; CNR            -> ex_y              # from ccvc form
+        V ; APOS ; V ; CNR -> ex_y ## CULTURAL
+        V ; VV       ; CNR -> ex_y ## CULTURAL
     
 ENDBLOCK
 
@@ -288,90 +144,46 @@ ENDBLOCK
 
 # Linkage from rafsi 2->3, ..., (N-1)->N
 BLOCK AFTER2
+    
     STATE in_cln
-        C|N|R -> exit
+        CNR                  -> exit
+        
     STATE in_cvc
-        Y -> cvc2
-        CI|CP|NR -> exit
+        Y ; CN               -> exit
+        Y ; CP ; BT          -> exit_after_cc
+        CI|CP|NR             -> exit
+
     STATE in_y
-        Y -> y2
-
-    STATE cvc2
-        CN -> exit
-        CP -> cvc2bt
-
-    STATE cvc2bt
-        BT -> exit_after_cc
-
-    STATE y2
-        CI|CP|NR|CN|H|BT -> exit
-        CP -> y2bt
-
-    STATE y2bt
-        BT -> exit_after_cc
-
-    # Exit states
-    STATE exit
-    STATE exit_after_cc
+        Y ; CI|CP|NR|CN|H|BT -> exit
+        Y ; CP ; BT          -> exit_after_cc
     
 ENDBLOCK
 
 ###########################################################
 
-# Final syllable
+# Lujvo final syllable
 
 BLOCK SYLN
     STATE in_main
-        -> cvv1
-        -> ccv1
-        -> ccvcv1
-        -> cvccv1
+        V ; APOS ; V            -> exit  # final CV'V
+        V ; VV                  -> exit  # final CVV
+        CI ; V                  -> exit  # final CCV
+        CI ; V ; CNR ; V        -> exit  # final CCVCV
+        V  ; CNR ; CI|CP|NR ; V -> exit  # final CVCCV
+
     STATE in_after_nr_hyphen
-        -> cvv1
-        -> ccvcv1
-        -> cvccv1
+        V ; APOS ; V            -> exit  # final CV'V
+        V ; VV                  -> exit  # final CVV
+        CI ; V ; CNR ; V        -> exit  # final CCVCV
+        V  ; CNR ; CI|CP|NR ; V -> exit  # final CVCCV
+
     STATE in_to_ccv
-        -> ccv1
+        CI ; V                  -> exit  # final CCV
 
     # Used to support bad triples with n at end of previous syllable
     STATE in_after_cc
-        -> ccv2
-        -> ccvcv2
-
-    STATE cvv1
-        V -> cvv2
-        V -> cvv1a
-    STATE cvv1a
-        APOS -> cvv1b
-    STATE cvv1b
-        V -> exit
-    STATE cvv2
-        VV -> exit
-
-    STATE ccv1
-        CI -> ccv2
-    STATE ccv2
-        V -> exit
-
-    STATE ccvcv1
-        CI -> ccvcv2
-    STATE ccvcv2
-        V -> ccvcv3
-    STATE ccvcv3
-        C|N|R -> ccvcv4
-    STATE ccvcv4
-        V -> exit
-        
-    STATE cvccv1
-        V -> cvccv2
-    STATE cvccv2
-        C|N|R -> cvccv3
-    STATE cvccv3
-        CI|CP|NR -> cvccv4
-    STATE cvccv4
-        V -> exit
-
-    STATE exit
+        V                       -> exit  # final CCV
+        V ; CNR ; V             -> exit  # final CCVCV
 
 ENDBLOCK
 
@@ -390,30 +202,18 @@ BLOCK SYL2N
     a2 : AFTER2
     sn : SYLN
 
-    STATE in
-        -> s2.in
+    STATE in -> s2.in
 
-    STATE in_after_cc
-        -> s2.in_after_cc
-        -> sn.in_after_cc
+    STATE in_after_cc -> s2.in_after_cc, sn.in_after_cc
 
     # Bridge s2->a2
-    STATE s2.ex_cln
-        -> a2.in_cln
-    STATE s2.ex_cvc
-        -> a2.in_cvc
-    STATE s2.ex_y
-        -> a2.in_y
+    STATE s2.ex_cln -> a2.in_cln
+    STATE s2.ex_cvc -> a2.in_cvc
+    STATE s2.ex_y -> a2.in_y
     
-    # Bind a2->s2
-    # Bind a2->s2
-    STATE a2.exit
-        -> s2.in
-        -> sn.in_main
-
-    STATE a2.exit_after_cc
-        -> s2.in_after_cc
-        -> sn.in_after_cc
+    # Bind a2->s2 (loop or goto final syl.)
+    STATE a2.exit -> s2.in, sn.in_main
+    STATE a2.exit_after_cc -> s2.in_after_cc, sn.in_after_cc
 
 ENDBLOCK
 
@@ -423,32 +223,10 @@ ENDBLOCK
 
 BLOCK TOS_SYL1
     STATE in
-        -> ccv1
-        -> ccvc1
-        -> ccvvcv1 ## CULTURAL
-
-    STATE ccv1
-        V -> ex_cln
-        
-    STATE ccvc1
-        V -> ccvc2
-    STATE ccvc2
-        C|N|R -> ex_y
-
-    STATE ccvvcv1
-        V -> ccvvcv2
-        V -> ccvvcv1a
-    STATE ccvvcv1a
-        APOS -> ccvvcv1b
-    STATE ccvvcv1b
-        V -> ccvvcv3
-    STATE ccvvcv2
-        VV -> ccvvcv3
-    STATE ccvvcv3
-        C|N|R -> ex_y
-
-    STATE ex_cln
-    STATE ex_y
+        V                  -> ex_cln
+        V ; CNR            -> ex_y
+        V ; APOS ; V ; CNR -> ex_y ## CULTURAL
+        V ; VV       ; CNR -> ex_y ## CULTURAL
 
 ENDBLOCK
 
@@ -458,18 +236,11 @@ ENDBLOCK
 BLOCK TOS_AFTER1
 
     STATE in_cln
-        C|N|R -> exit
+        CNR -> exit
+
     STATE in_y
-        Y -> y1
-    STATE y1
-        CI|CP|CN|NR -> exit
-        CP -> y2
-
-    STATE y2
-        BT -> exit_to_after_cc
-
-    STATE exit
-    STATE exit_to_after_cc
+        Y ; CI|CP|CN|NR -> exit
+        Y ; CP ; BT     -> exit_to_after_cc
 
 ENDBLOCK
 
@@ -480,28 +251,15 @@ ENDBLOCK
 BLOCK TOSMABRU
     s1 : TOS_SYL1
     a1 : TOS_AFTER1
-    t : SYL2N
+    tail : SYL2N
     
-    STATE in
-        -> s1.in
+    STATE in -> s1.in
 
-    STATE s1.ex_cln
-        -> a1.in_cln
-
-    STATE s1.ex_y
-        -> a1.in_y
-
-    STATE a1.exit
-        -> t.sn.in_main
-        -> t.in
-
-    STATE a1.exit_to_after_cc
-        -> t.in_after_cc
-
-    STATE t.sn.exit
-        -> exit
-        
-    STATE exit
+    STATE s1.ex_cln -> a1.in_cln
+    STATE s1.ex_y -> a1.in_y
+    STATE a1.exit -> tail.sn.in_main, tail.in
+    STATE a1.exit_to_after_cc -> tail.in_after_cc
+    STATE tail.sn.exit -> exit
     
 ENDBLOCK
 
@@ -519,77 +277,51 @@ BLOCK LUJVO
 
     tos : TOSMABRU
     
-    STATE in
-        -> s1.in
+    STATE in -> s1.in
 
     # Bridge s1->a1
-    STATE s1.ex_nr
-        -> a1.in_nr
-    STATE s1.ex_cln
-        -> a1.in_cln
-    STATE s1.ex_y
-        -> a1.in_y
-    STATE s1.ex_cvy
-        -> a1.in_cvy
-    STATE s1.ex_cvc
-        -> a1.in_cvc
+    STATE s1.ex_nr -> a1.in_nr
+    STATE s1.ex_cln -> a1.in_cln
+    STATE s1.ex_y -> a1.in_y
+    STATE s1.ex_cvy -> a1.in_cvy
+    STATE s1.ex_cvc -> a1.in_cvc
 
     # Bridge a1->t1.sn
-    STATE a1.to_final_ccv
-        -> t1.sn.in_to_ccv
-
-    STATE a1.to_after_nr_hyphen
-        -> t1.sn.in_after_nr_hyphen
-
-    STATE a1.to_in_after_cc0
-        -> t0.in_after_cc
-
-    STATE a1.to_in_after_cc1
-        -> t1.in_after_cc
+    STATE a1.to_final_ccv -> t1.sn.in_to_ccv
+    STATE a1.to_after_nr_hyphen -> t1.sn.in_after_nr_hyphen
+    STATE a1.to_in_after_cc0 -> t0.in_after_cc
+    STATE a1.to_in_after_cc1 -> t1.in_after_cc
 
     # Bridge a1 to final syllables for cases where a 2 rafsi lujvo is valid
     # this way
-    STATE a1.to_pair0
-        -> t0.sn.in_main
-
-    STATE a1.to_pair1
-        -> t1.sn.in_main
-
-    STATE a1.to_pair1t
-        -> t1t.sn.in_main
+    STATE a1.to_pair0 -> t0.sn.in_main
+    STATE a1.to_pair1 -> t1.sn.in_main
+    STATE a1.to_pair1t -> t1t.sn.in_main
 
     # Bridge a1 to tosmabru
-    STATE a1.to_tosmabru
-        -> tos.in
+    STATE a1.to_tosmabru -> tos.in
 
     # Bridge a1->t0
-    STATE a1.to_lujvo0
-        -> t0.in
+    STATE a1.to_lujvo0 -> t0.in
 
     # Bridge a1->t1
-    STATE a1.to_lujvo1
-        -> t1.in
+    STATE a1.to_lujvo1 -> t1.in
 
     # Bridge a1->t1t
-    STATE a1.to_lujvo1t
-        -> t1t.in
+    STATE a1.to_lujvo1t -> t1t.in
 
     # Set exit states on t0
-    STATE t0.sn.exit
-        = BIT_LUJVO_0
+    STATE t0.sn.exit = BIT_LUJVO_0
     
     # Set exit states on t1
-    STATE t1.sn.exit
-        = BIT_LUJVO_1
+    STATE t1.sn.exit = BIT_LUJVO_1
         
     # Set exit states on t1t
-    STATE t1t.sn.exit
-        = BIT_LUJVO_1T
+    STATE t1t.sn.exit = BIT_LUJVO_1T
 
     # Set exit status when potentially shorter word is of valid lujvo form
     # (e.g. the smabru in tosmabru)
-    STATE tos.exit
-        = BIT_LUJVO_TAIL_OK
+    STATE tos.exit = BIT_LUJVO_TAIL_OK
 
 ENDBLOCK
 
@@ -602,33 +334,27 @@ ENDBLOCK
 BLOCK CMAVOSEQ
 
     STATE in
-        V -> m2
-        V -> mv
-        C|N|R -> main
-        C|N|R -> cy1
-        V -> in1
+        V -> m2, mv, in1
+        CNR -> main, cy1
         Y -> y
 
     STATE in1
         VX -> in2
 
     STATE in2
-        -> exit_prefixable
-        C|N|R -> main
+            -> exit_prefixable
+        CNR -> main
 
     STATE main
-        V -> m2
-        V -> mv
+        V -> m2, mv
 
     STATE mv
-        VV -> m2
-        VV -> mv
+        VV -> m2, mv
 
     STATE m2
-        C|N|R -> main
+        CNR  -> main, cy1
         APOS -> main
-        -> exit_prefixable
-        C|N|R -> cy1
+             -> exit_prefixable
 
     STATE cy1
         Y -> cy2
@@ -648,10 +374,8 @@ BLOCK CMAVOSEQ
     STATE ya
         Y -> exit_standalone
 
-    STATE exit_prefixable
-        = BIT_CMAVOS    
-    STATE exit_standalone
-        = BIT_CMAVOS_END_CY
+    STATE exit_prefixable = BIT_CMAVOS    
+    STATE exit_standalone = BIT_CMAVOS_END_CY
 
 ENDBLOCK
 
@@ -661,31 +385,10 @@ ENDBLOCK
 # the CVC/CV case. (See how this is much simpler than the lujvo matcher!)
 
 BLOCK GISMU
+
     STATE in
-        C -> ccvcv1
-        C|N|R -> cvccv1
-    STATE ccvcv1
-        CI -> ccvcv2
-    STATE ccvcv2
-        V -> ccvcv3
-    STATE ccvcv3
-        C|N|R -> ccvcv4
-    STATE ccvcv4
-        V -> exit_0
-
-    STATE cvccv1
-        V -> cvccv2
-    STATE cvccv2
-        C|N|R -> cvccv3
-    STATE cvccv3
-        CI|CP|NR -> cvccv4
-    STATE cvccv4
-        V -> exit_1
-
-    STATE exit_0
-        = BIT_GISMU_0
-    STATE exit_1
-        = BIT_GISMU_1
+        C     ; CI ; V     ; C|N|R    ; V = BIT_GISMU_0
+        C|N|R ; V  ; C|N|R ; CI|CP|NR ; V = BIT_GISMU_1
         
 ENDBLOCK
 
@@ -701,31 +404,26 @@ ENDBLOCK
 # cases based on whether it's fu'ivla_0 or fu'ivla_1 that's going to be
 # squashed by a match, to make sure the fu'ivla NFA and slinku'i NFA are
 # treating the same length word tail as the match string.
-# The only possible first syllables are CVC or CVV (must be CV that's prefixed,
-# and no 4 letter form will do because that would require y after.)
 
 BLOCK SLINKUI
     # SYL2N is a superset of what's needed, because it allows y's.  We'll never
     # check for slinkui unless we find it's a fu'ivla so this won't cause false
     # matches.  Ideally, a custom SYL2N block is required, however using the
     # existing lujvo one at least gives code commonality so is easier to
-    # maintain.
+    # maintain.  It probably also makes the DFA smaller, because it will keep
+    # more states common with the lujvo NFA.
     t0 : SYL2N
 
     STATE in_after_c # First syl is CVC
         # Link to final syl
         # CVC + CC... or CVC + CV...
         # Must be valid pair across transition, no y allowed
-        CI|CP|NR -> c1
-
-    STATE c1
         # Initial C => fu'ivla has init. cons. cluster, so fu'ivla_0
         # will match if anything.  Hence need SLINKUI_0 result
-        -> t0.sn.in_main
-        -> t0.in
 
-    STATE t0.sn.exit
-        = BIT_SLINKUI_0
+        CI|CP|NR -> t0.sn.in_main, t0.in
+
+    STATE t0.sn.exit = BIT_SLINKUI_0
 
 ENDBLOCK
 
@@ -918,21 +616,11 @@ BLOCK WORD
     cmene : CMENE
     fuivla : FUIVLA
     
-    STATE in
-        -> gismu.in
-        -> lujvo.in
-        -> fuivla.in_no_prefix
-        -> cms.in
-        -> cmene.in
-
-    STATE cms.exit_prefixable
-        -> gismu.in
-        -> lujvo.in
-        -> fuivla.in_prefixed
+    STATE in                  -> gismu.in, lujvo.in, fuivla.in_no_prefix, cms.in, cmene.in
+    STATE cms.exit_prefixable -> gismu.in, lujvo.in, fuivla.in_prefixed
 
     #####
-    # ENTRY STATE NAMED LAST IN FILE
-    STATE in
+    STATE in     # ENTRY STATE NAMED LAST IN FILE
 
 ENDBLOCK
 
