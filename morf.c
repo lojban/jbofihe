@@ -24,6 +24,8 @@ static int verbose=0;
 static int allow_cultural_rafsi = 1; /* In testbench mode, always allow */
 #else
 
+#include <stddef.h>
+
 /* When linked into the main program, get this option from the command line
    in main.c */
 extern int allow_cultural_rafsi;
