@@ -153,6 +153,8 @@ scan_tenses(TreeNode *x)
 
     switch (nt->type) {
       case TIME_OFFSET:
+      case SPACE_INT_PROP:
+      case INTERVAL_PROPERTY:
         check_tense_context(x);
         break;
       default:
