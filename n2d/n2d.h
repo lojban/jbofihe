@@ -163,6 +163,7 @@ Expr * new_or_expr(Expr *c1, Expr *c2);
 Expr * new_xor_expr(Expr *c1, Expr *c2);
 Expr * new_cond_expr(Expr *c1, Expr *c2, Expr *c3);
 Expr * new_sym_expr(char *sym_name);
+
 void define_symbol(Evaluator *x, char *name, Expr *e);
 void define_result(Evaluator *x, char *string, Expr *e, int early);
 void define_symresult(Evaluator *x, char *string, Expr *e, int early);
@@ -171,7 +172,9 @@ void clear_symbol_values(Evaluator *x);
 void set_symbol_value(Evaluator *x, char *sym_name);
 int evaluate_result(Evaluator *x, char **, int *);
 void define_defresult(Evaluator *x, char *text);
+void define_type(Evaluator *x, char *text);
 char* get_defresult(Evaluator *x);
+char* get_result_type(Evaluator *x);
 void eval_initialise(void);
 
 void compress_transition_table(DFANode **dfas, int ndfas, int ntokens);

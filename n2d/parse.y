@@ -39,6 +39,7 @@ State *get_curstate(void) { return curstate; }
 
 %token RESULT SYMBOL SYMRESULT DEFRESULT
 %token EARLYRESULT EARLYSYMRESULT
+%token TYPE
 %token ATTR DEFATTR
 %token STAR
 %right QUERY COLON
@@ -128,6 +129,7 @@ result_decl : RESULT STRING               { define_result(exit_evaluator, $2, NU
             | EARLYSYMRESULT expr ARROW STRING { define_symresult(exit_evaluator, $4, $2, 1); }
             | SYMBOL STRING EQUAL expr    { define_symbol(exit_evaluator, $2, $4); }
             | DEFRESULT STRING            { define_defresult(exit_evaluator, $2); }
+            | TYPE STRING                 { define_type(exit_evaluator, $2); }
             ;
 
 /* No 'early exit' form for attributes.  They are supposed to be actions that
@@ -138,6 +140,7 @@ attr_decl : ATTR RESULT STRING               { define_result(attr_evaluator, $3,
           | ATTR SYMBOL STRING EQUAL expr    { define_symbol(attr_evaluator, $3, $5); }
           | ATTR DEFRESULT STRING            { define_defresult(attr_evaluator, $3); }
           | DEFATTR STRING                   { define_defresult(attr_evaluator, $2); }
+          | ATTR TYPE STRING                 { define_type(attr_evaluator, $3); }
           ;
 
 expr : NOT expr { $$ = new_not_expr($2); }

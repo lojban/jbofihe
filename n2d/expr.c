@@ -69,6 +69,7 @@ struct evaluator {
      (Used for implementing wildcard expression).  */
   int any_results_so_far;
   char *defresult;
+  char *result_type;
 };
 
 /* Evaluator used to determine exit value of automaton, if the last input
@@ -87,6 +88,7 @@ Evaluator* create_evaluator(void)/*{{{*/
   x->n_results = x->max_results = 0;
   x->any_results_so_far = 0;
   x->defresult = NULL;
+  x->result_type = NULL;
   return x;
 }
 /*}}}*/
@@ -101,12 +103,21 @@ void define_defresult(Evaluator *x, char *text)/*{{{*/
   x->defresult = new_string(text);
 }
 /*}}}*/
+void define_type(Evaluator *x, char *text)/*{{{*/
+{
+  x->result_type = new_string(text); 
+}
+/*}}}*/
 char* get_defresult(Evaluator *x)/*{{{*/
 {
   return x->defresult ? x->defresult : "0";
 }
 /*}}}*/
-
+char* get_result_type(Evaluator *x)/*{{{*/
+{
+  return x->result_type ? x->result_type : "short";
+}
+/*}}}*/
 static void add_new_symbol(Evaluator *x, Symbol *s)/*{{{*/
 {
   SymbolList *nsl = new(SymbolList);

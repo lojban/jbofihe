@@ -16,6 +16,7 @@ int lineno = 1;
 %}
 
 %x PASSTHRU
+%x STR
 
 %%
 
@@ -27,6 +28,7 @@ PREFIX|Prefix|prefix        { return PREFIX; }
 BLOCK|Block|block           { return BLOCK; }
 ENDBLOCK|EndBlock           { return ENDBLOCK; }
 Endblock|endblock           { return ENDBLOCK; }
+TYPE|Type|type              { return TYPE; }
 RESULT|Result|result        { return RESULT; }
 EARLYRESULT                 { return EARLYRESULT; }
 EarlyResult                 { return EARLYRESULT; }
@@ -66,7 +68,14 @@ earlysymresult              { return EARLYSYMRESULT; }
 \n                          { lineno++; }
 [ \t]+                      { /* ignore */ }
 ^\%\{[ \t]*\n               { BEGIN PASSTHRU; }
+\"                          { BEGIN STR; }
+
 <PASSTHRU>^\%\}[ \t]*\n     { BEGIN INITIAL; }
 <PASSTHRU>\n                { fputs(yytext, yyout); lineno++; }
 <PASSTHRU>.+                { fputs(yytext, yyout); }
+
+<STR>\"                     { BEGIN INITIAL; }
+<STR>[^"]*                  { yylval.s = new_string(yytext); return STRING; }
+
+
 

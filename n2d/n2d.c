@@ -1116,9 +1116,9 @@ static void print_exitval_table(Block *b)/*{{{*/
   char *defresult = get_defresult(exit_evaluator);
 
   if (prefix) {
-    fprintf(output, "short %s_exitval[] = {\n", prefix);
+    fprintf(output, "%s %s_exitval[] = {\n", get_result_type(exit_evaluator), prefix);
   } else {
-    fprintf(output, "short exitval[] = {\n");
+    fprintf(output, "%s exitval[] = {\n", get_result_type(exit_evaluator));
   }
   for (i=0; i<ndfa; i++) {
     fprintf(output, "%s", (dfas[i]->result) ? dfas[i]->result : defresult);
@@ -1135,9 +1135,9 @@ static void print_attribute_table(void)/*{{{*/
   char *defattr = get_defresult(attr_evaluator);
 
   if (prefix) {
-    fprintf(output, "short %s_attribute[] = {\n", prefix);
+    fprintf(output, "%s %s_attribute[] = {\n", get_result_type(attr_evaluator), prefix);
   } else {
-    fprintf(output, "short attribute[] = {\n");
+    fprintf(output, "%s attribute[] = {\n", get_result_type(attr_evaluator));
   }
   for (i=0; i<ndfa; i++) {
     char *av = dfas[i]->attribute;
