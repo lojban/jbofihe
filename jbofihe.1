@@ -1,4 +1,4 @@
-.TH "jbofihe" 1L "April 2000"
+.TH "jbofihe" 1L "January 2001"
 .SH NAME
 jbofihe \- Lojban parser / grammar checker / word glosser
 .SH SYNOPSIS
@@ -91,6 +91,23 @@ of slinku'i failures).
 Show backtrace through the pending parser states when a syntax error occurs.
 This may give some insight into what the parser was expecting to see next, to
 help in fixing the error.
+.IP
+The backtrace comes in three parts.  The first part is a list of rules which
+are automatically reduced when the erroneous word is encountered.  In the
+extreme case, when everything prior to the erroneous word constitutes a
+complete text in its own right, the reduction sequence will go right the way to
+the rule which matches a complete text.  Generally though, this will not be the
+case.
+.IP
+The second part of the report shows the conditions where the grammar requires
+the next word to be of a type other than that which actually appeared.  All the
+active rules are shown (with periods showing the active points), followed by a
+list of word classes (i.e. selma'o or BRIVLA/CMENE etc) that would have been
+valid at this point.
+.IP
+The third part of the report shows the pending states on the parser stack.
+This may give some information on whereabouts at a wider level the problem
+situation has occurred.
 .TP
 .B filename
 The name of the file containing text to be parsed.  If omitted, the text is
