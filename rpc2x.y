@@ -155,45 +155,44 @@
 %token ZOI
 
 /* EXTRA TOKENS REQUIRED TO MAKE GRAMMAR LALR(1) */
-%token START_EK
-%token START_GIHEK
-%token START_GUHEK
-%token START_JEK
-%token START_JOIK
-%token START_GEK
+%token PRIVATE_START_EK
+%token PRIVATE_START_GIHEK
+%token PRIVATE_START_GUHEK
+%token PRIVATE_START_JEK
+%token PRIVATE_START_JOIK
+%token PRIVATE_START_GEK
 
-%token START_BAI
+%token PRIVATE_START_BAI
 
-%token EK_KE
-%token EK_BO
+%token PRIVATE_EK_KE
+%token PRIVATE_EK_BO
 
-%token JEK_KE
-%token JEK_BO
+%token PRIVATE_JEK_KE
+%token PRIVATE_JEK_BO
 
-%token JOIK_KE
-%token JOIK_BO
+%token PRIVATE_JOIK_KE
+%token PRIVATE_JOIK_BO
 
-%token I_JEKJOIK
-%token I_BO
+%token PRIVATE_I_JEKJOIK
+%token PRIVATE_I_BO
 
-%token GIHEK_KE
-%token GIHEK_BO
+%token PRIVATE_GIHEK_KE
+%token PRIVATE_GIHEK_BO
 
-%token NAhE_BO
-%token NAhE_time
-%token NAhE_space
-%token NAhE_CAhA
+%token PRIVATE_NAhE_BO
+%token PRIVATE_NAhE_time
+%token PRIVATE_NAhE_space
+%token PRIVATE_NAhE_CAhA
 
-%token NUMBER_MAI
-%token NUMBER_MOI
-%token NUMBER_ROI
+%token PRIVATE_NUMBER_MAI
+%token PRIVATE_NUMBER_MOI
+%token PRIVATE_NUMBER_ROI
 
-%token EOF_MARK
+%token PRIVATE_EOF_MARK
 %token IMPOSSIBLE_TOKEN
 
 %{
 #define YYDEBUG 1
-#define YYERROR_VERBOSE 1
 
 #include <string.h>
 
@@ -228,10 +227,10 @@ all : text
 
 /* This is an artifact of the error handling mechanism  - sometimes the parser will
    reduce right out to the top rule which is hopeless */
-chunks : text EOF_MARK
+chunks : text PRIVATE_EOF_MARK
        | text error
 { $$ = $1; yyclearin; }
-       | chunks text EOF_MARK
+       | chunks text PRIVATE_EOF_MARK
        | chunks text error
 { fprintf(stderr, "Syntax error following text ending at line %d column %d\n",
           @2.last_line, @2.last_column);
@@ -411,18 +410,18 @@ text_1B : text_1C
 /* Differs from i_jj_stag_bo because it allows the construct
    without BO at the end . */
 
-text_1C :         I_BO I joik stag BO free_seq
-        |         I_BO I jek  stag BO free_seq
-        |         I_BO I      stag BO free_seq
-        |         I_BO I joik stag BO
-        |         I_BO I jek  stag BO
-        |         I_BO I      stag BO
-        |         I_BO I joik      BO free_seq
-        |         I_BO I jek       BO free_seq
-        |         I_BO I           BO free_seq
-        |         I_BO I joik      BO
-        |         I_BO I jek       BO
-        |         I_BO I           BO
+text_1C :         PRIVATE_I_BO I joik stag BO free_seq
+        |         PRIVATE_I_BO I jek  stag BO free_seq
+        |         PRIVATE_I_BO I      stag BO free_seq
+        |         PRIVATE_I_BO I joik stag BO
+        |         PRIVATE_I_BO I jek  stag BO
+        |         PRIVATE_I_BO I      stag BO
+        |         PRIVATE_I_BO I joik      BO free_seq
+        |         PRIVATE_I_BO I jek       BO free_seq
+        |         PRIVATE_I_BO I           BO free_seq
+        |         PRIVATE_I_BO I joik      BO
+        |         PRIVATE_I_BO I jek       BO
+        |         PRIVATE_I_BO I           BO
         |         I joik_opt_ke         free_seq
         |         I jek_opt_ke          free_seq
         |         I              free_seq
@@ -496,10 +495,10 @@ statement_1 : statement_2
             | statement_1 i_joik_jek
             ;
 
-i_joik_jek : I_JEKJOIK I joik_opt_ke free_seq
-           | I_JEKJOIK I joik_opt_ke
-           | I_JEKJOIK I jek_opt_ke free_seq
-           | I_JEKJOIK I jek_opt_ke
+i_joik_jek : PRIVATE_I_JEKJOIK I joik_opt_ke free_seq
+           | PRIVATE_I_JEKJOIK I joik_opt_ke
+           | PRIVATE_I_JEKJOIK I jek_opt_ke free_seq
+           | PRIVATE_I_JEKJOIK I jek_opt_ke
            ;
 
 
@@ -513,18 +512,18 @@ statement_2 : statement_3
             ;
 
 
-i_jj_stag_bo : I_BO I joik stag BO free_seq
-             | I_BO I joik stag BO
-             | I_BO I joik      BO free_seq
-             | I_BO I joik      BO
-             | I_BO I jek  stag BO free_seq
-             | I_BO I jek  stag BO
-             | I_BO I jek       BO free_seq
-             | I_BO I jek       BO
-             | I_BO I      stag BO free_seq
-             | I_BO I      stag BO
-             | I_BO I           BO free_seq
-             | I_BO I           BO
+i_jj_stag_bo : PRIVATE_I_BO I joik stag BO free_seq
+             | PRIVATE_I_BO I joik stag BO
+             | PRIVATE_I_BO I joik      BO free_seq
+             | PRIVATE_I_BO I joik      BO
+             | PRIVATE_I_BO I jek  stag BO free_seq
+             | PRIVATE_I_BO I jek  stag BO
+             | PRIVATE_I_BO I jek       BO free_seq
+             | PRIVATE_I_BO I jek       BO
+             | PRIVATE_I_BO I      stag BO free_seq
+             | PRIVATE_I_BO I      stag BO
+             | PRIVATE_I_BO I           BO free_seq
+             | PRIVATE_I_BO I           BO
              ;
 
 /*
@@ -595,7 +594,7 @@ sentence : terms CU free_seq bridi_tail
 
 /* The following are all artificial */
 
-         | terms START_GIHEK /* error */
+         | terms PRIVATE_START_GIHEK /* error */
 {
  fprintf(stderr, "Missing selbri before GIhA at line %d column %d\n",
          @2.first_line, @2.first_column);
@@ -604,7 +603,7 @@ sentence : terms CU free_seq bridi_tail
  YYERROR;
 }
 
-         | terms GIHEK_KE /* error */
+         | terms PRIVATE_GIHEK_KE /* error */
 {
  fprintf(stderr, "Missing selbri before GIhA at line %d column %d\n",
          @2.first_line, @2.first_column);
@@ -613,7 +612,7 @@ sentence : terms CU free_seq bridi_tail
  YYERROR;
 }
 
-         | terms GIHEK_BO /* error */
+         | terms PRIVATE_GIHEK_BO /* error */
 {
  fprintf(stderr, "Missing selbri before GIhA at line %d column %d\n",
          @2.first_line, @2.first_column);
@@ -668,8 +667,8 @@ bridi_tail : bridi_tail_1
            | bridi_tail_1 gihek_stag_ke KE          bridi_tail               /* ET VAU */
            ;
 
-gihek_stag_ke : GIHEK_KE gihek stag
-              | GIHEK_KE gihek
+gihek_stag_ke : PRIVATE_GIHEK_KE gihek stag
+              | PRIVATE_GIHEK_KE gihek
               ;
 
 /*
@@ -692,10 +691,10 @@ bridi_tail_2 : bridi_tail_3
              | bridi_tail_2 gihek_stag_bo bridi_tail_2 /* ET VAU */
              ;
 
-gihek_stag_bo : GIHEK_BO gihek stag BO free_seq
-              | GIHEK_BO gihek stag BO
-              | GIHEK_BO gihek      BO free_seq
-              | GIHEK_BO gihek      BO
+gihek_stag_bo : PRIVATE_GIHEK_BO gihek stag BO free_seq
+              | PRIVATE_GIHEK_BO gihek stag BO
+              | PRIVATE_GIHEK_BO gihek      BO free_seq
+              | PRIVATE_GIHEK_BO gihek      BO
               ;
 
 
@@ -900,10 +899,10 @@ sumti_1 : sumti_2
         | sumti_2 joik_ek_ke ke_sumti
         ;
 
-joik_ek_ke : JOIK_KE joik stag
-           | JOIK_KE joik
-           | EK_KE   ek   stag
-           | EK_KE   ek
+joik_ek_ke : PRIVATE_JOIK_KE joik stag
+           | PRIVATE_JOIK_KE joik
+           | PRIVATE_EK_KE   ek   stag
+           | PRIVATE_EK_KE   ek
            ;
 
 ke_sumti : KE free_seq sumti KEhE free_seq
@@ -935,14 +934,14 @@ sumti_3 : sumti_4
         | sumti_4 joik_ek_stag_bo sumti_3
         ;
 
-joik_ek_stag_bo : JOIK_BO joik stag BO free_seq
-                | JOIK_BO joik stag BO
-                | JOIK_BO joik      BO free_seq
-                | JOIK_BO joik      BO
-                | EK_BO   ek   stag BO free_seq
-                | EK_BO   ek   stag BO
-                | EK_BO   ek        BO free_seq
-                | EK_BO   ek        BO
+joik_ek_stag_bo : PRIVATE_JOIK_BO joik stag BO free_seq
+                | PRIVATE_JOIK_BO joik stag BO
+                | PRIVATE_JOIK_BO joik      BO free_seq
+                | PRIVATE_JOIK_BO joik      BO
+                | PRIVATE_EK_BO   ek   stag BO free_seq
+                | PRIVATE_EK_BO   ek   stag BO
+                | PRIVATE_EK_BO   ek        BO free_seq
+                | PRIVATE_EK_BO   ek        BO
                 ;
 
 /*
@@ -1043,19 +1042,19 @@ lahe_sumti_6 : LAhE    free_seq relative_clauses sumti LUhU free_seq
              | LAhE                              sumti /* ET LUhU */
              ;
 
-nahe_bo_sumti_6 : NAhE_BO NAhE BO free_seq relative_clauses sumti LUhU free_seq
-                | NAhE_BO NAhE BO free_seq relative_clauses sumti LUhU
-                | NAhE_BO NAhE BO free_seq relative_clauses sumti /* ET LUhU */
-                | NAhE_BO NAhE BO free_seq                  sumti LUhU free_seq
-                | NAhE_BO NAhE BO free_seq                  sumti LUhU
-                | NAhE_BO NAhE BO free_seq                  sumti /* ET LUhU */
+nahe_bo_sumti_6 : PRIVATE_NAhE_BO NAhE BO free_seq relative_clauses sumti LUhU free_seq
+                | PRIVATE_NAhE_BO NAhE BO free_seq relative_clauses sumti LUhU
+                | PRIVATE_NAhE_BO NAhE BO free_seq relative_clauses sumti /* ET LUhU */
+                | PRIVATE_NAhE_BO NAhE BO free_seq                  sumti LUhU free_seq
+                | PRIVATE_NAhE_BO NAhE BO free_seq                  sumti LUhU
+                | PRIVATE_NAhE_BO NAhE BO free_seq                  sumti /* ET LUhU */
 
-                | NAhE_BO NAhE BO          relative_clauses sumti LUhU free_seq
-                | NAhE_BO NAhE BO          relative_clauses sumti LUhU
-                | NAhE_BO NAhE BO          relative_clauses sumti /* ET LUhU */
-                | NAhE_BO NAhE BO                           sumti LUhU free_seq
-                | NAhE_BO NAhE BO                           sumti LUhU
-                | NAhE_BO NAhE BO                           sumti /* ET LUhU */
+                | PRIVATE_NAhE_BO NAhE BO          relative_clauses sumti LUhU free_seq
+                | PRIVATE_NAhE_BO NAhE BO          relative_clauses sumti LUhU
+                | PRIVATE_NAhE_BO NAhE BO          relative_clauses sumti /* ET LUhU */
+                | PRIVATE_NAhE_BO NAhE BO                           sumti LUhU free_seq
+                | PRIVATE_NAhE_BO NAhE BO                           sumti LUhU
+                | PRIVATE_NAhE_BO NAhE BO                           sumti /* ET LUhU */
                 ;
 
 name_sumti_6 : LA      free_seq relative_clauses CMENE_seq  free_seq
@@ -1183,7 +1182,7 @@ selbri_4 : selbri_5
          | selbri_4 joik_stag_ke ke_selbri_3
          ;
 
-joik_stag_ke : JOIK_KE joik stag
+joik_stag_ke : PRIVATE_JOIK_KE joik stag
              ;
 
 ke_selbri_3 : KE free_seq selbri_3 KEhE free_seq
@@ -1204,14 +1203,14 @@ selbri_5 : selbri_6
          | selbri_6 joik_jek_stag_bo selbri_5
          ;
 
-joik_jek_stag_bo : JOIK_BO joik stag BO free_seq
-                 | JOIK_BO joik stag BO
-                 | JOIK_BO joik      BO free_seq
-                 | JOIK_BO joik      BO
-                 | JEK_BO  jek  stag BO free_seq
-                 | JEK_BO  jek  stag BO
-                 | JEK_BO  jek       BO free_seq
-                 | JEK_BO  jek       BO
+joik_jek_stag_bo : PRIVATE_JOIK_BO joik stag BO free_seq
+                 | PRIVATE_JOIK_BO joik stag BO
+                 | PRIVATE_JOIK_BO joik      BO free_seq
+                 | PRIVATE_JOIK_BO joik      BO
+                 | PRIVATE_JEK_BO  jek  stag BO free_seq
+                 | PRIVATE_JEK_BO  jek  stag BO
+                 | PRIVATE_JEK_BO  jek       BO free_seq
+                 | PRIVATE_JEK_BO  jek       BO
                  ;
 
 /*
@@ -1317,10 +1316,10 @@ ke_selbri3_tu2 : KE free_seq selbri_3 KEhE free_seq
                | KE          selbri_3 /* ET KEhE */
                ;
 
-number_moi_tu2 : NUMBER_MOI number       MOI free_seq
-               | NUMBER_MOI number       MOI
-               | NUMBER_MOI lerfu_string MOI free_seq
-               | NUMBER_MOI lerfu_string MOI
+number_moi_tu2 : PRIVATE_NUMBER_MOI number       MOI free_seq
+               | PRIVATE_NUMBER_MOI number       MOI
+               | PRIVATE_NUMBER_MOI lerfu_string MOI free_seq
+               | PRIVATE_NUMBER_MOI lerfu_string MOI
                ;
 
 se_tu2 : SE free_seq tanru_unit_2
@@ -1635,12 +1634,12 @@ operand_3 : quantifier
           | LAhE          operand LUhU
           | LAhE          operand /* ET LUhU */
 
-          | NAhE_BO NAhE BO free_seq operand LUhU free_seq
-          | NAhE_BO NAhE BO free_seq operand LUhU
-          | NAhE_BO NAhE BO free_seq operand /* ET LUhU */
-          | NAhE_BO NAhE BO          operand LUhU free_seq
-          | NAhE_BO NAhE BO          operand LUhU
-          | NAhE_BO NAhE BO          operand /* ET LUhU */
+          | PRIVATE_NAhE_BO NAhE BO free_seq operand LUhU free_seq
+          | PRIVATE_NAhE_BO NAhE BO free_seq operand LUhU
+          | PRIVATE_NAhE_BO NAhE BO free_seq operand /* ET LUhU */
+          | PRIVATE_NAhE_BO NAhE BO          operand LUhU free_seq
+          | PRIVATE_NAhE_BO NAhE BO          operand LUhU
+          | PRIVATE_NAhE_BO NAhE BO          operand /* ET LUhU */
           ;
 
 /*
@@ -1681,172 +1680,172 @@ lerfu_word : BY
 ek<802> = [NA] [SE] A [NAI]
 */
 
-ek : START_EK NA SE A NAI
-   | START_EK NA SE A
-   | START_EK NA    A NAI
-   | START_EK NA    A
-   | START_EK    SE A NAI
-   | START_EK    SE A
-   | START_EK       A NAI
-   | START_EK       A
+ek : PRIVATE_START_EK NA SE A NAI
+   | PRIVATE_START_EK NA SE A
+   | PRIVATE_START_EK NA    A NAI
+   | PRIVATE_START_EK NA    A
+   | PRIVATE_START_EK    SE A NAI
+   | PRIVATE_START_EK    SE A
+   | PRIVATE_START_EK       A NAI
+   | PRIVATE_START_EK       A
    ;
 
 /*
 gihek<818> = [NA] [SE] GIhA [NAI]
 */
 
-gihek : START_GIHEK NA SE GIhA NAI
-      | START_GIHEK NA SE GIhA
-      | START_GIHEK NA    GIhA NAI
-      | START_GIHEK NA    GIhA
-      | START_GIHEK    SE GIhA NAI
-      | START_GIHEK    SE GIhA
-      | START_GIHEK       GIhA NAI
-      | START_GIHEK       GIhA
+gihek : PRIVATE_START_GIHEK NA SE GIhA NAI
+      | PRIVATE_START_GIHEK NA SE GIhA
+      | PRIVATE_START_GIHEK NA    GIhA NAI
+      | PRIVATE_START_GIHEK NA    GIhA
+      | PRIVATE_START_GIHEK    SE GIhA NAI
+      | PRIVATE_START_GIHEK    SE GIhA
+      | PRIVATE_START_GIHEK       GIhA NAI
+      | PRIVATE_START_GIHEK       GIhA
       ;
 
 /*
 jek<805> = [NA] [SE] JA [NAI]
 */
 
-jek : START_JEK NA SE JA NAI
-    | START_JEK NA SE JA
-    | START_JEK NA    JA NAI
-    | START_JEK NA    JA
-    | START_JEK    SE JA NAI
-    | START_JEK    SE JA
-    | START_JEK       JA NAI
-    | START_JEK       JA
+jek : PRIVATE_START_JEK NA SE JA NAI
+    | PRIVATE_START_JEK NA SE JA
+    | PRIVATE_START_JEK NA    JA NAI
+    | PRIVATE_START_JEK NA    JA
+    | PRIVATE_START_JEK    SE JA NAI
+    | PRIVATE_START_JEK    SE JA
+    | PRIVATE_START_JEK       JA NAI
+    | PRIVATE_START_JEK       JA
     ;
 
-jek_opt_ke :        START_JEK NA SE JA NAI
-           |        START_JEK NA SE JA
-           |        START_JEK NA    JA NAI
-           |        START_JEK NA    JA
-           |        START_JEK    SE JA NAI
-           |        START_JEK    SE JA
-           |        START_JEK       JA NAI
-           |        START_JEK       JA
-           | JEK_KE START_JEK NA SE JA NAI
-           | JEK_KE START_JEK NA SE JA
-           | JEK_KE START_JEK NA    JA NAI
-           | JEK_KE START_JEK NA    JA
-           | JEK_KE START_JEK    SE JA NAI
-           | JEK_KE START_JEK    SE JA
-           | JEK_KE START_JEK       JA NAI
-           | JEK_KE START_JEK       JA
+jek_opt_ke :        PRIVATE_START_JEK NA SE JA NAI
+           |        PRIVATE_START_JEK NA SE JA
+           |        PRIVATE_START_JEK NA    JA NAI
+           |        PRIVATE_START_JEK NA    JA
+           |        PRIVATE_START_JEK    SE JA NAI
+           |        PRIVATE_START_JEK    SE JA
+           |        PRIVATE_START_JEK       JA NAI
+           |        PRIVATE_START_JEK       JA
+           | PRIVATE_JEK_KE PRIVATE_START_JEK NA SE JA NAI
+           | PRIVATE_JEK_KE PRIVATE_START_JEK NA SE JA
+           | PRIVATE_JEK_KE PRIVATE_START_JEK NA    JA NAI
+           | PRIVATE_JEK_KE PRIVATE_START_JEK NA    JA
+           | PRIVATE_JEK_KE PRIVATE_START_JEK    SE JA NAI
+           | PRIVATE_JEK_KE PRIVATE_START_JEK    SE JA
+           | PRIVATE_JEK_KE PRIVATE_START_JEK       JA NAI
+           | PRIVATE_JEK_KE PRIVATE_START_JEK       JA
            ;
 
-jek_opt_kebo :        START_JEK NA SE JA NAI
-             |        START_JEK NA SE JA
-             |        START_JEK NA    JA NAI
-             |        START_JEK NA    JA
-             |        START_JEK    SE JA NAI
-             |        START_JEK    SE JA
-             |        START_JEK       JA NAI
-             |        START_JEK       JA
-             | JEK_KE START_JEK NA SE JA NAI
-             | JEK_KE START_JEK NA SE JA
-             | JEK_KE START_JEK NA    JA NAI
-             | JEK_KE START_JEK NA    JA
-             | JEK_KE START_JEK    SE JA NAI
-             | JEK_KE START_JEK    SE JA
-             | JEK_KE START_JEK       JA NAI
-             | JEK_KE START_JEK       JA
-             | JEK_BO START_JEK NA SE JA NAI
-             | JEK_BO START_JEK NA SE JA
-             | JEK_BO START_JEK NA    JA NAI
-             | JEK_BO START_JEK NA    JA
-             | JEK_BO START_JEK    SE JA NAI
-             | JEK_BO START_JEK    SE JA
-             | JEK_BO START_JEK       JA NAI
-             | JEK_BO START_JEK       JA
+jek_opt_kebo :        PRIVATE_START_JEK NA SE JA NAI
+             |        PRIVATE_START_JEK NA SE JA
+             |        PRIVATE_START_JEK NA    JA NAI
+             |        PRIVATE_START_JEK NA    JA
+             |        PRIVATE_START_JEK    SE JA NAI
+             |        PRIVATE_START_JEK    SE JA
+             |        PRIVATE_START_JEK       JA NAI
+             |        PRIVATE_START_JEK       JA
+             | PRIVATE_JEK_KE PRIVATE_START_JEK NA SE JA NAI
+             | PRIVATE_JEK_KE PRIVATE_START_JEK NA SE JA
+             | PRIVATE_JEK_KE PRIVATE_START_JEK NA    JA NAI
+             | PRIVATE_JEK_KE PRIVATE_START_JEK NA    JA
+             | PRIVATE_JEK_KE PRIVATE_START_JEK    SE JA NAI
+             | PRIVATE_JEK_KE PRIVATE_START_JEK    SE JA
+             | PRIVATE_JEK_KE PRIVATE_START_JEK       JA NAI
+             | PRIVATE_JEK_KE PRIVATE_START_JEK       JA
+             | PRIVATE_JEK_BO PRIVATE_START_JEK NA SE JA NAI
+             | PRIVATE_JEK_BO PRIVATE_START_JEK NA SE JA
+             | PRIVATE_JEK_BO PRIVATE_START_JEK NA    JA NAI
+             | PRIVATE_JEK_BO PRIVATE_START_JEK NA    JA
+             | PRIVATE_JEK_BO PRIVATE_START_JEK    SE JA NAI
+             | PRIVATE_JEK_BO PRIVATE_START_JEK    SE JA
+             | PRIVATE_JEK_BO PRIVATE_START_JEK       JA NAI
+             | PRIVATE_JEK_BO PRIVATE_START_JEK       JA
              ;
 
 /*
 joik<806> = [SE] JOI [NAI] | interval | GAhO interval GAhO
 */
 
-joik : START_JOIK      SE JOI  NAI
-     | START_JOIK      SE JOI
-     | START_JOIK         JOI  NAI
-     | START_JOIK         JOI
-     | START_JOIK      SE BIhI NAI
-     | START_JOIK      SE BIhI
-     | START_JOIK         BIhI NAI
-     | START_JOIK         BIhI
-     | START_JOIK GAhO SE BIhI NAI GAhO
-     | START_JOIK GAhO SE BIhI     GAhO
-     | START_JOIK GAhO    BIhI NAI GAhO
-     | START_JOIK GAhO    BIhI     GAhO
+joik : PRIVATE_START_JOIK      SE JOI  NAI
+     | PRIVATE_START_JOIK      SE JOI
+     | PRIVATE_START_JOIK         JOI  NAI
+     | PRIVATE_START_JOIK         JOI
+     | PRIVATE_START_JOIK      SE BIhI NAI
+     | PRIVATE_START_JOIK      SE BIhI
+     | PRIVATE_START_JOIK         BIhI NAI
+     | PRIVATE_START_JOIK         BIhI
+     | PRIVATE_START_JOIK GAhO SE BIhI NAI GAhO
+     | PRIVATE_START_JOIK GAhO SE BIhI     GAhO
+     | PRIVATE_START_JOIK GAhO    BIhI NAI GAhO
+     | PRIVATE_START_JOIK GAhO    BIhI     GAhO
      ;
 
 /* Used where we get a joik that can never be guarded by KE later, but
 where there might be a KE in the following construction, so we might
-introduce JOIK_KE before */
+introduce PRIVATE_JOIK_KE before */
 
-joik_opt_ke :         START_JOIK      SE JOI  NAI
-            |         START_JOIK      SE JOI
-            |         START_JOIK         JOI  NAI
-            |         START_JOIK         JOI
-            |         START_JOIK      SE BIhI NAI
-            |         START_JOIK      SE BIhI
-            |         START_JOIK         BIhI NAI
-            |         START_JOIK         BIhI
-            |         START_JOIK GAhO SE BIhI NAI GAhO
-            |         START_JOIK GAhO SE BIhI     GAhO
-            |         START_JOIK GAhO    BIhI NAI GAhO
-            |         START_JOIK GAhO    BIhI     GAhO
-            | JOIK_KE START_JOIK      SE JOI  NAI
-            | JOIK_KE START_JOIK      SE JOI
-            | JOIK_KE START_JOIK         JOI  NAI
-            | JOIK_KE START_JOIK         JOI
-            | JOIK_KE START_JOIK      SE BIhI NAI
-            | JOIK_KE START_JOIK      SE BIhI
-            | JOIK_KE START_JOIK         BIhI NAI
-            | JOIK_KE START_JOIK         BIhI
-            | JOIK_KE START_JOIK GAhO SE BIhI NAI GAhO
-            | JOIK_KE START_JOIK GAhO SE BIhI     GAhO
-            | JOIK_KE START_JOIK GAhO    BIhI NAI GAhO
-            | JOIK_KE START_JOIK GAhO    BIhI     GAhO
+joik_opt_ke :         PRIVATE_START_JOIK      SE JOI  NAI
+            |         PRIVATE_START_JOIK      SE JOI
+            |         PRIVATE_START_JOIK         JOI  NAI
+            |         PRIVATE_START_JOIK         JOI
+            |         PRIVATE_START_JOIK      SE BIhI NAI
+            |         PRIVATE_START_JOIK      SE BIhI
+            |         PRIVATE_START_JOIK         BIhI NAI
+            |         PRIVATE_START_JOIK         BIhI
+            |         PRIVATE_START_JOIK GAhO SE BIhI NAI GAhO
+            |         PRIVATE_START_JOIK GAhO SE BIhI     GAhO
+            |         PRIVATE_START_JOIK GAhO    BIhI NAI GAhO
+            |         PRIVATE_START_JOIK GAhO    BIhI     GAhO
+            | PRIVATE_JOIK_KE PRIVATE_START_JOIK      SE JOI  NAI
+            | PRIVATE_JOIK_KE PRIVATE_START_JOIK      SE JOI
+            | PRIVATE_JOIK_KE PRIVATE_START_JOIK         JOI  NAI
+            | PRIVATE_JOIK_KE PRIVATE_START_JOIK         JOI
+            | PRIVATE_JOIK_KE PRIVATE_START_JOIK      SE BIhI NAI
+            | PRIVATE_JOIK_KE PRIVATE_START_JOIK      SE BIhI
+            | PRIVATE_JOIK_KE PRIVATE_START_JOIK         BIhI NAI
+            | PRIVATE_JOIK_KE PRIVATE_START_JOIK         BIhI
+            | PRIVATE_JOIK_KE PRIVATE_START_JOIK GAhO SE BIhI NAI GAhO
+            | PRIVATE_JOIK_KE PRIVATE_START_JOIK GAhO SE BIhI     GAhO
+            | PRIVATE_JOIK_KE PRIVATE_START_JOIK GAhO    BIhI NAI GAhO
+            | PRIVATE_JOIK_KE PRIVATE_START_JOIK GAhO    BIhI     GAhO
             ;
 
-joik_opt_kebo :         START_JOIK      SE JOI  NAI
-              |         START_JOIK      SE JOI
-              |         START_JOIK         JOI  NAI
-              |         START_JOIK         JOI
-              |         START_JOIK      SE BIhI NAI
-              |         START_JOIK      SE BIhI
-              |         START_JOIK         BIhI NAI
-              |         START_JOIK         BIhI
-              |         START_JOIK GAhO SE BIhI NAI GAhO
-              |         START_JOIK GAhO SE BIhI     GAhO
-              |         START_JOIK GAhO    BIhI NAI GAhO
-              |         START_JOIK GAhO    BIhI     GAhO
-              | JOIK_KE START_JOIK      SE JOI  NAI
-              | JOIK_KE START_JOIK      SE JOI
-              | JOIK_KE START_JOIK         JOI  NAI
-              | JOIK_KE START_JOIK         JOI
-              | JOIK_KE START_JOIK      SE BIhI NAI
-              | JOIK_KE START_JOIK      SE BIhI
-              | JOIK_KE START_JOIK         BIhI NAI
-              | JOIK_KE START_JOIK         BIhI
-              | JOIK_KE START_JOIK GAhO SE BIhI NAI GAhO
-              | JOIK_KE START_JOIK GAhO SE BIhI     GAhO
-              | JOIK_KE START_JOIK GAhO    BIhI NAI GAhO
-              | JOIK_KE START_JOIK GAhO    BIhI     GAhO
-              | JOIK_BO START_JOIK      SE JOI  NAI
-              | JOIK_BO START_JOIK      SE JOI
-              | JOIK_BO START_JOIK         JOI  NAI
-              | JOIK_BO START_JOIK         JOI
-              | JOIK_BO START_JOIK      SE BIhI NAI
-              | JOIK_BO START_JOIK      SE BIhI
-              | JOIK_BO START_JOIK         BIhI NAI
-              | JOIK_BO START_JOIK         BIhI
-              | JOIK_BO START_JOIK GAhO SE BIhI NAI GAhO
-              | JOIK_BO START_JOIK GAhO SE BIhI     GAhO
-              | JOIK_BO START_JOIK GAhO    BIhI NAI GAhO
-              | JOIK_BO START_JOIK GAhO    BIhI     GAhO
+joik_opt_kebo :         PRIVATE_START_JOIK      SE JOI  NAI
+              |         PRIVATE_START_JOIK      SE JOI
+              |         PRIVATE_START_JOIK         JOI  NAI
+              |         PRIVATE_START_JOIK         JOI
+              |         PRIVATE_START_JOIK      SE BIhI NAI
+              |         PRIVATE_START_JOIK      SE BIhI
+              |         PRIVATE_START_JOIK         BIhI NAI
+              |         PRIVATE_START_JOIK         BIhI
+              |         PRIVATE_START_JOIK GAhO SE BIhI NAI GAhO
+              |         PRIVATE_START_JOIK GAhO SE BIhI     GAhO
+              |         PRIVATE_START_JOIK GAhO    BIhI NAI GAhO
+              |         PRIVATE_START_JOIK GAhO    BIhI     GAhO
+              | PRIVATE_JOIK_KE PRIVATE_START_JOIK      SE JOI  NAI
+              | PRIVATE_JOIK_KE PRIVATE_START_JOIK      SE JOI
+              | PRIVATE_JOIK_KE PRIVATE_START_JOIK         JOI  NAI
+              | PRIVATE_JOIK_KE PRIVATE_START_JOIK         JOI
+              | PRIVATE_JOIK_KE PRIVATE_START_JOIK      SE BIhI NAI
+              | PRIVATE_JOIK_KE PRIVATE_START_JOIK      SE BIhI
+              | PRIVATE_JOIK_KE PRIVATE_START_JOIK         BIhI NAI
+              | PRIVATE_JOIK_KE PRIVATE_START_JOIK         BIhI
+              | PRIVATE_JOIK_KE PRIVATE_START_JOIK GAhO SE BIhI NAI GAhO
+              | PRIVATE_JOIK_KE PRIVATE_START_JOIK GAhO SE BIhI     GAhO
+              | PRIVATE_JOIK_KE PRIVATE_START_JOIK GAhO    BIhI NAI GAhO
+              | PRIVATE_JOIK_KE PRIVATE_START_JOIK GAhO    BIhI     GAhO
+              | PRIVATE_JOIK_BO PRIVATE_START_JOIK      SE JOI  NAI
+              | PRIVATE_JOIK_BO PRIVATE_START_JOIK      SE JOI
+              | PRIVATE_JOIK_BO PRIVATE_START_JOIK         JOI  NAI
+              | PRIVATE_JOIK_BO PRIVATE_START_JOIK         JOI
+              | PRIVATE_JOIK_BO PRIVATE_START_JOIK      SE BIhI NAI
+              | PRIVATE_JOIK_BO PRIVATE_START_JOIK      SE BIhI
+              | PRIVATE_JOIK_BO PRIVATE_START_JOIK         BIhI NAI
+              | PRIVATE_JOIK_BO PRIVATE_START_JOIK         BIhI
+              | PRIVATE_JOIK_BO PRIVATE_START_JOIK GAhO SE BIhI NAI GAhO
+              | PRIVATE_JOIK_BO PRIVATE_START_JOIK GAhO SE BIhI     GAhO
+              | PRIVATE_JOIK_BO PRIVATE_START_JOIK GAhO    BIhI NAI GAhO
+              | PRIVATE_JOIK_BO PRIVATE_START_JOIK GAhO    BIhI     GAhO
               ;
 
        
@@ -1867,16 +1866,16 @@ The above are fully folded into other rules.
 gek<807> = [SE] GA [NAI] # | joik GI # | stag gik
 */
 
-gek : START_GEK SE GA NAI free_seq
-    | START_GEK SE GA NAI
-    | START_GEK SE GA     free_seq
-    | START_GEK SE GA    
-    | START_GEK    GA NAI free_seq
-    | START_GEK    GA NAI
-    | START_GEK    GA     free_seq
-    | START_GEK    GA    
-    | START_GEK joik GI free_seq
-    | START_GEK joik GI
+gek : PRIVATE_START_GEK SE GA NAI free_seq
+    | PRIVATE_START_GEK SE GA NAI
+    | PRIVATE_START_GEK SE GA     free_seq
+    | PRIVATE_START_GEK SE GA    
+    | PRIVATE_START_GEK    GA NAI free_seq
+    | PRIVATE_START_GEK    GA NAI
+    | PRIVATE_START_GEK    GA     free_seq
+    | PRIVATE_START_GEK    GA    
+    | PRIVATE_START_GEK joik GI free_seq
+    | PRIVATE_START_GEK joik GI
     | stag gik
     ;
 
@@ -1884,14 +1883,14 @@ gek : START_GEK SE GA NAI free_seq
 guhek<808> = [SE] GUhA [NAI] #
 */
 
-guhek : START_GUHEK SE GUhA NAI free_seq
-      | START_GUHEK SE GUhA NAI
-      | START_GUHEK SE GUhA     free_seq
-      | START_GUHEK SE GUhA    
-      | START_GUHEK    GUhA NAI free_seq
-      | START_GUHEK    GUhA NAI
-      | START_GUHEK    GUhA     free_seq
-      | START_GUHEK    GUhA    
+guhek : PRIVATE_START_GUHEK SE GUhA NAI free_seq
+      | PRIVATE_START_GUHEK SE GUhA NAI
+      | PRIVATE_START_GUHEK SE GUhA     free_seq
+      | PRIVATE_START_GUHEK SE GUhA    
+      | PRIVATE_START_GUHEK    GUhA NAI free_seq
+      | PRIVATE_START_GUHEK    GUhA NAI
+      | PRIVATE_START_GUHEK    GUhA     free_seq
+      | PRIVATE_START_GUHEK    GUhA    
       ;
 
 /*
@@ -1960,31 +1959,31 @@ simple-tense-modal<972> = [NAhE] [SE] BAI [NAI] [KI] |
 
 */
 
-simple_tense_modal : START_BAI NAhE se_bai  NAI KI
-                   | START_BAI NAhE se_bai  NAI
-                   | START_BAI NAhE se_bai      KI
-                   | START_BAI NAhE se_bai
-                   | START_BAI NAhE    bai1 NAI KI
-                   | START_BAI NAhE    bai1 NAI
-                   | START_BAI NAhE    bai1     KI
-                   | START_BAI NAhE    bai1
-                   | START_BAI      se_bai  NAI KI
-                   | START_BAI      se_bai  NAI
-                   | START_BAI      se_bai      KI
-                   | START_BAI      se_bai
-                   | START_BAI         bai1 NAI KI
-                   | START_BAI         bai1 NAI
-                   | START_BAI         bai1     KI
-                   | START_BAI         bai1
+simple_tense_modal : PRIVATE_START_BAI NAhE se_bai  NAI KI
+                   | PRIVATE_START_BAI NAhE se_bai  NAI
+                   | PRIVATE_START_BAI NAhE se_bai      KI
+                   | PRIVATE_START_BAI NAhE se_bai
+                   | PRIVATE_START_BAI NAhE    bai1 NAI KI
+                   | PRIVATE_START_BAI NAhE    bai1 NAI
+                   | PRIVATE_START_BAI NAhE    bai1     KI
+                   | PRIVATE_START_BAI NAhE    bai1
+                   | PRIVATE_START_BAI      se_bai  NAI KI
+                   | PRIVATE_START_BAI      se_bai  NAI
+                   | PRIVATE_START_BAI      se_bai      KI
+                   | PRIVATE_START_BAI      se_bai
+                   | PRIVATE_START_BAI         bai1 NAI KI
+                   | PRIVATE_START_BAI         bai1 NAI
+                   | PRIVATE_START_BAI         bai1     KI
+                   | PRIVATE_START_BAI         bai1
 
-                   | NAhE_time NAhE time  space CAhA KI
-                   | NAhE_time NAhE time  space CAhA
-                   | NAhE_time NAhE time  space      KI
-                   | NAhE_time NAhE time  space
-                   | NAhE_time NAhE time        CAhA KI
-                   | NAhE_time NAhE time        CAhA
-                   | NAhE_time NAhE time             KI
-                   | NAhE_time NAhE time
+                   | PRIVATE_NAhE_time NAhE time  space CAhA KI
+                   | PRIVATE_NAhE_time NAhE time  space CAhA
+                   | PRIVATE_NAhE_time NAhE time  space      KI
+                   | PRIVATE_NAhE_time NAhE time  space
+                   | PRIVATE_NAhE_time NAhE time        CAhA KI
+                   | PRIVATE_NAhE_time NAhE time        CAhA
+                   | PRIVATE_NAhE_time NAhE time             KI
+                   | PRIVATE_NAhE_time NAhE time
                    |                time  space CAhA KI
                    |                time  space CAhA
                    |                time  space      KI
@@ -1994,14 +1993,14 @@ simple_tense_modal : START_BAI NAhE se_bai  NAI KI
                    |                time             KI
                    |                time
 
-                   | NAhE_space NAhE space time  CAhA KI
-                   | NAhE_space NAhE space time  CAhA
-                   | NAhE_space NAhE space time       KI
-                   | NAhE_space NAhE space time 
-                   | NAhE_space NAhE space       CAhA KI
-                   | NAhE_space NAhE space       CAhA
-                   | NAhE_space NAhE space            KI
-                   | NAhE_space NAhE space
+                   | PRIVATE_NAhE_space NAhE space time  CAhA KI
+                   | PRIVATE_NAhE_space NAhE space time  CAhA
+                   | PRIVATE_NAhE_space NAhE space time       KI
+                   | PRIVATE_NAhE_space NAhE space time 
+                   | PRIVATE_NAhE_space NAhE space       CAhA KI
+                   | PRIVATE_NAhE_space NAhE space       CAhA
+                   | PRIVATE_NAhE_space NAhE space            KI
+                   | PRIVATE_NAhE_space NAhE space
                    |                 space time  CAhA KI
                    |                 space time  CAhA
                    |                 space time       KI
@@ -2014,8 +2013,8 @@ simple_tense_modal : START_BAI NAhE se_bai  NAI KI
                    |                             CAhA KI
                    |                             CAhA
 
-                   | NAhE_CAhA  NAhE             CAhA KI
-                   | NAhE_CAhA  NAhE             CAhA
+                   | PRIVATE_NAhE_CAhA  NAhE             CAhA KI
+                   | PRIVATE_NAhE_CAhA  NAhE             CAhA
 
                    | KI
                    | CUhE
@@ -2160,8 +2159,8 @@ space_int_prop : FEhE interval_property
 interval-property<1051> = number ROI [NAI] | TAhE [NAI] | ZAhO [NAI]
 */
 
-interval_property : NUMBER_ROI number ROI NAI
-                  | NUMBER_ROI number ROI
+interval_property : PRIVATE_NUMBER_ROI number ROI NAI
+                  | PRIVATE_NUMBER_ROI number ROI
                   | TAhE NAI
                   | TAhE
                   | ZAhO NAI
@@ -2263,8 +2262,8 @@ free_vocative : vocative relative_clauses selbri relative_clauses DOhU
               | vocative /* ET DOhU */
               ;
 
-utterance_ordinal : NUMBER_MAI number       MAI
-                  | NUMBER_MAI lerfu_string MAI
+utterance_ordinal : PRIVATE_NUMBER_MAI number       MAI
+                  | PRIVATE_NUMBER_MAI lerfu_string MAI
                   ;
 
 parenthetical : TO text TOI
