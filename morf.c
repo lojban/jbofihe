@@ -20,7 +20,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include "canonluj.h"
 static int verbose=0;
+static int expand_lujvo = 0; /* Show decomposition of lujvo */
 static int allow_cultural_rafsi = 1; /* In testbench mode, always allow */
 #else
 
@@ -492,7 +494,7 @@ MorfType morf_scan(char *s, char ***buf_end, struct morf_xtra *arg_xtra)/*{{{*/
 
 #ifdef TEST_MORF
   if ((state < 0) || (morf_exitval[state] == 0)) {
-    printf("%-25s : UNMATCHED!\n", s);
+    printf("%-25s : UNMATCHED : %s\n", s, s);
   } else {
     char *a;
     char **x;
@@ -660,6 +662,21 @@ MorfType morf_scan(char *s, char ***buf_end, struct morf_xtra *arg_xtra)/*{{{*/
       /*}}}*/
     }
     /*}}}*/
+
+    /*{{{ Show expansion of lujvo */
+    switch(result) {
+      case W_LUJVO:
+        if (expand_lujvo) {
+          char *canon;
+          canon = canon_lujvo(pstart[-1]);
+          printf(" [%s]", canon);
+        }
+        break;
+
+      default:
+        break;
+    }
+    /*}}}*/
     
     putchar('\n');
     
@@ -681,6 +698,8 @@ int main (int argc, char **argv) {/*{{{*/
   while (++argv, --argc) {
     if (!strncmp(*argv, "-v", 2)) {
       verbose = 1;
+    } else if (!strcmp(*argv, "-el")) {
+      expand_lujvo = 1;
     } else if (!strncmp(*argv, "-", 1)) {
       fprintf(stderr, "Unrecognized command line argument '%s'\n", *argv);
     } else {
