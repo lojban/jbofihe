@@ -10,6 +10,12 @@
 # 5. Run some basic sanity checks
 # 6. Reboot Linux and run doskit.be
 
+if [ ! -r Makefile ]; then
+    echo "You need to perl config.pl first"
+    echo "  e.g. perl config.pl --wordsdir=/home/richard/cvswork/lojdict"
+    exit 1
+fi
+
 if [ ! -r smujmaji.dat ]; then
     # Don't do this twice if a failure occurs below (i.e. if /dosc isn't
     # mounted!)
@@ -27,6 +33,9 @@ make jvocuhadju.txt
 cp *.c *.h smujmaji.dat canonluj.inc /dosc/jbofihe
 
 echo "Now reboot into DOS and do"
+echo "gcc -O2 -o minitouc minitouc.c"
+echo "minitouc *.*"
+echo "del *.o"
 echo "make -f makefile.dos progs"
 echo "Then reboot Linux"
 
