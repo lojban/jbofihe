@@ -668,8 +668,21 @@ translate_time_offset (TreeNode *x, char *loj, char *eng)
     if (trans) {
       strcpy(eng, trans);
     } else {
-      fprintf(stderr, "No advanced translation found for %s\n", loj);
-      translate_other_cmavo(x, eng);
+      char engbuf[256];
+      engbuf[0] = 0;
+      trans = translate(cmavo_table[pu->data.cmavo.code].cmavo);
+      strcat(engbuf, trans ? trans : "?");
+      if (nai) {
+        trans = translate(cmavo_table[nai->data.cmavo.code].cmavo);
+        strcat(engbuf, " ");
+        strcat(engbuf, trans ? trans : "?");
+      }
+      if (zi) {
+        trans = translate(cmavo_table[zi->data.cmavo.code].cmavo);
+        strcat(engbuf, " ");
+        strcat(engbuf, trans ? trans : "?");
+      }
+      strcpy(eng, engbuf);
     }
   } else {
     fprintf(stderr, "No context found for tense cmavo at line %d column %d\n",
