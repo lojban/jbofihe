@@ -215,8 +215,8 @@ MorfType morf_scan(char *s, char ***buf_end, struct morf_xtra *arg_xtra)/*{{{*/
   char *p_1 = NULL, *p_2 = NULL;
   
   /* Remember position for stage-3 hyphen after CVC or long rafsi prefix */
-  char *hyph3 = NULL, *hyph3_1 = NULL, *hyph3_2 = NULL;
-  char *hyph4 = NULL, *hyph4_1 = NULL, *hyph4_2 = NULL;
+  char *hyph3 = NULL;
+  char *hyph4 = NULL;
   
   enum raw_category exival;
   enum processed_category result;
@@ -231,7 +231,10 @@ MorfType morf_scan(char *s, char ***buf_end, struct morf_xtra *arg_xtra)/*{{{*/
    * mode.). */
 
   struct morf_xtra xtra;
+
+#ifdef TEST_MORF
   int split_cmene = 0;
+#endif
 
   typedef enum {
     ACT_CLEAR=0, ACT_SHIFT=1, ACT_FREEZE=2
@@ -326,15 +329,11 @@ MorfType morf_scan(char *s, char ***buf_end, struct morf_xtra *arg_xtra)/*{{{*/
         break;
       case AT_S3_3:
       case AT_XS3_3:
-        hyph3 = p;
-        hyph3_1 = p_1;
-        hyph3_2 = p_2;
+        hyph3 = p_2;
         break;
       case AT_S3_4:
       case AT_XS3_4:
-        hyph4 = p;
-        hyph4_1 = p_1;
-        hyph4_2 = p_2;
+        hyph4 = p_2;
         break;
     }
     /*}}}*/
@@ -449,18 +448,22 @@ MorfType morf_scan(char *s, char ***buf_end, struct morf_xtra *arg_xtra)/*{{{*/
       case W_FUIVLA3:
         ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_FUIVLA3;
         if (decrement) pstart--;
+        xtra.u.stage_3.hyph = hyph4;
         break;
       case W_FUIVLA3_CVC:
         ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_FUIVLA3_CVC;
         if (decrement) pstart--;
+        xtra.u.stage_3.hyph = hyph3;
         break;
       case W_FUIVLA3X:
-        ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_FUIVLA4; /* FIXME : temporary until other stages support it */
+        ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_FUIVLA3X;
         if (decrement) pstart--;
+        xtra.u.stage_3.hyph = hyph4;
         break;
       case W_FUIVLA3X_CVC:
-        ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_FUIVLA4; /* FIXME : temporary until other stages support it */
+        ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_FUIVLA3X_CVC;
         if (decrement) pstart--;
+        xtra.u.stage_3.hyph = hyph3;
         break;
       case W_FUIVLA4:
         ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_FUIVLA4;
@@ -617,11 +620,11 @@ MorfType morf_scan(char *s, char ***buf_end, struct morf_xtra *arg_xtra)/*{{{*/
       switch (result) {
         case W_FUIVLA3:
         case W_FUIVLA3X:
-          if (a == hyph4_2) putchar('/');
+          if (a == hyph4) putchar('/');
           break;
         case W_FUIVLA3_CVC:
         case W_FUIVLA3X_CVC:
-          if (a == hyph3_2) putchar('/');
+          if (a == hyph3) putchar('/');
           break;
         case W_CMENE:
           if (split_cmene) {
@@ -645,11 +648,11 @@ MorfType morf_scan(char *s, char ***buf_end, struct morf_xtra *arg_xtra)/*{{{*/
       switch (result) {
         case W_FUIVLA3:
         case W_FUIVLA3X:
-          if (a == hyph4_2) putchar('/');
+          if (a == hyph4) putchar('/');
           break;
         case W_FUIVLA3_CVC:
         case W_FUIVLA3X_CVC:
-          if (a == hyph3_2) putchar('/');
+          if (a == hyph3) putchar('/');
           break;
         default:
           break;

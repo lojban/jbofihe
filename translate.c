@@ -92,7 +92,7 @@ static char * translate_lujvo(char *word, int place)/*{{{*/
   return result;
 
 }/*}}}*/
-char * translate_fuivla_prefix(char *w, int place)/*{{{*/
+char * translate_fuivla_prefix(char *w, int place, TransContext ctx)/*{{{*/
 {
   char *canon;
   Component comp[32];
@@ -107,7 +107,7 @@ char * translate_fuivla_prefix(char *w, int place)/*{{{*/
   for (i=0; i<n_comps; i++) {
     int first = (i == 0);
     int last  = (i == (n_comps-1));
-    trans = adv_translate(comp[i].text, comp[i].places[1], last ? TCX_NOUN : TCX_QUAL);
+    trans = adv_translate(comp[i].text, comp[i].places[1], last ? ctx : TCX_QUAL);
     if (!first) strcat(buffer, "-");
     if (trans) {
       strcat(buffer, trans);
@@ -117,7 +117,7 @@ char * translate_fuivla_prefix(char *w, int place)/*{{{*/
   }   
   return buffer;
 }/*}}}*/
-char * translate_unknown(char *w, int place)/*{{{*/
+char * translate_unknown(char *w, int place, TransContext ctx)/*{{{*/
 /* ================================================== */
 /* In principle, it would be nice to pass the word type through from the
    original parsing phase.  However, this isn't general enough, since the word
@@ -128,6 +128,7 @@ char * translate_unknown(char *w, int place)/*{{{*/
   static char buf[2048];
   char *ltrans;
   MorfType morf_type;
+  struct morf_xtra xtra;
   char *word_starts[64], **pws, **pwe;
 
   if (strchr(w, '+')) {
@@ -138,9 +139,7 @@ char * translate_unknown(char *w, int place)/*{{{*/
 
   pws = pwe = word_starts;
 
-  /* FIXME: Need to get morf_xtra information back here, to help in
-   * glossing stage 3's */
-  morf_type = morf_scan(w, &pwe, NULL);
+  morf_type = morf_scan(w, &pwe, &xtra);
 
   switch (morf_type) {
     case MT_BOGUS:
@@ -159,14 +158,15 @@ char * translate_unknown(char *w, int place)/*{{{*/
       return translate_lujvo(w, place);
     case MT_FUIVLA3:
     case MT_FUIVLA3_CVC:
+    case MT_FUIVLA3X:
+    case MT_FUIVLA3X_CVC:
       {
         char *p, *q;
         int count;
-        int hyphen_pos;
-        hyphen_pos = (morf_type == MT_FUIVLA3_CVC) ? 3 : 4;
-        for (p=w, q=buf, count=0; count<hyphen_pos; p++, q++) {
+        char *hyphen_pos;
+        hyphen_pos = xtra.u.stage_3.hyph;
+        for (p=w, q=buf; p<hyphen_pos; p++, q++) {
           *q = *p;
-          if (*p != ',') count++;
         }
         /* Advance p over the hyphen */
         for (count=0; count < 2; p++) {
@@ -175,7 +175,7 @@ char * translate_unknown(char *w, int place)/*{{{*/
         p--; /* Back up to first real letter of tail portion */
         
         *q = 0;
-        ltrans = translate_fuivla_prefix(buf, place);
+        ltrans = translate_fuivla_prefix(buf, place, ctx);
         if (ltrans) {
           strcpy(buf, ltrans);
         } else {
@@ -1010,7 +1010,7 @@ char * adv_translate(char *w, int place, TransContext ctx)/*{{{*/
       if (show_dictionary_defects) {
         fprintf(stderr, "No dictionary entry for [%s], attempting to break up as lujvo\n", w);
       }
-      trans = translate_unknown(w, place);
+      trans = translate_unknown(w, place, ctx);
       if (trans) {
         strcpy(result, trans);
         strcat(result, "??");

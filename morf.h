@@ -20,6 +20,8 @@ typedef enum {
   MT_LUJVO,
   MT_FUIVLA3, /* stage 3 */
   MT_FUIVLA3_CVC, /* stage 3 starting with CVC rafsi */
+  MT_FUIVLA3X, /* stage-3-like with >1 rafsi before hyphen */
+  MT_FUIVLA3X_CVC, /* stage-3-like starting with CVC rafsi */
   MT_FUIVLA4, /* stage 4 */
   MT_CMAVOS,
   MT_CMENE,
@@ -38,7 +40,7 @@ struct morf_xtra {
       char *tail;
     } cmene;
     struct {
-      int pad;
+      char *hyph;
     } stage_3;
   } u;
 };

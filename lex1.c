@@ -183,7 +183,6 @@ process_cmene(char *buf, int start_line, int start_column,
               int is_bad, int can_split, char *ladoi, char *tail)
 {
   TreeNode *tok;
-  char *p;
 
   if (is_bad)  {
     char prefix[1024], labuf[8];
@@ -321,6 +320,8 @@ process_word(char *buf, int start_line, int start_column)
       break;
     case MT_FUIVLA3:
     case MT_FUIVLA3_CVC:
+    case MT_FUIVLA3X:
+    case MT_FUIVLA3X_CVC:
       add_preceding_cmavo(pws, pwe, start_line, &column);
       add_brivla_token(*pwe, start_line, column, BVT_FUIVLA3);
       break;
