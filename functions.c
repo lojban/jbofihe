@@ -516,7 +516,7 @@ find_nth_cmavo_child(TreeNode *x, int n, int selmao)
       ntc = & c->data.nonterm;
       ncc = ntc->nchildren;
       for (j=0; j<ncc; j++) {
-        cc = ntc->children[i];
+        cc = ntc->children[j];
         if ((cc->type == N_CMAVO) &&
             (cc->data.cmavo.selmao == selmao)) {
           --togo;
