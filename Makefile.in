@@ -67,14 +67,17 @@ rpc2x_full_nc.y : rpc2x.y terminator.pl uncom
 rpc2x_full_act.y : rpc2x_full_nc.y
 	perl ./action.perl -nononterm < rpc2x_full_nc.y > rpc2x_full_act.y
 
-rpc_full.c : rpc2x_full_act.y
+rpc_full.c rpc2x_full_act.output : rpc2x_full_act.y
 	bison -v -p full_yy rpc2x_full_act.y
-	sed -e "s/full_yylex/yylex/;s/full_yydebug/yydebug/;s/full_yyerror/yyerror/;s/full_yylval/yylval/;" < rpc2x_full_act.tab.c > rpc_full.c
+	sed -e "s/full_yylex/yylex/;s/full_yydebug/yydebug/;s/full_yyerror/yyerror/;s/full_yylval/yylval/;" < rpc2x_full_act.tab.c | perl add_trace_to_tabc.pl > rpc_full.c
 
-tracebk.o : tracebk.c trctabs.c
+tracebk.o : tracebk.c trctabs.c trcftabs.c
 
 trctabs.c : output2table.pl rpc2x_act.output
 	perl output2table.pl norm < rpc2x_act.output > trctabs.c
+
+trcftabs.c : output2table.pl rpc2x_full_act.output
+	perl output2table.pl full < rpc2x_full_act.output > trcftabs.c
 
 stag.c : stag.tab.c
 	sed -e 's/YYSTYPE/STAG_YYSTYPE/g;' < stag.tab.c > stag.c
