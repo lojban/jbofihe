@@ -31,7 +31,7 @@ while ($_ = shift @ARGV) {
     }
 }
 
-$optdebug = $debug ? "-g" : "-O2";
+$optdebug = $debug ? "-g -Wall" : "-O2";
 if ($profile) {
     $optdebug .= " -pg";
 }
