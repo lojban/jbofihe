@@ -5,21 +5,29 @@
 # COPYRIGHT
 #
 
+PREFIX=@@PREFIX@@
+EXEDIR=$(PREFIX)/bin
+LIBDIR=$(PREFIX)/lib/jbofihe
+DICTIONARY=$(LIBDIR)/dictionary.bin
+MANDIR=$(PREFIX)/man/man1
+
 CC=gcc
-CFLAGS= -O2
+CFLAGS= -O2 -DDEFAULT_DICTIONARY=\"$(DICTIONARY)\"
 
 OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc.tab.o functions.o \
         categ.o nonterm.o tree.o translate.o latex.o \
         properties.o conversion.o terms.o memory.o tenses.o \
 	output.o textout.o htmlout.o connect.o stag.o latexblk.o \
-        relative.o textblk.o
+        relative.o textblk.o errorscan.o
 
 SRCS2 = $(OBJS2:%.o=%.c)
 
-jbofihe : $(OBJS2)
-	$(CC) $(CFLAGS) -o jbofihe $(OBJS2) $(LIBDIR)
+CM_OBJS = cm_gather.o cm_output.o cm_main.o cm_translate.o cm_scan.o
 
-all : dictionary jbofihe
+jbofihe : $(OBJS2)
+	$(CC) $(CFLAGS) -o jbofihe $(OBJS2)
+
+all : dictionary jbofihe cmafihe
 
 
 # Analyse shift/reduce conflicts in the grammar
@@ -86,16 +94,37 @@ dictionary : dictmake
 	perl rafsid.pl < @@WORD-LISTS@@/rafsi > rafsid.dict
 	perl rafsig.pl < @@WORD-LISTS@@/rafsi > rafsig.dict
 	perl raf4lg.pl < @@WORD-LISTS@@/gismu > raf4lg.dict
+	perl selmao.pl < @@WORD-LISTS@@/cmavo > selmao.dict
 	perl lujvop.pl "@@WORD-LISTS@@/" < @@WORD-LISTS@@/lujvo-list > lujvop.dict
 	perl noralujv.pl "@@WORD-LISTS@@/" > noralujv.dict
 	./dictmake dictionary.bin gismu.dict cmavo.dict lujvo.dict oblik.dict \
 		raf4l.dict rafobl.dict rafsid.dict rafsig.dict raf4lg.dict \
-		noralujv.dict \
+		noralujv.dict selmao.dict \
 		extradict places.dat
 
 dictupdate : dictionary.bin
 	./dictmake dictionary.bin extradict
 	./dictmake dictionary.bin places.dat
+
+cmafihe : $(CM_OBJS)
+	$(CC) $(CFLAGS) -o cmafihe $(CM_OBJS)
+
+cm_scan.c : cm_scan.l
+	flex -t cm_scan.l > cm_scan.c
+
+clean:
+	-rm *.output *.tab.* *.o jbofihe uncom dictmake *.dict rpc2x_nc.y rpc2x_act.y nonterm.*
+
+install : jbofihe dictmake dictionary.bin
+	mkdir -p $(EXEDIR)
+	cp jbofihe dictmake $(EXEDIR)
+	chmod 755 $(EXEDIR)/jbofihe $(EXEDIR)/dictmake
+	mkdir -p $(LIBDIR)
+	cp dictionary.bin $(LIBDIR)
+	chmod 644 $(LIBDIR)/dictionary.bin
+	mkdir -p $(MANDIR)
+	cp jbofihe.1 $(MANDIR)
+	chmod 644 $(MANDIR)/jbofihe.1
 
 ## Include the dependency info below.
 
