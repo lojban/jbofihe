@@ -750,11 +750,11 @@ cilmo1:DSAP;
 cilmo2:DSAP;
 #
 # x1 learns x2 (du'u) about subject x3 from source x4 (obj./event) by method x5 (event/process)   
-#cilre1:DSAP;
-#cilre2:DSAP;
-#cilre3:DSAP;
-#cilre4:DSAP;
-#cilre5:DSAP;
+cilre1:A;learn
+cilre2:R;learned
+cilre3:D;learned subject*
+cilre4:D;source* for learning
+cilre5:D;method* of learning
 #
 # x1 is a thread/filament/wire [shape/form] of material x2                                        
 #cilta1:DSAP;
@@ -2019,8 +2019,8 @@ frili3:D;condition* for ease
 #garna3:DSAP;
 #
 # x1 [person/agent] is an agentive cause of event x2; x1 does/brings about x2                     
-#gasnu1:DSAP;
-#gasnu2:DSAP;
+gasnu1:I;bring* about
+gasnu2:R;brought about
 #
 # x1 is a quantity of/is made of/contains steel of composition including x2                       
 #gasta1:DSAP;
@@ -2482,8 +2482,8 @@ jgari4t:held at
 #jicla2:DSAP;
 #
 # x1 is a basis/foundation/underlying or fundamental principle of x2; x1 is at the bottom of x2   
-#jicmu1:DSAP;
-#jicmu2:DSAP;
+jicmu1:D;foundation
+jicmu2:R;having foundations
 #
 # x1 (person) intuits x2 (du'u) about subject x3; [epistemology]                                  
 #jijnu1:DSAP;
@@ -2601,9 +2601,9 @@ jitro3:D;controlled activity
 #jivna3:DSAP;
 #
 # x1 (mass/jo'u) gathers/collects at location x2 from locations x3 (mass/jo'u)                    
-#jmaji1:DSAP;
-#jmaji2:DSAP;
-#jmaji3:DSAP;
+jmaji1:I;gather
+jmaji2:D;location* of gathering
+jmaji3:D;origin* of gathering
 #
 # x1 is a shoal [shallow hazard]/reef of material x2 in body of water x3                          
 #jmifa1:DSAP;
@@ -3423,12 +3423,12 @@ litru3t:by vehicle
 #livla2:DSAP;
 #
 # x1 [rules/methods] is a logic for deducing/concluding/inferring/reasoning to/about x2 (du'u)    
-#logji1:DSAP;
-#logji2:DSAP;
+logji1:D;logic system
+logji2:R;reasoned about
 #
 # x1 reflects [Loglandic]/Lojbanic language/culture/nationality/community in aspect x2            
-#lojbo1:DSAP;
-#lojbo2:DSAP;
+lojbo1:P;Lojbanic
+lojbo2:D;Lojbanic aspect
 #
 # x1 is a floor/bottom/ground of x2                                                               
 loldi1:D;floor
@@ -3926,8 +3926,9 @@ mutce3:D;extreme
 #nanca2:DSAP;
 #
 # x1 is difficult/hard/challenging for x2 under conditions x3; x1 challenges (non-agentive) x2    
-#nandu1:DSAP;
-#nandu2:DSAP;
+nandu1:P;difficulty
+nandu2:I;have* difficulty
+nandu3:S;conditions for difficulty
 #
 # x1 is a boy/lad [young male person] of age x2 immature by standard x3                           
 #nanla1:DSAP;
@@ -4220,8 +4221,8 @@ pemci4:S;poem audience
 #pencu4:DSAP;
 #
 # x1 is/acts as a friend of/to x2 (experiencer); x2 befriends x1                                  
-#pendo1:DSAP;
-#pendo2:DSAP;
+pendo1:D;friend
+pendo2:R;having friend
 #
 # x1 meets/encounters x2 at/in location x3                                                        
 penmi1:A;encounter
@@ -5497,9 +5498,11 @@ stidi3t:to audience
 #stizu3:DSAP;
 #
 # x1 is constant/invariant/unchanging in property x2 (ka) in response to stimulus/conditions x3   
-#stodi1:DSAP;
-#stodi2:DSAP;
-#stodi3:DSAP;
+stodi1:P;constant
+stodi2:D;constant property
+stodi2t:in property
+stodi3:S;conditions for constancy
+stodi3t:under conditions
 #
 # x1 is to the east/eastern side of x2 according to frame of reference x3                         
 stuna1:P;to the east
@@ -5574,7 +5577,10 @@ sutra2:E;event/state* achieved swiftly
 #tadji3:DSAP;
 #
 # x1 studies/is a student of x2; x1 is a scholar; (adjective:) x1 is scholarly                    
-#tadni1:DSAP;
+tadni1:A;study
+tadni1n:student
+tadni1a:scholarly
+tadni2:P;studied
 #
 # x1 is snug/tight on x2 in dimension/direction x3 at locus x4                                    
 #tagji1:DSAP;
@@ -5805,8 +5811,9 @@ tilju2:S;standard of heaviness
 #tinsa4:DSAP;
 #
 # x1 hears x2 against background/noise x3; x2 is audible; (adjective:) x1 is aural                
-#tirna1:DSAP;
-#tirna2:DSAP;
+tirna1:A;hear
+tirna2:R;heard
+tirna3:S;background noise
 #
 # x1 is a quantity of/contains/is made of iron (Fe); [metaphor: strong, durable, tarnishing]      
 #tirse1:DSAP;
@@ -5936,10 +5943,10 @@ tsani2:D;place* with sky
 #tubnu4:DSAP;
 #
 # x1 [person] agrees with person(s)/position/side x2 that x3 (du'u) is true about matter x4       
-#tugni1:DSAP;
-#tugni2:DSAP;
-#tugni3:DSAP;
-#tugni4:DSAP;
+tugni1:A;agree
+tugni2:R;agreed with
+tugni3:D;agreed view
+tugni4:D;topic* of agreement
 #
 # x1 is a tulip (defined by flower shape) of species/strain x2                                    
 #tujli1:DSAP;
