@@ -63,9 +63,20 @@ typedef enum {
 static int
 generate_truth_index(int neg1, int conv, int neg2, TruthFunction func)
 {
+  int index, result;
+
   assert(func != TR_OTHER);
 
-  return main_table[(8*(int)func) + 4*(conv ? 1:0) + 2*(neg1 ? 1:0) + (neg2 ? 1:0)];
+  index = (8*(int)func) + 4*(conv ? 1:0) + 2*(neg1 ? 1:0) + (neg2 ? 1:0);
+  result = main_table[index];
+  
+
+#if 0
+  fprintf(stderr, "func=%d conv=%d neg1=%d neg2=%d index=%d result=%d (%s)\n",
+          (int)func, conv, neg1, neg2, index, result, truth_ex[result]);
+#endif
+
+  return result;
 }
 
 
