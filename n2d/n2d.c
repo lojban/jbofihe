@@ -227,6 +227,13 @@ create_block(char *name)
     grow_blocks();
   }
   
+#if 0  
+  /* Not especially useful to show this */
+  if (verbose) {
+    fprintf(stderr, " %s", name);
+  }
+#endif
+  
   result = blocks[nblocks++] = new(Block);
   result->name = new_string(name);
   for (i=0; i<HASH_BUCKETS; i++) { 
@@ -1313,13 +1320,14 @@ int main (int argc, char **argv)
   }
 
   if (verbose) {
-    fprintf(stderr, "General-purpose lexical analyser generator\n");
+    fprintf(stderr, "General-purpose automaton builder\n");
     fprintf(stderr, "Copyright (C) Richard P. Curnow  2000-2001\n");
   }
   
-  if (verbose) fprintf(stderr, "Parsing input...\n");
+  if (verbose) fprintf(stderr, "Parsing input...");
   result = yyparse();
   if (result > 0) exit(1);
+  if (verbose) fprintf(stderr, "\n");
 
   start_state = get_curstate(); /* The last state to be current in the input file is the entry state of the NFA */
   main_block = start_state->parent;
