@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
+#include <ctype.h>
 #include "canonluj.h"
 static int verbose=0;
 static int expand_lujvo = 0; /* Show decomposition of lujvo */
@@ -702,9 +703,12 @@ int main (int argc, char **argv) {/*{{{*/
     pstart = start;
     morf_scan(word, &pstart, NULL);
   } else {
+    char *p;
     while (fgets(buffer, sizeof(buffer), stdin)) {
-      buffer[strlen(buffer)-1] = 0;
       if (buffer[0] == '#') continue; /* Allow comment lines in test source file */
+      for (p=buffer; *p; p++) ; /* advance p to point to null */
+      while (--p>=buffer && isspace(*p)) ; /* back up to last non-space */
+      *++p = 0; /* null terminate on first of final run of spaces */
       pstart = start;
       morf_scan(buffer, &pstart, NULL);
     }
