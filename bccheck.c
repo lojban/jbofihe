@@ -87,7 +87,9 @@ int is_bad_cmene(char *word, int *split, char **ladoi, char **tail)/*{{{*/
   enum result res;
 
   for (p=word; *p; p++) {
-    ns = bad_cmene_next_state(cs, mapchar[(unsigned int) *p & 0xff]);
+    int mc = mapchar[(unsigned int) *p & 0xff];
+    if (mc == TCM) continue;
+    ns = bad_cmene_next_state(cs, mc);
     res = bad_cmene_exitval[ns];
     /* Deal with early exit conditions */
     if (res == BC_CMENE_BAD_NOSPLIT || res == BC_CMENE_BAD_SPLIT) {
