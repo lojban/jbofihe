@@ -75,6 +75,25 @@ compress_singletons_but_preserve(TreeNode *x)
   ++++++++++++++++++++++++++++++*/
 
 static void
+show_indent(int indent)
+{
+  int i;
+
+  for (i=indent; i>0; i--) {
+    if (i == 1) {
+      printf("+-");
+    } else {
+      printf("| ");
+    }
+  }
+}
+
+
+/*++++++++++++++++++++++++++++++
+  
+  ++++++++++++++++++++++++++++++*/
+
+static void
 print_tree(TreeNode *x, int indent)
 {
   int i, n;
@@ -87,13 +106,7 @@ print_tree(TreeNode *x, int indent)
   }
   /* Print node itself */
   if (x->type != N_MARKER) {
-    for (i=indent; i>0; i--) {
-      if (i == 1) {
-        printf("+-");
-      } else {
-        printf("| ");
-      }
-    }
+    show_indent(indent);
   }
   switch (x->type) {
     case N_NONTERM:
@@ -104,12 +117,66 @@ print_tree(TreeNode *x, int indent)
       break; /* No need to display */
 
     case N_CMAVO:
-      if (prop_elidable(x, NO)) {
-        printf("CMAVO : %s [%s]\n", make_uppercase(cmavo_table[x->data.cmavo.code].cmavo),
-                                    selmao_names[cmavo_table[x->data.cmavo.code].ssm_code]);
-      } else {
-        printf("CMAVO : %s [%s]\n", cmavo_table[x->data.cmavo.code].cmavo,
-                                    selmao_names[cmavo_table[x->data.cmavo.code].ssm_code]);
+      {
+        int code = x->data.cmavo.code;
+        if (prop_elidable(x, NO)) {
+          printf("CMAVO : %s [%s]\n", make_uppercase(cmavo_table[code].cmavo),
+                                      selmao_names[cmavo_table[code].ssm_code]);
+        } else {
+          printf("CMAVO : %s [%s]\n", cmavo_table[code].cmavo,
+                                      selmao_names[cmavo_table[code].ssm_code]);
+          if (cmavo_table[code].selmao == UI) {
+            XCaiIndicator *xci;
+            if (prop_neg_indicator(x, NO)) {
+              show_indent(indent);
+              printf("CMAVO : nai [NAI]\n");
+            }
+            xci = prop_cai_indicator(x, NO);
+            if (xci) {
+              switch (xci->code) {
+                case CC_CAI:
+                  show_indent(indent);
+                  printf("CMAVO : cai [CAI]\n"); break;
+                case CC_SAI:
+                  show_indent(indent);
+                  printf("CMAVO : sai [CAI]\n"); break;
+                case CC_RUhE:
+                  show_indent(indent);
+                  printf("CMAVO : ru'e [CAI]\n"); break;
+                case CC_CUhI:
+                  show_indent(indent);
+                  printf("CMAVO : cu'i [CAI]\n"); break;
+                case CC_PEI:
+                  show_indent(indent);
+                  printf("CMAVO : pei [CAI]\n"); break;
+                case CC_CAINAI:
+                  show_indent(indent);
+                  printf("CMAVO : cai [CAI]\n");
+                  show_indent(indent);
+                  printf("CMAVO : nai [NAI]\n"); break;
+                case CC_SAINAI:
+                  show_indent(indent);
+                  printf("CMAVO : sai [CAI]\n");
+                  show_indent(indent);
+                  printf("CMAVO : nai [NAI]\n"); break;
+                case CC_RUhENAI:
+                  show_indent(indent);
+                  printf("CMAVO : ru'e [CAI]\n");
+                  show_indent(indent);
+                  printf("CMAVO : nai [NAI]\n"); break;
+                case CC_PEINAI:
+                  show_indent(indent);
+                  printf("CMAVO : pei [CAI]\n");
+                  show_indent(indent);
+                  printf("CMAVO : nai [NAI]\n"); break;
+              }
+            }
+          } else if (cmavo_table[code].selmao == CAI) {
+            if (prop_neg_indicator(x, NO)) {
+              printf("CMAVO : nai [NAI]\n");
+            }
+          }
+        }
       }
       break;
 
