@@ -38,6 +38,10 @@
 
 /* Globally visible options to control reporting */
 FILE *report;
+FILE *input;
+FILE *output;
+extern FILE *yyin;
+extern FILE *yyout;
 int verbose;
 
 static Block **blocks = NULL;
@@ -1112,16 +1116,16 @@ static void print_exitval_table(Block *b)/*{{{*/
   char *defresult = get_defresult(exit_evaluator);
 
   if (prefix) {
-    printf("static short %s_exitval[] = {\n", prefix);
+    fprintf(output, "short %s_exitval[] = {\n", prefix);
   } else {
-    printf("static short exitval[] = {\n");
+    fprintf(output, "short exitval[] = {\n");
   }
   for (i=0; i<ndfa; i++) {
-    printf("%s", (dfas[i]->result) ? dfas[i]->result : defresult);
-    putchar ((i<(ndfa-1)) ? ',' : ' ');
-    printf(" /* State %d */\n", i);
+    fprintf(output, "%s", (dfas[i]->result) ? dfas[i]->result : defresult);
+    fputc ((i<(ndfa-1)) ? ',' : ' ', output);
+    fprintf(output, " /* State %d */\n", i);
   }
-  printf("};\n\n");
+  fprintf(output, "};\n\n");
 }
 /*}}}*/
 static void print_attribute_table(void)/*{{{*/
@@ -1131,17 +1135,17 @@ static void print_attribute_table(void)/*{{{*/
   char *defattr = get_defresult(attr_evaluator);
 
   if (prefix) {
-    printf("static short %s_attribute[] = {\n", prefix);
+    fprintf(output, "short %s_attribute[] = {\n", prefix);
   } else {
-    printf("static short attribute[] = {\n");
+    fprintf(output, "short attribute[] = {\n");
   }
   for (i=0; i<ndfa; i++) {
     char *av = dfas[i]->attribute;
-    printf("%s", av ? av : defattr);
-    putchar ((i<(ndfa-1)) ? ',' : ' ');
-    printf(" /* State %d */\n", i);
+    fprintf(output, "%s", av ? av : defattr);
+    fputc ((i<(ndfa-1)) ? ',' : ' ', output);
+    fprintf(output, " /* State %d */\n", i);
   }
-  printf("};\n\n");
+  fprintf(output, "};\n\n");
 
 }
 /*}}}*/
@@ -1158,24 +1162,24 @@ static void print_uncompressed_tables(Block *b)/*{{{*/
 
   n = 0;
   if (prefix) {
-    printf("static short %s_trans[] = {", prefix);
+    fprintf(output, "static short %s_trans[] = {", prefix);
   } else {
-    printf("static short trans[] = {");
+    fprintf(output, "static short trans[] = {");
   }
   for (i=0; i<ndfa; i++) {
     for (j=0; j<Nt; j++) {
-      if (n>0) putchar (',');
+      if (n>0) fputc (',', output);
       if (n%8 == 0) {
-        printf("\n  ");
+        fprintf(output, "\n  ");
       } else {
-        putchar(' ');
+        fputc(' ', output);
       }
       n++;
-      printf("%4d", dfas[i]->map[j]);
+      fprintf(output, "%4d", dfas[i]->map[j]);
     }
   }
 
-  printf("\n};\n\n");
+  fprintf(output, "\n};\n\n");
 
   if (prefix) {
     char *p;
@@ -1183,10 +1187,10 @@ static void print_uncompressed_tables(Block *b)/*{{{*/
     for (p=ucprefix; *p; p++) {
       *p = toupper(*p);
     }
-    printf("#define NEXT_%s_STATE(s,t) %s_trans[%d*(s)+(t)]\n",
+    fprintf(output, "#define NEXT_%s_STATE(s,t) %s_trans[%d*(s)+(t)]\n",
            ucprefix, prefix, Nt);
   } else {
-    printf("#define NEXT_STATE(s,t) trans[%d*(s)+(t)]\n", Nt);
+    fprintf(output, "#define NEXT_STATE(s,t) trans[%d*(s)+(t)]\n", Nt);
   }
 }
 /*}}}*/
@@ -1214,85 +1218,85 @@ static void print_compressed_tables(Block *b)/*{{{*/
 
   n = 0;
   if (prefix) {
-    printf("static unsigned char %s_token[] = {", prefix);
+    fprintf(output, "static unsigned char %s_token[] = {", prefix);
   } else {
-    printf("static unsigned char token[] = {");
+    fprintf(output, "static unsigned char token[] = {");
   }
   for (i=0; i<ndfa; i++) {
     for (j=0; j<Nt; j++) {
       if (check_include_char(i, j)) {
-        if (n>0) putchar (',');
+        if (n>0) fputc (',', output);
         if (n%8 == 0) {
-          printf("\n  ");
+          fprintf(output, "\n  ");
         } else {
-          putchar(' ');
+          fputc(' ', output);
         }
         n++;
-        printf("%3d", j);
+        fprintf(output, "%3d", j);
       }
     }
   }
-  printf("\n};\n\n");
+  fprintf(output, "\n};\n\n");
 
   n = 0;
   if (prefix) {
-    printf("static short %s_nextstate[] = {", prefix);
+    fprintf(output, "static short %s_nextstate[] = {", prefix);
   } else {
-    printf("static short nextstate[] = {");
+    fprintf(output, "static short nextstate[] = {");
   }
   for (i=0; i<ndfa; i++) {
     basetab[i] = n;
     for (j=0; j<Nt; j++) {
       if (check_include_char(i, j)) {
-        if (n>0) putchar (',');
+        if (n>0) fputc (',', output);
         if (n%8 == 0) {
-          printf("\n  ");
+          fprintf(output, "\n  ");
         } else {
-          putchar(' ');
+          fputc(' ', output);
         }
         n++;
-        printf("%5d", dfas[i]->map[j]);
+        fprintf(output, "%5d", dfas[i]->map[j]);
       }
     }
   }
-  printf("\n};\n\n");
+  fprintf(output, "\n};\n\n");
   basetab[ndfa] = n;
 
   n = 0;
   if (prefix) {
-    printf("static unsigned short %s_base[] = {", prefix);
+    fprintf(output, "static unsigned short %s_base[] = {", prefix);
   } else {
-    printf("static unsigned short base[] = {");
+    fprintf(output, "static unsigned short base[] = {");
   }
   for (i=0; i<=ndfa; i++) {
-    if (n>0) putchar (',');
+    if (n>0) fputc (',', output);
     if (n%8 == 0) {
-      printf("\n  ");
+      fprintf(output, "\n  ");
     } else {
-      putchar(' ');
+      fputc(' ', output);
     }
     n++;
-    printf("%5d", basetab[i]);
+    fprintf(output, "%5d", basetab[i]);
   }
-  printf("\n};\n\n");
+  fprintf(output, "\n};\n\n");
   
   n = 0;
   if (prefix) {
-    printf("static short %s_defstate[] = {", prefix);
+    fprintf(output, "static short %s_defstate[] = {", prefix);
   } else {
-    printf("static short defstate[] = {");
+    fprintf(output, "static short defstate[] = {");
   }
   for (i=0; i<ndfa; i++) {
-    if (n>0) putchar (',');
+    if (n>0) fputc (',', output);
     if (n%8 == 0) {
-      printf("\n  ");
+      fprintf(output, "\n  ");
     } else {
-      putchar(' ');
+      fputc(' ', output);
     }
     n++;
-    printf("%5d", dfas[i]->defstate);
+    fprintf(output, "%5d", dfas[i]->defstate);
   }
-  printf("\n};\n\n");
+  fprintf(output, "\n};\n\n");
 
   
   free(basetab);
@@ -1318,26 +1322,60 @@ int main (int argc, char **argv)
   State *start_state;
   Block *main_block;
 
+  char *input_name = NULL;
+  char *output_name = NULL;
   char *report_name = NULL;
+  int uncompressed_tables = 0;
   verbose = 0;
   report = NULL;
 
-  /* Parse cmd line arguments */
+  /*{{{ Parse cmd line arguments */
   while (++argv, --argc) {
-    if (!strcmp(*argv, "-v")) {
+    if (!strcmp(*argv, "-v") || !strcmp(*argv, "--verbose")) {
       verbose = 1;
-    } else if (!strcmp(*argv, "-r")) {
+    } else if (!strcmp(*argv, "-o") || !strcmp(*argv, "--output")) {
+      ++argv, --argc;
+      output_name = *argv;
+    } else if (!strcmp(*argv, "-r") || !strcmp(*argv, "--report")) {
       ++argv, --argc;
       report_name = *argv;
+    } else if (!strcmp(*argv, "-u") || !strcmp(*argv, "--uncompressed-tables")) {
+      uncompressed_tables = 1;
+    } else if ((*argv)[0] == '-') {
+      fprintf(stderr, "Unrecognized command line option %s\n", *argv);
+    } else {
+      input_name = *argv;
     }
   }
+  /*}}}*/
 
-  if (report_name) {
+  if (input_name) {/*{{{*/
+    input = fopen(input_name, "r");
+    if (!input) {
+      fprintf(stderr, "Can't open %s for input, exiting\n", input_name);
+      exit(1);
+    }
+  } else {
+    input = stdin;
+  }
+  /*}}}*/
+  if (output_name) {/*{{{*/
+    output = fopen(output_name, "w");
+    if (!output) {
+      fprintf(stderr, "Can't open %s for writing, exiting\n", output_name);
+      exit(1);
+    }
+  } else {
+    output = stdout;
+  }
+/*}}}*/
+  if (report_name) {/*{{{*/
     report = fopen(report_name, "w");
     if (!report) {
       fprintf(stderr, "Can't open %s for writing, no report will be created\n", report_name);
     }
   }
+/*}}}*/
 
   if (verbose) {
     fprintf(stderr, "General-purpose automaton builder\n");
@@ -1347,6 +1385,12 @@ int main (int argc, char **argv)
   eval_initialise();
   
   if (verbose) fprintf(stderr, "Parsing input...");
+  yyin = input;
+  
+  /* Set yyout.  This means that if anything leaks from the scanner, or appears
+     in a %{ .. %} block, it goes to the right place. */
+  yyout = output; 
+ 
   result = yyparse();
   if (result > 0) exit(1);
   if (verbose) fprintf(stderr, "\n");
@@ -1389,10 +1433,12 @@ int main (int argc, char **argv)
   
   print_exitval_table(main_block);
   print_attribute_table();
-  print_compressed_tables(main_block);
-#if 0
-  print_uncompressed_tables(main_block);
-#endif
+
+  if (uncompressed_tables) {
+    print_uncompressed_tables(main_block);
+  } else {
+    print_compressed_tables(main_block);
+  }
 
   if (report) {
     fclose(report);
