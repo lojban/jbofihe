@@ -12,6 +12,7 @@
 $prefix="/usr/local";
 $install="ginstall";
 $debug=0;
+$profile=0;
 $mmap=1;
 $word_list_dir=undef;
 
@@ -22,6 +23,8 @@ while ($_ = shift @ARGV) {
         $prefix = shift @ARGV;
     } elsif (/^--installprog=(.*)$/) {
         $install = $1;
+    } elsif (/^--profile$/) {
+		$profile = 1;
     } elsif (/^--debug$/) {
 		$debug = 1;
 	} elsif (/^--nommap$/) {
@@ -78,6 +81,9 @@ unless (defined $word_list_dir) {
 }
 
 $optdebug = $debug ? "-g" : "-O2";
+if ($profile) {
+    $optdebug .= " -pg";
+}
 $mmap_flag = $mmap ? "-DHAVE_MMAP=1" : "";
 $defines = $mmap_flag;
 if ($debug) {
