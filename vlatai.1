@@ -3,7 +3,7 @@
 vlatai \- Lojban word analyzer
 .SH SYNOPSIS
 .B vlatai
-[ -v ] [-cr] [ word ]
+[ -v ] [ word ]
 .SH DESCRIPTION
 .I vlatai
 is a program that reads a list of Lojban words from standard input, one word
@@ -22,11 +22,6 @@ Note that vlatai is primarily a testbench for the word categorizer/splitter
 inside jbofihe.  vlatai is not fully supported or documented as a stand-alone
 program.
 .SH OPTIONS
-.TP
-.B -cr
-Allow cultural rafsi within lujvo (defined in section 4.16 of the Reference
-Grammar).  This affects the recognition of lujvo and of fu'ivla (the latter
-since it affects which word forms fail the slinku'i test.)
 .TP
 .B -v
 Verbose; show lots of information about the evolution of the internal state

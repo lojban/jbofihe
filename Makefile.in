@@ -115,7 +115,7 @@ smujajgau : smujajgau.o canonluj.o
 smujajgau.o : smujajgau.c
 	$(CC) $(CFLAGS) -c smujajgau.c
 
-vlatai : morf.c morf.h morf_dfa.c morfnc_dfa.c morf_enc.c morf_lex.c morfvlex.c
+vlatai : morf.c morf.h morf_dfa.c morf_enc.c morf_lex.c morfvlex.c
 	$(CC) -o vlatai -DTEST_MORF $(CFLAGS) morf.c
 
 morf_lex.c : mk_fetab.pl
@@ -129,9 +129,6 @@ morf_enc.c : mk_enctab.pl
 
 morf_dfa.c : morf_nfa.in n2d/n2d
 	n2d/n2d -v -r morf_dfa.report < morf_nfa.in > morf_dfa.c
-
-morfnc_dfa.c : morf_nfa.in n2d/n2d
-	grep -v 'CULTURAL' < morf_nfa.in | n2d/n2d -v -r morfnc_dfa.report > morfnc_dfa.c
 
 n2d/n2d:
 	(cd n2d && make all)

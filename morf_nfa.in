@@ -66,11 +66,8 @@ Tokens UNK V APOS Y R N C NR CI CSI CP CS CN H HS BT VV VX VY YY YCY
 #   CULTURAL' first.
 
 # Prefix applied to the tables written out for inclusion into the C program.
-# (If building the version including the cultural (section 4.16) rafsi, the
-# prefix will be morf.  If building the version without this, the prefix will
-# be morfnc
-Prefix morfnc
-Prefix morf ## CULTURAL
+
+Prefix morf
 
 Abbrev CNR = C|N|R
 Abbrev LCI = CI|CSI
@@ -88,8 +85,6 @@ BLOCK SYL1
         CNR ; V   ; CNR                   -> ex_cvc # Starts CVC, may require tosmabru check
         CNR ; V   ; CNR ; LCP             -> ex_cvy # Ditto, starts CV
         C   ; LCI ; V   ; CNR             -> ex_y   # Requires y before next syl
-        C   ; LCI ; V          ; VV ; CNR -> ex_y                  ## CULTURAL
-        C   ; LCI ; V   ; APOS ; V  ; CNR -> ex_y                  ## CULTURAL
     
 ENDBLOCK
 
@@ -131,8 +126,6 @@ BLOCK SYL2 # Lujvo syllables (i.e. rafsi) 2 .. (N-1)
         V   ; CNR                -> ex_cvc
         V   ; CNR  ; LCP         -> ex_y
         LCI ; V    ; CNR         -> ex_y
-        LCI ; V ; APOS ; V ; CNR -> ex_y  ## CULTURAL
-        LCI ; V ; VV   ;     CNR -> ex_y  ## CULTURAL
         
 
     STATE in_after_cc # get here if last syl. ends in c, which when combined
@@ -140,8 +133,6 @@ BLOCK SYL2 # Lujvo syllables (i.e. rafsi) 2 .. (N-1)
 
         V                  -> ex_cln            # from ccv form
         V ; CNR            -> ex_y              # from ccvc form
-        V ; APOS ; V ; CNR -> ex_y ## CULTURAL
-        V ; VV       ; CNR -> ex_y ## CULTURAL
     
 ENDBLOCK
 
@@ -230,8 +221,6 @@ BLOCK TOS_SYL1
     STATE in
         V                  -> ex_cln
         V ; CNR            -> ex_y
-        V ; APOS ; V ; CNR -> ex_y ## CULTURAL
-        V ; VV       ; CNR -> ex_y ## CULTURAL
 
 ENDBLOCK
 
@@ -271,7 +260,7 @@ ENDBLOCK
 ###########################################################
 # The complete NFA for matching a word of lujvo form.
 
-BLOCK LUJVO
+BLOCK LUJVO_BODY
 
     s1 : SYL1
     a1 : AFTER1
@@ -314,19 +303,98 @@ BLOCK LUJVO
 
     # Bridge a1->t1t
     STATE a1.to_lujvo1t -> t1t.in
+    
+ENDBLOCK
+
+
+###########################################################
+# This block deals with recognition of 'normal' lujvo.
+
+BLOCK LUJVO
+
+    body : LUJVO_BODY
+
+    STATE in -> body.in
 
     # Set exit states on t0
-    STATE t0.sn.exit = TAG_LUJVO_0
+    STATE body.t0.sn.exit = TAG_LUJVO_0
     
     # Set exit states on t1
-    STATE t1.sn.exit = TAG_LUJVO_1
+    STATE body.t1.sn.exit = TAG_LUJVO_1
         
     # Set exit states on t1t
-    STATE t1t.sn.exit = TAG_LUJVO_1T
+    STATE body.t1t.sn.exit = TAG_LUJVO_1T
 
     # Set exit status when potentially shorter word is of valid lujvo form
     # (e.g. the smabru in tosmabru)
-    STATE tos.exit = TAG_LUJVO_TAIL_OK
+    STATE body.tos.exit = TAG_LUJVO_TAIL_OK
+
+ENDBLOCK
+
+###########################################################
+# Block to recognise lujvo which have 'cultural' rafsi in them.
+
+# Obviously this recognises all normal lujvo as well, because it will cope with
+# >=0 of the rafsi being cultural.  That is not important, because this case is
+# 'set differenced' away in the priority logic at the end of the file : if the
+# word's a normal lujvo, it is never considered for recognition as a cultural
+# one.
+
+BLOCK CULTURAL_LUJVO
+
+    body : LUJVO_BODY
+
+    STATE in -> body.in
+
+    ##############
+    # Add bridging between states arising from cultural rafsi being present.
+
+    STATE body.s1.in
+        C   ; LCI ; V          ; VV ; CNR -> body.s1.ex_y
+        C   ; LCI ; V   ; APOS ; V  ; CNR -> body.s1.ex_y
+
+    STATE body.t0.s2.in
+        LCI ; V ; APOS ; V ; CNR -> body.t0.s2.ex_y
+        LCI ; V ; VV   ;     CNR -> body.t0.s2.ex_y
+
+    STATE body.t0.s2.in_after_cc
+        V ; APOS ; V ; CNR -> body.t0.s2.ex_y
+        V ; VV       ; CNR -> body.t0.s2.ex_y
+    
+    STATE body.t1.s2.in
+        LCI ; V ; APOS ; V ; CNR -> body.t1.s2.ex_y
+        LCI ; V ; VV   ;     CNR -> body.t1.s2.ex_y
+
+    STATE body.t1.s2.in_after_cc
+        V ; APOS ; V ; CNR -> body.t1.s2.ex_y
+        V ; VV       ; CNR -> body.t1.s2.ex_y
+    
+    STATE body.t1t.s2.in
+        LCI ; V ; APOS ; V ; CNR -> body.t1t.s2.ex_y
+        LCI ; V ; VV   ;     CNR -> body.t1t.s2.ex_y
+
+    STATE body.t1t.s2.in_after_cc
+        V ; APOS ; V ; CNR -> body.t1t.s2.ex_y
+        V ; VV       ; CNR -> body.t1t.s2.ex_y
+    
+    STATE body.tos.s1.in
+        V ; APOS ; V ; CNR -> body.tos.s1.ex_y
+        V ; VV       ; CNR -> body.tos.s1.ex_y
+
+    ##############
+
+    # Set exit states on t0
+    STATE body.t0.sn.exit = TAG_CULTURAL_LUJVO_0
+    
+    # Set exit states on t1
+    STATE body.t1.sn.exit = TAG_CULTURAL_LUJVO_1
+        
+    # Set exit states on t1t
+    STATE body.t1t.sn.exit = TAG_CULTURAL_LUJVO_1T
+
+    # Set exit status when potentially shorter word is of valid lujvo form
+    # (e.g. the smabru in tosmabru)
+    STATE body.tos.exit = TAG_CULTURAL_LUJVO_TAIL_OK
 
 ENDBLOCK
 
@@ -741,12 +809,15 @@ ENDBLOCK
 BLOCK WORD
     gismu : GISMU
     lujvo : LUJVO
+    cultural_lujvo : CULTURAL_LUJVO
     cms : CMAVOSEQ
     cmene : CMENE
     fuivla : FUIVLA
     
-    STATE in                  -> gismu.in, lujvo.in, fuivla.in_no_prefix, cms.in, cmene.in
-    STATE cms.exit_prefixable -> gismu.in, lujvo.in, fuivla.in_prefixed
+    STATE in                  -> gismu.in, lujvo.in, cultural_lujvo.in,
+                                 fuivla.in_no_prefix, cms.in, cmene.in
+    STATE cms.exit_prefixable -> gismu.in, lujvo.in, cultural_lujvo.in,
+                                 fuivla.in_prefixed
 
     #####
     STATE in     # ENTRY STATE NAMED LAST IN FILE
@@ -767,9 +838,33 @@ Result TAG_LUJVO_1T & ~TAG_LUJVO_TAIL_OK -> R_BAD_TOSMABRU
 # R_LUJVO_1 above.
 Symbol S_LUJVO_1T = TAG_LUJVO_1T & TAG_LUJVO_TAIL_OK
 Result S_LUJVO_1T -> R_LUJVO_1
+
+# 'cultural' lujvo, i.e. ones containing >=1 cultural rafsi (CCVVCV).
+# These have some simplifications; we know one of these lujvo must contain 'y',
+# so these don't have to enter into checking fu'ivla validity later on.
+
+# Recall that the CULTURAL_LUJVO block matches all standard lujvo too, so
+# these have to be factored out.
+
+# Fortunately, there is direct equivalence between the ordinary and cultural
+# varieties in terms of the 0/1/1T status.
+
+Symbol S_CULTURAL_0 = TAG_CULTURAL_LUJVO_0 & ~TAG_LUJVO_0
+Symbol S_CULTURAL_1 = TAG_CULTURAL_LUJVO_1 & ~TAG_LUJVO_1
+Symbol S_CULTURAL_1T = TAG_CULTURAL_LUJVO_1T & ~TAG_LUJVO_1T
+
+# This should be OK , might want to review what comes after the '&' here
+Symbol S_CULTURAL_TAIL_OK = TAG_CULTURAL_LUJVO_TAIL_OK & ~TAG_LUJVO_1T
+
+Result S_CULTURAL_0                        -> R_CULTURAL_LUJVO_0
+Result S_CULTURAL_1  & ~S_CULTURAL_0       -> R_CULTURAL_LUJVO_1
+Result S_CULTURAL_1T & ~S_CULTURAL_TAIL_OK -> R_CULTURAL_BAD_TOSMABRU
+Result S_CULTURAL_1T &  S_CULTURAL_TAIL_OK -> R_CULTURAL_LUJVO_1
+
 Symbol VALID_LUJVO = S_LUJVO_1T | R_LUJVO_1 | R_LUJVO_0
 Symbol VALID_GISMU = TAG_GISMU_0 | TAG_GISMU_1
 Symbol VLG = VALID_LUJVO | VALID_GISMU
+
 Result               ~VLG &  TAG_FUIVLA_0 &  TAG_SLINKUI_0 & ~TAG_FUIVLA_1 -> R_BAD_SLINKUI
 Symbol S_FUIVLA_0  = ~VLG &  TAG_FUIVLA_0 & ~TAG_SLINKUI_0
 Symbol S_FUIVLA_1A = ~VLG &  TAG_FUIVLA_0 &  TAG_SLINKUI_0 &  TAG_FUIVLA_1
