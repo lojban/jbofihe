@@ -912,7 +912,11 @@ get_lojban_word_and_translation (TreeNode *x, char *loj, char *eng)
   switch (x->type) {
     
     case N_CMAVO:
-      strcpy(loj, cmavo_table[x->data.cmavo.code].cmavo);
+      if (prop_elidable(x, NO)) {
+        strcpy(loj, make_uppercase(cmavo_table[x->data.cmavo.code].cmavo));
+      } else {
+        strcpy(loj, cmavo_table[x->data.cmavo.code].cmavo);
+      }
       eng[0] = 0;
       switch (x->data.cmavo.selmao) {
         case BAI:
@@ -1505,20 +1509,23 @@ output_internal(TreeNode *x, WhatToShow what)
     } else if (y->type == NO_CU_SENTENCE) {
       /* Special handling */
 
-      output_internal(y->children[0], what);
-#if 1
-      switch (what) {
-        case SHOW_ENGLISH:
-        case SHOW_BOTH:
-          (drv->translation)("[is, does]");
-          break;
-        default:
-          break;
+      if (y->nchildren == 2) { /* not in 'insert elidables' mode */
+        output_internal(y->children[0], what);
+        switch (what) {
+          case SHOW_ENGLISH:
+          case SHOW_BOTH:
+            (drv->translation)("[is, does]");
+            break;
+          default:
+            break;
+        }
+        output_internal(y->children[1], what);
+      } else {
+        int n = y->nchildren, i;
+        for (i=0; i<n; i++) {
+          output_internal(y->children[i], what);
+        }
       }
-          
-#endif
-      output_internal(y->children[1], what);
-
 
     } else if (y->type == OBSERVATIVE_SENTENCE) {
       /* Special handling */

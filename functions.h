@@ -22,6 +22,7 @@
 
 /* In functions.c */
 TreeNode *new_node(void);
+TreeNode *new_elidable(int code, int selmao);
 
 TreeNode *
 new_node_0(NonTerm nt);
@@ -91,6 +92,7 @@ extern TreeNode *find_nth_cmavo_child(TreeNode *x, int n, int selmao);
 extern TreeNode *strip_attitudinal(TreeNode *x);
 extern TreeNode *maybe_strip_attitudinal(TreeNode *x);
 extern int is_simple_nonterm(TreeNode *x);
+extern char *make_uppercase(char *s);
 
 /* In categ.c */
 void categorize_tokens(TreeNode *head);
@@ -155,6 +157,7 @@ extern XAntecedent *prop_antecedent(TreeNode *x, int create);
 extern XRequireBrac *prop_require_brac(TreeNode *x, int create);
 extern XRelClauseLink *prop_rel_clause_link(TreeNode *x, int create);
 extern XContainsKeha *prop_contains_keha(TreeNode *x, int create);
+extern XElidable *prop_elidable(TreeNode *x, int create);
 
 /* In conversion.c */
 extern void do_conversions(TreeNode *top);

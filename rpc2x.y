@@ -189,6 +189,7 @@
 %token NUMBER_ROI
 
 %token EOF_MARK
+%token IMPOSSIBLE_TOKEN
 
 %{
 #define YYDEBUG 1
@@ -534,19 +535,19 @@ statement_3 : sentence
 
             | tag TUhE free_seq text_1 TUhU free_seq
             | tag TUhE free_seq text_1 TUhU
-            | tag TUhE free_seq text_1 /* ET */
+            | tag TUhE free_seq text_1 /* ET TUhU */
 
             | tag TUhE          text_1 TUhU free_seq
             | tag TUhE          text_1 TUhU
-            | tag TUhE          text_1 /* ET */
+            | tag TUhE          text_1 /* ET TUhU */
 
             |     TUhE free_seq text_1 TUhU free_seq
             |     TUhE free_seq text_1 TUhU
-            |     TUhE free_seq text_1 /* ET */
+            |     TUhE free_seq text_1 /* ET TUhU */
 
             |     TUhE          text_1 TUhU free_seq
             |     TUhE          text_1 TUhU
-            |     TUhE          text_1 /* ET */
+            |     TUhE          text_1 /* ET TUhU */
             ;
 
 /*
@@ -563,7 +564,7 @@ fragment : ek free_seq
          | NA
          | terms VAU free_seq
          | terms VAU
-         | terms /* ET */
+         | terms /* ET VAU */
          | prenex
          | relative_clauses
          | links
@@ -623,7 +624,13 @@ sentence : terms CU free_seq bridi_tail
 
          ;
 
-no_cu_sentence : terms bridi_tail
+/* The IMPOSSIBLE_TOKEN branch won't ever match.  This allows the terms
+ * bridi_tail branch to be stripped to produce the all-elidables version of the
+ * grammar, without giving a syntax error on ';' when actions are inserted, or
+ * not having a match for this rule under sentence */
+
+no_cu_sentence : IMPOSSIBLE_TOKEN
+               | terms /* ET CU */ bridi_tail
                ;
 
 /* A misnomer if there is a 'fa' in the tail terms, however ... */
@@ -647,18 +654,18 @@ bridi-tail<50> = bridi-tail-1
 
 bridi_tail : bridi_tail_1
            | bridi_tail_1 gihek_stag_ke KE free_seq bridi_tail KEhE free_seq tail_terms
-           | bridi_tail_1 gihek_stag_ke KE free_seq bridi_tail KEhE free_seq /* ET */
+           | bridi_tail_1 gihek_stag_ke KE free_seq bridi_tail KEhE free_seq /* ET VAU */
            | bridi_tail_1 gihek_stag_ke KE free_seq bridi_tail KEhE          tail_terms
-           | bridi_tail_1 gihek_stag_ke KE free_seq bridi_tail KEhE          /* ET */
-           | bridi_tail_1 gihek_stag_ke KE free_seq bridi_tail /* ET */      tail_terms
-           | bridi_tail_1 gihek_stag_ke KE free_seq bridi_tail               /* ET */
+           | bridi_tail_1 gihek_stag_ke KE free_seq bridi_tail KEhE          /* ET VAU */
+           | bridi_tail_1 gihek_stag_ke KE free_seq bridi_tail /* ET KEhE */ tail_terms
+           | bridi_tail_1 gihek_stag_ke KE free_seq bridi_tail /* ET KEhE */ /* ET VAU */
 
            | bridi_tail_1 gihek_stag_ke KE          bridi_tail KEhE free_seq tail_terms
-           | bridi_tail_1 gihek_stag_ke KE          bridi_tail KEhE free_seq /* ET */
+           | bridi_tail_1 gihek_stag_ke KE          bridi_tail KEhE free_seq /* ET VAU */
            | bridi_tail_1 gihek_stag_ke KE          bridi_tail KEhE          tail_terms
-           | bridi_tail_1 gihek_stag_ke KE          bridi_tail KEhE          /* ET */
-           | bridi_tail_1 gihek_stag_ke KE          bridi_tail /* ET */      tail_terms
-           | bridi_tail_1 gihek_stag_ke KE          bridi_tail               /* ET */
+           | bridi_tail_1 gihek_stag_ke KE          bridi_tail KEhE          /* ET VAU */
+           | bridi_tail_1 gihek_stag_ke KE          bridi_tail /* ET KEhE */ tail_terms
+           | bridi_tail_1 gihek_stag_ke KE          bridi_tail               /* ET VAU */
            ;
 
 gihek_stag_ke : GIHEK_KE gihek stag
@@ -671,9 +678,9 @@ bridi-tail-1<51> = bridi-tail-2 [gihek # bridi-tail-2 tail-terms] ...
 
 bridi_tail_1 : bridi_tail_2
              | bridi_tail_1 gihek free_seq bridi_tail_2 tail_terms
-             | bridi_tail_1 gihek free_seq bridi_tail_2 /* ET */
+             | bridi_tail_1 gihek free_seq bridi_tail_2 /* ET VAU */
              | bridi_tail_1 gihek          bridi_tail_2 tail_terms
-             | bridi_tail_1 gihek          bridi_tail_2 /* ET */
+             | bridi_tail_1 gihek          bridi_tail_2 /* ET VAU */
              ;
 
 /*
@@ -682,7 +689,7 @@ bridi-tail-2<52> = bridi-tail-3 [gihek [stag] BO # bridi-tail-2 tail-terms]
 
 bridi_tail_2 : bridi_tail_3
              | bridi_tail_2 gihek_stag_bo bridi_tail_2 tail_terms
-             | bridi_tail_2 gihek_stag_bo bridi_tail_2 /* ET */
+             | bridi_tail_2 gihek_stag_bo bridi_tail_2 /* ET VAU */
              ;
 
 gihek_stag_bo : GIHEK_BO gihek stag BO free_seq
@@ -697,7 +704,7 @@ bridi-tail-3<53> = selbri tail-terms | gek-sentence
 */
 
 bridi_tail_3 : main_selbri tail_terms
-             | main_selbri /* ET */
+             | main_selbri /* ET VAU */
              | gek_sentence
              ;
 
@@ -709,7 +716,7 @@ main_selbri : selbri
 
 tail_terms : terms VAU free_seq
            | terms VAU
-           | terms /* ET */
+           | terms /* ET VAU */
            |       VAU free_seq
            |       VAU
            ;
@@ -720,23 +727,23 @@ gek-sentence<54> = gek subsentence gik subsentence tail-terms |
         */
 
 gek_sentence : gek subsentence gik subsentence tail_terms
-             | gek subsentence gik subsentence /* ET */
+             | gek subsentence gik subsentence /* ET VAU */
 
              | tag KE free_seq gek_sentence KEhE free_seq
              | tag KE free_seq gek_sentence KEhE
-             | tag KE free_seq gek_sentence /* ET */
+             | tag KE free_seq gek_sentence /* ET KEhE */
 
              | tag KE          gek_sentence KEhE free_seq
              | tag KE          gek_sentence KEhE
-             | tag KE          gek_sentence /* ET */
+             | tag KE          gek_sentence /* ET KEhE */
 
              |     KE free_seq gek_sentence KEhE free_seq
              |     KE free_seq gek_sentence KEhE
-             |     KE free_seq gek_sentence /* ET */
+             |     KE free_seq gek_sentence /* ET KEhE */
 
              |     KE          gek_sentence KEhE free_seq
              |     KE          gek_sentence KEhE
-             |     KE          gek_sentence /* ET */
+             |     KE          gek_sentence /* ET KEhE */
 
              | NA free_seq gek_sentence
              | NA          gek_sentence
@@ -787,6 +794,9 @@ terms_2 : term
 term<83> = sumti | (tag | FA #) (sumti | /KU#/) | termset | NA KU #
 */
 
+/* [ET] needed below to fix up the tag stag gik sumti-4... S/R conflict, which
+ * is avoided by using tag termset. */
+
 term : term_plain_sumti
      | term_tagged_sumti /* ET */
      | term_placed_sumti
@@ -817,7 +827,7 @@ tagged_termset : tag termset
 
 term_floating_tense : tag KU free_seq
                     | tag KU
-                    | tag /* ET */
+                    | tag /* ET KU */
                     ;
 
 term_floating_negate : NA KU free_seq
@@ -828,10 +838,10 @@ term_floating_negate : NA KU free_seq
    but what about the others??? */
 term_other : FA free_seq KU free_seq
            | FA free_seq KU
-           | FA free_seq /* ET */
+           | FA free_seq /* ET KU */
            | FA          KU free_seq
            | FA          KU 
-           | FA /* ET */
+           | FA /* ET KU */
            ;
 
 /*
@@ -841,35 +851,35 @@ termset<85> = NUhI # gek terms /NUhU#/ gik terms /NUhU#/ |
 
 termset : NUhI free_seq gek terms NUhU free_seq gik terms NUhU free_seq
         | NUhI free_seq gek terms NUhU free_seq gik terms NUhU
-        | NUhI free_seq gek terms NUhU free_seq gik terms /* ET */
+        | NUhI free_seq gek terms NUhU free_seq gik terms /* ET NUhU */
 
         | NUhI free_seq gek terms NUhU          gik terms NUhU free_seq
         | NUhI free_seq gek terms NUhU          gik terms NUhU
-        | NUhI free_seq gek terms NUhU          gik terms /* ET */
+        | NUhI free_seq gek terms NUhU          gik terms /* ET NUhU */
 
-        | NUhI free_seq gek terms               gik terms NUhU free_seq /* ET */
-        | NUhI free_seq gek terms               gik terms NUhU /* ET */
-        | NUhI free_seq gek terms               gik terms /* ET */
+        | NUhI free_seq gek terms /* ET NUhU */ gik terms NUhU free_seq
+        | NUhI free_seq gek terms /* ET NUhU */ gik terms NUhU
+        | NUhI free_seq gek terms /* ET NUhU */ gik terms /* ET NUhU */
  
         | NUhI          gek terms NUhU free_seq gik terms NUhU free_seq
         | NUhI          gek terms NUhU free_seq gik terms NUhU
-        | NUhI          gek terms NUhU free_seq gik terms /* ET */
+        | NUhI          gek terms NUhU free_seq gik terms /* ET NUhU */
 
         | NUhI          gek terms NUhU          gik terms NUhU free_seq
         | NUhI          gek terms NUhU          gik terms NUhU
-        | NUhI          gek terms NUhU          gik terms /* ET */
+        | NUhI          gek terms NUhU          gik terms /* ET NUhU */
 
-        | NUhI          gek terms               gik terms NUhU free_seq /* ET */
-        | NUhI          gek terms               gik terms NUhU /* ET */
-        | NUhI          gek terms               gik terms /* ET */
+        | NUhI          gek terms /* ET NUhU */ gik terms NUhU free_seq
+        | NUhI          gek terms /* ET NUhU */ gik terms NUhU
+        | NUhI          gek terms /* ET NUhU */ gik terms /* ET NUhU */
 
         | NUhI free_seq     terms NUhU free_seq
         | NUhI free_seq     terms NUhU
-        | NUhI free_seq     terms /* ET */
+        | NUhI free_seq     terms /* ET NUhU */
 
         | NUhI              terms NUhU free_seq
         | NUhI              terms NUhU
-        | NUhI              terms /* ET */
+        | NUhI              terms /* ET NUhU */
         ;
 
 /*
@@ -898,10 +908,10 @@ joik_ek_ke : JOIK_KE joik stag
 
 ke_sumti : KE free_seq sumti KEhE free_seq
          | KE free_seq sumti KEhE
-         | KE free_seq sumti /* ET */
+         | KE free_seq sumti /* ET KEhE */
          | KE          sumti KEhE free_seq
          | KE          sumti KEhE
-         | KE          sumti /* ET */
+         | KE          sumti /* ET KEhE */
          ;
 
 /*
@@ -979,39 +989,39 @@ sumti_6 : lahe_sumti_6
 
         | lerfu_string BOI free_seq
         | lerfu_string BOI
-        | lerfu_string /* ET */
+        | lerfu_string /* ET BOI */
 
         | LE      free_seq sumti_tail KU free_seq
         | LE      free_seq sumti_tail KU
-        | LE      free_seq sumti_tail /* ET */
+        | LE      free_seq sumti_tail /* ET KU */
 
         | LE               sumti_tail KU free_seq
         | LE               sumti_tail KU
-        | LE               sumti_tail /* ET */
+        | LE               sumti_tail /* ET KU */
 
         | LA      free_seq sumti_tail KU free_seq
         | LA      free_seq sumti_tail KU
-        | LA      free_seq sumti_tail /* ET */
+        | LA      free_seq sumti_tail /* ET KU */
 
         | LA               sumti_tail KU free_seq
         | LA               sumti_tail KU
-        | LA               sumti_tail /* ET */
+        | LA               sumti_tail /* ET KU */
 
         | name_sumti_6
 
         | LI      free_seq mex LOhO free_seq
         | LI      free_seq mex LOhO
-        | LI      free_seq mex /* ET */
+        | LI      free_seq mex /* ET LOhO */
 
         | LI               mex LOhO free_seq
         | LI               mex LOhO
-        | LI               mex /* ET */
+        | LI               mex /* ET LOhO */
 
         | ZO free_seq /* Needs lexer tie-in */
         | ZO          /* Needs lexer tie-in */
         | LU text LIhU free_seq
         | LU text LIhU
-        | LU text  /* ET */
+        | LU text  /* ET LIhU */
         | LOhU free_seq /* Needs lexer tie-in */
         | LOhU          /* Needs lexer tie-in */
         | ZOI  free_seq /* Needs lexer tie-in */
@@ -1020,32 +1030,32 @@ sumti_6 : lahe_sumti_6
 
 lahe_sumti_6 : LAhE    free_seq relative_clauses sumti LUhU free_seq
              | LAhE    free_seq relative_clauses sumti LUhU
-             | LAhE    free_seq relative_clauses sumti /* ET */
+             | LAhE    free_seq relative_clauses sumti /* ET LUhU */
              | LAhE    free_seq                  sumti LUhU free_seq
              | LAhE    free_seq                  sumti LUhU
-             | LAhE    free_seq                  sumti /* ET */
+             | LAhE    free_seq                  sumti /* ET LUhU */
 
              | LAhE             relative_clauses sumti LUhU free_seq
              | LAhE             relative_clauses sumti LUhU
-             | LAhE             relative_clauses sumti /* ET */
+             | LAhE             relative_clauses sumti /* ET LUhU */
              | LAhE                              sumti LUhU free_seq
              | LAhE                              sumti LUhU
-             | LAhE                              sumti /* ET */
+             | LAhE                              sumti /* ET LUhU */
              ;
 
 nahe_bo_sumti_6 : NAhE_BO NAhE BO free_seq relative_clauses sumti LUhU free_seq
                 | NAhE_BO NAhE BO free_seq relative_clauses sumti LUhU
-                | NAhE_BO NAhE BO free_seq relative_clauses sumti /* ET */
+                | NAhE_BO NAhE BO free_seq relative_clauses sumti /* ET LUhU */
                 | NAhE_BO NAhE BO free_seq                  sumti LUhU free_seq
                 | NAhE_BO NAhE BO free_seq                  sumti LUhU
-                | NAhE_BO NAhE BO free_seq                  sumti /* ET */
+                | NAhE_BO NAhE BO free_seq                  sumti /* ET LUhU */
 
                 | NAhE_BO NAhE BO          relative_clauses sumti LUhU free_seq
                 | NAhE_BO NAhE BO          relative_clauses sumti LUhU
-                | NAhE_BO NAhE BO          relative_clauses sumti /* ET */
+                | NAhE_BO NAhE BO          relative_clauses sumti /* ET LUhU */
                 | NAhE_BO NAhE BO                           sumti LUhU free_seq
                 | NAhE_BO NAhE BO                           sumti LUhU
-                | NAhE_BO NAhE BO                           sumti /* ET */
+                | NAhE_BO NAhE BO                           sumti /* ET LUhU */
                 ;
 
 name_sumti_6 : LA      free_seq relative_clauses CMENE_seq  free_seq
@@ -1108,18 +1118,18 @@ relative_clause : term_relative_clause
 
 term_relative_clause : GOI free_seq term GEhU free_seq
                      | GOI free_seq term GEhU
-                     | GOI free_seq term /* ET */
+                     | GOI free_seq term /* ET GEhU */
                      | GOI          term GEhU free_seq
                      | GOI          term GEhU
-                     | GOI          term /* ET */
+                     | GOI          term /* ET GEhU */
                      ;
 
 full_relative_clause : NOI free_seq subsentence KUhO free_seq
                      | NOI free_seq subsentence KUhO
-                     | NOI free_seq subsentence /* ET */
+                     | NOI free_seq subsentence /* ET KUhO */
                      | NOI          subsentence KUhO free_seq
                      | NOI          subsentence KUhO
-                     | NOI          subsentence /* ET */
+                     | NOI          subsentence /* ET KUhO */
                      ;
 
 /*
@@ -1178,10 +1188,10 @@ joik_stag_ke : JOIK_KE joik stag
 
 ke_selbri_3 : KE free_seq selbri_3 KEhE free_seq
             | KE free_seq selbri_3 KEhE
-            | KE free_seq selbri_3 /* ET */
+            | KE free_seq selbri_3 /* ET KEhE */
             | KE          selbri_3 KEhE free_seq
             | KE          selbri_3 KEhE
-            | KE          selbri_3 /* ET */
+            | KE          selbri_3 /* ET KEhE */
             ;
 
 
@@ -1266,9 +1276,9 @@ tanru_unit_2      : BRIVLA free_seq
                   | ME free_seq sumti    MEhU          MOI free_seq
                   | ME free_seq sumti    MEhU          MOI
                   | ME free_seq sumti    MEhU
-                  | ME free_seq sumti                  MOI free_seq
-                  | ME free_seq sumti                  MOI
-                  | ME free_seq sumti         /* ET */
+                  | ME free_seq sumti    /* ET MEhU */ MOI free_seq
+                  | ME free_seq sumti    /* ET MEhU */ MOI
+                  | ME free_seq sumti    /* ET MEhU */
 
                   | ME          sumti    MEhU free_seq MOI free_seq
                   | ME          sumti    MEhU free_seq MOI
@@ -1276,9 +1286,9 @@ tanru_unit_2      : BRIVLA free_seq
                   | ME          sumti    MEhU          MOI free_seq
                   | ME          sumti    MEhU          MOI
                   | ME          sumti    MEhU
-                  | ME          sumti                  MOI free_seq
-                  | ME          sumti                  MOI
-                  | ME          sumti         /* ET */
+                  | ME          sumti    /* ET MEhU */ MOI free_seq
+                  | ME          sumti    /* ET MEhU */ MOI
+                  | ME          sumti    /* ET MEhU */
 
                   | number_moi_tu2
 
@@ -1301,10 +1311,10 @@ tanru_unit_2      : BRIVLA free_seq
 
 ke_selbri3_tu2 : KE free_seq selbri_3 KEhE free_seq
                | KE free_seq selbri_3 KEhE
-               | KE free_seq selbri_3 /* ET */
+               | KE free_seq selbri_3 /* ET KEhE */
                | KE          selbri_3 KEhE free_seq
                | KE          selbri_3 KEhE
-               | KE          selbri_3 /* ET */
+               | KE          selbri_3 /* ET KEhE */
                ;
 
 number_moi_tu2 : NUMBER_MOI number       MOI free_seq
@@ -1335,7 +1345,7 @@ nahe_tu2 : NAhE free_seq tanru_unit_2
 
 abstraction : nu_nai_seq subsentence KEI free_seq
             | nu_nai_seq subsentence KEI
-            | nu_nai_seq subsentence /* ET */
+            | nu_nai_seq subsentence /* ET KEI */
             ;
 
 nu_nai_seq : NU NAI free_seq
@@ -1367,16 +1377,16 @@ linkargs<160> = BE # term [links] /BEhO#/
 
 linkargs : BE free_seq term links BEhO free_seq
          | BE free_seq term links BEhO
-         | BE free_seq term links /* ET */
+         | BE free_seq term links /* ET BEhO */
          | BE          term links BEhO free_seq
          | BE          term links BEhO
-         | BE          term links /* ET */
+         | BE          term links /* ET BEhO */
          | BE free_seq term       BEhO free_seq
          | BE free_seq term       BEhO
-         | BE free_seq term       /* ET */
+         | BE free_seq term       /* ET BEhO */
          | BE          term       BEhO free_seq
          | BE          term       BEhO
-         | BE          term       /* ET */
+         | BE          term       /* ET BEhO */
          ;
 
 /*
@@ -1395,13 +1405,13 @@ quantifier<300> = number /BOI#/ | VEI # mex /VEhO#/
 
 quantifier : number BOI free_seq
            | number BOI
-           | number /* ET */
+           | number /* ET BOI */
            | VEI free_seq mex VEhO free_seq
            | VEI free_seq mex VEhO
-           | VEI free_seq mex /* ET */
+           | VEI free_seq mex /* ET VEhO */
            | VEI          mex VEhO free_seq
            | VEI          mex VEhO
-           | VEI          mex /* ET */
+           | VEI          mex /* ET VEhO */
            ;
 
 /*
@@ -1436,15 +1446,15 @@ mex-2<312> = operand | [PEhO #] operator mex-2 ... /KUhE#/
 mex_2 : operand
       | PEhO free_seq operator mex_2_seq KUhE free_seq
       | PEhO free_seq operator mex_2_seq KUhE
-      | PEhO free_seq operator mex_2_seq /* ET */
+      | PEhO free_seq operator mex_2_seq /* ET KUhE */
 
       | PEhO          operator mex_2_seq KUhE free_seq
       | PEhO          operator mex_2_seq KUhE
-      | PEhO          operator mex_2_seq /* ET */
+      | PEhO          operator mex_2_seq /* ET KUhE */
 
       |               operator mex_2_seq KUhE free_seq
       |               operator mex_2_seq KUhE
-      |               operator mex_2_seq /* ET */
+      |               operator mex_2_seq /* ET KUhE */
       ;
 
 mex_2_seq :           mex_2
@@ -1486,10 +1496,10 @@ operator : operator_1
 
 ke_operator : KE free_seq operator KEhE free_seq
             | KE free_seq operator KEhE
-            | KE free_seq operator /* ET */
+            | KE free_seq operator /* ET KEhE */
             | KE          operator KEhE free_seq
             | KE          operator KEhE
-            | KE          operator /* ET */
+            | KE          operator /* ET KEhE */
             ;
 
 
@@ -1511,10 +1521,10 @@ operator-2<372> = mex-operator | KE # operator /KEhE#/
 operator_2 : mex_operator
            | KE free_seq operator KEhE free_seq
            | KE free_seq operator KEhE
-           | KE free_seq operator /* ET */
+           | KE free_seq operator /* ET KEhE */
            | KE          operator KEhE free_seq
            | KE          operator KEhE
-           | KE          operator /* ET */
+           | KE          operator /* ET KEhE */
            ;
 
 
@@ -1529,16 +1539,16 @@ mex_operator : SE free_seq mex_operator
              | NAhE          mex_operator
              | MAhO free_seq mex TEhU free_seq
              | MAhO free_seq mex TEhU
-             | MAhO free_seq mex /* ET */
+             | MAhO free_seq mex /* ET TEhU */
              | MAhO          mex TEhU free_seq
              | MAhO          mex TEhU
-             | MAhO          mex /* ET */
+             | MAhO          mex /* ET TEhU */
              | NAhU free_seq selbri TEhU free_seq
              | NAhU free_seq selbri TEhU
-             | NAhU free_seq selbri /* ET */
+             | NAhU free_seq selbri /* ET TEhU */
              | NAhU          selbri TEhU free_seq
              | NAhU          selbri TEhU
-             | NAhU          selbri /* ET */
+             | NAhU          selbri /* ET TEhU */
              | VUhU free_seq
              | VUhU
              ;
@@ -1553,10 +1563,10 @@ operand : operand_1
 
 ke_operand : KE free_seq operand KEhE free_seq
            | KE free_seq operand KEhE
-           | KE free_seq operand /* ET */
+           | KE free_seq operand /* ET KEhE */
            | KE          operand KEhE free_seq
            | KE          operand KEhE
-           | KE          operand /* ET */
+           | KE          operand /* ET KEhE */
            ;
 
 
@@ -1593,44 +1603,44 @@ operand_3 : quantifier
 
           | lerfu_string BOI free_seq
           | lerfu_string BOI
-          | lerfu_string /* ET */
+          | lerfu_string /* ET BOI */
 
           | NIhE free_seq selbri TEhU free_seq
           | NIhE free_seq selbri TEhU
-          | NIhE free_seq selbri /* ET */
+          | NIhE free_seq selbri /* ET TEhU */
           | NIhE          selbri TEhU free_seq
           | NIhE          selbri TEhU
-          | NIhE          selbri /* ET */
+          | NIhE          selbri /* ET TEhU */
 
           | MOhE free_seq sumti  TEhU free_seq
           | MOhE free_seq sumti  TEhU
-          | MOhE free_seq sumti /* ET */
+          | MOhE free_seq sumti /* ET TEhU */
           | MOhE          sumti  TEhU free_seq
           | MOhE          sumti  TEhU
-          | MOhE          sumti /* ET */
+          | MOhE          sumti /* ET TEhU */
 
           | JOhI free_seq mex_2_seq TEhU free_seq
           | JOhI free_seq mex_2_seq TEhU
-          | JOhI free_seq mex_2_seq /* ET */
+          | JOhI free_seq mex_2_seq /* ET TEhU */
           | JOhI          mex_2_seq TEhU free_seq
           | JOhI          mex_2_seq TEhU
-          | JOhI          mex_2_seq /* ET */
+          | JOhI          mex_2_seq /* ET TEhU */
 
           | gek operand gik operand_3
 
           | LAhE free_seq operand LUhU free_seq
           | LAhE free_seq operand LUhU
-          | LAhE free_seq operand /* ET */
+          | LAhE free_seq operand /* ET LUhU */
           | LAhE          operand LUhU free_seq
           | LAhE          operand LUhU
-          | LAhE          operand /* ET */
+          | LAhE          operand /* ET LUhU */
 
           | NAhE_BO NAhE BO free_seq operand LUhU free_seq
           | NAhE_BO NAhE BO free_seq operand LUhU
-          | NAhE_BO NAhE BO free_seq operand /* ET */
+          | NAhE_BO NAhE BO free_seq operand /* ET LUhU */
           | NAhE_BO NAhE BO          operand LUhU free_seq
           | NAhE_BO NAhE BO          operand LUhU
-          | NAhE_BO NAhE BO          operand /* ET */
+          | NAhE_BO NAhE BO          operand /* ET LUhU */
           ;
 
 /*
@@ -1922,10 +1932,10 @@ ctag :                             complex_tense_modal
 
 complex_tense_modal : FIhO free_seq selbri FEhU free_seq
                     | FIhO free_seq selbri FEhU
-                    | FIhO free_seq selbri /* ET */
+                    | FIhO free_seq selbri /* ET FEhU */
                     | FIhO          selbri FEhU free_seq
                     | FIhO          selbri FEhU
-                    | FIhO          selbri /* ET */
+                    | FIhO          selbri /* ET FEhU */
                     | simple_tense_modal free_seq
                     ;
 
@@ -2186,71 +2196,71 @@ free : metalinguistic
 
 
 metalinguistic : SEI free_seq terms CU free_seq metalinguistic_main_selbri SEhU
-               | SEI free_seq terms CU free_seq metalinguistic_main_selbri /* ET */
+               | SEI free_seq terms CU free_seq metalinguistic_main_selbri /* ET SEhU */
                | SEI free_seq terms CU          metalinguistic_main_selbri SEhU
-               | SEI free_seq terms CU          metalinguistic_main_selbri /* ET */
+               | SEI free_seq terms CU          metalinguistic_main_selbri /* ET SEhU */
                | SEI free_seq terms             metalinguistic_main_selbri SEhU
-               | SEI free_seq terms             metalinguistic_main_selbri /* ET */
+               | SEI free_seq terms             metalinguistic_main_selbri /* ET SEhU */
                | SEI free_seq                   metalinguistic_main_selbri SEhU
-               | SEI free_seq                   metalinguistic_main_selbri /* ET */
+               | SEI free_seq                   metalinguistic_main_selbri /* ET SEhU */
 
                | SEI          terms CU free_seq metalinguistic_main_selbri SEhU
-               | SEI          terms CU free_seq metalinguistic_main_selbri /* ET */
+               | SEI          terms CU free_seq metalinguistic_main_selbri /* ET SEhU */
                | SEI          terms CU          metalinguistic_main_selbri SEhU
-               | SEI          terms CU          metalinguistic_main_selbri /* ET */
+               | SEI          terms CU          metalinguistic_main_selbri /* ET SEhU */
                | SEI          terms             metalinguistic_main_selbri SEhU
-               | SEI          terms             metalinguistic_main_selbri /* ET */
+               | SEI          terms             metalinguistic_main_selbri /* ET SEhU */
                | SEI                            metalinguistic_main_selbri SEhU
-               | SEI                            metalinguistic_main_selbri /* ET */
+               | SEI                            metalinguistic_main_selbri /* ET SEhU */
                ;
 
 metalinguistic_main_selbri : selbri
                            ;
 
 reciprocity : SOI free_seq sumti sumti SEhU
-            | SOI free_seq sumti sumti /* ET */
+            | SOI free_seq sumti sumti /* ET SEhU */
             | SOI free_seq sumti       SEhU
-            | SOI free_seq sumti /* ET */
+            | SOI free_seq sumti /* ET SEhU */
             | SOI          sumti sumti SEhU
-            | SOI          sumti sumti /* ET */
+            | SOI          sumti sumti /* ET SEhU */
             | SOI          sumti       SEhU
-            | SOI          sumti /* ET */
+            | SOI          sumti /* ET SEhU */
             ;
 
 
 free_vocative : vocative relative_clauses selbri relative_clauses DOhU
-              | vocative relative_clauses selbri relative_clauses /* ET */
+              | vocative relative_clauses selbri relative_clauses /* ET DOhU */
               | vocative relative_clauses selbri                  DOhU
-              | vocative relative_clauses selbri /* ET */
+              | vocative relative_clauses selbri /* ET DOhU */
               | vocative                  selbri relative_clauses DOhU
-              | vocative                  selbri relative_clauses /* ET */
+              | vocative                  selbri relative_clauses /* ET DOhU */
               | vocative                  selbri                  DOhU
-              | vocative                  selbri /* ET */
+              | vocative                  selbri /* ET DOhU */
 
               | vocative relative_clauses CMENE_seq free_seq relative_clauses DOhU
-              | vocative relative_clauses CMENE_seq free_seq relative_clauses /* ET */
+              | vocative relative_clauses CMENE_seq free_seq relative_clauses /* ET DOhU */
               | vocative relative_clauses CMENE_seq free_seq                  DOhU
-              | vocative relative_clauses CMENE_seq free_seq /* ET */
+              | vocative relative_clauses CMENE_seq free_seq /* ET DOhU */
 
               | vocative                  CMENE_seq free_seq relative_clauses DOhU
-              | vocative                  CMENE_seq free_seq relative_clauses /* ET */
+              | vocative                  CMENE_seq free_seq relative_clauses /* ET DOhU */
               | vocative                  CMENE_seq free_seq                  DOhU
-              | vocative                  CMENE_seq free_seq /* ET */
+              | vocative                  CMENE_seq free_seq /* ET DOhU */
 
               | vocative relative_clauses CMENE_seq          relative_clauses DOhU
-              | vocative relative_clauses CMENE_seq          relative_clauses /* ET */
+              | vocative relative_clauses CMENE_seq          relative_clauses /* ET DOhU */
               | vocative relative_clauses CMENE_seq                           DOhU
-              | vocative relative_clauses CMENE_seq          /* ET */
+              | vocative relative_clauses CMENE_seq          /* ET DOhU */
 
               | vocative                  CMENE_seq          relative_clauses DOhU
-              | vocative                  CMENE_seq          relative_clauses /* ET */
+              | vocative                  CMENE_seq          relative_clauses /* ET DOhU */
               | vocative                  CMENE_seq                           DOhU
-              | vocative                  CMENE_seq          /* ET */
+              | vocative                  CMENE_seq          /* ET DOhU */
 
               | vocative sumti DOhU
-              | vocative sumti /* ET */
+              | vocative sumti /* ET DOhU */
               | vocative       DOhU
-              | vocative /* ET */
+              | vocative /* ET DOhU */
               ;
 
 utterance_ordinal : NUMBER_MAI number       MAI
@@ -2258,26 +2268,26 @@ utterance_ordinal : NUMBER_MAI number       MAI
                   ;
 
 parenthetical : TO text TOI
-              | TO text /* ET */
+              | TO text /* ET TOI */
               ;
 
 subscript : XI free_seq number       BOI
-          | XI free_seq number /* ET */
+          | XI free_seq number /* ET BOI */
           | XI          number       BOI
-          | XI          number /* ET */
+          | XI          number /* ET BOI */
           | XI free_seq lerfu_string BOI
-          | XI free_seq lerfu_string /* ET */
+          | XI free_seq lerfu_string /* ET BOI */
           | XI          lerfu_string BOI
-          | XI          lerfu_string /* ET */
+          | XI          lerfu_string /* ET BOI */
 
           | XI free_seq VEI free_seq mex VEhO
-          | XI free_seq VEI free_seq mex /* ET */
+          | XI free_seq VEI free_seq mex /* ET VEhO */
           | XI free_seq VEI          mex VEhO
-          | XI free_seq VEI          mex /* ET */
+          | XI free_seq VEI          mex /* ET VEhO */
           | XI          VEI free_seq mex VEhO
-          | XI          VEI free_seq mex /* ET */
+          | XI          VEI free_seq mex /* ET VEhO */
           | XI          VEI          mex VEhO
-          | XI          VEI          mex /* ET */
+          | XI          VEI          mex /* ET VEhO */
           ;
 
 

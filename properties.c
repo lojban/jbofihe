@@ -253,3 +253,13 @@ prop_contains_keha(TreeNode *x, int create)
   return (XContainsKeha *) fetch_conversion(x, create, EX_CONTAINSKEHA);
 }
 
+/*++++++++++++++++++++++++++++++
+  Get the elidable extension for a treenode
+  ++++++++++++++++++++++++++++++*/
+
+XElidable *
+prop_elidable(TreeNode *x, int create)
+{
+  return (XElidable *) fetch_conversion(x, create, EX_ELIDABLE);
+}
+

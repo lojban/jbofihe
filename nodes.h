@@ -120,7 +120,8 @@ typedef enum extension_type {
   EX_ANTECEDENT,
   EX_REQUIREBRAC,
   EX_RELCLAUSELINK,
-  EX_CONTAINSKEHA
+  EX_CONTAINSKEHA,
+  EX_ELIDABLE
 } ExtensionType;
 
 typedef struct x_conversion {
@@ -293,6 +294,10 @@ typedef struct {
   int pad;
 } XContainsKeha;
 
+typedef struct {
+  int pad;
+} XElidable;
+
 typedef union {
   XConversion conversion;
   XBaiConversion bai_conversion;
@@ -311,6 +316,7 @@ typedef union {
   XRequireBrac require_brac;
   XRelClauseLink rel_clause_link;
   XContainsKeha contains_keha;
+  XElidable elidable;
 } ExtensionData;
 
 typedef struct extension {

@@ -8,9 +8,13 @@
 
 #include <assert.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "functions.h"
 #include "nonterm.h"
 #include "rpc_tab.h"
+
+/* command line option */
+extern int insert_elidables;
 
 /*++++++++++++++++++++++++++++++
   Go through children in a node and chain them onto that parent.
@@ -77,6 +81,27 @@ new_node(void)
   result->bahe = NULL;
   result->ui_next = result->ui_prev = (TreeNode *) &result->ui_next;
   result->eols = 0;
+  return result;
+}
+
+/*++++++++++++++++++++++++++++++
+  Create new non-terminal nodes
+  ++++++++++++++++++++++++++++++*/
+
+TreeNode *
+new_elidable(int code, int selmao)
+{
+  TreeNode *result;
+  if (insert_elidables) {
+    result = new_node();
+    result->type = N_CMAVO;
+    result->start_line = result->start_column = 0;
+    result->data.cmavo.code = code;
+    result->data.cmavo.selmao = selmao;
+    prop_elidable(result, YES);
+  } else {
+    result = NULL;
+  }
   return result;
 }
 
@@ -642,3 +667,20 @@ is_simple_nonterm(TreeNode *x)
   }
   return ok;
 }
+
+
+/*++++++++++++++++++++++++++++++++++++++
+  Turn a string into uppercase.  Can only deal with one string at a time.
+  ++++++++++++++++++++++++++++++++++++++*/
+
+char *
+make_uppercase(char *s)
+{
+  static char buffer[1024];
+  char *p;
+  strcpy(buffer, s);
+  p = buffer;
+  while (*p) *p = toupper(*p), p++;
+  return buffer;
+}
+  

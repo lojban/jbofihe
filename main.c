@@ -31,6 +31,7 @@ static int had_syntax_error;
 
 /* Optional parameters to be read by backends */
 int opt_output_width;
+int insert_elidables;
 
 /* Flag to show dictionary defects */
 int show_dictionary_defects;
@@ -79,6 +80,9 @@ show_usage(void)
                   "-b           Produce 'blocked' output (LaTeX & plain text only)\n"
                   "-w <width>   Set output width (plain text)\n"
                   "\n"
+                  "These options relate to handling elidable separators/terminators\n"
+                  "-ie          Display elided separators and terminators\n"
+                  "\n"
                   "These options relate to help & debug\n"
                   "-v           Show version number and exit\n"
                   "-h           Show this help information\n"
@@ -120,6 +124,7 @@ main (int argc, char **argv)
   block = 0;
   show_memory = 0;
   opt_output_width = 80;
+  insert_elidables = 0;
 
   show_dictionary_defects = 0;
 
@@ -148,6 +153,8 @@ main (int argc, char **argv)
       block = 1;
     } else if (!strcmp(*argv, "-m")) {
       show_memory = 1;
+    } else if (!strcmp(*argv, "-ie")) {
+      insert_elidables = 1;
     } else if (!strcmp(*argv, "-dd")) {
       show_dictionary_defects = 1;
     } else if (!strncmp(*argv, "-w", 2)) {
@@ -206,7 +213,7 @@ main (int argc, char **argv)
     printf("------------------------------\n"
            "Token list after preprocessing\n\n");
     show_tokens();
-    printf("\n------------------------------\n");
+    printf("------------------------------\n\n");
   }
 
 #if 1

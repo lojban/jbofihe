@@ -13,5 +13,5 @@ while (<>) {
 
 while (<>) {
     s,/\* SG \*/,START_GEK,;
-    print unless (m~/\* ET \*/~);
+    print unless (m~/\* ET ~);
 }

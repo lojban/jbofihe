@@ -3,7 +3,7 @@
 jbofihe \- Lojban parser / grammar checker / word glosser
 .SH SYNOPSIS
 .B jbofihe
-[-v] [ -h | --help | -? ] [ -k ] [ -g ] [ -t ] [-tf ] [ -l ] [ -b ] [ -x ] [ -H ] [ -m ] [ -w width ] [filename]
+[-v] [ -h | --help | -? ] [ -k ] [ -g ] [ -t ] [-tf ] [ -l ] [ -b ] [ -x ] [ -H ] [ -m ] [ -w width ] [-ie] [filename]
 .SH DESCRIPTION
 .I jbofihe
 is a program that reads a piece of Lojban text and checks it for
@@ -60,6 +60,9 @@ the same line.  Only applicable to -l and -x (not to -h).
 .TP
 .B -m
 Show the amount of memory used by the processing.
+.TP
+.B -ie
+Display elided separators and terminators in the output.
 .TP
 .B filename
 The name of the file containing text to be parsed.  If omitted, the text is

@@ -27,6 +27,7 @@ static int depth = 0;
 
 <INITIAL>\/\*	{BEGIN COMMENT; depth = 1;}
 <INITIAL>\/\*\ error\ \*\/ { ECHO; }
+<INITIAL>\/\*\ ET\ [A-Zh]+\ \*\/ { ECHO; }
 <COMMENT>\/\*   {depth++;}
 <COMMENT>\*\/   {depth--; if (depth==0) {BEGIN INITIAL;}}
 <COMMENT>.      { /* discard */ }

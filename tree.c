@@ -104,7 +104,11 @@ print_tree(TreeNode *x, int indent)
       break; /* No need to display */
 
     case N_CMAVO:
-      printf("CMAVO : %s\n", cmavo_table[x->data.cmavo.code].cmavo);
+      if (prop_elidable(x, NO)) {
+        printf("CMAVO : %s\n", make_uppercase(cmavo_table[x->data.cmavo.code].cmavo));
+      } else {
+        printf("CMAVO : %s\n", cmavo_table[x->data.cmavo.code].cmavo);
+      }
       break;
 
     case N_ZOI:
@@ -285,7 +289,11 @@ print_bracketed(TreeNode *x, int depth, State *state, Conversion conv)
 
       case N_CMAVO:
         SPACE_B4_TEXT;
-        printf("%s", cmavo_table[x->data.cmavo.code].cmavo);
+        if (prop_elidable(x, NO)) {
+          printf("%s", make_uppercase(cmavo_table[x->data.cmavo.code].cmavo));
+        } else {
+          printf("%s", cmavo_table[x->data.cmavo.code].cmavo);
+        }
         if (do_glossing) {
           if (x->data.cmavo.selmao == BAI) {
             english = NULL;
