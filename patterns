@@ -79,6 +79,16 @@
 *1na'e+3:@3
 *1na'e+4:@4
 *1na'e+5:@5
+*1nu'o+1:R;potentially %1v
+*1nu'o+2:R;potentially %2v
+*1nu'o+3:R;potentially %3v
+*1nu'o+4:R;potentially %4v
+*1nu'o+5:R;potentially %5v
+*1ca'a+1:R;actually %1v
+*1ca'a+2:R;actually %2v
+*1ca'a+3:R;actually %3v
+*1ca'a+4:R;actually %4v
+*1ca'a+5:R;actually %5v
 *2+stuzi1:D;place* for %1v
 *2+stuzi2:@2
 *2+stuzi3:@3
