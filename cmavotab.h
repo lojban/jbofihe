@@ -73,6 +73,7 @@ typedef enum {
   CM_BEhO = 137,
   CM_BEhU = 138,
   CM_BI = 140,
+  CM_BIhE = 149,
   CM_BIhI = 150,
   CM_BIhO = 151,
   CM_BIhU = 152,
@@ -96,8 +97,10 @@ typedef enum {
   CM_CE = 224,
   CM_CEI = 227,
   CM_CEhA = 232,
+  CM_CEhE = 233,
   CM_CEhI = 234,
   CM_CEhO = 235,
+  CM_CEhU = 236,
   CM_CI = 238,
   CM_CIhE = 247,
   CM_CIhI = 248,
@@ -251,6 +254,7 @@ typedef enum {
   CM_JOhU = 656,
   CM_JU = 658,
   CM_JUhA = 666,
+  CM_JUhE = 667,
   CM_JUhI = 668,
   CM_JUhO = 669,
   CM_JUhU = 670,
@@ -405,6 +409,7 @@ typedef enum {
   CM_PE = 1106,
   CM_PEI = 1109,
   CM_PEhA = 1114,
+  CM_PEhE = 1115,
   CM_PEhI = 1116,
   CM_PEhO = 1117,
   CM_PEhU = 1118,
@@ -442,6 +447,7 @@ typedef enum {
   CM_REhE = 1213,
   CM_REhI = 1214,
   CM_REhO = 1215,
+  CM_REhU = 1216,
   CM_RI = 1218,
   CM_RIhA = 1226,
   CM_RIhE = 1227,
@@ -754,7 +760,15 @@ typedef enum {
   SSM_ZIhE = 144,
   SSM_ZO = 145,
   SSM_ZOI = 146,
-  SSM_ZOhU = 147
+  SSM_ZOhU = 147,
+
+  /* The following ones were manually added, to fix up the missing entries from
+     the cmavo file. */
+  SSM_BIhE = 148,
+  SSM_CEhE = 149,
+  SSM_KOhA8 = 150,
+  SSM_PEhE = 151
+
 } __attribute__ ((packed)) SelmaoCodes;
 
 typedef struct {

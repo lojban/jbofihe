@@ -161,7 +161,7 @@ CmavoCell cmavo_table[] = {
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  146 */
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  147 */
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  148 */
-  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  149 */
+  { "bi\'e" , BIhE   , CM_BIhE    , SSM_BIhE    , "hi priority indicator"       }, /*  149 */
   { "bi\'i" , BIhI   , CM_BIhI    , SSM_BIhI    , "unordered interval"          }, /*  150 */
   { "bi\'o" , BIhI   , CM_BIhO    , SSM_BIhI    , "ordered interval"            }, /*  151 */
   { "bi\'u" , UI     , CM_BIhU    , SSM_UI3a    , "new information"             }, /*  152 */
@@ -245,10 +245,10 @@ CmavoCell cmavo_table[] = {
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  230 */
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  231 */
   { "ce\'a" , LAU    , CM_CEhA    , SSM_LAU     , "font shift"                  }, /*  232 */
-  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  233 */
+  { "ce\'e" , CEhE   , CM_CEhE    , SSM_CEhE    , "afterthought termset"        }, /*  233 */
   { "ce\'i" , PA     , CM_CEhI    , SSM_PA3     , "percent"                     }, /*  234 */
   { "ce\'o" , JOI    , CM_CEhO    , SSM_JOI     , "in a sequence with"          }, /*  235 */
-  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  236 */
+  { "ce\'u" , KOhA   , CM_CEhU    , SSM_KOhA8   , "lambda"                      }, /*  236 */
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  237 */
   { "ci"    , PA     , CM_CI      , SSM_PA1     , "3"                           }, /*  238 */
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  239 */
@@ -679,7 +679,7 @@ CmavoCell cmavo_table[] = {
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  664 */
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  665 */
   { "ju\'a" , UI     , CM_JUhA    , SSM_UI2     , "I state"                     }, /*  666 */
-  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /*  667 */
+  { "ju\'e" , JOI    , CM_JUhE    , SSM_JOI     , "vague connective"            }, /*  667 */
   { "ju\'i" , COI    , CM_JUhI    , SSM_COI     , "attention"                   }, /*  668 */
   { "ju\'o" , UI     , CM_JUhO    , SSM_UI5     , "certainty"                   }, /*  669 */
   { "ju\'u" , VUhU   , CM_JUhU    , SSM_VUhU2   , "number base"                 }, /*  670 */
@@ -1127,7 +1127,7 @@ CmavoCell cmavo_table[] = {
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1112 */
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1113 */
   { "pe\'a" , PEhA   , CM_PEhA    , SSM_PEhA    , "start figurative"            }, /* 1114 */
-  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1115 */
+  { "pe\'e" , PEhE   , CM_PEhE    , SSM_PEhE    , "termset conn mark"           }, /* 1115 */
   { "pe\'i" , UI     , CM_PEhI    , SSM_UI2     , "I opine"                     }, /* 1116 */
   { "pe\'o" , PEhO   , CM_PEhO    , SSM_PEhO    , "fore mex operator"           }, /* 1117 */
   { "pe\'u" , COI    , CM_PEhU    , SSM_COI     , "please"                      }, /* 1118 */
@@ -1228,7 +1228,7 @@ CmavoCell cmavo_table[] = {
   { "re\'e" , UI     , CM_REhE    , SSM_UI4     , "spiritual"                   }, /* 1213 */
   { "re\'i" , COI    , CM_REhI    , SSM_COI     , "ready to receive"            }, /* 1214 */
   { "re\'o" , FAhA   , CM_REhO    , SSM_FAhA3   , "adjacent to"                 }, /* 1215 */
-  { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1216 */
+  { "re\'u" , ROI    , CM_REhU    , SSM_ROI     , "ordinal tense"               }, /* 1216 */
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1217 */
   { "ri"    , KOhA   , CM_RI      , SSM_KOhA5   , "last sumti"                  }, /* 1218 */
   { ""      , UNKNOWN, CM_UNKNOWN , SSM_UNKNOWN , ""                            }, /* 1219 */
@@ -1913,5 +1913,11 @@ char *selmao_names[] = {
   "ZIhE",
   "ZO",
   "ZOI",
-  "ZOhU"
+  "ZOhU",
+  
+  /* Codes added manually to bring old cmavo file up to date */  
+  "BIhE",
+  "CEhE",
+  "KOhA8",
+  "PEhE"
 };
