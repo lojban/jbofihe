@@ -10,19 +10,19 @@
 # COPYRIGHT
 
 $prefix="/usr/local";
-$install="ginstall";
 $debug=0;
 $profile=0;
 $mmap=1;
 $embed=0;
 
 while ($_ = shift @ARGV) {
-    if (/^--prefix=(.*)$/) {
+    if (/^--help/ || /^-h/) {
+        &print_help();
+        exit 0;
+    } elsif (/^--prefix=(.*)$/) {
         $prefix = $1;
     } elsif (/^-p/) {
         $prefix = shift @ARGV;
-    } elsif (/^--installprog=(.*)$/) {
-        $install = $1;
     } elsif (/^--profile$/) {
 		$profile = 1;
     } elsif (/^--debug$/) {
@@ -56,7 +56,6 @@ open(IN, "<Makefile.in");
 open(OUT, ">Makefile");
 while (<IN>) {
     s/\@\@PREFIX\@\@/$prefix/eg;
-    s/\@\@INSTALLPROG\@\@/$install/eg;
 	s/\@\@OPTDEBUG\@\@/$optdebug/eg;
     s/\@\@DEFINES\@\@/$defines/eg;
     s/\@\@DICTDATA_C\@\@/$dictdata_c/eg;
@@ -64,4 +63,19 @@ while (<IN>) {
 }
 close(IN);
 close(OUT);
+
+
+sub print_help {
+
+    print <<EOF;
+Configuration script for jbofihe & friends
+
+--prefix=<prefix>    Set installation directory parent (default=/usr/local)
+-p <prefix>          Ditto
+--profile            Build for profiling
+--debug              Build a debuggable version
+--nommap             Don't use mmap for reading the dictionary file
+--embed              Embed minimal dictionary directly into jbofihe program
+EOF
+}
 
