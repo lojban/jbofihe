@@ -481,7 +481,7 @@ print_bracketed_text(TreeNode *top, int gloss)
 static void
 expand_bahe_ui_internal(TreeNode *x, int pos)
 {
-  TreeNode *nn, *y, *c;
+  TreeNode *nn, *y, *nz, *z, *c;
   int n, i, j, n_ui, n_b, ui_start;
 
   y = x->data.nonterm.children[pos];
@@ -496,10 +496,10 @@ expand_bahe_ui_internal(TreeNode *x, int pos)
       nn = new_node();
       nn->type = N_NONTERM;
 
-      if (y->bahe) {
-        n_b = 1;
-      } else {
-        n_b = 0;
+      for (z = y->bahe, n_b = 0;
+           z;
+           z = z->bahe) {
+        n_b++;
       }
 
       n_ui = 0;
@@ -514,9 +514,12 @@ expand_bahe_ui_internal(TreeNode *x, int pos)
       
       j = 0;
 
-      if (y->bahe) {
-        nn->data.nonterm.children[j++] = y->bahe;
-        y->bahe = NULL;
+      for (z = y->bahe;
+           z;
+           z = nz) {
+        nn->data.nonterm.children[n_b - ++j] = z;
+        nz = z->bahe;
+        z->bahe = NULL;
       }
 
       nn->data.nonterm.children[j++] = y;
