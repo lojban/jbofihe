@@ -966,4 +966,5 @@ int main (int argc, char **argv) {
     exit(0);
   }
   makelujvo(argv+1);
+  return 0;
 }
