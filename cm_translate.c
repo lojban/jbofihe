@@ -9,8 +9,9 @@
 
 #include "cm.h"
 
-/* Undefine this if you can't use mmap to read the data in */
-#define HAVE_MMAP 1
+#ifndef DEFAULT_DICTIONARY
+#define DEFAULT_DICTIONARY "./smujmaji.dat"
+#endif
 
 #ifdef HAVE_MMAP
 #include <unistd.h>
