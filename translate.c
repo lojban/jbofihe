@@ -918,6 +918,15 @@ adv_translate(char *w, int place, TransContext ctx)
   enum {CL_DISCRETE, CL_SUBSTANCE, CL_ACTOR, CL_PROPERTY, CL_REVERSE_PROPERTY, CL_IDIOMATIC} wordclass;
   int found_full_trans=0;
 
+  /* Special case.  A request for place 0 is mapped to a request for
+     the x1 verb form.  This is to represent an 'infinitive' form
+     required for translating things like jai bau cusku. */
+
+  if (place == 0) {
+    place = 1;
+    ctx = TCX_VERB;
+  }
+
   /* Try looking up the explicit gloss asked for */
   sprintf(buffer, "%s%1d%c", w, place, ctx_suffix[ctx]);
   trans = translate(buffer);
