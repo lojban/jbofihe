@@ -8,6 +8,7 @@
 /* COPYRIGHT */
 
 #include "cm.h"
+#include "dictaccs.h"
 
 #ifndef DEFAULT_DICTIONARY
 #define DEFAULT_DICTIONARY "smujmaji.dat"
@@ -15,180 +16,6 @@
 
 #include <unistd.h>
 #include <sys/stat.h>
-
-#ifdef HAVE_MMAP
-#include <sys/types.h>
-#include <sys/mman.h>
-#endif
-
-static int inited = 0;
-
-typedef struct {
-  char *key;
-  char *val;
-} Keyval;
-
-static Keyval *dict = NULL;
-static int n_entries = 0;
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  Read a 'long' integer from file avoiding endianness problems.
-
-  static unsigned long get_long
-
-  FILE *in
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static unsigned long
-get_long(FILE *in)
-{
-  unsigned long a, b, c, d;
-  /* Avoid endian-ness problem if we were to use fwrite */
-  a = getc(in);
-  b = getc(in);
-  c = getc(in);
-  d = getc(in);
-  return (a << 24) | (b << 16) | (c << 8) | (d << 0);
-}
-
-/*++++++++++++++++++++++++++++++++++++++
-  Read the database to build the transaction list.
-
-  FILE *in
-  ++++++++++++++++++++++++++++++++++++++*/
-
-
-static void
-read_database(FILE *in)
-{
-  typedef struct {
-    int klen;
-    int vlen;
-  } Entry;
-
-  Entry *entries;
-  int i, len;
-
-  struct stat sb;
-  off_t offset;
-  int result;
-  char *dict_base = NULL;
-
-  n_entries = get_long(in);
-  entries = new_array(Entry, n_entries);
-  dict = new_array(Keyval, n_entries);
-
-  for (i=0; i<n_entries; i++) {
-    len = getc(in);
-    entries[i].klen = len;
-    len = getc(in);
-    entries[i].vlen = len;
-  }
-
-
-  if (fstat(fileno(in), &sb) < 0) {
-    fprintf(stderr, "Could not stat the dictionary file\n");
-    exit(1);
-  }
-
-  offset = ftell(in);
-
-#ifdef HAVE_MMAP
-
-  {
-    char *mmap_base = NULL;
-    mmap_base = mmap(NULL, sb.st_size, PROT_READ, MAP_SHARED, fileno(in), 0);
-    result = (int) mmap_base;
-
-    if (result < 0) {
-      perror("Could not mmap the dictionary data\n");
-      exit(1);
-    }
-
-    dict_base = mmap_base + offset;
-  }
-
-#else
-
-  {
-    size_t dict_size = sb.st_size - offset;
-
-    dict_base = new_array(char, dict_size);
-    result = fread(dict_base, sizeof(char), dict_size, in);
-    if (result != dict_size) {
-      perror("Could not read dictionary contents\n");
-      exit(1);
-    }
-  }
-
-#endif
-
-  /* Loop through to build pointer arrays */
-  for (i=0; i<n_entries; i++) {
-    if (i == 0) {
-      dict[i].key = dict_base;
-    } else {
-      dict[i].key = dict[i-1].val + entries[i-1].vlen + 1; /* Allow for null termination */
-    }
-    dict[i].val = dict[i].key + entries[i].klen + 1; /* Allow for null termination */
-  }
-
-  free(entries);
-}
-
-
-
-/* ================================================== */
-
-static void
-init(void) 
-{
-  char *dname;
-  FILE *in;
-
-  if (!inited) {
-    inited = 1;
-    dname = getenv("JBOFIHE_DICTIONARY");
-    if (!dname) {
-      dname = DEFAULT_DICTIONARY;
-    }
-    in = fopen(dname, "rb");
-    if (!in) {
-      fprintf(stderr, "Cannot open dictionary\n");
-    } else {
-      read_database(in);
-      fclose(in);
-    }
-  }
-}
-
-/* ================================================== */
-
-static int
-comparison(const void *a, const void *b)
-{
-  const Keyval *aa, *bb;
-  aa = (Keyval *) a;
-  bb = (Keyval *) b;
-  return strcmp(aa->key, bb->key);
-}
-
-/* ================================================== */
-
-static char *
-lookup(char *key)
-{
-  Keyval k, *res;
-  k.key = key;
-  res = bsearch(&k, dict, n_entries, sizeof(Keyval), comparison);
-  if (res) {
-    return res->val;
-  } else {
-    return NULL;
-  }
-}
-
 
 /* ================================================== */
 
@@ -198,9 +25,7 @@ translate(char *word)
   static char buf[1024];
   char *res;
 
-  init();
-  
-  res = lookup(word);
+  res = dict_lookup(word);
   if (res) {
     strcpy(buf, res);
     return buf;
@@ -445,8 +270,6 @@ translate_unknown(char *w)
   int hyph;
   char *p, *q;
   char *ltrans;
-
-  init();
 
   /* See whether the word is a fuivla.  If so, lookup the leading
      portion as a lujvo/rafsi, otherwise lookup the whole thing as a

@@ -26,7 +26,8 @@ OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc_tab.o functions.o \
 
 SRCS2 = $(OBJS2:%.o=%.c)
 
-CM_OBJS = cm_gather.o cm_output.o cm_main.o cm_translate.o cm_scan.o
+CM_OBJS = cm_gather.o cm_output.o cm_main.o cm_translate.o cm_scan.o \
+          dictaccs.o memory.o
 
 CM_SRCS = $(CM_OBJS:%.o=%.c)
 
