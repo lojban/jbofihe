@@ -469,7 +469,7 @@ handle_mapping(char *src, char *dest)
      
      */
 
-  if ((len >= 7) && defines_place) {
+  if (isalpha(src[0]) && (len >= 7) && defines_place) {
     strncpy(buffer, src, len-1);
     buffer[len-1] = 0;
     canon = canon_lujvo(buffer);
