@@ -605,20 +605,19 @@ strip_attitudinal(TreeNode *x)
   if (x->type == N_CMAVO) {
     return x;
   } else if (x->type == N_NONTERM) {
-    TreeNode *c0, *c1;
+    TreeNode **child, **child0;
+    int N;
     struct nonterm *nt;
 
     nt = &(x->data.nonterm);
     assert(nt->type == AUGMENTED);
-    c0 = nt->children[0];
-    /* Can't safely assert N_CMAVO because this routine will get called
-       in cases like BRIVLA UI at the start of a tanru_unit_2 */
-    if ((c0->type == N_CMAVO) && (c0->data.cmavo.selmao != BAhE)) {
-      return c0;
-    } else {
-      c1 = nt->children[1];
-      return c1;
+    N = nt->nchildren;
+    child = child0 = nt->children;
+    while (((*child)->type == N_CMAVO) && ((*child)->data.cmavo.selmao == BAhE)) {
+      child++;
+      assert ((child - child0) < N);
     }
+    return *child;
   }
 }
 
