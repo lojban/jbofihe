@@ -961,33 +961,8 @@ sumti-6<97> = (LAhE # | NAhE BO #) [relative-clauses] sumti /LUhU#/ |
         ZOI any-word anything any-word #
         */
 
-sumti_6 : LAhE    free_seq relative_clauses sumti LUhU free_seq
-        | LAhE    free_seq relative_clauses sumti LUhU
-        | LAhE    free_seq relative_clauses sumti /* ET */
-        | LAhE    free_seq                  sumti LUhU free_seq
-        | LAhE    free_seq                  sumti LUhU
-        | LAhE    free_seq                  sumti /* ET */
-
-        | LAhE             relative_clauses sumti LUhU free_seq
-        | LAhE             relative_clauses sumti LUhU
-        | LAhE             relative_clauses sumti /* ET */
-        | LAhE                              sumti LUhU free_seq
-        | LAhE                              sumti LUhU
-        | LAhE                              sumti /* ET */
-
-        | NAhE_BO NAhE BO free_seq relative_clauses sumti LUhU free_seq
-        | NAhE_BO NAhE BO free_seq relative_clauses sumti LUhU
-        | NAhE_BO NAhE BO free_seq relative_clauses sumti /* ET */
-        | NAhE_BO NAhE BO free_seq                  sumti LUhU free_seq
-        | NAhE_BO NAhE BO free_seq                  sumti LUhU
-        | NAhE_BO NAhE BO free_seq                  sumti /* ET */
-
-        | NAhE_BO NAhE BO          relative_clauses sumti LUhU free_seq
-        | NAhE_BO NAhE BO          relative_clauses sumti LUhU
-        | NAhE_BO NAhE BO          relative_clauses sumti /* ET */
-        | NAhE_BO NAhE BO                           sumti LUhU free_seq
-        | NAhE_BO NAhE BO                           sumti LUhU
-        | NAhE_BO NAhE BO                           sumti /* ET */
+sumti_6 : lahe_sumti_6
+        | nahe_bo_sumti_6
 
         | KOhA    free_seq
         | KOhA
@@ -996,15 +971,6 @@ sumti_6 : LAhE    free_seq relative_clauses sumti LUhU free_seq
         | lerfu_string BOI
         | lerfu_string /* ET */
 
-        | LA      free_seq relative_clauses CMENE_seq  free_seq
-        | LA      free_seq relative_clauses CMENE_seq
-        | LA      free_seq                  CMENE_seq  free_seq
-        | LA      free_seq                  CMENE_seq
-
-        | LA               relative_clauses CMENE_seq  free_seq
-        | LA               relative_clauses CMENE_seq
-        | LA                                CMENE_seq  free_seq
-        | LA                                CMENE_seq
 
         | LE      free_seq sumti_tail KU free_seq
         | LE      free_seq sumti_tail KU
@@ -1014,13 +980,7 @@ sumti_6 : LAhE    free_seq relative_clauses sumti LUhU free_seq
         | LE               sumti_tail KU
         | LE               sumti_tail /* ET */
 
-        | LA      free_seq sumti_tail KU free_seq
-        | LA      free_seq sumti_tail KU
-        | LA      free_seq sumti_tail /* ET */
-
-        | LA               sumti_tail KU free_seq
-        | LA               sumti_tail KU
-        | LA               sumti_tail /* ET */
+        | name_sumti_6
 
         | LI      free_seq mex LOhO free_seq
         | LI      free_seq mex LOhO
@@ -1040,6 +1000,47 @@ sumti_6 : LAhE    free_seq relative_clauses sumti LUhU free_seq
         | ZOI  free_seq /* Needs lexer tie-in */
         | ZOI           /* Needs lexer tie-in */
         ;
+
+lahe_sumti_6 : LAhE    free_seq relative_clauses sumti LUhU free_seq
+             | LAhE    free_seq relative_clauses sumti LUhU
+             | LAhE    free_seq relative_clauses sumti /* ET */
+             | LAhE    free_seq                  sumti LUhU free_seq
+             | LAhE    free_seq                  sumti LUhU
+             | LAhE    free_seq                  sumti /* ET */
+
+             | LAhE             relative_clauses sumti LUhU free_seq
+             | LAhE             relative_clauses sumti LUhU
+             | LAhE             relative_clauses sumti /* ET */
+             | LAhE                              sumti LUhU free_seq
+             | LAhE                              sumti LUhU
+             | LAhE                              sumti /* ET */
+             ;
+
+nahe_bo_sumti_6 : NAhE_BO NAhE BO free_seq relative_clauses sumti LUhU free_seq
+                | NAhE_BO NAhE BO free_seq relative_clauses sumti LUhU
+                | NAhE_BO NAhE BO free_seq relative_clauses sumti /* ET */
+                | NAhE_BO NAhE BO free_seq                  sumti LUhU free_seq
+                | NAhE_BO NAhE BO free_seq                  sumti LUhU
+                | NAhE_BO NAhE BO free_seq                  sumti /* ET */
+
+                | NAhE_BO NAhE BO          relative_clauses sumti LUhU free_seq
+                | NAhE_BO NAhE BO          relative_clauses sumti LUhU
+                | NAhE_BO NAhE BO          relative_clauses sumti /* ET */
+                | NAhE_BO NAhE BO                           sumti LUhU free_seq
+                | NAhE_BO NAhE BO                           sumti LUhU
+                | NAhE_BO NAhE BO                           sumti /* ET */
+                ;
+
+name_sumti_6 : LA      free_seq relative_clauses CMENE_seq  free_seq
+             | LA      free_seq relative_clauses CMENE_seq
+             | LA      free_seq                  CMENE_seq  free_seq
+             | LA      free_seq                  CMENE_seq
+
+             | LA               relative_clauses CMENE_seq  free_seq
+             | LA               relative_clauses CMENE_seq
+             | LA                                CMENE_seq  free_seq
+             | LA                                CMENE_seq
+             ;
 
 /*
 sumti-tail<111> = [sumti-6 [relative-clauses]] sumti-tail-1 |

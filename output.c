@@ -71,7 +71,10 @@ add_bracketing_internal(TreeNode *x, int *seq)
         break;
 
       case SUMTI:
-      case SUMTI_6:
+      case LAHE_SUMTI_6:
+      case NAHE_BO_SUMTI_6:
+      case NAME_SUMTI_6:
+      case FREE_VOCATIVE:
         if ((y->nchildren > 1) ||
             (prop_require_brac(x, NO))) {
           y->number = ++*seq;
