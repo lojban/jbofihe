@@ -6706,10 +6706,10 @@ xruti4:D;later state
 xruti4t:from
 #
 # x1 is an instance of substance/chemical/drug x2 (individual or mass) with purity x3             
-xukmi1:D;sample
-xukmi2:S;substance
-xukmi2t:of
-xukmi3:S;purity
+xukmi1:S;chemical
+xukmi2:D;chemical type
+xukmi2t:of type
+xukmi3:S;chemical purity
 #
 # x1 is red/crimson/ruddy [color adjective]                                                       
 xunre1:P;red
