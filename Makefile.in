@@ -93,7 +93,7 @@ dictionary : dictmake
 	perl rafsid.pl < @@WORD-LISTS@@/rafsi > rafsid.dict
 	perl rafsig.pl < @@WORD-LISTS@@/rafsi > rafsig.dict
 	perl raf4lg.pl < @@WORD-LISTS@@/gismu > raf4lg.dict
-	perl lujvop.pl "@@WORD-LISTS@@/" > lujvop.dict
+	perl lujvop.pl "@@WORD-LISTS@@/" < @@WORD-LISTS@@/lujvo-list > lujvop.dict
 	./dictmake dictionary.dbm gismu.dict cmavo.dict lujvo.dict oblik.dict
 	./dictmake dictionary.dbm raf4l.dict rafobl.dict rafsid.dict rafsig.dict raf4lg.dict
 	./dictmake dictionary.dbm extradict
