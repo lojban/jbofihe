@@ -57,8 +57,30 @@ add_bracketing_internal(TreeNode *x, int *seq)
       case SUMTI_3:
       case SUMTI_4:
       case SUMTI_5:
-      case SUMTI_6:
         if (y->nchildren > 1) {
+          y->number = ++*seq;
+          y->brackets = BR_CEIL;
+        }
+        break;
+
+      case SUMTI_5A:
+      case SUMTI_5B:
+        if (prop_require_brac(x, NO)) {
+          y->number = ++*seq;
+          y->brackets = BR_CEIL;
+        }
+        break;
+
+      case SUMTI_6:
+        if ((y->nchildren > 1) ||
+            (prop_require_brac(x, NO))) {
+          y->number = ++*seq;
+          y->brackets = BR_CEIL;
+        }
+        break;
+
+      case SUMTI_TAIL_1A:
+        if (prop_require_brac(x, NO)) {
           y->number = ++*seq;
           y->brackets = BR_CEIL;
         }
@@ -219,9 +241,6 @@ translate_se (TreeNode *x, char *eng)
 {
   char *trans;
 
-#if 0
-  fprintf(stderr, "check dg %08lx\n", x);
-#endif
   if (prop_dont_gloss(x, NO)) {
     eng[0] = 0;
   } else {
@@ -230,6 +249,70 @@ translate_se (TreeNode *x, char *eng)
       strcpy(eng, trans);
     } else {
       eng[0] = 0;
+    }
+  }
+}
+
+/*++++++++++++++++++++++++++++++++++++++
+
+  TreeNode *x
+
+  char *loj
+
+  char *eng
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+translate_goi (TreeNode *x, char *eng)
+{
+  char *trans;
+
+  if (prop_dont_gloss(x, NO)) {
+    eng[0] = 0;
+  } else {
+    trans = translate(cmavo_table[x->data.cmavo.code].cmavo);
+    if (trans) {
+      strcpy(eng, trans);
+    } else {
+      eng[0] = 0;
+    }
+  }
+}
+
+/*++++++++++++++++++++++++++++++++++++++
+
+  TreeNode *x
+
+  char *loj
+
+  char *eng
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+translate_koha (TreeNode *x, char *eng)
+{
+  char *trans;
+  char *cmavo;
+
+  cmavo = cmavo_table[x->data.cmavo.code].cmavo;
+
+  trans = translate(cmavo);
+  if (trans) {
+    strcpy(eng, trans);
+  } else {
+    eng[0] = 0;
+  }
+  if (!strcmp(cmavo, "ke'a")) {
+    XRelClauseLink *xrcl = prop_rel_clause_link(x, NO);
+    if (xrcl) {
+      XAntecedent *xan = prop_antecedent(xrcl->rel, NO);
+      if (xan) {
+        int bl = xan->node->data.nonterm.number;
+        char tbuf[16];
+        strcat(eng, " #");
+        sprintf(tbuf, "%d", bl);
+        strcat(eng, tbuf);
+      }
     }
   }
 }
@@ -772,6 +855,14 @@ get_lojban_word_and_translation (TreeNode *x, char *loj, char *eng)
           translate_se(x, eng);
           break;
 
+        case GOI:
+          translate_goi(x, eng);
+          break;
+
+        case KOhA:
+          translate_koha(x, eng);
+          break;
+
         case NU:
           translate_abstraction(x, eng);
           break;
@@ -1309,9 +1400,7 @@ output_internal(TreeNode *x, WhatToShow what)
 
       output_sumti_tail(x, what);
 
-    } else if (((y->type == SUMTI_5) &&
-                (y->children[0]->data.nonterm.type == QUANTIFIER) &&
-                (y->children[1]->data.nonterm.type == SUMTI_6)) ||
+    } else if (((y->type == SUMTI_5A) && (y->nchildren ==2)) ||
                ((y->type == SUMTI_TAIL_1) &&
                 (y->children[0]->data.nonterm.type == QUANTIFIER) &&
                 (y->children[1]->data.nonterm.type == SUMTI))) {
