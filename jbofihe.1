@@ -3,7 +3,7 @@
 jbofihe \- Lojban parser / grammar checker / word glosser
 .SH SYNOPSIS
 .B jbofihe
-[-v] [ -h | --help | -? ] [ -k ] [ -g ] [ -t ] [-tf ] [ -l ] [ -b ] [ -x ] [ -H ] [ -m ] [ -w width ] [-ie] [-re] [-cr] [-bt] [filename]
+[-v] [ -h | --help | -? ] [ -k ] [ -g ] [ -t ] [-tf ] [ -l ] [ -b ] [ -x ] [ -H ] [ -m ] [ -w width ] [-ie] [-re] [-se] [-cr] [-bt] [filename]
 .SH DESCRIPTION
 .I jbofihe
 is a program that reads a piece of Lojban text and checks it for
@@ -70,6 +70,16 @@ text.
 Require the input text to have all elidable cmavo actually present.  (May be
 useful for forcing the user to think about the grammatical structure of the
 input text more carefully when debugging parse errors.)
+.TP
+.B -se
+Show any elidable cmavo that were present unnecessarily in the input text.
+Where a sequence of elidable cmavo occur, but not all could have been elided, a
+list of possible 'minimal' sequences is shown.  Each 'minimal' sequence is such
+that : removing any words from it would cause the meaning of the text to change
+(or make it ungrammatical); yet preserving any more of the original words is
+unnecessary to preserve the meaning and grammatical correctness of the text.
+Note, -se and -re are mutually incompatible.  If both switches are specified,
+-re is assumed.
 .TP
 .B -cr
 Allow lujvo to contain the cultural rafsi forms CCVVCy (CCVVCV at end of word)
