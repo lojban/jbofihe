@@ -330,11 +330,14 @@ BLOCK LUJVO
 ENDBLOCK
 #}}}
 ###########################################################
-#{{{  BLOCK CULTURAL_BRIDGE_2
-BLOCK CULTURAL_BRIDGE_2
+#{{{  BLOCK CULTURAL_BRIDGE
+BLOCK CULTURAL_BRIDGE
 
 # This blocks describes the extra NFA states that have to bridged on top of the
 # standard lujvo to get something that copes with cultural rafsi too.
+
+    STATE in_before_c
+        C -> in # No point using CNR, because N&R can't start initial pair
 
     STATE in
         LCI -> in_after_cc
@@ -362,19 +365,21 @@ BLOCK CULTURAL_LUJVO
     body : LUJVO_BODY
 
     # The extra bits
-    t0  : CULTURAL_BRIDGE_2
-    t1  : CULTURAL_BRIDGE_2
-    t1t : CULTURAL_BRIDGE_2
-    tos : CULTURAL_BRIDGE_2
+    s1      : CULTURAL_BRIDGE
+    tos_s1  : CULTURAL_BRIDGE
+
+    t0  : CULTURAL_BRIDGE
+    t1  : CULTURAL_BRIDGE
+    t1t : CULTURAL_BRIDGE
+    tos : CULTURAL_BRIDGE
 
     STATE in -> body.in
 
     ##############
     # Add bridging between states arising from cultural rafsi being present.
 
-    STATE body.s1.in
-        C   ; LCI ; V          ; VV ; CNR -> body.s1.ex_y
-        C   ; LCI ; V   ; APOS ; V  ; CNR -> body.s1.ex_y
+    STATE body.s1.in -> s1.in_before_c
+    STATE s1.exit    -> body.s1.ex_y
 
     STATE body.t0.s2.in          -> t0.in
     STATE body.t0.s2.in_after_cc -> t0.in_after_cc
@@ -392,9 +397,8 @@ BLOCK CULTURAL_LUJVO
     STATE body.tos.tail.s2.in_after_cc -> tos.in_after_cc
     STATE tos.exit                     -> body.tos.tail.s2.ex_y
     
-    STATE body.tos.s1.in
-        V ; APOS ; V ; CNR -> body.tos.s1.ex_y
-        V ; VV       ; CNR -> body.tos.s1.ex_y
+    STATE body.tos.s1.in -> tos_s1.in_after_cc
+    STATE tos_s1.exit    -> body.tos.s1.ex_y
 
     ##############
 
