@@ -536,44 +536,52 @@ stag_lex(void)
   /* No checking yet for whether we get to the end of the token
      list. */
 
-  while (stag_marker->type != N_CMAVO) {
+  while (stag_marker->type == N_MARKER) {
     stag_marker = stag_marker->next;
   }
 
-  switch (stag_marker->data.cmavo.selmao) {
-    case BO: result = STAG_BO; break;
-    case KE: result = STAG_KE; break;
-    case BAI: result = STAG_BAI; break;
-    case BIhI: result = STAG_BIhI; break;
-    case BU: result = STAG_BU; break;
-    case BY: result = STAG_BY; break;
-    case CAhA: result = STAG_CAhA; break;
-    case CUhE: result = STAG_CUhE; break;
-    case FAhA: result = STAG_FAhA; break;
-    case FEhE: result = STAG_FEhE; break;
-    case FOI: result = STAG_FOI; break;
-    case GAhO: result = STAG_GAhO; break;
-    case JA: result = STAG_JA; break;
-    case JOI: result = STAG_JOI; break;
-    case LAU: result = STAG_LAU; break;
-    case KI: result = STAG_KI; break;
-    case MOhI: result = STAG_MOhI; break;
-    case NA: result = STAG_NA; break;
-    case NAhE: result = STAG_NAhE; break;
-    case NAI: result = STAG_NAI; break;
-    case PA: result = STAG_PA; break;
-    case PU: result = STAG_PU; break;
-    case ROI: result = STAG_ROI; break;
-    case SE: result = STAG_SE; break;
-    case TAhE: result = STAG_TAhE; break;
-    case TEI: result = STAG_TEI; break;
-    case VA: result = STAG_VA; break;
-    case VEhA: result = STAG_VEhA; break;
-    case VIhA: result = STAG_VIhA; break;
-    case ZAhO: result = STAG_ZAhO; break;
-    case ZEhA: result = STAG_ZEhA; break;
-    case ZI: result = STAG_ZI; break;
-    default: result = STAG_OTHER; break;
+  switch (stag_marker->type) {
+    case N_CMAVO:
+      switch (stag_marker->data.cmavo.selmao) {
+        case BO: result = STAG_BO; break;
+        case KE: result = STAG_KE; break;
+        case BAI: result = STAG_BAI; break;
+        case BIhI: result = STAG_BIhI; break;
+        case BU: result = STAG_BU; break;
+        case BY: result = STAG_BY; break;
+        case CAhA: result = STAG_CAhA; break;
+        case CUhE: result = STAG_CUhE; break;
+        case FAhA: result = STAG_FAhA; break;
+        case FEhE: result = STAG_FEhE; break;
+        case FOI: result = STAG_FOI; break;
+        case GAhO: result = STAG_GAhO; break;
+        case JA: result = STAG_JA; break;
+        case JOI: result = STAG_JOI; break;
+        case LAU: result = STAG_LAU; break;
+        case KI: result = STAG_KI; break;
+        case MOhI: result = STAG_MOhI; break;
+        case NA: result = STAG_NA; break;
+        case NAhE: result = STAG_NAhE; break;
+        case NAI: result = STAG_NAI; break;
+        case PA: result = STAG_PA; break;
+        case PU: result = STAG_PU; break;
+        case ROI: result = STAG_ROI; break;
+        case SE: result = STAG_SE; break;
+        case TAhE: result = STAG_TAhE; break;
+        case TEI: result = STAG_TEI; break;
+        case VA: result = STAG_VA; break;
+        case VEhA: result = STAG_VEhA; break;
+        case VIhA: result = STAG_VIhA; break;
+        case ZAhO: result = STAG_ZAhO; break;
+        case ZEhA: result = STAG_ZEhA; break;
+        case ZI: result = STAG_ZI; break;
+        default: result = STAG_OTHER; break;
+      }
+      break;
+
+    default: /* BRIVLA, CMENE etc */
+      result = STAG_OTHER;
+      break;
   }
 
   stag_marker = stag_marker->next;
