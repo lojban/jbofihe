@@ -5764,7 +5764,7 @@ tagji3:D;snug dimension
 tagji4:S;locus of snugness
 #
 # x1 (person) challenges x2 at/in property x3                                                     
-talsa1:A;challenger
+talsa1:A;challenge
 talsa2:P;challenged
 talsa3:D;challenged property
 #
