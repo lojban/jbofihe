@@ -36,6 +36,10 @@
 #include <ctype.h>
 #include "n2d.h"
 
+/* Globally visible options to control reporting */
+FILE *report;
+int verbose;
+
 static Block **blocks = NULL;
 static int nblocks = 0;
 static int maxblocks = 0;
@@ -667,34 +671,37 @@ print_nfa(Block *b)
 {
   int i, j, N;
   N = b->nstates;
+  
+  if (!report) return;
+
   for (i=0; i<N; i++) {
     State *s = b->states[i];
     Translist *tl;
     Stringlist *sl;
-    fprintf(stderr, "NFA state %d = %s\n", i, s->name);
+    fprintf(report, "NFA state %d = %s\n", i, s->name);
     for (tl=s->transitions; tl; tl=tl->next) {
-      fprintf(stderr, "  [%s] -> %s\n",
+      fprintf(report, "  [%s] -> %s\n",
               (tl->token >= 0) ? toktable[tl->token] : "(epsilon)",
               tl->ds_name);
     }
     if (s->exitvals) {
       int first = 1;
-      fprintf(stderr, "  Exit value : ");
+      if (report) fprintf(report, "  Exit value : ");
       for (sl=s->exitvals; sl; sl=sl->next) {
-        fprintf(stderr, "%s%s",
+        fprintf(report, "%s%s",
                 first ? "" : "|",
                 s->exitvals->string);
       }
-      fprintf(stderr, "\n");
+      fprintf(report, "\n");
     }
-    fprintf(stderr, "  Epsilon closure :\n    (self)\n");
+    fprintf(report, "  Epsilon closure :\n    (self)\n");
     for (j=0; j<N; j++) {
       if (i!=j && is_set(eclo[i], j)) {
-        fprintf(stderr, "    %s\n", b->states[j]->name);
+        fprintf(report, "    %s\n", b->states[j]->name);
       }
     }
     
-    fprintf(stderr, "\n");
+    fprintf(report, "\n");
   }
 
 }
@@ -850,9 +857,11 @@ add_dfa(Block *b, unsigned long *nfas, int N, int Nt)
   unsigned long signature = 0UL, folded_signature;
   struct DFAList *dfal;
 
-  fprintf(stderr, "Adding DFA state %d\n", ndfa);
-  fflush(stderr);
-  
+  if (verbose) {
+    fprintf(stderr, "Adding DFA state %d\r", ndfa);
+    fflush(stderr);
+  }
+
   if (maxdfa == ndfa) {
     grow_dfa();
   }
@@ -1037,39 +1046,41 @@ print_dfa(Block *b)
   unsigned long current_nfas;
   int rup_N = round_up(N);
   Stringlist *ex;
+
+  if (!report) return;
   
   for (i=0; i<ndfa; i++) {
-    fprintf(stderr, "DFA state %d\n", i);
+    fprintf(report, "DFA state %d\n", i);
     if (dfas[i]->nfas) {
-      fprintf(stderr, "  NFA states :\n");
+      fprintf(report, "  NFA states :\n");
       for (j0=0; j0<rup_N; j0++) {
         current_nfas = dfas[i]->nfas[j0];
         if (!current_nfas) continue;
         j0_5 = j0<<5;
         for (j1=0, mask=1UL; j1<32; mask<<=1, j1++) {
           if (current_nfas & mask) {
-            fprintf(stderr, "    %s\n", b->states[j0_5 + j1]->name);
+            fprintf(report, "    %s\n", b->states[j0_5 + j1]->name);
           }
         }
       }
-      fprintf(stderr, "\n");
+      fprintf(report, "\n");
     }
-    fprintf(stderr, "  Transitions :\n");
+    fprintf(report, "  Transitions :\n");
     for (t=0; t<Nt; t++) {
       int dest = dfas[i]->map[t];
       if (dest >= 0) {
-        fprintf(stderr, "    %s -> %d\n", toktable[t], dest);
+        fprintf(report, "    %s -> %d\n", toktable[t], dest);
       }
     }
     if (dfas[i]->defstate >= 0) {
-      fprintf(stderr, "  Use state %d as basis (%d fixups)\n",
+      fprintf(report, "  Use state %d as basis (%d fixups)\n",
               dfas[i]->defstate, dfas[i]->best_diff);
     }
     if (dfas[i]->result) {
-      fprintf(stderr, "  Exit value : %s\n", dfas[i]->result);
+      fprintf(report, "  Exit value : %s\n", dfas[i]->result);
     }
     
-    fprintf(stderr, "\n");
+    fprintf(report, "\n");
   }
 }
 
@@ -1279,28 +1290,66 @@ int main (int argc, char **argv)
   int result;
   State *start_state;
   Block *main_block;
+
+  char *report_name = NULL;
+  verbose = 0;
+  report = NULL;
+
+  /* Parse cmd line arguments */
+  while (++argv, --argc) {
+    if (!strcmp(*argv, "-v")) {
+      verbose = 1;
+    } else if (!strcmp(*argv, "-r")) {
+      ++argv, --argc;
+      report_name = *argv;
+    }
+  }
+
+  if (report_name) {
+    report = fopen(report_name, "w");
+    if (!report) {
+      fprintf(stderr, "Can't open %s for writing, no report will be created\n", report_name);
+    }
+  }
+
+  if (verbose) {
+    fprintf(stderr, "General-purpose lexical analyser generator\n");
+    fprintf(stderr, "Copyright (C) Richard P. Curnow  2000-2001\n");
+  }
+  
+  if (verbose) fprintf(stderr, "Parsing input...\n");
   result = yyparse();
   if (result > 0) exit(1);
 
   start_state = get_curstate(); /* The last state to be current in the input file is the entry state of the NFA */
   main_block = start_state->parent;
+  if (verbose) fprintf(stderr, "Computing epsilon closure...\n");
   generate_epsilon_closure(main_block);
   print_nfa(main_block);
+  if (verbose) fprintf(stderr, "Compressing NFA...\n");
   compress_nfa(main_block);
   build_transmap(main_block);
+  if (verbose) fprintf(stderr, "Building DFA...\n");
   build_dfa(main_block, start_state->index);
-  fprintf(stderr, "--------------------------------\n"
-                  "DFA structure before compression\n"
-                  "--------------------------------\n");
+  if (report) {
+    fprintf(report, "--------------------------------\n"
+                    "DFA structure before compression\n"
+                    "--------------------------------\n");
+  }
   print_dfa(main_block);
   
+  if (verbose) fprintf(stderr, "\nCompressing DFA...\n");
   ndfa = compress_dfa(dfas, ndfa, ntokens);
 
+  if (verbose) fprintf(stderr, "\nCompressing transition tables...\n");
   compress_transition_table(dfas, ndfa, ntokens);
 
-  fprintf(stderr, "-------------------------------\n"
-                  "DFA structure after compression\n"
-                  "-------------------------------\n");
+  if (report) {
+    fprintf(report, "-------------------------------\n"
+                    "DFA structure after compression\n"
+                    "-------------------------------\n");
+  }
+  if (verbose) fprintf(stderr, "Writing outputs...\n");
   print_dfa(main_block);
 
   if (had_ambiguous_result) {
@@ -1313,6 +1362,11 @@ int main (int argc, char **argv)
 #if 0
   print_uncompressed_tables(main_block);
 #endif
+
+  if (report) {
+    fclose(report);
+    report = NULL;
+  }
   
   return result;
 }

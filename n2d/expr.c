@@ -207,15 +207,6 @@ define_result(char *string, Expr *e)
   int i;
   Result *r;
 
-#if 0
-  for (i=0; i<n_results; i++) {
-    if (!strcmp(string, results[i].result)) {
-      fprintf(stderr, "Cannot have multiple definition for result '%s'\n", string);
-      exit(2);
-    }
-  }
-#endif
-
   grow_results();
   r = &results[n_results++];
   r->result = new_string(string);
@@ -327,7 +318,7 @@ eval(Expr *e)
         }
       }
     default:
-      fprintf(stderr, "Can't get here!\n");
+      fprintf(stderr, "Interal error : Can't get here!\n");
       exit(2);
   }
 }

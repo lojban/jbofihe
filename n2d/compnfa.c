@@ -212,9 +212,11 @@ try_removals(Block *b, struct StateRec *recs)
       if (!(here_state->exitvals) &&
           check_same_transitions(base_state, here_state)) {
 
-        fprintf(stderr, "NFA state '%s' replaced by equivalent '%s'\n",
-                here_state->name, base_state->name);
-
+        if (report) {
+          fprintf(report, "NFA state '%s' replaced by equivalent '%s'\n",
+                  here_state->name, base_state->name);
+        }
+        
         squash_state(b, here_state, base_state);
         removed_any = 1;
       }
@@ -264,11 +266,11 @@ compress_accepting_states(Block *b)
     State *s = b->states[i];
     if (s->exitvals) {
       if (s->transitions) {
-        fprintf(stderr, "Didn't expect to find an accepting NFA state with transitions\n");
+        fprintf(stderr, "Internal error : Didn't expect to find an accepting NFA state with transitions\n");
         exit(2);
       }
       if (s->exitvals->next) {
-        fprintf(stderr, "Didn't expect to find an accepting NFA state with more than one result\n");
+        fprintf(stderr, "Internal error : Didn't expect to find an accepting NFA state with more than one result\n");
         exit(2);
       } 
 
@@ -287,8 +289,10 @@ compress_accepting_states(Block *b)
       here_str = ac_states[here]->exitvals->string;
       if (!strcmp(base_str, here_str)) {
         squash_state(b, ac_states[here], ac_states[base]);
-        fprintf(stderr, "Replacing accepting state '%s' by '%s'\n",
-                ac_states[here]->name, ac_states[base]->name);
+        if (report) {
+          fprintf(report, "Replacing accepting state '%s' by '%s'\n",
+                  ac_states[here]->name, ac_states[base]->name);
+        }
 
       } else {
         base = here;
@@ -319,10 +323,10 @@ compress_nfa(Block *b)
   pass = 1;
 
   do {
-    fprintf(stderr, "\nPass %d removing NFA states\n", pass);
+    if (report) fprintf(report, "\nPass %d removing NFA states\n", pass);
     any_removed = try_removals(b, recs);
     if (!any_removed) {
-      fprintf(stderr, "- none removed on this pass\n\n");
+      if (report) fprintf(report, "- none removed on this pass\n\n");
     }
     pass++;
   } while (any_removed);

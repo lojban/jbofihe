@@ -25,6 +25,9 @@
 
 #define Castderef(x, T, nx) T nx = *(T*) x
 
+/* Globally visible options to control reporting */
+extern FILE *report;
+extern int verbose;
 
 struct State;
 struct Block;

@@ -123,6 +123,7 @@ split_classes(DFANode **seq, DFANode **dfas, int ndfas)
         /* Different transition pattern, split existing equivalent class */
         had_to_split = 1;
         seq[i]->new_eq_class = ++last_eq_class;
+        if (verbose) fprintf(stderr, "Found %d equivalence classes\r", last_eq_class+1);
       } else {
         /* This works even if seq[i-1] was assigned a new class due to
            splitting from seq[i-2] etc. */
@@ -217,7 +218,7 @@ compress_states(DFANode **dfas, int ndfas)
   for (i=0, new_index=0; i<ndfas; i++) {
     if (dfas[i]->is_rep) {
       dfas[i]->new_index = new_index++;
-      fprintf(stderr, "Old DFA state %d becomes %d\n", i, dfas[i]->new_index);
+      if (report) fprintf(report, "Old DFA state %d becomes %d\n", i, dfas[i]->new_index);
     } else {
       int eqc = dfas[i]->eq_class;
       int rep = reps[eqc];
@@ -226,7 +227,7 @@ compress_states(DFANode **dfas, int ndfas)
          must have been done earlier in the loop. */
       dfas[i]->new_index = dfas[rep]->new_index;
 
-      fprintf(stderr, "Old DFA state %d becomes %d (formerly %d)\n", i, dfas[i]->new_index, rep);
+      if (report) fprintf(report, "Old DFA state %d becomes %d (formerly %d)\n", i, dfas[i]->new_index, rep);
     }
   }
   
