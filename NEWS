@@ -1,17 +1,25 @@
 New in version 0.35
 ===================
 
-- Add support to jbofihe to show elidable cmavo that are missing from the input
-  text (-ie command switch).  (Cmavo inserted this way are displayed in upper
-  case in the output).
+(Changes apply to jbofihe unless stated otherwise)
+
+- Add support to show elidable cmavo that were omitted from the input text (-ie
+  command switch).  (Cmavo inserted this way are displayed in upper case in the
+  output).
 - Add option to require the input text to contain every elidable cmavo (-re
   command switch).  (This may be useful as a learning aid and when trying to
   debug grammar failures.)
+- Add option to report any elidable cmavo which are superfluous in the text,
+  accessed with the -se comand switch.  Where a sequence of such words can be
+  partially omitted, all possible 'minimal' sub-sequences are shown.
 - Totally rewritten algorithm for determining type (cmavo, brivla, cmene etc)
   of input words.  Should now enforce word structure rules 100%, and be
-  competely robust at removing cmavo prefixed onto the front of brivla.  The
-  testbench for this part of the program is bundled as a separate tool
-  (vlatai).
+  competely robust at removing cmavo prefixed onto the front of gismu, lujvo
+  and fu'ivla.  The testbench for this part of the program is bundled as a
+  separate tool (vlatai).  Acceptance of cultural rafsi (section 4.16 of the
+  Reference Grammar) is optional (-cr switch).
+- Add backtracing mode for showing the parser stack when a syntax error occurs
+  (-bt option).  May assist in debugging syntactically invalid texts.
 - Add case tagging for selbri involving MOI, GOhA, NUhA
 - Fix bugs parsing number/lerfu-string containing bu followed by
   moi/mei/roi/re'u
@@ -19,10 +27,10 @@ New in version 0.35
 - Fix output translation if a 'bu' construction occurs in a number/lerfu
   sequence before MOI.
 - Attempt output translation of zo, zoi, bu etc. constructions.
-- Fix lexing bug if an all-vowels (emotional) cmavo with length > 1 is prefixed
-  onto a brivla.
 - Fix inability to parse pe'a.
 - Fix inability to parse fu'e.
+- Default output width (-w argument) for text output changed to 79 instead of
+  80.
 - Fix core dump illustrated by a text containing a single cmavo which causes a
   parse error.
 - Return status from main() to the shell reflects whether there was a parse
@@ -40,10 +48,10 @@ New in version 0.35
 - Port to MSDOS environment (using DJGPP toolchain); binary release for MSDOS.
 - Allow whether to use fread or mmap to access dictionary to be specified at
   configure time.
-- Open files in binary mode instead of text (support DJGPP port)
+- Open certain files in binary mode instead of text (support DJGPP port)
 - Change name of default dictionary (support DJGPP port)
-- Make banners for jbofihe -k option go to stdout not stderr (so they now flow
-  amongst the token list)
+- Make banners for 'jbofihe -k' option go to stdout not stderr (so they now
+  flow amongst the token list)
 - Given an advisory message when a core dump would previously have happened.
 - Update various details in manual pages
 - Allow carriage return characters at ends of lines (cmafihe)
@@ -55,6 +63,7 @@ New in version 0.35
   rather than having to be searched for.  
 - Fix bug in jvocuhadju where the 4 forbidden triples starting with 'n' weren't
   being detected.
+- Various minor bug fixes.
   
 New in version 0.34
 ===================
