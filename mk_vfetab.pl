@@ -35,6 +35,10 @@ if ($x =~ /..,/) {
     # Conclusion of egroups discussion in Jan 2001 : v,v is treated
     # as equivalent to v'v, so is valid in any type of word.
     $r = $VTOK_VV;
+} elsif ($x =~ /C,[aeiou]/) {
+    # For symmetry with V,C and because it seems reasonable for
+    # words like datnlril,odio
+    $r = $VTOK_V;
 } elsif ($x =~ /.[iu]y/ || $x =~ /y,[aeiou]/ || $x =~ /[aeiou],y/) {
     $r = $VTOK_VY;
 } elsif ($x =~ /.Cy/) {
