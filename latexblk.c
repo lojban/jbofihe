@@ -56,6 +56,7 @@ write_prologue(void)
          "\\usepackage[dvips]{graphicx}\n"
          "\\else\n"
          "\\usepackage[pdftex]{graphicx}\n"
+         "\\pdfcompresslevel=9\n"
          "\\fi"
          "\\def\\rmdefault{phv}\n"
          "\\def\\mddefault{mc}\n"
@@ -63,6 +64,7 @@ write_prologue(void)
          "\\geometry{left=0.75in,top=0.5in,bottom=0.5in,right=0.75in,noheadfoot}\n"
          "\\pagestyle{empty}\n"
          "\\setlength{\\parindent}{0pt}\n"
+         "\\setlength{\\parskip}{1ex plus0.5ex minus0.5ex}\n"
          "\\setlength{\\tabcolsep}{0pt}\n"
          "\\emergencystretch=200pt\n"
          "\\font\\zd = pzdr at 10pt\n"
@@ -81,20 +83,12 @@ write_prologue(void)
   
   ++++++++++++++++++++++++++++++++++++++*/
 
-static void
-flush_block(void)
-{
-  printf("\\begin{tabular}[t]{l}{\\bf %s}\\\\{\\it %s}\\\\{\\it\\scriptsize %s}\\end{tabular}\n",
-         loj_text, eng_text, tag_text);
-  tag_text[0] = 0;
-  loj_text[0] = 0;
-  eng_text[0] = 0;
-}
-
 /* Number of end of lines that are pending.  (These are only inserted
    when we have closed a sequence of close brackets, i.e. before the
    next open bracket or ordinary text.) */
 static int pending_eols = 0;
+
+
 
 /*++++++++++++++++++++++++++++++
   
@@ -103,21 +97,41 @@ static int pending_eols = 0;
 static void
 clear_eols(void)
 {
-  double xes;
-
   if (pending_eols > 0) {
-    if (loj_text[0] || eng_text[0]) {
-      flush_block();
-    }
     if (pending_eols > 1) {
-      xes = 1.5;
+      printf("\n\n\\vspace{2ex}");
     } else {
-      xes = 1.0;
+      printf("\n\n");
     }
-    printf("\n\n\\vspace{%.2fex}", xes);
     state = ST_OPEN;
     pending_eols = 0;
   }
+}
+
+/*++++++++++++++++++++++++++++++
+  
+  ++++++++++++++++++++++++++++++*/
+
+static void
+flush_block(void)
+{
+  char *p;
+  printf("\\begin{tabular}[t]{l}{\\bf %s}\\\\{\\it %s}\\\\[-3pt]",
+         loj_text, eng_text);
+  printf("{\\it\\scriptsize{}");
+  for (p=tag_text; *p; p++) {
+    if (*p == '\n') {
+      printf("}\\\\[-3pt]{\\it\\scriptsize{}");
+    } else {
+      putchar(*p);
+    }
+  }
+  printf("}\\end{tabular}\n");
+
+  tag_text[0] = 0;
+  loj_text[0] = 0;
+  eng_text[0] = 0;
+
 }
 
 /*++++++++++++++++++++++++++++++
@@ -288,14 +302,10 @@ static void
 write_lojban_text(char *text)
 {
 
-
-#if 0
-  printf("\\mbox{\\textbf{%s}\\/}", text);
-#endif
-
   if (eng_text[0]) {
     flush_block();
   }
+  clear_eols();
 
   strcat(loj_text, " ");
   strcat(loj_text, text);
@@ -351,6 +361,7 @@ start_tags(void)
   if (loj_text[0] || eng_text[0]) {
     flush_block();
   }
+  clear_eols();
   strcat(tag_text, "[");
   first_tag = 1;
 }
@@ -397,9 +408,9 @@ write_tag_text(char *brivla, char *place, char *trans, int brac)
   char buffer[1024];
 
   if (brac) {
-    sprintf(buffer, "%s%s (%s)", brivla, place, make_texsafe(trans));
+    sprintf(buffer, "%s%s\n(%s)", brivla, place, make_texsafe(trans));
   } else {
-    sprintf(buffer, "%s%s %s", brivla, place, make_texsafe(trans));
+    sprintf(buffer, "%s%s\n%s", brivla, place, make_texsafe(trans));
   }
   strcat(tag_text, buffer);
 }
