@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include "trctabs.c"
+#include "trcftabs.c"
 
 typedef struct {
   int state;
@@ -16,19 +17,19 @@ typedef struct {
 
 static Reduction reductions[1024];
 static int n_reductions=0;
-static int is_full_parse = 0;
 
-/* command line option in main.c */
+/* command line options in main.c */
 extern int show_backtrace;
+extern int require_elidables;
 
 static void
 display_rule(int ruleno, int indent, int focus)
 {
   int i, j;
-  char **toknames = is_full_parse ? norm_toknames : norm_toknames;
-  unsigned short *ruleindex = is_full_parse ? norm_ruleindex : norm_ruleindex;
-  unsigned short *rulelhs = is_full_parse ? norm_rulelhs : norm_rulelhs;
-  unsigned short *rulerhs = is_full_parse ? norm_rulerhs : norm_rulerhs;
+  char **toknames = require_elidables ? full_toknames : norm_toknames;
+  unsigned short *ruleindex = require_elidables ? full_ruleindex : norm_ruleindex;
+  unsigned short *rulelhs = require_elidables ? full_rulelhs : norm_rulelhs;
+  unsigned short *rulerhs = require_elidables ? full_rulerhs : norm_rulerhs;
 
 
   for (i=0; i<indent; i++) fputc(' ', stdout);
@@ -66,12 +67,12 @@ report_trace_error(short *yyss, short *yyssp)
 {
   int i;
   short *s;
-  unsigned short *stateindex = is_full_parse ? norm_stateindex : norm_stateindex;
-  unsigned short *shiftrule = is_full_parse ? norm_shiftrule : norm_shiftrule;
-  unsigned char *focus = is_full_parse ? norm_focus : norm_focus;
-  unsigned short *shift_in_state = is_full_parse ? norm_shift_in_state : norm_shift_in_state;
-  unsigned short *shift_in_state_index = is_full_parse ? norm_shift_in_state_index : norm_shift_in_state_index;
-  char **toknames = is_full_parse ? norm_toknames : norm_toknames;
+  unsigned short *stateindex = require_elidables ? full_stateindex : norm_stateindex;
+  unsigned short *shiftrule = require_elidables ? full_shiftrule : norm_shiftrule;
+  unsigned char *focus = require_elidables ? full_focus : norm_focus;
+  unsigned short *shift_in_state = require_elidables ? full_shift_in_state : norm_shift_in_state;
+  unsigned short *shift_in_state_index = require_elidables ? full_shift_in_state_index : norm_shift_in_state_index;
+  char **toknames = require_elidables ? full_toknames : norm_toknames;
 
   /* This stuff is done here now instead of in yyerror.  It means the token
      dump comes before the backtrace rather than after it, which makes more
@@ -110,14 +111,15 @@ report_trace_error(short *yyss, short *yyssp)
             is_first = 0;
           }
         }
-        fprintf(stderr,")\n");
+        if (!is_first) fprintf(stderr,")\n");
       }
     }
   }
 
-  fprintf(stderr,"=====================\n"
-         "Jammed parser state :\n"
-         "=====================\n");
+  fprintf(stderr,
+         "==========================\n"
+         "Jammed parser state (%d) :\n"
+         "==========================\n", *yyssp);
   {
     int r1, r2;
     int r;
@@ -129,7 +131,7 @@ report_trace_error(short *yyss, short *yyssp)
     }
   
     /* Print out which tokens would have been possible */
-    fprintf(stderr,"\nNext word class could be :\n  ");
+    fprintf(stderr,"\nNext word class could be : ");
     r1 = shift_in_state_index[*yyssp], r2 = shift_in_state_index[*yyssp+1];
     is_first = 1;
     for (r=r1; r<r2; r++) {
@@ -139,7 +141,7 @@ report_trace_error(short *yyss, short *yyssp)
         is_first = 0;
       }
     }
-    fprintf(stderr,"\n");
+    fprintf(stderr,"\n\n");
   }
 
   fprintf(stderr,"=========================================================\n"
@@ -149,6 +151,7 @@ report_trace_error(short *yyss, short *yyssp)
     int r1, r2;
     int r;
     r1 = stateindex[*s], r2 = stateindex[*s+1];
+    fprintf(stderr, "State %d\n", *s);
     for (r=r1; r<r2; r++) {
       display_rule(shiftrule[r], 1, focus[r]);
     }
