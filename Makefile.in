@@ -93,6 +93,9 @@ dictupdate : dictionary.dbm
 dictionary.dbm :: extradict dictmake
 	./dictmake dictionary.dbm extradict
 
+dictionary.dbm :: places.dat dictmake
+	./dictmake dictionary.dbm places.dat
+
 ## Include the dependency info below.
 
 main.o: main.c nodes.h nonterm.h functions.h output.h
