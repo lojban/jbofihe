@@ -176,7 +176,7 @@ $(DICTNAME) : extradict places.dat patterns
 	./smujajgau $(DICTNAME) extradict places.dat patterns
 
 cmafihe : $(CM_OBJS)
-	$(CC) $(CFLAGS) $(CMAFIHE_LDOPTS) -o cmafihe $(CM_OBJS)
+	$(CC) $(CFLAGS)  $(CMAFIHE_LDOPTS) -o cmafihe $(CM_OBJS)
 
 cm_scan.c : cm_scan.l
 	flex -t cm_scan.l > cm_scan.c

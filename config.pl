@@ -38,23 +38,22 @@ while ($_ = shift @ARGV) {
     }
 }
 
+
 if ($plist) {
     $defines .= " -DPLIST";
-    $cmafihe_ldopts="-lPropList";
+    $cmafihe_ldopts=" -lPropList";
 } else {
     $cmafihe_ldopts="";
 }
 
-$optdebug = $debug ? "-g -Wall" : "-O2";
+$optdebug = $debug ? " -g -Wall" : " -O2";
 if ($profile) {
     $optdebug .= " -pg";
 }
-$mmap_flag = $mmap ? "-DHAVE_MMAP=1" : "";
-$defines = $mmap_flag;
+$mmap_flag = $mmap ? " -DHAVE_MMAP=1" : "";
+$defines .= $mmap_flag;
 if ($debug) {
-if ($plist) {
-    $defines .= " -DPLIST";
-}
+
 
     $defines .= " -DEXPOSE_SIGNALS";
 }
@@ -93,6 +92,7 @@ Configuration script for jbofihe & friends
 --debug              Build a debuggable version
 --nommap             Don't use mmap for reading the dictionary file
 --embed              Embed minimal dictionary directly into jbofihe program
+--plist              Enable PropList output of vocabulary in cmafihe (requires libPropList from http://www.windowmaker.org) 
 EOF
 }
 
