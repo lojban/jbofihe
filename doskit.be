@@ -24,8 +24,8 @@ mv smujajgau.txt smujajga.txt
 mv jvocuhadju.txt jvocuhad.txt
 zip -9 jbofihe.zip COPYRIGHT.txt
 zip -9 jbofihe.zip cwsdpmi.doc cwsdpmi.exe
-zip -9 jbofihe.zip cmafihe.exe jbofihe.exe jvocuhad.exe smujajga.exe 
-zip -9 jbofihe.zip jbofihe.txt cmafihe.txt smujajgau.txt jvocuhadju.txt 
+zip -9 jbofihe.zip cmafihe.exe jbofihe.exe jvocuhad.exe smujajga.exe vlatai.exe
+zip -9 jbofihe.zip jbofihe.txt cmafihe.txt smujajgau.txt jvocuhadju.txt vlatai.txt
 zip -9 jbofihe.zip smujmaji.dat
 
 echo "Now copy jbofihe.zip to jbofv_vv.zip"

@@ -44,6 +44,9 @@ smujajgau.o : smujajgau.c
 cmafihe : $(CM_OBJS)
 	$(CC) $(CFLAGS) -o cmafihe $(CM_OBJS)
 
+vlatai : morf.c morf.h morf_dfa.c morf_enc.c morf_lex.c
+	$(CC) -o vlatai -DTEST_MORF $(CFLAGS) morf.c
+
 jvocuhadju : jvocuhadju.o lujvofns.o
 
 jvocuhadju.o : jvocuhadju.c version.h

@@ -26,10 +26,14 @@ make rpc_tab.c
 make rpc_full.c
 make stag.c
 make canonluj.inc
+make morf_lex.c
+make morf_dfa.c
+make morf_enc.c
 make jbofihe.txt
 make cmafihe.txt
 make smujajgau.txt
 make jvocuhadju.txt
+make vlatai.txt
 
 cp *.c *.h smujmaji.dat canonluj.inc /dosc/jbofihe
 
