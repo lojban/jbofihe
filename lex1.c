@@ -13,61 +13,13 @@
 #include "cmavotab.h"
 #include "nodes.h"
 #include "functions.h"
+#include "lujvofns.h"
 
 static char zoi_form[8]; /* la'o or zoi */
 static int  zoi_delim_next;
 static char zoi_delim[64];
 static int zoi_start_line, zoi_start_col;
 static char *zoi_data;
-
-/*++++++++++++++++++++++++++++++++++++++
-  Check whether a character is a consonant.
-
-  static int is_consonant
-
-  char c
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static int is_consonant(char c) {
-  if (strchr("bcdfgjklmnprstvxz", c)) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
-
-/*++++++++++++++++++++++++++++++++++++++
-  Check whether a character is a consonant.
-
-  static int is_consonant
-
-  char c
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static int is_uppercase_consonant(char c) {
-  if (strchr("BCDFGJKLMNPRSTVXZ", c)) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
-
-
-/*++++++++++++++++++++++++++++++++++++++
-  Check whether a character is a vowel.
-
-  static int is_vowel
-
-  char c
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static int is_vowel(char c) {
-  if (strchr("aeiou", c)) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
 
 /*++++++++++++++++++++++++++++++++++++++
   Are there any consonant clusters in the buffer?
@@ -100,41 +52,6 @@ any_clusters(char *buf)
 }
 
 
-/*++++++++++++++++++++++++++++++++++++++
-  Return 1 if an initial consonant pair is acceptable for a lujvo, otherwise return 0.
-
-  static int is_initial_pair_ok
-
-  char *s The string whose first 2 chars are to be tested.
-  ++++++++++++++++++++++++++++++++++++++*/
-
-static int
-is_initial_pair_ok(char *s) {
-
-  switch (s[0]) {
-    case 'b':
-    case 'f':
-    case 'g':
-    case 'k':
-    case 'm':
-    case 'p':
-    case 'v':
-    case 'x':
-      return !!strchr("lr", s[1]);
-    case 'c':
-    case 's':
-      return !!strchr("fklmnprt", s[1]);
-    case 'd':
-      return !!strchr("jrz", s[1]);
-    case 'j':
-    case 'z':
-      return !!strchr("bdgmv", s[1]);
-    case 't':
-      return !!strchr("crs", s[1]);
-    default:
-      return 0;
-  }
-}
 
 /*++++++++++++++++++++++++++++++
 
@@ -288,6 +205,17 @@ do_a_cmavo(char **bb, int start_line, int start_column) {
   return 1;
 }
 
+
+/*++++++++++++++++++++++++++++++++++++++
+  Take the text in 'x' and add it as a single brivla to the token list.
+
+  char *x
+
+  int start_line
+
+  int start_column
+  ++++++++++++++++++++++++++++++++++++++*/
+
 static void
 add_brivla_token(char *x, int start_line, int start_column)
 {
@@ -396,7 +324,6 @@ process_word(char *buf, int start_line, int start_column)
     *q = 0;
     b2 = buf2;
     
-    /* If no clusters, or first one is too far in, strip a cmavo off the front. */
     cluster_start = any_clusters(buf2);
     if (cluster_start < 0) {
       while (*b2) {
@@ -404,22 +331,65 @@ process_word(char *buf, int start_line, int start_column)
       }
     } else {
       while (1) {
-        if (cluster_start >= 4) {
-          if (!do_a_cmavo(&b2, start_line, start_column)) return 0;
-          cluster_start = any_clusters(b2);
-        } else if (cluster_start == 2) {
-          if ((strlen(b2) >= 7) &&
-              (is_initial_pair_ok(b2 + 2))) {
-            if (!do_a_cmavo(&b2, start_line, start_column)) return 0;
-          } else {
+        switch (cluster_start) {
+          case 0:
             add_brivla_token(b2, start_line, start_column);
+            goto all_subtoks_done;
             break;
-          }
-        } else {
-          add_brivla_token(b2, start_line, start_column);
-          break;
+          case 1:
+            /* Must be VCC..., i.e. something of selma'o A then a brivla */
+            if (!do_a_cmavo(&b2, start_line, start_column)) return 0;
+            add_brivla_token(b2, start_line, start_column);
+            goto all_subtoks_done;
+            break;
+          case 2:
+            if (is_valid_lujvo(b2+2)) {
+              do_a_cmavo(&b2, start_line, start_column);
+            }              
+            add_brivla_token(b2, start_line, start_column);
+            goto all_subtoks_done;
+            break;
+          case 3:
+            if (is_valid_lujvo(b2+3)) {
+              do_a_cmavo(&b2, start_line, start_column);
+            }              
+            add_brivla_token(b2, start_line, start_column);
+            goto all_subtoks_done;
+            break;
+          case 4:
+            /* Take care with CVCV+lujvo/gismu, rather than the obvious
+               CV'V+lujvo/gismu.  Also cope with CV+gismu, CV+CVCCVV, CV+CVCCCV */
+            if (is_cvc(b2)) {
+              if (!do_a_cmavo(&b2, start_line, start_column)) return 0;
+              cluster_start = any_clusters(b2);
+            } else if (is_cvv(b2)) {
+              if (b2[2] == '\'') {
+                if (is_valid_lujvo(b2+4)) {
+                  if (!do_a_cmavo(&b2, start_line, start_column)) return 0;
+                }
+                add_brivla_token(b2, start_line, start_column);
+                goto all_subtoks_done;
+              } else {
+                if (is_valid_lujvo(b2+3)) {                  
+                  if (!do_a_cmavo(&b2, start_line, start_column)) return 0;
+                }
+                add_brivla_token(b2, start_line, start_column);
+                goto all_subtoks_done;
+              }
+            } else {
+              add_brivla_token(b2, start_line, start_column);
+              goto all_subtoks_done;
+            }
+            break;
+          default: /* at least 5 */
+            if (!do_a_cmavo(&b2, start_line, start_column)) return 0;
+            cluster_start = any_clusters(b2);
+            break;
         }
       }
+
+    all_subtoks_done:
+      ;
     }
   }
   return 1;
