@@ -110,7 +110,7 @@ dictionary : dictmake
 	./dictmake dictionary.dbm gismu.dict cmavo.dict lujvo.dict oblik.dict
 	./dictmake dictionary.dbm raf4l.dict rafobl.dict rafsid.dict rafsig.dict raf4lg.dict
 	./dictmake dictionary.dbm lujvop.dict
-	./dictmake dictionary.dbm extradict places.dat
+	./dictmake dictionary.dbm extradict places.dat richard.lujvo
 
 dictupdate : dictionary.dbm
 
@@ -119,6 +119,9 @@ dictionary.dbm :: extradict dictmake
 
 dictionary.dbm :: places.dat dictmake
 	./dictmake dictionary.dbm places.dat
+
+dictionary.dbm :: richard.lujvo dictmake
+	./dictmake dictionary.dbm richard.lujvo
 
 depend:
 	gcc -MM $(INCDIR) $(SRCS2) > .depend
@@ -136,7 +139,7 @@ FILES = lex1.c lex2.c categ.c \
 	action.perl terminator.pl cmavocode.pl \
 	giscolon.pl cmacolon.pl lujvod.pl oblik.pl raf4l.pl rafobl.pl rafsid.pl \
         rafsig.pl raf4lg.pl lujvop.pl \
-	places.pl extradict places.dat \
+	places.pl extradict places.dat richard.lujvo \
 	dictmake.c dictclean.c makelujvo.c \
 	work_* home_* cardplayer summer_new assisi2 story sinderelwyd sinder eclipse
 
