@@ -650,6 +650,10 @@ print_nfa(Block *b)
 
 static unsigned long ***transmap;
 
+/* Index [from_nfa_state][token], flag set if there is a transition
+   to any destination nfa state for that token. */
+static unsigned long **anytrans;
+
 /* ================================================================= */
 
 static void
@@ -660,8 +664,13 @@ build_transmap(Block *b)
   int i, j, k, m;
   
   transmap = new_array(unsigned long **, N);
+  anytrans = new_array(unsigned long *, N);
   for (i=0; i<N; i++) {
     transmap[i] = new_array(unsigned long *, Nt);
+    anytrans[i] = new_array(unsigned long, round_up(Nt));
+    for (j=0; j<round_up(Nt); j++) {
+      anytrans[i][j] = 0UL;
+    }
     for (j=0; j<Nt; j++) {
       transmap[i][j] = new_array(unsigned long, round_up(N));
       for (k=0; k<round_up(N); k++) {
@@ -677,7 +686,9 @@ build_transmap(Block *b)
       if (tl->token >= 0) {
         int dest = tl->ds_ref->index;
         for (m=0; m<round_up(N); m++) {
-          transmap[i][tl->token][m] |= eclo[dest][m];
+          unsigned long x = eclo[dest][m];
+          transmap[i][tl->token][m] |= x;
+          if (!!x) set_bit(anytrans[i], tl->token);
         }
       }
     }
@@ -691,6 +702,7 @@ build_transmap(Block *b)
 typedef struct {
   unsigned long *nfas;
   unsigned long signature; /* All the longwords in the nfas array xor'ed together */
+  int index; /* Entry's own index in the array */
   int *map; /* index by token code */
   Stringlist *nfa_sl; /* NFA exit values */
   char *result;
@@ -704,12 +716,38 @@ static int had_ambiguous_result = 0;
 
 /* ================================================================= */
 
+/* Implement an array of linked lists to access DFA states directly.  The
+ * hashes are given by folding the signatures down to single bytes. */
+
+struct DFAList {
+  struct DFAList *next;
+  DFAS *dfa;
+};
+
+#define DFA_HASHSIZE 256
+static struct DFAList *dfa_hashtable[DFA_HASHSIZE];
+
+/* ================================================================= */
+
 static void
 grow_dfa(void)
 { 
   maxdfa += 32;
   dfas = resize_array(DFAS*, dfas, maxdfa);
 }
+
+/* ================================================================= */
+
+static unsigned long
+fold_signature(unsigned long sig)
+{
+  unsigned long folded;
+  folded = sig ^ (sig >> 16);
+  folded ^= (folded >> 8);
+  folded &= 0xff;
+  return folded;
+}
+
 
 /* ================================================================= */
 /* Simple linear search.  Use 'signatures' to get rapid rejection
@@ -721,26 +759,30 @@ find_dfa(unsigned long *nfas, int N)
   int res=-1;
   int i, j;
   unsigned long signature = 0UL;
+  unsigned long folded_signature;
+  struct DFAList *dfal;
 
   for (j=0; j<round_up(N); j++) {
     signature ^= nfas[j];
   }
+  folded_signature = fold_signature(signature);
   
-  for(i=0; i<ndfa; i++) {
+  for(dfal=dfa_hashtable[folded_signature]; dfal; dfal = dfal->next) {
+    DFAS *dfa = dfal->dfa;
     int matched;
 
-    if (signature != dfas[i]->signature) continue;
+    if (signature != dfa->signature) continue;
     
     matched=1;
 
     for (j=0; j<round_up(N); j++) {
-      if (nfas[j] != dfas[i]->nfas[j]) {
+      if (nfas[j] != dfa->nfas[j]) {
         matched = 0;
         break;
       }
     }
     if (matched) {
-      return i;
+      return dfa->index;
     }
   }
   return -1;
@@ -755,7 +797,8 @@ add_dfa(Block *b, unsigned long *nfas, int N, int Nt)
   int result = ndfa;
   int had_exitvals;
   Stringlist *ex;
-  unsigned long signature = 0UL;
+  unsigned long signature = 0UL, folded_signature;
+  struct DFAList *dfal;
 
   fprintf(stderr, "Adding DFA state %d\n", ndfa);
   fflush(stderr);
@@ -767,13 +810,20 @@ add_dfa(Block *b, unsigned long *nfas, int N, int Nt)
   dfas[ndfa] = new(DFAS);
   dfas[ndfa]->nfas = new_array(unsigned long, round_up(N));
   dfas[ndfa]->map = new_array(int, Nt);
-  
+  dfas[ndfa]->index = ndfa;
+
   for (j=0; j<round_up(N); j++) {
     unsigned long x = nfas[j];
     signature ^= x;
     dfas[ndfa]->nfas[j] = x;
   }
   dfas[ndfa]->signature = signature;
+  
+  folded_signature = fold_signature(signature);
+  dfal = new(struct DFAList);
+  dfal->dfa = dfas[ndfa];
+  dfal->next = dfa_hashtable[folded_signature];
+  dfa_hashtable[folded_signature] = dfal;
 
   ex = NULL;
   had_exitvals = 0;
@@ -834,6 +884,8 @@ build_dfa(Block *b, int start_index)
   int next_to_do;
   int *found_any;
   int rup_N;
+
+  for (i=0; i<DFA_HASHSIZE; i++) dfa_hashtable[i] = NULL;
   
   N = b->nstates;
   rup_N = round_up(N);
@@ -861,28 +913,42 @@ build_dfa(Block *b, int start_index)
   while (next_to_do < ndfa) {
 
     int t; /* token index */
-    int j, k, m;
+    int j0, j0_5, j1, j, mask, k, m;
     int idx;
+    unsigned long *current_nfas;
+    unsigned long block_bitmap;
     
     for (j=0; j<Nt; j++) {
       clear_nfas(nfas[j], N);
       found_any[j] = 0;
     }
 
-    for (j=0; j<N; j++) { /* Loop over NFA states which may be in this DFA state */
-      unsigned long **transmap_j = transmap[j];
-      if (is_set(dfas[next_to_do]->nfas, j)) { /* Is NFA state in DFA */
-        for (t=0; t<Nt; t++) { /* Loop over transition symbols */
-          unsigned long *transmap_t = transmap_j[t];
-          unsigned long *nfas_t = nfas[t];
-          unsigned long found_any_t = found_any[t];
-          for (k=0; k<rup_N; k++) { /* Loop over destination NFA states */
-            unsigned long x;
-            x = transmap_t[k];
-            nfas_t[k] |= x;
-            found_any_t |= !!x;
+    current_nfas = dfas[next_to_do]->nfas;
+    for (j0=0; j0<rup_N; j0++) { /* Loop over NFA states which may be in this DFA state */
+      block_bitmap = current_nfas[j0];
+      if (!block_bitmap) continue;
+      j0_5 = j0 << 5;
+      for (mask=1UL, j1=0; j1<32; mask<<=1, j1++) {
+        j = j0_5 + j1;
+        if (block_bitmap & mask) { /* Is NFA state in DFA */
+          unsigned long **transmap_j = transmap[j];
+          unsigned long *anytrans_j = anytrans[j];
+          for (t=0; t<Nt; t++) { /* Loop over transition symbols */
+            unsigned long *transmap_t;
+            unsigned long *nfas_t;
+            unsigned long found_any_t;
+            if (!is_set(anytrans_j, t)) continue;
+            transmap_t = transmap_j[t];
+            nfas_t = nfas[t];
+            found_any_t = found_any[t];
+            for (k=0; k<rup_N; k++) { /* Loop over destination NFA states */
+              unsigned long x;
+              x = transmap_t[k];
+              nfas_t[k] |= x;
+              found_any_t |= !!x;
+            }
+            found_any[t] = found_any_t;
           }
-          found_any[t] = found_any_t;
         }
       }
     }
@@ -915,15 +981,23 @@ print_dfa(Block *b)
   int N = b->nstates;
   int Nt = ntokens;
   
-  int i, j, t;
+  int i, j, j0, j0_5, j1, t;
+  unsigned long mask;
+  unsigned long current_nfas;
+  int rup_N = round_up(N);
   Stringlist *ex;
   
   for (i=0; i<ndfa; i++) {
     fprintf(stderr, "DFA state %d\n", i);
     fprintf(stderr, "  NFA states :\n");
-    for (j=0; j<N; j++) {
-      if (is_set(dfas[i]->nfas, j)) {
-        fprintf(stderr, "    %s\n", b->states[j]->name);
+    for (j0=0; j0<rup_N; j0++) {
+      current_nfas = dfas[i]->nfas[j0];
+      if (!current_nfas) continue;
+      j0_5 = j0<<5;
+      for (j1=0, mask=1UL; j1<32; mask<<=1, j1++) {
+        if (current_nfas & mask) {
+          fprintf(stderr, "    %s\n", b->states[j0_5 + j1]->name);
+        }
       }
     }
     fprintf(stderr, "\n");
