@@ -273,7 +273,7 @@ categorize_gek(TreeNode *head) {
        T_BIhI=4, T_SE=5, T_START_JOIK=6} 
       tok;
             
-      int states[7][11] =
+      static const int states[7][11] =
       {{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
        { 5, -1, -1, -1, -1, -1, -1, -1,  6,  6,  6},
        { 1, -1, -1, -1, -1,  7, -1, -1, -1, -1, -1},
@@ -638,80 +638,7 @@ stag_scan (TreeNode *x, int scan_type)
 static BOKE_Lookahead
 lookahead(TreeNode *start, int scan_type)
 {
-
   return stag_scan(start, scan_type);
-
-#if 0
-  do {
-    if (start->type == N_CMAVO) {
-      switch (start->data.cmavo.selmao) {
-        case BO:
-          return FOUND_BO;
-          break;
-
-        case KE:
-          return FOUND_KE;
-          break;
-          
-          /* This is the full closure of 'stag', augmented with gihek
-             etc so that we can start scanning from START_GIHEK and so
-             on, which is the point where we need the lookahead token
-             for the grammar to be LR(1).
-
-             */
-        case BAI:
-        case BIhI:
-        case BU:
-        case BY:
-        case CAhA:
-        case CUhE:
-        case FAhA:
-        case FEhE:
-        case FOI:
-        case GAhO:
-        case JA:
-        case JOI:
-        case LAU:
-        case KI:
-        case MOhI:
-        case NA:
-        case NAhE:
-        case NAI:
-        case PA:
-        case PU:
-        case ROI:
-        case SE:
-        case TAhE:
-        case TEI:
-        case VA:
-        case VEhA:
-        case VIhA:
-        case ZAhO:
-        case ZEhA:
-        case ZI:
-          break; /* Nothing to do, iterate */
-
-        default:
-          /* Anything else means it's not a BO or KE lookahead
-             construction */
-          return FOUND_OTHER;
-          break;
-      }
-    } else if (start->type == N_BRIVLA ||
-               start->type == N_CMENE ||
-               start->type == N_LOhU ||
-               start->type == N_ZOI ||
-               start->type == N_ZO ||
-               start->type == N_GARBAGE) {
-      /* Anything else means it's not a BO or KE lookahead
-         construction */
-      return FOUND_OTHER;
-      
-    }
-    start = start->next;
-
-  } while(1);
-#endif
 }
 
 /*++++++++++++++++++++++++++++++
