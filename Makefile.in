@@ -119,8 +119,8 @@ smujajgau.o : smujajgau.c
 vlatai.o : morf.c morf.h morf_enc.c morf_lex.c morfvlex.c
 	$(CC) $(CFLAGS) -c -o vlatai.o -DTEST_MORF morf.c
     
-vlatai : vlatai.o morf_dfa.o bccheck.o
-	$(CC) -o vlatai -DTEST_MORF $(CFLAGS) vlatai.o morf_dfa.o bccheck.o
+vlatai : vlatai.o morf_dfa.o bccheck.o canonluj.o
+	$(CC) -o vlatai -DTEST_MORF $(CFLAGS) vlatai.o morf_dfa.o bccheck.o canonluj.o
 
 morf_lex.c : mk_fetab.pl
 	perl mk_fetab.pl > morf_lex.c 2>morf_lex.err
@@ -184,6 +184,9 @@ jvocuhadju : jvocuhadju.o lujvofns.o
 	$(CC) $(CFLAGS) -o jvocuhadju jvocuhadju.o lujvofns.o
 
 jvocuhadju.o : jvocuhadju.c version.h
+
+test_ivl : lujvofns.c
+	$(CC) $(CFLAGS) -o test_ivl -DTEST_IS_VALID_LUJVO lujvofns.c
 
 smujajgau.o : smujajgau.c version.h
 
