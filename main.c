@@ -132,14 +132,15 @@ main (int argc, char **argv)
   if (in) fclose(in);
 
   if (token_lists) {
-    fprintf(stderr, "\nToken list before preprocessing\n\n");
+    printf("\nToken list before preprocessing\n\n");
     show_tokens();
   }
 
   preprocess_tokens();
 
   if (token_lists) {
-    fprintf(stderr, "\n\nToken list after preprocessing\n\n");
+    printf("\n------------------------------"
+           "\nToken list after preprocessing\n\n");
     show_tokens();
   }
 
