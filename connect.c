@@ -24,17 +24,19 @@ static char *truth_ex[] = {
   "FFFF", "FFFT", "FFTF", "FFTT",
   "FTFF", "FTFT", "FTTF", "FTTT",
   "TFFF", "TFFT", "TFTF", "TFTT",
-  "TTFF", "TTFT", "TTTF", "TTTT"
+  "TTFF", "TTFT", "TTTF", "TTTT",
+  "QQQQ"
 };
 
 /*+ Index as follows : 8*(index in (a,e,o,u) [0..3]) + (4 if
   se-converted) + (2 if first term negated) + (1 if second term
   negated) +*/
 static int main_table[] = {
-  0xe, 0xd, 0xb, 0x7, 0xe, 0xd, 0xb, 0x7,
-  0x8, 0x4, 0x2, 0x1, 0x8, 0x4, 0x2, 0x1,
-  0x9, 0x6, 0x6, 0x9, 0x9, 0x6, 0x6, 0x9,
-  0xc, 0xc, 0x3, 0x3, 0xa, 0x5, 0xa, 0x5
+  0xe,  0xd,  0xb,  0x7,  0xe,  0xd,  0xb,  0x7,
+  0x8,  0x4,  0x2,  0x1,  0x8,  0x4,  0x2,  0x1,
+  0x9,  0x6,  0x6,  0x9,  0x9,  0x6,  0x6,  0x9,
+  0xc,  0xc,  0x3,  0x3,  0xa,  0x5,  0xa,  0x5,
+  0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10, 0x10
 };
 
 typedef enum {
@@ -42,7 +44,8 @@ typedef enum {
   TR_A     = 0,
   TR_E     = 1,
   TR_O     = 2,
-  TR_U     = 3
+  TR_U     = 3,
+  TR_Q     = 4
 } TruthFunction;
 
 
@@ -143,6 +146,8 @@ process_jek(TreeNode *x)
     func = TR_O;
   } else if (!strcmp(text, "ju")) {
     func = TR_U;
+  } else if (!strcmp(text, "je'i")) {
+    func = TR_Q;
   } else {
     func = TR_OTHER;
   }
@@ -179,6 +184,8 @@ process_ek(TreeNode *x)
     func = TR_O;
   } else if (!strcmp(text, "u")) {
     func = TR_U;
+  } else if (!strcmp(text, "ji")) {
+    func = TR_Q;
   } else {
     func = TR_OTHER;
   }
@@ -215,6 +222,8 @@ process_gihek(TreeNode *x)
     func = TR_O;
   } else if (!strcmp(text, "gi'u")) {
     func = TR_U;
+  } else if (!strcmp(text, "gi'i")) {
+    func = TR_Q;
   } else {
     func = TR_OTHER;
   }
@@ -298,6 +307,8 @@ process_guhek(TreeNode *x)
     func = TR_O;
   } else if (!strcmp(text, "gu'u")) {
     func = TR_U;
+  } else if (!strcmp(text, "gu'i")) {
+    func = TR_Q;
   } else {
     func = TR_OTHER;
   }
@@ -432,6 +443,8 @@ process_gek(TreeNode *x)
       func = TR_O;
     } else if (!strcmp(text, "gu")) {
       func = TR_U;
+    } else if (!strcmp(text, "ge'i")) {
+      func = TR_Q;
     } else {
       func = TR_OTHER;
     }
