@@ -26,7 +26,7 @@
 # Declare all symbols in same order as lexer (lexer returns (0 .. whatever)
 # when it recognizes the corresponding token)
 
-Tokens UNK V APOS Y R N C NR CI CSI CP CS CN H HS BT VV VX VY YY YCY
+Tokens UNK V APOS Y R N C NR CI CSI CP CS CN H HS BT VV VX VO VY YY
 
 # Token meanings are as follows
 # UNK   : Unknown character
@@ -49,10 +49,10 @@ Tokens UNK V APOS Y R N C NR CI CSI CP CS CN H HS BT VV VX VY YY YCY
 #         of v,v pattern. [Comma treated the same as apostrophe between vowels]
 # VX    : (extended) 2nd vowel of [iu][aeiou] (allowed as single VV cmavo,
 #         and in fu'ivla & cmene)
+# VO    : other vowel pairs (aa,ae,ao,ea,ee,eo,eu,oa,oe,oo,ou)
 # VY    : vowel pair forms involving y, maybe with a comma between (valid only
 #         in cmene)
 # YY    : 2 copies of the letter y adjacent to each other with no separation
-# YCY   : 2 copies of the letter y with a comma separating them.
 
 # Notes
 # - pairs & triples may have y within them.  This allows this 'grammar' to
@@ -77,6 +77,11 @@ Prefix morf
 Abbrev CNR = C|N|R
 Abbrev LCI = CI|CSI
 Abbrev LCP = CI|CSI|CP|CS|NR
+Abbrev FVV = VV|VX|VO
+Abbrev FC = C|N|R
+Abbrev FCP = CI|CP|H
+Abbrev FCS = CSI|CS|HS|NR
+
 
 ###########################################################
 # Subcomponents for lujvo matching
@@ -419,6 +424,48 @@ BLOCK CULTURAL_LUJVO
 ENDBLOCK
 #}}}
 ###########################################################
+#{{{ BLOCK LUJVO_NO_Y_BAD_VOWELS
+# The idea of this block is to pick out words that have lujvo consonant
+# structure, but which can contain invalid vowel pairs.  These have to be
+# filtered out of the stage-IV fu'ivla set later on.  Hence a big
+# simplification : don't care about lujvo forms with 'y' in.
+BLOCK LUJVO_NO_Y_BAD_VOWELS
+
+    STATE c
+        LCP ; V ; FVV       -> v, exit
+        LCP ; V ; APOS ; V  -> v, exit
+        LCP ; V ; CNR       -> c
+        LCP ; LCI ; V       -> v, exit
+
+    STATE v
+        CNR ; V ; FVV       -> v, exit
+        CNR ; V ; APOS ; V  -> v, exit
+        CNR ; LCI ; V       -> v, exit
+        CNR ; V ; CNR       -> c
+
+    STATE cvv1
+        R ; LCP ; V ; FVV       -> v, exit
+        R ; LCP ; V ; APOS ; V  -> v, exit
+        R ; LCP ; V ; CNR       -> c
+        R ; LCP ; LCI ; V       -> v, exit
+        N ; NR  ; V ; FVV       -> v, exit
+        N ; NR  ; V ; APOS ; V  -> v, exit
+        N ; NR  ; V ; CNR       -> c
+
+    STATE exit = TAG_LUJVO_NO_Y_BAD_VOWELS
+
+    STATE in
+        CNR ; V ; FVV       -> cvv1
+        CNR ; V ; APOS ; V  -> cvv1
+        CNR ; LCI ; V       -> v
+        CNR ; V ; CNR       -> c
+
+        CNR ; V ; FVV      ; CNR ; LCI ; V -> exit
+        CNR ; V ; APOS ; V ; CNR ; LCI ; V -> exit
+
+ENDBLOCK
+#}}}
+###########################################################
 #{{{  BLOCK CMAVOSEQ
 BLOCK CMAVOSEQ
 
@@ -531,14 +578,14 @@ BLOCK FV_VOWELS
 
     STATE in
         V                    -> ex_single
-        V ; VV|VX            -> ex_single
-        V ; VV|VX ; VV|VX    -> main
+        V ; FVV              -> ex_single
+        V ; FVV   ; FVV      -> main
         V ; APOS  ; V        -> main
-        V ; VV|VX ; APOS ; V -> main
+        V ; FVV   ; APOS ; V -> main
 
     STATE main
         APOS ; V  -> main
-        VV|VX     -> main
+        FVV       -> main
                   -> ex_multi
 
 ENDBLOCK
@@ -556,10 +603,6 @@ BLOCK FV_INITIAL_CLUSTER
 
 ENDBLOCK
 #}}}
-
-Abbrev FC = C|N|R
-Abbrev FCP = CI|CP|H
-Abbrev FCS = CSI|CS|HS|NR
 
 #{{{  BLOCK FV_INTERNAL_CONS_GROUP
 BLOCK FV_INTERNAL_CONS_GROUP
@@ -613,12 +656,12 @@ BLOCK FUIVLA_START_V
         V        -> v1
 
     STATE v1
-        VV|VX    -> v2
+        FVV      -> v2
         APOS ; V -> v2
                  -> cons.in_req_clus
 
     STATE v2
-        VV|VX    -> v3
+        FVV      -> v3
         APOS ; V -> v3
                  -> cons.in_req_clus
 
@@ -651,7 +694,7 @@ BLOCK FUIVLA_START_CV
         V        -> v1
 
     STATE v1
-        VV|VX    -> v2
+        FVV      -> v2
         APOS ; V -> v2
                  -> cons.in_req_clus
                  
@@ -865,7 +908,7 @@ BLOCK CMENE
                  -> exit
 
     STATE v
-        VV|VX|VY -> v
+        FVV  |VY -> v
         CNR      -> c
         APOS     -> a
 
@@ -875,9 +918,9 @@ BLOCK CMENE
     STATE y
         APOS           -> a
         VY             -> v
+        YY             -> y
         LCP|HS|H|CN|BT -> c
         CP ; BT        -> c # deal with nytc, nyts, nydj, nydz
-        YCY            -> y
     
     STATE exit
         = TAG_CMENE
@@ -889,14 +932,17 @@ BLOCK WORD
     gismu : GISMU
     lujvo : LUJVO
     cultural_lujvo : CULTURAL_LUJVO
+    lujvo_no_y_bad_vowels : LUJVO_NO_Y_BAD_VOWELS
     cms : CMAVOSEQ
     cmene : CMENE
     fuivla : FUIVLA
     
     STATE in                  -> gismu.in, lujvo.in, cultural_lujvo.in,
-                                 fuivla.in_no_prefix, cms.in, cmene.in
+                                 fuivla.in_no_prefix, cms.in, cmene.in,
+                                 lujvo_no_y_bad_vowels.in
     STATE cms.exit_prefixable -> gismu.in, lujvo.in, cultural_lujvo.in,
-                                 fuivla.in_prefixed
+                                 fuivla.in_prefixed,
+                                 lujvo_no_y_bad_vowels.in
 
     #####
     STATE in     # ENTRY STATE NAMED LAST IN FILE
@@ -966,8 +1012,8 @@ Result S_FUIVLA_0 &  TAG_X_STAGE3_CVC & !TAG_X_STAGE3_LONG -> R_X_STAGE3_0_CVC
 Result S_FUIVLA_1 &  TAG_X_STAGE3_LONG -> R_X_STAGE3_1
 Result S_FUIVLA_1 &  TAG_X_STAGE3_CVC & !TAG_X_STAGE3_LONG -> R_X_STAGE3_1_CVC
 
-Result S_FUIVLA_0 & ~ANY_STAGE3 -> R_STAGE4_0
-Result S_FUIVLA_1 & ~ANY_STAGE3 -> R_STAGE4_1
+Result S_FUIVLA_0 & ~ANY_STAGE3 & ~TAG_LUJVO_NO_Y_BAD_VOWELS -> R_STAGE4_0
+Result S_FUIVLA_1 & ~ANY_STAGE3 & ~TAG_LUJVO_NO_Y_BAD_VOWELS -> R_STAGE4_1
 
 # All of the following are disjoint with each other and with any
 # of the earlier ones

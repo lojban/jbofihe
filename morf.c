@@ -79,8 +79,8 @@ static char *toknam[] =/*{{{*/
 {
   "UNK", "V", "APOS", "Y", "R", "N", "C",
   "NR", "CI", "CSI", "CP", "CS", "CN",
-  "H", "HS", "BT", "VV", "VX", "VY", "YY",
-  "Y,Y"
+  "H", "HS", "BT", "VV", "VX", "VO", 
+  "VY", "YY"
 };
 /*}}}*/
 static char *actnam[] =/*{{{*/
@@ -224,8 +224,6 @@ MorfType morf_scan(char *s, char ***buf_end, struct morf_xtra *arg_xtra)/*{{{*/
   enum processed_category result;
   int had_uppercase=0;
   int letter_uppercase;
-  int ended_with_comma=0;
-  int started_with_comma=0;
   MorfType ext_result;
 
   /* Gather info in a local copy, in case client doesn't want it.
@@ -260,23 +258,20 @@ MorfType morf_scan(char *s, char ***buf_end, struct morf_xtra *arg_xtra)/*{{{*/
 #endif
 
   p = s;
-  started_with_comma = (*p == ',');
 
   /*{{{  Main per-character loop */
   while (*p) {
     c = *p;
 
-    /* The vowel cluster state machine evolves on all input chars including
-       commas.  (The normal consonant state machine doesn't bother about
-       commas) */
-
-    vsm = ((vsm & 077) << 3) | vmapchar[(unsigned char) c & 0xff];
-    
     /* If char is a comma, just advance now. */
     if (c == ',') {
       p++;
       continue;
     }
+    
+    /* Commas are now discarded, even for checking vowel cluster validity */
+
+    vsm = ((vsm & 077) << 3) | vmapchar[(unsigned char) c & 0xff];
     
     G = (unsigned int) mapchar[(unsigned char) c & 0xff];
     letter_uppercase = (G >> 7) & 1;
@@ -381,11 +376,7 @@ MorfType morf_scan(char *s, char ***buf_end, struct morf_xtra *arg_xtra)/*{{{*/
   }
   /*}}}*/
 
-  if (!*p && !(vsm & 0x7)) { /* last char was a comma */
-    ended_with_comma = 1;
-  }
-  
-  if ((state < 0) || started_with_comma || ended_with_comma || (morf_exitval[state] == R_UNKNOWN)) {
+  if ((state < 0) || (morf_exitval[state] == R_UNKNOWN)) {
     result = W_UNKNOWN;
     ext_result = MT_BOGUS;
     decrement = 0;

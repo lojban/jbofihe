@@ -10,9 +10,9 @@ $VTOK_V = 1; # must agree with coding for V in consonant FSM
 $VTOK_Y = 3; # must agree with coding for y in consonant FSM
 $VTOK_VV = 16; # ai/au/ei/oi valid anywhere
 $VTOK_VX = 17; # [iu][aeiou] - vowel extended
-$VTOK_VY = 18; # combinations involving y where valid [only in cmene]
-$VTOK_YY = 19; # two copies of y adjacent with no separation (only in hesitation string)
-$VTOK_YCY = 20; # two copies of y with a comma between
+$VTOK_VO = 18; # [aeiou][aeiou] less the 14 patterns above 
+$VTOK_VY = 19; # combinations involving y where valid [only in cmene]
+$VTOK_YY = 20; # two copies of y adjacent with no separation (only in hesitation string)
 $VTOK_UNK = 0;
 
 # Note, C encodes all consonants + apostrophe
@@ -31,22 +31,14 @@ if ($x =~ /..,/) {
     $r = $VTOK_VV;
 } elsif ($x =~ /.[iu][aeiou]/) {
     $r = $VTOK_VX;
-} elsif ($x =~ /[aeiou],[aeiou]/) {
-    # Conclusion of egroups discussion in Jan 2001 : v,v is treated
-    # as equivalent to v'v, so is valid in any type of word.
-    $r = $VTOK_VV;
-} elsif ($x =~ /C,[aeiou]/) {
-    # For symmetry with V,C and because it seems reasonable for
-    # words like datnlril,odio
-    $r = $VTOK_V;
-} elsif ($x =~ /.[iu]y/ || $x =~ /y,[aeiou]/ || $x =~ /[aeiou],y/) {
+} elsif ($x =~ /.[aeiou][aeiou]/) {
+    $r = $VTOK_VO;
+} elsif ($x =~ /.[iu]y/) {
     $r = $VTOK_VY;
 } elsif ($x =~ /.Cy/) {
     $r = $VTOK_Y;
 } elsif ($x =~ /[Cy]yy/) {
     $r = $VTOK_YY;
-} elsif ($x =~ /y,y/) {
-    $r = $VTOK_YCY;
 } elsif ($x =~ /.C[aeiou]/) {
     $r = $VTOK_V;
 } else {
