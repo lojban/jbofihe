@@ -13,6 +13,7 @@ while (<>) {
 
 $losubscript = $hisubscript = undef;
 
+$matching_subscript = 0; # for bison 1.875 (1.75 too?) on
 while (<>) {
     # Read rules
     if (/^rule\s+([0-9]+)\s+subscript/) {
@@ -21,6 +22,13 @@ while (<>) {
     } elsif (/^\s+([0-9]+)\s+[0-9]+\s+subscript/) {
         $losubscript = $1 unless (defined $losubscript);
         $hisubscript = $1;
+    } elsif (/^\s+([0-9]+)\s+subscript:/) {
+        $losubscript = $1;
+        $matching_subscript = 1;
+    } elsif ($matching_subscript && /^\s+([0-9]+)\s+\|/) {
+        $hisubscript = $1;
+    } elsif ($matching_subscript) {
+        $matching_subscript = 0;
     }
 
     if (/^Terminals, with rules/) {
@@ -56,10 +64,10 @@ while (<>) {
 
     if (/^\s+([^ \t]+)\s+shift, and go to state ([0-9]+)/) {
         $code = $codes{$1};
-        if (!defined $code) {
-            print STDERR "No code for $1 in state $state\n";
-        } else {
+        if (defined $code) {
             push (@{$toks[$state]}, $codes{$1});
+        } else {
+            print STDERR "Warning : no code for $1 in state $state\n";
         }
     }
 }
