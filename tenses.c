@@ -47,6 +47,7 @@ check_tense_context(TreeNode *x)
 
     switch (nt->type) {
       case TERM_TAGGED_SUMTI:
+      case TAGGED_TERMSET:
         tc = prop_tense_ctx(x, YES);
         tc->ctx = TSC_TERM;
         goto done;

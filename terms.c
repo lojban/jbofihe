@@ -434,6 +434,7 @@ tv_build(TermVector *r, TreeNode *x)
         }
         break;
       case TERM_TAGGED_SUMTI:
+      case TAGGED_TERMSET:
         vv.nodes[vv.n_nodes].type = TRM_TAG;
         vv.nodes[vv.n_nodes].node = t;
         vv.n_nodes++;
@@ -1909,6 +1910,7 @@ check_tu1_for_links(TreeNode *tu1)
           }
           break;
         case TERM_TAGGED_SUMTI:
+        case TAGGED_TERMSET:
           tv.nodes[tv.n_nodes].type = TRM_TAG;
           tv.nodes[tv.n_nodes].node = tm;
           tv.n_nodes++;

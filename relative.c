@@ -40,6 +40,7 @@ process_goi_clause (TreeNode *x)
       break;
 
     case TERM_TAGGED_SUMTI:
+    case TAGGED_TERMSET:
       /* In this case we want to elide the gloss for the GOI (in all
          cases of GOI?) */
       xdg = prop_dont_gloss(goi, YES);
