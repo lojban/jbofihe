@@ -950,7 +950,6 @@ subst_base_in_pattern(char *trans, char *base)
   char *localtrans;
   q = result;
   p = trans;
-  fprintf(stderr, "subst tr=%s base=%s\n", trans, base);
   while (*p) {
     if (*p == '%') {
       int place = *++p - '0';
@@ -966,7 +965,6 @@ subst_base_in_pattern(char *trans, char *base)
           fprintf(stderr, "Broken base context for %s\n", trans);
           break;
       }
-      fprintf(stderr, "subst calling adv tr p=%d c=%c\n", place, context);
       localtrans = adv_translate(base, place, ctx);
       r = localtrans;
       while (*r) {
@@ -978,7 +976,6 @@ subst_base_in_pattern(char *trans, char *base)
     }
   }
   *q = 0;
-  fprintf(stderr, "subst returns %s\n", result);
   return result;
 }
 
@@ -1077,7 +1074,7 @@ lookup_template_match(int prec, int suffix, int gather, char *orig, Component *c
     specific[cuts] = 0;
     new_place = comp[ncomp-gather].places[place];
   } else {
-    cutg = comp[gather].start;
+    cutg = comp[gather].start + 1;
     cuts = cutg;
     strncpy(generic, orig, cutg);
     generic[cutg] = 0;
