@@ -1,0 +1,539 @@
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+i je do klama
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : i [sentence link]
+CMV : je [tanru and]
+CMV : do [you]
+BRV : klama
+------------------------------
+Token list after preprocessing
+
+MAR : PRIVATE_I_JEKJOIK
+CMV : i [sentence link]
+MAR : PRIVATE_START_JEK
+CMV : je [tanru and]
+CMV : do [you]
+BRV : klama
+------------------------------
+
+(0[{i je} {do klama}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+i je bo do klama
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : i [sentence link]
+CMV : je [tanru and]
+CMV : bo [short scope link]
+CMV : do [you]
+BRV : klama
+------------------------------
+Token list after preprocessing
+
+MAR : PRIVATE_I_BO
+CMV : i [sentence link]
+MAR : PRIVATE_START_JEK
+CMV : je [tanru and]
+CMV : bo [short scope link]
+CMV : do [you]
+BRV : klama
+------------------------------
+
+(0[{i je bo} {do klama}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+i ce bo do klama
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : i [sentence link]
+CMV : ce [in a set with]
+CMV : bo [short scope link]
+CMV : do [you]
+BRV : klama
+------------------------------
+Token list after preprocessing
+
+MAR : PRIVATE_I_BO
+CMV : i [sentence link]
+MAR : PRIVATE_START_JOIK
+CMV : ce [in a set with]
+MAR : PRIVATE_END_JOIK
+CMV : bo [short scope link]
+CMV : do [you]
+BRV : klama
+------------------------------
+
+(0[{i ce bo} {do klama}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+i ga'o se bi'i nai ga'o bo do klama
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : i [sentence link]
+CMV : ga'o [inclusive interval]
+CMV : se [2nd conversion]
+CMV : bi'i [unordered interval]
+CMV : nai [negate last word]
+CMV : ga'o [inclusive interval]
+CMV : bo [short scope link]
+CMV : do [you]
+BRV : klama
+------------------------------
+Token list after preprocessing
+
+MAR : PRIVATE_I_BO
+CMV : i [sentence link]
+MAR : PRIVATE_START_JOIK
+CMV : ga'o [inclusive interval]
+CMV : se [2nd conversion]
+CMV : bi'i [unordered interval]
+CMV : nai [negate last word]
+CMV : ga'o [inclusive interval]
+MAR : PRIVATE_END_JOIK
+CMV : bo [short scope link]
+CMV : do [you]
+BRV : klama
+------------------------------
+
+(0[{i <ga'o se bi'i nai ga'o> bo} {do klama}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+i je ri'a bo do klama
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : i [sentence link]
+CMV : je [tanru and]
+CMV : ri'a [because of cause]
+CMV : bo [short scope link]
+CMV : do [you]
+BRV : klama
+------------------------------
+Token list after preprocessing
+
+MAR : PRIVATE_I_BO
+CMV : i [sentence link]
+MAR : PRIVATE_START_JEK
+CMV : je [tanru and]
+MAR : PRIVATE_START_TENSE
+CMV : ri'a [because of cause]
+MAR : PRIVATE_END_TENSE
+CMV : bo [short scope link]
+CMV : do [you]
+BRV : klama
+------------------------------
+
+(0[{i je ri'a bo} {do klama}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+i je seri'anai bo do klama
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : i [sentence link]
+CMV : je [tanru and]
+CMV : se [2nd conversion]
+CMV : ri'a [because of cause]
+CMV : nai [negate last word]
+CMV : bo [short scope link]
+CMV : do [you]
+BRV : klama
+------------------------------
+Token list after preprocessing
+
+MAR : PRIVATE_I_BO
+CMV : i [sentence link]
+MAR : PRIVATE_START_JEK
+CMV : je [tanru and]
+MAR : PRIVATE_START_TENSE
+CMV : se [2nd conversion]
+CMV : ri'a [because of cause]
+CMV : nai [negate last word]
+MAR : PRIVATE_END_TENSE
+CMV : bo [short scope link]
+CMV : do [you]
+BRV : klama
+------------------------------
+
+(0[{i je <(1se ri'a)1 nai> bo} {do klama}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+i je caje puzi pano abu roi va bo do klama
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : i [sentence link]
+CMV : je [tanru and]
+CMV : ca [during]
+CMV : je [tanru and]
+CMV : pu [before]
+CMV : zi [short time]
+CMV : pa [1]
+CMV : no [0]
+CMV : a [sumti or]
+CMV : bu [word to lerfu]
+CMV : roi [quantified tense]
+CMV : va [there at]
+CMV : bo [short scope link]
+CMV : do [you]
+BRV : klama
+------------------------------
+Token list after preprocessing
+
+MAR : PRIVATE_I_BO
+CMV : i [sentence link]
+MAR : PRIVATE_START_JEK
+CMV : je [tanru and]
+MAR : PRIVATE_START_TENSE
+CMV : ca [during]
+MAR : PRIVATE_END_TENSE
+MAR : PRIVATE_START_JEK
+CMV : je [tanru and]
+MAR : PRIVATE_START_TENSE
+CMV : pu [before]
+CMV : zi [short time]
+MAR : PRIVATE_NUMBER_ROI
+CMV : pa [1]
+CMV : no [0]
+BU : a
+CMV : roi [quantified tense]
+CMV : va [there at]
+MAR : PRIVATE_END_TENSE
+CMV : bo [short scope link]
+CMV : do [you]
+BRV : klama
+------------------------------
+
+(0[{i je <ca je (1[{pu zi} {<(2pa no)2 a bu> roi}] va)1> bo} {do klama}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+mi klama i je do klama
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : mi [me]
+BRV : klama
+CMV : i [sentence link]
+CMV : je [tanru and]
+CMV : do [you]
+BRV : klama
+------------------------------
+Token list after preprocessing
+
+CMV : mi [me]
+BRV : klama
+MAR : PRIVATE_I_JEKJOIK
+CMV : i [sentence link]
+MAR : PRIVATE_START_JEK
+CMV : je [tanru and]
+CMV : do [you]
+BRV : klama
+------------------------------
+
+(0[{mi klama} {i je} {do klama}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+mi klama i je bo do klama
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : mi [me]
+BRV : klama
+CMV : i [sentence link]
+CMV : je [tanru and]
+CMV : bo [short scope link]
+CMV : do [you]
+BRV : klama
+------------------------------
+Token list after preprocessing
+
+CMV : mi [me]
+BRV : klama
+MAR : PRIVATE_I_BO
+CMV : i [sentence link]
+MAR : PRIVATE_START_JEK
+CMV : je [tanru and]
+CMV : bo [short scope link]
+CMV : do [you]
+BRV : klama
+------------------------------
+
+(0[{mi klama} {i je bo} {do klama}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+mi klama i ce bo do klama
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : mi [me]
+BRV : klama
+CMV : i [sentence link]
+CMV : ce [in a set with]
+CMV : bo [short scope link]
+CMV : do [you]
+BRV : klama
+------------------------------
+Token list after preprocessing
+
+CMV : mi [me]
+BRV : klama
+MAR : PRIVATE_I_BO
+CMV : i [sentence link]
+MAR : PRIVATE_START_JOIK
+CMV : ce [in a set with]
+MAR : PRIVATE_END_JOIK
+CMV : bo [short scope link]
+CMV : do [you]
+BRV : klama
+------------------------------
+
+(0[{mi klama} {i ce bo} {do klama}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+mi klama i ga'o se bi'i nai ga'o bo do klama
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : mi [me]
+BRV : klama
+CMV : i [sentence link]
+CMV : ga'o [inclusive interval]
+CMV : se [2nd conversion]
+CMV : bi'i [unordered interval]
+CMV : nai [negate last word]
+CMV : ga'o [inclusive interval]
+CMV : bo [short scope link]
+CMV : do [you]
+BRV : klama
+------------------------------
+Token list after preprocessing
+
+CMV : mi [me]
+BRV : klama
+MAR : PRIVATE_I_BO
+CMV : i [sentence link]
+MAR : PRIVATE_START_JOIK
+CMV : ga'o [inclusive interval]
+CMV : se [2nd conversion]
+CMV : bi'i [unordered interval]
+CMV : nai [negate last word]
+CMV : ga'o [inclusive interval]
+MAR : PRIVATE_END_JOIK
+CMV : bo [short scope link]
+CMV : do [you]
+BRV : klama
+------------------------------
+
+(0[{mi klama} {i <ga'o se bi'i nai ga'o> bo} {do klama}])0
+-------------------------
+__STDERR
+----------
+-------------------------
+############################################################
+PROGRAM : jbofihe -k
+========================================
+STDIN :
+----------
+mi klama i je do klama
+-------------------------
+========================================
+Exit status : 0
+Core dumped : NO
+Signal      : 0
+========================================
+__STDOUT
+----------
+
+Token list before preprocessing
+
+CMV : mi [me]
+BRV : klama
+CMV : i [sentence link]
+CMV : je [tanru and]
+CMV : do [you]
+BRV : klama
+------------------------------
+Token list after preprocessing
+
+CMV : mi [me]
+BRV : klama
+MAR : PRIVATE_I_JEKJOIK
+CMV : i [sentence link]
+MAR : PRIVATE_START_JEK
+CMV : je [tanru and]
+CMV : do [you]
+BRV : klama
+------------------------------
+
+(0[{mi klama} {i je} {do klama}])0
+-------------------------
+__STDERR
+----------
+-------------------------

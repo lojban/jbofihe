@@ -1,0 +1,21 @@
+require 'testpak.pl';
+
+# Tests for preparser processing.
+
+$prog = "jbofihe -k"; # just use tree output to check parsing
+
+&test(stdin=>"i je do klama");
+&test(stdin=>"i je bo do klama");
+&test(stdin=>"i ce bo do klama");
+&test(stdin=>"i ga'o se bi'i nai ga'o bo do klama");
+
+&test(stdin=>"i je ri'a bo do klama");
+&test(stdin=>"i je seri'anai bo do klama");
+&test(stdin=>"i je caje puzi pano abu roi va bo do klama");
+
+&test(stdin=>"mi klama i je do klama");
+&test(stdin=>"mi klama i je bo do klama");
+&test(stdin=>"mi klama i ce bo do klama");
+&test(stdin=>"mi klama i ga'o se bi'i nai ga'o bo do klama");
+
+&test(stdin=>"mi klama i je do klama");
