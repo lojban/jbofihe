@@ -4,6 +4,11 @@
   Higher level lexing functions - group tokens together to implement
   functions below the level of the bison grammar.  Provide the yylex
   function.
+
+  The order in which the lexing functions have to be performed comes
+  from the top of grammar.300 - acknowledgements to the Logical
+  Language Group who generated that file.
+
   ***************************************/
 
 /* COPYRIGHT */

@@ -1,5 +1,11 @@
+################################################################################
 # $Header$
-
+#
+# This file contains a number of additions to the glossing dictionary extending
+# what the LLG files at ftp://xiron.pc.helsinki.fi/pub/lojban/wordlists
+# provide.  It is very much 'work in progress'
+#
+#
 # Extra lujvo etc I've invented
 cavycau:drought
 cikcfa:wake up, rise:awake-begin

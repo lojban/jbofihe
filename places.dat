@@ -1,4 +1,11 @@
+################################################################################
 # $Header$
+#
+# This file was automatically generated (badly!) from the 'gismu' file
+# at ftp://xiron.pc.helsinki.fi/pub/lojban/wordlists.  Uncommenting
+# the entries and filling them in is work in progress.  Note that
+# quite a lot of the gismu have come out with the wrong numbers of
+# places, this has to be manually fixed.
 #
 # x1 utters verbally/says/phonates/speaks [vocally makes sound] x2                                
 bacru1:A;utter
