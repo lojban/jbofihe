@@ -30,8 +30,6 @@ lookup_converted_place(TreeNode *se_cmavo)
   char *se;
   int conv;
 
-  assert (se_cmavo->type == N_CMAVO);
-  assert (se_cmavo->data.cmavo.selmao == SE);
   se = cmavo_table[se_cmavo->data.cmavo.code].cmavo;
   if (!strcmp(se, "se")) {
     conv = 2;
@@ -70,7 +68,7 @@ conv_tag_se_bai(TreeNode *x)
 
     switch (nt->type) {
       case SE_BAI:
-        c1 = nt->children[0];
+        c1 = strip_attitudinal_from_cmavo(nt->children[0], SE);
         c2 = nt->children[1];
         conv = lookup_converted_place(c1);
         ext = prop_bai_conversion(c2, YES);

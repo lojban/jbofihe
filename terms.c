@@ -275,11 +275,11 @@ recover_se_conv(TreeNode *x)
 {
   int se_code;
   char *se_str;
+  TreeNode *se;
 
-  assert((x->type == N_CMAVO) &&
-         (x->data.cmavo.selmao == SE));
+  se = strip_attitudinal_from_cmavo(x, SE);
 
-  se_code = x->data.cmavo.code;
+  se_code = se->data.cmavo.code;
   se_str = cmavo_table[se_code].cmavo;
 
   /* Unfortunately, faxixa, faxize etc to access the 6th places

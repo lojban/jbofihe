@@ -532,6 +532,38 @@ find_nth_cmavo_child(TreeNode *x, int n, int selmao)
 
 }
 
+/*++++++++++++++++++++++++++++++++++++++
+  Given a treenode, either it is a cmavo, or it's an AUGMENTED with a
+  non-attitudinal cmavo amongst the children.  Find the child with the right
+  selmao, and trap if there isn't one.
+  ++++++++++++++++++++++++++++++++++++++*/
+
+TreeNode *
+strip_attitudinal_from_cmavo(TreeNode *x, int selmao)
+{
+  TreeNode *y;
+  if (x->type == N_CMAVO) {
+      assert(x->data.cmavo.selmao == selmao);
+      return x;
+  } else if (x->type == N_NONTERM) {
+    TreeNode *c;
+    int i, nc;
+    struct nonterm *nt;
+
+    nt = &(x->data.nonterm);
+    assert(nt->type == AUGMENTED);
+    nc = nt->nchildren;
+    for (i=0; i<nc; i++) {
+      c = nt->children[i];
+      if ((c->type == N_CMAVO) && (c->data.cmavo.selmao == selmao)) {
+        return c;
+      }
+    }
+    assert(0);
+  } else {
+    assert(0);
+  }
+}
 
 /*++++++++++++++++++++++++++++++++++++++
   Return 1 if all children are cmavo
