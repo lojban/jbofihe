@@ -1003,6 +1003,7 @@ output_term(TreeNode *x, WhatToShow what)
               (drv->start_tag)();
               (drv->write_tag_text)(cmavo, tp, trans, YES);
             }
+          break;
 
           case TTT_ME:
             {
@@ -1012,7 +1013,7 @@ output_term(TreeNode *x, WhatToShow what)
               sprintf(transbuf, trans, tag->me.sumti->data.nonterm.number);
               (drv->write_tag_text)("me...", "", transbuf, YES);
             }
-            break;
+          break;
           case TTT_GAhO:
           case TTT_NUhA:
             abort();
