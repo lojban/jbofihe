@@ -1,15 +1,16 @@
 Begin3
 Title:          jbofihe
-Version:        0.28
-Entered-date:   21OCT99
+Version:        0.30
+Entered-date:   23APR00
 Description:    A parser for Lojban, a constructed human language
                 with a machine-parseable grammar (see www.lojban.org).
-                Also outputs rough English translations.
+                Also outputs rough English translations.  Several
+                related utilities bundled.
 Keywords:       lojban, constructed language
 Author:         rpc@myself.com (Richard Curnow)
 Maintained-by:  rpc@myself.com (Richard Curnow)
 Primary-site:   sunsite.unc.edu /pub/Linux/apps/misc
-                193k jbofihe-0.28.tar.gz
+                209k jbofihe-0.30.tar.gz
 Platforms:      Unix
 Copying-policy: FRS
 End
