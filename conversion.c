@@ -289,6 +289,7 @@ conv_mark_gloss_types(TreeNode *x, GlossState g)
 
     switch (nt->type) {
       case MAIN_SELBRI:
+      case METALINGUISTIC_MAIN_SELBRI:
         ng = GS_MAIN_SELBRI;
         break;
       case JAI_TAG_TU2:
