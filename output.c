@@ -234,6 +234,73 @@ translate_se (TreeNode *x, char *eng)
   }
 }
 
+
+/*++++++++++++++++++++++++++++++++++++++
+  
+
+  TreeNode *x
+
+  char *sofar
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+get_cmavo_text_inside_node_internal(TreeNode *x, char *sofar)
+{
+  struct nonterm *nt;
+  int i, n;
+  int selmao;
+  char *t;
+  TreeNode *c;
+
+  if (x->type == N_NONTERM) {
+    nt = &x->data.nonterm;
+    n = nt->nchildren;
+    for (i=0; i<n; i++) {
+      c = nt->children[i];
+      get_cmavo_text_inside_node_internal(c, sofar);
+    }
+  } else if (x->type == N_CMAVO) {
+    selmao = x->data.cmavo.selmao;
+    switch (selmao) {
+      case UI:
+      case BAhE:
+      case DAhO:
+      case Y:
+      case FUhO:
+        break;
+
+      default:
+        t = cmavo_table[x->data.cmavo.code].cmavo;
+        strcat(sofar, t);
+        break;
+    }
+
+  }
+
+  return;
+
+}
+
+
+/*++++++++++++++++++++++++++++++++++++++
+  Retrieve the lojban text for the cmavo inside a node, excluding
+  indicator stuff.
+
+  static char * get_cmavo_text_inside_node
+
+  TreeNode *x
+  ++++++++++++++++++++++++++++++++++++++*/
+
+
+static char *
+get_cmavo_text_inside_node(TreeNode *x)
+{
+  static char buffer[4096];
+  buffer[0] = 0;
+  get_cmavo_text_inside_node_internal(x, buffer);
+  return buffer;
+}
+
 /*++++++++++++++++++++++++++++++++++++++
 
   TreeNode *x
@@ -1064,6 +1131,62 @@ output_fore_or_afterthought(TreeNode *x, WhatToShow what)
 
 }
 
+
+/*++++++++++++++++++++++++++++++++++++++
+  For certain types of non-terminal, gather together the constituent
+  children as a concatenated string.  Try to look this up in the
+  dictionary.  If it works output that translation, else drill down as
+  normal.
+
+  TreeNode *x
+
+  WhatToShow what
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+output_clustered(TreeNode *x, WhatToShow what)
+{
+  char *cluster, *trans;
+  char localtrans[256];
+  int i, n;
+  TreeNode *c;
+  struct nonterm *nt;
+
+  cluster = get_cmavo_text_inside_node(x);
+
+  /* May eventually want context dependence here since many of the
+     cases are tag/tense sorts of thing */
+
+  trans = translate(cluster);
+
+  if (trans) {
+    strcpy(localtrans, trans);
+    if ((what == SHOW_LOJBAN) ||
+        (what == SHOW_LOJBAN_AND_INDICATORS) ||
+        (what == SHOW_BOTH)) {
+      nt = &x->data.nonterm;
+      n = nt->nchildren;
+      for (i=0; i<n; i++) {
+        c = nt->children[i];
+        output_internal(c, SHOW_LOJBAN_AND_INDICATORS);
+      }
+    }
+    
+    if ((what == SHOW_ENGLISH) ||
+        (what == SHOW_BOTH)) {
+      (drv->translation)(localtrans);
+    }
+
+  } else {
+    nt = &x->data.nonterm;
+    n = nt->nchildren;
+    for (i=0; i<n; i++) {
+      c = nt->children[i];
+      output_internal(c, what);
+    }
+  }
+}
+
 /*++++++++++++++++++++++++++++++
   
   ++++++++++++++++++++++++++++++*/
@@ -1134,6 +1257,11 @@ output_internal(TreeNode *x, WhatToShow what)
     } else if (y->type == TIME_OFFSET) {
 
       output_simple_time_offset(x, what);
+
+    } else if ((y->type == SPACE_INT_PROP) ||
+               (y->type == INTERVAL_PROPERTY)) {
+      
+      output_clustered(x, what);
 
     } else if (y->type == SUMTI_TAIL) {
 
