@@ -64,6 +64,38 @@ static int transord = 0;
 /*+ Array of transactions, built up from the 'links' singly linked list +*/
 static Trans **transac;
 
+#define MKL 256
+static int wordlens[MKL];
+
+
+/*++++++++++++++++++++++++++++++++++++++
+  
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+clear_histogram(void)
+{
+  int i;
+  for (i=0; i<MKL; i++) {
+    wordlens[i] = 0;
+  }
+}
+
+
+/*++++++++++++++++++++++++++++++++++++++
+  
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+print_histogram(void)
+{
+  int i;
+  for (i=0; i<MKL; i++) {
+    fprintf(stderr, "Words of length %3d : %6d\n", i, wordlens[i]);
+  }
+}
+
+
 /*++++++++++++++++++++++++++++++++++++++
   Add a definition of a word to the transaction list.
 
@@ -307,15 +339,21 @@ write_database(FILE *out)
   for (i=0; i<transord; i++) {
     t = transac[i];
     len = strlen(t->key);
+    ++wordlens[len];
     put_char(out, len);
     len = strlen(t->val);
+    ++wordlens[len];
     put_char(out, len);
   }
 
   for (i=0; i<transord; i++) {
     t = transac[i];
-    fwrite(t->key, sizeof(char), strlen(t->key), out);
-    fwrite(t->val, sizeof(char), strlen(t->val), out);
+
+    /* Write terminating null characters for each string.  This gives
+       us the option of mmap'ing the data in translate.c */
+
+    fwrite(t->key, sizeof(char), 1 + strlen(t->key), out);
+    fwrite(t->val, sizeof(char), 1 + strlen(t->val), out);
   }
 }
 
@@ -349,9 +387,9 @@ read_database(FILE *in)
     entries[i].vlen = len;
   }
   for (i=0; i<n_entries; i++) {
-    fread(key, sizeof(char), entries[i].klen, in);
-    fread(val, sizeof(char), entries[i].vlen, in);
-    key[entries[i].klen] = 0;
+    fread(key, sizeof(char), entries[i].klen + 1, in); /* Read null termination */
+    fread(val, sizeof(char), entries[i].vlen + 1, in); /* Read null termination .. */
+    key[entries[i].klen] = 0; /* ... but set it anyway for safety */
     val[entries[i].vlen] = 0;
     add_defn(key, val);
   }
@@ -444,7 +482,9 @@ int
 main (int argc, char **argv) {
   char *dbname;
   FILE *in, *out;
-  
+
+  clear_histogram();
+
   if (argc < 3) {
     fprintf(stderr, "Usage : %s <dbname> <source1> ... <sourceN>\n", argv[0]);
     exit(1);
@@ -500,6 +540,10 @@ main (int argc, char **argv) {
   write_database(out);
 
   fclose(out);
+
+  if (0) {
+    print_histogram();
+  }
 
   return 0;
 }
