@@ -1207,20 +1207,23 @@ static void print_attribute_table(void)/*{{{*/
 {
   int i;
   extern char *prefix;
-  char *defattr = get_defresult(attr_evaluator);
+  char *defattr;
 
-  if (prefix) {
-    fprintf(output, "%s %s_attribute[] = {\n", get_result_type(attr_evaluator), prefix);
-  } else {
-    fprintf(output, "%s attribute[] = {\n", get_result_type(attr_evaluator));
+  if (evaluator_is_used(attr_evaluator)) {
+    defattr = get_defresult(attr_evaluator);
+    if (prefix) {
+      fprintf(output, "%s %s_attribute[] = {\n", get_result_type(attr_evaluator), prefix);
+    } else {
+      fprintf(output, "%s attribute[] = {\n", get_result_type(attr_evaluator));
+    }
+    for (i=0; i<ndfa; i++) {
+      char *av = dfas[i]->attribute;
+      fprintf(output, "%s", av ? av : defattr);
+      fputc ((i<(ndfa-1)) ? ',' : ' ', output);
+      fprintf(output, " /* State %d */\n", i);
+    }
+    fprintf(output, "};\n\n");
   }
-  for (i=0; i<ndfa; i++) {
-    char *av = dfas[i]->attribute;
-    fprintf(output, "%s", av ? av : defattr);
-    fputc ((i<(ndfa-1)) ? ',' : ' ', output);
-    fprintf(output, " /* State %d */\n", i);
-  }
-  fprintf(output, "};\n\n");
 
 }
 /*}}}*/

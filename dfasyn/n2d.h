@@ -188,6 +188,7 @@ void define_defresult(Evaluator *x, char *string);
 void clear_symbol_values(Evaluator *x);
 void set_symbol_value(Evaluator *x, char *sym_name);
 int evaluate_result(Evaluator *x, char **, int *);
+int evaluator_is_used(Evaluator *x);
 void define_defresult(Evaluator *x, char *text);
 void define_type(Evaluator *x, char *text);
 char* get_defresult(Evaluator *x);

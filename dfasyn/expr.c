@@ -63,6 +63,7 @@ typedef struct SymbolList SymbolList;
 struct evaluator {
   SymbolList *symbols;
   Result *results;
+  int is_used; /* Set if any input rules reference this evaluator */
   int n_results;
   int max_results;
   /* Flag indicating whether any results evaluated so far have evaluated true.
@@ -86,6 +87,7 @@ Evaluator* create_evaluator(char *name)/*{{{*/
   Evaluator *x = new(struct evaluator);
   x->symbols = NULL;
   x->results = NULL;
+  x->is_used = 0;
   x->n_results = x->max_results = 0;
   x->any_results_so_far = 0;
   x->name = new_string(name);
@@ -103,11 +105,13 @@ void destroy_evaluator(Evaluator *x)/*{{{*/
 void define_defresult(Evaluator *x, char *text)/*{{{*/
 {
   x->defresult = new_string(text);
+  x->is_used = 1;
 }
 /*}}}*/
 void define_type(Evaluator *x, char *text)/*{{{*/
 {
   x->result_type = new_string(text); 
+  x->is_used = 1;
 }
 /*}}}*/
 char* get_defresult(Evaluator *x)/*{{{*/
@@ -237,6 +241,7 @@ void define_result(Evaluator *x, char *string, Expr *e, int early)/*{{{*/
   int i;
   Result *r;
 
+  x->is_used = 1;
   grow_results(x);
   r = &(x->results[x->n_results++]);
   r->result = new_string(string);
@@ -258,6 +263,7 @@ void define_symbol(Evaluator *x, char *name, Expr *e)/*{{{*/
   ++++++++++++++++++++*/
 {
   Symbol *s;
+  x->is_used = 1;
   s = find_symbol_or_create(x, name);
   s->data.e = e;
   s->is_expr = 1;
@@ -270,6 +276,7 @@ void define_symresult(Evaluator *x, char *name, Expr *e, int early)/*{{{*/
   Define an entry in the symbol table, and a result with the same name.
   ++++++++++++++++++++*/
 {
+  x->is_used = 1;
   define_symbol(x, name, e);
   define_result(x, name, e, early);
   return;
@@ -365,6 +372,11 @@ int evaluate_result(Evaluator *x, char **result, int *result_early)/*{{{*/
     if (result_early) *result_early = x->results[matched].early;
     return 1;
   }
+}
+/*}}}*/
+int evaluator_is_used(Evaluator *x)/*{{{*/
+{
+  return x->is_used;
 }
 /*}}}*/
 /* Initialisation */
