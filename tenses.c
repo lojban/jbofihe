@@ -65,7 +65,7 @@ check_tense_context(TreeNode *x)
         goto done;
         break;
 
-      case SUMTI_5:
+      case SUMTI_5B:
       case SUMTI_TAIL_1:
         tc = prop_tense_ctx(x, YES);
         tc->ctx = TSC_NOUN;

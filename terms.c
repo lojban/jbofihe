@@ -1543,20 +1543,19 @@ process_abstraction(TreeNode *x)
 static void
 process_relative_clause(TreeNode *x)
 {
-  TreeNode *ss;
+  TreeNode *ss, *fc;
   TermVector pre, post;
 
   tv_init(&pre);
   tv_init(&post);
-  ss = find_nth_child(x, 1, SUBSENTENCE);
-  if (ss) {
-    process_subsentence(ss, &pre, &post);
+  fc = child_ref(x, 0);
+  if (fc->data.nonterm.type == FULL_RELATIVE_CLAUSE) {
+    ss = find_nth_child(fc, 1, SUBSENTENCE);
+    if (ss) {
+      process_subsentence(ss, &pre, &post);
+    }
   }
 }
-
-
-
-
 
 /*++++++++++++++++++++++++++++++
   Seek recursively downwards looking for treenodes of type
@@ -1698,6 +1697,13 @@ scan_tu1_phase1(TreeNode *x)
     }
   }
 }
+
+
+/*++++++++++++++++++++++++++++++++++++++
+  
+
+  TreeNode *x
+  ++++++++++++++++++++++++++++++++++++++*/
 
 static void
 scan_tu1_phase2(TreeNode *x)
