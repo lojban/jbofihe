@@ -75,11 +75,6 @@ extern int allow_cultural_rafsi;
    nfa2dfa.pl. */
 #include "morfnc_dfa.c"
 
-/* Include the tables used to encode the or'd together bit patterns into a
- * single output decision as to the type of word.  These tables are built by
- * mk_enctab.pl */
-#include "morf_enc.c"
-
 /* Map N->1, R->2, other C->3, else ->0.  Used to trim down the last-but-one
  * letter, which is saved to allow the front-end to spot illegal triples and
  * type III fu'ivla hyphen patterns. */
@@ -210,13 +205,14 @@ static unsigned char vmapchar[256] = {
 
 
 struct StateTransTable {
-  unsigned short *ns;
+  short *ns;
   unsigned char *tok;
   unsigned short *base;
+  short *def;
 };
 
-static struct StateTransTable morf_stt = {morf_nextstate, morf_token, morf_base};
-static struct StateTransTable morfnc_stt = {morfnc_nextstate, morfnc_token, morfnc_base};
+static struct StateTransTable morf_stt = {morf_nextstate, morf_token, morf_base, morf_defstate};
+static struct StateTransTable morfnc_stt = {morfnc_nextstate, morfnc_token, morfnc_base, morfnc_defstate};
 
 /*********************************************************************/
 /* Given the current state and the 'token' read, find the next state */
@@ -230,17 +226,23 @@ int find_next_state(struct StateTransTable *tab, int cs, unsigned char k)
   unsigned short *nstab = tab->ns;
   unsigned int kk = k;
 
-  l = tab->base[cs];
-  h = tab->base[cs+1];
-  while (h > l) {
-    m = (h + l) >> 1;
-    xm = t[m];
-    if (xm == kk) goto done;
-    if (m == l) break;
-    if (xm>kk) h = m;
-    else       l = m;
+  while (cs >= 0) {
+    l = tab->base[cs];
+    h = tab->base[cs+1];
+    while (h > l) {
+      m = (h + l) >> 1;
+      xm = t[m];
+      if (xm == kk) goto done;
+      if (m == l) break;
+      if (xm>kk) h = m;
+      else       l = m;
+    }
+    cs = tab->def[cs]; /* Move onto next subtable to check. */
   }
+
+  /* Tried all tables without a match, fail */
   return -1;
+
 done:
   return (int)nstab[m];
 }
