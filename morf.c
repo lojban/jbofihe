@@ -40,11 +40,12 @@ extern int allow_cultural_rafsi;
 #define R_LUJVO_1       6
 #define R_STAGE3_0      7
 #define R_STAGE3_1      8
-#define R_STAGE4_0      9
-#define R_STAGE4_1     10
-#define R_CMENE        11
-#define R_BAD_TOSMABRU 12
-#define R_BAD_SLINKUI  13
+#define R_STAGE3_1_CVC  9
+#define R_STAGE4_0     10
+#define R_STAGE4_1     11
+#define R_CMENE        12
+#define R_BAD_TOSMABRU 13
+#define R_BAD_SLINKUI  14
 
 /* Define the values returned by priority coding the bit patterns */
 #define W_UNKNOWN         0
@@ -53,11 +54,12 @@ extern int allow_cultural_rafsi;
 #define W_GISMU           3
 #define W_LUJVO           4
 #define W_FUIVLA3         5
-#define W_FUIVLA4         6
-#define W_CMENE           7
-#define W_BAD_TOSMABRU    8
-#define W_BAD_SLINKUI     9
-#define W_BIZARRE        10
+#define W_FUIVLA3_CVC     6
+#define W_FUIVLA4         7
+#define W_CMENE           8
+#define W_BAD_TOSMABRU    9
+#define W_BAD_SLINKUI    10
+#define W_BIZARRE        11
 
 /* Include table for turning the letter stream into meta-classes (consonant,
  * vowel, permissible pair etc).  These 'meta-classes' are the tokens used by
@@ -418,6 +420,7 @@ morf_scan(char *s, char ***buf_end)
       case R_LUJVO_1: result = W_LUJVO; decrement = 1; break;
       case R_STAGE3_0: result = W_FUIVLA3; decrement = 0; break;
       case R_STAGE3_1: result = W_FUIVLA3; decrement = 1; break;
+      case R_STAGE3_1_CVC: result = W_FUIVLA3_CVC; decrement = 1; break;
       case R_STAGE4_0: result = W_FUIVLA4; decrement = 0; break;
       case R_STAGE4_1: result = W_FUIVLA4; decrement = 1; break;
       case R_CMENE: result = W_CMENE; decrement = 0; break;
@@ -452,6 +455,10 @@ morf_scan(char *s, char ***buf_end)
         break;
       case W_FUIVLA3:
         ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_FUIVLA3;
+        if (decrement) pstart--;
+        break;
+      case W_FUIVLA3_CVC:
+        ext_result = had_uppercase ? MT_BAD_UPPERCASE : MT_FUIVLA3_CVC;
         if (decrement) pstart--;
         break;
       case W_FUIVLA4:
@@ -502,6 +509,9 @@ morf_scan(char *s, char ***buf_end)
       case W_LUJVO:
         printf("lujvo");
         break;
+      case W_FUIVLA3_CVC:
+        printf("fu'ivla (stage-3 short rafsi)");
+        break;
       case W_FUIVLA3:
         printf("fu'ivla (stage-3)");
         break;
@@ -529,6 +539,7 @@ morf_scan(char *s, char ***buf_end)
       case W_GISMU:
       case W_LUJVO:
       case W_FUIVLA3:
+      case W_FUIVLA3_CVC:
       case W_FUIVLA4:
       case W_BAD_TOSMABRU:
       case W_BAD_SLINKUI:
