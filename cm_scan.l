@@ -15,8 +15,8 @@ C	[bcdfgjklmnprstvxz]
 V	[aeiou]
 L	({C}|{V}|y|\')
 
-VCM	({V}|({V}{V})|({V}\'{V}))
-CCM	({C}({V}|({V}{V})|({V}\'{V})))
+VCM	((y|{V}|({V}{V})|({V}\'{V})|y\'y)\.?)
+CCM	(({C}(y|{V}|({V}{V})|({V}\'{V})))\.?)
 
 %x PAREN
 
