@@ -155,7 +155,7 @@ process_cmavo(char *buf, int start_line, int start_column)
   ++++++++++++++++++++++++++++++++++++++*/
 
 static void
-add_brivla_token(char *x, int start_line, int start_column)
+add_brivla_token(char *x, int start_line, int start_column, enum BrivlaType brivla_type)
 {
   TreeNode *tok;
 
@@ -166,6 +166,7 @@ add_brivla_token(char *x, int start_line, int start_column)
   /* Leave commas etc in for BRIVLA - you can use them in a
      fu'ivla? */
   tok->data.brivla.word = new_string(x);
+  tok->data.brivla.type = brivla_type;
   add_token(tok);
 
 
@@ -224,6 +225,30 @@ process_cmene(char *buf, int start_line, int start_column)
   tok->data.cmene.word = new_string(buf);
   add_token(tok);
 }
+
+/*++++++++++++++++++++++++++++++++++++++
+  Take cmavo off the front of a gismu, lujvo or fu'ivla
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+add_preceding_cmavo(char **pws, char **pwe, int start_line, int *column)
+{
+  char **pw;
+  char *p, *q;
+  int incr;
+  char buf2[1024];
+  for (pw=pws; pw<pwe; pw++) {
+    incr = 0;
+    for (p=*pw, q=buf2; p<*(pw+1);) {
+      *q++ = *p++;
+      incr++;
+    }
+    *q = 0;
+    process_cmavo(buf2, start_line, *column);
+    *column += incr;
+  }
+}
+
 
 /*++++++++++++++++++++++++++++++++++++++
   Handle a single word delimited by whitespace or periods.  Break it
@@ -304,24 +329,21 @@ process_word(char *buf, int start_line, int start_column)
       had_bad_tokens = 1;
       break;
     case MT_GISMU:
+      add_preceding_cmavo(pws, pwe, start_line, &column);
+      add_brivla_token(*pwe, start_line, column, BVT_GISMU);
+      break;
     case MT_LUJVO:
+      add_preceding_cmavo(pws, pwe, start_line, &column);
+      add_brivla_token(*pwe, start_line, column, BVT_LUJVO);
+      break;
     case MT_FUIVLA3:
+    case MT_FUIVLA3_CVC:
+      add_preceding_cmavo(pws, pwe, start_line, &column);
+      add_brivla_token(*pwe, start_line, column, BVT_FUIVLA3);
+      break;
     case MT_FUIVLA4:
-      {
-        char **pw;
-        char *p, *q;
-        for (pw=pws; pw<pwe; pw++) {
-          incr = 0;
-          for (p=*pw, q=buf2; p<*(pw+1);) {
-            *q++ = *p++;
-            incr++;
-          }
-          *q = 0;
-          process_cmavo(buf2, start_line, column);
-          column += incr;
-        }
-        add_brivla_token(*pwe, start_line, column);
-      }
+      add_preceding_cmavo(pws, pwe, start_line, &column);
+      add_brivla_token(*pwe, start_line, column, BVT_FUIVLA4);
       break;
     case MT_CMENE:
       process_cmene(buf, start_line, column);
