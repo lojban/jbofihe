@@ -20,7 +20,9 @@ extern int yydebug;
 
 extern int yyparse(void);
 
-extern DriverVector latex_driver, latex_block_driver, textout_driver, html_driver;
+extern DriverVector latex_driver, latex_block_driver;
+extern DriverVector textout_driver, text_block_driver;
+extern DriverVector html_driver;
 
 static int had_syntax_error;
 
@@ -127,7 +129,7 @@ main (int argc, char **argv)
       if (latex) {
         do_output(top, block ? &latex_block_driver : &latex_driver);
       } else if (textout) {
-        do_output(top, &textout_driver);
+        do_output(top, block ? &text_block_driver: &textout_driver);
       } else if (htmlout) {
         do_output(top, &html_driver);
       }
