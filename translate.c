@@ -143,10 +143,8 @@ read_database(FILE *in)
     char key[1024], val[1024];
 
     for (i=0; i<n_entries; i++) {
-      fread(key, sizeof(char), entries[i].klen, in);
-      fread(val, sizeof(char), entries[i].vlen, in);
-      key[entries[i].klen] = 0;
-      val[entries[i].vlen] = 0;
+      fread(key, sizeof(char), entries[i].klen + 1, in);
+      fread(val, sizeof(char), entries[i].vlen + 1, in);
       dict[i].key = new_string(key);
       dict[i].val = new_string(val);
     }
@@ -297,6 +295,33 @@ is_consonant_not_r(char c)
 
 /* ================================================== */
 
+char *
+translate_fuivla_prefix(char *w, int place)
+{
+  char *canon;
+  Component comp[32];
+  int n_comps;
+  static char buffer[1024];
+  char *trans;
+  int i;
+
+  canon = canon_lujvo(w);
+  split_into_comps(canon, comp, &n_comps);
+  buffer[0] = 0;
+  for (i=0; i<n_comps; i++) {
+    int first = (i == 0);
+    int last  = (i == (n_comps-1));
+    trans = adv_translate(comp[i].text, comp[i].places[1], last ? TCX_NOUN : TCX_QUAL);
+    if (!first) strcat(buffer, "-");
+    if (trans) {
+      strcat(buffer, trans);
+    } else {
+      strcat(buffer, "?");
+    }
+  }   
+  return buffer;
+}
+
 /* ================================================== */
 
 char *
@@ -346,7 +371,7 @@ translate_unknown(char *w, int place)
       *q = *p;
     }
     *q = 0;
-    ltrans = translate_lujvo(buf, place);
+    ltrans = translate_fuivla_prefix(buf, place);
     if (ltrans) {
       strcpy(buf, ltrans);
     } else {
