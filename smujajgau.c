@@ -70,6 +70,8 @@ static Trans **transac;
 static int wordlens[MKL];
 
 
+extern char *canon_lujvo(char *);
+
 /*++++++++++++++++++++++++++++++++++++++
   
   ++++++++++++++++++++++++++++++++++++++*/
@@ -420,6 +422,78 @@ preen(char *s) {
 
 
 /*++++++++++++++++++++++++++++++++++++++
+
+  Deal with a single lojban->english pair.
+  If the lojban ends with a digit, call preen to get
+  rid of any more specific definitions for noun, verb etc variants.
+  Try lujvo canonicalisation on the word and define the 'canonical' form too.
+
+  char *src
+
+  char *dest
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static void
+handle_mapping(char *src, char *dest)
+{
+  int len = strlen(src);
+  int defines_place = isdigit(src[len-1]);
+  int specific = isdigit(src[len-2]);
+  char buffer[1024], buffer2[1024], buffer3[1024];
+  char *canon;
+
+  /* If we're about to add a case of something, check we get rid
+     of any more specific entries first. */
+  if (defines_place) {
+      preen(src);
+  }
+
+  add_defn(src, dest);
+
+  
+  /* If we're adding a lujvo, add the definition against
+     its 'canonical' form too.  e.g. if we're defining
+     
+     soirsai:rations
+     
+     add an entry equivalent to
+     sonci+sanmi:rations
+
+     For soirsai1:rations, add
+     sonci+sanmi1:@soirsai1
+
+     For soirsai1n:rations, don't do anything since it's assumed that
+     soirsai1 is defined too and the mapping this adds for the
+     canonical form will be enough to redirect lookups in the
+     translator to pick up this specific mapping.
+     
+     */
+
+  if ((len >= 7) && defines_place) {
+    strncpy(buffer, src, len-1);
+    buffer[len-1] = 0;
+    canon = canon_lujvo(buffer);
+    if (canon) {
+      int lencanon = strlen(canon);
+      strcpy(buffer2, canon);
+      buffer2[lencanon++] = src[len-1];
+      buffer2[lencanon] = 0;
+      preen(buffer2);
+      strcpy(buffer3, "@");
+      strcat(buffer3, src);
+      add_defn(buffer2, buffer3);
+    }
+  } else if (len >= 6) {
+    strncpy(buffer, src, len-1);
+    buffer[len-1] = 0;
+    canon = canon_lujvo(buffer);
+    if (canon) {
+      add_defn(canon, dest);
+    }      
+  }
+}
+
+/*++++++++++++++++++++++++++++++++++++++
   Handle one input file
 
   FILE *f
@@ -459,12 +533,10 @@ do_file(FILE *f)
         *r++ = *p++;
       }
       *r = 0;
-      /* If we're about to add a case of something, check we get rid
-         of any more specific entries first. */
-      if (isdigit(src[strlen(src)-1])) {
-        preen(src);
-      }
-      add_defn(src, dest);
+
+      handle_mapping(src, dest);
+
+
     }
   }
 }
