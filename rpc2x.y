@@ -971,7 +971,6 @@ sumti_6 : lahe_sumti_6
         | lerfu_string BOI
         | lerfu_string /* ET */
 
-
         | LE      free_seq sumti_tail KU free_seq
         | LE      free_seq sumti_tail KU
         | LE      free_seq sumti_tail /* ET */
@@ -979,6 +978,14 @@ sumti_6 : lahe_sumti_6
         | LE               sumti_tail KU free_seq
         | LE               sumti_tail KU
         | LE               sumti_tail /* ET */
+
+        | LA      free_seq sumti_tail KU free_seq
+        | LA      free_seq sumti_tail KU
+        | LA      free_seq sumti_tail /* ET */
+
+        | LA               sumti_tail KU free_seq
+        | LA               sumti_tail KU
+        | LA               sumti_tail /* ET */
 
         | name_sumti_6
 
