@@ -48,6 +48,9 @@ int allow_cultural_rafsi;
    be present */
 int require_elidables;
 
+/* Flag to show which elidables could safely have been elided but weren't */
+int show_elisions;
+
 /* Flag to display backtrace when a syntax error arises */
 int show_backtrace;
 
@@ -98,6 +101,7 @@ show_usage(void)
                   "These options relate to handling elidable separators/terminators\n"
                   "-ie          Display elided separators and terminators\n"
                   "-re          Require elidable separators and terminators to be present\n"
+                  "-se          Show elidable separators/terminators that could be omitted\n"
                   "\n"
                   "These options relate to grammar options\n"
                   "-cr          Allow cultural rafsi in lujvo (Reference Grammar section 4.16)\n"
@@ -182,6 +186,8 @@ main (int argc, char **argv)
       insert_elidables = 1;
     } else if (!strcmp(*argv, "-re")) {
       require_elidables = 1;
+    } else if (!strcmp(*argv, "-se")) {
+      show_elisions = 1;
     } else if (!strcmp(*argv, "-cr")) {
       allow_cultural_rafsi = 1;
     } else if (!strcmp(*argv, "-bt")) {
@@ -211,6 +217,12 @@ main (int argc, char **argv)
     } else {
       filename = *argv;
     }
+  }
+
+  /* Check flag compatibility */
+  if (require_elidables && show_elisions) {
+    fprintf(stderr, "-re and -se switches are not compatible, -se ignored\n");
+    show_elisions = 0;
   }
 
 #if !defined(EXPOSE_SIGNALS)
