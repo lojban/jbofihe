@@ -1,0 +1,61 @@
+#!/usr/local/bin/perl
+
+$rel = $ARGV[0];
+if ($rel) {
+    $xrel = "-".$rel;
+    $dir = "jbofihe$rel";
+    $corel = $rel;
+    $corel =~ s/\./_/g;
+} else {
+    $rel = "";
+    $xrel = "";
+    $corel = "";
+    $dir = "release";
+}
+
+@files = <RCS/*>;
+mkdir "distrib", 0755 || die "Cant make release directory";
+chdir "./distrib" || die "Cant change directory";
+print 
+qx=co -q -r COPYRIGHT ../RCS/COPYRIGHT=;
+open(COPY, "<COPYRIGHT");
+@copy=<COPY>;
+close(COPY);
+for $f (@files) {
+    $f =~ s=RCS/==;
+    print "doing $f\n";
+    qx=co -q -r${corel} $f ../RCS/$f=;
+    rename "$f","$f.tmp";
+    open (IN, "<$f.tmp");
+    open (OUT, ">$f");
+    while (<IN>) {
+	if (m,\/\* COPYRIGHT \*\/,) {
+	    print OUT "/**********************************************************************\n";
+	    for (@copy) {
+		print OUT " * ".$_;
+	    }
+	    print OUT " *********************************************************************/\n";
+	} elsif (m,\# COPYRIGHT,) {
+	    print OUT "#\n";
+	    for (@copy) {
+		print OUT "# ".$_;
+	    }
+	    print OUT "#\n";
+	} else {
+	    print OUT;
+	}
+    }
+    close(IN);
+    close(OUT);
+    unlink "$f.tmp";
+}
+qx=cp ../ChangeLog ../jbofihe.lsm .=;
+unlink 'COPYRIGHT'; # This is included into everything else
+unlink 'Makefile'; # This is the author's private version
+chdir '..';
+rename "distrib", "$dir";
+qx=tar cvf - $dir | gzip > jbofihe${xrel}.tar.gz=;
+chdir "./$dir" || die "Cant change directory";
+qx=rm -f *=;
+chdir '..';
+qx=rmdir $dir=;
