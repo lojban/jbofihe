@@ -1,3 +1,45 @@
+New in version 0.36
+===================
+
+- Fixed Makefile portability problems discovered in v0.35
+- Fix bug where cmavo sequences like nytysy were not recognized (where removing
+  y leaves invalid triple)
+- Fix bug where the words y, yyyyy, y'y were not recognized as valid cmavo
+- Fix bug for -se option applied to nu'u in the middle of a termset.
+- Fix bug for -se option applied to elidables with a sequence of 'free'
+  constructs following them.
+- Fix bugs for -se option applied to boi & ve'o
+- Fix several bugs people sent me where jbofihe crashed or generated bad output
+  for various small examples.
+- Fix bugs scanning cmene containing ..nydz.., ..y,y.. etc
+- Many improvements to lexical analyser builder (n2d subdirectory) -
+  * generate smaller tables by relying on binary searching in the target app.
+  * compress state machines by grouping equivalent DFA states together input
+  * input file can specify priority logic to resolve ambiguous accepting states
+  * syntax capabilities of input file greatly enhanced
+  * processing speed much improved
+  (This tool can now be considered a standalone project in its own right,
+  except for the lack of documentation on it.)
+- Fix bugs in scanner's fu'ivla recognition (including length of consonant
+  clusters).
+- Recognise stage 3 and stage 4 fu'ivla separately to improve glossing
+  performance.
+- Allow consonant+comma+vowel triples within words.
+- Include configure option --embed to allow a minimal dictionary to be embedded
+  into the jbofihe executable (=> no separate dictionary file required at
+  runtime)
+- Add handling of zei (completely missing before)
+- Add configure option --embed, to allow the gismu+cmavo dictionary to be
+  compiled directly into the jbofihe executable.  (No run-time dictionary is
+  then needed, however there is no capability to add new definitions in this
+  mode)
+- Simplify consonant doubling before -er and -ing suffices in the translator.
+- Added configure script, to help people who just want to 'build+go' without
+  reading the docs.
+- Switch to GNU General Public License (replaces customised zlib/BSD-like
+  license)
+- Detect zoi/la'o constructions left open at the end of the text.
+
 New in version 0.35
 ===================
 
