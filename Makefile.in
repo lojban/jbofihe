@@ -197,10 +197,10 @@ depend:
 	gcc -MM $(SRCS2) $(CM_SRCS) > .depend
 
 install : jbofihe smujajgau cmafihe jvocuhadju $(DICTNAME)
-	$(INSTALL) -s -m 755 jbofihe smujajgau cmafihe jvocuhadju $(EXEDIR)
+	$(INSTALL) -s -m 755 jbofihe smujajgau cmafihe jvocuhadju vlatai $(EXEDIR)
 	$(INSTALL) -m 755 -d $(LIBDIR)
 	$(INSTALL) -m 644 $(DICTNAME) $(LIBDIR)/$(DICTNAME)
-	$(INSTALL) -m 644 jbofihe.1 cmafihe.1 smujajgau.1 jvocuhadju.1 $(MANDIR)
+	$(INSTALL) -m 644 jbofihe.1 cmafihe.1 smujajgau.1 jvocuhadju.1 vlatai.1 $(MANDIR)
 
 ## Include the dependency info below.
 
