@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
+#include <assert.h>
 
 #include "functions.h"
 
@@ -439,7 +439,7 @@ CLASS   |     N(oun)       V(erb) (4)          Q(ualifier)        T(ag) (2)
 static char consonants[] = "bcdfghjklmnpqrstvwxz";
 static char vowels[] = "aeiou";
 
-static char buffers[16][1024];
+static char buffers[32][1024];
 static int bufptr=0;
 #define GETBUF() (&buffers[bufptr=(bufptr+1)&0xf][0])
 
@@ -637,6 +637,87 @@ append_ing(char *x)
 
 }
 
+
+/*++++++++++++++++++++++++++++++++++++++
+  
+
+  static char * translate_pattern
+
+  char *w
+
+  int place
+
+  char *suffix
+  ++++++++++++++++++++++++++++++++++++++*/
+
+static char *
+translate_pattern(char *w, int place, char *suffix)
+{
+  char *new_start = NULL;
+  int swap;
+  static char result[128];
+  char *buffer, *buffer2;
+  char *trans;
+
+  if (!strncmp("sel", w, 3)) {
+    new_start = w+3;
+    swap = 2;
+  } else if (!strncmp("ter", w, 3)) {
+    new_start = w+3;
+    swap = 3;
+  } else if (!strncmp("vel", w, 3)) {
+    new_start = w+3;
+    swap = 4;
+  } else if (!strncmp("xel", w, 3)) {
+    new_start = w+3;
+    swap = 5;
+  }
+  
+  if (new_start) {
+    if (*new_start == 'y') {
+      new_start++;
+    }
+
+    if (place == 1) {
+      place = swap;
+    } else if (place == swap) {
+      place = 1;
+    }
+
+    buffer = GETBUF();
+
+    /* FIXME - if we're left with a 3 letter rafsi, we ought to look
+       up the gismu it corresponds to and translate that. */
+    if (strlen(new_start) < 5) {
+      sprintf(buffer,"@%s", new_start);
+      trans = translate(buffer);
+      if (!trans) {
+        /* Invalid rafsi? or one derived from a cmavo.  In either
+           case, we've no way of getting a default place structure for
+           it. */
+        return NULL;
+      }
+      buffer2 = GETBUF();
+      strcpy(buffer2, trans);
+      new_start = buffer2;
+    }
+
+    sprintf(buffer, "%s%1d%s", new_start, place, suffix);
+    trans = translate(buffer);
+    if (trans) {
+      strcpy(result, trans);
+      return result;
+    } else {
+      return NULL;
+    }
+    
+  } else {
+    return NULL;
+  }
+
+
+}
+
 /*++++++++++++++++++++++++++++++++++++++
   'Advanced' translate.
 
@@ -655,11 +736,17 @@ adv_translate(char *w, int place, TransContext ctx)
   char buffer[1024];
   static char result[1024];
   char ctx_suffix[4] = "nvqt";
+  char *ctx_suf_as_string[4] = {"n", "v", "q", "t"};
   enum {CL_DISCRETE, CL_SUBSTANCE, CL_ACTOR, CL_PROPERTY} wordclass;
 
   /* Try looking up the explicit gloss asked for */
   sprintf(buffer, "%s%1d%c", w, place, ctx_suffix[ctx]);
   trans = translate(buffer);
+
+  if (!trans) {
+    /* Try to match sel..., ter..., ...mau etc */
+    trans = translate_pattern(w, place, ctx_suf_as_string[ctx]);
+  }
 
   if (trans) {
     /* Full translation found. */
@@ -669,6 +756,10 @@ adv_translate(char *w, int place, TransContext ctx)
   /* OK, no full translation found.  Lookup the wn form */
   sprintf(buffer, "%s%1d", w, place);
   trans = translate(buffer);
+  if (!trans) {
+    /* Try to match sel..., ter..., ...mau etc */
+    trans = translate_pattern(w, place, "");
+  }
   if (trans) {
     if (trans[1] == ';') {
       switch (trans[0]) {
