@@ -828,7 +828,7 @@ static int find_dfa(unsigned long *nfas, int N)/*{{{*/
 }
 /*}}}*/
 
-static int add_dfa(Block *b, unsigned long *nfas, int N, int Nt)/*{{{*/
+static int add_dfa(Block *b, unsigned long *nfas, int N, int Nt, int from_state, int via_token)/*{{{*/
 {
   int j;
   int result = ndfa;
@@ -851,9 +851,13 @@ static int add_dfa(Block *b, unsigned long *nfas, int N, int Nt)/*{{{*/
   dfas[ndfa] = new(DFANode);
   dfas[ndfa]->nfas = new_array(unsigned long, round_up(N));
   dfas[ndfa]->map = new_array(int, Nt);
+  for (j=0; j<Nt; j++) dfas[ndfa]->map[j] = -1;
   dfas[ndfa]->index = ndfa;
   dfas[ndfa]->defstate = -1;
-
+  
+  dfas[ndfa]->from_state = from_state;
+  dfas[ndfa]->via_token = via_token;
+  
   for (j=0; j<round_up(N); j++) {
     unsigned long x = nfas[j];
     signature ^= x;
@@ -971,7 +975,7 @@ static void build_dfa(Block *b, int start_index)/*{{{*/
   for (i=0; i<round_up(N); i++) {
     nfas[0][i] |= eclo[start_index][i];
   }
-  add_dfa(b, nfas[0], N, Nt);
+  add_dfa(b, nfas[0], N, Nt, -1, -1);
   next_to_do = 0;
   found_any = new_array(int, Nt);
 
@@ -1037,7 +1041,7 @@ static void build_dfa(Block *b, int start_index)/*{{{*/
       if (found_any[t]) {
         idx = find_dfa(nfas[t], N);
         if (idx < 0) {
-          idx = add_dfa(b, nfas[t], N, Nt);
+          idx = add_dfa(b, nfas[t], N, Nt, next_to_do, t);
         }
       } else {
         idx = -1;
@@ -1064,6 +1068,7 @@ static void print_dfa(Block *b)/*{{{*/
   unsigned long current_nfas;
   int rup_N = round_up(N);
   Stringlist *ex;
+  int from_state, this_state, via_token, maxtrace;
 
   if (!report) return;
   
@@ -1083,6 +1088,20 @@ static void print_dfa(Block *b)/*{{{*/
       }
       fprintf(report, "\n");
     }
+    fprintf(report, "  Reverse route :\n    HERE");
+    this_state = i;
+    from_state = dfas[i]->from_state;
+    maxtrace=0;
+    while (from_state >= 0) {
+      via_token = dfas[this_state]->via_token;
+      fprintf(report, "<-%s", toktable[via_token]);
+      this_state = from_state;
+      from_state = dfas[this_state]->from_state;
+      maxtrace++;
+      if (maxtrace>100) break;
+    }
+    fprintf(report, "\n");
+    
     fprintf(report, "  Transitions :\n");
     for (t=0; t<Nt; t++) {
       int dest = dfas[i]->map[t];
@@ -1478,6 +1497,11 @@ int main (int argc, char **argv)
   }
   print_dfa(main_block);
   
+  if (had_ambiguous_result) {
+    fprintf(stderr, "No output written, there were ambiguous exit values for accepting states\n");
+    exit(2);
+  }
+  
   if (!uncompressed_dfa) {
     if (verbose) fprintf(stderr, "\nCompressing DFA...\n");
     ndfa = compress_dfa(dfas, ndfa, ntokens);
@@ -1494,11 +1518,6 @@ int main (int argc, char **argv)
   if (verbose) fprintf(stderr, "Writing outputs...\n");
   print_dfa(main_block);
 
-  if (had_ambiguous_result) {
-    fprintf(stderr, "No output written, there were ambiguous exit values for accepting states\n");
-    exit(2);
-  }
-  
   print_exitval_table(main_block);
   print_attribute_table();
 

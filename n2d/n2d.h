@@ -90,6 +90,8 @@ typedef struct {
   unsigned long signature; /* All the longwords in the nfas array xor'ed together */
   int index; /* Entry's own index in the array */
   int *map; /* index by token code */
+  int from_state; /* the state which provided the first transition to this one (leading to its creation) */
+  int via_token; /* the token through which we got to this state the first time. */
   Stringlist *nfa_exit_sl; /* NFA exit values */
   Stringlist *nfa_attr_sl; /* NFA exit values */
   char *result;    /* Result token, computed by boolean expressions defined in input text */
