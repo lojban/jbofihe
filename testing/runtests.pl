@@ -32,8 +32,8 @@ $| = 1; # Autoflush stdout
 $here = $0;
 $here =~ s=/[^/]+$==;
 
-$ENV{JBOFIHE_DICTIONARY} = "/home/richard/cvswork/jbofihe/smujmaji.dat";
-$ENV{PATH} = "/home/richard/cvswork/jbofihe:".$ENV{PATH};
+$ENV{JBOFIHE_DICTIONARY} = "$here/../smujmaji.dat";
+$ENV{PATH} = "$here/..:".$ENV{PATH};
 
 while ($test = shift @ARGV) {
     unless (-r $test) {
