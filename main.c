@@ -31,6 +31,9 @@ static int had_syntax_error;
 /* Optional parameters to be read by backends */
 int opt_output_width;
 
+/* Flag to show dictionary defects */
+int show_dictionary_defects;
+
 void yyerror(char *s) {
   fprintf(stderr, "--------------------\n");
   fprintf(stderr, "%s\n", s);
@@ -66,6 +69,8 @@ main (int argc, char **argv)
   show_memory = 0;
   opt_output_width = 80;
 
+  show_dictionary_defects = 0;
+
   while (++argv, --argc) {
     if (!strcmp(*argv, "-d")) {
       debug = 1;
@@ -91,6 +96,8 @@ main (int argc, char **argv)
       block = 1;
     } else if (!strcmp(*argv, "-m")) {
       show_memory = 1;
+    } else if (!strcmp(*argv, "-dd")) {
+      show_dictionary_defects = 1;
     } else if (!strncmp(*argv, "-w", 2)) {
       if (strlen(*argv) > 2) {
         opt_output_width = atoi(*argv + 2);

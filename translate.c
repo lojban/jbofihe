@@ -26,6 +26,8 @@
 static char *mmap_base = NULL;
 #endif
 
+extern int show_dictionary_defects;
+
 static int inited = 0;
 
 typedef struct {
@@ -172,7 +174,9 @@ init(void)
     }
     in = fopen(dname, "r");
     if (!in) {
-      fprintf(stderr, "Cannot open dictionary\n");
+      if (show_dictionary_defects) {
+        fprintf(stderr, "Cannot open dictionary\n");
+      }
       inited = -1;
     } else {
       read_database(in);
@@ -794,7 +798,9 @@ fix_trans_in_context(char *src, char *trans, TransContext ctx, char *w1n, int fo
         wordclass = CL_IDIOMATIC;
         break;
       default:
-        fprintf(stderr, "Dictionary contains bogus extended entry for [%s]\n", src);
+        if (show_dictionary_defects) {
+          fprintf(stderr, "Dictionary contains bogus extended entry for [%s]\n", src);
+        }
         return NULL;
         break;
     }
@@ -927,8 +933,8 @@ fix_trans_in_context(char *src, char *trans, TransContext ctx, char *w1n, int fo
     return result;
 
   } else {
-    if (!found_full_trans) {
-      fprintf(stderr, "No advanced entry (2) for [%s]\n", src);
+    if (!found_full_trans && show_dictionary_defects) {
+      fprintf(stderr, "No advanced entry for [%s]\n", src);
     }
     /* Either it's not an advanced entry, we have to just return the
        word as-is, OR the word1n form matched. */
@@ -968,7 +974,9 @@ subst_base_in_pattern(char *trans, char *base)
         case 't': ctx = TCX_TAG; break;
         default: 
           ctx = TCX_NOUN;
-          fprintf(stderr, "Broken base context for %s\n", trans);
+          if (show_dictionary_defects) {
+            fprintf(stderr, "Broken base context for %s\n", trans);
+          }
           break;
       }
       localtrans = adv_translate(base, place, ctx);
@@ -1270,7 +1278,9 @@ adv_translate(char *w, int place, TransContext ctx)
         pos = *q - '0';
         return adv_translate(buffer, pos, ctx);
       } else {
-        fprintf(stderr, "Error in dictionary entry for place %d of %s\n", place, w);
+        if (show_dictionary_defects) {
+          fprintf(stderr, "Error in dictionary entry for place %d of %s\n", place, w);
+        }
         return "??";
       }
 
@@ -1293,7 +1303,9 @@ adv_translate(char *w, int place, TransContext ctx)
     /* If we can't get any place-dependent translation, don't bother -
        the gismu headword entry is probably misleading and does more
        harm than good. */
-    fprintf(stderr, "No advanced entry (1) for [%s]\n", buffer);
+    if (show_dictionary_defects) {
+      fprintf(stderr, "No advanced entry for [%s]\n", buffer);
+    }
     trans = translate(w);
     if (trans) {
       strcpy(result, trans);
@@ -1301,15 +1313,17 @@ adv_translate(char *w, int place, TransContext ctx)
       return result;
     } else {
       /* Try to get pattern match for word */
+      if (show_dictionary_defects) {
+        fprintf(stderr, "No dictionary entry for [%s], attempting pattern match\n", w);
+      }
       trans = attempt_pattern_match(w, place, ctx);
       if (trans) {
-#if 0
-        fprintf(stderr, "Used pattern match to resolve [%s]\n", w);
-#endif
         return trans;
       }
 
-      fprintf(stderr, "No dictionary entry for [%s], attempting to break up as lujvo\n", w);
+      if (show_dictionary_defects) {
+        fprintf(stderr, "No dictionary entry for [%s], attempting to break up as lujvo\n", w);
+      }
       trans = translate_unknown(w, place);
       if (trans) {
         strcpy(result, trans);
