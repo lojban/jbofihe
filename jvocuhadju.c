@@ -12,23 +12,9 @@
 #include <string.h>
 #include <ctype.h>
 
+#include "lujvofns.h"
 #include "version.h"
 
-static int is_consonant(char c) {
-  if (strchr("bcdfgjklmnprstvxz", c)) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
-
-static int is_vowel(char c) {
-  if (strchr("aeiouy", c)) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
 
 static int ends_in_vowel(char *s) {
   char *p;
@@ -36,14 +22,6 @@ static int ends_in_vowel(char *s) {
   while (*p) p++;
   p--;
   return is_vowel(*p);
-}
-
-static int ends_in_consonant(char *s) {
-  char *p;
-  p = s;
-  while (*p) p++;
-  p--;
-  return is_consonant(*p);
 }
 
 static void chop_last_char(char *s) {
@@ -54,155 +32,6 @@ static void chop_last_char(char *s) {
   *p = 0;
 }
 
-static int is_voiced(char c) {
-  if (strchr("bdgvjz", c)) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
-
-static int is_unvoiced(char c) {
-  if (strchr("ptkfcsx", c)) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
-
-static int is_sibilant(char c) {
-  if (strchr("cjsz", c)) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
-
-static int is_ccv(char *s) {
-  if (s[0] && is_consonant(s[0]) &&
-      s[1] && is_consonant(s[1]) &&
-      s[2] && is_vowel(s[2])) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
-
-static int is_cvv(char *s) {
-  if (s[0] && is_consonant(s[0]) &&
-      s[1] && is_vowel(s[1]) &&
-      ((s[2] && is_vowel(s[2])) ||
-       (s[3] && is_vowel(s[3]) && s[2] == '\''))) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
-
-static int is_cvc(char *s) {
-  if (s[0] && is_consonant(s[0]) &&
-      s[1] && is_vowel(s[1]) &&
-      s[2] && is_consonant(s[2])) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
-
-static int is_cvccv(char *s) {
-  if (s[0] && is_consonant(s[0]) &&
-      s[1] && is_vowel(s[1]) &&
-      s[2] && is_consonant(s[2]) &&
-      s[3] && is_consonant(s[3]) &&
-      s[4] && is_vowel(s[4])) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
-
-static int is_ccvcv(char *s) {
-  if (s[0] && is_consonant(s[0]) &&
-      s[1] && is_consonant(s[1]) &&
-      s[2] && is_vowel(s[2]) &&
-      s[3] && is_consonant(s[3]) &&
-      s[4] && is_vowel(s[4])) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
-
-
-/* Check whether a consonant pair is permissible */
-static int is_pairok(char *s) {
-  int test1, test2, test3, test4; /* all true if acceptable */
-
-  test1 = (s[0] != s[1]);
-  test2 = !((is_voiced(s[0]) && is_unvoiced(s[1])) ||
-            (is_voiced(s[1]) && is_unvoiced(s[0])));
-  test3 = !(is_sibilant(s[0]) && is_sibilant(s[1]));
-  test4 = strncmp(s, "cx", 2) && strncmp(s, "kx", 2) && 
-    strncmp(s, "xc", 2) && strncmp(s, "xk", 2) && strncmp(s, "mz", 2);
-
-  return test1 && test2 && test3 && test4;
-
-}
-
-static int is_initialpairok(char *s) {
-  if (strncmp(s, "bl", 2) &&
-      strncmp(s, "br", 2) &&
-      strncmp(s, "cf", 2) &&
-      strncmp(s, "ck", 2) &&
-      strncmp(s, "cl", 2) &&
-      strncmp(s, "cm", 2) &&
-      strncmp(s, "cn", 2) &&
-      strncmp(s, "cp", 2) &&
-      strncmp(s, "cr", 2) &&
-      strncmp(s, "ct", 2) &&
-      strncmp(s, "dj", 2) &&
-      strncmp(s, "dr", 2) &&
-      strncmp(s, "dz", 2) &&
-      strncmp(s, "fl", 2) &&
-      strncmp(s, "fr", 2) &&
-      strncmp(s, "gl", 2) &&
-      strncmp(s, "gr", 2) &&
-      strncmp(s, "jb", 2) &&
-      strncmp(s, "jd", 2) &&
-      strncmp(s, "jg", 2) &&
-      strncmp(s, "jm", 2) &&
-      strncmp(s, "jv", 2) &&
-      strncmp(s, "kl", 2) &&
-      strncmp(s, "kr", 2) &&
-      strncmp(s, "ml", 2) &&
-      strncmp(s, "mr", 2) &&
-      strncmp(s, "pl", 2) &&
-      strncmp(s, "pr", 2) &&
-      strncmp(s, "sf", 2) &&
-      strncmp(s, "sk", 2) &&
-      strncmp(s, "sl", 2) &&
-      strncmp(s, "sm", 2) &&
-      strncmp(s, "sn", 2) &&
-      strncmp(s, "sp", 2) &&
-      strncmp(s, "sr", 2) &&
-      strncmp(s, "st", 2) &&
-      strncmp(s, "tc", 2) &&
-      strncmp(s, "tr", 2) &&
-      strncmp(s, "ts", 2) &&
-      strncmp(s, "vl", 2) &&
-      strncmp(s, "vr", 2) &&
-      strncmp(s, "xl", 2) &&
-      strncmp(s, "xr", 2) &&
-      strncmp(s, "zb", 2) &&
-      strncmp(s, "zd", 2) &&
-      strncmp(s, "zg", 2) &&
-      strncmp(s, "zm", 2) &&
-      strncmp(s, "zv", 2)) {
-    return 0;
-  } else {
-    return 1;
-  }
-}
 
 /* See whether a pair of strings can be joined within a word (i.e. do they
    have an acceptable consonant pair */
@@ -831,101 +660,6 @@ static int lookup_gismu(char *s) {
   } else {
     return -1;
   }
-}
-
-/* Return 1 if the string t has the correct form to be a lujvo (note,
-   there is no dictionary lookup of the apparent constituent rafsi) */
-static int
-is_valid_lujvo(char *t) {
-  char *p;
-  int debug = 0;
-
-  if (debug) printf("Testing [%s] as valid lujvo\n", t);
-  if (strlen(t) < 5) {
-    if (debug) printf("Initial length too short, invalid\n");
-    return 0;
-  }
-  while (*t) {
-    if (debug) printf("Residual [%s]\n", t);
-    p = strchr(t, 'y');
-    if ((p-t) == 4) {
-      /* Starts with abcdy, have to check whether abcd could be a valid rafsi */
-      if (is_consonant(t[0]) && is_consonant(t[1]) && is_vowel(t[2]) && is_consonant(t[3]) && is_initialpairok(t)) {
-        if (debug) printf("4 letter rafsi CCVC at start valid then y\n");
-        t+=5;
-      } else if (is_consonant(t[0]) && is_vowel(t[1]) && is_consonant(t[2]) && is_consonant(t[3]) && is_pairok(t)) {
-        if (debug) printf("4 letter rafsi CVCC at start valid then y\n");
-        t+=5;
-      } else {
-        if (debug) printf("4 letter rafsi at start invalid\n");
-        return 0;
-      }
-    } else if ((p-t) == 3) {
-      /* Starts with 3 letter rafsi then a join */
-      if (is_ccv(t)) {
-        if (is_initialpairok(t)) {
-          /* Perhaps ought to check whether rafsi form is in dictionary? */
-          if (debug) printf("3 letter rafsi CCV at start valid then y\n");
-          return 1;
-        } else {
-          if (debug) printf("3 letter rafsi CCV at start invalid then y\n");
-          return 0;
-        }
-      } else if (is_cvc(t)) {
-        /* Dictionary test? */
-        if (debug) printf("3 letter rafsi CVC at start valid then y\n");
-        return 1;
-      } else if (is_cvv(t)) {
-        /* Not possible */
-        fprintf(stderr, "Can't have y after CVV form rafsi\n");
-        exit(1);
-      }
-    } else if ((p-t) < 3) {
-      if (debug) printf("<3 letters left, invalid\n");
-      return 0;
-    } else if ((strlen(t) > 5) || (strlen(t) == 3)) {
-      /* Strip leading rafsi if valid */
-      if (is_ccv(t)) {
-        if (is_initialpairok(t)) {
-          if (debug) printf("Initial CCV, examine tail\n");
-          t+=3;
-          /* Go round loop again */
-        } else {
-          if (debug) printf("Initial invalid CCV\n");
-          return 0;
-        }
-      } else if (is_cvc(t)) {
-        if (debug) printf("Initial CVC, examine tail\n");
-        t+=3;
-        /* Go round again */
-      } else if (is_cvv(t)) {
-        if (debug) printf("Initial CVV, examine tail\n");
-        if (t[2] = '\'') {
-          t+=4;
-        } else {
-          t+=3;
-        }
-      } else {
-        /* Not valid lujvo */
-        if (debug) printf("Invalid, prefix not any rafsi form\n");
-        return 0;
-      }
-    } else if (strlen(t) == 5) {
-      /* Just a gismu left, assume OK if correct form */
-      if (is_cvccv(t) || is_ccvcv(t)) { 
-        if (debug) printf("Matches gismu form\n");
-        return 1;
-      } else {
-        if (debug) printf("Unmatched 5 character form\n");
-        return 0;
-      }
-    } else {
-      if (debug) printf("Unrecognized length\n");
-      return 0;
-    }
-  }
-  /* If we fall out of the loop, all rafsi have been checked off. */
-  return 1;
 }
 
 #define MAXT 50
