@@ -1,3 +1,20 @@
+New in version 0.39
+===================
+
+- (jbofihe) total rewrite of simple_tense_modal handling in the preparser (to fix cases
+  like {mi ca'a pu broda}). 
+- (jbofihe) fix two bugs in elidable cmavo code (-se[v] support) where
+  uninitialised memory was being read.  (Detected using valgrind).
+- (rtg) Add random text generator.  (This is pretty minimal in functionality -
+  it was primarily written to stress-test the preparser rewrite)
+- (dfasyn) add inline block instantiation facility
+- (dfasyn) speed improvements.
+
+New in version 0.38.1
+=====================
+
+- fix bug handling comma at end of cmene.
+
 New in version 0.38
 ===================
 
