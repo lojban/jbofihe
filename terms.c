@@ -968,8 +968,12 @@ process_tanru_unit_2_args(TreeNode *tu2, TermVector *pre, TermVector *post, Link
         break;
 
       case NAHE_TU2:
-        fprintf(stderr, "na'e not handled yet for place tags at line %d column %d\n",
-                c1->start_line, c1->start_column);
+        {
+          TreeNode *tu2_child;
+          tu2_child = find_nth_child(c1, 1, TANRU_UNIT_2);
+          assert(tu2_child);
+          process_tanru_unit_2_args(tu2_child, pre, post, lc);
+        }
         break;
 
       case ABSTRACTION:
