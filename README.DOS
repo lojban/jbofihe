@@ -25,7 +25,7 @@ jbofihe is a command-line driven program with the following functions :
   words, with some limited 'part-of-speech' adjustment of the English forms.
 - showing which sumti fill each of the places of each selbri
 
-Bundled with jbofihe are 3 other programs :
+Bundled with jbofihe are 4 other programs :
 
 - cmafihe is a cut-down jbofihe which has no grammar checking (so it's
   particularly useful for getting an initial word look-up on badly formed
@@ -34,6 +34,11 @@ Bundled with jbofihe are 3 other programs :
   that jbofihe and cmafihe use
 - jvocuhadju determines the optimal lujvo for a given tanru input to it as
   command line arguments.
+- vlatai analyses a Lojban word for syntactic correctness, determines the type
+  of word (gismu, cmene, lujvo, fu'ivla etc), and reports whether there are any
+  cmavo prefixed to it.  (It is the really the testbench for part of jbofihe,
+  but it is sufficiently useful that it is bundled as a program in its own
+  right.)
 
 Each of the tools is documented more fully in its companion .txt file.
 
