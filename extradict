@@ -360,3 +360,6 @@ vy.bu:"w"
 denpa.bu:"."
 slaku.bu:","
 
+# Emotions
+o'o+cinmo1:P;patient
+o'o+nai+cinmo1:P;impatient
