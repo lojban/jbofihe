@@ -15,6 +15,7 @@ MANDIR=$(PREFIX)/man/man1
 INSTALL=@@INSTALLPROG@@
 CC=gcc
 CFLAGS= -O2 -DDEFAULT_DICTIONARY=\"$(DICTIONARY)\"
+#CFLAGS= -g -Wall -DDEFAULT_DICTIONARY=\"./$(DICTNAME)\"
 
 OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc.tab.o functions.o \
         categ.o nonterm.o tree.o translate.o latex.o \
@@ -108,8 +109,9 @@ dictionary : smujajgau
 		extradict places.dat patterns
 
 dictupdate : $(DICTNAME)
-	./smujajgau $(DICTNAME) extradict
-	./smujajgau $(DICTNAME) places.dat
+
+$(DICTNAME) : extradict places.dat patterns
+	./smujajgau $(DICTNAME) extradict places.dat patterns
 
 cmafihe : $(CM_OBJS)
 	$(CC) $(CFLAGS) -o cmafihe $(CM_OBJS)
@@ -123,8 +125,10 @@ jvocuhadju.o : jvocuhadju.c version.h
 
 smujajgau.o : smujajgau.c version.h
 
+canonluj.o : canonluj.inc
+
 canonluj.inc:
-	perl canonluj.pl < @@WORD_LISTS@@/rafsi > canonluj.inc
+	perl canonluj.pl < @@WORD-LISTS@@/gismu > canonluj.inc
 
 clean:
 	-rm *.output *.tab.* *.o jbofihe uncom smujajgau *.dict rpc2x_nc.y rpc2x_act.y nonterm.*
