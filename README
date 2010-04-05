@@ -2,14 +2,18 @@
 $Header$
 ################################################################################
 
-First : The author can be reached at  :         rpc@myself.com
+First : The author can be reached at  :  rc@rc0.org.uk
 
 Second : My web-page for jbofihe is
-           http://www.rrbcurnow.freeuk.com/jbofihe
-        or http://go.to/jbofihe
-         
-         My page for Lojban-related things generally is :
-           http://www.rrbcurnow.freeuk.com/lojban
+           http://www.rc0.org.uk/jbofihe
+
+Third : For some years now, I have had no further interest in this software, or
+for that matter in Lojban.  I have done a one-off CVS->GIT conversion in April
+2010, followed by minimal fixes to get it to compile again, so I could publish
+the history on github and hopefully prevent it getting lost.  However, I have
+no further plans to work on the software, provide support, accept patches or
+make releases.  I continue to hope that somebody in the Lojban community might
+take this software over.
 
 ================
 WHAT IS JBOFIHE?
