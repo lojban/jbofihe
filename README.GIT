@@ -1,0 +1,5 @@
+The git repository was cloned from the original CVS repository on 5th April 2010 using
+
+	git cvsimport -k -i -d /path/to/cvs/repo jbofihe jbofihe
+
+
