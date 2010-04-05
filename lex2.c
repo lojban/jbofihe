@@ -521,8 +521,9 @@ handle_zei(void)
       nt = right;
 
     }
-    
+
 done_this_block:
+    (void) 0;
 
   }
 

@@ -16,6 +16,7 @@
 %{
 #ifndef yywrap
 #define yywrap() 1
+#define YY_SKIP_YYWRAP 1
 #endif
 
 static int depth = 0;
