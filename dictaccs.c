@@ -111,11 +111,10 @@ read_database(FILE *in)
 #ifdef HAVE_MMAP
 
   {
-    char *mmap_base = NULL;
+    void *mmap_base = NULL;
     mmap_base = mmap(NULL, sb.st_size, PROT_READ, MAP_SHARED, fileno(in), 0);
-    result = (int) mmap_base;
 
-    if (result < 0) {
+    if (MMAP_FAILED == result) {
       perror("Could not mmap the dictionary data\n");
       exit(1);
     }
