@@ -113,7 +113,7 @@ read_database(FILE *in)
     void *mmap_base = NULL;
     mmap_base = mmap(NULL, sb.st_size, PROT_READ, MAP_SHARED, fileno(in), 0);
 
-    if (mmap_base == MAP_FAILED) {
+    if (MAP_FAILED == mmap_base) {
       perror("Could not mmap the dictionary data\n");
       exit(1);
     }
