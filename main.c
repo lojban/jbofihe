@@ -71,14 +71,17 @@ void yyerror(char *s) {
 void
 handle_signal(int x)
 {
+  /* Also providing a mail address to report bugs would be great,
+     because GitHub requires registration to fill in issues. */
   fprintf(stderr,"\n"
-                 "--------------------------------------------------------------------------\n"
+                 "------------------------------------------------------------------\n"
                  "An unexpected error has occurred whilst running jbofihe.\n\n"
-                 "Please submit a report to <jbofihe@go.to>, with at least this information:\n"
+                 "Please submit a report on https://github.com/lojban/jbofihe/issues\n"
+                 "with at least these pieces of information:\n"
                  "  Version of jbofihe (jbofihe -v)\n"
                  "  Command line options\n"
                  "  The input text\n"
-                 "--------------------------------------------------------------------------\n");
+                 "------------------------------------------------------------------\n");
   exit(1);
 }
 
@@ -88,7 +91,7 @@ static void
 show_usage(void)
 {
   fprintf(stderr, "jbofihe version %s\n", version_string);
-  fprintf(stderr, "Copyright 1998-2001 Richard P. Curnow <rpc@myself.com>\n\n"
+  fprintf(stderr, "Copyright 1998-2001 Richard P. Curnow <rc@rc0.org.uk>\n\n"
                   "-k           Show token lists before and after preprocessing\n"
                   "-t           Show edited parse tree\n"
                   "-tf          Show full parse tree\n"
