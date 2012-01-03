@@ -10,8 +10,14 @@ EXEDIR=$(PREFIX)/bin
 LIBDIR=$(PREFIX)/lib/jbofihe
 DICTNAME=smujmaji.dat
 DICTIONARY=$(LIBDIR)/$(DICTNAME)
-MANDIR=$(PREFIX)/man/man1
+MANDIR=$(PREFIX)/share/man/man1
 CMAFIHE_LDOPTS=@@CMAFIHE_LDOPTS@@
+
+# Setting $LANG is needed for bison; otherwise, it outputs data in the
+# system locale. On a non-English environment, this prevents parts of
+# the build system (for instance, `output2elide.pl`) from parsing
+# bison output properly, leading to compilation errors.
+LANG=C
 
 CC=gcc
 CFLAGS= @@OPTDEBUG@@ @@DEFINES@@ -DDEFAULT_DICTIONARY=\"$(DICTIONARY)\"
@@ -212,12 +218,12 @@ depend:
 	gcc -MM $(SRCS2) $(CM_SRCS) > .depend
 
 install : jbofihe smujajgau cmafihe jvocuhadju $(DICTNAME)
-	[ -d $(EXEDIR) ] || mkdir -p $(EXEDIR)
-	[ -d $(LIBDIR) ] || mkdir -p $(LIBDIR)
-	[ -d $(MANDIR) ] || mkdir -p $(MANDIR)
-	for e in jbofihe cmafihe smujajgau jvocuhadju vlatai ; do cp $$e $(EXEDIR) ; chmod 755 $(EXEDIR)/$$e ; strip -s $(EXEDIR)/$$e ; done
-	if [ -r $(DICTNAME) ]; then for d in $(DICTNAME) ; do cp $$d $(LIBDIR) ; chmod 644 $(LIBDIR)/$$d ; done ; fi
-	for m in jbofihe.1 cmafihe.1 smujajgau.1 jvocuhadju.1 vlatai.1 ; do cp $$m $(MANDIR) ; chmod 755 $(MANDIR)/$$m ; done
+	[ -d $(DESTDIR)$(EXEDIR) ] || mkdir -p $(DESTDIR)$(EXEDIR)
+	[ -d $(DESTDIR)$(LIBDIR) ] || mkdir -p $(DESTDIR)$(LIBDIR)
+	[ -d $(DESTDIR)$(MANDIR) ] || mkdir -p $(DESTDIR)$(MANDIR)
+	for e in jbofihe cmafihe smujajgau jvocuhadju vlatai ; do cp $$e $(DESTDIR)$(EXEDIR) ; chmod 755 $(DESTDIR)$(EXEDIR)/$$e ; strip -s $(DESTDIR)$(EXEDIR)/$$e ; done
+	if [ -r $(DICTNAME) ]; then for d in $(DICTNAME) ; do cp $$d $(DESTDIR)$(LIBDIR) ; chmod 644 $(DESTDIR)$(LIBDIR)/$$d ; done ; fi
+	for m in jbofihe.1 cmafihe.1 smujajgau.1 jvocuhadju.1 vlatai.1 ; do cp $$m $(DESTDIR)$(MANDIR) ; chmod 755 $(DESTDIR)$(MANDIR)/$$m ; done
 
 ## Include the dependency info below.
 
