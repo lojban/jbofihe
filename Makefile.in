@@ -13,6 +13,12 @@ DICTIONARY=$(LIBDIR)/$(DICTNAME)
 MANDIR=$(PREFIX)/share/man/man1
 CMAFIHE_LDOPTS=@@CMAFIHE_LDOPTS@@
 
+# Setting $LANG is needed for bison; otherwise, it outputs data in the
+# system locale. On a non-English environment, this prevents parts of
+# the build system (for instance, `output2elide.pl`) from parsing
+# bison output properly, leading to compilation errors.
+LANG=C
+
 CC=gcc
 CFLAGS= @@OPTDEBUG@@ @@DEFINES@@ -DDEFAULT_DICTIONARY=\"$(DICTIONARY)\"
 BISON=bison
