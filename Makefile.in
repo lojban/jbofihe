@@ -229,19 +229,19 @@ install : jbofihe smujajgau cmafihe jvocuhadju $(DICTNAME)
 
 main.o: main.c nodes.h nonterm.h functions.h output.h version.h
 lex1.o: lex1.c cmavotab.h nodes.h nonterm.h functions.h output.h \
- lujvofns.h morf.h
+ lujvofns.h morf.h bccheck.h
 lex2.o: lex2.c functions.h nonterm.h nodes.h output.h cmavotab.h \
  rpc_tab.h elide.h
 cmavotab.o: cmavotab.c cmavotab.h rpc_tab.h
 rpc_tab.o: rpc_tab.c nodes.h nonterm.h functions.h output.h
-functions.o: functions.c functions.h nonterm.h nodes.h output.h \
- rpc_tab.h
-categ.o: categ.c nodes.h nonterm.h rpc_tab.h functions.h output.h
+functions.o: functions.c functions.h nonterm.h nodes.h output.h rpc_tab.h
+categ.o: categ.c nodes.h nonterm.h rpc_tab.h functions.h output.h \
+ stag_dfa.h
 nonterm.o: nonterm.c
 tree.o: tree.c nonterm.h functions.h nodes.h output.h cmavotab.h \
  rpc_tab.h
 translate.o: translate.c functions.h nonterm.h nodes.h output.h \
- canonluj.h
+ canonluj.h morf.h dictaccs.h
 latex.o: latex.c functions.h nonterm.h nodes.h output.h latex.h
 properties.o: properties.c nodes.h nonterm.h functions.h output.h
 conversion.o: conversion.c nodes.h nonterm.h functions.h output.h \
@@ -257,21 +257,29 @@ htmlout.o: htmlout.c functions.h nonterm.h nodes.h output.h
 connect.o: connect.c nodes.h nonterm.h functions.h output.h rpc_tab.h \
  cmavotab.h
 latexblk.o: latexblk.c functions.h nonterm.h nodes.h output.h latex.h
-relative.o: relative.c nodes.h nonterm.h rpc_tab.h functions.h \
- output.h cmavotab.h
+relative.o: relative.c nodes.h nonterm.h rpc_tab.h functions.h output.h \
+ cmavotab.h
 textblk.o: textblk.c functions.h nonterm.h nodes.h output.h
 errorscan.o: errorscan.c functions.h nonterm.h nodes.h output.h
 canonluj.o: canonluj.c canonluj.h canonluj.inc
 lujvofns.o: lujvofns.c lujvofns.h
 erasure.o: erasure.c nodes.h nonterm.h rpc_tab.h functions.h output.h
 rpc_full.o: rpc_full.c nodes.h nonterm.h functions.h output.h
-morf.o: morf.c morf.h morf_lex.c morfvlex.c morf_dfa.c \
- morf_enc.c
-tracebk.o: tracebk.c trctabs.c trcftabs.c
+morf.o: morf.c morf.h morf_dfa.h bccheck.h morf_lex.c morfvlex.c
+morf_dfa.o: morf_dfa.c morf_dfa.h
+bccheck.o: bccheck.c bccheck.h bctables.c
+tracebk.o: tracebk.c functions.h nonterm.h nodes.h output.h trctabs.c \
+ trcftabs.c
 elide.o: elide.c nodes.h nonterm.h rpc_tab.h cmavotab.h functions.h \
  output.h elide.h elitabs.c
+dictaccs.o: dictaccs.c functions.h nonterm.h nodes.h output.h canonluj.h \
+ morf.h
+stag_dfa.o: stag_dfa.c stag_dfa.h
 cm_gather.o: cm_gather.c cm.h
 cm_output.o: cm_output.c cm.h
 cm_main.o: cm_main.c cm.h version.h
-cm_translate.o: cm_translate.c cm.h
+cm_translate.o: cm_translate.c cm.h dictaccs.h
 cm_scan.o: cm_scan.c cm.h
+dictaccs.o: dictaccs.c functions.h nonterm.h nodes.h output.h canonluj.h \
+ morf.h
+memory.o: memory.c functions.h nonterm.h nodes.h output.h
