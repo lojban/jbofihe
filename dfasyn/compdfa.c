@@ -303,7 +303,7 @@ int compress_dfa(DFANode **dfas, int ndfas, int ntokens)/*{{{*/
   int new_ndfas;
 
   /* Safety net */
-  if (ndfas <= 0) return;
+  if (ndfas <= 0) return 0;
 
   local_dfas = dfas;
   Nt = ntokens;

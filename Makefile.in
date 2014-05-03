@@ -221,7 +221,7 @@ install : jbofihe smujajgau cmafihe jvocuhadju $(DICTNAME)
 	[ -d $(DESTDIR)$(EXEDIR) ] || mkdir -p $(DESTDIR)$(EXEDIR)
 	[ -d $(DESTDIR)$(LIBDIR) ] || mkdir -p $(DESTDIR)$(LIBDIR)
 	[ -d $(DESTDIR)$(MANDIR) ] || mkdir -p $(DESTDIR)$(MANDIR)
-	for e in jbofihe cmafihe smujajgau jvocuhadju vlatai ; do cp $$e $(DESTDIR)$(EXEDIR) ; chmod 755 $(DESTDIR)$(EXEDIR)/$$e ; strip -s $(DESTDIR)$(EXEDIR)/$$e ; done
+	for e in jbofihe cmafihe smujajgau jvocuhadju vlatai ; do cp $$e $(DESTDIR)$(EXEDIR) ; chmod 755 $(DESTDIR)$(EXEDIR)/$$e ; done
 	if [ -r $(DICTNAME) ]; then for d in $(DICTNAME) ; do cp $$d $(DESTDIR)$(LIBDIR) ; chmod 644 $(DESTDIR)$(LIBDIR)/$$d ; done ; fi
 	for m in jbofihe.1 cmafihe.1 smujajgau.1 jvocuhadju.1 vlatai.1 ; do cp $$m $(DESTDIR)$(MANDIR) ; chmod 755 $(DESTDIR)$(MANDIR)/$$m ; done
 
