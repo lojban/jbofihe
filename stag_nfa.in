@@ -35,7 +35,7 @@ BLOCK number
 # requires a push-down state machine.  I'm sure that any extra case that this
 # lexer recognizes will be thrown out by bison later on.
     STATE in
-        # PA -> out
+        PA -> out
 
     STATE out
         PA -> out
