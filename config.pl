@@ -15,7 +15,6 @@ $profile=0;
 $mmap=1;
 $plist=0;
 $embed=0;
-$plist=0;
 
 while ($_ = shift @ARGV) {
     if (/^--help/ || /^-h/) {

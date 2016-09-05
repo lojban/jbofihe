@@ -87,7 +87,6 @@ read_database(FILE *in)
 
   struct stat sb;
   off_t offset;
-  int result;
   char *dict_base = NULL;
 
   n_entries = get_long(in);
@@ -111,11 +110,10 @@ read_database(FILE *in)
 #ifdef HAVE_MMAP
 
   {
-    char *mmap_base = NULL;
+    void *mmap_base = NULL;
     mmap_base = mmap(NULL, sb.st_size, PROT_READ, MAP_SHARED, fileno(in), 0);
-    result = (int) mmap_base;
 
-    if (result < 0) {
+    if (MAP_FAILED == mmap_base) {
       perror("Could not mmap the dictionary data\n");
       exit(1);
     }
@@ -126,6 +124,7 @@ read_database(FILE *in)
 #else
 
   {
+    int result;
     size_t dict_size = sb.st_size - offset;
 
     dict_base = new_array(char, dict_size);

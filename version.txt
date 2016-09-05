@@ -1,1 +1,1 @@
-char version_string[] = "$Name$";
+char version_string[] = "$Name: 0.39-git $";
