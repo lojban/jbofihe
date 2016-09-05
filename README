@@ -2,18 +2,8 @@
 $Header$
 ################################################################################
 
-First : The author can be reached at  :  rc@rc0.org.uk
-
-Second : My web-page for jbofihe is
-           http://www.rc0.org.uk/jbofihe
-
-Third : For some years now, I have had no further interest in this software, or
-for that matter in Lojban.  I have done a one-off CVS->GIT conversion in April
-2010, followed by minimal fixes to get it to compile again, so I could publish
-the history on github and hopefully prevent it getting lost.  However, I have
-no further plans to work on the software, provide support, accept patches or
-make releases.  I continue to hope that somebody in the Lojban community might
-take this software over.
+The new home of jbofihe is https://github.com/lojban/jbofihe/ .  For
+support, use the issues page there, or try the main Lojban mailing list.
 
 ================
 WHAT IS JBOFIHE?
@@ -53,6 +43,10 @@ The build sequence looks like this (assuming you want to install under
 perl config.pl --prefix=/usr/local
 make all
 make install
+
+(optionally: DESTDIR=/tmp/foo make install ; installs in /tmp/foo
+but without changing the prefix, so that programs can still find
+what they're looking for; useful for packaging)
 
 The config.pl script takes these additional (optional) arguments :
 --debug to compile with debug instead of optimisation
