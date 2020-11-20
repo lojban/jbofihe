@@ -8,7 +8,7 @@
 /* COPYRIGHT */
 
 #include "cmavotab.h"
-#include "rpc_tab.h"
+#include "rpc2x_act.tab.h"
 #define UNKNOWN 0
 
 CmavoCell cmavo_table[] = {

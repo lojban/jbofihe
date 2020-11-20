@@ -14,7 +14,7 @@
 #include <string.h>
 
 #include "functions.h"
-#include "rpc_tab.h"
+#include "rpc2x_act.tab.h"
 #include "nodes.h"
 #include "cmavotab.h"
 /*}}}*/

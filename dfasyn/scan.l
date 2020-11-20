@@ -10,7 +10,7 @@
 
 %{
 #include "n2d.h"
-#include "parse.h"
+#include "parse.tab.h"
 
 int lineno = 1;
 %}

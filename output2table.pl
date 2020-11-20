@@ -74,9 +74,9 @@ $_ = <STDIN>;
 while (<>) {
     chomp;
     last if (/^\s*$/);
-    next if (/^\s/);
+    next if (/^\s+[0-9]/);
 
-    m{^([^ \t]+)} || die "Unmatched line [$_];";
+    m{^[ \t]*([^0-9 \t][^ \t]*)} || die "Unmatched line [$_];";
     $codes{$1} = $hicode++;
 }
 
@@ -95,7 +95,7 @@ $latest_lhs = undef;
 
 while (<>) {
     chomp;
-    if (/^state ([0-9]+)/) {
+    if (/^[Ss]tate ([0-9]+)/) {
         $state = $1;
         $rules[$state] = [ ];
         $focus[$state] = [ ];
@@ -111,7 +111,7 @@ while (<>) {
         $ruleno = $3;
         @r = split(/ /, $rhs);
         for ($i = 0; ; $i++) {
-            last if ($r[$i] eq '.');
+            last if ($r[$i] =~ /\.|•/);
         }
         push (@{$focus[$state]}, $i);
         push (@{$rules[$state]}, $ruleno);
@@ -124,7 +124,7 @@ while (<>) {
         $rhs = $3;
         @r = split(/ /, $rhs);
         for ($i = 0; ; $i++) {
-            last if ($r[$i] eq '.');
+            last if ($r[$i] =~ /\.|•/);
         }
         push (@{$focus[$state]}, $i);
         push (@{$rules[$state]}, $ruleno);
@@ -135,7 +135,7 @@ while (<>) {
         $rhs = $2;
         @r = split(/ /, $rhs);
         for ($i = 0; ; $i++) {
-            last if ($r[$i] eq '.');
+            last if ($r[$i] =~ /\.|•/);
         }
         push (@{$focus[$state]}, $i);
         push (@{$rules[$state]}, $ruleno);

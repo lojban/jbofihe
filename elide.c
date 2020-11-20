@@ -14,7 +14,7 @@
 
 #include <stdio.h>
 #include "nodes.h"
-#include "rpc_tab.h"
+#include "rpc2x_act.tab.h"
 #include "cmavotab.h"
 #include "functions.h"
 #include "elide.h"

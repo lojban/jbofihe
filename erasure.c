@@ -11,7 +11,7 @@
 #include <string.h>
 #include <assert.h>
 #include "nodes.h"
-#include "rpc_tab.h"
+#include "rpc2x_act.tab.h"
 #include "functions.h"
 
 /*++++++++++++++++++++++++++++++
