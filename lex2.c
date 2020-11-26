@@ -24,7 +24,7 @@
 
 #define YYSTYPE TreeNode *
 
-#include "rpc_tab.h"
+#include "rpc2x_act.tab.h"
 #include "elide.h"
 
 /* For signalling syntax errors back to main routine */

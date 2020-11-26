@@ -43,10 +43,10 @@ $locode = $hicode = undef;
 while (<>) {
     chomp;
     last if (/^\s*$/);
-    next if (/^\s/);
-    next if (/^\$/);
+    next if (/^\s+[0-9]/);
+    next if (/^\s*\$/);
 
-    m{^([^ \t]+)\s+\(([-0-9]+)\)} || die "Unmatched line [$_];";
+    m{^\s*([^ \t0-9][^ \t]*)\s+\(([-0-9]+)\)} || die "Unmatched line [$_];";
     $codes{$1} = $2;
     if (!(defined $locode) || ($locode > $2)) { $locode = $2; }
     if (!(defined $hicode) || ($hicode < $2)) { $hicode = $2; }
@@ -57,7 +57,7 @@ $state = undef;
 
 while (<>) {
     chomp;
-    if (/^state ([0-9]+)/) {
+    if (/^[Ss]tate ([0-9]+)/) {
         $state = $1;
         next;
     }

@@ -20,7 +20,7 @@ CMAFIHE_LDOPTS=@@CMAFIHE_LDOPTS@@
 LANG=C
 
 CC=gcc
-CFLAGS= @@OPTDEBUG@@ @@DEFINES@@ -DDEFAULT_DICTIONARY=\"$(DICTIONARY)\"
+CFLAGS= -fcommon @@OPTDEBUG@@ @@DEFINES@@ -DDEFAULT_DICTIONARY=\"$(DICTIONARY)\"
 BISON=bison
 
 OBJS2 = main.o lex1.o lex2.o cmavotab.o rpc_tab.o functions.o \
@@ -62,9 +62,8 @@ rpc2x_nc.y : rpc2x.y uncom
 rpc2x_act.y nonterm.h nonterm.c : rpc2x_nc.y
 	perl ./action.perl < rpc2x_nc.y > rpc2x_act.y
 
-rpc2x_act.tab.c rpc2x_act.output rpc_tab.h : rpc2x_act.y
+rpc2x_act.tab.c rpc2x_act.output rpc2x_act.tab.h : rpc2x_act.y
 	$(BISON) -v -d rpc2x_act.y
-	mv rpc2x_act.tab.h rpc_tab.h
 
 rpc_tab.c : rpc2x_act.tab.c
 	perl add_trace_to_tabc.pl < rpc2x_act.tab.c > rpc_tab.c
@@ -200,7 +199,7 @@ canonluj.inc:
 
 clean:
 	-(cd dfasyn && make clean)
-	-rm *.output *.tab.c *_tab.c rpc_full.c *.o \
+	-rm -f *.output *.tab.[ch] *_tab.[ch] rpc_full.c *.o \
         jbofihe cmafihe smujajgau vlatai jvocuhadju \
         *.dict uncom.c uncom.o uncom \
         morf_lex.c morfvlex.c morf_enc.c morf*_dfa.c \
@@ -231,46 +230,46 @@ main.o: main.c nodes.h nonterm.h functions.h output.h version.h
 lex1.o: lex1.c cmavotab.h nodes.h nonterm.h functions.h output.h \
  lujvofns.h morf.h bccheck.h
 lex2.o: lex2.c functions.h nonterm.h nodes.h output.h cmavotab.h \
- rpc_tab.h elide.h
-cmavotab.o: cmavotab.c cmavotab.h rpc_tab.h
+ rpc2x_act.tab.h elide.h
+cmavotab.o: cmavotab.c cmavotab.h rpc2x_act.tab.h
 rpc_tab.o: rpc_tab.c nodes.h nonterm.h functions.h output.h
-functions.o: functions.c functions.h nonterm.h nodes.h output.h rpc_tab.h
-categ.o: categ.c nodes.h nonterm.h rpc_tab.h functions.h output.h \
+functions.o: functions.c functions.h nonterm.h nodes.h output.h rpc2x_act.tab.h
+categ.o: categ.c nodes.h nonterm.h rpc2x_act.tab.h functions.h output.h \
  stag_dfa.h
 nonterm.o: nonterm.c
 tree.o: tree.c nonterm.h functions.h nodes.h output.h cmavotab.h \
- rpc_tab.h
+ rpc2x_act.tab.h
 translate.o: translate.c functions.h nonterm.h nodes.h output.h \
  canonluj.h morf.h dictaccs.h
 latex.o: latex.c functions.h nonterm.h nodes.h output.h latex.h
 properties.o: properties.c nodes.h nonterm.h functions.h output.h
 conversion.o: conversion.c nodes.h nonterm.h functions.h output.h \
- rpc_tab.h cmavotab.h
-terms.o: terms.c functions.h nonterm.h nodes.h output.h rpc_tab.h \
+ rpc2x_act.tab.h cmavotab.h
+terms.o: terms.c functions.h nonterm.h nodes.h output.h rpc2x_act.tab.h \
  cmavotab.h
 memory.o: memory.c functions.h nonterm.h nodes.h output.h
-tenses.o: tenses.c rpc_tab.h nonterm.h functions.h nodes.h output.h
+tenses.o: tenses.c rpc2x_act.tab.h nonterm.h functions.h nodes.h output.h
 output.o: output.c nodes.h nonterm.h functions.h output.h cmavotab.h \
- rpc_tab.h
+ rpc2x_act.tab.h
 textout.o: textout.c functions.h nonterm.h nodes.h output.h
 htmlout.o: htmlout.c functions.h nonterm.h nodes.h output.h
-connect.o: connect.c nodes.h nonterm.h functions.h output.h rpc_tab.h \
+connect.o: connect.c nodes.h nonterm.h functions.h output.h rpc2x_act.tab.h \
  cmavotab.h
 latexblk.o: latexblk.c functions.h nonterm.h nodes.h output.h latex.h
-relative.o: relative.c nodes.h nonterm.h rpc_tab.h functions.h output.h \
+relative.o: relative.c nodes.h nonterm.h rpc2x_act.tab.h functions.h output.h \
  cmavotab.h
 textblk.o: textblk.c functions.h nonterm.h nodes.h output.h
 errorscan.o: errorscan.c functions.h nonterm.h nodes.h output.h
 canonluj.o: canonluj.c canonluj.h canonluj.inc
 lujvofns.o: lujvofns.c lujvofns.h
-erasure.o: erasure.c nodes.h nonterm.h rpc_tab.h functions.h output.h
+erasure.o: erasure.c nodes.h nonterm.h rpc2x_act.tab.h functions.h output.h
 rpc_full.o: rpc_full.c nodes.h nonterm.h functions.h output.h
 morf.o: morf.c morf.h morf_dfa.h bccheck.h morf_lex.c morfvlex.c
 morf_dfa.o: morf_dfa.c morf_dfa.h
 bccheck.o: bccheck.c bccheck.h bctables.c
 tracebk.o: tracebk.c functions.h nonterm.h nodes.h output.h trctabs.c \
  trcftabs.c
-elide.o: elide.c nodes.h nonterm.h rpc_tab.h cmavotab.h functions.h \
+elide.o: elide.c nodes.h nonterm.h rpc2x_act.tab.h cmavotab.h functions.h \
  output.h elide.h elitabs.c
 dictaccs.o: dictaccs.c functions.h nonterm.h nodes.h output.h canonluj.h \
  morf.h

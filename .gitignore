@@ -3,8 +3,8 @@ canonluj.inc
 cmafihe
 cm_scan.c
 dfasyn/dfasyn
-dfasyn/parse.c
-dfasyn/parse.h
+dfasyn/parse.tab.c
+dfasyn/parse.tab.h
 dfasyn/scan.c
 dictdata.c
 elitabs.c
@@ -24,6 +24,7 @@ nonterm.h
 *.o
 *.output
 rpc2x_act.y
+rpc2x_act.tab.*
 rpc2x_full_*.y
 rpc2x_nc.y
 rpc_full.c

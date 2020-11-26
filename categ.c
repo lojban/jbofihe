@@ -14,7 +14,7 @@
 #include <assert.h>
 #include <string.h>
 #include "nodes.h"
-#include "rpc_tab.h"
+#include "rpc2x_act.tab.h"
 #include "functions.h"
 #include "stag_dfa.h"
 

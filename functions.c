@@ -12,7 +12,7 @@
 #include <ctype.h>
 #include "functions.h"
 #include "nonterm.h"
-#include "rpc_tab.h"
+#include "rpc2x_act.tab.h"
 
 /* command line option */
 extern int insert_elidables;

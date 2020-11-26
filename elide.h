@@ -9,7 +9,7 @@
 #define ELIDE_H
 
 #include "nodes.h"
-#include "rpc_tab.h"
+#include "rpc2x_act.tab.h"
 
 typedef struct {
   int value;
