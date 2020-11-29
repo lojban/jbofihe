@@ -37,6 +37,14 @@ Bundled with jbofihe are 4 other programs :
 COMPILING
 =========
 
+If you have podman, just run: ./build.sh
+
+(It should also work with docker, but will require some tweaking.)
+
+This is also how the releases are built.
+
+Otherwise:
+
 The build sequence looks like this (assuming you want to install under
 /usr/local)
 
@@ -99,31 +107,9 @@ dbd82f42f4156a2a1801e2a5ec1e551e  lujvo-list
 PACKAGING
 =========
 
-In case it might be useful to others, here's how I (rlpowell)
-package jbofihe on my system (because if you stick stuff in
-/usr/local/ without packaging it, there's no way to remove it except
-manually!).
-
-This is based on https://github.com/jordansissel/fpm/wiki/PackageMakeInstall
-
-    yum install flex
-    yum install bison
-    yum install gcc
-    gem install fpm
-    cd ~/src/
-    git clone git@github.com:lojban/jbofihe.git
-    cd jbofihe/
-    rm -rf /tmp/installdir
-    mkdir /tmp/installdir
-    perl config.pl --prefix=/usr/local
-    make all
-    DESTDIR=/tmp/installdir make install
-    fpm -s dir -t rpm -n jbofihe -v 0.40 -C /tmp/installdir usr/local
-    find /tmp/installdir -type f | sort
-    rpm -qpl jbofihe-0.40-1.x86_64.rpm | sort
-
-For future versions, add --iteration N (for the next subsequent N)
-to the fpm arguments.
+Just run ./build.sh ; if that doesn't work on your system, fix that
+and make PR please (but don't drop podman support; if you need to
+run docker instead, modify the script to work with either).
 
 =======
 RUNNING

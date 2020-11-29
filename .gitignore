@@ -1,3 +1,10 @@
+# Vim
+[._]*.sw[a-p]
+*~
+
+# helps ripgrep not be silly
+.git
+
 bctables.c
 canonluj.inc
 cmafihe
@@ -6,6 +13,8 @@ dfasyn/dfasyn
 dfasyn/parse.tab.c
 dfasyn/parse.tab.h
 dfasyn/scan.c
+dfasyn/parse.c
+dfasyn/parse.h
 dictdata.c
 elitabs.c
 gismu_cmavo.dict
@@ -44,3 +53,6 @@ uncom.c
 version.h
 version.h
 vlatai
+build/
+jbofihe-*.rpm
+smujmaji.dat
