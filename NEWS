@@ -1,3 +1,9 @@
+New in version 0.41
+===================
+
+- added find_lojban.pl
+- added Dockerfile for building
+
 New in version 0.40
 ===================
 
