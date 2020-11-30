@@ -25,9 +25,9 @@ typedef enum {
 
 static States state;
 
-static char tag_text[4096];
-static char loj_text[4096];
-static char eng_text[4096];
+static char tag_text[65536];
+static char loj_text[65536];
+static char eng_text[65536];
 
 /*++++++++++++++++++++++++++++++++++++++
   
@@ -411,7 +411,7 @@ start_tag(void)
 static void
 write_tag_text(char *brivla, char *place, char *trans, int brac)
 {
-  char buffer[1024];
+  char buffer[65536];
 
   if (brac) {
     sprintf(buffer, "%s%s (%s)", brivla, place, make_texsafe(trans));
@@ -426,7 +426,7 @@ write_tag_text(char *brivla, char *place, char *trans, int brac)
 
 static void write_partial_tag_text(char *t)/*{{{*/
 {
-  char buffer[1024];
+  char buffer[65536];
 
   sprintf(buffer, "%s", t);
   if (tag_text[1]) { /* '[' is pre-inserted by start_tags */

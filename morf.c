@@ -62,6 +62,7 @@ enum processed_category {/*{{{*/
 
 /* Include file for checking vowel pairs/clusters within the input stream. */
 #include "morfvlex.c"
+#include <stdlib.h>
 
 static unsigned char s2l[32] = /*{{{*/
 /* Map N->1, R->2, other C->3, else ->0.  Used to trim down the last-but-one
@@ -209,7 +210,7 @@ MorfType morf_scan(char *s, char ***buf_end, struct morf_xtra *arg_xtra)/*{{{*/
   unsigned int vsm = 0111; /* 3 consonants as starting state */
   char *p, c;
   char **start, **pstart;
-  char *cstart[256], **pcstart; /* Used for holding start of Cy structures */
+  char *cstart[65536], **pcstart; /* Used for holding start of Cy structures */
   int ent, tent, tok, set, inhibit;
   int state, next_state;
   int inhibited = 0, initial = 1;
@@ -686,8 +687,8 @@ MorfType morf_scan(char *s, char ***buf_end, struct morf_xtra *arg_xtra)/*{{{*/
 
 #ifdef TEST_MORF
 int main (int argc, char **argv) {/*{{{*/
-  char buffer[128];
-  char *start[256], **pstart;
+  char buffer[65536];
+  char *start[65536], **pstart;
   char *word = NULL;
   while (++argv, --argc) {
     if (!strncmp(*argv, "-v", 2)) {

@@ -105,8 +105,8 @@ static void
 try_cmavo_fragment(node *p)
 {
   char buf_in[32];
-  char buf[2048];
-  char buf_out[256];
+  char buf[65536];
+  char buf_out[65536];
 
   char *q, *r, *t;
   buf[0] = 0;
@@ -146,10 +146,10 @@ translate_selmao(char *x) {
 static void
 try_cmavo_fragment(char *lojban, char **transbuf, char* (*transfn)(char *))
 {
-  char buf[256], buf2[256];
+  char buf[65536], buf2[65536];
   char *pbuf;
   char *t, *e;
-  char bufout[1024];
+  char bufout[65536];
   int len;
 
   bufout[0] = 0;

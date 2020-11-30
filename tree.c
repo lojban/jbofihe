@@ -310,7 +310,7 @@ print_bracketed(TreeNode *x, int depth, State *state, Conversion conv)
   TreeNode *c1, *c2;
   Conversion child_conv;
   char *english;
-  char buffer[2048];
+  char buffer[65536];
 
   if (x->type == N_NONTERM) {
     clear_eols(state);

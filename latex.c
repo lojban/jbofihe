@@ -260,7 +260,7 @@ latex_write_close_bracket(BracketType type, int subscript)
 char *
 make_texsafe(char *s)
 {
-  static char buf[2048];
+  static char buf[65536];
   char *p, *q;
   p = s;
   q = buf;

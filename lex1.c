@@ -185,7 +185,7 @@ process_cmene(char *buf, int start_line, int start_column,
   TreeNode *tok;
 
   if (is_bad)  {
-    char prefix[1024], labuf[8];
+    char prefix[65536], labuf[8];
     char *p, *q;
     int len1, len2;
     for (p=buf, q=prefix, len1=0; p!=ladoi; len1++) *q++ = *p++;
@@ -216,7 +216,7 @@ add_preceding_cmavo(char **pws, char **pwe, int start_line, int *column)
   char **pw;
   char *p, *q;
   int incr;
-  char buf2[1024];
+  char buf2[65536];
   for (pw=pws; pw<pwe; pw++) {
     incr = 0;
     for (p=*pw, q=buf2; p<*(pw+1);) {
@@ -241,9 +241,9 @@ add_preceding_cmavo(char **pws, char **pwe, int start_line, int *column)
 static int
 process_word(char *buf, int start_line, int start_column)
 {
-  char buf2[1024];
+  char buf2[65536];
   TreeNode *tok;
-  char *word_starts[1024];
+  char *word_starts[65536];
   char **pws, **pwe;
   MorfType morf_type;
   struct morf_xtra mx;
@@ -379,7 +379,7 @@ process_word(char *buf, int start_line, int start_column)
 void
 parse_file(FILE *f)
 {
-  char buffer[1024]; /* buffer for words */
+  char buffer[65536]; /* buffer for words */
   char *p;
   int c;
   int line;

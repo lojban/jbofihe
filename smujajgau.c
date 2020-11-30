@@ -381,7 +381,7 @@ read_database(FILE *in)
   int n_entries;
   Entry *entries;
   int i, len;
-  char key[1024], val[1024];
+  char key[65536], val[65536];
 
   n_entries = get_long(in);
   entries = new_array(Entry, n_entries);
@@ -411,7 +411,7 @@ read_database(FILE *in)
 
 static void
 preen(char *s) {
-  char buffer[128];
+  char buffer[65536];
   char *suffixes[] = {"n", "v", "a", "t"};
   int i;
   for (i=0; i<4; i++) {
@@ -440,7 +440,7 @@ handle_mapping(char *src, char *dest)
   int len = strlen(src);
   int defines_place = isdigit(src[len-1]);
   int specific = isdigit(src[len-2]);
-  char buffer[1024], buffer2[1024], buffer3[1024];
+  char buffer[65536], buffer2[65536], buffer3[65536];
   char *canon;
 
   /* If we're about to add a case of something, check we get rid
@@ -511,9 +511,9 @@ handle_mapping(char *src, char *dest)
 static void
 do_file(FILE *f)
 {
-  char line[2048];
-  char src[1024];
-  char dest[1024];
+  char line[65536];
+  char src[65536];
+  char dest[65536];
   char *p, *q, *r;
 
   while (fgets(line, sizeof(line), f)) {

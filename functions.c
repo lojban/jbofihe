@@ -675,7 +675,7 @@ is_simple_nonterm(TreeNode *x)
 char *
 make_uppercase(char *s)
 {
-  static char buffer[1024];
+  static char buffer[65536];
   char *p;
   strcpy(buffer, s);
   p = buffer;

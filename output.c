@@ -186,7 +186,7 @@ static void translate_bai (TreeNode *x, char *eng)/*{{{*/
 {
   XBaiConversion *baiconv;
   XTenseCtx *xtc;
-  char buffer[1024], *trans;
+  char buffer[65536], *trans;
 
   eng[0] = 0;
   buffer[0] = 0;
@@ -336,7 +336,7 @@ static void get_cmavo_text_inside_node_internal(TreeNode *x, char *sofar)/*{{{*/
 /*}}}*/
 static char * get_cmavo_text_inside_node(TreeNode *x)/*{{{*/
 {
-  static char buffer[4096];
+  static char buffer[65536];
   buffer[0] = 0;
   get_cmavo_text_inside_node_internal(x, buffer);
   return buffer;
@@ -358,7 +358,7 @@ static void translate_indicator (TreeNode *x, char *loj, char *eng)/*{{{*/
 {
   char *trans;
   int negated;
-  char buffer[256];
+  char buffer[65536];
   XCaiIndicator *xci;
 
   if (prop_neg_indicator(x, NO)) {
@@ -453,7 +453,7 @@ static void translate_indicator (TreeNode *x, char *loj, char *eng)/*{{{*/
 /*}}}*/
 static char * translate_tense_in_context(char *text, enum tense_contexts ctx)/*{{{*/
 {
-  char buffer[128];
+  char buffer[65536];
   char *trans;
 
   strcpy(buffer, text);
@@ -504,7 +504,7 @@ static char * translate_tense_in_context(char *text, enum tense_contexts ctx)/*{
 static void translate_tense (TreeNode *x, char *eng)/*{{{*/
 {
   XTenseCtx *ctx;
-  char buffer[128], *trans;
+  char buffer[65536], *trans;
 
   eng[0] = 0;
   ctx = prop_tense_ctx(x, NO);
@@ -553,7 +553,7 @@ static void translate_time_offset (TreeNode *x, char *loj, char *eng)/*{{{*/
     if (trans) {
       strcpy(eng, trans);
     } else {
-      char engbuf[256];
+      char engbuf[65536];
       engbuf[0] = 0;
       trans = translate(cmavo_table[pu->data.cmavo.code].cmavo);
       strcat(engbuf, trans ? trans : "?");
@@ -580,7 +580,7 @@ static void translate_time_offset (TreeNode *x, char *loj, char *eng)/*{{{*/
 static void translate_jai (TreeNode *x, char *eng)/*{{{*/
 {
   XGlosstype *xgt;
-  char buffer[128], *trans;
+  char buffer[65536], *trans;
 
   strcpy(buffer, cmavo_table[x->data.cmavo.code].cmavo);
   eng[0] = 0;
@@ -614,7 +614,7 @@ static void translate_jai (TreeNode *x, char *eng)/*{{{*/
 /*}}}*/
 static char * translate_convertible(char *loj, TreeNode *basis)/*{{{*/
 {
-  char buffer[1024];
+  char buffer[65536];
   char *trans;
   XConversion *conversion;
   XGlosstype *gt;
@@ -775,7 +775,7 @@ static void get_lojban_word_and_translation (TreeNode *x, char *loj, char *eng)/
       
     case N_ZO:
       {
-        char buffer[1024];
+        char buffer[65536];
         sprintf(loj, "zo %s", x->data.zo.text);
         attempt_translation(x->data.zo.text, buffer);
         sprintf(eng, "\"%s\"", buffer);
@@ -869,7 +869,7 @@ static void output_term(TreeNode *x, WhatToShow what)/*{{{*/
             break;/*}}}*/
           case TTT_JAITAG:/*{{{*/
             {
-              char transbuf[1024];
+              char transbuf[65536];
               (drv->start_tag)();
               (drv->write_partial_tag_text)("jai+<tag>1: (");
               output_internal(tag->jaitag.tag, SHOW_TAG_TRANS);
@@ -900,7 +900,7 @@ static void output_term(TreeNode *x, WhatToShow what)/*{{{*/
 /*}}}*/
           case TTT_ME:/*{{{*/
             {
-              char *trans, transbuf[1024];
+              char *trans, transbuf[65536];
               (drv->start_tag)();
               trans = adv_translate("me", tag->pos, TCX_TAG);
               sprintf(transbuf, trans, tag->me.sumti->data.nonterm.number);
@@ -910,7 +910,7 @@ static void output_term(TreeNode *x, WhatToShow what)/*{{{*/
           break;/*}}}*/
           case TTT_NUMBERMOI:/*{{{*/
             {
-              char *trans, lojbuf[128], transbuf[1024];
+              char *trans, lojbuf[65536], transbuf[65536];
               int code;
               int norl_code;
               char *cmavo;
@@ -984,7 +984,7 @@ static void output_term(TreeNode *x, WhatToShow what)/*{{{*/
 /*}}}*/
 static void output_simple_time_offset(TreeNode *x, WhatToShow what)/*{{{*/
 {
-  char loj[1024], eng[1024];
+  char loj[65536], eng[65536];
   int i, n;
 
   loj[0] = 0;
@@ -1187,8 +1187,8 @@ static void output_fore_or_afterthought(TreeNode *x, WhatToShow what)/*{{{*/
 static void output_clustered(TreeNode *x, WhatToShow what)/*{{{*/
 {
   char *cluster, *trans;
-  char localtrans[256];
-  char lojbuf[1024], lojbuf2[1024];
+  char localtrans[65536];
+  char lojbuf[65536], lojbuf2[65536];
   int i, n;
   TreeNode *c;
   struct nonterm *nt;
@@ -1277,7 +1277,7 @@ static void output_clustered(TreeNode *x, WhatToShow what)/*{{{*/
 /*}}}*/
 static void output_internal(TreeNode *x, WhatToShow what)/*{{{*/
 {
-  char loj[1024], eng[1024];
+  char loj[65536], eng[65536];
   int i, n;
 
   if (x->type == N_NONTERM) {/*{{{*/
@@ -1440,7 +1440,7 @@ static void output_internal(TreeNode *x, WhatToShow what)/*{{{*/
 /*}}}*/
   } else {/*{{{*/
     /* Terminal token */
-    char lojbuf[1024];
+    char lojbuf[65536];
 
     lojbuf[0] = 0;
 

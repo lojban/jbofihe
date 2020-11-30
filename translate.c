@@ -21,7 +21,7 @@
 
 extern int show_dictionary_defects;
 
-static char buffers[64][512];
+static char buffers[64][65536];
 static int bufptr=0;
 #define GETBUF() (&buffers[bufptr=(bufptr+1)&0x3f][0])
 
@@ -97,7 +97,7 @@ char * translate_fuivla_prefix(char *w, int place, TransContext ctx)/*{{{*/
   char *canon;
   Component comp[32];
   int n_comps;
-  static char buffer[1024];
+  static char buffer[65536];
   char *trans;
   int i;
 
@@ -125,7 +125,7 @@ char * translate_unknown(char *w, int place, TransContext ctx)/*{{{*/
    morf_scan again. */
 /* ================================================== */
 {
-  static char buf[2048];
+  static char buf[65536];
   char *ltrans;
   MorfType morf_type;
   struct morf_xtra xtra;
@@ -346,7 +346,7 @@ static char * make_plural(char *x)/*{{{*/
 
   star_pos = strchr(x, '*');
   if (star_pos && is_ok_after_star(star_pos[1])) {
-    char head[1024];
+    char head[65536];
     char *result2;
     char *p, *q;
     result2 = GETBUF();
@@ -379,13 +379,13 @@ static char * make_plural(char *x)/*{{{*/
 }/*}}}*/
 static char * append_er(char *x)/*{{{*/
 {
-  static char result[128];
+  static char result[65536];
   int n;
   char *star_pos;
 
   star_pos = strchr(x, '*');
   if (star_pos && is_ok_after_star(star_pos[1])) {
-    char head[1024];
+    char head[65536];
     char *result2;
     char *p, *q;
     result2 = GETBUF();
@@ -416,13 +416,13 @@ static char * append_er(char *x)/*{{{*/
 }/*}}}*/
 static char * append_ing(char *x)/*{{{*/
 {
-  static char result[128];
+  static char result[65536];
   int n;
   char *star_pos;
 
   star_pos = strchr(x, '*');
   if (star_pos && is_ok_after_star(star_pos[1])) {
-    char head[1024];
+    char head[65536];
     char *result2;
     char *p, *q;
     result2 = GETBUF();
@@ -456,7 +456,7 @@ static char * translate_pattern(char *w, int place, char *suffix)/*{{{*/
 {
   char *new_start = NULL;
   int swap;
-  static char result[128];
+  static char result[65536];
   char *buffer, *buffer2;
   char *trans;
 
@@ -532,7 +532,7 @@ char * fix_trans_in_context(char *src, char *trans, TransContext ctx, char *w1n,
 {
   enum {CL_DISCRETE, CL_SUBSTANCE, CL_ACTOR, CL_PROPERTY, CL_REVERSE_PROPERTY, CL_IDIOMATIC} wordclass;
   char *result;
-  char w1[128];
+  char w1[65536];
 
   result = GETBUF();
   
@@ -672,7 +672,7 @@ char * fix_trans_in_context(char *src, char *trans, TransContext ctx, char *w1n,
 
       case CL_IDIOMATIC:
         {
-          char tempbuf[1024];
+          char tempbuf[65536];
           strcpy(tempbuf, append_ing(w1));
             
           switch (ctx) {
@@ -748,7 +748,7 @@ static void split_into_comps(char *canon, Component *comp, int *ncomp)/*{{{*/
 {
   int i;
   int nc = 0;
-  char buffer[256];
+  char buffer[65536];
   char *p, *q;
   int place = 0;
 
@@ -787,9 +787,9 @@ static void split_into_comps(char *canon, Component *comp, int *ncomp)/*{{{*/
 }/*}}}*/
 static char * lookup_template_match(int prec, int suffix, int gather, char *orig, Component *comp, int ncomp, int place, TransContext ctx)/*{{{*/
 {
-  char generic[128]; /* the part that's found in the LHS of the dictionary pattern match */
-  char specific[256]; /* the other part of the string */
-  char buffer[256];
+  char generic[65536]; /* the part that's found in the LHS of the dictionary pattern match */
+  char specific[65536]; /* the other part of the string */
+  char buffer[65536];
   int cutg, cuts;
   int new_place;
   char *ctx_suf_as_string[4] = {"n", "v", "q", "t"};
@@ -836,7 +836,7 @@ static char * lookup_template_match(int prec, int suffix, int gather, char *orig
       if (got_full_trans) {
         return subst;
       } else {
-        char buffer1[256], *trans1, w1n[256];
+        char buffer1[65536], *trans1, w1n[65536];
         sprintf(buffer1, "*%1d%s%1dn", prec, generic, new_place);
         trans1 = translate(buffer1);
         if (trans1) { strcpy(w1n, trans1); }
@@ -919,9 +919,9 @@ static char * attempt_pattern_match(char *w, int place, TransContext ctx)/*{{{*/
 char * adv_translate(char *w, int place, TransContext ctx)/*{{{*/
 {
   char *trans, *trans1;
-  char w1n[128];
-  char buffer[1024], buffer1[1024];
-  static char result[1024];
+  char w1n[65536];
+  char buffer[65536], buffer1[65536];
+  static char result[65536];
   char ctx_suffix[4] = "nvqt";
   char *ctx_suf_as_string[4] = {"n", "v", "q", "t"};
   int found_full_trans=0;

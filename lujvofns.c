@@ -243,7 +243,7 @@ int
 is_valid_lujvo(char *t)
 {
   int len = strlen(t);
-  char buf[1024];
+  char buf[65536];
 
   /* Flags to check CVV + hyphen stuff. */
   int start_cvv;

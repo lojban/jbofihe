@@ -11,6 +11,6 @@ make all
 DESTDIR=build/ make install
 rm -rf build/usr/lib/.build-id
 cp find_lojban.pl build/usr/local/bin/find_lojban
-rm -f jbofihe-0.41-1.x86_64.rpm
-fpm -s dir -t rpm -n jbofihe -v 0.41 --rpm-rpmbuild-define "_build_id_links none" -C build/ usr/local
-rpm -qpl jbofihe-0.41-1.x86_64.rpm | sort
+rm -f jbofihe-0.42-1.x86_64.rpm
+fpm -s dir -t rpm -n jbofihe -v 0.42 --rpm-rpmbuild-define "_build_id_links none" -C build/ usr/local
+rpm -qpl jbofihe-0.42-1.x86_64.rpm | sort

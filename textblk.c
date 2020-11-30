@@ -386,7 +386,7 @@ static void start_tag(void)/*{{{*/
 /*}}}*/
 static void write_tag_text(char *brivla, char *place, char *trans, int brac)/*{{{*/
 {
-  char buffer1[256], buffer2[256];
+  char buffer1[65536], buffer2[65536];
 
   sprintf(buffer1, "%s%s ", brivla, place);
   if (brac) {

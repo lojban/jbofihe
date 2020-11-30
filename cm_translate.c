@@ -22,7 +22,7 @@
 char *
 translate(char *word)
 {
-  static char buf[1024];
+  static char buf[65536];
   char *res;
 
   res = dict_lookup(word);
@@ -63,7 +63,7 @@ static char *
 translate_comp(char *w, int *conversion)
 {
   char buf[64], buf2[4];
-  static char result[256];
+  static char result[65536];
   char *trans;
   strcpy(buf, w);
   if (*conversion) {
@@ -109,7 +109,7 @@ translate_comp(char *w, int *conversion)
 static char *
 translate_lujvo(char *word)
 {
-  static char result[4096];
+  static char result[65536];
   char buf[64];
   char *w, *trans;
   int initial;
@@ -265,7 +265,7 @@ is_consonant_not_r(char c)
 char *
 translate_unknown(char *w)
 {
-  static char buf[2048];
+  static char buf[65536];
   int len, i;
   int hyph;
   char *p, *q;

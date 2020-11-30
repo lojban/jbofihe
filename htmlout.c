@@ -224,7 +224,7 @@ write_close_bracket(BracketType type, int subscript)
 static char *
 make_htmlsafe(char *s)
 {
-  static char buf[2048];
+  static char buf[65536];
   char *p, *q;
   p = s;
   q = buf;

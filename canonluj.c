@@ -120,7 +120,7 @@ lookup_component(char *x)
 static void
 strip_leading_rafsi(char **y, int len, int hy, int first, char *result)
 {
-  char buf[5], *comp;
+  char buf[65536], *comp;
   char *x = *y;
   int i;
   for (i=0; i<len; i++) buf[i] = x[i];
@@ -138,7 +138,7 @@ strip_leading_rafsi(char **y, int len, int hy, int first, char *result)
 static char *
 split_lujvo (char *x)
 {
-  static char result[2048];
+  static char result[65536];
   int first=1; /* At start, so we can handle r and n hyphens */
   
   result[0] = 0;
@@ -279,7 +279,7 @@ canon_lujvo (char *x)
 #ifdef TEST
 
 int main (int argc, char **argv) {
-  char line[128], *result;
+  char line[65536], *result;
   while (fgets(line, sizeof(line), stdin)) {
     line[strlen(line)-1] = 0; /* strip NL */
     result = canon_lujvo(line);
