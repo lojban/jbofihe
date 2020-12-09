@@ -1,1 +1,1 @@
-char version_string[] = "0.42";
+char version_string[] = "0.43";

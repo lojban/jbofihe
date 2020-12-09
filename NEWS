@@ -1,3 +1,9 @@
+New in version 0.43
+===================
+
+- reduced the size of some of the char[] arrays to avoid hitting
+  stack size limits
+
 New in version 0.42
 ===================
 
