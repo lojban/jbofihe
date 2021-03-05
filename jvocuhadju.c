@@ -672,6 +672,7 @@ static int lookup_gismu(char *s) {
 typedef struct {
   char *word;
   long long int score;
+  char marker; /* special symbol for lujvo list for footnotes */
 } Lujvo;
 
 static Lujvo lujvo[MAX_LUJVO_COUNT];
@@ -704,6 +705,7 @@ static void makelujvo(char **tanru) {
   int c[MAXT]; /* Counters over the rafsi forms for each argument
                   (implements an arbitrarily-nested for loop) */
   int lujvo_limit_hit = 0; /* set to 1 if there's a huge number of possible lujvo */
+  int brod_rafsi_used = 0; /* set to 1 if the rafsi 'brod' was used */
 
   int check1, check2, check3, check4;
 
@@ -772,8 +774,16 @@ static void makelujvo(char **tanru) {
     for (i=0; i<nt; i++) {
       if (showrafsi) {
         printf("%-5s:  ", t[i]);
+        int is_brod_rafsi = 0;
         for (j=0; j<nr[i]; j++) {
           printf("%-5s ", r[i][j]);
+          if (strlen(r[i][j]) == 4 && strncmp(r[i][j], "brod", 4) == 0) {
+            is_brod_rafsi = 1;
+          }
+        }
+        // print warning sign if it's the 'brod' rafsi
+        if (is_brod_rafsi) {
+          printf(" /!\\");
         }
         if (nr[i] == 0) {
           printf("<NONE> ", t[i]);
@@ -794,9 +804,9 @@ static void makelujvo(char **tanru) {
     exit(1);
   }
   /* Print out the lujvo scores */
-  printf("--------------------\n");
-  printf(" Score  Lujvo\n");
-  printf("--------------------\n");
+  printf("---------------------\n");
+  printf("  Score  Lujvo\n");
+  printf("---------------------\n");
 
   /* Initialise multi dimensional loop */
   for (i=0; i<nt; i++) {
@@ -898,6 +908,7 @@ static void makelujvo(char **tanru) {
       printf("%s\n", temp);
 #endif
       lujvo[nl].word = (char *) malloc(strlen(temp) + 1);
+      lujvo[nl].marker = ' ';
       strcpy(lujvo[nl].word, temp);
 
       /* Work out score */
@@ -952,6 +963,11 @@ static void makelujvo(char **tanru) {
           fprintf(stderr, "Unmatched rafsi [%s]\n", r[i][c[i]]);
           exit(1);
         }
+        /* Warning about ambigious rafsi 'brod' */
+        if (strlen(r[i][c[i]]) == 4 && strncmp(r[i][c[i]], "brod", 4) == 0) {
+           lujvo[nl].marker = '!';
+           brod_rafsi_used = 1;
+        }
 #if 0
         printf("Rafsi [%s] rr=%d\n", r[i][c[i]], rr);
 #endif
@@ -988,11 +1004,15 @@ static void makelujvo(char **tanru) {
 
   if (!showall && (nl>MAX_LUJVO_SHOWN)) nl = MAX_LUJVO_SHOWN;
   for (i=0; i<nl; i++) {
-    printf("%6d  %s\n", lujvo[i].score, lujvo[i].word);
+    printf("%c%6d  %s\n", lujvo[i].marker, lujvo[i].score, lujvo[i].word);
   }
 
-  if (lujvo_limit_hit == 1) {
-    fprintf(stdout, "Warning: There are over %d possible lujvo, some possible lujvo weren't checked\n", MAX_LUJVO_COUNT);
+  if (brod_rafsi_used) {
+    fprintf(stderr, "Warning: The rafsi \"brod\" used in the lujvo above is ambigious!\n");
+    fprintf(stderr, "It could stand for \"broda\", \"brode\", \"brodi\", \"brodo\" or \"brodu\".\n");
+  }
+  if (lujvo_limit_hit) {
+    fprintf(stderr, "Warning: There are over %d possible lujvo, some possible lujvo weren't checked\n", MAX_LUJVO_COUNT);
   }
 }
 
