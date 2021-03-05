@@ -20,8 +20,9 @@
 #define MAX_LUJVO_COUNT 65536   /* Max. number of lujvo to check */
 #define MAX_LUJVO_SHOWN 8       /* Max. number of top lujvo to show by default */
 
-static int uselong = 0; /* Consider lujvo including long rafsi when short ones are available */
-static int showall = 0; /* List all lujvo, not just the best MAX_LUJVO_SHOWN of them */
+static int uselong = 0;   /* Consider lujvo including long rafsi when short ones are available */
+static int showall = 0;   /* List all lujvo, not just the best MAX_LUJVO_SHOWN of them */
+static int showrafsi = 1; /* List the possible rafsi at the beginning */
 
 static int ends_in_vowel(char *s) {
   char *p;
@@ -760,22 +761,28 @@ static void makelujvo(char **tanru) {
   /* Now have to work through all combinations of rafsi. */
   /* Print out rafsi for checking */
   if (nt >= 1) {
-    if (uselong) {
-      printf("Possible rafsi for input words:\n");
-    } else {
-      printf("Possible rafsi for input words (avoiding long rafsi):\n");
+    if (showrafsi) {
+      if (uselong) {
+        printf("Possible rafsi for input words:\n");
+      } else {
+        printf("Possible rafsi for input words (avoiding long rafsi):\n");
+      }
     }
     int missing_rafsi = -1;
     for (i=0; i<nt; i++) {
-      printf("%5s:  ", t[i]);
-      for (j=0; j<nr[i]; j++) {
-        printf("%s ", r[i][j]);
+      if (showrafsi) {
+        printf("%5s:  ", t[i]);
+        for (j=0; j<nr[i]; j++) {
+          printf("%s ", r[i][j]);
+        }
+        if (nr[i] == 0) {
+          printf("<NONE> ", t[i]);
+        }
+        printf("\n");
       }
       if (nr[i] == 0) {
-        printf("<NONE> ", t[i]);
         missing_rafsi = i;
       }
-      printf("\n");
     }
     if (missing_rafsi != -1) {
       fprintf(stderr, "No matching rafsi available for component [%s] at position %d\n", t[missing_rafsi], missing_rafsi+1);
@@ -1001,6 +1008,8 @@ int main (int argc, char **argv) {
       showall = 1;
     } else if (!strcmp(*argv, "-l")) {
       uselong = 1;
+    } else if (!strcmp(*argv, "-R")) {
+      showrafsi = 0;
     } else if ((*argv)[0] == '-') {
       fprintf(stderr, "Unrecognised command line option %s\n", *argv);
       exit(1);
