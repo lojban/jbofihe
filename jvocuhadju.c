@@ -758,10 +758,10 @@ static void makelujvo(char **tanru) {
 
   /* Now have to work through all combinations of rafsi. */
   /* Print out rafsi for checking */
-  printf("Possible rafsi for input words :\n");
+  printf("Possible rafsi for input words:\n");
   int missing_rafsi = -1;
   for (i=0; i<nt; i++) {
-    printf("%s: ", t[i]);
+    printf("%5s:  ", t[i]);
     for (j=0; j<nr[i]; j++) {
       printf("%s ", r[i][j]);
     }
@@ -965,7 +965,7 @@ static void makelujvo(char **tanru) {
 
   if (!showall && (nl>MAXLUJVO)) nl = MAXLUJVO;
   for (i=0; i<nl; i++) {
-    printf("%6d %s\n", lujvo[i].score, lujvo[i].word);
+    printf("%6d  %s\n", lujvo[i].score, lujvo[i].word);
   }
 
 }
