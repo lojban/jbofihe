@@ -23,6 +23,7 @@
 static int uselong = 0;   /* Consider lujvo including long rafsi when short ones are available */
 static int showall = 0;   /* List all lujvo, not just the best MAX_LUJVO_SHOWN of them */
 static int showrafsi = 1; /* List the possible rafsi at the beginning */
+static int allowbrod = 0; /* Allow to use the "brod" rafsi (from the "broda" series) */
 
 static int ends_in_vowel(char *s) {
   char *p;
@@ -705,7 +706,8 @@ static void makelujvo(char **tanru) {
   int c[MAXT]; /* Counters over the rafsi forms for each argument
                   (implements an arbitrarily-nested for loop) */
   int lujvo_limit_hit = 0; /* set to 1 if there's a huge number of possible lujvo */
-  int brod_rafsi_used = 0; /* set to 1 if the rafsi 'brod' was used */
+  int brod_rafsi_used = 0; /* set to 1 if the rafsi 'brod' was used. Set to 2
+                              if it was suppressed. */
 
   int check1, check2, check3, check4;
 
@@ -750,9 +752,13 @@ static void makelujvo(char **tanru) {
         j++;
       }
       if ((uselong || j==0) && (strlen(t[i]) == 5)) {
-        strcpy(r[i][j], t[i]);
-        chop_last_char(r[i][j]);
-        j++;
+        if ((allowbrod) || (strncmp(t[i], "brod", 4) != 0)) {
+          strcpy(r[i][j], t[i]);
+          chop_last_char(r[i][j]);
+          j++;
+        } else {
+          brod_rafsi_used = 2;
+        }
       }
       nr[i] = j;
     }
@@ -772,30 +778,31 @@ static void makelujvo(char **tanru) {
     }
     int missing_rafsi = -1;
     for (i=0; i<nt; i++) {
-      if (showrafsi) {
-        printf("%-5s:  ", t[i]);
+        if (showrafsi) { printf("%-5s:  ", t[i]); }
         int is_brod_rafsi = 0;
         for (j=0; j<nr[i]; j++) {
-          printf("%-5s ", r[i][j]);
+          if (showrafsi) { printf("%-5s ", r[i][j]); }
           if (strlen(r[i][j]) == 4 && strncmp(r[i][j], "brod", 4) == 0) {
             is_brod_rafsi = 1;
           }
         }
         // print warning sign if it's the 'brod' rafsi
         if (is_brod_rafsi) {
-          printf(" /!\\");
+          if (showrafsi) { printf(" /!\\"); }
         }
         if (nr[i] == 0) {
-          printf("<NONE> ", t[i]);
+          if (showrafsi) { printf("<NONE> ", t[i]); }
         }
-        printf("\n");
-      }
+        if (showrafsi) { printf("\n"); }
       if (nr[i] == 0) {
         missing_rafsi = i;
       }
     }
     if (missing_rafsi != -1) {
       fprintf(stderr, "No matching rafsi available for component [%s] at position %d\n", t[missing_rafsi], missing_rafsi+1);
+      if (brod_rafsi_used == 2) {
+        fprintf(stdout, "Note: The rafsi \"brod\" was suppressed. Use \"-b\" to force it.\n");
+      }
       exit(1);
     }
   }
@@ -1007,9 +1014,11 @@ static void makelujvo(char **tanru) {
     printf("%c%6d  %s\n", lujvo[i].marker, lujvo[i].score, lujvo[i].word);
   }
 
-  if (brod_rafsi_used) {
+  if (brod_rafsi_used == 1) {
     fprintf(stderr, "Warning: The rafsi \"brod\" used in the lujvo above is ambigious!\n");
     fprintf(stderr, "It could stand for \"broda\", \"brode\", \"brodi\", \"brodo\" or \"brodu\".\n");
+  } else if (brod_rafsi_used == 2) {
+    fprintf(stdout, "Note: The rafsi \"brod\" was suppressed. Use \"-b\" to force it.\n");
   }
   if (lujvo_limit_hit) {
     fprintf(stderr, "Warning: There are over %d possible lujvo, some possible lujvo weren't checked\n", MAX_LUJVO_COUNT);
@@ -1029,6 +1038,8 @@ int main (int argc, char **argv) {
       showall = 1;
     } else if (!strcmp(*argv, "-l")) {
       uselong = 1;
+    } else if (!strcmp(*argv, "-b")) {
+      allowbrod = 1;
     } else if (!strcmp(*argv, "-R")) {
       showrafsi = 0;
     } else if ((*argv)[0] == '-') {
