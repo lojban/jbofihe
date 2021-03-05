@@ -15,8 +15,13 @@
 #include "lujvofns.h"
 #include "version.h"
 
+#define N(x) (sizeof(x)/sizeof(x[0]))
+#define MAXT 50                 /* Max. word count of tanru */
+#define MAX_LUJVO_COUNT 65536   /* Max. number of lujvo to check */
+#define MAX_LUJVO_SHOWN 8       /* Max. number of top lujvo to show by default */
+
 static int uselong = 0; /* Consider lujvo including long rafsi when short ones are available */
-static int showall = 0; /* List all lujvo, not just the best MAXLUJVO of them */
+static int showall = 0; /* List all lujvo, not just the best MAX_LUJVO_SHOWN of them */
 
 static int ends_in_vowel(char *s) {
   char *p;
@@ -67,7 +72,7 @@ static int can_join(char *s1, char *s2) {
   } else {
     return test1;
   }
-    
+
 }
 
 /* See whether a pair of consonants at a string join look like an
@@ -642,8 +647,7 @@ static int n_rafsi[] = {1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0,
 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 1, 2, 1, 1, 1, 2, 2, 1};
 
 
-#define N(x) (sizeof(x)/sizeof(x[0]))
-  
+
 /* Slightly wide definition of 'gismu' since some of the entities with
    rafsi are cmavo as well */
 static int lookup_gismu(char *s) {
@@ -655,7 +659,7 @@ static int lookup_gismu(char *s) {
     if (!strcmp(gismu[i], s)) {
       found = 1;
       break;
-    } 
+    }
   }
   if (found) {
     return i;
@@ -664,15 +668,12 @@ static int lookup_gismu(char *s) {
   }
 }
 
-#define MAXT 50
-#define MAX_LUJVO 65536
-
 typedef struct {
   char *word;
   long long int score;
 } Lujvo;
 
-static Lujvo lujvo[MAX_LUJVO];
+static Lujvo lujvo[MAX_LUJVO_COUNT];
 static int nl = 0;
 
 /* Comparison function for qsort() */
@@ -687,8 +688,6 @@ static int compare_lujvo (const void *a, const void *b) {
     return 0;
   }
 }
-
-#define MAXLUJVO 8
 
 /* The main lujvo making routine */
 static void makelujvo(char **tanru) {
@@ -761,7 +760,11 @@ static void makelujvo(char **tanru) {
   /* Now have to work through all combinations of rafsi. */
   /* Print out rafsi for checking */
   if (nt >= 1) {
-    printf("Possible rafsi for input words:\n");
+    if (uselong) {
+      printf("Possible rafsi for input words:\n");
+    } else {
+      printf("Possible rafsi for input words (avoiding long rafsi):\n");
+    }
     int missing_rafsi = -1;
     for (i=0; i<nt; i++) {
       printf("%5s:  ", t[i]);
@@ -836,7 +839,7 @@ static void makelujvo(char **tanru) {
         g[i] = 'y';
       }
     }
-    
+
     if (is_cvc(r[0][c[0]])) {
       /* Have to apply step 5 ('tosmabru failure' test).  The test is,
          if the leading CV is stripped off, does the remainder
@@ -864,8 +867,8 @@ static void makelujvo(char **tanru) {
 #endif
           g[0] = 'y';
         }
-      }      
-    }      
+      }
+    }
 
     /* Now have all the glue characters determined.  Concatenate rafsi
        and glue and save the result for scoring. */
@@ -873,7 +876,7 @@ static void makelujvo(char **tanru) {
       char temp[6*MAXT];
       char *p, *q;
       int L, A, H, R, V, rr;
-      
+
       p = temp;
       for (i=0; i<nt; i++) {
         for (q=&r[i][c[i]][0]; *q; q++) {
@@ -953,7 +956,7 @@ static void makelujvo(char **tanru) {
       lujvo[nl].score = 1000*L - 500*A + 100*H - 10*R - V;
       nl++;
     }
-    if (nl >= MAX_LUJVO) {
+    if (nl >= MAX_LUJVO_COUNT) {
        lujvo_limit_hit = 1;
        break;
     }
@@ -976,13 +979,13 @@ static void makelujvo(char **tanru) {
 
   qsort(lujvo, nl, sizeof(Lujvo), compare_lujvo);
 
-  if (!showall && (nl>MAXLUJVO)) nl = MAXLUJVO;
+  if (!showall && (nl>MAX_LUJVO_SHOWN)) nl = MAX_LUJVO_SHOWN;
   for (i=0; i<nl; i++) {
     printf("%6d  %s\n", lujvo[i].score, lujvo[i].word);
   }
 
   if (lujvo_limit_hit == 1) {
-    fprintf(stdout, "Warning: There are over %d possible lujvo, some possible lujvo weren't checked\n", MAX_LUJVO);
+    fprintf(stdout, "Warning: There are over %d possible lujvo, some possible lujvo weren't checked\n", MAX_LUJVO_COUNT);
   }
 }
 
