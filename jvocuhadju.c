@@ -771,9 +771,9 @@ static void makelujvo(char **tanru) {
     int missing_rafsi = -1;
     for (i=0; i<nt; i++) {
       if (showrafsi) {
-        printf("%5s:  ", t[i]);
+        printf("%-5s:  ", t[i]);
         for (j=0; j<nr[i]; j++) {
-          printf("%s ", r[i][j]);
+          printf("%-5s ", r[i][j]);
         }
         if (nr[i] == 0) {
           printf("<NONE> ", t[i]);
