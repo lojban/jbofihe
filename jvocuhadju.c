@@ -760,23 +760,30 @@ static void makelujvo(char **tanru) {
 
   /* Now have to work through all combinations of rafsi. */
   /* Print out rafsi for checking */
-  printf("Possible rafsi for input words:\n");
-  int missing_rafsi = -1;
-  for (i=0; i<nt; i++) {
-    printf("%5s:  ", t[i]);
-    for (j=0; j<nr[i]; j++) {
-      printf("%s ", r[i][j]);
+  if (nt >= 1) {
+    printf("Possible rafsi for input words:\n");
+    int missing_rafsi = -1;
+    for (i=0; i<nt; i++) {
+      printf("%5s:  ", t[i]);
+      for (j=0; j<nr[i]; j++) {
+        printf("%s ", r[i][j]);
+      }
+      if (nr[i] == 0) {
+        printf("<NONE> ", t[i]);
+        missing_rafsi = i;
+      }
+      printf("\n");
     }
-    if (nr[i] == 0) {
-      printf("<NONE> ", t[i]);
-      missing_rafsi = i;
+    if (missing_rafsi != -1) {
+      fprintf(stderr, "No matching rafsi available for component [%s] at position %d\n", t[missing_rafsi], missing_rafsi+1);
+      exit(1);
     }
-    printf("\n");
   }
-  if (missing_rafsi != -1) {
-    fprintf(stderr, "No matching rafsi available for component [%s] at position %d\n", t[missing_rafsi], missing_rafsi+1);
+  if (nt < 2) {
+    fprintf(stderr, "Not enough components for lujvo (need at least 2)\n");
     exit(1);
   }
+  /* Print out the lujvo scores */
   printf("--------------------\n");
   printf(" Score  Lujvo\n");
   printf("--------------------\n");
