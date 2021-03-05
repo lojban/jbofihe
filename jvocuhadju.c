@@ -708,6 +708,7 @@ static void makelujvo(char **tanru) {
   int lujvo_limit_hit = 0; /* set to 1 if there's a huge number of possible lujvo */
   int brod_rafsi_used = 0; /* set to 1 if the rafsi 'brod' was used. Set to 2
                               if it was suppressed. */
+  int hidden_lujvo = 0;    /* Number of lujvo hidden from view */
 
   int check1, check2, check3, check4;
 
@@ -1009,11 +1010,17 @@ static void makelujvo(char **tanru) {
 
   qsort(lujvo, nl, sizeof(Lujvo), compare_lujvo);
 
-  if (!showall && (nl>MAX_LUJVO_SHOWN)) nl = MAX_LUJVO_SHOWN;
+  if (!showall && (nl>MAX_LUJVO_SHOWN)) {
+    hidden_lujvo = nl - MAX_LUJVO_SHOWN;
+    nl = MAX_LUJVO_SHOWN;
+  }
   for (i=0; i<nl; i++) {
     printf("%c%6d  %s\n", lujvo[i].marker, lujvo[i].score, lujvo[i].word);
   }
 
+  if (hidden_lujvo > 0) {
+    fprintf(stdout, "(%d lujvo hidden, use \"-a\" to see all)\n", hidden_lujvo);
+  }
   if (brod_rafsi_used == 1) {
     fprintf(stderr, "Warning: The rafsi \"brod\" used in the lujvo above is ambigious!\n");
     fprintf(stderr, "It could stand for \"broda\", \"brode\", \"brodi\", \"brodo\" or \"brodu\".\n");
