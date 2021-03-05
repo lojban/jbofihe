@@ -665,13 +665,14 @@ static int lookup_gismu(char *s) {
 }
 
 #define MAXT 50
+#define MAX_LUJVO 65536
 
 typedef struct {
   char *word;
-  int score;
+  long long int score;
 } Lujvo;
 
-static Lujvo lujvo[65536];
+static Lujvo lujvo[MAX_LUJVO];
 static int nl = 0;
 
 /* Comparison function for qsort() */
@@ -702,6 +703,7 @@ static void makelujvo(char **tanru) {
   int index, si;
   int c[MAXT]; /* Counters over the rafsi forms for each argument
                   (implements an arbitrarily-nested for loop) */
+  int lujvo_limit_hit = 0; /* set to 1 if there's a huge number of possible lujvo */
 
   int check1, check2, check3, check4;
 
@@ -944,6 +946,10 @@ static void makelujvo(char **tanru) {
       lujvo[nl].score = 1000*L - 500*A + 100*H - 10*R - V;
       nl++;
     }
+    if (nl >= MAX_LUJVO) {
+       lujvo_limit_hit = 1;
+       break;
+    }
 
     /* Bump counter array */
     {
@@ -968,6 +974,9 @@ static void makelujvo(char **tanru) {
     printf("%6d  %s\n", lujvo[i].score, lujvo[i].word);
   }
 
+  if (lujvo_limit_hit == 1) {
+    fprintf(stdout, "Warning: There are over %d possible lujvo, some possible lujvo weren't checked\n", MAX_LUJVO);
+  }
 }
 
 int main (int argc, char **argv) {
