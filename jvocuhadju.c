@@ -999,6 +999,7 @@ static void makelujvo(char **tanru) {
 int main (int argc, char **argv) {
   char *words[MAXT];
   char **wp;
+  int word_counter = 0;
   wp = words;
   while (++argv, --argc) {
     if (!strcmp(*argv, "-v")) {
@@ -1014,6 +1015,11 @@ int main (int argc, char **argv) {
       fprintf(stderr, "Unrecognised command line option %s\n", *argv);
       exit(1);
     } else {
+      word_counter++;
+      if (word_counter >= MAXT) {
+        fprintf(stderr, "Too many components! (more than %d)!\n", MAXT-1);
+        exit(1);
+      }
       *wp = *argv;
       ++wp;
     }
