@@ -721,7 +721,7 @@ static void makelujvo(char **tanru) {
     }
     index = lookup_gismu(t[i]);
     if (index < 0) {
-      fprintf(stderr, "Cannot use component [%s] in forming lujvo\n", t[i]);
+      fprintf(stderr, "Cannot use component [%s] in forming lujvo.\n", t[i]);
       exit(1);
     }
 
@@ -799,7 +799,7 @@ static void makelujvo(char **tanru) {
       }
     }
     if (missing_rafsi != -1) {
-      fprintf(stderr, "No matching rafsi available for component [%s] at position %d\n", t[missing_rafsi], missing_rafsi+1);
+      fprintf(stderr, "No matching rafsi available for component [%s] at position %d.\n", t[missing_rafsi], missing_rafsi+1);
       if (brod_rafsi_used == 2) {
         fprintf(stdout, "Note: The rafsi \"brod\" was suppressed. Use \"-b\" to force it.\n");
       }
@@ -807,7 +807,7 @@ static void makelujvo(char **tanru) {
     }
   }
   if (nt < 2) {
-    fprintf(stderr, "Not enough components for lujvo (need at least 2)\n");
+    fprintf(stderr, "Not enough components for lujvo (need at least 2).\n");
     exit(1);
   }
   /* Print out the lujvo scores */
@@ -887,7 +887,7 @@ static void makelujvo(char **tanru) {
         if (is_valid_lujvo(temp)) {
           /* Add glue after 1st rafsi */
 #if 0
-          printf("Glue needed\n");
+          printf("Glue needed.\n");
 #endif
           g[0] = 'y';
         }
@@ -967,7 +967,7 @@ static void makelujvo(char **tanru) {
                    is_vowel(r[i][c[i]][2])) {
           rr = 8;
         } else {
-          fprintf(stderr, "Unmatched rafsi [%s]\n", r[i][c[i]]);
+          fprintf(stderr, "Unmatched rafsi [%s].\n", r[i][c[i]]);
           exit(1);
         }
         /* Warning about ambigious rafsi 'brod' */
@@ -1021,7 +1021,7 @@ static void makelujvo(char **tanru) {
     fprintf(stdout, "Note: The rafsi \"brod\" was suppressed. Use \"-b\" to force it.\n");
   }
   if (lujvo_limit_hit) {
-    fprintf(stderr, "Warning: There are over %d possible lujvo, some possible lujvo weren't checked\n", MAX_LUJVO_COUNT);
+    fprintf(stderr, "Warning: There are over %d possible lujvo, some possible lujvo weren't checked.\n", MAX_LUJVO_COUNT);
   }
 }
 
@@ -1043,7 +1043,7 @@ int main (int argc, char **argv) {
     } else if (!strcmp(*argv, "-R")) {
       showrafsi = 0;
     } else if ((*argv)[0] == '-') {
-      fprintf(stderr, "Unrecognised command line option %s\n", *argv);
+      fprintf(stderr, "Unrecognised command line option %s.\n", *argv);
       exit(1);
     } else {
       word_counter++;
