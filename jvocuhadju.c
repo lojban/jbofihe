@@ -24,6 +24,7 @@ static int uselong = 0;   /* Consider lujvo including long rafsi when short ones
 static int showall = 0;   /* List all lujvo, not just the best MAX_LUJVO_SHOWN of them */
 static int showrafsi = 1; /* List the possible rafsi at the beginning */
 static int allowbrod = 0; /* Allow to use the "brod" rafsi (from the "broda" series) */
+static int showscore = 1;   /* Don't print the lujvo score */
 
 static int ends_in_vowel(char *s) {
   char *p;
@@ -812,9 +813,13 @@ static void makelujvo(char **tanru) {
     exit(1);
   }
   /* Print out the lujvo scores */
-  printf("---------------------\n");
-  printf("  Score  Lujvo\n");
-  printf("---------------------\n");
+  if(showscore) {
+    printf("---------------------\n");
+    printf("  Score  Lujvo\n");
+    printf("---------------------\n");
+  } else if (showrafsi) {
+    printf("List of lujvo:\n");
+  }
 
   /* Initialise multi dimensional loop */
   for (i=0; i<nt; i++) {
@@ -1031,7 +1036,11 @@ static void makelujvo(char **tanru) {
     nl = MAX_LUJVO_SHOWN;
   }
   for (i=0; i<nl; i++) {
-    printf("%c%6d  %s\n", lujvo[i].marker, lujvo[i].score, lujvo[i].word);
+    if (showscore) {
+      printf("%c%6d  %s\n", lujvo[i].marker, lujvo[i].score, lujvo[i].word);
+    } else {
+      printf("%c %s\n", lujvo[i].marker, lujvo[i].word);
+    }
   }
 
   if (hidden_lujvo > 0) {
@@ -1063,6 +1072,8 @@ int main (int argc, char **argv) {
       uselong = 1;
     } else if (!strcmp(*argv, "-b")) {
       allowbrod = 1;
+    } else if (!strcmp(*argv, "-S")) {
+      showscore = 0;
     } else if (!strcmp(*argv, "-R")) {
       showrafsi = 0;
     } else if ((*argv)[0] == '-') {
