@@ -4,7 +4,7 @@ jvocuhadju \- Lujvo picker (based on the rules in the reference grammar.)
 .SH SYNOPSIS
 .PP
 .B jvocuhadju
-[-v] [-a] [-l] [-R] [-S] [-q]
+[-v] [-a] [-l] [-R] [-S] [-A] [-q]
 .I tanru-component-1
 [
 .BR "" ...
@@ -44,6 +44,10 @@ Do not display the list of possible rafsi.
 .TP
 .B -S
 Do not display the lujvo score.
+.TP
+.B -A
+Do not display annotations. By default, the best-scoring lujvo will be annotated
+with an asterisk character at the beginning of the line.
 .TP
 .B -q
 Do not display various info messages.

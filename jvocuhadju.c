@@ -24,7 +24,8 @@ static int uselong = 0;   /* Consider lujvo including long rafsi when short ones
 static int showall = 0;   /* List all lujvo, not just the best MAX_LUJVO_SHOWN of them */
 static int showrafsi = 1; /* List the possible rafsi at the beginning */
 static int allowbrod = 0; /* Allow to use the "brod" rafsi (from the "broda" series) */
-static int showscore = 1; /* Don't print the lujvo score */
+static int showscore = 1; /* Print the lujvo score */
+static int showannotations = 1; /* Print lujvo annotations */
 static int quiet = 0;     /* Suppress various info messages */
 
 static int ends_in_vowel(char *s) {
@@ -675,7 +676,7 @@ static int lookup_gismu(char *s) {
 typedef struct {
   char *word;
   long long int score;
-  char marker; /* special symbol for lujvo list for footnotes */
+  char annotation; /* special symbol for lujvo list for footnotes */
 } Lujvo;
 
 static Lujvo lujvo[MAX_LUJVO_COUNT];
@@ -816,7 +817,11 @@ static void makelujvo(char **tanru) {
   /* Print out the lujvo scores */
   if(showscore) {
     printf("---------------------\n");
-    printf("  Score  Lujvo\n");
+    if(showannotations) {
+      printf("  Score  Lujvo\n");
+    } else {
+      printf(" Score  Lujvo\n");
+    }
     printf("---------------------\n");
   } else if (showrafsi) {
     printf("List of lujvo:\n");
@@ -922,7 +927,7 @@ static void makelujvo(char **tanru) {
       printf("%s\n", temp);
 #endif
       lujvo[nl].word = (char *) malloc(strlen(temp) + 1);
-      lujvo[nl].marker = ' ';
+      lujvo[nl].annotation= ' ';
       strcpy(lujvo[nl].word, temp);
 
       /* Work out score */
@@ -979,7 +984,7 @@ static void makelujvo(char **tanru) {
         }
         /* Warning about ambigious rafsi 'brod' */
         if (strlen(r[i][c[i]]) == 4 && strncmp(r[i][c[i]], "brod", 4) == 0) {
-           lujvo[nl].marker = '!';
+           lujvo[nl].annotation= '!';
            brod_rafsi_used = 1;
         }
 #if 0
@@ -1017,15 +1022,15 @@ static void makelujvo(char **tanru) {
   qsort(lujvo, nl, sizeof(Lujvo), compare_lujvo);
 
   // Give a star to the winning lujvo ;-)
-  if (lujvo[0].marker != '!') {
-    lujvo[0].marker = '*';
+  if (lujvo[0].annotation!= '!') {
+    lujvo[0].annotation= '*';
   }
 
   // lujvo that are tied for the lead also get a star
   for (i=1; i<nl; i++) {
     if (lujvo[i].score == lujvo[0].score) {
-      if (lujvo[0].marker != '!') {
-        lujvo[i].marker = '*';
+      if (lujvo[0].annotation!= '!') {
+        lujvo[i].annotation = '*';
       }
     } else {
       break;
@@ -1038,9 +1043,17 @@ static void makelujvo(char **tanru) {
   }
   for (i=0; i<nl; i++) {
     if (showscore) {
-      printf("%c%6d  %s\n", lujvo[i].marker, lujvo[i].score, lujvo[i].word);
+      if (showannotations) {
+        printf("%c%6d  %s\n", lujvo[i].annotation, lujvo[i].score, lujvo[i].word);
+      } else {
+        printf("%6d  %s\n", lujvo[i].score, lujvo[i].word);
+      }
     } else {
-      printf("%c %s\n", lujvo[i].marker, lujvo[i].word);
+      if (showannotations) {
+        printf("%c %s\n", lujvo[i].annotation, lujvo[i].word);
+      } else {
+        printf("%s\n", lujvo[i].word);
+      }
     }
   }
 
@@ -1075,6 +1088,8 @@ int main (int argc, char **argv) {
       allowbrod = 1;
     } else if (!strcmp(*argv, "-S")) {
       showscore = 0;
+    } else if (!strcmp(*argv, "-A")) {
+      showannotations = 0;
     } else if (!strcmp(*argv, "-R")) {
       showrafsi = 0;
     } else if (!strcmp(*argv, "-q")) {
