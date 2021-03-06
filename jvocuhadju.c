@@ -1011,12 +1011,16 @@ static void makelujvo(char **tanru) {
   qsort(lujvo, nl, sizeof(Lujvo), compare_lujvo);
 
   // Give a star to the winning lujvo ;-)
-  lujvo[0].marker = '*';
+  if (lujvo[0].marker != '!') {
+    lujvo[0].marker = '*';
+  }
 
   // lujvo that are tied for the lead also get a star
   for (i=1; i<nl; i++) {
     if (lujvo[i].score == lujvo[0].score) {
-      lujvo[i].marker = '*';
+      if (lujvo[0].marker != '!') {
+        lujvo[i].marker = '*';
+      }
     } else {
       break;
     }
