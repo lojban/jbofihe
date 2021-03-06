@@ -1034,7 +1034,7 @@ static void makelujvo(char **tanru) {
     fprintf(stdout, "(%d lujvo hidden, use \"-a\" to see all)\n", hidden_lujvo);
   }
   if (brod_rafsi_used == 1) {
-    fprintf(stderr, "Warning: The rafsi \"brod\" used in the lujvo above is ambigious!\n");
+    fprintf(stderr, "Warning: The rafsi \"brod\" is ambigious!\n");
     fprintf(stderr, "It could stand for \"broda\", \"brode\", \"brodi\", \"brodo\" or \"brodu\".\n");
   } else if (brod_rafsi_used == 2) {
     fprintf(stdout, "Note: The rafsi \"brod\" was suppressed. Use \"-b\" to force it.\n");
