@@ -15,8 +15,18 @@
 #include "lujvofns.h"
 #include "version.h"
 
-static int uselong = 0; /* Consider lujvo including long rafsi when short ones are available */
-static int showall = 0; /* List all lujvo, not just the best MAXLUJVO of them */
+#define N(x) (sizeof(x)/sizeof(x[0]))
+#define MAXT 50                 /* Max. word count of tanru */
+#define MAX_LUJVO_COUNT 65536   /* Max. number of lujvo to check */
+#define MAX_LUJVO_SHOWN 8       /* Max. number of top lujvo to show by default */
+
+static int uselong = 0;   /* Consider lujvo including long rafsi when short ones are available */
+static int showall = 0;   /* List all lujvo, not just the best MAX_LUJVO_SHOWN of them */
+static int showrafsi = 1; /* List the possible rafsi at the beginning */
+static int allowbrod = 0; /* Allow to use the "brod" rafsi (from the "broda" series) */
+static int showscore = 1; /* Print the lujvo score */
+static int showannotations = 1; /* Print lujvo annotations */
+static int quiet = 0;     /* Suppress various info messages */
 
 static int ends_in_vowel(char *s) {
   char *p;
@@ -67,7 +77,7 @@ static int can_join(char *s1, char *s2) {
   } else {
     return test1;
   }
-    
+
 }
 
 /* See whether a pair of consonants at a string join look like an
@@ -642,8 +652,7 @@ static int n_rafsi[] = {1, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0,
 2, 1, 2, 2, 2, 2, 2, 1, 2, 2, 1, 2, 1, 1, 1, 2, 2, 1};
 
 
-#define N(x) (sizeof(x)/sizeof(x[0]))
-  
+
 /* Slightly wide definition of 'gismu' since some of the entities with
    rafsi are cmavo as well */
 static int lookup_gismu(char *s) {
@@ -655,7 +664,7 @@ static int lookup_gismu(char *s) {
     if (!strcmp(gismu[i], s)) {
       found = 1;
       break;
-    } 
+    }
   }
   if (found) {
     return i;
@@ -664,14 +673,13 @@ static int lookup_gismu(char *s) {
   }
 }
 
-#define MAXT 50
-
 typedef struct {
   char *word;
-  int score;
+  long long int score;
+  char annotation; /* special symbol for lujvo list for footnotes */
 } Lujvo;
 
-static Lujvo lujvo[65536];
+static Lujvo lujvo[MAX_LUJVO_COUNT];
 static int nl = 0;
 
 /* Comparison function for qsort() */
@@ -687,8 +695,6 @@ static int compare_lujvo (const void *a, const void *b) {
   }
 }
 
-#define MAXLUJVO 8
-
 /* The main lujvo making routine */
 static void makelujvo(char **tanru) {
   char t[MAXT][6]; /* The gismu/cmavo forms passed in */
@@ -702,6 +708,10 @@ static void makelujvo(char **tanru) {
   int index, si;
   int c[MAXT]; /* Counters over the rafsi forms for each argument
                   (implements an arbitrarily-nested for loop) */
+  int lujvo_limit_hit = 0; /* set to 1 if there's a huge number of possible lujvo */
+  int brod_rafsi_used = 0; /* set to 1 if the rafsi 'brod' was used. Set to 2
+                              if it was suppressed. */
+  int hidden_lujvo = 0;    /* Number of lujvo hidden from view */
 
   int check1, check2, check3, check4;
 
@@ -715,7 +725,7 @@ static void makelujvo(char **tanru) {
     }
     index = lookup_gismu(t[i]);
     if (index < 0) {
-      fprintf(stderr, "Cannot use component [%s] in forming lujvo\n", t[i]);
+      fprintf(stderr, "Cannot use component [%s] in forming lujvo.\n", t[i]);
       exit(1);
     }
 
@@ -746,9 +756,13 @@ static void makelujvo(char **tanru) {
         j++;
       }
       if ((uselong || j==0) && (strlen(t[i]) == 5)) {
-        strcpy(r[i][j], t[i]);
-        chop_last_char(r[i][j]);
-        j++;
+        if ((allowbrod) || (strncmp(t[i], "brod", 4) != 0)) {
+          strcpy(r[i][j], t[i]);
+          chop_last_char(r[i][j]);
+          j++;
+        } else {
+          brod_rafsi_used = 2;
+        }
       }
       nr[i] = j;
     }
@@ -758,16 +772,60 @@ static void makelujvo(char **tanru) {
 
   /* Now have to work through all combinations of rafsi. */
   /* Print out rafsi for checking */
-  printf("Possible rafsi for input words :\n");
-  for (i=0; i<nt; i++) {
-    for (j=0; j<nr[i]; j++) {
-      printf("%s ", r[i][j]);
+  if (nt >= 1) {
+    if (showrafsi) {
+      if (uselong) {
+        printf("Possible rafsi for input words:\n");
+      } else {
+        printf("Possible rafsi for input words (avoiding long rafsi):\n");
+      }
     }
-    printf("\n");
+    int missing_rafsi = -1;
+    for (i=0; i<nt; i++) {
+        if (showrafsi) { printf("%-5s:  ", t[i]); }
+        int is_brod_rafsi = 0;
+        for (j=0; j<nr[i]; j++) {
+          if (showrafsi) { printf("%-5s ", r[i][j]); }
+          if (strlen(r[i][j]) == 4 && strncmp(r[i][j], "brod", 4) == 0) {
+            is_brod_rafsi = 1;
+          }
+        }
+        // print warning sign if it's the 'brod' rafsi
+        if (is_brod_rafsi) {
+          if (showrafsi) { printf(" /!\\"); }
+        }
+        if (nr[i] == 0) {
+          if (showrafsi) { printf("<NONE> ", t[i]); }
+        }
+        if (showrafsi) { printf("\n"); }
+      if (nr[i] == 0) {
+        missing_rafsi = i;
+      }
+    }
+    if (missing_rafsi != -1) {
+      fprintf(stderr, "No matching rafsi available for component [%s] at position %d.\n", t[missing_rafsi], missing_rafsi+1);
+      if (!quiet && brod_rafsi_used == 2) {
+        fprintf(stdout, "Note: The rafsi \"brod\" was suppressed. Use \"-b\" to force it.\n");
+      }
+      exit(1);
+    }
   }
-  printf("--------------------\n");
-  printf(" Score  Lujvo\n");
-  printf("--------------------\n");
+  if (nt < 2) {
+    fprintf(stderr, "Not enough components for lujvo (need at least 2).\n");
+    exit(1);
+  }
+  /* Print out the lujvo scores */
+  if(showscore) {
+    printf("---------------------\n");
+    if(showannotations) {
+      printf("  Score  Lujvo\n");
+    } else {
+      printf(" Score  Lujvo\n");
+    }
+    printf("---------------------\n");
+  } else if (showrafsi) {
+    printf("List of lujvo:\n");
+  }
 
   /* Initialise multi dimensional loop */
   for (i=0; i<nt; i++) {
@@ -817,7 +875,7 @@ static void makelujvo(char **tanru) {
         g[i] = 'y';
       }
     }
-    
+
     if (is_cvc(r[0][c[0]])) {
       /* Have to apply step 5 ('tosmabru failure' test).  The test is,
          if the leading CV is stripped off, does the remainder
@@ -841,12 +899,12 @@ static void makelujvo(char **tanru) {
         if (is_valid_lujvo(temp)) {
           /* Add glue after 1st rafsi */
 #if 0
-          printf("Glue needed\n");
+          printf("Glue needed.\n");
 #endif
           g[0] = 'y';
         }
-      }      
-    }      
+      }
+    }
 
     /* Now have all the glue characters determined.  Concatenate rafsi
        and glue and save the result for scoring. */
@@ -854,7 +912,7 @@ static void makelujvo(char **tanru) {
       char temp[6*MAXT];
       char *p, *q;
       int L, A, H, R, V, rr;
-      
+
       p = temp;
       for (i=0; i<nt; i++) {
         for (q=&r[i][c[i]][0]; *q; q++) {
@@ -869,6 +927,7 @@ static void makelujvo(char **tanru) {
       printf("%s\n", temp);
 #endif
       lujvo[nl].word = (char *) malloc(strlen(temp) + 1);
+      lujvo[nl].annotation= ' ';
       strcpy(lujvo[nl].word, temp);
 
       /* Work out score */
@@ -920,8 +979,13 @@ static void makelujvo(char **tanru) {
                    is_vowel(r[i][c[i]][2])) {
           rr = 8;
         } else {
-          fprintf(stderr, "Unmatched rafsi [%s]\n", r[i][c[i]]);
+          fprintf(stderr, "Unmatched rafsi [%s].\n", r[i][c[i]]);
           exit(1);
+        }
+        /* Warning about ambigious rafsi 'brod' */
+        if (strlen(r[i][c[i]]) == 4 && strncmp(r[i][c[i]], "brod", 4) == 0) {
+           lujvo[nl].annotation= '!';
+           brod_rafsi_used = 1;
         }
 #if 0
         printf("Rafsi [%s] rr=%d\n", r[i][c[i]], rr);
@@ -933,6 +997,10 @@ static void makelujvo(char **tanru) {
 #endif
       lujvo[nl].score = 1000*L - 500*A + 100*H - 10*R - V;
       nl++;
+    }
+    if (nl >= MAX_LUJVO_COUNT) {
+       lujvo_limit_hit = 1;
+       break;
     }
 
     /* Bump counter array */
@@ -953,16 +1021,60 @@ static void makelujvo(char **tanru) {
 
   qsort(lujvo, nl, sizeof(Lujvo), compare_lujvo);
 
-  if (!showall && (nl>MAXLUJVO)) nl = MAXLUJVO;
-  for (i=0; i<nl; i++) {
-    printf("%6d %s\n", lujvo[i].score, lujvo[i].word);
+  // Give a star to the winning lujvo ;-)
+  if (lujvo[0].annotation!= '!') {
+    lujvo[0].annotation= '*';
   }
 
+  // lujvo that are tied for the lead also get a star
+  for (i=1; i<nl; i++) {
+    if (lujvo[i].score == lujvo[0].score) {
+      if (lujvo[0].annotation!= '!') {
+        lujvo[i].annotation = '*';
+      }
+    } else {
+      break;
+    }
+  }
+
+  if (!showall && (nl>MAX_LUJVO_SHOWN)) {
+    hidden_lujvo = nl - MAX_LUJVO_SHOWN;
+    nl = MAX_LUJVO_SHOWN;
+  }
+  for (i=0; i<nl; i++) {
+    if (showscore) {
+      if (showannotations) {
+        printf("%c%6d  %s\n", lujvo[i].annotation, lujvo[i].score, lujvo[i].word);
+      } else {
+        printf("%6d  %s\n", lujvo[i].score, lujvo[i].word);
+      }
+    } else {
+      if (showannotations) {
+        printf("%c %s\n", lujvo[i].annotation, lujvo[i].word);
+      } else {
+        printf("%s\n", lujvo[i].word);
+      }
+    }
+  }
+
+  if (!quiet && hidden_lujvo > 0) {
+    fprintf(stdout, "(%d lujvo hidden, use \"-a\" to see all)\n", hidden_lujvo);
+  }
+  if (brod_rafsi_used == 1) {
+    fprintf(stderr, "Warning: The rafsi \"brod\" is ambigious!\n");
+    fprintf(stderr, "It could stand for \"broda\", \"brode\", \"brodi\", \"brodo\" or \"brodu\".\n");
+  } else if (!quiet && brod_rafsi_used == 2) {
+    fprintf(stdout, "Note: The rafsi \"brod\" was suppressed. Use \"-b\" to force it.\n");
+  }
+  if (lujvo_limit_hit) {
+    fprintf(stderr, "Warning: There are over %d possible lujvo, some possible lujvo weren't checked.\n", MAX_LUJVO_COUNT);
+  }
 }
 
 int main (int argc, char **argv) {
   char *words[MAXT];
   char **wp;
+  int word_counter = 0;
   wp = words;
   while (++argv, --argc) {
     if (!strcmp(*argv, "-v")) {
@@ -972,10 +1084,25 @@ int main (int argc, char **argv) {
       showall = 1;
     } else if (!strcmp(*argv, "-l")) {
       uselong = 1;
+    } else if (!strcmp(*argv, "-b")) {
+      allowbrod = 1;
+    } else if (!strcmp(*argv, "-S")) {
+      showscore = 0;
+    } else if (!strcmp(*argv, "-A")) {
+      showannotations = 0;
+    } else if (!strcmp(*argv, "-R")) {
+      showrafsi = 0;
+    } else if (!strcmp(*argv, "-q")) {
+      quiet = 1;
     } else if ((*argv)[0] == '-') {
-      fprintf(stderr, "Unrecognised command line option %s\n", *argv);
+      fprintf(stderr, "Unrecognised command line option %s.\n", *argv);
       exit(1);
     } else {
+      word_counter++;
+      if (word_counter >= MAXT) {
+        fprintf(stderr, "Too many components! (more than %d)!\n", MAXT-1);
+        exit(1);
+      }
       *wp = *argv;
       ++wp;
     }
