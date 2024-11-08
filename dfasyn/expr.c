@@ -214,6 +214,7 @@ static Symbol *  find_symbol_or_create(Evaluator *x, char *sym_name)/*{{{*/
   add_new_symbol(x,s);
   s->is_expr = 0; /* Until proven otherwise */
   s->name = new_string(sym_name);
+  s->data.val = 0;
   return s;
 }
 /*}}}*/
