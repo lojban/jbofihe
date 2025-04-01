@@ -181,6 +181,10 @@ Expr * new_xor_expr(Expr *c1, Expr *c2);
 Expr * new_cond_expr(Expr *c1, Expr *c2, Expr *c3);
 Expr * new_sym_expr(char *sym_name);
 
+int yyparse(void);
+void yyerror(char *);
+int yylex(void);
+
 void define_symbol(Evaluator *x, char *name, Expr *e);
 void define_result(Evaluator *x, char *string, Expr *e, int early);
 void define_symresult(Evaluator *x, char *string, Expr *e, int early);
