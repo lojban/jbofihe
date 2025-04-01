@@ -15,11 +15,11 @@
 # COPYRIGHT
 
 print <<EOF;
-extern elide_trace_reduce(int, int);
-extern elide_trace_shift(int,int);
-extern report_trace_shift(int);
-extern report_trace_reduce(int, int);
-extern report_trace_error(short *yyss, short *yyssp);
+extern void elide_trace_reduce(int, int);
+extern void elide_trace_shift(int,int);
+extern void report_trace_shift(int);
+extern void report_trace_reduce(int, int);
+extern void report_trace_error(short *yyss, short *yyssp);
 EOF
 
 while (<>) {
