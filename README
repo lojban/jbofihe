@@ -61,7 +61,7 @@ The config.pl script takes these additional (optional) arguments :
 --installprog=<name> to specify an alternative installation program.
 --nommap to use fread() rather than mmap() to access the dictionary
                   (use this on non-Posix systems)
---embded to build a minimal (gismu+cmavo) dictionary into the executable
+--embed to build a minimal (gismu+cmavo) dictionary into the executable
   (rather than requiring a dictionary database separately at runtime)
 
 There are some pre-requisites for compiling.  You need the following
