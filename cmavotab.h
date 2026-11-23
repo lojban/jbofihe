@@ -778,7 +778,7 @@ typedef struct {
   CmavoCodes code;
   SelmaoCodes ssm_code; /* e.g. KOhA2 */
   char *meaning;
-} __attribute__ ((packed)) CmavoCell;
+} CmavoCell;
 
 extern CmavoCell cmavo_table[];
 extern char *selmao_names[];
